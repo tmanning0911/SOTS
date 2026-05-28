@@ -1,14 +1,6 @@
 import { Link } from 'react-router-dom';
 import { site, socialLinks, sponsors } from '@/content/site';
-import {
-  IconFacebook,
-  IconInstagram,
-  IconTwitter,
-  IconYoutube,
-  IconMapPin,
-  IconMail,
-  IconPhone,
-} from '@/components/icons';
+import { IconFacebook, IconInstagram, IconTwitter, IconYoutube } from '@/components/icons';
 
 const iconMap = {
   Facebook: IconFacebook,
@@ -84,33 +76,22 @@ export default function Footer() {
             <Link to="/">
               <img src="/images/logo.png" alt={site.name} className="h-14 w-auto object-contain mb-5" />
             </Link>
-            <div className="space-y-2.5 mb-6">
-              <p className="flex items-start gap-2.5 text-white/70 font-inter text-xs leading-relaxed">
-                <IconMapPin size={14} className="mt-0.5 flex-shrink-0 text-gold" />
-                {site.mailingAddress}
-              </p>
+            <div className="space-y-2.5 mb-6 font-inter text-xs text-white/70 leading-relaxed">
+              <p>{site.mailingAddress}</p>
               <a
                 href={`https://maps.google.com/?q=${encodeURIComponent(site.location)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-start gap-2.5 text-white/70 hover:text-white transition-colors"
+                className="block hover:text-white transition-colors"
               >
-                <IconMapPin size={14} className="mt-0.5 flex-shrink-0 text-gold" />
-                <span className="font-inter text-xs">{site.location}</span>
+                {site.location}
               </a>
-              <a
-                href={`mailto:${site.email}`}
-                className="flex items-center gap-2.5 text-white/70 hover:text-white transition-colors"
-              >
-                <IconMail size={14} className="flex-shrink-0 text-gold" />
-                <span className="font-inter text-xs break-all">{site.email}</span>
+              <a href={`mailto:${site.email}`} className="block hover:text-white transition-colors break-all">
+                {site.email}
               </a>
-              <a href={`tel:${site.phone.replace(/\D/g, '')}`} className="flex items-center gap-2.5 text-white/70 hover:text-white transition-colors">
-                <IconPhone size={14} className="flex-shrink-0 text-gold" />
-                <span className="font-inter text-xs">
-                  {site.phone}
-                  <span className="text-white/40"> · {site.phoneNote}</span>
-                </span>
+              <a href={`tel:${site.phone.replace(/\D/g, '')}`} className="block hover:text-white transition-colors">
+                {site.phone}
+                <span className="text-white/40"> · {site.phoneNote}</span>
               </a>
             </div>
             <div className="flex gap-3">

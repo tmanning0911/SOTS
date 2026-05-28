@@ -1,7 +1,7 @@
 import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import { motion, useInView, useMotionValue, useTransform, animate } from 'framer-motion';
-import { IconHeart, IconStar, IconBuilding, IconGift } from '@/components/icons';
+import { IconMasks, IconLaurel, IconStage, IconBookOpen } from '@/components/icons';
 import Sponsors from '../components/Sponsors';
 import TicketBanner from '../components/TicketBanner';
 import { sponsors, site } from '@/content/site';
@@ -33,7 +33,7 @@ function AnimatedStat({ stat }) {
 
 const ways = [
   {
-    icon: IconHeart,
+    icon: IconMasks,
     title: 'Donate',
     description: site.donateBlurb,
     cta: 'Make a Donation',
@@ -41,7 +41,7 @@ const ways = [
     href: site.donateUrl,
   },
   {
-    icon: IconStar,
+    icon: IconLaurel,
     title: '2026 Gala',
     description: `Save the Date for our Much Ado About Something gala on ${site.gala.date}, ${site.gala.time} at ${site.gala.venue}, ${site.gala.address}. Cocktails, bites, dancing, and live & silent auctions.`,
     cta: 'Join the Committee',
@@ -49,7 +49,7 @@ const ways = [
     href: `mailto:${site.gala.committeeEmail}`,
   },
   {
-    icon: IconBuilding,
+    icon: IconStage,
     title: 'Corporate Partners',
     description: `Partner with Shakespeare on the Sound and align your brand with professional, community Shakespeare. Our ${new Date().getFullYear()} sponsors include ${sponsors.map((s) => s.name).join(', ')}.`,
     cta: 'Become a Sponsor',
@@ -57,7 +57,7 @@ const ways = [
     href: `mailto:${site.email}`,
   },
   {
-    icon: IconGift,
+    icon: IconBookOpen,
     title: 'Education Fund',
     description:
       'In order to provide educational programming to those who do not have access to Shakespeare or theatre education, we rely on your generosity. Your tax-deductible gift of any amount is greatly appreciated.',

@@ -5,9 +5,9 @@ import AdminPlays from '../components/admin/AdminPlays';
 import AdminArticles from '../components/admin/AdminArticles';
 import AdminLearning from '../components/admin/AdminLearning';
 import {
-  IconFilm,
-  IconNewspaper,
-  IconGraduation,
+  IconMasks,
+  IconQuill,
+  IconBookOpen,
   IconExternalLink,
   IconChevronRight,
   IconLogOut,
@@ -16,9 +16,9 @@ import {
 } from '@/components/icons';
 
 const tabs = [
-  { id: 'plays', label: 'Productions', icon: IconFilm },
-  { id: 'articles', label: 'News & Articles', icon: IconNewspaper },
-  { id: 'learning', label: 'Learning Programs', icon: IconGraduation },
+  { id: 'plays', label: 'Productions', icon: IconMasks },
+  { id: 'articles', label: 'News & Articles', icon: IconQuill },
+  { id: 'learning', label: 'Learning Programs', icon: IconBookOpen },
 ];
 
 function AdminSidebar({ activeTab, setActiveTab, user, onLogout, className = '' }) {

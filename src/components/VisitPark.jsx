@@ -1,4 +1,4 @@
-import { IconMapPin, IconClock, IconTent } from '@/components/icons';
+import { IconStage, IconCurtain, IconTent } from '@/components/icons';
 import { Link } from 'react-router-dom';
 import Reveal from './Reveal';
 import OptimizedImage from './OptimizedImage';
@@ -20,7 +20,7 @@ export default function VisitPark() {
           <ul className="space-y-5 mb-8">
             <Reveal delay={0.1}>
               <li className="flex gap-4">
-                <IconMapPin size={20} className="text-gold flex-shrink-0 mt-0.5" />
+                <IconStage size={20} className="text-gold flex-shrink-0 mt-0.5" />
                 <span className="font-inter text-navy text-sm md:text-base">
                   {visitInfo.park}, {visitInfo.address}
                 </span>
@@ -28,7 +28,7 @@ export default function VisitPark() {
             </Reveal>
             <Reveal delay={0.15}>
               <li className="flex gap-4">
-                <IconClock size={20} className="text-gold flex-shrink-0 mt-0.5" />
+                <IconCurtain size={20} className="text-gold flex-shrink-0 mt-0.5" />
                 <span className="font-inter text-navy text-sm md:text-base">
                   {site.phoneNote}: {site.phone}
                 </span>

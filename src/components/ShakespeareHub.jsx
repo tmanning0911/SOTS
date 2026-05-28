@@ -1,13 +1,13 @@
-import { IconBookOpen, IconUsers, IconGraduation, IconArrowRight } from '@/components/icons';
+import { IconBookOpen, IconMasks, IconStage, IconArrowRight } from '@/components/icons';
 import { Link } from 'react-router-dom';
 import Reveal from './Reveal';
 import OptimizedImage from './OptimizedImage';
 import { site } from '@/content/site';
 
 const features = [
-  { Icon: IconUsers, label: 'In Schools', desc: 'Workshops for grades K–12 across Fairfield County' },
-  { Icon: IconGraduation, label: 'Summer Camps', desc: 'The Globe Company for ages 8–15' },
-  { Icon: IconBookOpen, label: 'Teacher Resources', desc: 'Professional development and in-park programming' },
+  { Icon: IconBookOpen, label: 'In Schools', desc: 'Workshops for grades K–12 across Fairfield County' },
+  { Icon: IconStage, label: 'Summer Camps', desc: 'The Globe Company for ages 8–15' },
+  { Icon: IconMasks, label: 'Teacher Resources', desc: 'Professional development and in-park programming' },
 ];
 
 export default function ShakespeareHub() {

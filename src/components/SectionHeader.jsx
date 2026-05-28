@@ -1,5 +1,4 @@
 import Reveal from './Reveal';
-import { IconLaurel } from '@/components/icons';
 
 export default function SectionHeader({
   eyebrow,
@@ -32,13 +31,9 @@ export default function SectionHeader({
         </p>
       )}
       <div
-        className={`mt-6 flex items-center gap-3 ${align === 'center' ? 'justify-center' : ''} ${align === 'right' ? 'justify-end' : ''}`}
+        className={`mt-6 h-px w-14 bg-gold/80 ${align === 'center' ? 'mx-auto' : ''} ${align === 'right' ? 'ml-auto' : ''}`}
         aria-hidden
-      >
-        <IconLaurel size={22} className={light ? 'text-gold/60' : 'text-gold/50'} />
-        <div className={`h-px w-12 bg-gold/80`} />
-        <IconLaurel size={22} className={`scale-x-[-1] ${light ? 'text-gold/60' : 'text-gold/50'}`} />
-      </div>
+      />
     </Reveal>
   );
 }

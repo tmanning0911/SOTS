@@ -1,17 +1,17 @@
-import { IconHeart, IconGraduation, IconSparkle } from '@/components/icons';
+import { IconLaurel, IconMasks, IconBookOpen } from '@/components/icons';
 import Reveal from './Reveal';
 import { site } from '@/content/site';
 
 const cards = [
   {
-    icon: IconSparkle,
+    icon: IconLaurel,
     title: 'Save the Date',
     body: `${site.gala.title} — ${site.gala.date}, ${site.gala.time}. ${site.gala.venue}, ${site.gala.address}.`,
     cta: 'Join the Committee',
     href: `mailto:${site.gala.committeeEmail}?subject=Gala%20Committee`,
   },
   {
-    icon: IconHeart,
+    icon: IconMasks,
     title: 'Donate',
     body: 'Support Shakespeare on the Sound! Donate today to ensure future productions and educational programs!',
     cta: 'Donate Today',
@@ -20,7 +20,7 @@ const cards = [
     featured: true,
   },
   {
-    icon: IconGraduation,
+    icon: IconBookOpen,
     title: 'For Kids!',
     body: 'Bring Shakespeare into your classroom and catch Shakespeare for kids in the park!',
     cta: 'Education Programs',

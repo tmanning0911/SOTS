@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { IconPlay } from '@/components/icons';
+import { IconStage } from '@/components/icons';
 import { site } from '@/content/site';
 
 const highlights = [
@@ -52,7 +52,7 @@ export default function WatchOnline() {
               className="group block border border-navy/10 p-6 hover:border-rust/30 transition-colors"
             >
               <div className="w-10 h-10 bg-navy flex items-center justify-center mb-4 group-hover:bg-gold transition-colors duration-300">
-                <IconPlay size={18} className="text-white" />
+                <IconStage size={18} className="text-white" />
               </div>
               <span className="text-rust text-[9px] tracking-[0.2em] uppercase font-medium">{item.category}</span>
               <p className="font-playfair text-navy font-bold text-lg uppercase mt-2 mb-2">{item.title}</p>
