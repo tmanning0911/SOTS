@@ -38,7 +38,7 @@ export default function LearningProgramCard({ program, index = 0 }) {
 
       <div className="p-6 sm:p-7 flex flex-col flex-1">
         <p className="font-inter text-navy/80 text-sm leading-relaxed mb-6 flex-1">{program.description}</p>
-        <CtaLink href={program.ctaLink} className="link-gold !text-gold inline-flex items-center gap-2 mt-auto">
+        <CtaLink href={program.ctaLink} className="link-gold inline-flex items-center gap-2 mt-auto">
           {program.ctaText}
           <IconArrowRight size={14} />
         </CtaLink>

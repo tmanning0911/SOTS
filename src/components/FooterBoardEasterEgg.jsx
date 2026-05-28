@@ -9,7 +9,7 @@ export default function FooterBoardEasterEgg() {
     <div className="border-t border-white/5 bg-[hsl(220_52%_8%)]">
       <div className="max-w-6xl mx-auto page-gutter py-3 sm:py-4 flex justify-center">
         <details className="footer-board-egg group relative text-center">
-          <summary className="footer-board-egg-trigger font-inter text-[10px] sm:text-[11px] text-white/30 hover:text-white/55 focus-visible:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(220_52%_8%)] rounded-sm cursor-pointer list-none transition-colors duration-300 select-none">
+          <summary className="footer-board-egg-trigger font-inter text-[10px] sm:text-[11px] text-white/50 hover:text-white/70 focus-visible:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(220_52%_8%)] rounded-sm cursor-pointer list-none transition-colors duration-300 select-none">
             Made with{' '}
             <span className="text-gold/55 group-open:text-gold" aria-hidden>
               ♥

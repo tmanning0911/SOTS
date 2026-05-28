@@ -7,7 +7,7 @@ import { TheatreBackdrop } from '../components/decor';
 
 export default function Contact() {
   return (
-    <PageLayout hideEmailBar>
+    <PageLayout>
       <PageHero
         eyebrow="Contact"
         title="Get in Touch"
@@ -50,7 +50,7 @@ export default function Contact() {
                 </li>
               </ul>
               <p className="font-inter text-navy/55 text-xs leading-relaxed mt-8 border-t border-navy/10 pt-6">
-                Choose a form to the right. For season updates, use Subscribe in the footer.
+                Choose a form to the right. For season updates, use the mailing list strip above the footer.
               </p>
             </aside>
 

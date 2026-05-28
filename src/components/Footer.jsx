@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { site, socialLinks, sponsors } from '@/content/site';
 import { IconFacebook, IconInstagram, IconTwitter, IconYoutube } from '@/components/icons';
+import LogoImage from './LogoImage';
 import StaAffiliation from './StaAffiliation';
 import { contactPaths } from '@/lib/contactPaths';
 import FooterBoardEasterEgg from './FooterBoardEasterEgg';
@@ -38,7 +39,6 @@ const navGroups = [
     heading: 'Support & About',
     links: [
       { type: 'route', label: 'Ways to Give', to: '/support' },
-      { type: 'external', label: 'Donate', href: site.donateUrl },
       { type: 'form', label: 'Gala & Sponsorship', variant: 'sponsorship' },
       { type: 'route', label: 'About Us', to: '/about' },
       { type: 'route', label: 'Contact', to: '/contact' },
@@ -77,22 +77,17 @@ function FooterFormLink({ variant, children }) {
   );
 }
 
-const actionBtn =
-  'inline-flex items-center justify-center min-h-[40px] !py-2.5 !px-4 text-[10px] tracking-[0.18em] w-full';
-
 export default function Footer() {
-  const { openForm } = useFormModal();
-
   return (
     <footer className="bg-navy-deep border-t border-white/10" data-nav-zone="dark">
       <div className="max-w-6xl mx-auto page-gutter py-8 sm:py-9">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
-          <div className="lg:col-span-4 flex flex-col">
+          <div className="lg:col-span-5 flex flex-col">
             <Link
               to="/"
               className="inline-block w-fit mb-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
             >
-              <img src="/images/logo.png" alt={site.name} className="h-10 sm:h-11 w-auto object-contain" />
+              <LogoImage className="h-10 sm:h-11 w-auto object-contain" priority />
             </Link>
             <p className="font-inter text-white/55 text-xs leading-relaxed mb-4 max-w-xs">
               {site.location} · {site.mailingAddress}
@@ -101,7 +96,7 @@ export default function Footer() {
               <a href={`tel:${site.phone.replace(/\D/g, '')}`} className="hover:text-white transition-colors">
                 {site.phone}
               </a>
-              <span className="text-white/40"> · {site.phoneNote}</span>
+              <span className="text-white/55"> · {site.phoneNote}</span>
             </p>
             <div className="flex gap-2 mt-auto">
               {socialLinks.map(({ label, url }) => {
@@ -122,7 +117,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="lg:col-span-5 grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-5">
+          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-5">
             {navGroups.map((group) => (
               <div key={group.heading}>
                 <p className="font-inter text-gold-light/90 text-[10px] tracking-[0.25em] uppercase font-semibold mb-3">
@@ -138,41 +133,11 @@ export default function Footer() {
               </div>
             ))}
           </div>
-
-          <div className="lg:col-span-3">
-            <p className="font-inter text-gold-light/90 text-[10px] tracking-[0.25em] uppercase font-semibold mb-3">
-              Quick Actions
-            </p>
-            <div className="grid grid-cols-2 gap-2">
-              <button type="button" onClick={() => openForm('newsletter')} className={`btn-primary ${actionBtn}`}>
-                Subscribe
-              </button>
-              <button type="button" onClick={() => openForm('contact')} className={`btn-secondary ${actionBtn}`}>
-                Contact
-              </button>
-              <a
-                href={site.ticketsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`btn-secondary ${actionBtn}`}
-              >
-                Tickets
-              </a>
-              <a
-                href={site.donateUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`btn-secondary ${actionBtn} !border-gold/35 !text-gold`}
-              >
-                Donate
-              </a>
-            </div>
-          </div>
         </div>
 
         <div className="mt-7 pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5">
           <StaAffiliation theme="dark" align="left" compact />
-          <p className="font-inter text-white/40 text-[10px] leading-relaxed sm:text-right sm:max-w-md">
+          <p className="font-inter text-white/55 text-[10px] leading-relaxed sm:text-right sm:max-w-md">
             {sponsors.map((s) => s.name).join(' · ')}
           </p>
         </div>

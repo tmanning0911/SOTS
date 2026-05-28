@@ -1,140 +1,70 @@
+/**
+ * Site icons — Lucide (UI), Tabler (theatre), custom (social + laurel).
+ */
+import {
+  Menu,
+  X,
+  Search,
+  ChevronLeft,
+  ChevronRight,
+  ArrowRight,
+  ExternalLink,
+  LogOut,
+  Plus,
+  Pencil,
+  Trash2,
+  Check,
+  Image,
+  BookOpen,
+} from 'lucide-react';
+import {
+  IconMasksTheater,
+  IconTheater,
+  IconWriting,
+  IconTent as TablerTent,
+} from '@tabler/icons-react';
 import Icon, { IconFilled } from './Icon';
 
-const sw = 1.35;
+const SW = 1.35;
 
-/* —— Essential UI (navigation & admin only) —— */
-export function IconMenu({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <path d="M4 7h16M4 12h16M4 17h10" />
-    </Icon>
-  );
+function lucide(IconCmp, defaults = {}) {
+  return function LucideWrapped({ size = 24, className = '', strokeWidth = SW, ...p }) {
+    return <IconCmp size={size} className={className} strokeWidth={strokeWidth} {...defaults} {...p} />;
+  };
 }
 
-export function IconClose({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <path d="M6 6l12 12M18 6L6 18" />
-    </Icon>
-  );
+function tabler(IconCmp) {
+  return function TablerWrapped({ size = 24, className = '', strokeWidth = SW, ...p }) {
+    return <IconCmp size={size} className={className} stroke={1.5} strokeWidth={strokeWidth} {...p} />;
+  };
 }
 
-export function IconSearch({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <circle cx="11" cy="11" r="6.5" />
-      <path d="M16 16l5 5" />
-    </Icon>
-  );
-}
+/* —— UI (Lucide) —— */
+export const IconMenu = lucide(Menu);
+export const IconClose = lucide(X);
+export const IconSearch = lucide(Search);
+export const IconChevronLeft = lucide(ChevronLeft);
+export const IconChevronRight = lucide(ChevronRight);
+export const IconArrowRight = lucide(ArrowRight);
+export const IconExternalLink = lucide(ExternalLink);
+export const IconLogOut = lucide(LogOut);
+export const IconPlus = lucide(Plus);
+export const IconPencil = lucide(Pencil);
+export const IconTrash = lucide(Trash2);
+export const IconCheck = lucide(Check);
+export const IconImage = lucide(Image);
 
-export function IconChevronLeft({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <path d="M14 6l-6 6 6 6" />
-    </Icon>
-  );
-}
+/* —— Theatre (Tabler + Lucide) —— */
+export const IconMasks = tabler(IconMasksTheater);
+export const IconStage = tabler(IconTheater);
+export const IconBookOpen = lucide(BookOpen);
+export const IconTent = tabler(TablerTent);
+export const IconQuill = tabler(IconWriting);
 
-export function IconChevronRight({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <path d="M10 6l6 6-6 6" />
-    </Icon>
-  );
-}
-
-export function IconArrowRight({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <path d="M5 12h14M13 6l6 6-6 6" />
-    </Icon>
-  );
-}
-
-export function IconExternalLink({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <path d="M10 5h9v9M19 5L9 15M19 14v5H5V5h5" />
-    </Icon>
-  );
-}
-
-export function IconLogOut({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <path d="M10 4H5v16h5M14 12H4M18 8l4 4-4 4" />
-    </Icon>
-  );
-}
-
-export function IconPlus({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <path d="M12 5v14M5 12h14" />
-    </Icon>
-  );
-}
-
-export function IconPencil({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <path d="M4 20h4l10-10-4-4L4 16v4zM14 6l4 4" />
-    </Icon>
-  );
-}
-
-export function IconTrash({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <path d="M4 7h16M9 7V5h6v2M10 11v6M14 11v6M6 7l1 12h10l1-12" />
-    </Icon>
-  );
-}
-
-export function IconCheck({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <path d="M5 12l5 5 9-10" />
-    </Icon>
-  );
-}
-
-export function IconImage({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <rect x="3" y="5" width="18" height="14" rx="1" />
-      <path d="M6 16l4-4 3 3 5-6 4 5" />
-    </Icon>
-  );
-}
-
-/* —— Shakespeare & theatre (public site) —— */
-export function IconMasks({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <path d="M7 5c-2.5 0-4.5 2-4.5 4.5v1.5c0 2.5 2 4.5 4.5 4.5 1.2 0 2-.4 3.5-1.8 1.5 1.4 2.3 1.8 3.5 1.8 2.5 0 4.5-2 4.5-4.5V9.5C18.5 7 16.5 5 14 5c-1.2 0-2 .4-3.5 1.8C9 5.4 8.2 5 7 5z" />
-      <circle cx="9.5" cy="10" r="0.75" fill="currentColor" stroke="none" />
-      <circle cx="14.5" cy="10" r="0.75" fill="currentColor" stroke="none" />
-      <path d="M10 12.5c.8.8 2.2.8 3 0" />
-    </Icon>
-  );
-}
-
-export function IconStage({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <path d="M3 20h18" />
-      <path d="M6 20V11l6-5 6 5v9" />
-      <path d="M3 11l18-5" />
-      <path d="M10 14h4" />
-    </Icon>
-  );
-}
-
+/** Stage curtains — custom (Tabler has no close match at 24px) */
 export function IconCurtain({ size, className, ...p }) {
   return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
+    <Icon size={size} className={className} strokeWidth={SW} {...p}>
       <path d="M4 4h16v2c0 3.5-1.8 5.5-4 5.5S12 9.5 12 6v12H4V4z" />
       <path d="M12 11v9" />
       <path d="M8 8c0 1.5.8 2.5 2 2.5M16 8c0 1.5-.8 2.5-2 2.5" />
@@ -142,15 +72,7 @@ export function IconCurtain({ size, className, ...p }) {
   );
 }
 
-export function IconQuill({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <path d="M4 20c5-9 9-13 17-15-2.5 9-7 13-16 15" />
-      <path d="M7.5 16.5l2 2" />
-    </Icon>
-  );
-}
-
+/** Laurel wreath — custom accent */
 export function IconLaurel({ size, className, ...p }) {
   return (
     <Icon size={size} className={className} strokeWidth={1.15} {...p}>
@@ -161,28 +83,7 @@ export function IconLaurel({ size, className, ...p }) {
   );
 }
 
-export function IconBookOpen({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <path d="M12 5c-2-2-6-2-8 0v12c2-1 6-1 8 0V5z" />
-      <path d="M12 5c2-2 6-2 8 0v12c-2-1-6-1-8 0V5z" />
-      <path d="M12 5v12" />
-    </Icon>
-  );
-}
-
-/** Outdoor amphitheatre tent — Pinkney Park performances */
-export function IconTent({ size, className, ...p }) {
-  return (
-    <Icon size={size} className={className} strokeWidth={sw} {...p}>
-      <path d="M4 20h16M12 4l8 16H4l8-16z" />
-      <path d="M12 4v16" />
-      <path d="M8 14h8" />
-    </Icon>
-  );
-}
-
-/* —— Social (brand marks only) —— */
+/* —— Social (brand marks) —— */
 export function IconFacebook({ size = 20, className, ...p }) {
   return (
     <IconFilled size={size} className={className} {...p}>
@@ -217,7 +118,6 @@ export function IconYoutube({ size = 20, className, ...p }) {
   );
 }
 
-/** Learning programs → Shakespeare-themed icons only */
 export const learningIconMap = {
   BookOpen: IconBookOpen,
   School: IconBookOpen,

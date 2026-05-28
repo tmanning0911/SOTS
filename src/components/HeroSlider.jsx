@@ -4,6 +4,7 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { site } from '@/content/site';
 import { contactPaths } from '@/lib/contactPaths';
+import { webpSrc } from '@/lib/media';
 
 const SLIDE_DURATION = 10000;
 
@@ -80,8 +81,9 @@ export default function HeroSlider() {
           className="absolute inset-0"
         >
           <motion.img
-            src={slide.image}
+            src={webpSrc(slide.image) || slide.image}
             alt=""
+            fetchPriority={current === 0 ? 'high' : 'auto'}
             className="absolute inset-0 w-full h-full object-cover object-center"
             initial={reduceMotion ? false : { scale: 1.08 }}
             animate={{ scale: 1 }}

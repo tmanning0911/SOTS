@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { IconMenu, IconClose, IconSearch } from '@/components/icons';
 import { motion, AnimatePresence } from 'framer-motion';
 import { site } from '@/content/site';
+import LogoImage from './LogoImage';
 import { useNavTheme } from '@/hooks/useNavTheme';
 
 const navLinks = [
@@ -92,9 +93,8 @@ export default function Navbar() {
             to="/"
             className="relative z-10 flex-shrink-0 min-w-0 transition-opacity duration-300 hover:opacity-90 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
           >
-            <img
-              src="/images/logo.png"
-              alt={site.name}
+            <LogoImage
+              priority
               className={`h-11 sm:h-14 md:h-16 w-auto max-w-[min(52vw,200px)] object-contain object-left ${
                 isLightBar ? '' : 'drop-shadow-md'
               }`}

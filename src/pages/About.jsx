@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react';
 import PageLayout from '../components/PageLayout';
-import Sponsors from '../components/Sponsors';
-import TicketBanner from '../components/TicketBanner';
-import ContactSection from '../components/ContactSection';
+import ContactPrompt from '../components/ContactPrompt';
 import ContactChannelLink from '../components/ContactChannelLink';
 import { Link } from 'react-router-dom';
-import StaAffiliation from '../components/StaAffiliation';
 import { TheatreBackdrop } from '../components/decor';
 import OptimizedImage from '../components/OptimizedImage';
 import { motion } from 'framer-motion';
@@ -67,9 +64,6 @@ export default function About() {
             <h2 className="font-display text-navy text-3xl font-semibold uppercase mb-6">{site.name}</h2>
             <p className="font-inter text-navy/85 text-sm md:text-base leading-relaxed mb-4">{site.mission}</p>
             <p className="font-inter text-navy/85 text-sm md:text-base leading-relaxed mb-4">{site.missionEducation}</p>
-            <div className="mb-8 py-8 border-y border-navy/10">
-              <StaAffiliation theme="light" align="left" compact />
-            </div>
             <div id="reach-us" className="border-t border-navy/10 pt-6 space-y-3 scroll-mt-28">
               <p className="font-inter text-navy/70 text-sm">
                 <span className="font-semibold text-navy">Mailing:</span> {site.mailingAddress}
@@ -230,9 +224,7 @@ export default function About() {
         </div>
       </div>
 
-      <ContactSection />
-      <Sponsors />
-      <TicketBanner />
+      <ContactPrompt />
     </PageLayout>
   );
 }

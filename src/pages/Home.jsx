@@ -6,14 +6,12 @@ import Sponsors from '../components/Sponsors';
 import ShakespeareHub from '../components/ShakespeareHub';
 import VisitPark from '../components/VisitPark';
 import LatestNews from '../components/LatestNews';
-import HomeContact from '../components/HomeContact';
-
 /**
- * Homepage: Hero → Productions → Give → Sponsors → Education → Visit → News → Contact
+ * Homepage: Hero → Productions → Give → Sponsors → Education → Visit → News
  */
 export default function Home() {
   return (
-    <PageLayout hideEmailBar>
+    <PageLayout>
       <HeroSlider />
       <ProductionStrip />
       <HomeCTA />
@@ -21,7 +19,6 @@ export default function Home() {
       <ShakespeareHub />
       <VisitPark />
       <LatestNews />
-      <HomeContact />
     </PageLayout>
   );
 }

@@ -5,7 +5,6 @@ import PageHero from '../components/PageHero';
 import LoadingSpinner from '../components/LoadingSpinner';
 import LearningProgramCard from '../components/LearningProgramCard';
 import SectionHeader from '../components/SectionHeader';
-import FormCTA from '../components/forms/FormCTA';
 import { useFormModal } from '@/lib/FormModalContext';
 import { site } from '@/content/site';
 import { Link } from 'react-router-dom';
@@ -82,18 +81,6 @@ export default function Learning() {
           </p>
         </div>
       </section>
-
-      <TheatreBackdrop
-        as="section"
-        id="education-form"
-        variant="cream-dark"
-        className="border-t border-navy/8 page-gutter py-14 sm:py-20 scroll-mt-28"
-        data-nav-zone="light"
-      >
-        <div className="max-w-xl mx-auto">
-          <FormCTA variant="education" buttonLabel="Open Education Form" />
-        </div>
-      </TheatreBackdrop>
     </PageLayout>
   );
 }

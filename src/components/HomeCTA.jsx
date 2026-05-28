@@ -5,6 +5,8 @@ import { TheatreBackdrop } from './decor';
 import { site } from '@/content/site';
 import { contactPaths } from '@/lib/contactPaths';
 
+const supportPath = '/support';
+
 const cards = [
   {
     icon: IconLaurel,
@@ -16,11 +18,11 @@ const cards = [
   },
   {
     icon: IconMasks,
-    title: 'Donate',
-    body: 'Support Shakespeare on the Sound! Donate today to ensure future productions and educational programs!',
-    cta: 'Donate Today',
-    href: site.donateUrl,
-    external: true,
+    title: 'Support Us',
+    body: 'Donate, sponsor, or join the gala committee — every gift helps productions and education in Fairfield County.',
+    cta: 'Ways to Give',
+    href: supportPath,
+    external: false,
     featured: true,
   },
   {

@@ -1,9 +1,8 @@
 import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import { motion, useInView, useMotionValue, useTransform, animate } from 'framer-motion';
-import { IconMasks, IconLaurel, IconStage, IconBookOpen } from '@/components/icons';
+import { IconMasks, IconLaurel, IconStage } from '@/components/icons';
 import Sponsors from '../components/Sponsors';
-import TicketBanner from '../components/TicketBanner';
 import { Link } from 'react-router-dom';
 import { sponsors, site } from '@/content/site';
 import { contactPaths } from '@/lib/contactPaths';
@@ -58,15 +57,6 @@ const ways = [
     highlight: false,
     href: contactPaths.sponsorship,
   },
-  {
-    icon: IconBookOpen,
-    title: 'Education Fund',
-    description:
-      'In order to provide educational programming to those who do not have access to Shakespeare or theatre education, we rely on your generosity. Your tax-deductible gift of any amount is greatly appreciated.',
-    cta: 'Support Education',
-    highlight: false,
-    href: site.donateUrl,
-  },
 ];
 
 export default function Support() {
@@ -84,7 +74,7 @@ export default function Support() {
           <span className="section-eyebrow mb-3">Ways to Give</span>
           <h2 className="font-display text-navy text-2xl sm:text-3xl font-semibold uppercase">Make a Difference</h2>
         </div>
-        <div className="grid md:grid-cols-2 gap-5 sm:gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {ways.map((way, i) => (
             <motion.div
               key={way.title}
@@ -163,7 +153,6 @@ export default function Support() {
       </div>
 
       <Sponsors />
-      <TicketBanner />
     </PageLayout>
   );
 }

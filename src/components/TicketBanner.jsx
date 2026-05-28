@@ -11,14 +11,9 @@ export default function TicketBanner() {
           </h2>
           <p className="font-inter text-white/60 text-sm mt-2">June 10–28 · Pinkney Park, Rowayton, CT</p>
         </div>
-        <div className="btn-stack-mobile shrink-0">
-          <a href={site.ticketsUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
-            Get Tickets
-          </a>
-          <a href={site.donateUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary">
-            Donate
-          </a>
-        </div>
+        <a href={site.ticketsUrl} target="_blank" rel="noopener noreferrer" className="btn-primary shrink-0">
+          Get Tickets
+        </a>
       </div>
     </section>
   );

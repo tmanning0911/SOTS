@@ -1,7 +1,6 @@
 import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import WatchOnline from '../components/WatchOnline';
-import TicketBanner from '../components/TicketBanner';
 import { site } from '@/content/site';
 import { pageHeroImages } from '@/content/images';
 
@@ -28,7 +27,6 @@ export default function WatchPage() {
           Open YouTube Channel
         </a>
       </div>
-      <TicketBanner />
     </PageLayout>
   );
 }

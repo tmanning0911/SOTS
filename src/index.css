@@ -242,7 +242,7 @@
   }
 
   .link-gold {
-    @apply text-gold text-xs tracking-[0.2em] uppercase font-semibold border-b border-gold/60 pb-0.5 transition-opacity duration-300 hover:opacity-75;
+    @apply text-gold-muted text-xs tracking-[0.2em] uppercase font-semibold border-b border-gold-muted/50 pb-0.5 transition-colors duration-300 hover:text-navy;
   }
 
   /* Navbar — dark bar (white links, WCAG AA on navy) */
