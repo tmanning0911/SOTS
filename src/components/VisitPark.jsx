@@ -11,7 +11,6 @@ export default function VisitPark() {
     <TheatreBackdrop
       as="section"
       variant="cream"
-      wash="park"
       className="section-pad"
       data-nav-zone="light"
     >

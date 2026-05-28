@@ -31,12 +31,7 @@ export default function Plays() {
         image={pageHeroImages.plays}
       />
 
-      <TheatreBackdrop
-        variant="parchment"
-        wash="cast"
-        ornaments="minimal"
-        className="max-w-6xl mx-auto section-pad !pt-14 sm:!pt-16 mx-auto"
-      >
+      <TheatreBackdrop variant="cream" className="max-w-6xl mx-auto section-pad !pt-14 sm:!pt-16 mx-auto">
         {loading ? (
           <LoadingSpinner label="Loading productions" />
         ) : productions.length === 0 ? (

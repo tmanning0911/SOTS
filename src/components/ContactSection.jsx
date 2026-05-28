@@ -8,7 +8,6 @@ export default function ContactSection() {
       as="section"
       id="contact-form"
       variant="parchment"
-      wash="everyone"
       className="border-t border-navy/8 scroll-mt-28"
       data-nav-zone="light"
     >

@@ -60,7 +60,7 @@ export default function About() {
         </div>
       </div>
 
-      <TheatreBackdrop variant="parchment" wash="history" ornaments="minimal" className="page-gutter py-12 sm:py-16 md:py-20">
+      <TheatreBackdrop variant="parchment" className="page-gutter py-12 sm:py-16 md:py-20">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 sm:gap-16 items-start">
           <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <span className="section-eyebrow mb-4">Mission & History</span>
@@ -164,14 +164,7 @@ export default function About() {
         </div>
       )}
 
-      <div
-        className="py-14 sm:py-20 page-gutter grain-overlay"
-        style={{
-          backgroundImage: `linear-gradient(hsl(220 48% 11% / 0.94), hsl(220 48% 11% / 0.94)), url(${images.backgrounds.history})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
+      <div className="py-14 sm:py-20 page-gutter bg-navy-deep" data-nav-zone="dark">
         <div className="max-w-6xl mx-auto relative z-[1]">
           <h2 className="font-display text-white text-2xl sm:text-3xl font-semibold uppercase mb-8 sm:mb-12 text-center">
             Who We Are

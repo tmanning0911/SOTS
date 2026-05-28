@@ -1,6 +1,5 @@
 import { useLocation, Link } from 'react-router-dom';
 import PageLayout from '../components/PageLayout';
-import { images } from '@/content/images';
 
 export default function PageNotFound() {
   const location = useLocation();
@@ -9,12 +8,8 @@ export default function PageNotFound() {
   return (
     <PageLayout>
       <div
-        className="relative flex-1 flex items-center justify-center min-h-[70vh] page-gutter grain-overlay"
-        style={{
-          backgroundImage: `linear-gradient(hsl(220 48% 11% / 0.88), hsl(220 48% 11% / 0.92)), url(${images.backgrounds.theatre})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
+        className="relative flex-1 flex items-center justify-center min-h-[70vh] page-gutter bg-navy-deep"
+        data-nav-zone="dark"
       >
         <div className="max-w-md w-full text-center space-y-6 relative z-[1] py-16">
           <p className="font-display text-white/15 text-[8rem] sm:text-[10rem] leading-none font-semibold select-none">

@@ -7,7 +7,6 @@ export default function HomeContact() {
     <TheatreBackdrop
       as="section"
       variant="cream-dark"
-      wash="stage"
       className="section-pad border-t border-navy/8"
       data-nav-zone="light"
     >

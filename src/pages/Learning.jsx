@@ -10,7 +10,7 @@ import { useFormModal } from '@/lib/FormModalContext';
 import { site } from '@/content/site';
 import { Link } from 'react-router-dom';
 import { contactPaths } from '@/lib/contactPaths';
-import { pageHeroImages, images } from '@/content/images';
+import { pageHeroImages } from '@/content/images';
 import { TheatreBackdrop } from '../components/decor';
 
 export default function Learning() {
@@ -34,7 +34,7 @@ export default function Learning() {
         image={pageHeroImages.learning}
       />
 
-      <TheatreBackdrop variant="cream" wash="kids" className="page-gutter py-12 sm:py-16 md:py-20">
+      <TheatreBackdrop variant="cream" className="page-gutter py-12 sm:py-16 md:py-20">
         <div className="max-w-6xl mx-auto">
           <SectionHeader
             eyebrow="Programs"
@@ -55,15 +55,7 @@ export default function Learning() {
         </div>
       </TheatreBackdrop>
 
-      <section
-        data-nav-zone="dark"
-        className="relative py-16 sm:py-24 page-gutter overflow-hidden grain-overlay"
-        style={{
-          backgroundImage: `linear-gradient(to right, hsl(220 48% 11% / 0.92), hsl(220 48% 11% / 0.85)), url(${images.backgrounds.education})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
+      <section data-nav-zone="dark" className="relative py-16 sm:py-24 page-gutter bg-navy-deep">
         <div className="max-w-6xl mx-auto text-center relative z-[1]">
           <span className="section-eyebrow text-gold-light mb-4">Schools & Community</span>
           <h2 className="font-display text-white text-2xl sm:text-3xl md:text-4xl font-semibold uppercase mb-4 text-balance">
@@ -94,8 +86,7 @@ export default function Learning() {
       <TheatreBackdrop
         as="section"
         id="education-form"
-        variant="parchment"
-        wash="education"
+        variant="cream-dark"
         className="border-t border-navy/8 page-gutter py-14 sm:py-20 scroll-mt-28"
         data-nav-zone="light"
       >

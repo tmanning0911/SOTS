@@ -32,7 +32,7 @@ export default function News() {
         image={pageHeroImages.news}
       />
 
-      <TheatreBackdrop variant="parchment" wash="audience" ornaments="minimal" className="page-gutter py-12 sm:py-16 md:py-20">
+      <TheatreBackdrop variant="white" className="page-gutter py-12 sm:py-16 md:py-20">
       <div className="max-w-6xl mx-auto">
         {loading ? (
           <LoadingSpinner label="Loading news" />

@@ -86,8 +86,7 @@ export default function HomeCTA() {
   return (
     <TheatreBackdrop
       as="section"
-      variant="parchment"
-      wash="cast"
+      variant="white"
       className="py-12 sm:py-16 md:py-20 page-gutter border-y border-navy/8"
       data-nav-zone="light"
     >

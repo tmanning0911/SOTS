@@ -17,7 +17,6 @@ export default function Contact() {
 
       <TheatreBackdrop
         variant="parchment"
-        wash="park"
         className="page-gutter py-12 sm:py-16 md:py-20"
         data-nav-zone="light"
       >
