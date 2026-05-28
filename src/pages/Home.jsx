@@ -19,7 +19,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col bg-cream overflow-x-clip">
       <SkipLink />
       <Navbar />
-      <main id="main-content" className="flex-1 w-full">
+      <main id="main-content" className="flex-1 w-full" data-nav-zone="light">
         <HeroSlider />
         <ProductionStrip />
         <HomeCTA />

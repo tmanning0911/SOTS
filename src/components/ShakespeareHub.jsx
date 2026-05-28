@@ -12,7 +12,7 @@ const features = [
 
 export default function ShakespeareHub() {
   return (
-    <section className="bg-navy-deep overflow-hidden grain-overlay">
+    <section className="bg-navy-deep overflow-hidden grain-overlay" data-nav-zone="dark">
       <div className="grid lg:grid-cols-2 min-h-0 lg:min-h-[480px] relative z-[1]">
         <Reveal className="flex flex-col justify-center px-4 sm:px-8 md:px-12 lg:px-16 py-12 sm:py-16 order-2 lg:order-1">
           <span className="section-eyebrow mb-4 sm:mb-5">Education</span>

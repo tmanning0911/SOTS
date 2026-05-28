@@ -5,7 +5,10 @@ export default function PageHero({ eyebrow, title, description, image }) {
   const reduceMotion = useReducedMotion();
 
   return (
-    <div className="relative h-[42vh] min-h-[280px] sm:h-[48vh] sm:min-h-[340px] md:h-[55vh] md:min-h-[380px] max-h-[520px] overflow-hidden bg-navy-deep grain-overlay">
+    <div
+      data-nav-zone="dark"
+      className="relative h-[42vh] min-h-[280px] sm:h-[48vh] sm:min-h-[340px] md:h-[55vh] md:min-h-[380px] max-h-[520px] overflow-hidden bg-navy-deep grain-overlay"
+    >
       <motion.div
         className="absolute inset-0"
         initial={reduceMotion ? false : { scale: 1.05 }}

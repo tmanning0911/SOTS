@@ -163,6 +163,28 @@
     @apply w-full;
   }
 
+  .nav-link-light {
+    @apply relative text-navy/70 hover:text-navy text-xs tracking-[0.18em] uppercase font-inter font-medium transition-colors duration-300;
+  }
+
+  .nav-link-light::after {
+    content: '';
+    @apply absolute -bottom-1 left-0 h-px w-0 bg-gold transition-all duration-300 ease-out;
+  }
+
+  .nav-link-light:hover::after,
+  .nav-link-light.nav-link-active::after {
+    @apply w-full;
+  }
+
+  .nav-link-light.nav-link-active {
+    @apply text-navy font-semibold;
+  }
+
+  .nav-link.nav-link-active {
+    @apply text-white font-semibold;
+  }
+
   .image-shine {
     @apply relative overflow-hidden;
   }

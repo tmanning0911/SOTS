@@ -7,7 +7,7 @@ import { visitInfo, site } from '@/content/site';
 
 export default function VisitPark() {
   return (
-    <section className="section-pad bg-cream">
+    <section className="section-pad bg-cream" data-nav-zone="light">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div>
           <SectionHeader

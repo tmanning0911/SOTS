@@ -126,7 +126,7 @@ export default function Support() {
         </div>
       </div>
 
-      <div className="bg-navy py-14 sm:py-20 page-gutter grain-overlay">
+      <div className="bg-navy py-14 sm:py-20 page-gutter grain-overlay" data-nav-zone="dark">
         <div className="max-w-6xl mx-auto relative z-[1]">
           <h2 className="font-display text-white text-2xl sm:text-3xl font-semibold uppercase text-center mb-8 sm:mb-12">
             Your Impact

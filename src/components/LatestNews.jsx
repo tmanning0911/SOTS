@@ -18,7 +18,7 @@ export default function LatestNews() {
   if (articles.length === 0) return null;
 
   return (
-    <section className="section-pad bg-navy-deep grain-overlay">
+    <section className="section-pad bg-navy-deep grain-overlay" data-nav-zone="dark">
       <div className="max-w-6xl mx-auto relative z-[1]">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10">
           <SectionHeader

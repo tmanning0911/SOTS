@@ -28,7 +28,10 @@ export default function About() {
 
   return (
     <PageLayout>
-      <div className="relative h-[48vh] min-h-[320px] sm:h-[55vh] md:h-[60vh] max-h-[560px] overflow-hidden bg-navy-deep grain-overlay">
+      <div
+        data-nav-zone="dark"
+        className="relative h-[48vh] min-h-[320px] sm:h-[55vh] md:h-[60vh] max-h-[560px] overflow-hidden bg-navy-deep grain-overlay"
+      >
         <OptimizedImage
           src={images.aboutBanner}
           alt=""

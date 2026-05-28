@@ -62,6 +62,7 @@ export default function Learning() {
       </div>
 
       <section
+        data-nav-zone="dark"
         className="relative py-16 sm:py-24 page-gutter overflow-hidden grain-overlay"
         style={{
           backgroundImage: `linear-gradient(to right, hsl(220 48% 11% / 0.92), hsl(220 48% 11% / 0.85)), url(${images.backgrounds.education})`,

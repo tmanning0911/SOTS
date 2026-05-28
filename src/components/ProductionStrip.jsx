@@ -17,7 +17,7 @@ export default function ProductionStrip() {
   if (productions.length === 0) return null;
 
   return (
-    <section className="bg-navy-deep">
+    <section className="bg-navy-deep" data-nav-zone="dark">
       <div className="page-gutter pt-10 sm:pt-12 pb-2">
         <SectionHeader
           eyebrow="Coming Up Next"

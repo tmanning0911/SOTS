@@ -2,7 +2,7 @@ import { site } from '@/content/site';
 
 export default function TicketBanner() {
   return (
-    <section className="bg-navy-deep border-y border-gold/20">
+    <section className="bg-navy-deep border-y border-gold/20" data-nav-zone="dark">
       <div className="max-w-6xl mx-auto page-gutter py-8 sm:py-10 flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="text-center sm:text-left">
           <p className="section-eyebrow text-gold-light mb-2">2026 Summer Season</p>

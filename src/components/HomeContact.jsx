@@ -3,7 +3,7 @@ import SectionHeader from './SectionHeader';
 
 export default function HomeContact() {
   return (
-    <section className="section-pad bg-cream-dark border-t border-navy/8">
+    <section className="section-pad bg-cream-dark border-t border-navy/8" data-nav-zone="light">
       <div className="max-w-6xl mx-auto">
         <SectionHeader
           eyebrow="Get in Touch"

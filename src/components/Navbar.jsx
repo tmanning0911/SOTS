@@ -21,25 +21,45 @@ const searchablePages = [
   { label: 'Watch on YouTube', path: '/watch' },
 ];
 
+/** Y coordinate to sample what's behind the fixed navbar */
+const NAV_PROBE_Y = 40;
+
+function getZoneBehindNav() {
+  const el = document.elementFromPoint(Math.min(window.innerWidth / 2, window.innerWidth - 8), NAV_PROBE_Y);
+  const zone = el?.closest('[data-nav-zone]')?.getAttribute('data-nav-zone');
+  return zone === 'light' ? 'light' : 'dark';
+}
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [atTop, setAtTop] = useState(true);
+  const [navZone, setNavZone] = useState('dark');
   const searchInputRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   const isHome = location.pathname === '/';
 
-  const onScroll = useCallback(() => {
-    setScrolled(window.scrollY > 48);
+  const updateNavAppearance = useCallback(() => {
+    setAtTop(window.scrollY < 24);
+    setNavZone(getZoneBehindNav());
   }, []);
 
   useEffect(() => {
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [onScroll]);
+    updateNavAppearance();
+    window.addEventListener('scroll', updateNavAppearance, { passive: true });
+    window.addEventListener('resize', updateNavAppearance);
+    return () => {
+      window.removeEventListener('scroll', updateNavAppearance);
+      window.removeEventListener('resize', updateNavAppearance);
+    };
+  }, [updateNavAppearance, location.pathname]);
+
+  useEffect(() => {
+    const t = setTimeout(updateNavAppearance, 100);
+    return () => clearTimeout(t);
+  }, [location.pathname, updateNavAppearance]);
 
   useEffect(() => {
     setMenuOpen(false);
@@ -78,61 +98,69 @@ export default function Navbar() {
     navigate(path);
   };
 
-  const solidNav = scrolled || !isHome;
+  /** Transparent white text only on home hero at very top */
+  const isHeroOverlay = isHome && atTop && navZone === 'dark';
+  const isLightBar = !isHeroOverlay && navZone === 'light';
+
+  const headerClass = isHeroOverlay
+    ? 'bg-gradient-to-b from-navy-deep/75 via-navy-deep/40 to-transparent py-5 md:py-6 border-b border-transparent'
+    : isLightBar
+      ? 'bg-cream/96 backdrop-blur-md py-3 shadow-soft border-b border-navy/10'
+      : 'bg-navy-deep/96 backdrop-blur-md py-3 shadow-nav border-b border-white/10';
+
+  const linkClass = isLightBar ? 'nav-link-light' : 'nav-link';
+  const iconBtnClass = isLightBar
+    ? 'text-navy/70 hover:text-navy border-navy/15 hover:border-navy/30'
+    : 'text-white/70 hover:text-white border-white/15 hover:border-white/30';
+
+  const donateClass = isLightBar
+    ? 'inline-flex min-h-[44px] items-center bg-navy text-white text-[10px] tracking-[0.2em] uppercase font-semibold px-5 py-2.5 hover:bg-navy-light transition-all duration-300'
+    : 'inline-flex min-h-[44px] items-center bg-white/95 text-navy-deep text-[10px] tracking-[0.2em] uppercase font-semibold px-5 py-2.5 hover:bg-white transition-all duration-300';
+
+  const logoClass = isLightBar ? 'drop-shadow-none' : 'drop-shadow-lg';
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-smooth ${
-          solidNav
-            ? 'bg-navy-deep/92 backdrop-blur-md py-3 shadow-nav border-b border-white/5'
-            : 'bg-gradient-to-b from-navy-deep/60 to-transparent py-5 md:py-6'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ease-smooth ${headerClass}`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-2 sm:gap-4">
           <Link to="/" className="relative z-10 flex-shrink-0 min-w-0 transition-opacity duration-300 hover:opacity-90">
             <img
               src="/images/logo.png"
               alt={site.name}
-              className="h-11 sm:h-14 md:h-16 w-auto max-w-[min(52vw,200px)] object-contain object-left drop-shadow-lg"
+              className={`h-11 sm:h-14 md:h-16 w-auto max-w-[min(52vw,200px)] object-contain object-left transition-[filter] duration-400 ${logoClass}`}
             />
           </Link>
 
           <nav className="hidden lg:flex items-center gap-9" aria-label="Main">
-            {navLinks.map((item) => (
-              <Link
-                key={item.label}
-                to={item.path}
-                className={`nav-link ${location.pathname === item.path ? 'text-white after:w-full' : ''}`}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navLinks.map((item) => {
+              const active = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.label}
+                  to={item.path}
+                  className={`${linkClass} ${active ? 'nav-link-active' : ''}`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className="w-10 h-10 flex items-center justify-center text-white/70 hover:text-white border border-white/15 hover:border-white/30 transition-all duration-300"
+              className={`w-10 h-10 flex items-center justify-center border transition-all duration-300 ${iconBtnClass}`}
               aria-label="Search"
             >
               <IconSearch size={16} />
             </button>
-            <a
-              href={site.donateUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex min-h-[44px] items-center bg-white/95 text-navy-deep text-[10px] tracking-[0.2em] uppercase font-semibold px-5 py-2.5 hover:bg-white transition-all duration-300"
-            >
+            <a href={site.donateUrl} target="_blank" rel="noopener noreferrer" className={donateClass}>
               Donate
             </a>
-            <a
-              href={site.ticketsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary !py-2.5 !px-5"
-            >
+            <a href={site.ticketsUrl} target="_blank" rel="noopener noreferrer" className="btn-primary !py-2.5 !px-5">
               Get Tickets
             </a>
           </div>
@@ -141,14 +169,14 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className="text-white w-10 h-10 flex items-center justify-center border border-white/20"
+              className={`w-10 h-10 flex items-center justify-center border transition-colors ${iconBtnClass}`}
               aria-label="Search"
             >
               <IconSearch size={18} />
             </button>
             <button
               type="button"
-              className="text-white w-10 h-10 flex items-center justify-center border border-white/20"
+              className={`w-10 h-10 flex items-center justify-center border transition-colors ${iconBtnClass}`}
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={menuOpen}

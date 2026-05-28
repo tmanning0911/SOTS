@@ -30,7 +30,7 @@ const cards = [
 
 export default function HomeCTA() {
   return (
-    <section className="bg-cream py-12 sm:py-16 md:py-20 page-gutter border-y border-navy/8">
+    <section className="bg-cream py-12 sm:py-16 md:py-20 page-gutter border-y border-navy/8" data-nav-zone="light">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
         {cards.map((card, i) => (
           <Reveal key={card.title} delay={i * 0.08} className="h-full">

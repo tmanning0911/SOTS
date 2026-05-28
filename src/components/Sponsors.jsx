@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 export default function Sponsors() {
   return (
-    <section className="section-pad bg-white border-t border-navy/5">
+    <section className="section-pad bg-white border-t border-navy/5" data-nav-zone="light">
       <div className="max-w-6xl mx-auto">
         <SectionHeader
           eyebrow="Community"

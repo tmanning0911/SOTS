@@ -67,7 +67,10 @@ export default function NewsArticle() {
       {!loading && article && (
         <>
           {article.image && (
-            <div className="relative h-[40vh] min-h-[260px] sm:h-[50vh] max-h-[480px] overflow-hidden bg-navy-deep grain-overlay">
+            <div
+              data-nav-zone="dark"
+              className="relative h-[40vh] min-h-[260px] sm:h-[50vh] max-h-[480px] overflow-hidden bg-navy-deep grain-overlay"
+            >
               <OptimizedImage
                 src={article.image}
                 alt=""

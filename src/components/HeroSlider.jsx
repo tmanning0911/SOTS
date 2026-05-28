@@ -65,7 +65,10 @@ export default function HeroSlider() {
   const isExternal = slide.external || slide.ticketUrl.startsWith('http');
 
   return (
-    <section className="relative min-h-[min(100dvh,920px)] h-[100svh] max-h-[920px] overflow-hidden bg-navy-deep grain-overlay">
+    <section
+      data-nav-zone="dark"
+      className="relative min-h-[min(100dvh,920px)] h-[100svh] max-h-[920px] overflow-hidden bg-navy-deep grain-overlay"
+    >
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
