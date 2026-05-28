@@ -1,0 +1,30 @@
+[
+  {
+    "id": "much-ado-2026",
+    "title": "Much Ado About Nothing",
+    "subtitle": "30th Summer Season · Directed by David Frederick Mold",
+    "description": "Celebrate 30 seasons with Shakespeare's sparkling comedy in 19th-century Sicily — romance, wit, and a merry war of words under the stars. VIP pre-sale April 7–14; general tickets on sale April 15. Park opens at 5pm. Tuesdays June 16 & 23 are Pay-What-You-Will. No shows Mondays.",
+    "dates": "June 10–28, 2026 · 7:30pm (Wed–Sun evenings)",
+    "location": "Pinkney Park, 177 Rowayton Ave, Norwalk, CT",
+    "status": "Now On",
+    "featured": true,
+    "sort_order": 1,
+    "ticketUrl": "https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
+    "tag": "Get Tickets",
+    "image": "/images/hero-much-ado.png"
+  },
+  {
+    "id": "kids-show-2026",
+    "title": "Shakespeare for Kids",
+    "subtitle": "Education Tent · In the Park",
+    "description": "Bring Shakespeare into your classroom and catch Shakespeare for kids in the park! Visit our education tent before select performances for Shakespeare in 30 Minutes — a family-friendly half-hour version of our MainStage show, 30 minutes before showtime.",
+    "dates": "Summer 2026 · before evening performances",
+    "location": "Pinkney Park, Rowayton, CT",
+    "status": "Coming Soon",
+    "featured": false,
+    "sort_order": 2,
+    "ticketUrl": "/learning",
+    "tag": "Education Programs",
+    "image": "/images/news/shakespeare-for-kids.jpg"
+  }
+]

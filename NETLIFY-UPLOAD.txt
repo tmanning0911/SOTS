@@ -1,0 +1,34 @@
+SHAKESPEARE ON THE SOUND — NETLIFY UPLOAD
+=========================================
+Last built: May 28, 2026 — includes news articles, sponsor logos, live-site content.
+
+OPTION A — EASIEST (drag & drop, ~2 minutes)
+--------------------------------------------
+1. Open https://app.netlify.com/drop
+2. Drag the file  NETLIFY-DROP-UPLOAD.zip  onto the page (replace your old deploy)
+   (or drag the  dist  folder if you prefer)
+3. Netlify gives you a URL like https://random-name-123.netlify.app
+4. Optional: Site settings → Domain management → add shakespeareonthesound.org
+
+This deploys the public website only. Content comes from the JSON files
+bundled in the site. Admin login will NOT work on this type of deploy.
+
+
+OPTION B — FULL SITE (admin + content API)
+------------------------------------------
+1. Create a free GitHub repo and push this project folder (not the zip).
+2. In Netlify: Add new site → Import from Git → pick the repo.
+3. Netlify reads netlify.toml automatically (build: npm run build, publish: dist).
+4. Set environment variables (Site configuration → Environment variables):
+   ADMIN_PASSWORD = your admin password
+   ADMIN_SECRET   = long random string (optional but recommended)
+5. Deploy.
+
+Admin edits then save to Netlify Blobs (not the zip).
+
+
+FILES IN THIS FOLDER
+--------------------
+NETLIFY-DROP-UPLOAD.zip   → use for Option A (upload this)
+dist/                     → same files unzipped; you can drag this folder instead
+shakespeare-on-the-sound-UPDATED.zip → full source code (for Git / developers)
