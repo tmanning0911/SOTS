@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { IconMenu, IconClose, IconSearch } from '@/components/icons';
 import { motion, AnimatePresence } from 'framer-motion';
 import { site } from '@/content/site';
+import { useNavTheme } from '@/hooks/useNavTheme';
 
 const navLinks = [
   { label: 'Productions', path: '/plays' },
@@ -21,45 +22,14 @@ const searchablePages = [
   { label: 'Watch on YouTube', path: '/watch' },
 ];
 
-/** Y coordinate to sample what's behind the fixed navbar */
-const NAV_PROBE_Y = 40;
-
-function getZoneBehindNav() {
-  const el = document.elementFromPoint(Math.min(window.innerWidth / 2, window.innerWidth - 8), NAV_PROBE_Y);
-  const zone = el?.closest('[data-nav-zone]')?.getAttribute('data-nav-zone');
-  return zone === 'light' ? 'light' : 'dark';
-}
-
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [atTop, setAtTop] = useState(true);
-  const [navZone, setNavZone] = useState('dark');
   const searchInputRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const isHome = location.pathname === '/';
-
-  const updateNavAppearance = useCallback(() => {
-    setAtTop(window.scrollY < 24);
-    setNavZone(getZoneBehindNav());
-  }, []);
-
-  useEffect(() => {
-    updateNavAppearance();
-    window.addEventListener('scroll', updateNavAppearance, { passive: true });
-    window.addEventListener('resize', updateNavAppearance);
-    return () => {
-      window.removeEventListener('scroll', updateNavAppearance);
-      window.removeEventListener('resize', updateNavAppearance);
-    };
-  }, [updateNavAppearance, location.pathname]);
-
-  useEffect(() => {
-    const t = setTimeout(updateNavAppearance, 100);
-    return () => clearTimeout(t);
-  }, [location.pathname, updateNavAppearance]);
+  const { headerRef, isHeroOverlay, isLightBar, theme } = useNavTheme();
 
   useEffect(() => {
     setMenuOpen(false);
@@ -98,38 +68,34 @@ export default function Navbar() {
     navigate(path);
   };
 
-  /** Transparent white text only on home hero at very top */
-  const isHeroOverlay = isHome && atTop && navZone === 'dark';
-  const isLightBar = !isHeroOverlay && navZone === 'light';
-
   const headerClass = isHeroOverlay
-    ? 'bg-gradient-to-b from-navy-deep/75 via-navy-deep/40 to-transparent py-5 md:py-6 border-b border-transparent'
+    ? 'nav-theme-hero bg-gradient-to-b from-navy-deep/80 via-navy-deep/50 to-transparent py-5 md:py-6'
     : isLightBar
-      ? 'bg-cream/96 backdrop-blur-md py-3 shadow-soft border-b border-navy/10'
-      : 'bg-navy-deep/96 backdrop-blur-md py-3 shadow-nav border-b border-white/10';
+      ? 'nav-theme-light bg-cream border-b-2 border-navy/15 py-3 shadow-soft'
+      : 'nav-theme-dark bg-navy-deep border-b border-white/15 py-3 shadow-nav';
 
   const linkClass = isLightBar ? 'nav-link-light' : 'nav-link';
-  const iconBtnClass = isLightBar
-    ? 'text-navy/70 hover:text-navy border-navy/15 hover:border-navy/30'
-    : 'text-white/70 hover:text-white border-white/15 hover:border-white/30';
-
-  const donateClass = isLightBar
-    ? 'inline-flex min-h-[44px] items-center bg-navy text-white text-[10px] tracking-[0.2em] uppercase font-semibold px-5 py-2.5 hover:bg-navy-light transition-all duration-300'
-    : 'inline-flex min-h-[44px] items-center bg-white/95 text-navy-deep text-[10px] tracking-[0.2em] uppercase font-semibold px-5 py-2.5 hover:bg-white transition-all duration-300';
-
-  const logoClass = isLightBar ? 'drop-shadow-none' : 'drop-shadow-lg';
+  const iconBtnClass = isLightBar ? 'nav-icon-btn-light' : 'nav-icon-btn-dark';
+  const donateClass = isLightBar ? 'btn-navy !py-2.5 !px-5' : 'nav-donate-on-dark !py-2.5 !px-5';
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ease-smooth ${headerClass}`}
+        ref={headerRef}
+        data-nav-theme={theme}
+        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ease-smooth ${headerClass}`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-2 sm:gap-4">
-          <Link to="/" className="relative z-10 flex-shrink-0 min-w-0 transition-opacity duration-300 hover:opacity-90">
+          <Link
+            to="/"
+            className="relative z-10 flex-shrink-0 min-w-0 transition-opacity duration-300 hover:opacity-90 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+          >
             <img
               src="/images/logo.png"
               alt={site.name}
-              className={`h-11 sm:h-14 md:h-16 w-auto max-w-[min(52vw,200px)] object-contain object-left transition-[filter] duration-400 ${logoClass}`}
+              className={`h-11 sm:h-14 md:h-16 w-auto max-w-[min(52vw,200px)] object-contain object-left ${
+                isLightBar ? '' : 'drop-shadow-md'
+              }`}
             />
           </Link>
 
@@ -140,6 +106,7 @@ export default function Navbar() {
                 <Link
                   key={item.label}
                   to={item.path}
+                  aria-current={active ? 'page' : undefined}
                   className={`${linkClass} ${active ? 'nav-link-active' : ''}`}
                 >
                   {item.label}
@@ -152,15 +119,25 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className={`w-10 h-10 flex items-center justify-center border transition-all duration-300 ${iconBtnClass}`}
-              aria-label="Search"
+              className={`w-10 h-10 flex items-center justify-center border ${iconBtnClass}`}
+              aria-label="Search site"
             >
-              <IconSearch size={16} />
+              <IconSearch size={16} aria-hidden />
             </button>
-            <a href={site.donateUrl} target="_blank" rel="noopener noreferrer" className={donateClass}>
+            <a
+              href={site.donateUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={donateClass}
+            >
               Donate
             </a>
-            <a href={site.ticketsUrl} target="_blank" rel="noopener noreferrer" className="btn-primary !py-2.5 !px-5">
+            <a
+              href={site.ticketsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary !py-2.5 !px-5"
+            >
               Get Tickets
             </a>
           </div>
@@ -169,19 +146,19 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className={`w-10 h-10 flex items-center justify-center border transition-colors ${iconBtnClass}`}
-              aria-label="Search"
+              className={`w-10 h-10 flex items-center justify-center border ${iconBtnClass}`}
+              aria-label="Search site"
             >
-              <IconSearch size={18} />
+              <IconSearch size={18} aria-hidden />
             </button>
             <button
               type="button"
-              className={`w-10 h-10 flex items-center justify-center border transition-colors ${iconBtnClass}`}
+              className={`w-10 h-10 flex items-center justify-center border ${iconBtnClass}`}
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={menuOpen}
             >
-              {menuOpen ? <IconClose size={20} /> : <IconMenu size={20} />}
+              {menuOpen ? <IconClose size={20} aria-hidden /> : <IconMenu size={20} aria-hidden />}
             </button>
           </div>
         </div>
@@ -194,40 +171,49 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[100] bg-navy-deep/80 backdrop-blur-md flex items-start justify-center pt-safe px-4 sm:px-6"
+            className="fixed inset-0 z-[100] bg-navy-deep/85 backdrop-blur-md flex items-start justify-center pt-safe px-4 sm:px-6"
             style={{ paddingTop: 'max(5.5rem, calc(env(safe-area-inset-top) + 4rem))' }}
             onClick={() => setSearchOpen(false)}
+            role="presentation"
           >
             <motion.div
               initial={{ opacity: 0, y: -16, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="w-full max-w-xl bg-cream shadow-card overflow-hidden"
+              className="w-full max-w-xl bg-cream shadow-card overflow-hidden border border-navy/10"
               onClick={(e) => e.stopPropagation()}
+              role="dialog"
+              aria-label="Search"
             >
-              <div className="flex items-center border-b border-navy/10 px-4">
-                <IconSearch size={18} className="text-navy/40 flex-shrink-0" />
+              <div className="flex items-center border-b border-navy/15 px-4">
+                <IconSearch size={18} className="text-navy flex-shrink-0" aria-hidden />
                 <input
                   ref={searchInputRef}
                   type="search"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search pages..."
-                  className="flex-1 py-4 px-3 text-navy text-sm outline-none font-inter bg-transparent"
+                  aria-label="Search pages"
+                  className="flex-1 py-4 px-3 text-navy text-sm outline-none font-inter bg-transparent placeholder:text-navy/45"
                 />
-                <button type="button" onClick={() => setSearchOpen(false)} className="text-navy/40 hover:text-navy p-2">
-                  <IconClose size={18} />
+                <button
+                  type="button"
+                  onClick={() => setSearchOpen(false)}
+                  className="nav-icon-btn-light !w-9 !h-9 !min-h-0 border-0"
+                  aria-label="Close search"
+                >
+                  <IconClose size={18} aria-hidden />
                 </button>
               </div>
               {filteredResults.length > 0 && (
-                <ul className="py-2">
+                <ul className="py-2" role="listbox">
                   {filteredResults.map((r) => (
                     <li key={r.path}>
                       <button
                         type="button"
                         onClick={() => handleResultClick(r.path)}
-                        className="w-full text-left px-5 py-3.5 font-inter text-sm text-navy hover:bg-cream-dark transition-colors"
+                        className="w-full text-left px-5 py-3.5 font-inter text-sm text-navy hover:bg-cream-dark focus-visible:bg-cream-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold"
                       >
                         {r.label}
                       </button>
@@ -236,7 +222,7 @@ export default function Navbar() {
                 </ul>
               )}
               {searchQuery.length > 0 && filteredResults.length === 0 && (
-                <p className="px-5 py-6 font-inter text-sm text-navy/50">No results found.</p>
+                <p className="px-5 py-6 font-inter text-sm text-navy/60">No results found.</p>
               )}
             </motion.div>
           </motion.div>
@@ -252,8 +238,10 @@ export default function Navbar() {
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             className="fixed inset-0 z-[90] lg:hidden bg-navy-deep px-5 sm:px-8 pb-safe flex flex-col overflow-y-auto overscroll-contain"
             style={{ paddingTop: 'max(5.5rem, calc(env(safe-area-inset-top) + 4.5rem))' }}
+            role="dialog"
+            aria-label="Main menu"
           >
-            <nav className="flex flex-col gap-5 sm:gap-6 flex-1">
+            <nav className="flex flex-col gap-5 sm:gap-6 flex-1" aria-label="Mobile">
               {navLinks.map((item, i) => (
                 <motion.div
                   key={item.label}
@@ -263,7 +251,8 @@ export default function Navbar() {
                 >
                   <Link
                     to={item.path}
-                    className="font-display text-white text-2xl sm:text-3xl font-medium tracking-wide py-1"
+                    aria-current={location.pathname === item.path ? 'page' : undefined}
+                    className="font-display text-white text-2xl sm:text-3xl font-medium tracking-wide py-1 block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
                     onClick={() => setMenuOpen(false)}
                   >
                     {item.label}
@@ -271,7 +260,7 @@ export default function Navbar() {
                 </motion.div>
               ))}
             </nav>
-            <div className="flex flex-col gap-3 pt-8 mt-4 border-t border-white/10 sticky bottom-0 bg-navy-deep pb-2">
+            <div className="flex flex-col gap-3 pt-8 mt-4 border-t border-white/15 sticky bottom-0 bg-navy-deep pb-2">
               <a href={site.donateUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary w-full justify-center">
                 Donate
               </a>

@@ -40,6 +40,7 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
     overflow-x: clip;
   }
 
@@ -150,26 +151,35 @@
     @apply text-gold text-xs tracking-[0.2em] uppercase font-semibold border-b border-gold/60 pb-0.5 transition-opacity duration-300 hover:opacity-75;
   }
 
+  /* Navbar — dark bar (white links, WCAG AA on navy) */
   .nav-link {
-    @apply relative text-white/75 hover:text-white text-xs tracking-[0.18em] uppercase font-inter font-medium transition-colors duration-300;
+    @apply relative text-white/90 hover:text-white text-xs tracking-[0.18em] uppercase font-inter font-medium transition-colors duration-300;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy-deep rounded-sm;
   }
 
   .nav-link::after {
     content: '';
-    @apply absolute -bottom-1 left-0 h-px w-0 bg-gold transition-all duration-300 ease-out;
+    @apply absolute -bottom-1 left-0 h-0.5 w-0 bg-gold transition-all duration-300 ease-out;
   }
 
-  .nav-link:hover::after {
+  .nav-link:hover::after,
+  .nav-link.nav-link-active::after {
     @apply w-full;
   }
 
+  .nav-link.nav-link-active {
+    @apply text-white font-semibold;
+  }
+
+  /* Navbar — light bar (navy links on cream, WCAG AA) */
   .nav-link-light {
-    @apply relative text-navy/70 hover:text-navy text-xs tracking-[0.18em] uppercase font-inter font-medium transition-colors duration-300;
+    @apply relative text-navy hover:text-navy-deep text-xs tracking-[0.18em] uppercase font-inter font-semibold transition-colors duration-300;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream rounded-sm;
   }
 
   .nav-link-light::after {
     content: '';
-    @apply absolute -bottom-1 left-0 h-px w-0 bg-gold transition-all duration-300 ease-out;
+    @apply absolute -bottom-1 left-0 h-0.5 w-0 bg-gold transition-all duration-300 ease-out;
   }
 
   .nav-link-light:hover::after,
@@ -178,11 +188,22 @@
   }
 
   .nav-link-light.nav-link-active {
-    @apply text-navy font-semibold;
+    @apply text-navy-deep;
   }
 
-  .nav-link.nav-link-active {
-    @apply text-white font-semibold;
+  .nav-icon-btn-dark {
+    @apply text-white/90 hover:text-white border-white/25 hover:border-white/50 transition-colors duration-300;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy-deep;
+  }
+
+  .nav-icon-btn-light {
+    @apply text-navy hover:text-navy-deep border-navy/25 hover:border-navy/45 transition-colors duration-300;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream;
+  }
+
+  .nav-donate-on-dark {
+    @apply inline-flex min-h-[44px] items-center justify-center bg-white text-navy-deep text-xs tracking-[0.2em] uppercase font-semibold transition-colors duration-300;
+    @apply hover:bg-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy-deep;
   }
 
   .image-shine {
