@@ -46,4 +46,5 @@ export const pageHeroImages = {
   news: images.news.seasonBanner,
   watch: images.backgrounds.spotlight,
   about: images.aboutBanner,
+  contact: images.parkPerformance,
 };

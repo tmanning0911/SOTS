@@ -23,9 +23,9 @@ export default function ProductionStrip() {
     <section className="bg-navy-deep grain-overlay relative overflow-hidden" data-nav-zone="dark">
       <div className="page-gutter pt-10 sm:pt-12 pb-2 relative z-[1]">
         <SectionHeader
-          eyebrow="Coming Up Next"
-          title="Performing Arts"
-          description={`at Shakespeare on the Sound · ${productions.length} production${productions.length > 1 ? 's' : ''} this season`}
+          eyebrow="2026 Season"
+          title="On Stage This Summer"
+          description={`${productions.length} production${productions.length > 1 ? 's' : ''} at Pinkney Park, Rowayton`}
           align="center"
           light
           className="!mb-6 sm:!mb-8 !max-w-2xl"

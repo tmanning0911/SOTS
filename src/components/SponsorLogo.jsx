@@ -19,7 +19,7 @@ export default function SponsorLogo({ sponsor, className = '' }) {
   const img = (
     <img
       src={sponsor.logo}
-      alt=""
+      alt={sponsor.name}
       loading="lazy"
       decoding="async"
       onError={() => setFailed(true)}

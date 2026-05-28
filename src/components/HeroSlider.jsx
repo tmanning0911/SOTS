@@ -117,7 +117,7 @@ export default function HeroSlider() {
 
       {/* Main copy — sits above bottom chrome */}
       <div className="absolute inset-x-0 top-[4.5rem] sm:top-[5.5rem] bottom-[7.5rem] sm:bottom-[5.5rem] flex items-end px-4 sm:px-6 md:px-16 pointer-events-none">
-        <div className="max-w-7xl mx-auto w-full pointer-events-auto">
+        <div className="max-w-6xl mx-auto w-full pointer-events-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={`content-${current}`}

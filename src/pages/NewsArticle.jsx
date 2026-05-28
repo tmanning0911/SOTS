@@ -24,6 +24,8 @@ export default function NewsArticle() {
             title: `${article.title} | Shakespeare on the Sound`,
             description: article.excerpt || article.content?.slice(0, 160),
             path: `/news/${article.id}`,
+            datePublished: article.date,
+            image: article.image,
           }
         : null,
     [article],
@@ -71,7 +73,7 @@ export default function NewsArticle() {
 
       {!loading && article && (
         <>
-          {article.image && (
+          {article.image ? (
             <div
               data-nav-zone="dark"
               className="relative h-[40vh] min-h-[260px] sm:h-[50vh] max-h-[480px] overflow-hidden bg-navy-deep grain-overlay"
@@ -85,26 +87,51 @@ export default function NewsArticle() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/50 to-transparent" />
             </div>
+          ) : (
+            <div data-nav-zone="dark" className="bg-navy-deep page-gutter pt-28 sm:pt-32 pb-8 grain-overlay">
+              <div className="max-w-3xl mx-auto">
+                <Link
+                  to="/news"
+                  className="font-inter text-gold text-xs tracking-[0.2em] uppercase font-semibold hover:opacity-75 transition-opacity inline-block mb-4"
+                >
+                  ← All News
+                </Link>
+                <span className="text-gold text-[10px] tracking-[0.2em] uppercase font-semibold block mb-2">
+                  {article.category} · {article.date}
+                </span>
+                <h1 className="font-display text-white text-3xl sm:text-4xl font-semibold uppercase leading-tight text-balance">
+                  {article.title}
+                </h1>
+              </div>
+            </div>
           )}
 
-          <article className="max-w-3xl mx-auto page-gutter py-10 sm:py-14 -mt-8 sm:-mt-12 relative z-[1]">
+          <article
+            className={`max-w-3xl mx-auto page-gutter py-10 sm:py-14 relative z-[1] ${
+              article.image ? '-mt-8 sm:-mt-12' : ''
+            }`}
+          >
             <div className="bg-cream/95 backdrop-blur-sm border border-navy/5 shadow-soft p-6 sm:p-10 md:p-12">
-              <Link
-                to="/news"
-                className="font-inter text-gold text-xs tracking-[0.2em] uppercase font-semibold hover:opacity-75 transition-opacity inline-block mb-6"
-              >
-                ← All News
-              </Link>
-              <div className="flex flex-wrap items-center gap-3 mb-4">
-                <span className="text-gold text-[10px] tracking-[0.2em] uppercase font-semibold">
-                  {article.category}
-                </span>
-                <span className="text-navy/40">·</span>
-                <span className="text-navy/50 text-xs font-inter">{article.date}</span>
-              </div>
-              <h1 className="font-display text-navy text-3xl sm:text-4xl md:text-[2.75rem] font-semibold uppercase leading-tight text-balance mb-8">
-                {article.title}
-              </h1>
+              {article.image && (
+                <>
+                  <Link
+                    to="/news"
+                    className="font-inter text-gold text-xs tracking-[0.2em] uppercase font-semibold hover:opacity-75 transition-opacity inline-block mb-6"
+                  >
+                    ← All News
+                  </Link>
+                  <div className="flex flex-wrap items-center gap-3 mb-4">
+                    <span className="text-gold text-[10px] tracking-[0.2em] uppercase font-semibold">
+                      {article.category}
+                    </span>
+                    <span className="text-navy/40">·</span>
+                    <span className="text-navy/50 text-xs font-inter">{article.date}</span>
+                  </div>
+                  <h1 className="font-display text-navy text-3xl sm:text-4xl md:text-[2.75rem] font-semibold uppercase leading-tight text-balance mb-8">
+                    {article.title}
+                  </h1>
+                </>
+              )}
               <div className="prose-article space-y-4">
                 {paragraphsFromContent(article.content || article.excerpt).map((para) => (
                   <p key={para.slice(0, 40)}>{para}</p>

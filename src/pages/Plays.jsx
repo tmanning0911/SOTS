@@ -89,8 +89,8 @@ export default function Plays() {
                           {prod.location}
                         </p>
                         <div className="font-inter text-navy/80 text-sm md:text-base leading-relaxed mb-6 space-y-3">
-                          {prod.description.split('\n\n').map((para) => (
-                            <p key={para.slice(0, 40)}>{para}</p>
+                          {prod.description.split('\n\n').map((para, pi) => (
+                            <p key={`${prod.id}-p-${pi}`}>{para}</p>
                           ))}
                         </div>
                         {prod.ticketDetails?.length > 0 && (

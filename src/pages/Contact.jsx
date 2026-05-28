@@ -2,7 +2,7 @@ import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import FormCTA from '../components/forms/FormCTA';
 import { site } from '@/content/site';
-import { images } from '@/content/images';
+import { pageHeroImages } from '@/content/images';
 import { TheatreBackdrop } from '../components/decor';
 
 export default function Contact() {
@@ -12,7 +12,7 @@ export default function Contact() {
         eyebrow="Contact"
         title="Get in Touch"
         description="Tickets, education, volunteering, sponsorship, and general questions — we reply from our team inbox. We do not publish email addresses on this site."
-        image={images.parkPerformance}
+        image={pageHeroImages.contact}
       />
 
       <TheatreBackdrop variant="parchment" className="section-pad !pt-12 sm:!pt-16">
@@ -46,8 +46,8 @@ export default function Contact() {
                 </li>
               </ul>
               <p className="font-inter text-navy/55 text-xs leading-relaxed mt-8 border-t border-navy/10 pt-6">
-                Choose a form to the right. For season updates, subscribe via the mailing list card or the strip
-                above the footer.
+                Pick a form on the right, or subscribe via the mailing list card below. The subscribe strip also
+                appears above the footer on every page.
               </p>
             </aside>
 

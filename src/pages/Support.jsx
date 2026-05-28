@@ -151,7 +151,7 @@ export default function Support() {
             {[
               { stat: '16+', label: 'Summer Performances' },
               { stat: '115K', label: 'Raised Each Year' },
-              { stat: '6+', label: 'Sponsor Partners' },
+              { stat: '6', label: 'Sponsor Partners' },
               { stat: '8+', label: 'Education Programs' },
             ].map((item) => (
               <div key={item.label} className="border border-white/10 py-6 px-4">

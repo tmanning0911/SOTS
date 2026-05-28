@@ -1,4 +1,4 @@
-import { IconStage, IconArrowRight } from '@/components/icons';
+import { IconStage } from '@/components/icons';
 import { site } from '@/content/site';
 import Reveal from './Reveal';
 import SectionHeader from './SectionHeader';
@@ -37,27 +37,19 @@ export default function WatchOnline() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 mb-10 sm:mb-12">
           {highlights.map((item, i) => (
             <Reveal key={item.title} delay={i * 0.06} className="h-full">
-              <a
-                href={site.youtubeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col h-full bg-white border border-navy/8 p-6 sm:p-7 shadow-soft card-lift hover:border-gold/35"
-              >
+              <div className="flex flex-col h-full bg-white border border-navy/8 p-6 sm:p-7 shadow-soft">
                 <div
-                  className="w-10 h-10 bg-navy flex items-center justify-center mb-5 group-hover:bg-gold transition-colors duration-300"
+                  className="w-10 h-10 bg-navy flex items-center justify-center mb-5"
                   aria-hidden
                 >
                   <IconStage size={18} className="text-white" />
                 </div>
                 <span className="section-eyebrow !text-[9px] !tracking-[0.25em] mb-2">{item.category}</span>
-                <p className="font-display text-navy text-lg font-semibold uppercase leading-tight mb-2 group-hover:text-gold transition-colors duration-300">
+                <p className="font-display text-navy text-lg font-semibold uppercase leading-tight mb-2">
                   {item.title}
                 </p>
                 <p className="font-inter text-navy/70 text-sm leading-relaxed flex-1">{item.description}</p>
-                <span className="link-gold inline-flex items-center gap-2 mt-5">
-                  Watch on YouTube <IconArrowRight size={14} />
-                </span>
-              </a>
+              </div>
             </Reveal>
           ))}
         </div>

@@ -122,9 +122,10 @@ export function buildOrganizationJsonLd() {
     telephone: site.phone,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: site.mailingAddress,
+      postOfficeBoxNumber: '15',
       addressLocality: 'Norwalk',
       addressRegion: 'CT',
+      postalCode: '06853',
       addressCountry: 'US',
     },
     sameAs: [
@@ -133,6 +134,26 @@ export function buildOrganizationJsonLd() {
       'https://twitter.com/shakesonsound',
       'https://www.youtube.com/user/ShakespeareOnSound',
     ],
+  };
+}
+
+export function buildArticleJsonLd({ title, description, path, datePublished, image }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: title,
+    description,
+    url: absoluteUrl(path),
+    datePublished: datePublished || undefined,
+    image: image ? absoluteUrl(image) : defaultOgImage,
+    publisher: {
+      '@type': 'Organization',
+      name: seoDefaults.siteName,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/images/logo.png`,
+      },
+    },
   };
 }
 

@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useSeoOverrideValue } from '@/lib/SeoOverrideContext';
 import {
   absoluteUrl,
+  buildArticleJsonLd,
   buildEventJsonLd,
   buildOrganizationJsonLd,
   defaultOgImage,
@@ -83,7 +84,7 @@ export default function PageSEO() {
     upsertMeta('property', 'og:site_name', seoDefaults.siteName, true);
     upsertMeta('property', 'og:title', title, true);
     upsertMeta('property', 'og:description', description, true);
-    upsertMeta('property', 'og:type', 'website', true);
+    upsertMeta('property', 'og:type', seoOverride?.path?.startsWith('/news/') ? 'article' : 'website', true);
     upsertMeta('property', 'og:url', canonical, true);
     upsertMeta('property', 'og:image', ogImage, true);
     upsertMeta('property', 'og:locale', seoDefaults.locale, true);
@@ -101,6 +102,21 @@ export default function PageSEO() {
       } else {
         const eventEl = document.getElementById('jsonld-event');
         if (eventEl) eventEl.remove();
+      }
+      if (seoOverride?.path?.startsWith('/news/') && seoOverride.title) {
+        upsertJsonLd(
+          'jsonld-article',
+          buildArticleJsonLd({
+            title: seoOverride.title.replace(/ \| Shakespeare on the Sound$/, ''),
+            description,
+            path: seoOverride.path,
+            datePublished: seoOverride.datePublished,
+            image: seoOverride.image,
+          }),
+        );
+      } else {
+        const articleEl = document.getElementById('jsonld-article');
+        if (articleEl) articleEl.remove();
       }
     }
   }, [pathname, seoOverride]);

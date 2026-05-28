@@ -13,7 +13,7 @@ export default function LearningProgramCard({ program, index = 0 }) {
         <div className="relative aspect-[16/10] overflow-hidden image-shine">
           <OptimizedImage
             src={imageSrc}
-            alt=""
+            alt={program.title}
             className="w-full h-full object-cover transition-transform duration-700 ease-smooth group-hover:scale-105 brightness-[0.88] group-hover:brightness-95"
             wrapperClassName="absolute inset-0 w-full h-full"
           />

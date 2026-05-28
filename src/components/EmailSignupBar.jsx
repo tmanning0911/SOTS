@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useFormModal } from '@/lib/FormModalContext';
+import { site } from '@/content/site';
 import { contactPaths } from '@/lib/contactPaths';
 
 /**
@@ -40,8 +41,8 @@ export default function EmailSignupBar() {
                 Contact form
               </Link>
               {' · '}
-              <a href="tel:2039571006" className="text-gold hover:text-white transition-colors">
-                (203) 957-1006
+              <a href={`tel:${site.phone.replace(/\D/g, '')}`} className="text-gold hover:text-white transition-colors">
+                {site.phone}
               </a>
               <span className="text-white/35"> during the season</span>
             </p>

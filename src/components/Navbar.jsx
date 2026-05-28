@@ -10,6 +10,7 @@ const navLinks = [
   { label: 'Productions', path: '/plays' },
   { label: 'Learning', path: '/learning' },
   { label: 'News', path: '/news' },
+  { label: 'Watch', path: '/watch' },
   { label: 'Support', path: '/support' },
   { label: 'About', path: '/about' },
   { label: 'Contact', path: '/contact' },
@@ -88,7 +89,7 @@ export default function Navbar() {
         data-nav-theme={theme}
         className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ease-smooth ${headerClass}`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-2 sm:gap-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-2 sm:gap-4">
           <Link
             to="/"
             className="relative z-10 flex-shrink-0 min-w-0 transition-opacity duration-300 hover:opacity-90 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
@@ -186,6 +187,7 @@ export default function Navbar() {
               className="w-full max-w-xl bg-cream shadow-card overflow-hidden border border-navy/10"
               onClick={(e) => e.stopPropagation()}
               role="dialog"
+              aria-modal="true"
               aria-label="Search"
             >
               <div className="flex items-center border-b border-navy/15 px-4">
@@ -241,6 +243,7 @@ export default function Navbar() {
             className="fixed inset-0 z-[90] lg:hidden bg-navy-deep px-5 sm:px-8 pb-safe flex flex-col overflow-y-auto overscroll-contain"
             style={{ paddingTop: 'max(5.5rem, calc(env(safe-area-inset-top) + 4.5rem))' }}
             role="dialog"
+            aria-modal="true"
             aria-label="Main menu"
           >
             <nav className="flex flex-col gap-5 sm:gap-6 flex-1" aria-label="Mobile">

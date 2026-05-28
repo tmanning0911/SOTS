@@ -161,7 +161,7 @@ export default function ContactForm({
       >
         <input type="hidden" name="form-name" value={variant} />
 
-        <p className="sr-only" aria-hidden="false">
+        <p className="sr-only" aria-hidden="true">
           <label>
             Do not fill this out
             <input name="bot-field" tabIndex={-1} autoComplete="off" value={form['bot-field']} onChange={update('bot-field')} />

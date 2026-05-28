@@ -55,7 +55,7 @@ export default function Learning() {
         </div>
       </TheatreBackdrop>
 
-      <section data-nav-zone="dark" className="relative py-16 sm:py-24 page-gutter bg-navy-deep grain-overlay">
+      <section id="education-form" data-nav-zone="dark" className="relative py-16 sm:py-24 page-gutter bg-navy-deep grain-overlay">
         <div className="max-w-6xl mx-auto text-center relative z-[1]">
           <span className="section-eyebrow text-gold-light mb-4">Schools & Community</span>
           <h2 className="font-display text-white text-2xl sm:text-3xl md:text-4xl font-semibold uppercase mb-4 text-balance">

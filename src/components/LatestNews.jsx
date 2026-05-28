@@ -13,7 +13,10 @@ export default function LatestNews() {
   useEffect(() => {
     cms.articles
       .list('-date')
-      .then((data) => setArticles(data.filter((a) => a.published !== false).slice(0, 6)))
+      .then((data) => {
+        const published = data.filter((a) => a.published !== false).slice(0, 6);
+        setArticles(published.length > 0 ? published : seedArticles.slice(0, 6));
+      })
       .catch(() => {});
   }, []);
 

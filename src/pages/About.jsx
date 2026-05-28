@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import ContactCta from '../components/ContactCta';
 import ContactChannelLink from '../components/ContactChannelLink';
 import Reveal from '../components/Reveal';
-import { Link } from 'react-router-dom';
 import { TheatreBackdrop } from '../components/decor';
 import OptimizedImage from '../components/OptimizedImage';
 import { site, visitInfo } from '@/content/site';
@@ -14,17 +14,21 @@ export default function About() {
   const [faqs, setFaqs] = useState([]);
   const [team, setTeam] = useState([]);
   const [milestones, setMilestones] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     Promise.all([
       fetch('/data/faqs.json').then((r) => r.json()),
       fetch('/data/team.json').then((r) => r.json()),
       fetch('/data/milestones.json').then((r) => r.json()),
-    ]).then(([f, t, m]) => {
-      setFaqs(f);
-      setTeam(t);
-      setMilestones(m);
-    });
+    ])
+      .then(([f, t, m]) => {
+        setFaqs(f);
+        setTeam(t);
+        setMilestones(m);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   return (
@@ -118,7 +122,7 @@ export default function About() {
         </div>
       </TheatreBackdrop>
 
-      {faqs.length > 0 && (
+      {!loading && faqs.length > 0 && (
         <TheatreBackdrop variant="cream" id="faq" className="page-gutter py-12 sm:py-16 scroll-mt-28">
           <div className="max-w-6xl mx-auto">
             <Reveal>
@@ -142,6 +146,7 @@ export default function About() {
         </TheatreBackdrop>
       )}
 
+      {!loading && milestones.length > 0 && (
       <section className="py-14 sm:py-20 page-gutter bg-navy-deep grain-overlay" data-nav-zone="dark">
         <div className="max-w-6xl mx-auto relative z-[1]">
           <Reveal className="text-center mb-8 sm:mb-12">
@@ -163,7 +168,9 @@ export default function About() {
           </div>
         </div>
       </section>
+      )}
 
+      {!loading && team.length > 0 && (
       <TheatreBackdrop variant="parchment" className="page-gutter py-12 sm:py-16 md:py-20">
         <div className="max-w-6xl mx-auto">
           <Reveal>
@@ -203,6 +210,7 @@ export default function About() {
           </div>
         </div>
       </TheatreBackdrop>
+      )}
 
       <ContactCta />
     </PageLayout>
