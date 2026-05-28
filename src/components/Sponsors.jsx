@@ -10,8 +10,8 @@ export default function Sponsors() {
   return (
     <TheatreBackdrop
       as="section"
-      variant="cream-dark"
-      className="section-pad border-t border-navy/5"
+      variant="white"
+      className="section-pad border-t border-b border-navy/8 bg-white"
       data-nav-zone="light"
     >
       <div className="max-w-6xl mx-auto">
