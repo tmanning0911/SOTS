@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Reveal from './Reveal';
 import OptimizedImage from './OptimizedImage';
 import SectionHeader from './SectionHeader';
+import ProductionStatusBadge from './ProductionStatusBadge';
 import { cms } from '@/lib/cms';
 import { seedPlays } from '@/lib/contentSeed';
 
@@ -31,7 +32,7 @@ export default function ProductionStrip() {
         />
       </div>
       <div
-        className={`grid grid-cols-1 ${
+        className={`grid grid-cols-1 pb-10 sm:pb-12 ${
           productions.length >= 2 ? 'md:grid-cols-2' : 'max-w-2xl mx-auto'
         }`}
       >
@@ -52,16 +53,7 @@ export default function ProductionStrip() {
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/50 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-                {prod.status === 'Now On' && (
-                  <span className="inline-block bg-gold text-navy-deep text-[10px] tracking-[0.2em] uppercase font-bold px-3 py-1 mb-3">
-                    Now On
-                  </span>
-                )}
-                {prod.status === 'Coming Soon' && (
-                  <span className="inline-block border border-white/30 text-white text-[10px] tracking-[0.2em] uppercase font-semibold px-3 py-1 mb-3">
-                    Coming Soon
-                  </span>
-                )}
+                <ProductionStatusBadge status={prod.status} dark className="!mb-3" />
                 <p className="font-display text-white text-xl sm:text-2xl md:text-3xl font-semibold uppercase tracking-wide leading-tight">
                   {prod.title}
                 </p>

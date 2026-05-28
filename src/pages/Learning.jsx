@@ -32,7 +32,7 @@ export default function Learning() {
         image={pageHeroImages.learning}
       />
 
-      <TheatreBackdrop variant="cream" className="page-gutter py-12 sm:py-16 md:py-20">
+      <TheatreBackdrop variant="cream" className="section-pad !pt-12 sm:!pt-16">
         <div className="max-w-6xl mx-auto">
           <SectionHeader
             eyebrow="Programs"
@@ -41,15 +41,21 @@ export default function Learning() {
             align="center"
             className="!mb-10 sm:!mb-12"
           />
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {programs.map((prog, i) => (
-              <LearningProgramCard key={prog.id} program={prog} index={i} />
-            ))}
-          </div>
+          {programs.length === 0 ? (
+            <p className="text-center font-inter text-navy/60 py-16">
+              Program details coming soon. Contact us to book a school or library visit.
+            </p>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {programs.map((prog, i) => (
+                <LearningProgramCard key={prog.id} program={prog} index={i} />
+              ))}
+            </div>
+          )}
         </div>
       </TheatreBackdrop>
 
-      <section data-nav-zone="dark" className="relative py-16 sm:py-24 page-gutter bg-navy-deep">
+      <section data-nav-zone="dark" className="relative py-16 sm:py-24 page-gutter bg-navy-deep grain-overlay">
         <div className="max-w-6xl mx-auto text-center relative z-[1]">
           <span className="section-eyebrow text-gold-light mb-4">Schools & Community</span>
           <h2 className="font-display text-white text-2xl sm:text-3xl md:text-4xl font-semibold uppercase mb-4 text-balance">

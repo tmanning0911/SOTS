@@ -46,6 +46,7 @@ const ways = [
     cta: 'Make a Donation',
     highlight: true,
     href: site.donateUrl,
+    external: true,
   },
   {
     icon: IconLaurel,
@@ -54,6 +55,7 @@ const ways = [
     cta: 'Join the Committee',
     highlight: false,
     href: contactPaths.gala,
+    external: false,
   },
   {
     icon: IconStage,
@@ -63,8 +65,58 @@ const ways = [
     cta: 'Become a Sponsor',
     highlight: false,
     href: contactPaths.sponsorship,
+    external: false,
   },
 ];
+
+function SupportCard({ way, index }) {
+  const className = `group flex flex-col h-full p-7 sm:p-10 card-lift ${
+    way.highlight
+      ? 'bg-gold text-navy-deep shadow-glow border border-gold-light/30'
+      : 'bg-white shadow-soft border border-navy/5'
+  }`;
+
+  const inner = (
+    <>
+      <way.icon className={`mb-5 ${way.highlight ? 'text-navy-deep' : 'text-gold'}`} size={28} />
+      <h3
+        className={`font-display text-2xl font-semibold uppercase mb-3 ${
+          way.highlight ? 'text-navy-deep' : 'text-navy'
+        }`}
+      >
+        {way.title}
+      </h3>
+      <p
+        className={`font-inter text-sm leading-relaxed mb-6 flex-1 ${
+          way.highlight ? 'text-navy-deep/85' : 'text-navy/85'
+        }`}
+      >
+        {way.description}
+      </p>
+      <span
+        className={`text-xs tracking-[0.2em] uppercase font-semibold inline-flex items-center gap-2 transition-transform duration-300 group-hover:gap-3 ${
+          way.highlight ? 'text-navy-deep' : 'text-gold'
+        }`}
+      >
+        {way.cta} →
+      </span>
+    </>
+  );
+
+  return (
+    <Reveal delay={index * 0.08} className="h-full">
+      {way.external ? (
+        <a href={way.href} target="_blank" rel="noopener noreferrer" className={className}>
+          {inner}
+        </a>
+      ) : (
+        <Link to={way.href} className={className}>
+          {inner}
+        </Link>
+      )}
+    </Reveal>
+  );
+}
 
 export default function Support() {
   return (
@@ -76,7 +128,7 @@ export default function Support() {
         image={pageHeroImages.support}
       />
 
-      <TheatreBackdrop variant="white" className="page-gutter py-12 sm:py-16 md:py-20">
+      <TheatreBackdrop variant="white" className="section-pad !pt-12 sm:!pt-16">
         <div className="max-w-6xl mx-auto">
           <Reveal className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
             <span className="section-eyebrow mb-3">Ways to Give</span>
@@ -84,52 +136,7 @@ export default function Support() {
           </Reveal>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
             {ways.map((way, i) => (
-              <Reveal key={way.title} delay={i * 0.08} className="h-full">
-                <div
-                  className={`p-7 sm:p-10 h-full flex flex-col card-lift ${
-                    way.highlight
-                      ? 'bg-gold text-navy-deep shadow-glow border border-gold-light/30'
-                      : 'bg-white shadow-soft border border-navy/5'
-                  }`}
-                >
-                  <way.icon className={`mb-5 ${way.highlight ? 'text-navy-deep' : 'text-gold'}`} size={28} />
-                  <h3
-                    className={`font-display text-2xl font-semibold uppercase mb-3 ${
-                      way.highlight ? 'text-navy-deep' : 'text-navy'
-                    }`}
-                  >
-                    {way.title}
-                  </h3>
-                  <p
-                    className={`font-inter text-sm leading-relaxed mb-6 flex-1 ${
-                      way.highlight ? 'text-navy-deep/85' : 'text-navy/85'
-                    }`}
-                  >
-                    {way.description}
-                  </p>
-                  {way.href.startsWith('http') ? (
-                    <a
-                      href={way.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`text-xs tracking-[0.2em] uppercase font-semibold border-b pb-0.5 hover:opacity-70 transition-opacity w-fit ${
-                        way.highlight ? 'text-navy-deep border-navy-deep' : 'text-gold border-gold'
-                      }`}
-                    >
-                      {way.cta} →
-                    </a>
-                  ) : (
-                    <Link
-                      to={way.href}
-                      className={`text-xs tracking-[0.2em] uppercase font-semibold border-b pb-0.5 hover:opacity-70 transition-opacity w-fit ${
-                        way.highlight ? 'text-navy-deep border-navy-deep' : 'text-gold border-gold'
-                      }`}
-                    >
-                      {way.cta} →
-                    </Link>
-                  )}
-                </div>
-              </Reveal>
+              <SupportCard key={way.title} way={way} index={i} />
             ))}
           </div>
         </div>

@@ -6,7 +6,7 @@
     "description": "Join Shakespeare on the Sound as we celebrate 30 seasons of storytelling under the stars with Much Ado About Nothing. Shakespeare's sparkling comedy transports audiences to 19th-century Sicily, where romance blooms, tempers flare, and a battle of wits becomes a battle of hearts.\n\nVIP reserved seating pre-sale: April 7–14. General admission tickets on sale beginning April 15. Park opens at 5pm for blankets and chairs. No shows Mondays.",
     "dates": "June 10–28, 2026 · 7:30pm (Wed–Sun evenings; no Mondays)",
     "location": "Pinkney Park, 177 Rowayton Ave, Norwalk, CT",
-    "status": "Coming Soon",
+    "status": "On Sale",
     "featured": true,
     "sort_order": 1,
     "ticketUrl": "https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
@@ -38,11 +38,11 @@
     "description": "A 30-minute version of Much Ado About Nothing for ages 1–100! A kid-friendly adaptation by our Apprentice Company that also serves as a refresher for those who need a plot reminder.\n\n6:30pm in the park, every night before the MainStage show. Kids' Shows are FREE — show up, find a spot, and enjoy! To book at your library or school, visit our Learning page.",
     "dates": "Summer 2026 · 6:30pm before evening performances",
     "location": "Pinkney Park, Rowayton, CT",
-    "status": "Coming Soon",
+    "status": "Free",
     "featured": false,
     "sort_order": 2,
     "ticketUrl": "/learning",
-    "tag": "Education Programs",
+    "tag": "Free in the Park",
     "image": "/images/news/shakespeare-for-kids.jpg"
   }
 ]

@@ -15,11 +15,7 @@ export default function Contact() {
         image={images.parkPerformance}
       />
 
-      <TheatreBackdrop
-        variant="parchment"
-        className="page-gutter py-12 sm:py-16 md:py-20"
-        data-nav-zone="light"
-      >
+      <TheatreBackdrop variant="parchment" className="section-pad !pt-12 sm:!pt-16">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-3 gap-10 lg:gap-14">
             <aside className="lg:col-span-1">
@@ -50,18 +46,16 @@ export default function Contact() {
                 </li>
               </ul>
               <p className="font-inter text-navy/55 text-xs leading-relaxed mt-8 border-t border-navy/10 pt-6">
-                Choose a form to the right. For season updates, use the mailing list strip above the footer.
+                Choose a form to the right. For season updates, subscribe via the mailing list card or the strip
+                above the footer.
               </p>
             </aside>
 
             <div className="lg:col-span-2 grid sm:grid-cols-2 gap-5 sm:gap-6">
               <FormCTA variant="contact" buttonLabel="General Inquiry" />
               <FormCTA variant="education" buttonLabel="Education Programs" />
-              <FormCTA
-                variant="sponsorship"
-                buttonLabel="Gala & Sponsorship"
-                className="sm:col-span-2 sm:max-w-md"
-              />
+              <FormCTA variant="sponsorship" buttonLabel="Gala & Sponsorship" />
+              <FormCTA variant="newsletter" buttonLabel="Subscribe" />
             </div>
           </div>
         </div>

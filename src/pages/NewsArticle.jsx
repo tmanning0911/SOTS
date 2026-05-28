@@ -8,6 +8,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { paragraphsFromContent } from '@/lib/formatArticleContent';
 import { contactPaths } from '@/lib/contactPaths';
 import { site } from '@/content/site';
+import { TheatreBackdrop } from '../components/decor';
 
 export default function NewsArticle() {
   const { id } = useParams();
@@ -77,7 +78,7 @@ export default function NewsArticle() {
             >
               <OptimizedImage
                 src={article.image}
-                alt=""
+                alt={article.title}
                 priority
                 className="w-full h-full object-cover brightness-[0.45]"
                 wrapperClassName="absolute inset-0 w-full h-full"
@@ -137,33 +138,35 @@ export default function NewsArticle() {
           </article>
 
           {related.length > 0 && (
-            <section className="max-w-6xl mx-auto page-gutter pb-14 sm:pb-20">
-              <h2 className="font-display text-navy text-xl font-semibold uppercase mb-6">More News</h2>
-              <div className="grid sm:grid-cols-3 gap-5">
-                {related.map((item) => (
-                  <Link
-                    key={item.id}
-                    to={`/news/${item.id}`}
-                    className="news-card group p-0 overflow-hidden"
-                  >
-                    <div className="aspect-video overflow-hidden">
-                      <OptimizedImage
-                        src={item.image}
-                        alt=""
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90"
-                        wrapperClassName="w-full h-full"
-                      />
-                    </div>
-                    <div className="p-4">
-                      <p className="font-display text-navy text-sm font-semibold uppercase leading-snug group-hover:text-gold transition-colors">
-                        {item.title}
-                      </p>
-                      <p className="font-inter text-navy/50 text-[10px] mt-2">{item.date}</p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </section>
+            <TheatreBackdrop variant="cream" className="page-gutter pb-14 sm:pb-20 pt-4">
+              <section className="max-w-6xl mx-auto">
+                <h2 className="font-display text-navy text-xl font-semibold uppercase mb-6">More News</h2>
+                <div className="grid sm:grid-cols-3 gap-5">
+                  {related.map((item) => (
+                    <Link
+                      key={item.id}
+                      to={`/news/${item.id}`}
+                      className="news-card group p-0 overflow-hidden h-full"
+                    >
+                      <div className="aspect-video overflow-hidden">
+                        <OptimizedImage
+                          src={item.image}
+                          alt={item.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90"
+                          wrapperClassName="w-full h-full"
+                        />
+                      </div>
+                      <div className="p-4">
+                        <p className="font-display text-navy text-sm font-semibold uppercase leading-snug group-hover:text-gold transition-colors">
+                          {item.title}
+                        </p>
+                        <p className="font-inter text-navy/50 text-[10px] mt-2">{item.date}</p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            </TheatreBackdrop>
           )}
 
         </>

@@ -11,7 +11,7 @@ const SLIDE_DURATION = 10000;
 const slides = [
   {
     title: 'Much Ado About Nothing',
-    subtitle: '30th Summer Season · 2026',
+    subtitle: 'Tickets On Sale · June 10–28, 2026',
     description:
       "Shakespeare's most sparkling comedy — under the stars at Pinkney Park, Rowayton, CT.",
     tag: 'Get Tickets',

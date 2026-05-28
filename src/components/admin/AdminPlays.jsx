@@ -48,6 +48,8 @@ export default function AdminPlays() {
 
   const statusColors = {
     'Now On': 'bg-gold/15 text-gold-muted border border-gold/25',
+    'On Sale': 'bg-gold/15 text-gold-muted border border-gold/25',
+    Free: 'bg-navy/5 text-navy border border-navy/15',
     'Coming Soon': 'bg-navy/5 text-navy border border-navy/15',
     Archived: 'bg-cream-dark text-navy/50 border border-navy/10',
   };
@@ -87,7 +89,7 @@ export default function AdminPlays() {
             <div>
               <label className="block text-xs font-medium text-navy/55 uppercase tracking-wider mb-1">Status</label>
               <select className="w-full border border-navy/10 px-3 py-2 text-sm text-navy focus:outline-none focus:border-navy" value={form.status} onChange={e => setForm(f => ({...f, status: e.target.value}))}>
-                <option>Now On</option><option>Coming Soon</option><option>Archived</option>
+                <option>Now On</option><option>On Sale</option><option>Free</option><option>Coming Soon</option><option>Archived</option>
               </select>
             </div>
             <div>

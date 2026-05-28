@@ -45,7 +45,7 @@ export default function LatestNews() {
                 <div className="aspect-[4/3] overflow-hidden mb-4 image-shine bg-navy-light">
                   <OptimizedImage
                     src={item.image}
-                    alt=""
+                    alt={item.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 brightness-[0.75] group-hover:brightness-90"
                     wrapperClassName="w-full h-full"
                   />
