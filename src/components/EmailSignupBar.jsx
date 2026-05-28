@@ -1,9 +1,9 @@
-import NewsletterForm from './forms/NewsletterForm';
 import { Link } from 'react-router-dom';
+import FormDialog from './forms/FormDialog';
 import { contactPaths } from '@/lib/contactPaths';
 
 /**
- * Site-wide mailing list strip — shown above the footer on every page.
+ * Site-wide mailing list strip — opens subscribe form in a modal.
  */
 export default function EmailSignupBar() {
   return (
@@ -15,8 +15,8 @@ export default function EmailSignupBar() {
     >
       <div className="absolute inset-0 bg-gradient-to-r from-gold/5 via-transparent to-gold/5 pointer-events-none" aria-hidden />
       <div className="max-w-6xl mx-auto page-gutter py-10 sm:py-12 relative z-[1]">
-        <div className="grid lg:grid-cols-[1fr_minmax(280px,400px)] gap-8 lg:gap-12 items-center">
-          <div>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 sm:gap-10">
+          <div className="max-w-xl">
             <p className="section-eyebrow text-gold-light mb-3">Mailing List</p>
             <h2
               id="email-signup-heading"
@@ -24,14 +24,19 @@ export default function EmailSignupBar() {
             >
               Never Miss a Season
             </h2>
-            <p className="font-inter text-white/60 text-sm leading-relaxed max-w-md mb-4">
-              Get announcements for tickets, education programs, and special events. We only email when
-              there is news worth sharing.
+            <p className="font-inter text-white/60 text-sm leading-relaxed">
+              Announcements for tickets, education programs, and special events — we only email when there is news
+              worth sharing.
             </p>
-            <p className="font-inter text-white/45 text-xs">
-              Prefer to write us?{' '}
+          </div>
+          <div className="flex flex-col sm:items-end gap-3 shrink-0">
+            <FormDialog
+              variant="newsletter"
+              trigger={<button type="button" className="btn-primary min-w-[200px]">Subscribe</button>}
+            />
+            <p className="font-inter text-white/45 text-xs text-center sm:text-right">
               <Link to={contactPaths.general} className="text-gold hover:text-white transition-colors">
-                Use our contact form
+                Contact form
               </Link>
               {' · '}
               <a href="tel:2039571006" className="text-gold hover:text-white transition-colors">
@@ -40,7 +45,6 @@ export default function EmailSignupBar() {
               <span className="text-white/35"> during the season</span>
             </p>
           </div>
-          <NewsletterForm />
         </div>
       </div>
     </section>

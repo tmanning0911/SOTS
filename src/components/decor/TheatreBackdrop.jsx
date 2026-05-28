@@ -1,5 +1,4 @@
 import { images } from '@/content/images';
-import { CornerOrnament, WatermarkCluster } from './ShakespeareOrnaments';
 
 const WASH_IMAGES = {
   stage: images.backgrounds.theatre,
@@ -22,7 +21,7 @@ export default function TheatreBackdrop({
   variant = 'cream',
   wash,
   image,
-  ornaments = 'full',
+  ornaments = 'none',
   grain = false,
   className = '',
   innerClassName = '',
@@ -40,7 +39,6 @@ export default function TheatreBackdrop({
         : null);
 
   const isDark = variant === 'navy' || variant === 'stage' || variant === 'cast' || variant === 'spotlight';
-  const ornamentTheme = isDark ? 'dark' : 'light';
 
   const baseClass =
     variant === 'parchment'
@@ -71,23 +69,6 @@ export default function TheatreBackdrop({
 
       {variant === 'parchment' && (
         <div className="absolute inset-0 bg-parchment-texture pointer-events-none" aria-hidden />
-      )}
-
-      {ornaments === 'full' && (
-        <div className="theatre-decor-layer">
-          <CornerOrnament position="tl" theme={ornamentTheme} />
-          <CornerOrnament position="tr" theme={ornamentTheme} />
-          <CornerOrnament position="bl" theme={ornamentTheme} />
-          <CornerOrnament position="br" theme={ornamentTheme} />
-          <WatermarkCluster theme={ornamentTheme} />
-        </div>
-      )}
-
-      {ornaments === 'minimal' && (
-        <div className="theatre-decor-layer">
-          <CornerOrnament position="tl" theme={ornamentTheme} className="!w-14 !sm:w-20 opacity-80" />
-          <CornerOrnament position="br" theme={ornamentTheme} className="!w-14 !sm:w-20 opacity-80" />
-        </div>
       )}
 
       <div className={`relative z-[1] ${innerClassName}`}>{children}</div>

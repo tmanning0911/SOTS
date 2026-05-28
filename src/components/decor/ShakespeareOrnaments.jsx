@@ -1,5 +1,4 @@
 import {
-  PremiumScrollDivider,
   PremiumCornerScroll,
   PremiumMasksWatermark,
   PremiumQuillWatermark,
@@ -22,18 +21,20 @@ const cornerPosition = {
   br: 'bottom-0 right-0 sm:bottom-1 sm:right-1',
 };
 
-/** Horizontal engraved playbill divider */
+/** Clean section rule — no heavy scroll SVGs */
 export function OrnamentDivider({ className = '', light = false }) {
   return (
     <div
-      className={`flex items-center justify-center gap-4 w-full max-w-lg mx-auto ${className}`}
+      className={`flex items-center justify-center gap-3 w-full max-w-xs sm:max-w-sm mx-auto ${className}`}
       aria-hidden
     >
-      <span className={`h-px flex-1 max-w-[120px] ${light ? 'bg-gradient-to-r from-transparent to-white/30' : 'bg-gradient-to-r from-transparent to-navy/20'}`} />
-      <PremiumScrollDivider
-        className={`w-48 sm:w-64 md:w-72 h-7 sm:h-8 shrink-0 ${light ? 'text-white/70' : 'text-navy/55'}`}
+      <span
+        className={`h-px flex-1 ${light ? 'bg-gradient-to-r from-transparent to-white/35' : 'bg-gradient-to-r from-transparent to-navy/15'}`}
       />
-      <span className={`h-px flex-1 max-w-[120px] ${light ? 'bg-gradient-to-l from-transparent to-white/30' : 'bg-gradient-to-l from-transparent to-navy/20'}`} />
+      <span className={`h-1 w-1 rounded-full shrink-0 ${light ? 'bg-gold/80' : 'bg-gold'}`} />
+      <span
+        className={`h-px flex-1 ${light ? 'bg-gradient-to-l from-transparent to-white/35' : 'bg-gradient-to-l from-transparent to-navy/15'}`}
+      />
     </div>
   );
 }

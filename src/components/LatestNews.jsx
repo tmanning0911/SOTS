@@ -5,8 +5,6 @@ import Reveal from './Reveal';
 import OptimizedImage from './OptimizedImage';
 import SectionHeader from './SectionHeader';
 import { content } from '@/api/content';
-import { WatermarkCluster } from './decor';
-
 export default function LatestNews() {
   const [articles, setArticles] = useState([]);
 
@@ -20,7 +18,6 @@ export default function LatestNews() {
 
   return (
     <section className="section-pad bg-navy-deep grain-overlay relative overflow-hidden" data-nav-zone="dark">
-      <WatermarkCluster theme="dark" />
       <div className="max-w-6xl mx-auto relative z-[1]">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10">
           <SectionHeader

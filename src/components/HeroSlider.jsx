@@ -4,7 +4,6 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { site } from '@/content/site';
 import { contactPaths } from '@/lib/contactPaths';
-import { CornerOrnament, ArtWatermark } from './decor';
 
 const SLIDE_DURATION = 10000;
 
@@ -71,10 +70,6 @@ export default function HeroSlider() {
       data-nav-zone="dark"
       className="relative min-h-[min(100dvh,920px)] h-[100svh] max-h-[920px] overflow-hidden bg-navy-deep grain-overlay"
     >
-      <CornerOrnament position="tl" theme="dark" className="z-20 !opacity-100" />
-      <CornerOrnament position="tr" theme="dark" className="z-20 !opacity-100" />
-      <ArtWatermark type="laurel" className="text-white top-[12%] left-0 hidden xl:block z-10" opacity={0.055} />
-      <ArtWatermark type="quill" className="text-white bottom-[18%] right-0 hidden lg:block z-10" opacity={0.05} />
       <AnimatePresence mode="wait">
         <motion.div
           key={current}

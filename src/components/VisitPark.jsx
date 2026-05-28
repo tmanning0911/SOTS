@@ -12,7 +12,6 @@ export default function VisitPark() {
       as="section"
       variant="cream"
       wash="park"
-      ornaments="full"
       className="section-pad"
       data-nav-zone="light"
     >

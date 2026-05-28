@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import Reveal from './Reveal';
 import OptimizedImage from './OptimizedImage';
 import SectionHeader from './SectionHeader';
-import { ArtWatermark, MasksBanner } from './decor';
 import { content } from '@/api/content';
 
 export default function ProductionStrip() {
@@ -19,10 +18,7 @@ export default function ProductionStrip() {
 
   return (
     <section className="bg-navy-deep grain-overlay relative overflow-hidden" data-nav-zone="dark">
-      <ArtWatermark type="curtain" className="text-white top-4 right-0 sm:right-6" opacity={0.06} />
-      <ArtWatermark type="masks" className="text-white bottom-24 -left-8 hidden md:block" opacity={0.055} />
       <div className="page-gutter pt-10 sm:pt-12 pb-2 relative z-[1]">
-        <MasksBanner light className="mb-8" />
         <SectionHeader
           eyebrow="Coming Up Next"
           title="Performing Arts"

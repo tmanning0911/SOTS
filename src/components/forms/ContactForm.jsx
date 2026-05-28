@@ -36,7 +36,12 @@ function topicFromQuery(raw) {
   return null;
 }
 
-export default function ContactForm({ variant = 'contact', className = '', showTitle = true }) {
+export default function ContactForm({
+  variant = 'contact',
+  className = '',
+  showTitle = true,
+  inDialog = false,
+}) {
   const copy = formCopy[variant] || formCopy.contact;
   const [searchParams] = useSearchParams();
   const [status, setStatus] = useState('idle');
@@ -145,7 +150,11 @@ export default function ContactForm({ variant = 'contact', className = '', showT
         data-netlify="true"
         data-netlify-honeypot="bot-field"
         onSubmit={handleSubmit}
-        className={`bg-white border border-navy/10 p-6 sm:p-8 shadow-soft space-y-5 ${variant === 'newsletter' ? 'newsletter-form-inner' : ''}`}
+        className={`space-y-5 ${
+          inDialog
+            ? 'bg-transparent border-0 p-0 shadow-none'
+            : `bg-white border border-navy/10 p-6 sm:p-8 shadow-soft ${variant === 'newsletter' ? '' : ''}`
+        }`}
         noValidate
       >
         <input type="hidden" name="form-name" value={variant} />

@@ -4,7 +4,7 @@ import { motion, useInView, useMotionValue, useTransform, animate } from 'framer
 import { IconMasks, IconLaurel, IconStage, IconBookOpen } from '@/components/icons';
 import Sponsors from '../components/Sponsors';
 import TicketBanner from '../components/TicketBanner';
-import ContactForm from '../components/forms/ContactForm';
+import FormCTA from '../components/forms/FormCTA';
 import { TheatreBackdrop } from '../components/decor';
 import { sponsors, site } from '@/content/site';
 import { contactPaths } from '@/lib/contactPaths';
@@ -156,12 +156,11 @@ export default function Support() {
         as="section"
         variant="parchment"
         wash="spotlight"
-        ornaments="full"
         className="border-t border-navy/8 page-gutter py-14 sm:py-20"
         data-nav-zone="light"
       >
-        <div className="max-w-2xl mx-auto">
-          <ContactForm variant="sponsorship" />
+        <div className="max-w-lg mx-auto">
+          <FormCTA variant="sponsorship" buttonLabel="Sponsorship Inquiry" />
         </div>
       </TheatreBackdrop>
 
