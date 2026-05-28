@@ -1,4 +1,5 @@
 import Navbar from '../components/Navbar';
+import SkipLink from '../components/SkipLink';
 import HeroSlider from '../components/HeroSlider';
 import ProductionStrip from '../components/ProductionStrip';
 import HomeCTA from '../components/HomeCTA';
@@ -15,6 +16,7 @@ import Footer from '../components/Footer';
 export default function Home() {
   return (
     <div className="min-h-screen">
+      <SkipLink />
       <Navbar />
       <main id="main-content">
       <HeroSlider />

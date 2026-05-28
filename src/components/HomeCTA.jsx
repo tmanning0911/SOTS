@@ -13,7 +13,7 @@ const cards = [
   {
     icon: IconHeart,
     title: 'Donate',
-    body: 'Your gift ensures future productions and year-round education programs across Fairfield County.',
+    body: 'Support Shakespeare on the Sound! Donate today to ensure future productions and educational programs!',
     cta: 'Donate Today',
     href: site.donateUrl,
     external: true,

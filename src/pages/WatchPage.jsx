@@ -1,21 +1,24 @@
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import WatchOnline from '../components/WatchOnline';
+import TicketBanner from '../components/TicketBanner';
 import { site } from '@/content/site';
+import { pageHeroImages } from '@/content/images';
 
 export default function WatchPage() {
   return (
-    <div className="min-h-screen bg-cream">
-      <Navbar />
+    <PageLayout>
       <PageHero
         eyebrow="Watch & Listen"
         title="On YouTube"
         description={`Clips, education features, and season highlights from ${site.name}. Subscribe for updates from Pinkney Park and beyond.`}
-        image="/images/park-performance.jpg"
+        image={pageHeroImages.watch}
       />
       <WatchOnline />
       <div className="max-w-6xl mx-auto page-gutter pb-14 sm:pb-20 text-center">
+        <p className="font-inter text-navy/60 text-sm max-w-md mx-auto mb-8">
+          Follow us for behind-the-scenes moments, education spotlights, and performance highlights.
+        </p>
         <a
           href={site.youtubeUrl}
           target="_blank"
@@ -25,7 +28,7 @@ export default function WatchPage() {
           Open YouTube Channel
         </a>
       </div>
-      <Footer />
-    </div>
+      <TicketBanner />
+    </PageLayout>
   );
 }

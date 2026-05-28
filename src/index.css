@@ -66,8 +66,26 @@
 }
 
 @layer components {
-  .font-display {
+  .font-display,
+  .font-playfair {
     font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  }
+
+  .prose-article {
+    @apply font-inter text-navy/85 text-base md:text-lg leading-relaxed;
+  }
+
+  .prose-article p + p {
+    @apply mt-4;
+  }
+
+  .news-card {
+    @apply bg-white overflow-hidden shadow-soft card-lift border border-navy/5 h-full flex flex-col;
+  }
+
+  .bg-section-pattern {
+    background-image: radial-gradient(hsl(220 42% 18% / 0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
   }
 
   .section-pad {

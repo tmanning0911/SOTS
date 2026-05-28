@@ -62,3 +62,6 @@ Static images live in `public/images/`.
 - `npm run dev` — Vite dev server
 - `npm run build` — production build to `dist/`
 - `npm run preview` — preview production build locally
+- `npm run scrape` — pull text from shakespeareonthesound.org into `public/data/scraped/`
+
+See **OPERATIONS.md** for a non-technical guide to updating content and deploying.

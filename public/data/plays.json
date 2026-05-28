@@ -3,22 +3,40 @@
     "id": "much-ado-2026",
     "title": "Much Ado About Nothing",
     "subtitle": "30th Summer Season · Directed by David Frederick Mold",
-    "description": "Celebrate 30 seasons with Shakespeare's sparkling comedy in 19th-century Sicily — romance, wit, and a merry war of words under the stars. VIP pre-sale April 7–14; general tickets on sale April 15. Park opens at 5pm. Tuesdays June 16 & 23 are Pay-What-You-Will. No shows Mondays.",
-    "dates": "June 10–28, 2026 · 7:30pm (Wed–Sun evenings)",
+    "description": "Join Shakespeare on the Sound as we celebrate 30 seasons of storytelling under the stars with Much Ado About Nothing. Shakespeare's sparkling comedy transports audiences to 19th-century Sicily, where romance blooms, tempers flare, and a battle of wits becomes a battle of hearts.\n\nVIP reserved seating pre-sale: April 7–14. General admission tickets on sale beginning April 15. Park opens at 5pm for blankets and chairs. No shows Mondays.",
+    "dates": "June 10–28, 2026 · 7:30pm (Wed–Sun evenings; no Mondays)",
     "location": "Pinkney Park, 177 Rowayton Ave, Norwalk, CT",
     "status": "Now On",
     "featured": true,
     "sort_order": 1,
     "ticketUrl": "https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
     "tag": "Get Tickets",
-    "image": "/images/hero-much-ado.png"
+    "image": "/images/hero-much-ado.png",
+    "ticketDetails": [
+      "General admission: $25 adults, $5 children 12 and under (Wed–Sun evenings)",
+      "VIP reserved seating any day: $75",
+      "Student & senior rush: $15 (65+ and current students, in person at box office day-of only)",
+      "Pay-What-You-Will: Tuesday June 16 & 23 at 7:30pm (suggested $25 adults, $5 children)",
+      "Apprentice Company matinee Saturday June 20 at 1pm — walk-up admission only"
+    ],
+    "specialEvents": [
+      "Opening Night Pre-show Reception — Saturday June 13, 6–7:30pm ($50 with Main Stage ticket)",
+      "SOS Book Club — Thursday June 18 ($25 with Main Stage ticket; rain date June 25)",
+      "Alumni Night Reception — Saturday June 20, 6–7:30pm ($50 with Main Stage ticket)"
+    ],
+    "creativeTeam": [
+      "Directed by David Frederick Mold",
+      "Choreographer: Haila Strauss",
+      "Set Design: Brian Prather · Lighting: Jamie Roderick",
+      "Costumes: Grier Coleman · Sound/Composer: Chad Rains"
+    ]
   },
   {
     "id": "kids-show-2026",
     "title": "Shakespeare for Kids",
-    "subtitle": "Education Tent · In the Park",
-    "description": "Bring Shakespeare into your classroom and catch Shakespeare for kids in the park! Visit our education tent before select performances for Shakespeare in 30 Minutes — a family-friendly half-hour version of our MainStage show, 30 minutes before showtime.",
-    "dates": "Summer 2026 · before evening performances",
+    "subtitle": "Kids' Show · Free in the Park",
+    "description": "A 30-minute version of Much Ado About Nothing for ages 1–100! A kid-friendly adaptation by our Apprentice Company that also serves as a refresher for those who need a plot reminder.\n\n6:30pm in the park, every night before the MainStage show. Kids' Shows are FREE — show up, find a spot, and enjoy! To book at your library or school, contact stephanie@shakespeareonthesound.org.",
+    "dates": "Summer 2026 · 6:30pm before evening performances",
     "location": "Pinkney Park, Rowayton, CT",
     "status": "Coming Soon",
     "featured": false,
