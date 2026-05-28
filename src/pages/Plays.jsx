@@ -6,14 +6,12 @@ import PageHero from '../components/PageHero';
 import Reveal from '../components/Reveal';
 import OptimizedImage from '../components/OptimizedImage';
 import CtaLink from '../components/CtaLink';
-import LoadingSpinner from '../components/LoadingSpinner';
 import TicketBanner from '../components/TicketBanner';
 import { pageHeroImages } from '@/content/images';
 import { TheatreBackdrop } from '../components/decor';
 
 export default function Plays() {
   const [productions, setProductions] = useState(seedPlays);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     cms.plays
@@ -32,9 +30,7 @@ export default function Plays() {
       />
 
       <TheatreBackdrop variant="cream" className="max-w-6xl mx-auto section-pad !pt-14 sm:!pt-16 mx-auto">
-        {loading ? (
-          <LoadingSpinner label="Loading productions" />
-        ) : productions.length === 0 ? (
+        {productions.length === 0 ? (
           <div className="text-center py-16">
             <p className="font-display text-navy text-2xl font-semibold uppercase mb-4">Season details coming soon</p>
             <p className="font-inter text-navy/60 text-sm max-w-md mx-auto">
@@ -45,7 +41,10 @@ export default function Plays() {
           <div className="space-y-14 md:space-y-20">
             {productions.map((prod, i) => (
               <Reveal key={prod.id} delay={i * 0.05}>
-                <article className="group grid md:grid-cols-2 gap-0 bg-white shadow-soft overflow-hidden card-lift border border-navy/5">
+                <article
+                  id={prod.id}
+                  className="group grid md:grid-cols-2 gap-0 bg-white shadow-soft overflow-hidden card-lift border border-navy/5 scroll-mt-28"
+                >
                   <div className="overflow-hidden aspect-video md:aspect-auto md:min-h-[340px] image-shine relative">
                     <OptimizedImage
                       src={prod.image}

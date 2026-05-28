@@ -1,6 +1,8 @@
-import { motion } from 'framer-motion';
-import { IconStage } from '@/components/icons';
+import { IconStage, IconArrowRight } from '@/components/icons';
 import { site } from '@/content/site';
+import Reveal from './Reveal';
+import SectionHeader from './SectionHeader';
+import { TheatreBackdrop } from './decor';
 
 const highlights = [
   {
@@ -22,54 +24,59 @@ const highlights = [
 
 export default function WatchOnline() {
   return (
-    <section className="bg-white py-14 sm:py-20 page-gutter">
+    <TheatreBackdrop variant="white" className="py-14 sm:py-20 page-gutter">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8 sm:mb-10">
-          <div>
-            <span className="text-rust text-[10px] tracking-[0.3em] uppercase font-inter font-medium block mb-3">
-              Watch & Listen
-            </span>
-            <h2 className="font-playfair text-navy font-bold text-3xl md:text-4xl uppercase leading-tight">
-              On YouTube
-            </h2>
-          </div>
-          <p className="font-inter text-navy/50 text-sm max-w-xs mt-4 md:mt-0 leading-relaxed">
-            Follow {site.name} for performance clips, education features, and season announcements.
-          </p>
-        </div>
+        <SectionHeader
+          eyebrow="Watch & Listen"
+          title="On YouTube"
+          description={`Follow ${site.name} for performance clips, education features, and season announcements.`}
+          align="left"
+          className="!mb-10 sm:!mb-12"
+        />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6 mb-8 sm:mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 mb-10 sm:mb-12">
           {highlights.map((item, i) => (
-            <motion.a
-              key={item.title}
-              href={site.youtubeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="group block border border-navy/10 p-6 hover:border-rust/30 transition-colors"
-            >
-              <div className="w-10 h-10 bg-navy flex items-center justify-center mb-4 group-hover:bg-gold transition-colors duration-300">
-                <IconStage size={18} className="text-white" />
-              </div>
-              <span className="text-rust text-[9px] tracking-[0.2em] uppercase font-medium">{item.category}</span>
-              <p className="font-playfair text-navy font-bold text-lg uppercase mt-2 mb-2">{item.title}</p>
-              <p className="font-inter text-navy/70 text-xs leading-relaxed">{item.description}</p>
-            </motion.a>
+            <Reveal key={item.title} delay={i * 0.06} className="h-full">
+              <a
+                href={site.youtubeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col h-full bg-white border border-navy/8 p-6 sm:p-7 shadow-soft card-lift hover:border-gold/35"
+              >
+                <div
+                  className="w-10 h-10 bg-navy flex items-center justify-center mb-5 group-hover:bg-gold transition-colors duration-300"
+                  aria-hidden
+                >
+                  <IconStage size={18} className="text-white" />
+                </div>
+                <span className="section-eyebrow !text-[9px] !tracking-[0.25em] mb-2">{item.category}</span>
+                <p className="font-display text-navy text-lg font-semibold uppercase leading-tight mb-2 group-hover:text-gold transition-colors duration-300">
+                  {item.title}
+                </p>
+                <p className="font-inter text-navy/70 text-sm leading-relaxed flex-1">{item.description}</p>
+                <span className="link-gold inline-flex items-center gap-2 mt-5">
+                  Watch on YouTube <IconArrowRight size={14} />
+                </span>
+              </a>
+            </Reveal>
           ))}
         </div>
 
-        <a
-          href={site.youtubeUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex min-h-[44px] w-full sm:w-auto items-center justify-center bg-navy text-white text-xs tracking-[0.2em] uppercase font-medium px-7 py-3 hover:bg-navy/80 transition-colors"
-        >
-          Visit Our YouTube Channel
-        </a>
+        <Reveal className="text-center">
+          <p className="font-inter text-navy/60 text-sm max-w-md mx-auto mb-6 leading-relaxed">
+            Subscribe for behind-the-scenes moments, education spotlights, and performance highlights from Pinkney
+            Park and beyond.
+          </p>
+          <a
+            href={site.youtubeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary w-full sm:w-auto px-8 sm:px-10"
+          >
+            Open YouTube Channel
+          </a>
+        </Reveal>
       </div>
-    </section>
+    </TheatreBackdrop>
   );
 }

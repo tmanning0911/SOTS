@@ -14,19 +14,6 @@ export default function WatchPage() {
         image={pageHeroImages.watch}
       />
       <WatchOnline />
-      <div className="max-w-6xl mx-auto page-gutter pb-14 sm:pb-20 text-center">
-        <p className="font-inter text-navy/60 text-sm max-w-md mx-auto mb-8">
-          Follow us for behind-the-scenes moments, education spotlights, and performance highlights.
-        </p>
-        <a
-          href={site.youtubeUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-primary w-full sm:w-auto px-8 sm:px-10"
-        >
-          Open YouTube Channel
-        </a>
-      </div>
     </PageLayout>
   );
 }

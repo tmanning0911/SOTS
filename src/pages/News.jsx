@@ -4,16 +4,14 @@ import { seedArticles } from '@/lib/contentSeed';
 import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import OptimizedImage from '../components/OptimizedImage';
-import LoadingSpinner from '../components/LoadingSpinner';
+import Reveal from '../components/Reveal';
 import { IconArrowRight } from '@/components/icons';
 import { pageHeroImages } from '@/content/images';
 import { TheatreBackdrop } from '../components/decor';
 
 export default function News() {
   const [articles, setArticles] = useState(seedArticles);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     cms.articles
@@ -35,18 +33,12 @@ export default function News() {
 
       <TheatreBackdrop variant="white" className="page-gutter py-12 sm:py-16 md:py-20">
       <div className="max-w-6xl mx-auto">
-        {loading ? (
-          <LoadingSpinner label="Loading news" />
-        ) : articles.length === 0 ? (
+        {articles.length === 0 ? (
           <p className="text-center font-inter text-navy/60 py-16">No articles yet. Check back soon.</p>
         ) : (
           <>
             {featured && (
-              <motion.article
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="news-card mb-10 sm:mb-14 md:grid md:grid-cols-2 overflow-hidden"
-              >
+              <Reveal className="news-card mb-10 sm:mb-14 md:grid md:grid-cols-2 overflow-hidden">
                 <Link to={`/news/${featured.id}`} className="contents">
                   <div className="aspect-video md:aspect-auto md:min-h-[280px] overflow-hidden image-shine">
                     <OptimizedImage
@@ -70,21 +62,15 @@ export default function News() {
                     </span>
                   </div>
                 </Link>
-              </motion.article>
+              </Reveal>
             )}
 
             {rest.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
                 {rest.map((article, i) => (
-                  <motion.div
-                    key={article.id}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.05 }}
-                    className="news-card group"
-                  >
-                    <Link to={`/news/${article.id}`} className="flex flex-col h-full">
+                  <Reveal key={article.id} delay={i * 0.05} className="h-full">
+                    <div className="news-card group h-full">
+                      <Link to={`/news/${article.id}`} className="flex flex-col h-full">
                       <div className="aspect-video overflow-hidden image-shine">
                         <OptimizedImage
                           src={article.image}
@@ -106,8 +92,9 @@ export default function News() {
                         <p className="font-inter text-navy/75 text-xs leading-relaxed mb-4 flex-1">{article.excerpt}</p>
                         <span className="text-gold text-[10px] tracking-widest uppercase font-semibold">Read more →</span>
                       </div>
-                    </Link>
-                  </motion.div>
+                      </Link>
+                    </div>
+                  </Reveal>
                 ))}
               </div>
             )}

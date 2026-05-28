@@ -41,7 +41,7 @@ export default function ProductionStrip() {
             delay={i * 0.06}
             className="relative group overflow-hidden min-h-[220px] sm:min-h-[280px]"
           >
-            <Link to="/plays" className="block relative h-full min-h-[inherit]">
+            <Link to={`/plays#${prod.id}`} className="block relative h-full min-h-[inherit]">
               <div className="absolute inset-0">
                 <OptimizedImage
                   src={prod.image}

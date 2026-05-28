@@ -16,32 +16,35 @@ import ShakespeareHubPage from './pages/ShakespeareHubPage';
 import Admin from './pages/Admin';
 import AdminLogin from './pages/AdminLogin';
 import { FormModalProvider } from '@/lib/FormModalContext';
+import { SeoOverrideProvider } from '@/lib/SeoOverrideContext';
 import DonateEdgeTab from './components/DonateEdgeTab';
 
 function App() {
   return (
     <Router>
-      <FormModalProvider>
-        <DonateEdgeTab />
-        <ScrollToTop />
-        <PageSEO />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/plays" element={<Plays />} />
-          <Route path="/learning" element={<Learning />} />
-          <Route path="/support" element={<Support />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/news/:id" element={<NewsArticle />} />
-          <Route path="/watch" element={<WatchPage />} />
-          <Route path="/on-demand" element={<Navigate to="/watch" replace />} />
-          <Route path="/shakespeare-hub" element={<ShakespeareHubPage />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </FormModalProvider>
+      <SeoOverrideProvider>
+        <FormModalProvider>
+          <DonateEdgeTab />
+          <ScrollToTop />
+          <PageSEO />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/plays" element={<Plays />} />
+            <Route path="/learning" element={<Learning />} />
+            <Route path="/support" element={<Support />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/news/:id" element={<NewsArticle />} />
+            <Route path="/watch" element={<WatchPage />} />
+            <Route path="/on-demand" element={<Navigate to="/watch" replace />} />
+            <Route path="/shakespeare-hub" element={<ShakespeareHubPage />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </FormModalProvider>
+      </SeoOverrideProvider>
       <Toaster />
     </Router>
   );

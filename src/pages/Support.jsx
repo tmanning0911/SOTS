@@ -1,15 +1,18 @@
 import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
-import { motion, useInView, useMotionValue, useTransform, animate } from 'framer-motion';
+import Reveal from '../components/Reveal';
+import { useInView, useMotionValue, useTransform, animate, motion, useReducedMotion } from 'framer-motion';
 import { IconMasks, IconLaurel, IconStage } from '@/components/icons';
 import { Link } from 'react-router-dom';
 import { site } from '@/content/site';
 import { contactPaths } from '@/lib/contactPaths';
 import { useEffect, useRef } from 'react';
 import { pageHeroImages } from '@/content/images';
+import { TheatreBackdrop } from '../components/decor';
 
 function AnimatedStat({ stat }) {
   const ref = useRef(null);
+  const reduceMotion = useReducedMotion();
   const isInView = useInView(ref, { once: true });
   const match = stat.match(/^(\d+)(.*)$/);
   const numericEnd = match ? parseInt(match[1], 10) : 0;
@@ -18,11 +21,15 @@ function AnimatedStat({ stat }) {
   const rounded = useTransform(count, (v) => `${Math.round(v)}${suffix}`);
 
   useEffect(() => {
-    if (isInView) {
+    if (isInView && !reduceMotion && numericEnd > 0) {
       const controls = animate(count, numericEnd, { duration: 1.6, ease: 'easeOut' });
       return controls.stop;
     }
-  }, [isInView, count, numericEnd]);
+  }, [isInView, count, numericEnd, reduceMotion]);
+
+  if (reduceMotion || !match) {
+    return <span className="tabular-nums">{stat}</span>;
+  }
 
   return (
     <span ref={ref} className="tabular-nums">
@@ -69,67 +76,66 @@ export default function Support() {
         image={pageHeroImages.support}
       />
 
-      <div className="max-w-6xl mx-auto page-gutter py-12 sm:py-16 md:py-20">
-        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-          <span className="section-eyebrow mb-3">Ways to Give</span>
-          <h2 className="font-display text-navy text-2xl sm:text-3xl font-semibold uppercase">Make a Difference</h2>
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-          {ways.map((way, i) => (
-            <motion.div
-              key={way.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-              className={`p-7 sm:p-10 h-full flex flex-col card-lift ${
-                way.highlight
-                  ? 'bg-gold text-navy-deep shadow-glow border border-gold-light/30'
-                  : 'bg-white shadow-soft border border-navy/5'
-              }`}
-            >
-              <way.icon className={`mb-5 ${way.highlight ? 'text-navy-deep' : 'text-gold'}`} size={28} />
-              <h3
-                className={`font-display text-2xl font-semibold uppercase mb-3 ${
-                  way.highlight ? 'text-navy-deep' : 'text-navy'
-                }`}
-              >
-                {way.title}
-              </h3>
-              <p
-                className={`font-inter text-sm leading-relaxed mb-6 flex-1 ${
-                  way.highlight ? 'text-navy-deep/85' : 'text-navy/85'
-                }`}
-              >
-                {way.description}
-              </p>
-              {way.href.startsWith('http') ? (
-                <a
-                  href={way.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`text-xs tracking-[0.2em] uppercase font-semibold border-b pb-0.5 hover:opacity-70 transition-opacity w-fit ${
-                    way.highlight ? 'text-navy-deep border-navy-deep' : 'text-gold border-gold'
+      <TheatreBackdrop variant="white" className="page-gutter py-12 sm:py-16 md:py-20">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+            <span className="section-eyebrow mb-3">Ways to Give</span>
+            <h2 className="font-display text-navy text-2xl sm:text-3xl font-semibold uppercase">Make a Difference</h2>
+          </Reveal>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+            {ways.map((way, i) => (
+              <Reveal key={way.title} delay={i * 0.08} className="h-full">
+                <div
+                  className={`p-7 sm:p-10 h-full flex flex-col card-lift ${
+                    way.highlight
+                      ? 'bg-gold text-navy-deep shadow-glow border border-gold-light/30'
+                      : 'bg-white shadow-soft border border-navy/5'
                   }`}
                 >
-                  {way.cta} →
-                </a>
-              ) : (
-                <Link
-                  to={way.href}
-                  className={`text-xs tracking-[0.2em] uppercase font-semibold border-b pb-0.5 hover:opacity-70 transition-opacity w-fit ${
-                    way.highlight ? 'text-navy-deep border-navy-deep' : 'text-gold border-gold'
-                  }`}
-                >
-                  {way.cta} →
-                </Link>
-              )}
-            </motion.div>
-          ))}
+                  <way.icon className={`mb-5 ${way.highlight ? 'text-navy-deep' : 'text-gold'}`} size={28} />
+                  <h3
+                    className={`font-display text-2xl font-semibold uppercase mb-3 ${
+                      way.highlight ? 'text-navy-deep' : 'text-navy'
+                    }`}
+                  >
+                    {way.title}
+                  </h3>
+                  <p
+                    className={`font-inter text-sm leading-relaxed mb-6 flex-1 ${
+                      way.highlight ? 'text-navy-deep/85' : 'text-navy/85'
+                    }`}
+                  >
+                    {way.description}
+                  </p>
+                  {way.href.startsWith('http') ? (
+                    <a
+                      href={way.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`text-xs tracking-[0.2em] uppercase font-semibold border-b pb-0.5 hover:opacity-70 transition-opacity w-fit ${
+                        way.highlight ? 'text-navy-deep border-navy-deep' : 'text-gold border-gold'
+                      }`}
+                    >
+                      {way.cta} →
+                    </a>
+                  ) : (
+                    <Link
+                      to={way.href}
+                      className={`text-xs tracking-[0.2em] uppercase font-semibold border-b pb-0.5 hover:opacity-70 transition-opacity w-fit ${
+                        way.highlight ? 'text-navy-deep border-navy-deep' : 'text-gold border-gold'
+                      }`}
+                    >
+                      {way.cta} →
+                    </Link>
+                  )}
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
-      </div>
+      </TheatreBackdrop>
 
-      <div className="bg-navy py-14 sm:py-20 page-gutter grain-overlay" data-nav-zone="dark">
+      <section className="bg-navy-deep py-14 sm:py-20 page-gutter grain-overlay" data-nav-zone="dark">
         <div className="max-w-6xl mx-auto relative z-[1]">
           <h2 className="font-display text-white text-2xl sm:text-3xl font-semibold uppercase text-center mb-8 sm:mb-12">
             Your Impact
@@ -150,13 +156,13 @@ export default function Support() {
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-6xl mx-auto page-gutter pb-14 sm:pb-20 text-center">
+      <TheatreBackdrop variant="cream" className="page-gutter pb-14 sm:pb-20 pt-10 text-center">
         <Link to="/#sponsors" className="link-gold inline-flex items-center gap-2">
           View our {new Date().getFullYear()} partner logos →
         </Link>
-      </div>
+      </TheatreBackdrop>
     </PageLayout>
   );
 }

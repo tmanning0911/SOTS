@@ -228,6 +228,11 @@
     @apply hover:bg-navy-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2;
   }
 
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 min-h-[44px] border border-navy/25 text-navy text-xs tracking-[0.2em] uppercase font-semibold px-6 sm:px-7 py-3 sm:py-3.5 transition-all duration-300 ease-out;
+    @apply hover:bg-navy/5 hover:border-navy/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream;
+  }
+
   .btn-stack-mobile {
     @apply flex flex-col sm:flex-row w-full sm:w-auto gap-3;
   }
@@ -239,6 +244,12 @@
   .card-lift {
     @apply transition-all duration-500 ease-out;
     @apply hover:shadow-card-hover hover:-translate-y-1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card-lift {
+      @apply transition-none hover:translate-y-0;
+    }
   }
 
   .link-gold {

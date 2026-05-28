@@ -65,7 +65,6 @@ export const pageSeo = {
     description:
       'Latest news from Shakespeare on the Sound — season announcements, education milestones, events, and community updates.',
     path: '/news',
-    noindex: true,
   },
   '/watch': {
     title: 'Watch on YouTube',

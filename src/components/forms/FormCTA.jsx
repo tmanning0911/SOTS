@@ -22,10 +22,10 @@ export default function FormCTA({
 
   return (
     <div
-      className={`flex flex-col h-full p-6 sm:p-8 border transition-shadow duration-300 ${
+      className={`flex flex-col h-full p-6 sm:p-8 border transition-shadow duration-300 card-lift ${
         featured
           ? 'bg-navy text-white border-navy shadow-soft'
-          : 'bg-white border-navy/10 shadow-soft hover:shadow-md hover:border-gold/30'
+          : 'bg-white border-navy/10 shadow-soft hover:border-gold/30'
       } ${className}`}
     >
       <h3

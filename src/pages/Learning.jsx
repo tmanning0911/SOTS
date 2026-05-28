@@ -3,7 +3,6 @@ import { cms } from '@/lib/cms';
 import { seedLearning } from '@/lib/contentSeed';
 import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
-import LoadingSpinner from '../components/LoadingSpinner';
 import LearningProgramCard from '../components/LearningProgramCard';
 import SectionHeader from '../components/SectionHeader';
 import { useFormModal } from '@/lib/FormModalContext';
@@ -15,7 +14,6 @@ import { TheatreBackdrop } from '../components/decor';
 
 export default function Learning() {
   const [programs, setPrograms] = useState(seedLearning);
-  const [loading, setLoading] = useState(false);
   const { openForm } = useFormModal();
 
   useEffect(() => {
@@ -43,15 +41,11 @@ export default function Learning() {
             align="center"
             className="!mb-10 sm:!mb-12"
           />
-          {loading ? (
-            <LoadingSpinner label="Loading programs" />
-          ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-              {programs.map((prog, i) => (
-                <LearningProgramCard key={prog.id} program={prog} index={i} />
-              ))}
-            </div>
-          )}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {programs.map((prog, i) => (
+              <LearningProgramCard key={prog.id} program={prog} index={i} />
+            ))}
+          </div>
         </div>
       </TheatreBackdrop>
 

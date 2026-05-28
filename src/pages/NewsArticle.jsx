@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { cms } from '@/lib/cms';
+import { useSeoOverride } from '@/lib/SeoOverrideContext';
 import PageLayout from '../components/PageLayout';
 import OptimizedImage from '../components/OptimizedImage';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -15,18 +16,19 @@ export default function NewsArticle() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
-  useEffect(() => {
-    if (!article) return;
-    document.title = `${article.title} | Shakespeare on the Sound`;
-    const desc = article.excerpt || article.content?.slice(0, 160);
-    let meta = document.querySelector('meta[name="description"]');
-    if (!meta) {
-      meta = document.createElement('meta');
-      meta.setAttribute('name', 'description');
-      document.head.appendChild(meta);
-    }
-    meta.setAttribute('content', desc);
-  }, [article]);
+  const seoMeta = useMemo(
+    () =>
+      article
+        ? {
+            title: `${article.title} | Shakespeare on the Sound`,
+            description: article.excerpt || article.content?.slice(0, 160),
+            path: `/news/${article.id}`,
+          }
+        : null,
+    [article],
+  );
+
+  useSeoOverride(seoMeta);
 
   useEffect(() => {
     cms.articles.list('-date')
@@ -126,7 +128,7 @@ export default function NewsArticle() {
                   <a href={site.ticketsUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
                     Get Tickets
                   </a>
-                  <Link to="/plays" className="btn-secondary">
+                  <Link to="/plays" className="btn-outline">
                     View Productions
                   </Link>
                 </p>

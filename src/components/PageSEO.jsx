@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useSeoOverrideValue } from '@/lib/SeoOverrideContext';
 import {
   absoluteUrl,
   buildEventJsonLd,
@@ -46,22 +47,26 @@ function upsertJsonLd(id, data) {
 
 export default function PageSEO() {
   const { pathname } = useLocation();
+  const seoOverride = useSeoOverrideValue();
 
   useEffect(() => {
-    const meta =
+    const routeMeta =
       pageSeo[pathname] ||
-      (pathname.startsWith('/news/') && pathname.length > 6
-        ? pageSeo['/news/:id']
-        : null) || {
-        title: 'Page Not Found',
-        description: seoDefaults.defaultDescription,
-        path: pathname,
-        noindex: true,
-      };
+      (pathname.startsWith('/news/') && pathname.length > 6 ? pageSeo['/news/:id'] : null) ||
+      null;
+
+    const meta = seoOverride
+      ? { ...routeMeta, ...seoOverride }
+      : routeMeta || {
+          title: 'Page Not Found',
+          description: seoDefaults.defaultDescription,
+          path: pathname,
+          noindex: true,
+        };
 
     const title = meta.title || seoDefaults.defaultTitle;
     const description = meta.description || seoDefaults.defaultDescription;
-    const canonical = absoluteUrl(meta.path || pathname);
+    const canonical = absoluteUrl(seoOverride?.path || meta.path || pathname);
     const ogImage = meta.image || defaultOgImage;
     const robots = meta.noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large';
 
@@ -98,7 +103,7 @@ export default function PageSEO() {
         if (eventEl) eventEl.remove();
       }
     }
-  }, [pathname]);
+  }, [pathname, seoOverride]);
 
   return null;
 }

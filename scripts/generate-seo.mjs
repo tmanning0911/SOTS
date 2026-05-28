@@ -16,6 +16,7 @@ const routes = [
   { loc: '/learning', changefreq: 'monthly', priority: '0.85' },
   { loc: '/support', changefreq: 'monthly', priority: '0.8' },
   { loc: '/about', changefreq: 'monthly', priority: '0.8' },
+  { loc: '/contact', changefreq: 'monthly', priority: '0.75' },
   { loc: '/news', changefreq: 'weekly', priority: '0.75' },
   { loc: '/watch', changefreq: 'monthly', priority: '0.6' },
 ];
