@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
-import FormDialog from './forms/FormDialog';
+import { useFormModal } from '@/lib/FormModalContext';
 import { contactPaths } from '@/lib/contactPaths';
 
 /**
  * Site-wide mailing list strip — opens subscribe form in a modal.
  */
 export default function EmailSignupBar() {
+  const { openForm } = useFormModal();
+
   return (
     <section
       id="email-signup"
@@ -30,10 +32,9 @@ export default function EmailSignupBar() {
             </p>
           </div>
           <div className="flex flex-col sm:items-end gap-3 shrink-0">
-            <FormDialog
-              variant="newsletter"
-              trigger={<button type="button" className="btn-primary min-w-[200px]">Subscribe</button>}
-            />
+            <button type="button" className="btn-primary min-w-[200px]" onClick={() => openForm('newsletter')}>
+              Subscribe
+            </button>
             <p className="font-inter text-white/45 text-xs text-center sm:text-right">
               <Link to={contactPaths.general} className="text-gold hover:text-white transition-colors">
                 Contact form

@@ -18,12 +18,14 @@ import WatchPage from './pages/WatchPage';
 import ShakespeareHubPage from './pages/ShakespeareHubPage';
 import Admin from './pages/Admin';
 import AdminLogin from './pages/AdminLogin';
+import { FormModalProvider } from '@/lib/FormModalContext';
 
 function App() {
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
         <Router>
+          <FormModalProvider>
           <ScrollToTop />
           <PageSEO />
           <Routes>
@@ -42,6 +44,7 @@ function App() {
             <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
+          </FormModalProvider>
         </Router>
         <Toaster />
       </QueryClientProvider>

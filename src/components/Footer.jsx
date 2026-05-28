@@ -5,6 +5,7 @@ import StaAffiliation from './StaAffiliation';
 import ContactChannelLink from './ContactChannelLink';
 import { contactPaths } from '@/lib/contactPaths';
 import FooterBoardEasterEgg from './FooterBoardEasterEgg';
+import { useFormModal } from '@/lib/FormModalContext';
 
 const iconMap = {
   Facebook: IconFacebook,
@@ -53,6 +54,8 @@ const navCols = [
 ];
 
 export default function Footer() {
+  const { openForm } = useFormModal();
+
   return (
     <footer className="bg-navy">
       <div className="border-b border-white/10">
@@ -64,9 +67,13 @@ export default function Footer() {
             <p className="font-inter text-white/60 text-xs mt-2 max-w-md">{site.educationBlurb}</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto shrink-0">
-            <a href="#email-signup" className="btn-secondary w-full sm:w-auto justify-center">
+            <button
+              type="button"
+              onClick={() => openForm('newsletter')}
+              className="btn-secondary w-full sm:w-auto justify-center"
+            >
               Join Mailing List
-            </a>
+            </button>
             <a
               href={site.donateUrl}
               target="_blank"

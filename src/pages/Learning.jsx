@@ -6,8 +6,8 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import LearningProgramCard from '../components/LearningProgramCard';
 import SectionHeader from '../components/SectionHeader';
 import FormCTA from '../components/forms/FormCTA';
-import FormDialog from '../components/forms/FormDialog';
 import { site } from '@/content/site';
+import { Link } from 'react-router-dom';
 import { contactPaths } from '@/lib/contactPaths';
 import { pageHeroImages, images } from '@/content/images';
 import { TheatreBackdrop } from '../components/decor';
@@ -16,6 +16,7 @@ export default function Learning() {
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [educationOpen, setEducationOpen] = useState(false);
+  const [newsletterOpen, setNewsletterOpen] = useState(false);
 
   useEffect(() => {
     content.entities.LearningProgram.list('sort_order').then((data) => {
@@ -80,9 +81,9 @@ export default function Learning() {
             <button type="button" className="btn-primary" onClick={() => setEducationOpen(true)}>
               Request a Program
             </button>
-            <a href={contactPaths.education} className="btn-secondary">
+            <Link to={contactPaths.education} className="btn-secondary">
               All Contact Options
-            </a>
+            </Link>
           </div>
           <p className="font-inter text-white/45 text-sm mt-6">
             Box office:{' '}
@@ -106,18 +107,26 @@ export default function Learning() {
           <SectionHeader
             eyebrow="Inquiries"
             title="Get in Touch"
-            description="Open a form when you are ready — no long forms cluttering the page."
+            description="Open a form when you are ready — we will respond from our team inbox."
             align="center"
             className="!mb-10"
           />
           <div className="grid md:grid-cols-2 gap-5 sm:gap-6 max-w-3xl mx-auto">
-            <FormCTA variant="education" buttonLabel="Book Education" />
-            <FormCTA variant="newsletter" buttonLabel="Subscribe" />
+            <FormCTA
+              variant="education"
+              buttonLabel="Book Education"
+              open={educationOpen}
+              onOpenChange={setEducationOpen}
+            />
+            <FormCTA
+              variant="newsletter"
+              buttonLabel="Subscribe"
+              open={newsletterOpen}
+              onOpenChange={setNewsletterOpen}
+            />
           </div>
         </div>
       </TheatreBackdrop>
-
-      <FormDialog variant="education" open={educationOpen} onOpenChange={setEducationOpen} />
     </PageLayout>
   );
 }

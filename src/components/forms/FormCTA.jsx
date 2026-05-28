@@ -11,6 +11,8 @@ export default function FormCTA({
   buttonLabel,
   className = '',
   featured = false,
+  open,
+  onOpenChange,
 }) {
   const copy = formCopy[variant] || formCopy.contact;
   const heading = title || copy.title;
@@ -39,6 +41,8 @@ export default function FormCTA({
       </p>
       <FormDialog
         variant={variant}
+        open={open}
+        onOpenChange={onOpenChange}
         trigger={
           <button type="button" className={featured ? 'btn-primary w-full sm:w-auto' : 'btn-navy w-full sm:w-auto'}>
             {label}

@@ -38,7 +38,7 @@ export default function FormDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       {trigger ? <DialogTrigger asChild>{trigger}</DialogTrigger> : null}
       <DialogContent
-        className="max-w-[min(100vw-2rem,32rem)] max-h-[min(90vh,720px)] overflow-y-auto border-navy/15 bg-cream p-0 gap-0 sm:rounded-sm shadow-2xl [&>button]:text-navy/60 [&>button]:hover:text-navy"
+        className="z-[110] max-w-[min(100vw-2rem,32rem)] max-h-[min(90vh,720px)] overflow-y-auto border-navy/15 bg-cream p-0 gap-0 sm:rounded-sm shadow-2xl [&>button]:text-navy/60 [&>button]:hover:text-navy"
         aria-describedby={`form-dialog-desc-${variant}`}
       >
         <DialogHeader className="border-b border-navy/10 bg-white px-6 py-5 text-left">
@@ -54,7 +54,9 @@ export default function FormDialog({
           </DialogDescription>
         </DialogHeader>
         <div className="px-6 py-5">
-          <ContactForm variant={variant} showTitle={false} inDialog />
+          {open ? (
+            <ContactForm key={`${variant}-dialog`} variant={variant} showTitle={false} inDialog />
+          ) : null}
         </div>
       </DialogContent>
     </Dialog>

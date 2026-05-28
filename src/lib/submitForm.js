@@ -1,5 +1,5 @@
 /**
- * Submit forms to Netlify Forms (production) or /api/contact (dev + backup).
+ * Submit forms via /api/contact (primary) with optional Netlify Forms backup.
  */
 
 function encodeFormBody(formName, fields) {
@@ -17,7 +17,18 @@ async function submitNetlifyForm(formName, fields) {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: encodeFormBody(formName, fields),
   });
-  return res.ok;
+  if (!res.ok) return false;
+
+  const contentType = res.headers.get('content-type') || '';
+  if (contentType.includes('application/json')) return true;
+
+  // SPA hosts return index.html with 200 — not a real Netlify Forms success.
+  if (contentType.includes('text/html')) {
+    const text = await res.text();
+    if (text.includes('id="root"') || text.includes('/assets/index')) return false;
+  }
+
+  return true;
 }
 
 async function submitApiForm(formName, fields) {
@@ -26,8 +37,8 @@ async function submitApiForm(formName, fields) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ form: formName, fields }),
   });
+  const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
     throw new Error(data.error || 'Could not send message');
   }
   return true;
@@ -38,14 +49,11 @@ export async function submitForm(formName, fields) {
     return { ok: true, silent: true };
   }
 
-  try {
-    const netlifyOk = await submitNetlifyForm(formName, fields);
-    if (netlifyOk) return { ok: true };
-  } catch {
-    /* fall through */
-  }
-
   await submitApiForm(formName, fields);
+
+  // Best-effort Netlify Forms (dashboard notifications) — never block on failure.
+  submitNetlifyForm(formName, fields).catch(() => {});
+
   return { ok: true };
 }
 

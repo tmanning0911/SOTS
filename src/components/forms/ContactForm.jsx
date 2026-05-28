@@ -5,6 +5,7 @@ import { submitForm, isValidEmail } from '@/lib/submitForm';
 import { toast } from '@/components/ui/use-toast';
 import { Link } from 'react-router-dom';
 import { contactPaths } from '@/lib/contactPaths';
+import { useFormModalOptional } from '@/lib/FormModalContext';
 
 const fieldClass =
   'w-full min-h-[44px] border border-navy/20 bg-white px-4 py-2.5 font-inter text-sm text-navy placeholder:text-navy/45 focus:outline-none focus:ring-2 focus:ring-gold focus:border-gold disabled:opacity-60';
@@ -43,6 +44,7 @@ export default function ContactForm({
   inDialog = false,
 }) {
   const copy = formCopy[variant] || formCopy.contact;
+  const formModal = useFormModalOptional();
   const [searchParams] = useSearchParams();
   const [status, setStatus] = useState('idle');
   const [errors, setErrors] = useState({});
@@ -293,9 +295,19 @@ export default function ContactForm({
         <p className="font-inter text-navy/50 text-xs leading-relaxed">
           By submitting, you agree we may contact you about your inquiry. We reply from our team inbox — your
           address is not published on this site.{' '}
-          <Link to={contactPaths.education} className="text-gold hover:underline">
-            Education inquiries
-          </Link>
+          {formModal && variant !== 'education' ? (
+            <button
+              type="button"
+              className="text-gold hover:underline"
+              onClick={() => formModal.openForm('education')}
+            >
+              Education inquiries
+            </button>
+          ) : (
+            <Link to={contactPaths.education} className="text-gold hover:underline">
+              Education inquiries
+            </Link>
+          )}
         </p>
 
         <button type="submit" className="btn-primary w-full sm:w-auto" disabled={status === 'sending'}>

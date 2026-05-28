@@ -3,12 +3,9 @@ import { useSearchParams } from 'react-router-dom';
 import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import FormCTA from '../components/forms/FormCTA';
-import FormDialog from '../components/forms/FormDialog';
 import { site } from '@/content/site';
 import { images } from '@/content/images';
 import { TheatreBackdrop } from '../components/decor';
-import { contactPaths } from '@/lib/contactPaths';
-import { Link } from 'react-router-dom';
 
 function topicToVariant(topic) {
   if (topic === 'education') return 'education';
@@ -121,33 +118,38 @@ export default function Contact() {
                   </li>
                 </ul>
               </div>
-              <p className="font-inter text-navy/55 text-xs leading-relaxed border-t border-navy/10 pt-6">
-                Prefer the full contact hub?{' '}
-                <Link to={contactPaths.general} className="text-gold hover:underline">
-                  Stay on this page
-                </Link>{' '}
-                and pick a form below.
-              </p>
             </aside>
 
             <div className="lg:col-span-2 grid sm:grid-cols-2 gap-5 sm:gap-6">
-              <FormCTA variant="contact" buttonLabel="General Inquiry" />
-              <FormCTA variant="education" buttonLabel="Education Programs" />
-              <FormCTA variant="sponsorship" buttonLabel="Sponsorship & Gala" />
-              <FormCTA variant="newsletter" buttonLabel="Join Mailing List" featured />
+              <FormCTA
+                variant="contact"
+                buttonLabel="General Inquiry"
+                open={openVariant === 'contact'}
+                onOpenChange={handleDialogChange('contact')}
+              />
+              <FormCTA
+                variant="education"
+                buttonLabel="Education Programs"
+                open={openVariant === 'education'}
+                onOpenChange={handleDialogChange('education')}
+              />
+              <FormCTA
+                variant="sponsorship"
+                buttonLabel="Sponsorship & Gala"
+                open={openVariant === 'sponsorship'}
+                onOpenChange={handleDialogChange('sponsorship')}
+              />
+              <FormCTA
+                variant="newsletter"
+                buttonLabel="Join Mailing List"
+                featured
+                open={openVariant === 'newsletter'}
+                onOpenChange={handleDialogChange('newsletter')}
+              />
             </div>
           </div>
         </div>
       </TheatreBackdrop>
-
-      {(['contact', 'education', 'sponsorship', 'newsletter']).map((v) => (
-        <FormDialog
-          key={v}
-          variant={v}
-          open={openVariant === v}
-          onOpenChange={handleDialogChange(v)}
-        />
-      ))}
     </PageLayout>
   );
 }
