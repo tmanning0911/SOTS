@@ -3,11 +3,19 @@ import { Link } from 'react-router-dom';
 import Reveal from './Reveal';
 import OptimizedImage from './OptimizedImage';
 import SectionHeader from './SectionHeader';
+import { TheatreBackdrop } from './decor';
 import { visitInfo, site } from '@/content/site';
 
 export default function VisitPark() {
   return (
-    <section className="section-pad bg-cream" data-nav-zone="light">
+    <TheatreBackdrop
+      as="section"
+      variant="cream"
+      wash="park"
+      ornaments="full"
+      className="section-pad"
+      data-nav-zone="light"
+    >
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div>
           <SectionHeader
@@ -59,6 +67,6 @@ export default function VisitPark() {
           </div>
         </Reveal>
       </div>
-    </section>
+    </TheatreBackdrop>
   );
 }

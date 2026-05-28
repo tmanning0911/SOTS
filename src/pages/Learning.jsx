@@ -2,12 +2,16 @@ import { useState, useEffect } from 'react';
 import { content } from '@/api/content';
 import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
-import { motion } from 'framer-motion';
-import { LearningIcon, IconArrowRight } from '@/components/icons';
-import CtaLink from '../components/CtaLink';
 import LoadingSpinner from '../components/LoadingSpinner';
+import LearningProgramCard from '../components/LearningProgramCard';
+import SectionHeader from '../components/SectionHeader';
 import { site } from '@/content/site';
+import { Link } from 'react-router-dom';
+import { contactPaths } from '@/lib/contactPaths';
+import NewsletterForm from '../components/forms/NewsletterForm';
 import { pageHeroImages, images } from '@/content/images';
+import ContactForm from '../components/forms/ContactForm';
+import { TheatreBackdrop } from '../components/decor';
 
 export default function Learning() {
   const [programs, setPrograms] = useState([]);
@@ -29,37 +33,31 @@ export default function Learning() {
         image={pageHeroImages.learning}
       />
 
-      <div className="max-w-6xl mx-auto page-gutter py-12 sm:py-16 md:py-20">
+      <TheatreBackdrop
+        variant="cream"
+        wash="kids"
+        ornaments="minimal"
+        className="page-gutter py-12 sm:py-16 md:py-20"
+      >
+      <div className="max-w-6xl mx-auto">
+        <SectionHeader
+          eyebrow="Programs"
+          title="Education Offerings"
+          description="Workshops, tours, summer camps, and in-park programming for schools and communities across Fairfield County."
+          align="center"
+          className="!mb-10 sm:!mb-12"
+        />
         {loading ? (
           <LoadingSpinner label="Loading programs" />
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {programs.map((prog, i) => (
-              <motion.div
-                key={prog.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06, duration: 0.5 }}
-                className="bg-white p-6 sm:p-8 group shadow-soft card-lift border border-navy/5 h-full flex flex-col"
-              >
-                <div className="w-12 h-12 border border-gold/30 flex items-center justify-center mb-5 group-hover:border-gold transition-colors">
-                  <LearningIcon name={prog.icon} className="text-gold" size={24} />
-                </div>
-                <h3 className="font-display text-navy text-xl font-semibold uppercase mb-3">{prog.title}</h3>
-                <p className="font-inter text-navy/80 text-sm leading-relaxed mb-6 flex-1">{prog.description}</p>
-                <CtaLink
-                  href={prog.ctaLink}
-                  className="link-gold !text-gold inline-flex items-center gap-2 mt-auto"
-                >
-                  {prog.ctaText}
-                  <IconArrowRight size={14} />
-                </CtaLink>
-              </motion.div>
+              <LearningProgramCard key={prog.id} program={prog} index={i} />
             ))}
           </div>
         )}
       </div>
+      </TheatreBackdrop>
 
       <section
         data-nav-zone="dark"
@@ -76,23 +74,47 @@ export default function Learning() {
             Bring Shakespeare to Your School
           </h2>
           <p className="font-inter text-white/60 text-sm max-w-lg mx-auto mb-6 px-2">
-            For pricing, booking, and outreach, contact {site.outreachDirector} or {site.educationDirector}.
+            For pricing, booking, and outreach, reach {site.outreachDirector} or {site.educationDirector} through
+            our contact forms — we do not publish staff email addresses.
           </p>
-          <p className="font-inter text-white/50 text-sm mb-2 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-3 break-all px-4">
-            <a href={`mailto:${site.outreachEmail}`} className="hover:text-gold transition-colors">
-              {site.outreachEmail}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-4">
+            <Link to={contactPaths.educationForm} className="btn-primary">
+              Request a Program
+            </Link>
+            <Link to={contactPaths.education} className="btn-secondary">
+              Education Contact Form
+            </Link>
+          </div>
+          <p className="font-inter text-white/45 text-sm">
+            Box office:{' '}
+            <a href={`tel:${site.phone.replace(/\D/g, '')}`} className="text-gold hover:text-white transition-colors">
+              {site.phone}
             </a>
-            <span className="hidden sm:inline text-white/30">·</span>
-            <a href={`mailto:${site.educationEmail}`} className="hover:text-gold transition-colors">
-              {site.educationEmail}
-            </a>
+            <span className="text-white/35"> · {site.phoneNote}</span>
           </p>
-          <p className="font-inter text-white/45 text-sm mb-8">{site.phone}</p>
-          <a href={`mailto:${site.educationEmail}`} className="btn-primary">
-            Contact Our Education Team
-          </a>
         </div>
       </section>
+
+      <TheatreBackdrop
+        as="section"
+        id="education-form"
+        variant="parchment"
+        wash="education"
+        ornaments="full"
+        className="border-t border-navy/8 page-gutter py-14 sm:py-20 scroll-mt-28"
+        data-nav-zone="light"
+      >
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-start">
+          <ContactForm variant="education" />
+          <div>
+            <h3 className="font-display text-navy text-xl font-semibold uppercase mb-3">Stay Updated</h3>
+            <p className="font-inter text-navy/70 text-sm mb-5 leading-relaxed">
+              Season news and education announcements — join the mailing list.
+            </p>
+            <NewsletterForm />
+          </div>
+        </div>
+      </TheatreBackdrop>
     </PageLayout>
   );
 }

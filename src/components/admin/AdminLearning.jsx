@@ -2,7 +2,15 @@ import { useState, useEffect } from 'react';
 import { content } from '@/api/content';
 import { IconPlus, IconPencil, IconTrash, IconClose, IconCheck } from '@/components/icons';
 
-const emptyProgram = { title: '', description: '', icon: 'BookOpen', ctaText: '', ctaLink: '', sort_order: 0 };
+const emptyProgram = {
+  title: '',
+  description: '',
+  icon: 'BookOpen',
+  ctaText: '',
+  ctaLink: '',
+  image: '',
+  sort_order: 0,
+};
 const iconOptions = ['BookOpen', 'Video', 'FileText', 'Users', 'GraduationCap', 'Globe', 'Mic', 'Music'];
 
 export default function AdminLearning() {
@@ -73,13 +81,25 @@ export default function AdminLearning() {
                 {iconOptions.map(i => <option key={i}>{i}</option>)}
               </select>
             </div>
+            <div className="md:col-span-2">
+              <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Card image URL</label>
+              <input
+                className="w-full border border-gray-200 px-3 py-2 text-sm text-navy focus:outline-none focus:border-navy"
+                placeholder="/images/learning/in-schools.jpg"
+                value={form.image || ''}
+                onChange={(e) => setForm((f) => ({ ...f, image: e.target.value }))}
+              />
+              {form.image && (
+                <img src={form.image} alt="" className="mt-2 w-full max-h-40 object-cover border border-gray-100" />
+              )}
+            </div>
             <div>
               <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">CTA Text *</label>
               <input className="w-full border border-gray-200 px-3 py-2 text-sm text-navy focus:outline-none focus:border-navy" placeholder="e.g. Book This Workshop" value={form.ctaText} onChange={e => setForm(f => ({...f, ctaText: e.target.value}))} />
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">CTA Link</label>
-              <input className="w-full border border-gray-200 px-3 py-2 text-sm text-navy focus:outline-none focus:border-navy" placeholder="e.g. mailto:nick@shakespeareonthesound.org" value={form.ctaLink || ''} onChange={e => setForm(f => ({...f, ctaLink: e.target.value}))} />
+              <input className="w-full border border-gray-200 px-3 py-2 text-sm text-navy focus:outline-none focus:border-navy" placeholder="e.g. /contact?topic=education" value={form.ctaLink || ''} onChange={e => setForm(f => ({...f, ctaLink: e.target.value}))} />
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Sort Order</label>
@@ -104,7 +124,12 @@ export default function AdminLearning() {
       ) : (
         <div className="grid gap-3">
           {programs.map(prog => (
-            <div key={prog.id} className="bg-white border border-gray-200 px-5 py-4 flex items-start justify-between hover:border-gray-300 transition-colors">
+            <div key={prog.id} className="bg-white border border-gray-200 px-5 py-4 flex items-start justify-between gap-4 hover:border-gray-300 transition-colors">
+              {prog.image ? (
+                <img src={prog.image} alt="" className="w-20 h-14 object-cover shrink-0 border border-gray-100" />
+              ) : (
+                <div className="w-20 h-14 bg-gray-100 shrink-0" />
+              )}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <p className="font-medium text-navy">{prog.title}</p>

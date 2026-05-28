@@ -11,6 +11,7 @@ const navLinks = [
   { label: 'News', path: '/news' },
   { label: 'Support', path: '/support' },
   { label: 'About', path: '/about' },
+  { label: 'Contact', path: '/contact' },
 ];
 
 const searchablePages = [
@@ -18,6 +19,7 @@ const searchablePages = [
   { label: 'Learning & Education', path: '/learning' },
   { label: 'Support Us / Donate', path: '/support' },
   { label: 'About Us', path: '/about' },
+  { label: 'Contact', path: '/contact' },
   { label: 'News', path: '/news' },
   { label: 'Watch on YouTube', path: '/watch' },
 ];

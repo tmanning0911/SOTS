@@ -1,12 +1,21 @@
 import SectionHeader from './SectionHeader';
 import Reveal from './Reveal';
 import OptimizedImage from './OptimizedImage';
-import { sponsors, site } from '@/content/site';
+import { sponsors } from '@/content/site';
+import StaAffiliation from './StaAffiliation';
+import { TheatreBackdrop } from './decor';
 import { Link } from 'react-router-dom';
 
 export default function Sponsors() {
   return (
-    <section className="section-pad bg-white border-t border-navy/5" data-nav-zone="light">
+    <TheatreBackdrop
+      as="section"
+      variant="cream"
+      wash="audience"
+      ornaments="minimal"
+      className="section-pad border-t border-navy/5"
+      data-nav-zone="light"
+    >
       <div className="max-w-6xl mx-auto">
         <SectionHeader
           eyebrow="Community"
@@ -47,14 +56,12 @@ export default function Sponsors() {
           ))}
         </ul>
         <Reveal className="text-center">
-          <p className="font-inter text-navy/55 text-sm max-w-md mx-auto leading-relaxed">
-            {site.staNote}
-          </p>
-          <Link to="/support" className="link-gold inline-block mt-6">
+          <StaAffiliation theme="light" className="mb-8" />
+          <Link to="/support" className="link-gold inline-block">
             Become a Sponsor
           </Link>
         </Reveal>
       </div>
-    </section>
+    </TheatreBackdrop>
   );
 }

@@ -9,6 +9,7 @@ import VisitPark from '../components/VisitPark';
 import LatestNews from '../components/LatestNews';
 import HomeContact from '../components/HomeContact';
 import Footer from '../components/Footer';
+import EmailSignupBar from '../components/EmailSignupBar';
 
 /**
  * Homepage section order mirrors shakespeareonthesound.org:
@@ -16,7 +17,7 @@ import Footer from '../components/Footer';
  */
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-cream overflow-x-clip">
+    <div className="min-h-screen flex flex-col bg-cream bg-theatre-dots overflow-x-clip">
       <SkipLink />
       <Navbar />
       <main id="main-content" className="flex-1 w-full" data-nav-zone="light">
@@ -29,6 +30,7 @@ export default function Home() {
         <LatestNews />
         <HomeContact />
       </main>
+      <EmailSignupBar />
       <Footer />
     </div>
   );

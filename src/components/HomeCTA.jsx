@@ -1,6 +1,8 @@
 import { IconLaurel, IconMasks, IconBookOpen } from '@/components/icons';
 import Reveal from './Reveal';
+import { TheatreBackdrop, MasksBanner } from './decor';
 import { site } from '@/content/site';
+import { contactPaths } from '@/lib/contactPaths';
 
 const cards = [
   {
@@ -8,7 +10,7 @@ const cards = [
     title: 'Save the Date',
     body: `${site.gala.title} — ${site.gala.date}, ${site.gala.time}. ${site.gala.venue}, ${site.gala.address}.`,
     cta: 'Join the Committee',
-    href: `mailto:${site.gala.committeeEmail}?subject=Gala%20Committee`,
+    href: contactPaths.gala,
   },
   {
     icon: IconMasks,
@@ -30,7 +32,15 @@ const cards = [
 
 export default function HomeCTA() {
   return (
-    <section className="bg-cream py-12 sm:py-16 md:py-20 page-gutter border-y border-navy/8" data-nav-zone="light">
+    <TheatreBackdrop
+      as="section"
+      variant="parchment"
+      wash="cast"
+      ornaments="full"
+      className="py-12 sm:py-16 md:py-20 page-gutter border-y border-navy/8"
+      data-nav-zone="light"
+    >
+      <MasksBanner className="absolute top-0 left-0 right-0 opacity-[0.05]" />
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
         {cards.map((card, i) => (
           <Reveal key={card.title} delay={i * 0.08} className="h-full">
@@ -73,6 +83,6 @@ export default function HomeCTA() {
           </Reveal>
         ))}
       </div>
-    </section>
+    </TheatreBackdrop>
   );
 }

@@ -3,11 +3,14 @@ import PageLayout from '../components/PageLayout';
 import Sponsors from '../components/Sponsors';
 import TicketBanner from '../components/TicketBanner';
 import ContactSection from '../components/ContactSection';
+import ContactChannelLink from '../components/ContactChannelLink';
+import { Link } from 'react-router-dom';
+import StaAffiliation from '../components/StaAffiliation';
+import { TheatreBackdrop } from '../components/decor';
 import OptimizedImage from '../components/OptimizedImage';
 import { motion } from 'framer-motion';
 import { site, visitInfo } from '@/content/site';
 import { images } from '@/content/images';
-import { Link } from 'react-router-dom';
 
 export default function About() {
   const [faqs, setFaqs] = useState([]);
@@ -57,14 +60,16 @@ export default function About() {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto page-gutter py-12 sm:py-16 md:py-20">
-        <div className="grid md:grid-cols-2 gap-10 sm:gap-16 items-start">
+      <TheatreBackdrop variant="parchment" wash="history" ornaments="minimal" className="page-gutter py-12 sm:py-16 md:py-20">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 sm:gap-16 items-start">
           <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <span className="section-eyebrow mb-4">Mission & History</span>
             <h2 className="font-display text-navy text-3xl font-semibold uppercase mb-6">{site.name}</h2>
             <p className="font-inter text-navy/85 text-sm md:text-base leading-relaxed mb-4">{site.mission}</p>
             <p className="font-inter text-navy/85 text-sm md:text-base leading-relaxed mb-4">{site.missionEducation}</p>
-            <p className="font-inter text-navy/85 text-sm md:text-base leading-relaxed mb-6">{site.staNote}</p>
+            <div className="mb-8 py-8 border-y border-navy/10">
+              <StaAffiliation theme="light" />
+            </div>
             <div id="contact" className="border-t border-navy/10 pt-6 space-y-3 scroll-mt-28">
               <p className="font-inter text-navy/70 text-sm">
                 <span className="font-semibold text-navy">Mailing:</span> {site.mailingAddress}
@@ -77,9 +82,9 @@ export default function About() {
               </p>
               <p className="font-inter text-navy/70 text-sm">
                 <span className="font-semibold text-navy">Email:</span>{' '}
-                <a href={`mailto:${site.email}`} className="text-gold hover:underline">
-                  {site.email}
-                </a>
+                <Link to="/contact" className="text-gold hover:underline">
+                  Contact form
+                </Link>
               </p>
               <p className="font-inter text-navy/70 text-sm">
                 <span className="font-semibold text-navy">Phone:</span> {site.phone} ({site.phoneNote})
@@ -100,7 +105,7 @@ export default function About() {
             />
           </motion.div>
         </div>
-      </div>
+      </TheatreBackdrop>
 
       <div className="bg-navy/5 py-12 sm:py-14 page-gutter border-y border-navy/8">
         <div className="max-w-3xl mx-auto">
@@ -197,7 +202,7 @@ export default function About() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {team.map((person, i) => (
             <motion.div
-              key={person.email}
+              key={person.name}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -221,9 +226,12 @@ export default function About() {
                 {person.pronouns ? ` · ${person.pronouns}` : ''}
               </p>
               <p className="font-inter text-navy/75 text-sm leading-relaxed mt-3 mb-4 flex-1">{person.bio}</p>
-              <a href={`mailto:${person.email}`} className="font-inter text-gold text-sm hover:underline">
-                {person.email}
-              </a>
+              <ContactChannelLink
+                channel={person.role?.toLowerCase().includes('education') ? 'education' : 'general'}
+                className="font-inter text-gold text-sm hover:underline"
+              >
+                Send a message
+              </ContactChannelLink>
             </motion.div>
           ))}
         </div>

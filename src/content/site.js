@@ -40,6 +40,8 @@ export const site = {
     'Shakespeare on the Sound is committed to the concept that theatre is for everyone and should be accessible to all. We seek to include a diverse group of artists and theatre creators in our casting, hiring, and producing, and we are continuing to expand our education programs to those who do not have access to theatre education.',
   donateBlurb:
     'Your charitable contributions help defray the cost of our year-round productions, our 16 summer performances in Pinkney Park, Rowayton, and our year-round education programs. Our ticket prices do not cover the total expense of our productions. Each year we must raise at least $115,000 from supporters like you.',
+  staLogo: '/images/sta-logo.jpg',
+  staUrl: 'https://www.stahome.org/',
   staNote:
     'Shakespeare on the Sound is a proud member of the Shakespeare Theatre Association.',
   cancellationSummary:

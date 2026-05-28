@@ -89,6 +89,57 @@
     background-size: 24px 24px;
   }
 
+  .bg-parchment {
+    background-color: hsl(42 32% 94%);
+  }
+
+  .bg-parchment-texture {
+    opacity: 0.55;
+    background-image:
+      url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%231a2744' stroke-opacity='0.06' stroke-width='0.6'%3E%3Cpath d='M8 40c6-10 14-10 20 0M52 40c6-10 14-10 20 0'/%3E%3Cpath d='M40 8v64' opacity='0.4'/%3E%3C/g%3E%3C/svg%3E"),
+      radial-gradient(ellipse 80% 50% at 50% 0%, hsl(38 72% 48% / 0.06), transparent 55%),
+      radial-gradient(ellipse 60% 40% at 100% 100%, hsl(220 42% 18% / 0.04), transparent 50%);
+    background-size: 80px 80px, 100% 100%, 100% 100%;
+  }
+
+  .bg-theatre-dots {
+    background-image:
+      radial-gradient(hsl(38 72% 48% / 0.08) 1px, transparent 1px),
+      radial-gradient(hsl(220 42% 18% / 0.03) 1px, transparent 1px);
+    background-size: 32px 32px, 16px 16px;
+    background-position: 0 0, 8px 8px;
+  }
+
+  .curtain-swash-top {
+    background: linear-gradient(
+      180deg,
+      hsl(220 48% 11% / 0.15) 0%,
+      transparent 42%
+    );
+  }
+
+  .curtain-swash-bottom {
+    background: linear-gradient(
+      0deg,
+      hsl(220 48% 11% / 0.12) 0%,
+      transparent 38%
+    );
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theatre-decor-layer {
+      display: none;
+    }
+  }
+
+  .footer-board-egg-trigger::-webkit-details-marker {
+    display: none;
+  }
+
+  .footer-board-egg-trigger::marker {
+    content: '';
+  }
+
   .section-pad {
     @apply py-14 sm:py-20 md:py-28 px-4 sm:px-6 md:px-16;
   }

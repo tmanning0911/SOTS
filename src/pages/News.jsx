@@ -8,6 +8,7 @@ import OptimizedImage from '../components/OptimizedImage';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { IconArrowRight } from '@/components/icons';
 import { pageHeroImages } from '@/content/images';
+import { TheatreBackdrop } from '../components/decor';
 
 export default function News() {
   const [articles, setArticles] = useState([]);
@@ -31,7 +32,8 @@ export default function News() {
         image={pageHeroImages.news}
       />
 
-      <div className="max-w-6xl mx-auto page-gutter py-12 sm:py-16 md:py-20">
+      <TheatreBackdrop variant="parchment" wash="audience" ornaments="minimal" className="page-gutter py-12 sm:py-16 md:py-20">
+      <div className="max-w-6xl mx-auto">
         {loading ? (
           <LoadingSpinner label="Loading news" />
         ) : articles.length === 0 ? (
@@ -111,6 +113,7 @@ export default function News() {
           </>
         )}
       </div>
+      </TheatreBackdrop>
     </PageLayout>
   );
 }

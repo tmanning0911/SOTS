@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
 import { site, socialLinks, sponsors } from '@/content/site';
 import { IconFacebook, IconInstagram, IconTwitter, IconYoutube } from '@/components/icons';
+import StaAffiliation from './StaAffiliation';
+import ContactChannelLink from './ContactChannelLink';
+import { contactPaths } from '@/lib/contactPaths';
+import FooterBoardEasterEgg from './FooterBoardEasterEgg';
 
 const iconMap = {
   Facebook: IconFacebook,
@@ -42,7 +46,7 @@ const navCols = [
     links: [
       { label: 'Mission & History', path: '/about' },
       { label: 'Visit Pinkney Park', path: '/about#visit' },
-      { label: 'Contact', path: '/about#contact' },
+      { label: 'Contact', path: '/contact' },
       { label: 'Admin', path: '/admin/login' },
     ],
   },
@@ -52,21 +56,26 @@ export default function Footer() {
   return (
     <footer className="bg-navy">
       <div className="border-b border-white/10">
-        <div className="max-w-6xl mx-auto page-gutter py-8 sm:py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="max-w-6xl mx-auto page-gutter py-8 sm:py-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div className="min-w-0">
-            <p className="font-display text-white text-xl sm:text-2xl md:text-3xl font-semibold uppercase tracking-wide text-balance">{site.tagline}</p>
-            <p className="font-inter text-white/60 text-xs mt-2 max-w-md">
-              {site.educationBlurb}
+            <p className="font-display text-white text-xl sm:text-2xl md:text-3xl font-semibold uppercase tracking-wide text-balance">
+              {site.tagline}
             </p>
+            <p className="font-inter text-white/60 text-xs mt-2 max-w-md">{site.educationBlurb}</p>
           </div>
-          <a
-            href={site.donateUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary w-full md:w-auto justify-center shrink-0"
-          >
-            Donate Today
-          </a>
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto shrink-0">
+            <a href="#email-signup" className="btn-secondary w-full sm:w-auto justify-center">
+              Join Mailing List
+            </a>
+            <a
+              href={site.donateUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary w-full sm:w-auto justify-center"
+            >
+              Donate Today
+            </a>
+          </div>
         </div>
       </div>
 
@@ -86,9 +95,9 @@ export default function Footer() {
               >
                 {site.location}
               </a>
-              <a href={`mailto:${site.email}`} className="block hover:text-white transition-colors break-all">
-                {site.email}
-              </a>
+              <ContactChannelLink className="block hover:text-white transition-colors">
+                Send us a message
+              </ContactChannelLink>
               <a href={`tel:${site.phone.replace(/\D/g, '')}`} className="block hover:text-white transition-colors">
                 {site.phone}
                 <span className="text-white/40"> · {site.phoneNote}</span>
@@ -134,12 +143,12 @@ export default function Footer() {
           ))}
         </div>
 
-        <p className="font-inter text-white/40 text-[11px] mb-2 leading-relaxed">
+        <p className="font-inter text-white/40 text-[11px] mb-10 leading-relaxed">
           <span className="hidden sm:inline">Sponsors: </span>
           <span className="sm:hidden">Sponsors — </span>
           {sponsors.map((s) => s.name).join(' · ')}
         </p>
-        <p className="font-inter text-white/40 text-[11px]">{site.staNote}</p>
+        <StaAffiliation theme="dark" />
       </div>
 
       <div className="border-t border-white/10">
@@ -147,14 +156,19 @@ export default function Footer() {
           <p className="font-inter text-white/50 text-[11px] w-full md:w-auto">
             © {new Date().getFullYear()} {site.name} · A 501(c)(3) nonprofit organization
           </p>
-          <p className="font-inter text-white/50 text-[11px] w-full md:w-auto break-all">
-            Education questions:{' '}
-            <a href={`mailto:${site.educationEmail}`} className="hover:text-white/80 transition-colors">
-              {site.educationEmail}
-            </a>
+          <p className="font-inter text-white/50 text-[11px] w-full md:w-auto">
+            <Link to={contactPaths.education} className="hover:text-white/80 transition-colors">
+              Education inquiries
+            </Link>
+            <span className="text-white/35"> · </span>
+            <Link to={contactPaths.general} className="hover:text-white/80 transition-colors">
+              Contact form
+            </Link>
           </p>
         </div>
       </div>
+
+      <FooterBoardEasterEgg />
     </footer>
   );
 }

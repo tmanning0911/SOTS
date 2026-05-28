@@ -48,6 +48,12 @@ export const pageSeo = {
       'Learn about Shakespeare on the Sound — 30 seasons of professional outdoor theatre in Rowayton, CT. Mission, visiting Pinkney Park, and contact info.',
     path: '/about',
   },
+  '/contact': {
+    title: 'Contact — Tickets, Education & Sponsorship',
+    description:
+      'Contact Shakespeare on the Sound for tickets, education bookings, sponsorship, and mailing list signup. Rowayton, CT.',
+    path: '/contact',
+  },
   '/news': {
     title: 'News & Updates',
     description:

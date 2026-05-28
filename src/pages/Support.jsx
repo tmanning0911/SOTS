@@ -4,7 +4,10 @@ import { motion, useInView, useMotionValue, useTransform, animate } from 'framer
 import { IconMasks, IconLaurel, IconStage, IconBookOpen } from '@/components/icons';
 import Sponsors from '../components/Sponsors';
 import TicketBanner from '../components/TicketBanner';
+import ContactForm from '../components/forms/ContactForm';
+import { TheatreBackdrop } from '../components/decor';
 import { sponsors, site } from '@/content/site';
+import { contactPaths } from '@/lib/contactPaths';
 import { useEffect, useRef } from 'react';
 import { pageHeroImages } from '@/content/images';
 
@@ -46,7 +49,7 @@ const ways = [
     description: `Save the Date for our Much Ado About Something gala on ${site.gala.date}, ${site.gala.time} at ${site.gala.venue}, ${site.gala.address}. Cocktails, bites, dancing, and live & silent auctions.`,
     cta: 'Join the Committee',
     highlight: false,
-    href: `mailto:${site.gala.committeeEmail}`,
+    href: contactPaths.gala,
   },
   {
     icon: IconStage,
@@ -54,7 +57,7 @@ const ways = [
     description: `Partner with Shakespeare on the Sound and align your brand with professional, community Shakespeare. Our ${new Date().getFullYear()} sponsors include ${sponsors.map((s) => s.name).join(', ')}.`,
     cta: 'Become a Sponsor',
     highlight: false,
-    href: `mailto:${site.email}`,
+    href: contactPaths.sponsorship,
   },
   {
     icon: IconBookOpen,
@@ -148,6 +151,19 @@ export default function Support() {
           </div>
         </div>
       </div>
+
+      <TheatreBackdrop
+        as="section"
+        variant="parchment"
+        wash="spotlight"
+        ornaments="full"
+        className="border-t border-navy/8 page-gutter py-14 sm:py-20"
+        data-nav-zone="light"
+      >
+        <div className="max-w-2xl mx-auto">
+          <ContactForm variant="sponsorship" />
+        </div>
+      </TheatreBackdrop>
 
       <Sponsors />
       <TicketBanner />

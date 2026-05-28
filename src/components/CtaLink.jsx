@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { mailtoToContactPath } from '@/lib/contactPaths';
 
 /**
  * Renders mailto, external, in-app, or plain anchors from a single href string.
@@ -12,7 +13,15 @@ export default function CtaLink({ href, className, children, ...props }) {
     );
   }
 
-  if (href.startsWith('mailto:') || href.startsWith('tel:')) {
+  if (href.startsWith('mailto:')) {
+    return (
+      <Link to={mailtoToContactPath(href)} className={className} {...props}>
+        {children}
+      </Link>
+    );
+  }
+
+  if (href.startsWith('tel:')) {
     return (
       <a href={href} className={className} {...props}>
         {children}

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { site, visitInfo } from '@/content/site';
+import { visitInfo } from '@/content/site';
+import { contactPaths } from '@/lib/contactPaths';
 import { IconArrowRight } from '@/components/icons';
 
 export default function VisitCallout() {
@@ -23,9 +24,9 @@ export default function VisitCallout() {
             <Link to="/about#visit" className="link-gold inline-flex items-center gap-2 w-fit">
               FAQs & directions <IconArrowRight size={14} />
             </Link>
-            <a href={`mailto:${site.email}`} className="font-inter text-navy/50 text-xs hover:text-rust transition-colors">
-              Questions? {site.email}
-            </a>
+            <Link to={contactPaths.general} className="font-inter text-navy/50 text-xs hover:text-gold transition-colors">
+              Questions? Contact us →
+            </Link>
           </div>
         </div>
       </div>

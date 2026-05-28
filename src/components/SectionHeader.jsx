@@ -1,4 +1,5 @@
 import Reveal from './Reveal';
+import { OrnamentDivider } from './decor';
 
 export default function SectionHeader({
   eyebrow,
@@ -30,10 +31,9 @@ export default function SectionHeader({
           {description}
         </p>
       )}
-      <div
-        className={`mt-6 h-px w-14 bg-gold/80 ${align === 'center' ? 'mx-auto' : ''} ${align === 'right' ? 'ml-auto' : ''}`}
-        aria-hidden
-      />
+      <div className={`mt-6 ${align === 'center' ? '' : align === 'right' ? 'flex justify-end' : ''}`}>
+        <OrnamentDivider light={light} className={align === 'left' ? '!mx-0' : align === 'right' ? '!ml-auto !mr-0' : ''} />
+      </div>
     </Reveal>
   );
 }

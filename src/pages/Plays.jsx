@@ -9,6 +9,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import TicketBanner from '../components/TicketBanner';
 import VisitCallout from '../components/VisitCallout';
 import { pageHeroImages } from '@/content/images';
+import { TheatreBackdrop } from '../components/decor';
 
 export default function Plays() {
   const [productions, setProductions] = useState([]);
@@ -30,7 +31,12 @@ export default function Plays() {
         image={pageHeroImages.plays}
       />
 
-      <div className="max-w-6xl mx-auto section-pad !pt-14 sm:!pt-16 bg-section-pattern">
+      <TheatreBackdrop
+        variant="parchment"
+        wash="cast"
+        ornaments="minimal"
+        className="max-w-6xl mx-auto section-pad !pt-14 sm:!pt-16 mx-auto"
+      >
         {loading ? (
           <LoadingSpinner label="Loading productions" />
         ) : productions.length === 0 ? (
@@ -120,7 +126,7 @@ export default function Plays() {
             ))}
           </div>
         )}
-      </div>
+      </TheatreBackdrop>
 
       <VisitCallout />
       <TicketBanner />

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Reveal from './Reveal';
 import OptimizedImage from './OptimizedImage';
 import { site } from '@/content/site';
+import { CornerOrnament, ArtWatermark } from './decor';
 
 const features = [
   { Icon: IconBookOpen, label: 'In Schools', desc: 'Workshops for grades K–12 across Fairfield County' },
@@ -12,9 +13,12 @@ const features = [
 
 export default function ShakespeareHub() {
   return (
-    <section className="bg-navy-deep overflow-hidden grain-overlay" data-nav-zone="dark">
+    <section className="bg-navy-deep overflow-hidden grain-overlay relative" data-nav-zone="dark">
+      <CornerOrnament position="tl" theme="dark" />
+      <CornerOrnament position="br" theme="dark" />
+      <ArtWatermark type="quill" className="text-white top-[20%] -left-12 hidden lg:block" opacity={0.055} />
       <div className="grid lg:grid-cols-2 min-h-0 lg:min-h-[480px] relative z-[1]">
-        <Reveal className="flex flex-col justify-center px-4 sm:px-8 md:px-12 lg:px-16 py-12 sm:py-16 order-2 lg:order-1">
+        <Reveal className="flex flex-col justify-center px-4 sm:px-8 md:px-12 lg:px-16 py-12 sm:py-16 order-2 lg:order-1 relative">
           <span className="section-eyebrow mb-4 sm:mb-5">Education</span>
           <h2 className="font-display text-white text-3xl sm:text-4xl md:text-5xl font-semibold uppercase leading-[1.05] mb-4 sm:mb-6 text-balance">
             Shakespeare for Everyone

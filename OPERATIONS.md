@@ -38,6 +38,30 @@ npm run scrape
 
 Output is saved to `public/data/scraped/` for reference — review and copy into the JSON files above.
 
+## Form submissions (contact, education, newsletter, sponsorship)
+
+Visitors can submit forms on **Home**, **About**, **Contact** (`/contact`), **Learning**, **Support**, and the **footer** mailing list.
+
+### Netlify Forms (production — Git deploy)
+
+1. In Netlify → **Forms**, confirm these forms appear after deploy: `contact`, `education`, `newsletter`, `sponsorship`.
+2. **Form notifications** → add email addresses for each form (or one shared inbox).
+3. Submissions also appear under **Forms** in the dashboard.
+
+Forms are registered via `public/forms.html` at build time. If a form is missing in the dashboard, redeploy from Git (not drag-and-drop only).
+
+### Backup API (optional)
+
+`POST /api/contact` stores a copy in Netlify Blobs (`sots-form-submissions`) when functions run. Local dev logs to `.dev-form-submissions.jsonl`.
+
+### If email stops working
+
+| Issue | Fix |
+|-------|-----|
+| Form not in Netlify dashboard | Redeploy from Git; ensure `public/forms.html` is in the build |
+| Submit succeeds but no email | Enable notifications under Netlify → Forms |
+| Error in browser | Check spam; use mailto links on Contact page as fallback |
+
 ## Deploy
 
 **Git (recommended)** — push to GitHub; Netlify rebuilds automatically:

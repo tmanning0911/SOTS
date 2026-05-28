@@ -11,6 +11,7 @@ import Plays from './pages/Plays';
 import Learning from './pages/Learning';
 import Support from './pages/Support';
 import About from './pages/About';
+import Contact from './pages/Contact';
 import News from './pages/News';
 import NewsArticle from './pages/NewsArticle';
 import WatchPage from './pages/WatchPage';
@@ -31,6 +32,7 @@ function App() {
             <Route path="/learning" element={<Learning />} />
             <Route path="/support" element={<Support />} />
             <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/news" element={<News />} />
             <Route path="/news/:id" element={<NewsArticle />} />
             <Route path="/watch" element={<WatchPage />} />

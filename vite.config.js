@@ -4,6 +4,28 @@ import path from 'node:path';
 import { defineConfig } from 'vite';
 
 const COLLECTIONS = new Set(['plays', 'articles', 'learning']);
+const FORM_NAMES = new Set(['contact', 'education', 'newsletter', 'sponsorship']);
+
+function validateContactPayload(form, fields) {
+  const email = String(fields.email || '')
+    .trim()
+    .toLowerCase()
+    .slice(0, 254);
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { error: 'A valid email address is required.' };
+  }
+  const name = String(fields.name || '').trim().slice(0, 200);
+  if (!name && form !== 'newsletter') {
+    return { error: 'Name is required.' };
+  }
+  if (form === 'contact' || form === 'education' || form === 'sponsorship') {
+    const message = String(fields.message || '').trim();
+    if (message.length < 10) {
+      return { error: 'Please enter a message (at least 10 characters).' };
+    }
+  }
+  return { ok: true };
+}
 
 function devContentAdminPlugin() {
   return {
@@ -85,6 +107,59 @@ function devContentAdminPlugin() {
             res.end(JSON.stringify({ error: 'Unknown action' }));
           } catch (err) {
             res.statusCode = 500;
+            res.end(JSON.stringify({ error: err.message || 'Server error' }));
+          }
+        });
+      });
+
+      server.middlewares.use(async (req, res, next) => {
+        if (!req.url?.startsWith('/api/contact') || req.method === 'OPTIONS') {
+          return next();
+        }
+        if (req.method !== 'POST') {
+          res.statusCode = 405;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ error: 'Method not allowed' }));
+          return;
+        }
+
+        let body = '';
+        req.on('data', (chunk) => {
+          body += chunk;
+        });
+        req.on('end', async () => {
+          try {
+            const payload = JSON.parse(body || '{}');
+            const form = String(payload.form || '').trim();
+            if (!FORM_NAMES.has(form)) {
+              res.statusCode = 400;
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({ error: 'Unknown form' }));
+              return;
+            }
+            const fields = payload.fields && typeof payload.fields === 'object' ? payload.fields : {};
+            if (fields['bot-field']) {
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({ ok: true }));
+              return;
+            }
+            const validation = validateContactPayload(form, fields);
+            if (validation.error) {
+              res.statusCode = 400;
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({ error: validation.error }));
+              return;
+            }
+            const logPath = path.resolve(server.config.root, '.dev-form-submissions.jsonl');
+            await fs.appendFile(
+              logPath,
+              `${JSON.stringify({ form, fields, at: new Date().toISOString() })}\n`,
+            );
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ ok: true }));
+          } catch (err) {
+            res.statusCode = 500;
+            res.setHeader('Content-Type', 'application/json');
             res.end(JSON.stringify({ error: err.message || 'Server error' }));
           }
         });

@@ -2,6 +2,7 @@
 
 export const images = {
   logo: '/images/logo.png',
+  staLogo: '/images/sta-logo.jpg',
   heroMuchAdo: '/images/hero-much-ado.png',
   aboutBanner: '/images/about-banner.png',
   shakespeareHub: '/images/shakespeare-hub.png',
@@ -15,6 +16,17 @@ export const images = {
     cast: '/images/backgrounds/much-ado-cast.jpg',
     kids: '/images/backgrounds/kids-performance.jpg',
     spotlight: '/images/backgrounds/performance-spotlight.jpg',
+  },
+  learning: {
+    inSchools: '/images/learning/in-schools.jpg',
+    tours: '/images/learning/tours.jpg',
+    trippingly: '/images/learning/trippingly-on-the-tongue.jpg',
+    worldsStage: '/images/learning/all-the-worlds-a-stage.jpg',
+    hamlet: '/images/learning/page-to-stage-hamlet.jpg',
+    teachers: '/images/learning/teachers-workshop.jpg',
+    inThePark: '/images/learning/in-the-park.jpg',
+    summerCamps: '/images/learning/summer-camps.jpg',
+    professional: '/images/learning/professional-training.jpg',
   },
   news: {
     seasonBanner: '/images/news/season-banner-2026.jpg',

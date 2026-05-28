@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import OptimizedImage from './OptimizedImage';
+import { CornerOrnament, ArtWatermark, OrnamentDivider } from './decor';
 
 export default function PageHero({ eyebrow, title, description, image }) {
   const reduceMotion = useReducedMotion();
@@ -25,8 +26,13 @@ export default function PageHero({ eyebrow, title, description, image }) {
       </motion.div>
       <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/70 to-navy-deep/30" />
       <div className="absolute inset-0 bg-gradient-to-r from-navy-deep/80 to-transparent" />
+      <div className="absolute inset-0 curtain-swash-top pointer-events-none" aria-hidden />
+      <CornerOrnament position="tl" theme="dark" />
+      <CornerOrnament position="br" theme="dark" />
+      <ArtWatermark type="masks" className="text-white top-[18%] right-[2%] hidden md:block" opacity={0.07} />
+      <ArtWatermark type="quill" className="text-white bottom-[15%] left-[0%] hidden lg:block" opacity={0.06} />
 
-      <div className="absolute inset-0 flex items-end px-4 sm:px-6 md:px-16 pb-10 sm:pb-14 md:pb-16">
+      <div className="absolute inset-0 flex items-end px-4 sm:px-6 md:px-16 pb-10 sm:pb-14 md:pb-16 z-[2]">
         <motion.div
           className="max-w-6xl mx-auto w-full"
           initial={reduceMotion ? false : { opacity: 0, y: 24 }}
@@ -42,7 +48,7 @@ export default function PageHero({ eyebrow, title, description, image }) {
               {description}
             </p>
           )}
-          <div className="mt-6 h-px w-14 bg-gold" aria-hidden />
+          <OrnamentDivider light className="!max-w-xs mt-6 !mx-0" />
         </motion.div>
       </div>
     </div>
