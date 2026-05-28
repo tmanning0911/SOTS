@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import Reveal from './Reveal';
 import OptimizedImage from './OptimizedImage';
 import SectionHeader from './SectionHeader';
-import { content } from '@/api/content';
+import { cms } from '@/lib/cms';
 
 export default function ProductionStrip() {
   const [productions, setProductions] = useState([]);
 
   useEffect(() => {
-    content.entities.Play.list('sort_order')
+    cms.plays.list('sort_order')
       .then((data) => setProductions(data.filter((p) => p.status !== 'Archived')))
       .catch(() => setProductions([]));
   }, []);

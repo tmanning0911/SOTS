@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { content } from '@/api/content';
+import { cms } from '@/lib/cms';
 import PageLayout from '../components/PageLayout';
 import OptimizedImage from '../components/OptimizedImage';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -30,7 +30,7 @@ export default function NewsArticle() {
   }, [article]);
 
   useEffect(() => {
-    content.entities.Article.list('-date')
+    cms.articles.list('-date')
       .then((items) => {
         const published = items.filter((a) => a.published !== false);
         const match = published.find((a) => a.id === id);

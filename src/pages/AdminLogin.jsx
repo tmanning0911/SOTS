@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { content } from '@/api/content';
+import { cms } from '@/lib/cms';
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ export default function AdminLogin() {
     setError('');
     setLoading(true);
     try {
-      await content.auth.login(password);
+      await cms.admin.login(password);
       navigate('/admin');
     } catch (err) {
       setError(err.message || 'Login failed');
@@ -24,20 +24,20 @@ export default function AdminLogin() {
 
   return (
     <div className="min-h-[100dvh] bg-cream flex items-center justify-center px-4 sm:px-6 py-8">
-      <div className="w-full max-w-md bg-white border border-gray-200 shadow-sm p-6 sm:p-8">
-        <p className="text-[10px] tracking-[0.2em] uppercase text-rust mb-2">Admin</p>
+      <div className="w-full max-w-md bg-white border border-navy/10 shadow-soft p-6 sm:p-8">
+        <p className="text-[10px] tracking-[0.2em] uppercase text-gold mb-2">Staff only</p>
         <h1 className="font-playfair text-navy text-2xl font-bold uppercase mb-6">
           Shakespeare on the Sound
         </h1>
         <form onSubmit={submit} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">
+            <label className="block text-xs font-medium text-navy/60 uppercase tracking-wider mb-1">
               Password
             </label>
             <input
               type="password"
               autoComplete="current-password"
-              className="w-full border border-gray-200 px-3 py-3 text-base sm:text-sm text-navy focus:outline-none focus:border-navy min-h-[44px]"
+              className="w-full border border-navy/15 px-3 py-3 text-base sm:text-sm text-navy focus:outline-none focus:border-gold min-h-[44px]"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -52,8 +52,8 @@ export default function AdminLogin() {
             {loading ? 'Signing in…' : 'Sign In'}
           </button>
         </form>
-        <p className="mt-6 text-center text-sm text-gray-500">
-          <Link to="/" className="text-rust hover:underline">
+        <p className="mt-6 text-center text-sm text-navy/55">
+          <Link to="/" className="text-gold-muted hover:text-navy transition-colors">
             Back to site
           </Link>
         </p>

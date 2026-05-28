@@ -1,4 +1,4 @@
-/** Site imagery — sourced from shakespeareonthesound.org (Wix CDN) */
+/** Site imagery paths for Shakespeare on the Sound */
 
 export const images = {
   logo: '/images/logo.png',

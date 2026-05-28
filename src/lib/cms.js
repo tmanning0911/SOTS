@@ -1,13 +1,15 @@
+/**
+ * Shakespeare on the Sound — content & admin API (JSON + Netlify Blobs).
+ */
 const TOKEN_KEY = 'sots_admin_token';
 
 const COLLECTIONS = {
-  Play: 'plays',
-  Article: 'articles',
-  LearningProgram: 'learning',
+  plays: 'plays',
+  articles: 'articles',
+  learning: 'learning',
 };
 
 function apiBase(path) {
-  if (import.meta.env.DEV) return path;
   return path;
 }
 
@@ -31,7 +33,6 @@ async function readCollection(collection, sort = '') {
       return res.json();
     }
     if (res.ok && contentType.includes('text/html')) {
-      /* Static Netlify deploy: /api/* returns index.html */
       return readStaticCollection(collection, sort);
     }
     if (res.status === 403 || res.status === 401) {
@@ -56,9 +57,7 @@ function sortItems(items, sortKey) {
     if (typeof av === 'number' && typeof bv === 'number') {
       return desc ? bv - av : av - bv;
     }
-    return desc
-      ? String(bv).localeCompare(String(av))
-      : String(av).localeCompare(String(bv));
+    return desc ? String(bv).localeCompare(String(av)) : String(av).localeCompare(String(bv));
   });
 }
 
@@ -81,25 +80,20 @@ async function adminRequest(body) {
   return data;
 }
 
-function entityClient(entityName) {
-  const collection = COLLECTIONS[entityName];
+function collectionApi(collection) {
   return {
     list: (sort) => readCollection(collection, sort),
-    create: (data) =>
-      adminRequest({ action: 'create', collection, data }).then((r) => r.item),
-    update: (id, data) =>
-      adminRequest({ action: 'update', collection, id, data }).then((r) => r.item),
+    create: (data) => adminRequest({ action: 'create', collection, data }).then((r) => r.item),
+    update: (id, data) => adminRequest({ action: 'update', collection, id, data }).then((r) => r.item),
     delete: (id) => adminRequest({ action: 'delete', collection, id }),
   };
 }
 
-export const content = {
-  entities: {
-    Play: entityClient('Play'),
-    Article: entityClient('Article'),
-    LearningProgram: entityClient('LearningProgram'),
-  },
-  auth: {
+export const cms = {
+  plays: collectionApi(COLLECTIONS.plays),
+  articles: collectionApi(COLLECTIONS.articles),
+  learning: collectionApi(COLLECTIONS.learning),
+  admin: {
     async login(password) {
       const res = await fetch(apiBase('/api/admin-auth'), {
         method: 'POST',

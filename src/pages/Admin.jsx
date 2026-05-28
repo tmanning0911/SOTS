@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { content } from '@/api/content';
+import { cms } from '@/lib/cms';
 import { useNavigate } from 'react-router-dom';
 import AdminPlays from '../components/admin/AdminPlays';
 import AdminArticles from '../components/admin/AdminArticles';
@@ -92,7 +92,7 @@ export default function Admin() {
   const [mobileNav, setMobileNav] = useState(false);
 
   useEffect(() => {
-    content.auth
+    cms.admin
       .me()
       .then((u) => {
         setUser(u);
@@ -105,7 +105,7 @@ export default function Admin() {
   }, [navigate]);
 
   const handleLogout = () => {
-    content.auth.logout();
+    cms.admin.logout();
     navigate('/admin/login');
   };
 
@@ -116,7 +116,7 @@ export default function Admin() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-cream flex items-center justify-center">
         <div className="w-8 h-8 border-4 border-navy/20 border-t-navy rounded-full animate-spin" />
       </div>
     );
@@ -127,23 +127,23 @@ export default function Admin() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-cream flex flex-col lg:flex-row">
       <div className="hidden lg:block flex-shrink-0">
         <AdminSidebar activeTab={activeTab} setActiveTab={selectTab} user={user} onLogout={handleLogout} />
       </div>
 
       <main className="flex-1 flex flex-col min-h-screen min-w-0">
-        <header className="bg-white border-b border-gray-200 px-4 sm:px-8 py-4 flex items-center justify-between gap-4 sticky top-0 z-20">
+        <header className="bg-white border-b border-navy/10 px-4 sm:px-8 py-4 flex items-center justify-between gap-4 sticky top-0 z-20">
           <div className="min-w-0">
-            <p className="text-[10px] tracking-[0.2em] uppercase text-gray-400 lg:hidden">Admin</p>
+            <p className="text-[10px] tracking-[0.2em] uppercase text-navy/45 lg:hidden">Admin</p>
             <h1 className="font-playfair text-navy text-xl sm:text-2xl font-bold uppercase truncate">
               {tabs.find((t) => t.id === activeTab)?.label}
             </h1>
-            <p className="font-inter text-gray-400 text-xs mt-0.5 hidden sm:block">Manage your website content</p>
+            <p className="font-inter text-navy/45 text-xs mt-0.5 hidden sm:block">Season content for shakespeareonthesound.org</p>
           </div>
           <button
             type="button"
-            className="lg:hidden w-10 h-10 border border-gray-200 flex items-center justify-center text-navy"
+            className="lg:hidden w-10 h-10 border border-navy/15 flex items-center justify-center text-navy"
             onClick={() => setMobileNav(true)}
             aria-label="Open admin menu"
           >

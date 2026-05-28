@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 import Reveal from './Reveal';
 import OptimizedImage from './OptimizedImage';
 import SectionHeader from './SectionHeader';
-import { content } from '@/api/content';
+import { cms } from '@/lib/cms';
 export default function LatestNews() {
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
-    content.entities.Article.list('-date')
+    cms.articles.list('-date')
       .then((data) => setArticles(data.filter((a) => a.published !== false).slice(0, 6)))
       .catch(() => setArticles([]));
   }, []);

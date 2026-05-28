@@ -1,6 +1,6 @@
 # Shakespeare on the Sound
 
-Marketing site for Shakespeare on the Sound (Bell Stage Live), built with React + Vite and deployed on **Netlify** as its own project.
+Marketing site for Shakespeare on the Sound, built with React + Vite and deployed on **Netlify**.
 
 ## Local development
 

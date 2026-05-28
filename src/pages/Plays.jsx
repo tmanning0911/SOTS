@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { content } from '@/api/content';
+import { cms } from '@/lib/cms';
 import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import Reveal from '../components/Reveal';
@@ -16,7 +16,7 @@ export default function Plays() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    content.entities.Play.list('sort_order').then((data) => {
+    cms.plays.list('sort_order').then((data) => {
       setProductions(data.filter((p) => p.status !== 'Archived'));
       setLoading(false);
     });

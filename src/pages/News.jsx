@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { content } from '@/api/content';
+import { cms } from '@/lib/cms';
 import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import { Link } from 'react-router-dom';
@@ -15,7 +15,7 @@ export default function News() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    content.entities.Article.list('-date').then((data) => {
+    cms.articles.list('-date').then((data) => {
       setArticles(data.filter((a) => a.published !== false));
       setLoading(false);
     });

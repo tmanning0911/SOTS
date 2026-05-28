@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { content } from '@/api/content';
+import { cms } from '@/lib/cms';
 import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -18,7 +18,7 @@ export default function Learning() {
   const { openForm } = useFormModal();
 
   useEffect(() => {
-    content.entities.LearningProgram.list('sort_order').then((data) => {
+    cms.learning.list('sort_order').then((data) => {
       setPrograms(data);
       setLoading(false);
     });
