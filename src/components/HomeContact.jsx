@@ -15,11 +15,11 @@ export default function HomeContact() {
         <SectionHeader
           eyebrow="Get in Touch"
           title="Contact Us"
-          description="Questions about tickets, education, or volunteering? Choose a form — we respond as quickly as possible during the season."
+          description="Questions about tickets, education, or volunteering? Pick the form that fits — we respond as quickly as we can during the season."
           align="center"
           className="!mb-10"
         />
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        <div className="grid md:grid-cols-2 gap-5 sm:gap-6 max-w-3xl mx-auto">
           <FormCTA
             variant="contact"
             title="Send a Message"
@@ -31,13 +31,6 @@ export default function HomeContact() {
             title="Education Programs"
             description="Book workshops, tours, or summer camps for your school or group."
             buttonLabel="Book a Program"
-          />
-          <FormCTA
-            variant="newsletter"
-            title="Join the List"
-            description="Season announcements and education news — no spam."
-            buttonLabel="Subscribe"
-            className="md:col-span-2 lg:col-span-1"
           />
         </div>
       </div>

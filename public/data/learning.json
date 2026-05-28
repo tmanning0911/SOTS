@@ -64,7 +64,7 @@
     "description": "Visit our education tent in Pinkney Park, Rowayton before the show. Watch Shakespeare in 30 Minutes — a half-hour version of our MainStage production — 30 minutes before showtime.",
     "title": "In the Park",
     "ctaText": "Plan Your Visit",
-    "ctaLink": "/plays",
+    "ctaLink": "/about#visit",
     "image": "/images/learning/in-the-park.jpg",
     "sort_order": 7,
     "id": "69f3fb305885aa36a182aba0"

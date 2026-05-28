@@ -6,6 +6,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import LearningProgramCard from '../components/LearningProgramCard';
 import SectionHeader from '../components/SectionHeader';
 import FormCTA from '../components/forms/FormCTA';
+import { useFormModal } from '@/lib/FormModalContext';
 import { site } from '@/content/site';
 import { Link } from 'react-router-dom';
 import { contactPaths } from '@/lib/contactPaths';
@@ -15,18 +16,13 @@ import { TheatreBackdrop } from '../components/decor';
 export default function Learning() {
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [educationOpen, setEducationOpen] = useState(false);
-  const [newsletterOpen, setNewsletterOpen] = useState(false);
+  const { openForm } = useFormModal();
 
   useEffect(() => {
     content.entities.LearningProgram.list('sort_order').then((data) => {
       setPrograms(data);
       setLoading(false);
     });
-  }, []);
-
-  useEffect(() => {
-    if (window.location.hash === '#education-form') setEducationOpen(true);
   }, []);
 
   return (
@@ -74,14 +70,14 @@ export default function Learning() {
             Bring Shakespeare to Your School
           </h2>
           <p className="font-inter text-white/60 text-sm max-w-lg mx-auto mb-8 px-2">
-            For pricing, booking, and outreach, reach {site.outreachDirector} or {site.educationDirector} through our
-            inquiry form — we do not publish staff email addresses.
+            For pricing, booking, and outreach, contact {site.outreachDirector} or {site.educationDirector} through
+            our education inquiry form.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <button type="button" className="btn-primary" onClick={() => setEducationOpen(true)}>
+            <button type="button" className="btn-primary" onClick={() => openForm('education')}>
               Request a Program
             </button>
-            <Link to={contactPaths.education} className="btn-secondary">
+            <Link to={contactPaths.general} className="btn-secondary">
               All Contact Options
             </Link>
           </div>
@@ -103,28 +99,8 @@ export default function Learning() {
         className="border-t border-navy/8 page-gutter py-14 sm:py-20 scroll-mt-28"
         data-nav-zone="light"
       >
-        <div className="max-w-6xl mx-auto">
-          <SectionHeader
-            eyebrow="Inquiries"
-            title="Get in Touch"
-            description="Open a form when you are ready — we will respond from our team inbox."
-            align="center"
-            className="!mb-10"
-          />
-          <div className="grid md:grid-cols-2 gap-5 sm:gap-6 max-w-3xl mx-auto">
-            <FormCTA
-              variant="education"
-              buttonLabel="Book Education"
-              open={educationOpen}
-              onOpenChange={setEducationOpen}
-            />
-            <FormCTA
-              variant="newsletter"
-              buttonLabel="Subscribe"
-              open={newsletterOpen}
-              onOpenChange={setNewsletterOpen}
-            />
-          </div>
+        <div className="max-w-xl mx-auto">
+          <FormCTA variant="education" buttonLabel="Open Education Form" />
         </div>
       </TheatreBackdrop>
     </PageLayout>

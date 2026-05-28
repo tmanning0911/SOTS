@@ -35,8 +35,9 @@ export const formCopy = {
     success: 'You are on the list! Thank you for subscribing.',
   },
   sponsorship: {
-    title: 'Sponsorship & Partnerships',
-    description: 'Interested in program ads, corporate sponsorship, or our annual gala?',
+    title: 'Gala & Sponsorship',
+    description:
+      'Join our gala committee, explore corporate sponsorship, or inquire about program ads in our playbill.',
     success: 'Thank you! We will be in touch about partnership opportunities.',
   },
 };

@@ -4,8 +4,7 @@ import { motion, useInView, useMotionValue, useTransform, animate } from 'framer
 import { IconMasks, IconLaurel, IconStage, IconBookOpen } from '@/components/icons';
 import Sponsors from '../components/Sponsors';
 import TicketBanner from '../components/TicketBanner';
-import FormCTA from '../components/forms/FormCTA';
-import { TheatreBackdrop } from '../components/decor';
+import { Link } from 'react-router-dom';
 import { sponsors, site } from '@/content/site';
 import { contactPaths } from '@/lib/contactPaths';
 import { useEffect, useRef } from 'react';
@@ -114,16 +113,27 @@ export default function Support() {
               >
                 {way.description}
               </p>
-              <a
-                href={way.href}
-                target={way.href.startsWith('http') ? '_blank' : undefined}
-                rel={way.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className={`text-xs tracking-[0.2em] uppercase font-semibold border-b pb-0.5 hover:opacity-70 transition-opacity w-fit ${
-                  way.highlight ? 'text-navy-deep border-navy-deep' : 'text-gold border-gold'
-                }`}
-              >
-                {way.cta} →
-              </a>
+              {way.href.startsWith('http') ? (
+                <a
+                  href={way.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`text-xs tracking-[0.2em] uppercase font-semibold border-b pb-0.5 hover:opacity-70 transition-opacity w-fit ${
+                    way.highlight ? 'text-navy-deep border-navy-deep' : 'text-gold border-gold'
+                  }`}
+                >
+                  {way.cta} →
+                </a>
+              ) : (
+                <Link
+                  to={way.href}
+                  className={`text-xs tracking-[0.2em] uppercase font-semibold border-b pb-0.5 hover:opacity-70 transition-opacity w-fit ${
+                    way.highlight ? 'text-navy-deep border-navy-deep' : 'text-gold border-gold'
+                  }`}
+                >
+                  {way.cta} →
+                </Link>
+              )}
             </motion.div>
           ))}
         </div>
@@ -151,18 +161,6 @@ export default function Support() {
           </div>
         </div>
       </div>
-
-      <TheatreBackdrop
-        as="section"
-        variant="parchment"
-        wash="spotlight"
-        className="border-t border-navy/8 page-gutter py-14 sm:py-20"
-        data-nav-zone="light"
-      >
-        <div className="max-w-lg mx-auto">
-          <FormCTA variant="sponsorship" buttonLabel="Sponsorship Inquiry" />
-        </div>
-      </TheatreBackdrop>
 
       <Sponsors />
       <TicketBanner />

@@ -1,5 +1,4 @@
-import Navbar from '../components/Navbar';
-import SkipLink from '../components/SkipLink';
+import PageLayout from '../components/PageLayout';
 import HeroSlider from '../components/HeroSlider';
 import ProductionStrip from '../components/ProductionStrip';
 import HomeCTA from '../components/HomeCTA';
@@ -8,30 +7,21 @@ import ShakespeareHub from '../components/ShakespeareHub';
 import VisitPark from '../components/VisitPark';
 import LatestNews from '../components/LatestNews';
 import HomeContact from '../components/HomeContact';
-import Footer from '../components/Footer';
-import EmailSignupBar from '../components/EmailSignupBar';
 
 /**
- * Homepage section order mirrors shakespeareonthesound.org:
- * Hero → Productions → Gala/Donate/Kids → Sponsors → Education → Visit → News → Contact
+ * Homepage: Hero → Productions → Give → Sponsors → Education → Visit → News → Contact
  */
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-cream bg-theatre-dots overflow-x-clip">
-      <SkipLink />
-      <Navbar />
-      <main id="main-content" className="flex-1 w-full" data-nav-zone="light">
-        <HeroSlider />
-        <ProductionStrip />
-        <HomeCTA />
-        <Sponsors />
-        <ShakespeareHub />
-        <VisitPark />
-        <LatestNews />
-        <HomeContact />
-      </main>
-      <EmailSignupBar />
-      <Footer />
-    </div>
+    <PageLayout>
+      <HeroSlider />
+      <ProductionStrip />
+      <HomeCTA />
+      <Sponsors />
+      <ShakespeareHub />
+      <VisitPark />
+      <LatestNews />
+      <HomeContact />
+    </PageLayout>
   );
 }

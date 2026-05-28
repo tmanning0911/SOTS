@@ -27,10 +27,9 @@ const navCols = [
   {
     heading: 'Learn',
     links: [
-      { label: 'In Schools', path: '/learning' },
-      { label: 'Summer Camps', path: '/learning' },
-      { label: 'Tours & Workshops', path: '/learning' },
-      { label: 'In the Park', path: '/learning' },
+      { label: 'Education Programs', path: '/learning' },
+      { label: 'Book a School Program', path: '/contact?topic=education' },
+      { label: 'Visit Pinkney Park', path: '/about#visit' },
     ],
   },
   {
@@ -48,7 +47,6 @@ const navCols = [
       { label: 'Mission & History', path: '/about' },
       { label: 'Visit Pinkney Park', path: '/about#visit' },
       { label: 'Contact', path: '/contact' },
-      { label: 'Admin', path: '/admin/login' },
     ],
   },
 ];

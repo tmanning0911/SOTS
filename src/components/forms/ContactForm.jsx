@@ -114,7 +114,7 @@ export default function ContactForm({
       setStatus('idle');
       toast({
         title: 'Could not send',
-        description: err.message || 'Please try again or email us directly.',
+        description: err.message || 'Please try again or call our box office during the season.',
       });
     }
   };

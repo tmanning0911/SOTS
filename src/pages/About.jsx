@@ -70,7 +70,7 @@ export default function About() {
             <div className="mb-8 py-8 border-y border-navy/10">
               <StaAffiliation theme="light" />
             </div>
-            <div id="contact" className="border-t border-navy/10 pt-6 space-y-3 scroll-mt-28">
+            <div id="reach-us" className="border-t border-navy/10 pt-6 space-y-3 scroll-mt-28">
               <p className="font-inter text-navy/70 text-sm">
                 <span className="font-semibold text-navy">Mailing:</span> {site.mailingAddress}
               </p>

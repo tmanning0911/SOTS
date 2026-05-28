@@ -6,6 +6,13 @@ const FormModalContext = createContext(null);
 
 const FORM_VARIANTS = new Set(['contact', 'education', 'newsletter', 'sponsorship']);
 
+function topicToVariant(topic) {
+  if (topic === 'education') return 'education';
+  if (topic === 'sponsorship') return 'sponsorship';
+  if (topic) return 'contact';
+  return null;
+}
+
 export function FormModalProvider({ children }) {
   const [state, setState] = useState({ open: false, variant: 'contact' });
   const [searchParams, setSearchParams] = useSearchParams();
@@ -18,18 +25,37 @@ export function FormModalProvider({ children }) {
 
   const closeForm = useCallback(() => {
     setState((s) => ({ ...s, open: false }));
-  }, []);
+    if (location.pathname === '/contact' && searchParams.get('topic')) {
+      const next = new URLSearchParams(searchParams);
+      next.delete('topic');
+      setSearchParams(next, { replace: true });
+    }
+  }, [location.pathname, searchParams, setSearchParams]);
 
   const value = useMemo(() => ({ openForm, closeForm }), [openForm, closeForm]);
 
+  const topic = searchParams.get('topic');
+  const formParam = searchParams.get('form');
+
   useEffect(() => {
-    const form = searchParams.get('form');
-    if (!form || !FORM_VARIANTS.has(form) || location.pathname === '/contact') return;
-    openForm(form);
-    const next = new URLSearchParams(searchParams);
-    next.delete('form');
-    setSearchParams(next, { replace: true });
-  }, [searchParams, location.pathname, openForm, setSearchParams]);
+    if (location.pathname === '/contact' && topic) {
+      const variant = topicToVariant(topic);
+      if (variant) openForm(variant);
+      return;
+    }
+    if (formParam && FORM_VARIANTS.has(formParam) && location.pathname !== '/contact') {
+      openForm(formParam);
+      const next = new URLSearchParams(searchParams);
+      next.delete('form');
+      setSearchParams(next, { replace: true });
+    }
+  }, [location.pathname, topic, formParam, openForm, searchParams, setSearchParams]);
+
+  useEffect(() => {
+    if (location.pathname === '/learning' && location.hash === '#education-form') {
+      openForm('education');
+    }
+  }, [location.pathname, location.hash, openForm]);
 
   return (
     <FormModalContext.Provider value={value}>
@@ -38,7 +64,7 @@ export function FormModalProvider({ children }) {
         variant={state.variant}
         open={state.open}
         onOpenChange={(next) => {
-          if (next) setState((s) => ({ ...s, open: true }));
+          if (next) setState((s) => ({ ...s, open: true, variant: s.variant }));
           else closeForm();
         }}
       />
@@ -54,7 +80,6 @@ export function useFormModal() {
   return ctx;
 }
 
-/** Safe hook for optional global modal (returns null outside provider). */
 export function useFormModalOptional() {
   return useContext(FormModalContext);
 }

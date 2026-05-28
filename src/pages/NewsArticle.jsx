@@ -5,6 +5,9 @@ import PageLayout from '../components/PageLayout';
 import OptimizedImage from '../components/OptimizedImage';
 import LoadingSpinner from '../components/LoadingSpinner';
 import TicketBanner from '../components/TicketBanner';
+import { paragraphsFromContent } from '@/lib/formatArticleContent';
+import { contactPaths } from '@/lib/contactPaths';
+import { site } from '@/content/site';
 
 export default function NewsArticle() {
   const { id } = useParams();
@@ -100,9 +103,35 @@ export default function NewsArticle() {
               <h1 className="font-display text-navy text-3xl sm:text-4xl md:text-[2.75rem] font-semibold uppercase leading-tight text-balance mb-8">
                 {article.title}
               </h1>
-              <div className="prose-article">
-                <p>{article.content || article.excerpt}</p>
+              <div className="prose-article space-y-4">
+                {paragraphsFromContent(article.content || article.excerpt).map((para) => (
+                  <p key={para.slice(0, 40)}>{para}</p>
+                ))}
               </div>
+              {article.category === 'Events' && (
+                <p className="mt-8 pt-6 border-t border-navy/10">
+                  <Link to={contactPaths.gala} className="btn-navy">
+                    Gala & Sponsorship Inquiry
+                  </Link>
+                </p>
+              )}
+              {article.category === 'Education' && (
+                <p className="mt-8 pt-6 border-t border-navy/10">
+                  <Link to={contactPaths.education} className="btn-navy">
+                    Book an Education Program
+                  </Link>
+                </p>
+              )}
+              {article.category === 'Production' && (
+                <p className="mt-8 pt-6 border-t border-navy/10 flex flex-wrap gap-3">
+                  <a href={site.ticketsUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
+                    Get Tickets
+                  </a>
+                  <Link to="/plays" className="btn-secondary">
+                    View Productions
+                  </Link>
+                </p>
+              )}
             </div>
           </article>
 

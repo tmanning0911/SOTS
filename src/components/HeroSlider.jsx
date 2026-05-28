@@ -23,7 +23,7 @@ const slides = [
     subtitle: 'Gala — October 16, 2026',
     description:
       'An evening of cocktails, bites, dancing, and live & silent auctions at The House Up on the Hill, Norwalk.',
-    tag: 'Save the Date',
+    tag: 'Join the Committee',
     image: '/images/news/gala-2026.jpg',
     ticketUrl: contactPaths.gala,
     external: false,

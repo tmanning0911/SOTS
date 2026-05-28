@@ -7,7 +7,6 @@ export const contactPaths = {
   sponsorship: '/contact?topic=sponsorship',
   volunteer: '/contact?topic=volunteer',
   gala: '/contact?topic=sponsorship',
-  educationForm: '/contact?topic=education',
 };
 
 /** Map mailto hrefs from legacy content to contact routes */
