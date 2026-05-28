@@ -64,12 +64,16 @@ Forms are registered via `public/forms.html` at build time. If a form is missing
 
 ## Deploy
 
-**Git (recommended)** — push to GitHub; Netlify rebuilds automatically:
+**Git (recommended)** — Netlify watches the `netlify` remote repo and rebuilds on push:
 
 ```bash
-git push origin main
-git push netlify main   # if Netlify uses the netlify remote
+npm run deploy
+# same as: git push netlify main
 ```
+
+Live site: **https://ubiquitous-maamoul-8b9b7f.netlify.app**
+
+Optional: `git push origin main` backs up code to the SOTS GitHub repo (does not trigger Netlify).
 
 **Drag-and-drop** — after `npm run build`, upload `NETLIFY-DROP-UPLOAD.zip` in Netlify → Deploys.
 

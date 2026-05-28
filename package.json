@@ -10,7 +10,7 @@
     "lint": "eslint . --quiet",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
-    "deploy": "git push origin main && git push netlify main"
+    "deploy": "git push netlify main"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.2",

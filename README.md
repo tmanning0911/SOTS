@@ -28,7 +28,9 @@ npm run dev
 | `VITE_SITE_URL` | Recommended | Canonical site URL for SEO files (default in `netlify.toml`: `https://www.shakespeareonthesound.org`) |
 | `SITE_ALLOWED_ORIGINS` | Recommended | Comma-separated origins allowed to call admin APIs; add your `*.netlify.app` preview URL |
 
-4. Deploy. Content is served via Netlify Functions + **Netlify Blobs** (seeded from `public/data/` on first read).
+4. Deploy with `npm run deploy` (pushes to the `netlify` remote — the repo Netlify is connected to). Preview: `https://ubiquitous-maamoul-8b9b7f.netlify.app`. Content is served via Netlify Functions + **Netlify Blobs** (seeded from `public/data/` on first read).
+
+> **Note:** `www.shakespeareonthesound.org` may still show the old Wix site until you point the custom domain to this Netlify site in Netlify → Domain management.
 
 ## SEO
 
@@ -62,6 +64,7 @@ Static images live in `public/images/`.
 - `npm run dev` — Vite dev server
 - `npm run build` — production build to `dist/`
 - `npm run preview` — preview production build locally
+- `npm run deploy` — push to Netlify (`git push netlify main`)
 - `npm run scrape` — pull text from shakespeareonthesound.org into `public/data/scraped/`
 
 See **OPERATIONS.md** for a non-technical guide to updating content and deploying.
