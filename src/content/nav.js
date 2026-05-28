@@ -12,7 +12,7 @@ export const navItems = [
   },
   { label: 'Learning', path: '/learning' },
   {
-    label: 'News & Media',
+    label: 'News',
     children: [
       { label: 'News', path: '/news', description: 'Season updates' },
       { label: 'Watch on YouTube', path: '/watch', description: 'Clips & highlights' },

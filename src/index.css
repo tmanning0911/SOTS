@@ -297,7 +297,7 @@
 
   /* Navbar — dark bar (white links, WCAG AA on navy) */
   .nav-link {
-    @apply relative text-white/90 hover:text-white text-xs tracking-[0.18em] uppercase font-inter font-medium transition-colors duration-300;
+    @apply relative inline-flex items-center whitespace-nowrap px-2.5 py-2.5 text-white/90 hover:text-white text-xs tracking-[0.16em] uppercase font-inter font-medium transition-colors duration-300;
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy-deep rounded-sm;
   }
 
@@ -317,7 +317,7 @@
 
   /* Navbar — light bar (navy links on cream, WCAG AA) */
   .nav-link-light {
-    @apply relative text-navy hover:text-navy-deep text-xs tracking-[0.18em] uppercase font-inter font-semibold transition-colors duration-300;
+    @apply relative inline-flex items-center whitespace-nowrap px-2.5 py-2.5 text-navy hover:text-navy-deep text-xs tracking-[0.16em] uppercase font-inter font-semibold transition-colors duration-300;
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream rounded-sm;
   }
 
@@ -351,11 +351,11 @@
   }
 
   .nav-dropdown-flyout {
-    @apply absolute left-1/2 -translate-x-1/2 top-full z-[100] min-w-[14rem] pt-2 transition-opacity duration-150;
+    @apply absolute left-1/2 -translate-x-1/2 top-full z-[100] min-w-[15rem] pt-3 transition-opacity duration-150;
   }
 
   .nav-dropdown-panel {
-    @apply w-full min-w-[14rem] py-2 shadow-card border;
+    @apply w-full min-w-[15rem] py-2.5 shadow-card border;
   }
 
   .nav-dropdown-panel-dark {
@@ -367,12 +367,12 @@
   }
 
   .nav-dropdown-item {
-    @apply block px-4 py-2.5 transition-colors duration-200;
+    @apply block px-5 py-3 transition-colors duration-200;
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold;
   }
 
   .nav-dropdown-item-featured {
-    @apply border-b mb-1 pb-3;
+    @apply border-b mb-1.5 pb-3.5;
   }
 
   .nav-dropdown-panel-dark .nav-dropdown-item {
@@ -413,6 +413,14 @@
 
   .nav-dropdown-panel-light .nav-dropdown-item-featured .nav-dropdown-label {
     @apply text-gold-muted;
+  }
+
+  .nav-actions-divider-dark {
+    @apply border-l border-white/20 pl-6 xl:pl-8 ml-2;
+  }
+
+  .nav-actions-divider-light {
+    @apply border-l border-navy/15 pl-6 xl:pl-8 ml-2;
   }
 
   .image-shine {

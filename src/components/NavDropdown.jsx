@@ -79,7 +79,7 @@ export default function NavDropdown({ item, isLightBar }) {
     >
       <button
         type="button"
-        className={`${linkClass} inline-flex items-center gap-1.5 py-2 ${active ? 'nav-link-active' : ''}`}
+        className={`${linkClass} gap-2 ${active ? 'nav-link-active' : ''}`}
         aria-expanded={open}
         aria-haspopup="true"
         onClick={() => setOpen((v) => !v)}
@@ -148,7 +148,7 @@ export function MobileNavGroup({ item, onNavigate }) {
       <Link
         to={item.path}
         aria-current={pathname === item.path ? 'page' : undefined}
-        className={`font-display text-white text-2xl sm:text-3xl font-medium tracking-wide py-1 block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm ${
+        className={`font-display text-white text-2xl sm:text-3xl font-medium tracking-wide py-2 block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm ${
           active ? 'text-gold' : ''
         }`}
         onClick={onNavigate}
@@ -162,7 +162,7 @@ export function MobileNavGroup({ item, onNavigate }) {
     <div>
       <button
         type="button"
-        className={`w-full flex items-center justify-between font-display text-white text-2xl sm:text-3xl font-medium tracking-wide py-1 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm ${
+        className={`w-full flex items-center justify-between font-display text-white text-2xl sm:text-3xl font-medium tracking-wide py-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm ${
           active ? 'text-gold' : ''
         }`}
         aria-expanded={expanded}
@@ -176,12 +176,12 @@ export function MobileNavGroup({ item, onNavigate }) {
         />
       </button>
       {expanded && (
-        <ul className="mt-3 mb-2 pl-4 border-l border-white/15 space-y-3">
+        <ul className="mt-4 mb-2 pl-5 border-l border-white/15 space-y-4">
           {item.path && (
             <li>
               <Link
                 to={item.path}
-                className="font-inter text-white/80 hover:text-gold text-sm block py-0.5"
+                className="font-inter text-white/80 hover:text-gold text-sm block py-1"
                 onClick={onNavigate}
               >
                 All {item.label}
@@ -192,7 +192,7 @@ export function MobileNavGroup({ item, onNavigate }) {
             <li key={child.path}>
               <Link
                 to={child.path}
-                className="font-inter text-white/80 hover:text-gold text-sm block py-0.5"
+                className="font-inter text-white/80 hover:text-gold text-sm block py-1"
                 onClick={onNavigate}
               >
                 {child.label}
