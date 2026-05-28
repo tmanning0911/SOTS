@@ -7,7 +7,8 @@ import { Link } from 'react-router-dom';
 export default function Sponsors() {
   return (
     <section
-      className="bg-white border-t border-b border-navy/10 py-14 sm:py-16 md:py-20 page-gutter"
+      id="sponsors"
+      className="bg-white border-t border-b border-navy/10 py-14 sm:py-16 md:py-20 page-gutter scroll-mt-24"
       data-nav-zone="light"
       aria-labelledby="sponsors-heading"
     >

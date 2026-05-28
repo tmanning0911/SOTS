@@ -2,9 +2,8 @@ import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import { motion, useInView, useMotionValue, useTransform, animate } from 'framer-motion';
 import { IconMasks, IconLaurel, IconStage } from '@/components/icons';
-import Sponsors from '../components/Sponsors';
 import { Link } from 'react-router-dom';
-import { sponsors, site } from '@/content/site';
+import { site } from '@/content/site';
 import { contactPaths } from '@/lib/contactPaths';
 import { useEffect, useRef } from 'react';
 import { pageHeroImages } from '@/content/images';
@@ -52,7 +51,8 @@ const ways = [
   {
     icon: IconStage,
     title: 'Corporate Partners',
-    description: `Partner with Shakespeare on the Sound and align your brand with professional, community Shakespeare. Our ${new Date().getFullYear()} sponsors include ${sponsors.map((s) => s.name).join(', ')}.`,
+    description:
+      'Partner with Shakespeare on the Sound and align your brand with professional, community Shakespeare in Fairfield County.',
     cta: 'Become a Sponsor',
     highlight: false,
     href: contactPaths.sponsorship,
@@ -152,7 +152,11 @@ export default function Support() {
         </div>
       </div>
 
-      <Sponsors />
+      <div className="max-w-6xl mx-auto page-gutter pb-14 sm:pb-20 text-center">
+        <Link to="/#sponsors" className="link-gold inline-flex items-center gap-2">
+          View our {new Date().getFullYear()} partner logos →
+        </Link>
+      </div>
     </PageLayout>
   );
 }

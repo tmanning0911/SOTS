@@ -4,10 +4,10 @@ import ProductionStrip from '../components/ProductionStrip';
 import HomeCTA from '../components/HomeCTA';
 import Sponsors from '../components/Sponsors';
 import ShakespeareHub from '../components/ShakespeareHub';
-import VisitPark from '../components/VisitPark';
+import VisitTeaser from '../components/VisitTeaser';
 import LatestNews from '../components/LatestNews';
 /**
- * Homepage: Hero → Productions → Give → Sponsors → Education → Visit → News
+ * Homepage: Hero → Productions → Give → Sponsors → Education → Visit teaser → News
  */
 export default function Home() {
   return (
@@ -17,7 +17,7 @@ export default function Home() {
       <HomeCTA />
       <Sponsors />
       <ShakespeareHub />
-      <VisitPark />
+      <VisitTeaser />
       <LatestNews />
     </PageLayout>
   );

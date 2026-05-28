@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { cms } from '@/lib/cms';
+import { seedPlays } from '@/lib/contentSeed';
 import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import Reveal from '../components/Reveal';
@@ -7,19 +8,18 @@ import OptimizedImage from '../components/OptimizedImage';
 import CtaLink from '../components/CtaLink';
 import LoadingSpinner from '../components/LoadingSpinner';
 import TicketBanner from '../components/TicketBanner';
-import VisitCallout from '../components/VisitCallout';
 import { pageHeroImages } from '@/content/images';
 import { TheatreBackdrop } from '../components/decor';
 
 export default function Plays() {
-  const [productions, setProductions] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [productions, setProductions] = useState(seedPlays);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    cms.plays.list('sort_order').then((data) => {
-      setProductions(data.filter((p) => p.status !== 'Archived'));
-      setLoading(false);
-    });
+    cms.plays
+      .list('sort_order')
+      .then((data) => setProductions(data.filter((p) => p.status !== 'Archived')))
+      .catch(() => {});
   }, []);
 
   return (
@@ -123,7 +123,6 @@ export default function Plays() {
         )}
       </TheatreBackdrop>
 
-      <VisitCallout />
       <TicketBanner />
     </PageLayout>
   );

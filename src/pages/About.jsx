@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import PageLayout from '../components/PageLayout';
-import ContactPrompt from '../components/ContactPrompt';
+import ContactCta from '../components/ContactCta';
 import ContactChannelLink from '../components/ContactChannelLink';
 import { Link } from 'react-router-dom';
 import { TheatreBackdrop } from '../components/decor';
@@ -224,7 +224,7 @@ export default function About() {
         </div>
       </div>
 
-      <ContactPrompt />
+      <ContactCta />
     </PageLayout>
   );
 }

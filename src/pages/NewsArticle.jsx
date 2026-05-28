@@ -4,7 +4,6 @@ import { cms } from '@/lib/cms';
 import PageLayout from '../components/PageLayout';
 import OptimizedImage from '../components/OptimizedImage';
 import LoadingSpinner from '../components/LoadingSpinner';
-import TicketBanner from '../components/TicketBanner';
 import { paragraphsFromContent } from '@/lib/formatArticleContent';
 import { contactPaths } from '@/lib/contactPaths';
 import { site } from '@/content/site';
@@ -165,7 +164,6 @@ export default function NewsArticle() {
             </section>
           )}
 
-          <TicketBanner />
         </>
       )}
     </PageLayout>

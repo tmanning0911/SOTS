@@ -5,13 +5,16 @@ import Reveal from './Reveal';
 import OptimizedImage from './OptimizedImage';
 import SectionHeader from './SectionHeader';
 import { cms } from '@/lib/cms';
+import { seedArticles } from '@/lib/contentSeed';
+
 export default function LatestNews() {
-  const [articles, setArticles] = useState([]);
+  const [articles, setArticles] = useState(() => seedArticles.slice(0, 6));
 
   useEffect(() => {
-    cms.articles.list('-date')
+    cms.articles
+      .list('-date')
       .then((data) => setArticles(data.filter((a) => a.published !== false).slice(0, 6)))
-      .catch(() => setArticles([]));
+      .catch(() => {});
   }, []);
 
   if (articles.length === 0) return null;

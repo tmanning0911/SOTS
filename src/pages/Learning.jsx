@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { cms } from '@/lib/cms';
+import { seedLearning } from '@/lib/contentSeed';
 import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -13,15 +14,15 @@ import { pageHeroImages } from '@/content/images';
 import { TheatreBackdrop } from '../components/decor';
 
 export default function Learning() {
-  const [programs, setPrograms] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [programs, setPrograms] = useState(seedLearning);
+  const [loading, setLoading] = useState(false);
   const { openForm } = useFormModal();
 
   useEffect(() => {
-    cms.learning.list('sort_order').then((data) => {
-      setPrograms(data);
-      setLoading(false);
-    });
+    cms.learning
+      .list('sort_order')
+      .then((data) => setPrograms(data))
+      .catch(() => {});
   }, []);
 
   return (

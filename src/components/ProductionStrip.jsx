@@ -4,14 +4,16 @@ import Reveal from './Reveal';
 import OptimizedImage from './OptimizedImage';
 import SectionHeader from './SectionHeader';
 import { cms } from '@/lib/cms';
+import { seedPlays } from '@/lib/contentSeed';
 
 export default function ProductionStrip() {
-  const [productions, setProductions] = useState([]);
+  const [productions, setProductions] = useState(seedPlays);
 
   useEffect(() => {
-    cms.plays.list('sort_order')
+    cms.plays
+      .list('sort_order')
       .then((data) => setProductions(data.filter((p) => p.status !== 'Archived')))
-      .catch(() => setProductions([]));
+      .catch(() => {});
   }, []);
 
   if (productions.length === 0) return null;
