@@ -13,11 +13,29 @@ function matchPath(pathname, hash, targetPath) {
 export default function NavDropdown({ item, isLightBar }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
+  const closeTimer = useRef(null);
   const location = useLocation();
   const { pathname, hash } = location;
 
   const linkClass = isLightBar ? 'nav-link-light' : 'nav-link';
   const active = isNavItemActive(item, pathname, hash);
+
+  const clearCloseTimer = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+
+  const openMenu = () => {
+    clearCloseTimer();
+    setOpen(true);
+  };
+
+  const scheduleClose = () => {
+    clearCloseTimer();
+    closeTimer.current = setTimeout(() => setOpen(false), 120);
+  };
 
   useEffect(() => {
     setOpen(false);
@@ -25,10 +43,15 @@ export default function NavDropdown({ item, isLightBar }) {
 
   useEffect(() => {
     const onPointerDown = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target)) {
+        setOpen(false);
+      }
     };
     document.addEventListener('pointerdown', onPointerDown);
-    return () => document.removeEventListener('pointerdown', onPointerDown);
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown);
+      clearCloseTimer();
+    };
   }, []);
 
   if (!item.children?.length) {
@@ -47,12 +70,16 @@ export default function NavDropdown({ item, isLightBar }) {
     <div
       ref={ref}
       className="relative"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
+      onMouseEnter={openMenu}
+      onMouseLeave={scheduleClose}
+      onFocus={openMenu}
+      onBlur={(e) => {
+        if (!ref.current?.contains(e.relatedTarget)) scheduleClose();
+      }}
     >
       <button
         type="button"
-        className={`${linkClass} inline-flex items-center gap-1.5 ${active ? 'nav-link-active' : ''}`}
+        className={`${linkClass} inline-flex items-center gap-1.5 py-2 ${active ? 'nav-link-active' : ''}`}
         aria-expanded={open}
         aria-haspopup="true"
         onClick={() => setOpen((v) => !v)}
@@ -65,7 +92,11 @@ export default function NavDropdown({ item, isLightBar }) {
         />
       </button>
 
-      {open && (
+      {/* pt-2 bridge keeps hover alive while moving from button to menu */}
+      <div
+        className={`nav-dropdown-flyout ${open ? 'visible opacity-100 pointer-events-auto' : 'invisible opacity-0 pointer-events-none'}`}
+        aria-hidden={!open}
+      >
         <div
           className={`nav-dropdown-panel ${isLightBar ? 'nav-dropdown-panel-light' : 'nav-dropdown-panel-dark'}`}
           role="menu"
@@ -74,6 +105,7 @@ export default function NavDropdown({ item, isLightBar }) {
             <Link
               to={item.path}
               role="menuitem"
+              tabIndex={open ? 0 : -1}
               className="nav-dropdown-item nav-dropdown-item-featured"
               onClick={() => setOpen(false)}
             >
@@ -87,6 +119,7 @@ export default function NavDropdown({ item, isLightBar }) {
                 key={child.path}
                 to={child.path}
                 role="menuitem"
+                tabIndex={open ? 0 : -1}
                 aria-current={childActive ? 'page' : undefined}
                 className={`nav-dropdown-item ${childActive ? 'nav-dropdown-item-active' : ''}`}
                 onClick={() => setOpen(false)}
@@ -99,7 +132,7 @@ export default function NavDropdown({ item, isLightBar }) {
             );
           })}
         </div>
-      )}
+      </div>
     </div>
   );
 }

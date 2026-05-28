@@ -68,7 +68,7 @@ export default function Navbar() {
       <header
         ref={headerRef}
         data-nav-theme={theme}
-        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ease-smooth ${headerClass}`}
+        className={`fixed top-0 left-0 right-0 z-50 overflow-visible transition-colors duration-300 ease-smooth ${headerClass}`}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-2 sm:gap-4">
           <Link
@@ -83,7 +83,7 @@ export default function Navbar() {
             />
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-7 xl:gap-8" aria-label="Main">
+          <nav className="hidden lg:flex items-center gap-7 xl:gap-8 overflow-visible" aria-label="Main">
             {navItems.map((item) => (
               <NavDropdown key={item.label} item={item} isLightBar={isLightBar} />
             ))}

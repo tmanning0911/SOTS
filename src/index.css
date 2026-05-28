@@ -350,8 +350,12 @@
     @apply hover:bg-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy-deep;
   }
 
+  .nav-dropdown-flyout {
+    @apply absolute left-1/2 -translate-x-1/2 top-full z-[100] min-w-[14rem] pt-2 transition-opacity duration-150;
+  }
+
   .nav-dropdown-panel {
-    @apply absolute left-1/2 -translate-x-1/2 top-[calc(100%+0.75rem)] min-w-[13.5rem] py-2 shadow-card border z-[60];
+    @apply w-full min-w-[14rem] py-2 shadow-card border;
   }
 
   .nav-dropdown-panel-dark {
