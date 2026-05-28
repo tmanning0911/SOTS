@@ -132,6 +132,49 @@
     }
   }
 
+  .donate-edge-tab {
+    @apply fixed z-40 flex items-center justify-center bg-gold text-navy-deep border border-gold-muted border-r-0 shadow-soft;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    padding: 0.85rem 0.55rem 0.85rem 0.65rem;
+    border-radius: 0.125rem 0 0 0.125rem;
+    transition: transform 0.25s ease-out, background-color 0.25s ease-out, box-shadow 0.25s ease-out;
+  }
+
+  .donate-edge-tab:hover {
+    @apply bg-gold-light shadow-card;
+    transform: translateY(-50%) translateX(-3px);
+  }
+
+  .donate-edge-tab:focus-visible {
+    @apply outline-none ring-2 ring-gold ring-offset-2 ring-offset-navy-deep;
+    transform: translateY(-50%) translateX(-3px);
+  }
+
+  .donate-edge-tab__label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    @apply font-inter text-[10px] sm:text-xs font-bold uppercase tracking-[0.28em];
+  }
+
+  @media (max-width: 640px) {
+    .donate-edge-tab {
+      padding: 0.65rem 0.4rem 0.65rem 0.5rem;
+    }
+
+    .donate-edge-tab__label {
+      @apply text-[9px] tracking-[0.22em];
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .donate-edge-tab:hover,
+    .donate-edge-tab:focus-visible {
+      transform: translateY(-50%);
+    }
+  }
+
   .footer-board-egg-trigger::-webkit-details-marker {
     display: none;
   }

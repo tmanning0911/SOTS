@@ -19,6 +19,7 @@ import ShakespeareHubPage from './pages/ShakespeareHubPage';
 import Admin from './pages/Admin';
 import AdminLogin from './pages/AdminLogin';
 import { FormModalProvider } from '@/lib/FormModalContext';
+import DonateEdgeTab from './components/DonateEdgeTab';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <QueryClientProvider client={queryClientInstance}>
         <Router>
           <FormModalProvider>
+          <DonateEdgeTab />
           <ScrollToTop />
           <PageSEO />
           <Routes>
