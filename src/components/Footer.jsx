@@ -196,7 +196,7 @@ export default function Footer() {
             <span className="text-white/55 font-medium">Season sponsors · </span>
             {sponsors.map((s) => s.name).join(' · ')}
           </p>
-          <StaAffiliation theme="dark" />
+          <StaAffiliation theme="dark" align="left" compact />
         </div>
       </div>
 

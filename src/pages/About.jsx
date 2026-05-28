@@ -68,7 +68,7 @@ export default function About() {
             <p className="font-inter text-navy/85 text-sm md:text-base leading-relaxed mb-4">{site.mission}</p>
             <p className="font-inter text-navy/85 text-sm md:text-base leading-relaxed mb-4">{site.missionEducation}</p>
             <div className="mb-8 py-8 border-y border-navy/10">
-              <StaAffiliation theme="light" />
+              <StaAffiliation theme="light" align="left" compact />
             </div>
             <div id="reach-us" className="border-t border-navy/10 pt-6 space-y-3 scroll-mt-28">
               <p className="font-inter text-navy/70 text-sm">
