@@ -71,22 +71,25 @@ export default function Navbar() {
         data-nav-theme={theme}
         className={`fixed top-0 left-0 right-0 z-50 overflow-visible transition-colors duration-300 ease-smooth ${headerClass}`}
       >
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
-          <div className="flex items-center gap-4 lg:gap-6 min-h-[3.75rem]">
-            <Link
-              to="/"
-              className="relative z-10 flex-shrink-0 min-w-0 transition-opacity duration-300 hover:opacity-90 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
-            >
-              <LogoImage
-                priority
-                className={`h-11 sm:h-12 lg:h-14 xl:h-[3.75rem] w-auto max-w-[min(48vw,190px)] object-contain object-left ${
-                  isLightBar ? '' : 'drop-shadow-md'
-                }`}
-              />
-            </Link>
+        <div className="max-w-[92rem] mx-auto px-6 sm:px-10 lg:px-12 xl:px-16">
+          {/* Desktop: logo | nav | actions in three balanced columns */}
+          <div className="hidden lg:grid lg:grid-cols-[1fr_auto_1fr] items-center gap-x-12 xl:gap-x-20 min-h-[4rem]">
+            <div className="flex justify-start min-w-0 pr-4 xl:pr-8">
+              <Link
+                to="/"
+                className="relative z-10 flex-shrink-0 min-w-0 transition-opacity duration-300 hover:opacity-90 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+              >
+                <LogoImage
+                  priority
+                  className={`h-12 lg:h-14 xl:h-[3.75rem] w-auto max-w-[min(42vw,200px)] object-contain object-left ${
+                    isLightBar ? '' : 'drop-shadow-md'
+                  }`}
+                />
+              </Link>
+            </div>
 
             <nav
-              className="hidden lg:flex flex-1 items-center justify-center gap-x-7 xl:gap-x-10 overflow-visible"
+              className="flex items-center justify-center gap-x-10 xl:gap-x-12 2xl:gap-x-14 overflow-visible px-4 xl:px-8"
               aria-label="Main"
             >
               {navItems.map((item) => (
@@ -94,7 +97,7 @@ export default function Navbar() {
               ))}
             </nav>
 
-            <div className={`hidden lg:flex items-center gap-4 flex-shrink-0 ${actionsDividerClass}`}>
+            <div className={`flex items-center justify-end gap-5 flex-shrink-0 pl-4 xl:pl-8 ${actionsDividerClass}`}>
               <button
                 type="button"
                 onClick={() => setSearchOpen(true)}
@@ -120,8 +123,23 @@ export default function Navbar() {
                 Get Tickets
               </a>
             </div>
+          </div>
 
-            <div className="flex lg:hidden items-center gap-3 ml-auto">
+          {/* Mobile */}
+          <div className="flex lg:hidden items-center gap-3 min-h-[3.75rem]">
+            <Link
+              to="/"
+              className="relative z-10 flex-shrink-0 min-w-0 transition-opacity duration-300 hover:opacity-90 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+            >
+              <LogoImage
+                priority
+                className={`h-11 sm:h-12 w-auto max-w-[min(48vw,190px)] object-contain object-left ${
+                  isLightBar ? '' : 'drop-shadow-md'
+                }`}
+              />
+            </Link>
+
+            <div className="flex items-center gap-3 ml-auto">
               <button
                 type="button"
                 onClick={() => setSearchOpen(true)}
