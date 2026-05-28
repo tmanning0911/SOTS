@@ -13,7 +13,7 @@ export default function SectionHeader({
     align === 'left' ? 'text-left mr-auto' : align === 'right' ? 'text-right ml-auto' : 'text-center mx-auto';
 
   return (
-    <Reveal className={`max-w-3xl mb-8 sm:mb-12 md:mb-16 ${alignClass} ${className}`}>
+    <Reveal className={`max-w-3xl mb-8 sm:mb-10 md:mb-12 ${alignClass} ${className}`}>
       {eyebrow && (
         <span className={`section-eyebrow mb-3 ${light ? 'text-gold-light' : ''}`}>{eyebrow}</span>
       )}
