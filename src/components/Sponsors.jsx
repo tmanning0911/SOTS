@@ -11,7 +11,7 @@ export default function Sponsors() {
     <TheatreBackdrop
       as="section"
       variant="white"
-      className="section-pad border-t border-b border-navy/8 bg-white"
+      className="py-10 sm:py-12 md:py-14 page-gutter border-t border-b border-navy/8"
       data-nav-zone="light"
     >
       <div className="max-w-6xl mx-auto">
@@ -19,43 +19,44 @@ export default function Sponsors() {
           eyebrow="Community"
           title="Made Possible By"
           description="Generous partners who help keep Shakespeare accessible under the stars."
-          align="center"
+          align="left"
+          className="!mb-6 sm:!mb-8 !max-w-xl"
         />
-        <ul className="grid grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-8 sm:gap-x-8 sm:gap-y-10 md:gap-x-12 md:gap-y-12 max-w-4xl mx-auto mb-10 sm:mb-12 list-none p-0 m-0">
+
+        <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-5 gap-y-6 sm:gap-x-6 sm:gap-y-7 mb-8 sm:mb-10 list-none p-0 m-0 justify-items-start">
           {sponsors.map((s, i) => (
-            <Reveal key={s.name} delay={i * 0.04} as="li" className="flex items-center justify-center">
+            <Reveal key={s.name} delay={i * 0.04} as="li" className="flex items-center justify-start w-full">
               {s.url ? (
                 <a
                   href={s.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex w-full max-w-[200px] sm:max-w-[220px] mx-auto items-center justify-center min-h-[56px] rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+                  className="group flex w-full max-w-[140px] items-center justify-start min-h-[44px] rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
                   aria-label={s.name}
                 >
                   {s.logo ? (
                     <OptimizedImage
                       src={s.logo}
                       alt={s.name}
-                      className="max-h-14 md:max-h-16 w-full object-contain opacity-90 grayscale-[15%] transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0"
+                      className="max-h-10 sm:max-h-11 w-full object-contain object-left opacity-90 grayscale-[15%] transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0"
                       wrapperClassName="w-full bg-transparent"
                     />
                   ) : (
-                    <span className="font-display text-navy/80 text-lg font-medium text-center group-hover:text-gold transition-colors">
+                    <span className="font-display text-navy/80 text-sm font-medium text-left group-hover:text-gold transition-colors">
                       {s.name}
                     </span>
                   )}
                 </a>
               ) : (
-                <span className="font-display text-navy/80 text-lg font-medium text-center">
-                  {s.name}
-                </span>
+                <span className="font-display text-navy/80 text-sm font-medium text-left">{s.name}</span>
               )}
             </Reveal>
           ))}
         </ul>
-        <Reveal className="text-center">
-          <StaAffiliation theme="light" className="mb-8" />
-          <Link to="/support" className="link-gold inline-block">
+
+        <Reveal className="flex flex-col items-start gap-4 sm:gap-5">
+          <StaAffiliation theme="light" align="left" compact />
+          <Link to="/support" className="link-gold text-xs sm:text-sm">
             Become a Sponsor
           </Link>
         </Reveal>
