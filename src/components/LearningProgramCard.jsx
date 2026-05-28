@@ -9,7 +9,7 @@ export default function LearningProgramCard({ program, index = 0 }) {
 
   return (
     <Reveal delay={index * 0.06} className="h-full">
-      <article className="bg-white group shadow-soft card-lift border border-navy/5 h-full flex flex-col overflow-hidden">
+      <article className="content-card group card-lift h-full flex flex-col overflow-hidden">
         <div className="relative aspect-[16/10] overflow-hidden image-shine">
           <OptimizedImage
             src={imageSrc}

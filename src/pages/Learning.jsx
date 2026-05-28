@@ -5,12 +5,12 @@ import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import LearningProgramCard from '../components/LearningProgramCard';
 import SectionHeader from '../components/SectionHeader';
+import PageSection from '../components/PageSection';
 import { useFormModal } from '@/lib/FormModalContext';
 import { site } from '@/content/site';
 import { Link } from 'react-router-dom';
 import { contactPaths } from '@/lib/contactPaths';
 import { pageHeroImages } from '@/content/images';
-import { TheatreBackdrop } from '../components/decor';
 
 export default function Learning() {
   const [programs, setPrograms] = useState(seedLearning);
@@ -32,39 +32,41 @@ export default function Learning() {
         image={pageHeroImages.learning}
       />
 
-      <TheatreBackdrop variant="cream" className="section-pad !pt-12 sm:!pt-16">
-        <div className="max-w-6xl mx-auto">
-          <SectionHeader
-            eyebrow="Programs"
-            title="Education Offerings"
-            description="Workshops, tours, summer camps, and in-park programming for schools and communities across Fairfield County."
-            align="center"
-            className="!mb-10 sm:!mb-12"
-          />
-          {programs.length === 0 ? (
-            <p className="text-center font-inter text-navy/60 py-16">
-              Program details coming soon. Contact us to book a school or library visit.
-            </p>
-          ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-              {programs.map((prog, i) => (
-                <LearningProgramCard key={prog.id} program={prog} index={i} />
-              ))}
-            </div>
-          )}
-        </div>
-      </TheatreBackdrop>
-
-      <section id="education-form" data-nav-zone="dark" className="relative py-16 sm:py-24 page-gutter bg-navy-deep grain-overlay">
-        <div className="max-w-6xl mx-auto text-center relative z-[1]">
-          <span className="section-eyebrow text-gold-light mb-4">Schools & Community</span>
-          <h2 className="font-display text-white text-2xl sm:text-3xl md:text-4xl font-semibold uppercase mb-4 text-balance">
-            Bring Shakespeare to Your School
-          </h2>
-          <p className="font-inter text-white/60 text-sm max-w-lg mx-auto mb-8 px-2">
-            For pricing, booking, and outreach, contact {site.outreachDirector} or {site.educationDirector} through
-            our education inquiry form.
+      <PageSection variant="cream" first>
+        <SectionHeader
+          eyebrow="Programs"
+          title="Education Offerings"
+          description="Workshops, tours, summer camps, and in-park programming for schools and communities across Fairfield County."
+          align="center"
+          className="!mb-10 sm:!mb-12"
+        />
+        {programs.length === 0 ? (
+          <p className="text-center font-inter text-navy/60 py-16">
+            Program details coming soon. Contact us to book a school or library visit.
           </p>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {programs.map((prog, i) => (
+              <LearningProgramCard key={prog.id} program={prog} index={i} />
+            ))}
+          </div>
+        )}
+      </PageSection>
+
+      <section
+        id="education-form"
+        data-nav-zone="dark"
+        className="relative section-block bg-navy-deep grain-overlay accent-top-dark"
+      >
+        <div className="page-container text-center relative z-[1]">
+          <SectionHeader
+            eyebrow="Schools & Community"
+            title="Bring Shakespeare to Your School"
+            description={`For pricing, booking, and outreach, contact ${site.outreachDirector} or ${site.educationDirector} through our education inquiry form.`}
+            align="center"
+            light
+            className="!mb-8"
+          />
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <button type="button" className="btn-primary" onClick={() => openForm('education')}>
               Request a Program

@@ -20,8 +20,8 @@ export default function ProductionStrip() {
   if (productions.length === 0) return null;
 
   return (
-    <section className="bg-navy-deep grain-overlay relative overflow-hidden" data-nav-zone="dark">
-      <div className="page-gutter pt-10 sm:pt-12 pb-2 relative z-[1]">
+    <section className="bg-navy-deep grain-overlay relative overflow-hidden accent-top-dark" data-nav-zone="dark">
+      <div className="page-container page-gutter pt-10 sm:pt-12 pb-2 relative z-[1]">
         <SectionHeader
           eyebrow="2026 Season"
           title="On Stage This Summer"
@@ -32,7 +32,7 @@ export default function ProductionStrip() {
         />
       </div>
       <div
-        className={`grid grid-cols-1 pb-10 sm:pb-12 ${
+        className={`grid grid-cols-1 gap-1 pb-10 sm:pb-12 page-gutter ${
           productions.length >= 2 ? 'md:grid-cols-2' : 'max-w-2xl mx-auto'
         }`}
       >

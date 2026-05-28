@@ -19,9 +19,13 @@ export default function TheatreBackdrop({
   ...props
 }) {
   const baseClass = VARIANT_CLASS[variant] || VARIANT_CLASS.cream;
+  const textured = variant === 'parchment';
 
   return (
     <Tag className={`relative overflow-hidden ${baseClass} ${className}`} {...props}>
+      {textured && (
+        <div className="absolute inset-0 bg-parchment-texture pointer-events-none" aria-hidden />
+      )}
       <div className={`relative z-[1] ${innerClassName}`}>{children}</div>
     </Tag>
   );

@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
+import SectionHeader from './SectionHeader';
 import { useFormModal } from '@/lib/FormModalContext';
 import { site } from '@/content/site';
 import { contactPaths } from '@/lib/contactPaths';
+import PageSection from './PageSection';
 
 /**
  * Site-wide mailing list strip — opens subscribe form in a modal.
@@ -17,20 +19,18 @@ export default function EmailSignupBar() {
       aria-labelledby="email-signup-heading"
     >
       <div className="absolute inset-0 bg-gradient-to-r from-gold/5 via-transparent to-gold/5 pointer-events-none" aria-hidden />
-      <div className="max-w-6xl mx-auto page-gutter py-10 sm:py-12 relative z-[1]">
+      <div className="page-container py-10 sm:py-12 relative z-[1]">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 sm:gap-10">
           <div className="max-w-xl">
-            <p className="section-eyebrow text-gold-light mb-3">Mailing List</p>
-            <h2
-              id="email-signup-heading"
-              className="font-display text-white text-2xl sm:text-3xl font-semibold uppercase mb-3 text-balance"
-            >
-              Never Miss a Season
-            </h2>
-            <p className="font-inter text-white/60 text-sm leading-relaxed">
-              Announcements for tickets, education programs, and special events — we only email when there is news
-              worth sharing.
-            </p>
+            <SectionHeader
+              eyebrow="Mailing List"
+              title="Never Miss a Season"
+              titleId="email-signup-heading"
+              description="Announcements for tickets, education programs, and special events — we only email when there is news worth sharing."
+              align="left"
+              light
+              className="!mb-0 !max-w-none"
+            />
           </div>
           <div className="flex flex-col sm:items-end gap-3 shrink-0">
             <button type="button" className="btn-primary min-w-[200px]" onClick={() => openForm('newsletter')}>

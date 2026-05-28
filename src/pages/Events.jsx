@@ -6,7 +6,7 @@ import CtaLink from '../components/CtaLink';
 import OptimizedImage from '../components/OptimizedImage';
 import SectionHeader from '../components/SectionHeader';
 import ContactCta from '../components/ContactCta';
-import { TheatreBackdrop } from '../components/decor';
+import PageSection from '../components/PageSection';
 import { seedEvents } from '@/lib/contentSeed';
 import { pageHeroImages } from '@/content/images';
 import { site } from '@/content/site';
@@ -46,7 +46,7 @@ function FeaturedEvent({ event }) {
     <Reveal>
       <article
         id={event.id}
-        className="grid lg:grid-cols-2 gap-0 bg-white border border-navy/8 shadow-soft overflow-hidden scroll-mt-28"
+        className="grid lg:grid-cols-2 gap-0 content-card overflow-hidden scroll-mt-28"
       >
         <div className="relative aspect-[4/3] lg:aspect-auto lg:min-h-[22rem]">
           <OptimizedImage
@@ -58,9 +58,7 @@ function FeaturedEvent({ event }) {
         </div>
         <div className="p-7 sm:p-10 flex flex-col justify-center">
           <span className="section-eyebrow mb-3">{event.category}</span>
-          <h2 className="font-display text-navy text-2xl sm:text-3xl font-semibold uppercase mb-4">
-            {event.title}
-          </h2>
+          <h2 className="section-title !text-2xl sm:!text-3xl mb-4">{event.title}</h2>
           <EventMeta event={event} />
           <p className="font-inter text-navy/80 text-sm leading-relaxed mt-5 mb-8">{event.description}</p>
           {event.ctaLabel && event.ctaUrl && (
@@ -77,7 +75,7 @@ function FeaturedEvent({ event }) {
 function EventCard({ event, index }) {
   return (
     <Reveal key={event.id} delay={index * 0.05} className="h-full">
-      <article id={event.id} className="flex flex-col h-full bg-white border border-navy/8 p-6 sm:p-7 shadow-soft scroll-mt-28">
+      <article id={event.id} className="flex flex-col h-full content-card p-6 sm:p-7 scroll-mt-28">
         <span className="section-eyebrow !text-[9px] mb-2">{event.category}</span>
         <h3 className="font-display text-navy text-lg font-semibold uppercase leading-tight mb-3">
           {event.title}
@@ -117,8 +115,7 @@ export default function Events() {
       />
 
       {featured.length > 0 && (
-        <TheatreBackdrop variant="cream" className="section-pad !pt-12 sm:!pt-16">
-          <div className="max-w-6xl mx-auto">
+        <PageSection variant="cream" first>
             <SectionHeader
               eyebrow="Save the Date"
               title="Annual Gala"
@@ -129,12 +126,10 @@ export default function Events() {
             {featured.map((event) => (
               <FeaturedEvent key={event.id} event={event} />
             ))}
-          </div>
-        </TheatreBackdrop>
+        </PageSection>
       )}
 
-      <TheatreBackdrop variant="white" className="section-pad">
-        <div className="max-w-6xl mx-auto">
+      <PageSection variant="white">
           <SectionHeader
             eyebrow="Summer 2026"
             title="Season Highlights"
@@ -170,8 +165,7 @@ export default function Events() {
               </Link>
             </div>
           </Reveal>
-        </div>
-      </TheatreBackdrop>
+      </PageSection>
 
       <ContactCta />
     </PageLayout>

@@ -24,8 +24,8 @@ const highlights = [
 
 export default function WatchOnline() {
   return (
-    <TheatreBackdrop variant="white" className="py-14 sm:py-20 page-gutter">
-      <div className="max-w-6xl mx-auto">
+    <TheatreBackdrop variant="white" className="section-block-first">
+      <div className="page-container">
         <SectionHeader
           eyebrow="Watch & Listen"
           title="On YouTube"

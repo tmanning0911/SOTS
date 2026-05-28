@@ -35,10 +35,10 @@ const cards = [
 ];
 
 function CtaCard({ card, index }) {
-  const className = `group flex flex-col h-full p-7 sm:p-8 md:p-9 border transition-all duration-500 ease-smooth card-lift ${
+  const className = `group flex flex-col h-full p-7 sm:p-8 md:p-9 transition-all duration-500 ease-smooth card-lift ${
     card.featured
-      ? 'bg-gold border-gold text-navy-deep hover:shadow-glow shadow-soft'
-      : 'bg-white border-navy/10 hover:border-gold/40 shadow-soft'
+      ? 'bg-gold border border-gold-light/30 text-navy-deep hover:shadow-glow shadow-soft'
+      : 'content-card hover:border-gold/35'
   }`;
 
   const inner = (
@@ -85,13 +85,8 @@ function CtaCard({ card, index }) {
 
 export default function HomeCTA() {
   return (
-    <TheatreBackdrop
-      as="section"
-      variant="white"
-      className="py-12 sm:py-16 md:py-20 page-gutter border-y border-navy/8"
-      data-nav-zone="light"
-    >
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
+    <TheatreBackdrop as="section" variant="white" className="section-block border-y border-navy/8" data-nav-zone="light">
+      <div className="page-container grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
         {cards.map((card, i) => (
           <CtaCard key={card.title} card={card} index={i} />
         ))}

@@ -4,6 +4,7 @@ import { OrnamentDivider } from './decor';
 export default function SectionHeader({
   eyebrow,
   title,
+  titleId,
   description,
   align = 'center',
   light = false,
@@ -18,6 +19,7 @@ export default function SectionHeader({
         <span className={`section-eyebrow mb-3 ${light ? 'text-gold-light' : ''}`}>{eyebrow}</span>
       )}
       <h2
+        id={titleId}
         className={`section-title text-balance ${light ? 'text-white' : 'text-navy'} ${description ? 'mb-4' : ''}`}
       >
         {title}

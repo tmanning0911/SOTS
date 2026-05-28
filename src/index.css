@@ -81,7 +81,7 @@
   }
 
   .news-card {
-    @apply bg-white overflow-hidden shadow-soft card-lift border border-navy/5 h-full flex flex-col;
+    @apply content-card overflow-hidden card-lift h-full flex flex-col;
   }
 
   .bg-section-pattern {
@@ -184,7 +184,46 @@
   }
 
   .section-pad {
-    @apply py-14 sm:py-20 md:py-28 px-4 sm:px-6 md:px-16;
+    @apply section-block;
+  }
+
+  .page-container {
+    @apply max-w-6xl mx-auto w-full;
+  }
+
+  /** First section after a page hero — tighter top padding */
+  .section-block-first {
+    @apply pt-12 sm:pt-16 md:pt-20 pb-14 sm:pb-20 md:pb-24 px-4 sm:px-6 md:px-16;
+  }
+
+  /** Standard interior section */
+  .section-block {
+    @apply py-14 sm:py-20 md:py-24 px-4 sm:px-6 md:px-16;
+  }
+
+  /** Compact strips — teasers, CTAs */
+  .section-block-tight {
+    @apply py-10 sm:py-14 px-4 sm:px-6 md:px-16;
+  }
+
+  .content-card {
+    @apply bg-white border border-navy/10 shadow-soft;
+  }
+
+  .meta-label {
+    @apply font-inter text-navy font-semibold text-xs uppercase tracking-widest;
+  }
+
+  .body-text {
+    @apply font-inter text-navy/80 text-sm md:text-base leading-relaxed;
+  }
+
+  .accent-top {
+    @apply border-t-2 border-gold/25;
+  }
+
+  .accent-top-dark {
+    @apply border-t border-gold/20;
   }
 
   .page-gutter {

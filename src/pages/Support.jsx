@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom';
 import { site } from '@/content/site';
 import { contactPaths } from '@/lib/contactPaths';
 import { useEffect, useRef } from 'react';
-import { pageHeroImages } from '@/content/images';
-import { TheatreBackdrop } from '../components/decor';
+import PageSection from '../components/PageSection';
+import SectionHeader from '../components/SectionHeader';
 
 function AnimatedStat({ stat }) {
   const ref = useRef(null);
@@ -73,7 +73,7 @@ function SupportCard({ way, index }) {
   const className = `group flex flex-col h-full p-7 sm:p-10 card-lift ${
     way.highlight
       ? 'bg-gold text-navy-deep shadow-glow border border-gold-light/30'
-      : 'bg-white shadow-soft border border-navy/5'
+      : 'content-card'
   }`;
 
   const inner = (
@@ -128,25 +128,29 @@ export default function Support() {
         image={pageHeroImages.support}
       />
 
-      <TheatreBackdrop variant="white" className="section-pad !pt-12 sm:!pt-16">
-        <div className="max-w-6xl mx-auto">
-          <Reveal className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-            <span className="section-eyebrow mb-3">Ways to Give</span>
-            <h2 className="font-display text-navy text-2xl sm:text-3xl font-semibold uppercase">Make a Difference</h2>
-          </Reveal>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-            {ways.map((way, i) => (
-              <SupportCard key={way.title} way={way} index={i} />
-            ))}
-          </div>
+      <PageSection variant="white" first>
+        <SectionHeader
+          eyebrow="Ways to Give"
+          title="Make a Difference"
+          align="center"
+          className="!mb-10 sm:!mb-14"
+        />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+          {ways.map((way, i) => (
+            <SupportCard key={way.title} way={way} index={i} />
+          ))}
         </div>
-      </TheatreBackdrop>
+      </PageSection>
 
-      <section className="bg-navy-deep py-14 sm:py-20 page-gutter grain-overlay" data-nav-zone="dark">
-        <div className="max-w-6xl mx-auto relative z-[1]">
-          <h2 className="font-display text-white text-2xl sm:text-3xl font-semibold uppercase text-center mb-8 sm:mb-12">
-            Your Impact
-          </h2>
+      <section className="bg-navy-deep section-block grain-overlay accent-top-dark" data-nav-zone="dark">
+        <div className="page-container relative z-[1]">
+          <SectionHeader
+            eyebrow="Impact"
+            title="Your Impact"
+            align="center"
+            light
+            className="!mb-8 sm:!mb-12"
+          />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
             {[
               { stat: '16+', label: 'Summer Performances' },
@@ -165,11 +169,11 @@ export default function Support() {
         </div>
       </section>
 
-      <TheatreBackdrop variant="cream" className="page-gutter pb-14 sm:pb-20 pt-10 text-center">
+      <PageSection variant="cream" tight className="text-center">
         <Link to="/#sponsors" className="link-gold inline-flex items-center gap-2">
           View our {new Date().getFullYear()} partner logos →
         </Link>
-      </TheatreBackdrop>
+      </PageSection>
     </PageLayout>
   );
 }
