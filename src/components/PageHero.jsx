@@ -42,7 +42,7 @@ export default function PageHero({ eyebrow, title, description, image }) {
               {description}
             </p>
           )}
-          <OrnamentDivider light className="!max-w-xs mt-6 !mx-0" />
+          <OrnamentDivider light className="mt-6" />
         </motion.div>
       </div>
     </div>

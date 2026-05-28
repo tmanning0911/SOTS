@@ -21,21 +21,13 @@ const cornerPosition = {
   br: 'bottom-0 right-0 sm:bottom-1 sm:right-1',
 };
 
-/** Clean section rule — no heavy scroll SVGs */
+/** Short gold accent rule — matches hero underline pattern site-wide */
 export function OrnamentDivider({ className = '', light = false }) {
   return (
     <div
-      className={`flex items-center justify-center gap-3 w-full max-w-xs sm:max-w-sm mx-auto ${className}`}
+      className={`h-px w-14 shrink-0 ${light ? 'bg-gold-light/90' : 'bg-gold'} ${className}`}
       aria-hidden
-    >
-      <span
-        className={`h-px flex-1 ${light ? 'bg-gradient-to-r from-transparent to-white/35' : 'bg-gradient-to-r from-transparent to-navy/15'}`}
-      />
-      <span className={`h-1 w-1 rounded-full shrink-0 ${light ? 'bg-gold/80' : 'bg-gold'}`} />
-      <span
-        className={`h-px flex-1 ${light ? 'bg-gradient-to-l from-transparent to-white/35' : 'bg-gradient-to-l from-transparent to-navy/15'}`}
-      />
-    </div>
+    />
   );
 }
 

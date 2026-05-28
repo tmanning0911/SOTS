@@ -31,8 +31,8 @@ export default function SectionHeader({
           {description}
         </p>
       )}
-      <div className={`mt-6 ${align === 'center' ? '' : align === 'right' ? 'flex justify-end' : ''}`}>
-        <OrnamentDivider light={light} className={align === 'left' ? '!mx-0' : align === 'right' ? '!ml-auto !mr-0' : ''} />
+      <div className={`mt-6 ${align === 'center' ? 'flex justify-center' : align === 'right' ? 'flex justify-end' : ''}`}>
+        <OrnamentDivider light={light} />
       </div>
     </Reveal>
   );
