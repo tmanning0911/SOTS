@@ -47,4 +47,5 @@ export const pageHeroImages = {
   watch: images.backgrounds.spotlight,
   about: images.aboutBanner,
   contact: images.parkPerformance,
+  events: images.news.gala,
 };

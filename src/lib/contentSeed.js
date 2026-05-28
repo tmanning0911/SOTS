@@ -4,6 +4,7 @@
 import playsSeed from '../../public/data/plays.json';
 import articlesSeed from '../../public/data/articles.json';
 import learningSeed from '../../public/data/learning.json';
+import eventsSeed from '../../public/data/events.json';
 
 function sortItems(items, sortKey) {
   if (!sortKey) return items;
@@ -27,3 +28,5 @@ export const seedPlays = sortItems(playsSeed, 'sort_order').filter((p) => p.stat
 export const seedArticles = sortItems(articlesSeed, '-date').filter((a) => a.published !== false);
 
 export const seedLearning = sortItems(learningSeed, 'sort_order');
+
+export const seedEvents = sortItems(eventsSeed, 'sort_order');

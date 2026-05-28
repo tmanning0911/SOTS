@@ -54,7 +54,7 @@ const ways = [
     description: `Save the Date for our Much Ado About Something gala on ${site.gala.date}, ${site.gala.time} at ${site.gala.venue}, ${site.gala.address}. Cocktails, bites, dancing, and live & silent auctions.`,
     cta: 'Join the Committee',
     highlight: false,
-    href: contactPaths.gala,
+    href: '/events#gala-2026',
     external: false,
   },
   {

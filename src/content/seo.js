@@ -72,6 +72,12 @@ export const pageSeo = {
       'Watch clips, education features, and season highlights from Shakespeare on the Sound on our YouTube channel.',
     path: '/watch',
   },
+  '/events': {
+    title: 'Special Events — Gala & Season Highlights',
+    description:
+      'Much Ado About Something gala, opening night receptions, Pay-What-You-Will nights, and community events at Shakespeare on the Sound.',
+    path: '/events',
+  },
   '/on-demand': {
     title: 'Watch on YouTube',
     description:

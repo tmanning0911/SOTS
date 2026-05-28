@@ -3,7 +3,6 @@ import { IconChevronLeft, IconChevronRight } from '@/components/icons';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { site } from '@/content/site';
-import { contactPaths } from '@/lib/contactPaths';
 import { webpSrc } from '@/lib/media';
 
 const SLIDE_DURATION = 10000;
@@ -26,7 +25,7 @@ const slides = [
       'An evening of cocktails, bites, dancing, and live & silent auctions at The House Up on the Hill, Norwalk.',
     tag: 'Join the Committee',
     image: '/images/news/gala-2026.jpg',
-    ticketUrl: contactPaths.gala,
+    ticketUrl: '/events#gala-2026',
     external: false,
   },
   {

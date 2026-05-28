@@ -7,6 +7,7 @@ import {
   Search,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   ArrowRight,
   ExternalLink,
   LogOut,
@@ -45,6 +46,7 @@ export const IconClose = lucide(X);
 export const IconSearch = lucide(Search);
 export const IconChevronLeft = lucide(ChevronLeft);
 export const IconChevronRight = lucide(ChevronRight);
+export const IconChevronDown = lucide(ChevronDown);
 export const IconArrowRight = lucide(ArrowRight);
 export const IconExternalLink = lucide(ExternalLink);
 export const IconLogOut = lucide(LogOut);

@@ -139,7 +139,10 @@ export default function NewsArticle() {
               </div>
               {article.category === 'Events' && (
                 <p className="mt-8 pt-6 border-t border-navy/10">
-                  <Link to={contactPaths.gala} className="btn-navy">
+                  <Link to="/events#gala-2026" className="btn-navy">
+                    View Gala Details
+                  </Link>
+                  <Link to={contactPaths.gala} className="btn-outline">
                     Gala & Sponsorship Inquiry
                   </Link>
                 </p>

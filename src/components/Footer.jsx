@@ -22,6 +22,7 @@ const navGroups = [
     heading: 'Season',
     links: [
       { type: 'route', label: 'Productions', to: '/plays' },
+      { type: 'route', label: 'Special Events', to: '/events' },
       { type: 'route', label: 'News', to: '/news' },
       { type: 'route', label: 'Watch on YouTube', to: '/watch' },
       { type: 'external', label: 'Get Tickets', href: site.ticketsUrl },

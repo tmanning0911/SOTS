@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { cms } from '@/lib/cms';
 import { seedPlays } from '@/lib/contentSeed';
 import PageLayout from '../components/PageLayout';
@@ -107,13 +108,16 @@ export default function Plays() {
                             <p className="font-inter text-navy font-semibold text-xs uppercase tracking-widest mb-2">
                               Special Events
                             </p>
-                            <ul className="space-y-1">
+                            <ul className="space-y-1 mb-3">
                               {prod.specialEvents.map((ev) => (
                                 <li key={ev} className="font-inter text-navy/65 text-xs leading-relaxed">
                                   {ev}
                                 </li>
                               ))}
                             </ul>
+                            <Link to="/events" className="link-gold">
+                              View all special events
+                            </Link>
                           </div>
                         )}
                         {prod.creativeTeam?.length > 0 && (

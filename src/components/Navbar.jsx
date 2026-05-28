@@ -4,27 +4,9 @@ import { IconMenu, IconClose, IconSearch } from '@/components/icons';
 import { motion, AnimatePresence } from 'framer-motion';
 import { site } from '@/content/site';
 import LogoImage from './LogoImage';
+import NavDropdown, { MobileNavGroup } from './NavDropdown';
+import { navItems, searchablePages } from '@/content/nav';
 import { useNavTheme } from '@/hooks/useNavTheme';
-
-const navLinks = [
-  { label: 'Productions', path: '/plays' },
-  { label: 'Learning', path: '/learning' },
-  { label: 'News', path: '/news' },
-  { label: 'Watch', path: '/watch' },
-  { label: 'Support', path: '/support' },
-  { label: 'About', path: '/about' },
-  { label: 'Contact', path: '/contact' },
-];
-
-const searchablePages = [
-  { label: 'Productions', path: '/plays' },
-  { label: 'Learning & Education', path: '/learning' },
-  { label: 'Support Us / Donate', path: '/support' },
-  { label: 'About Us', path: '/about' },
-  { label: 'Contact', path: '/contact' },
-  { label: 'News', path: '/news' },
-  { label: 'Watch on YouTube', path: '/watch' },
-];
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -78,7 +60,6 @@ export default function Navbar() {
       ? 'nav-theme-light bg-cream border-b-2 border-navy/15 py-3 shadow-soft'
       : 'nav-theme-dark bg-navy-deep border-b border-white/15 py-3 shadow-nav';
 
-  const linkClass = isLightBar ? 'nav-link-light' : 'nav-link';
   const iconBtnClass = isLightBar ? 'nav-icon-btn-light' : 'nav-icon-btn-dark';
   const donateClass = isLightBar ? 'btn-navy !py-2.5 !px-5' : 'nav-donate-on-dark !py-2.5 !px-5';
 
@@ -102,20 +83,10 @@ export default function Navbar() {
             />
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-9" aria-label="Main">
-            {navLinks.map((item) => {
-              const active = location.pathname === item.path;
-              return (
-                <Link
-                  key={item.label}
-                  to={item.path}
-                  aria-current={active ? 'page' : undefined}
-                  className={`${linkClass} ${active ? 'nav-link-active' : ''}`}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
+          <nav className="hidden lg:flex items-center gap-7 xl:gap-8" aria-label="Main">
+            {navItems.map((item) => (
+              <NavDropdown key={item.label} item={item} isLightBar={isLightBar} />
+            ))}
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
@@ -247,21 +218,14 @@ export default function Navbar() {
             aria-label="Main menu"
           >
             <nav className="flex flex-col gap-5 sm:gap-6 flex-1" aria-label="Mobile">
-              {navLinks.map((item, i) => (
+              {navItems.map((item, i) => (
                 <motion.div
                   key={item.label}
                   initial={{ opacity: 0, x: 24 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.05 + i * 0.05 }}
                 >
-                  <Link
-                    to={item.path}
-                    aria-current={location.pathname === item.path ? 'page' : undefined}
-                    className="font-display text-white text-2xl sm:text-3xl font-medium tracking-wide py-1 block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
+                  <MobileNavGroup item={item} onNavigate={() => setMenuOpen(false)} />
                 </motion.div>
               ))}
             </nav>

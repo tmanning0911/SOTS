@@ -12,6 +12,7 @@ import Contact from './pages/Contact';
 import News from './pages/News';
 import NewsArticle from './pages/NewsArticle';
 import WatchPage from './pages/WatchPage';
+import Events from './pages/Events';
 import ShakespeareHubPage from './pages/ShakespeareHubPage';
 import Admin from './pages/Admin';
 import AdminLogin from './pages/AdminLogin';
@@ -37,6 +38,7 @@ function App() {
             <Route path="/news" element={<News />} />
             <Route path="/news/:id" element={<NewsArticle />} />
             <Route path="/watch" element={<WatchPage />} />
+            <Route path="/events" element={<Events />} />
             <Route path="/on-demand" element={<Navigate to="/watch" replace />} />
             <Route path="/shakespeare-hub" element={<ShakespeareHubPage />} />
             <Route path="/admin/login" element={<AdminLogin />} />

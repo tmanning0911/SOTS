@@ -3,7 +3,6 @@ import { IconLaurel, IconMasks, IconBookOpen } from '@/components/icons';
 import Reveal from './Reveal';
 import { TheatreBackdrop } from './decor';
 import { site } from '@/content/site';
-import { contactPaths } from '@/lib/contactPaths';
 
 const supportPath = '/support';
 
@@ -13,7 +12,7 @@ const cards = [
     title: 'Save the Date',
     body: `${site.gala.title} — ${site.gala.date}, ${site.gala.time}. ${site.gala.venue}, ${site.gala.address}.`,
     cta: 'Join the Committee',
-    href: contactPaths.gala,
+    href: '/events#gala-2026',
     external: false,
   },
   {
