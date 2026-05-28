@@ -13,7 +13,7 @@ import HomeContact from '../components/HomeContact';
  */
 export default function Home() {
   return (
-    <PageLayout>
+    <PageLayout hideEmailBar>
       <HeroSlider />
       <ProductionStrip />
       <HomeCTA />
