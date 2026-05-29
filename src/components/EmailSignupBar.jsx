@@ -3,7 +3,6 @@ import SectionHeader from './SectionHeader';
 import { useFormModal } from '@/lib/FormModalContext';
 import { site } from '@/content/site';
 import { contactPaths } from '@/lib/contactPaths';
-import PageSection from './PageSection';
 
 /**
  * Site-wide mailing list strip — opens subscribe form in a modal.

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { IconLaurel, IconMasks, IconBookOpen, IconArrowRight } from '@/components/icons';
+import { IconMasks, IconBookOpen, IconArrowRight } from '@/components/icons';
 import Reveal from './Reveal';
 import PageSection from './PageSection';
 import SectionHeader from './SectionHeader';
@@ -139,7 +139,6 @@ export default function HomeCTA() {
                 </p>
                 <p className="font-inter text-white/50 text-xs tracking-[0.2em] uppercase mt-3">{galaYear || '2026'}</p>
               </div>
-              <IconLaurel className="text-gold/25 mt-6 lg:mt-8" size={48} aria-hidden />
             </div>
           </Link>
         </Reveal>

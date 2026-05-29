@@ -5,6 +5,7 @@ import { useInView, useMotionValue, useTransform, animate, motion, useReducedMot
 import { IconMasks, IconLaurel, IconStage } from '@/components/icons';
 import { Link } from 'react-router-dom';
 import { site } from '@/content/site';
+import { pageHeroImages } from '@/content/images';
 import { contactPaths } from '@/lib/contactPaths';
 import { useEffect, useRef } from 'react';
 import PageSection from '../components/PageSection';

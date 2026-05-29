@@ -10,23 +10,26 @@ import Reveal from '../components/Reveal';
 import OptimizedImage from '../components/OptimizedImage';
 import { site, visitInfo } from '@/content/site';
 import { images, pageHeroImages } from '@/content/images';
+import faqsSeed from '../../public/data/faqs.json';
+import teamSeed from '../../public/data/team.json';
+import milestonesSeed from '../../public/data/milestones.json';
 
 export default function About() {
-  const [faqs, setFaqs] = useState([]);
-  const [team, setTeam] = useState([]);
-  const [milestones, setMilestones] = useState([]);
+  const [faqs, setFaqs] = useState(faqsSeed);
+  const [team, setTeam] = useState(teamSeed);
+  const [milestones, setMilestones] = useState(milestonesSeed);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     Promise.all([
-      fetch('/data/faqs.json').then((r) => r.json()),
-      fetch('/data/team.json').then((r) => r.json()),
-      fetch('/data/milestones.json').then((r) => r.json()),
+      fetch('/data/faqs.json').then((r) => (r.ok ? r.json() : faqsSeed)),
+      fetch('/data/team.json').then((r) => (r.ok ? r.json() : teamSeed)),
+      fetch('/data/milestones.json').then((r) => (r.ok ? r.json() : milestonesSeed)),
     ])
       .then(([f, t, m]) => {
-        setFaqs(f);
-        setTeam(t);
-        setMilestones(m);
+        setFaqs(Array.isArray(f) && f.length ? f : faqsSeed);
+        setTeam(Array.isArray(t) && t.length ? t : teamSeed);
+        setMilestones(Array.isArray(m) && m.length ? m : milestonesSeed);
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -125,7 +128,7 @@ export default function About() {
         </div>
       </PageSection>
 
-      {!loading && faqs.length > 0 && (
+      {faqs.length > 0 && (
         <PageSection variant="cream" id="faq" className="scroll-mt-28">
           <SectionHeader
             eyebrow="FAQ"

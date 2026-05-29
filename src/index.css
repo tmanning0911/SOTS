@@ -102,36 +102,6 @@
     background-size: 80px 80px, 100% 100%, 100% 100%;
   }
 
-  .bg-theatre-dots {
-    background-image:
-      radial-gradient(hsl(38 72% 48% / 0.08) 1px, transparent 1px),
-      radial-gradient(hsl(220 42% 18% / 0.03) 1px, transparent 1px);
-    background-size: 32px 32px, 16px 16px;
-    background-position: 0 0, 8px 8px;
-  }
-
-  .curtain-swash-top {
-    background: linear-gradient(
-      180deg,
-      hsl(220 48% 11% / 0.15) 0%,
-      transparent 42%
-    );
-  }
-
-  .curtain-swash-bottom {
-    background: linear-gradient(
-      0deg,
-      hsl(220 48% 11% / 0.12) 0%,
-      transparent 38%
-    );
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .theatre-decor-layer {
-      display: none;
-    }
-  }
-
   .donate-edge-tab {
     @apply fixed z-40 flex items-center justify-center bg-gold text-navy-deep border border-gold-muted border-r-0 shadow-soft;
     top: 50%;
@@ -440,20 +410,6 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
-  }
-
-  .scrollbar-thin {
-    scrollbar-width: thin;
-    scrollbar-color: hsl(38 72% 48% / 0.4) transparent;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar {
-    height: 6px;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: hsl(38 72% 48% / 0.45);
-    border-radius: 999px;
   }
 
   .pb-safe {

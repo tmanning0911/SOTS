@@ -1,10 +1,3 @@
 export { default as TheatreBackdrop } from './TheatreBackdrop';
 export { default as PageSection } from '../PageSection';
-export {
-  OrnamentDivider,
-  CornerOrnament,
-  ArtWatermark,
-  IconWatermark,
-  WatermarkCluster,
-  MasksBanner,
-} from './ShakespeareOrnaments';
+export { OrnamentDivider } from './ShakespeareOrnaments';

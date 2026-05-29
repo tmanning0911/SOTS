@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { cms } from '@/lib/cms';
+import { seedArticles } from '@/lib/contentSeed';
 import { useSeoOverride } from '@/lib/SeoOverrideContext';
 import PageLayout from '../components/PageLayout';
 import OptimizedImage from '../components/OptimizedImage';
@@ -34,22 +35,25 @@ export default function NewsArticle() {
   useSeoOverride(seoMeta);
 
   useEffect(() => {
-    cms.articles.list('-date')
-      .then((items) => {
-        const published = items.filter((a) => a.published !== false);
-        const match = published.find((a) => a.id === id);
-        if (match) {
-          setArticle(match);
-          setRelated(published.filter((a) => a.id !== id).slice(0, 3));
-        } else {
-          setNotFound(true);
-        }
-        setLoading(false);
-      })
-      .catch(() => {
+    const applyArticles = (items) => {
+      const published = items.filter((a) => a.published !== false);
+      const match = published.find((a) => a.id === id);
+      if (match) {
+        setArticle(match);
+        setRelated(published.filter((a) => a.id !== id).slice(0, 3));
+        setNotFound(false);
+      } else {
+        setArticle(null);
+        setRelated([]);
         setNotFound(true);
-        setLoading(false);
-      });
+      }
+      setLoading(false);
+    };
+
+    cms.articles
+      .list('-date')
+      .then(applyArticles)
+      .catch(() => applyArticles(seedArticles));
   }, [id]);
 
   return (

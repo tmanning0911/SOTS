@@ -1,8 +1,7 @@
 import { nounCatalog } from './nounCatalog';
 
 /**
- * Renders icons from the local Noun Project theatre set.
- * @see public/icons/noun/ and src/content/nounAttribution.js
+ * Renders icons from the inline nounCatalog paths.
  */
 export default function NounIcon({
   name,
@@ -58,8 +57,4 @@ export default function NounIcon({
       ))}
     </svg>
   );
-}
-
-export function NounIconFilled({ name, size = 24, className = '', label, ...props }) {
-  return <NounIcon name={name} size={size} className={className} label={label} {...props} />;
 }

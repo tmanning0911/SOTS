@@ -1,16 +1,8 @@
 /**
- * Noun Project theatre icon catalog.
- * Solid icons: CC BY 3.0 from https://thenounproject.com (see public/icons/noun/)
- * Line icons: Noun Project line style (24×24, round stroke)
+ * Icon paths for NounIcon (inline SVG, no external files).
  */
 export const nounCatalog = {
-  /* —— Theatre (Noun Project solid, viewBox 512) —— */
-  theatre: {
-    viewBox: '0 0 512 512',
-    paths: [
-      'm0 0h512v232l-56-36v-136h-396v136l-60 40zm148 290c0 34-28 62-62 62s-62-28-62-62 28-62 62-62 62 28 62 62zm364 222h-511.697l-.303-92 50-46h72l49 46 49-46h72l49 46 49-46h72l50 46zm-194-222c0 34-28 62-62 62s-62-28-62-62 28-62 62-62 62 28 62 62zm170 0c0 34-28 62-62 62s-62-28-62-62 28-62 62-62 62 28 62 62z',
-    ],
-  },
+  /* —— Theatre (solid, 512 viewBox) —— */
   stage: {
     viewBox: '0 0 512 512',
     paths: [
@@ -27,16 +19,6 @@ export const nounCatalog = {
     viewBox: '0 0 512 512',
     paths: [
       'M32 64h448v48H32V64zm0 64h64v320H32V128zm128 0h64v320h-64V128zm128 0h64v320h-64V128zm128 0h64v320h-64V128z',
-    ],
-  },
-  museum: {
-    viewBox: '0 0 512 512',
-    paths: ['m420 420v-240h58v239.952zm-130 0v-240h60v240zm-290 32h512v60h-512zm34-32v-240h60v239.952zm128 0v-240h60v240zm350-274h-512v-60h20v-20l236-66 236 66v20h20z'],
-  },
-  statue: {
-    viewBox: '0 0 512 512',
-    paths: [
-      'M256 64c-35 0-64 29-64 64s29 64 64 64 64-29 64-64-29-64-64-64zm-96 160c-18 0-32 14-32 32v192h256V256c0-18-14-32-32-32H160zm48 288h96v32h-96v-32z',
     ],
   },
   laurel: {

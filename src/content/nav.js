@@ -32,7 +32,9 @@ export const navItems = [
 
 export const searchablePages = [
   { label: 'Productions', path: '/plays' },
+  { label: "Kids' Show", path: '/plays#kids-show-2026' },
   { label: 'Special Events', path: '/events' },
+  { label: 'Annual Gala', path: '/events#gala-2026' },
   { label: 'Learning & Education', path: '/learning' },
   { label: 'Support Us / Donate', path: '/support' },
   { label: 'About Us', path: '/about' },
