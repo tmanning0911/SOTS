@@ -4,7 +4,6 @@ import { IconFacebook, IconInstagram, IconTwitter, IconYoutube } from '@/compone
 import LogoImage from './LogoImage';
 import StaAffiliation from './StaAffiliation';
 import { contactPaths } from '@/lib/contactPaths';
-import FooterBoardEasterEgg from './FooterBoardEasterEgg';
 import { useFormModal } from '@/lib/FormModalContext';
 
 const iconMap = {
@@ -159,7 +158,6 @@ export default function Footer() {
             </Link>
           </p>
         </div>
-        <FooterBoardEasterEgg />
       </div>
     </footer>
   );

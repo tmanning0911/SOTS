@@ -145,14 +145,6 @@
     }
   }
 
-  .footer-board-egg-trigger::-webkit-details-marker {
-    display: none;
-  }
-
-  .footer-board-egg-trigger::marker {
-    content: '';
-  }
-
   .section-pad {
     @apply section-block;
   }
