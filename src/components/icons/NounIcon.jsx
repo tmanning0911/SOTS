@@ -40,7 +40,7 @@ export default function NounIcon({
       role={label ? 'img' : 'presentation'}
       {...props}
     >
-      {icon.paths.map((d, i) => (
+      {icon.paths?.map((d, i) => (
         <path key={i} d={d} />
       ))}
       {icon.circles?.map(({ cx, cy, r, fill: filled }, i) => (
