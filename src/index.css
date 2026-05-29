@@ -297,7 +297,7 @@
 
   /* Navbar — dark bar (white links, WCAG AA on navy) */
   .nav-link {
-    @apply relative inline-flex items-center whitespace-nowrap px-3 py-2.5 text-white/90 hover:text-white text-xs tracking-[0.16em] uppercase font-inter font-medium transition-colors duration-300;
+    @apply relative inline-flex items-center whitespace-nowrap px-1.5 py-2.5 text-white/90 hover:text-white text-xs tracking-[0.16em] uppercase font-inter font-medium transition-colors duration-300;
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy-deep rounded-sm;
   }
 
@@ -317,7 +317,7 @@
 
   /* Navbar — light bar (navy links on cream, WCAG AA) */
   .nav-link-light {
-    @apply relative inline-flex items-center whitespace-nowrap px-3 py-2.5 text-navy hover:text-navy-deep text-xs tracking-[0.16em] uppercase font-inter font-semibold transition-colors duration-300;
+    @apply relative inline-flex items-center whitespace-nowrap px-1.5 py-2.5 text-navy hover:text-navy-deep text-xs tracking-[0.16em] uppercase font-inter font-semibold transition-colors duration-300;
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream rounded-sm;
   }
 

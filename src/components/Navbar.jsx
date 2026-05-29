@@ -89,7 +89,7 @@ export default function Navbar() {
             </div>
 
             <nav
-              className="flex items-center justify-center gap-x-10 xl:gap-x-12 2xl:gap-x-14 overflow-visible px-4 xl:px-8"
+              className="flex items-center justify-center gap-x-3 xl:gap-x-4 2xl:gap-x-5 overflow-visible px-2 xl:px-4"
               aria-label="Main"
             >
               {navItems.map((item) => (

@@ -79,7 +79,7 @@ export default function NavDropdown({ item, isLightBar }) {
     >
       <button
         type="button"
-        className={`${linkClass} gap-2 ${active ? 'nav-link-active' : ''}`}
+        className={`${linkClass} gap-1 ${active ? 'nav-link-active' : ''}`}
         aria-expanded={open}
         aria-haspopup="true"
         onClick={() => setOpen((v) => !v)}

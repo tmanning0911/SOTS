@@ -157,6 +157,17 @@ export default function Footer() {
             <Link to={contactPaths.general} className={linkClass}>
               Contact
             </Link>
+            <span className="text-white/25" aria-hidden>
+              ·
+            </span>
+            <a
+              href="https://thenounproject.com/search/icons/?q=THEATRE"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={linkClass}
+            >
+              Icons by Noun Project
+            </a>
           </p>
         </div>
         <FooterBoardEasterEgg />
