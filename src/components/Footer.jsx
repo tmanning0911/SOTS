@@ -138,7 +138,7 @@ export default function Footer() {
 
         <div className="mt-7 pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5">
           <StaAffiliation theme="dark" align="left" compact />
-          <p className="font-inter text-white/55 text-[10px] leading-relaxed sm:text-right sm:max-w-md">
+          <p className="font-inter text-white/55 text-[10px] leading-relaxed sm:text-right whitespace-nowrap">
             {sponsors.map((s) => s.name).join(' · ')}
           </p>
         </div>
@@ -157,17 +157,6 @@ export default function Footer() {
             <Link to={contactPaths.general} className={linkClass}>
               Contact
             </Link>
-            <span className="text-white/25" aria-hidden>
-              ·
-            </span>
-            <a
-              href="https://thenounproject.com/search/icons/?q=THEATRE"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={linkClass}
-            >
-              Icons by Noun Project
-            </a>
           </p>
         </div>
         <FooterBoardEasterEgg />
