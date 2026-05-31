@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { site } from '@/content/site';
-import { seasonVoice } from '@/content/voice';
+import { seasonVoice, homeCopy } from '@/content/voice';
 import { images } from '@/content/images';
 import { ShakespeareWatermark } from '../decor';
 
@@ -30,9 +30,6 @@ export default function HomeHero() {
           </p>
           <h1 className="home-hero__title">{seasonVoice.mainStage}</h1>
           <p className="home-hero__setting">{seasonVoice.setting}</p>
-          <p className="home-hero__meta home-hero__meta--mobile">
-            Gates {seasonVoice.parkOpens} · Show {seasonVoice.showTime}
-          </p>
           <div className="home-hero__actions">
             <a href={site.ticketsUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
               Book tickets
@@ -41,10 +38,11 @@ export default function HomeHero() {
               Season details
             </Link>
           </div>
-          <p className="home-hero__meta home-hero__meta--desktop">
+          <p className="home-hero__meta">
             Directed by {seasonVoice.director} · Gates {seasonVoice.parkOpens} · Show{' '}
             {seasonVoice.showTime}
           </p>
+          <p className="home-hero__description">{homeCopy.heroMain.description}</p>
         </div>
       </div>
     </section>
