@@ -1013,16 +1013,37 @@
 
   /* Homepage hero — full-bleed poster, gradient overlay */
   .home-hero {
-    @apply relative w-full min-h-[100svh] overflow-hidden;
+    @apply isolate w-full overflow-hidden bg-navy-deep;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(100vh, auto);
+    min-height: 100vh;
+  }
+
+  @supports (height: 100dvh) {
+    .home-hero {
+      grid-template-rows: minmax(100dvh, auto);
+      min-height: 100dvh;
+    }
+  }
+
+  .home-hero__media,
+  .home-hero__panel {
+    grid-area: 1 / 1;
   }
 
   .home-hero__media {
-    @apply absolute inset-0 w-full h-full;
+    @apply relative w-full min-h-full overflow-hidden;
   }
 
-  .home-hero__media picture,
-  .home-hero__media img {
+  .home-hero__picture {
+    @apply absolute inset-0 block w-full h-full;
+  }
+
+  .home-hero__image {
     @apply block w-full h-full object-cover object-center;
+    min-width: 100%;
+    min-height: 100%;
   }
 
   .home-hero__scrim {
@@ -1051,11 +1072,11 @@
   }
 
   .home-hero__panel {
-    @apply absolute inset-0 z-10 flex items-end bg-transparent;
+    @apply relative z-10 flex items-end bg-transparent pointer-events-none;
   }
 
   .home-hero__inner {
-    @apply py-8 sm:py-10 w-full max-w-3xl;
+    @apply py-8 sm:py-10 w-full max-w-3xl pointer-events-auto;
     padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 1.5rem));
   }
 

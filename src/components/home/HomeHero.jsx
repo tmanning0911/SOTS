@@ -2,30 +2,25 @@ import { Link } from 'react-router-dom';
 import { site } from '@/content/site';
 import { seasonVoice } from '@/content/voice';
 import { images } from '@/content/images';
-import OptimizedImage from '../OptimizedImage';
 import { ShakespeareWatermark } from '../decor';
 
 /** Homepage hero — full-bleed poster with gradient overlay and bottom copy. */
 export default function HomeHero() {
   return (
     <section data-nav-zone="dark" className="home-hero bg-navy-deep">
-      <div className="home-hero__media">
-        <OptimizedImage
-          src={images.heroMuchAdo}
-          webp={images.heroMuchAdoWebp}
-          alt="Illustration of masked dancers at a Sicilian masquerade for Much Ado About Nothing"
-          priority
-          decorative
-          className="absolute inset-0 w-full h-full object-cover object-center"
-          wrapperClassName="absolute inset-0 w-full h-full"
-        />
-        <div className="home-hero__scrim" aria-hidden />
-        <ShakespeareWatermark
-          variant="folio"
-          tone="dark"
-          position="right"
-          className="z-[1] hidden lg:block"
-        />
+      <div className="home-hero__media" aria-hidden>
+        <picture className="home-hero__picture">
+          <source srcSet={images.heroMuchAdoWebp} type="image/webp" />
+          <img
+            src={images.heroMuchAdo}
+            alt=""
+            fetchPriority="high"
+            decoding="async"
+            className="home-hero__image"
+          />
+        </picture>
+        <div className="home-hero__scrim" />
+        <ShakespeareWatermark variant="folio" tone="dark" position="right" className="hidden lg:block" />
       </div>
 
       <div className="home-hero__panel">
