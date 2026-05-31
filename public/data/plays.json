@@ -12,6 +12,12 @@
     "ticketUrl": "https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
     "tag": "Get Tickets",
     "image": "/images/hero-much-ado.jpg",
+    "calendar": {
+      "start": "2026-06-10T19:30:00",
+      "end": "2026-06-10T22:00:00",
+      "timezone": "America/New_York",
+      "recurrenceNote": "Runs Wed–Sun evenings through June 28, 2026 (no Mondays). Book your preferred night at shakespeareonthesound.org/plays."
+    },
     "ticketDetails": [
       "General admission: $25 adults, $5 children 12 and under (Wed–Sun evenings)",
       "VIP reserved seating any day: $75",

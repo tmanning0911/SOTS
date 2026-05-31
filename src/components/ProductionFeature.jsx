@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import OptimizedImage from './OptimizedImage';
 import CtaLink from './CtaLink';
+import AddToCalendar from './AddToCalendar';
 
 /** Editorial production layout — photography-led, minimal chrome. */
 export default function ProductionFeature({ production, index = 0 }) {
@@ -78,6 +79,7 @@ export default function ProductionFeature({ production, index = 0 }) {
             {production.tag || (isExternalTicket ? 'Get tickets' : 'Learn more')}
           </CtaLink>
         </div>
+        <AddToCalendar item={production} className="mt-6" />
       </div>
     </article>
   );

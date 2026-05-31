@@ -12,7 +12,12 @@
     "ctaLabel": "Join the Committee",
     "ctaUrl": "/contact?topic=sponsorship",
     "external": false,
-    "sort_order": 1
+    "sort_order": 1,
+    "calendar": {
+      "start": "2026-10-16T18:00:00",
+      "end": "2026-10-16T22:00:00",
+      "timezone": "America/New_York"
+    }
   },
   {
     "id": "opening-night",
@@ -27,7 +32,12 @@
     "ctaLabel": "Get Tickets",
     "ctaUrl": "https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
     "external": true,
-    "sort_order": 2
+    "sort_order": 2,
+    "calendar": {
+      "start": "2026-06-13T18:00:00",
+      "end": "2026-06-13T19:30:00",
+      "timezone": "America/New_York"
+    }
   },
   {
     "id": "directors-discuss",
@@ -41,7 +51,12 @@
     "ctaLabel": "Get Tickets",
     "ctaUrl": "https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
     "external": true,
-    "sort_order": 3
+    "sort_order": 3,
+    "calendar": {
+      "start": "2026-06-14T18:00:00",
+      "end": "2026-06-14T18:45:00",
+      "timezone": "America/New_York"
+    }
   },
   {
     "id": "book-club",
@@ -56,7 +71,12 @@
     "ctaLabel": "Get Tickets",
     "ctaUrl": "https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
     "external": true,
-    "sort_order": 4
+    "sort_order": 4,
+    "calendar": {
+      "start": "2026-06-18T18:30:00",
+      "end": "2026-06-18T19:30:00",
+      "timezone": "America/New_York"
+    }
   },
   {
     "id": "alumni-night",
@@ -71,7 +91,12 @@
     "ctaLabel": "Get Tickets",
     "ctaUrl": "https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
     "external": true,
-    "sort_order": 5
+    "sort_order": 5,
+    "calendar": {
+      "start": "2026-06-20T18:00:00",
+      "end": "2026-06-20T19:30:00",
+      "timezone": "America/New_York"
+    }
   },
   {
     "id": "pay-what-you-will",
@@ -85,7 +110,14 @@
     "ctaLabel": "Get Tickets",
     "ctaUrl": "https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
     "external": true,
-    "sort_order": 6
+    "sort_order": 6,
+    "calendar": {
+      "timezone": "America/New_York",
+      "occurrences": [
+        { "start": "2026-06-16T19:30:00", "end": "2026-06-16T22:00:00" },
+        { "start": "2026-06-23T19:30:00", "end": "2026-06-23T22:00:00" }
+      ]
+    }
   },
   {
     "id": "apprentice-matinee",
@@ -99,6 +131,11 @@
     "ctaLabel": "View Productions",
     "ctaUrl": "/plays",
     "external": false,
-    "sort_order": 7
+    "sort_order": 7,
+    "calendar": {
+      "start": "2026-06-20T13:00:00",
+      "end": "2026-06-20T14:30:00",
+      "timezone": "America/New_York"
+    }
   }
 ]

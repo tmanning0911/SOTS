@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import OptimizedImage from './OptimizedImage';
+import AddToCalendar from './AddToCalendar';
 import { site } from '@/content/site';
 
 /**
@@ -81,6 +82,7 @@ export default function ShowCard({
               </Link>
             )}
           </div>
+          <AddToCalendar item={item} className="mt-6" />
         </div>
       </article>
     );
@@ -133,6 +135,7 @@ export default function ShowCard({
           </Link>
         )}
       </div>
+      <AddToCalendar item={item} className="mt-4" compact />
     </article>
   );
 }

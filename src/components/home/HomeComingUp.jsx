@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
 import OptimizedImage from '../OptimizedImage';
+import AddToCalendar from '../AddToCalendar';
 import { site } from '@/content/site';
 import { images } from '@/content/images';
+import { seedEvents } from '@/lib/contentSeed';
+
+const galaEvent = seedEvents.find((e) => e.id === 'gala-2026');
 
 /** Gala save-the-date — synced from shakespeareonthesound.org homepage. */
 export default function HomeComingUp() {
@@ -25,7 +29,7 @@ export default function HomeComingUp() {
               {site.gala.venue} · {site.gala.address}
             </p>
             <p className="text-body max-w-prose mb-8">{site.gala.description}</p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 mb-6">
               <Link to="/events#gala-2026" className="btn-primary">
                 Gala details
               </Link>
@@ -33,6 +37,7 @@ export default function HomeComingUp() {
                 Join the committee
               </Link>
             </div>
+            {galaEvent && <AddToCalendar item={galaEvent} />}
           </div>
         </div>
       </div>

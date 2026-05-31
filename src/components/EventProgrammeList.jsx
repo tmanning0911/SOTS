@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import CtaLink from './CtaLink';
+import AddToCalendar from './AddToCalendar';
 
 /**
  * Programme-style event row — date column + title, copy, and CTA.
@@ -40,16 +41,18 @@ export function EventProgrammeRow({ event, compact = false }) {
         {event.priceNote && <p className="text-sm text-navy/45 mt-2">{event.priceNote}</p>}
 
         {event.ctaUrl ? (
-          <div className="mt-4">
+          <div className="mt-4 flex flex-col sm:flex-row sm:flex-wrap sm:items-start gap-6">
             <CtaLink href={event.ctaUrl} className="text-link text-sm">
               {event.ctaLabel || 'Get tickets'}
             </CtaLink>
+            <AddToCalendar item={event} compact />
           </div>
         ) : (
-          <div className="mt-4">
+          <div className="mt-4 flex flex-col sm:flex-row sm:flex-wrap sm:items-start gap-6">
             <Link to={`/events#${event.id}`} className="text-link text-sm">
               Details
             </Link>
+            <AddToCalendar item={event} compact />
           </div>
         )}
       </div>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import OptimizedImage from '../OptimizedImage';
 import CtaLink from '../CtaLink';
 import EventProgrammeList from '../EventProgrammeList';
+import AddToCalendar from '../AddToCalendar';
 import { cms } from '@/lib/cms';
 import { seedPlays, seedEvents } from '@/lib/contentSeed';
 import { site } from '@/content/site';
@@ -72,6 +73,7 @@ export default function HomeWhatsOn() {
                   Details
                 </Link>
               </div>
+              <AddToCalendar item={mainStage} className="mt-6" />
             </div>
           </article>
         )}
