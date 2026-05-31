@@ -1,20 +1,13 @@
 import { Link } from 'react-router-dom';
 import OptimizedImage from '../OptimizedImage';
-import { ShakespeareWatermark } from '../decor';
+import { ArtSectionBackground } from '../decor';
 import { site } from '@/content/site';
 import { images } from '@/content/images';
 
 export default function HomeEducationImpact() {
   return (
     <section className="section relative bg-navy-deep text-white overflow-hidden" data-nav-zone="dark">
-      <OptimizedImage
-        src={images.art.cathedralCrowd}
-        alt=""
-        aria-hidden
-        className="absolute inset-0 w-full h-full object-cover object-center opacity-[0.18] mix-blend-luminosity"
-        wrapperClassName="absolute inset-0 w-full h-full pointer-events-none"
-      />
-      <ShakespeareWatermark variant="quill" tone="dark" position="right" />
+      <ArtSectionBackground src={images.art.cathedralCrowd} tone="dark" position="center" />
       <div className="site-container relative z-[1]">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <figure className="order-2 lg:order-1">

@@ -9,7 +9,7 @@ import PageSection from '../components/PageSection';
 import ShowCard from '../components/ShowCard';
 import EventProgrammeList from '../components/EventProgrammeList';
 import { seedEvents } from '@/lib/contentSeed';
-import { pageHeroImages } from '@/content/images';
+import { pageHeroImages, pageArtBackgrounds } from '@/content/images';
 import { site } from '@/content/site';
 import { seasonVoice } from '@/content/voice';
 
@@ -34,6 +34,7 @@ export default function Events() {
         title="Special events"
         description="Gala fundraisers, opening night receptions, community nights, and more — beyond the main stage."
         image={pageHeroImages.events}
+        artBackground={pageArtBackgrounds.events}
       />
 
       {featured.length > 0 && (

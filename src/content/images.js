@@ -54,6 +54,18 @@ export const images = {
 };
 
 export const pageHeroImages = {
+  plays: images.parkPerformance,
+  learning: images.news.kids,
+  support: images.backgrounds.audience,
+  news: images.news.seasonBanner,
+  watch: images.backgrounds.spotlight,
+  about: images.aboutBanner,
+  contact: images.parkPerformance,
+  events: images.news.gala,
+};
+
+/** Ambient production artwork — section backgrounds only, not content images */
+export const pageArtBackgrounds = {
   plays: images.art.masqueArches,
   learning: images.art.horsemenCastle,
   support: images.art.cathedralCrowd,

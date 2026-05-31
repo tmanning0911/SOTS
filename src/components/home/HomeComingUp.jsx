@@ -1,17 +1,19 @@
 import { Link } from 'react-router-dom';
 import OptimizedImage from '../OptimizedImage';
-import AddToCalendar from '../AddToCalendar';
+import { ArtSectionBackground } from '../decor';
 import { site } from '@/content/site';
 import { images } from '@/content/images';
 import { seedEvents } from '@/lib/contentSeed';
+import AddToCalendar from '../AddToCalendar';
 
 const galaEvent = seedEvents.find((e) => e.id === 'gala-2026');
 
 /** Gala save-the-date — synced from shakespeareonthesound.org homepage. */
 export default function HomeComingUp() {
   return (
-    <section className="section bg-white border-b border-navy/10" data-nav-zone="light">
-      <div className="site-container">
+    <section className="section relative bg-white border-b border-navy/10 overflow-hidden" data-nav-zone="light">
+      <ArtSectionBackground src={images.art.masqueArches} tone="light" position="right" />
+      <div className="site-container relative z-[1]">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           <OptimizedImage
             src={images.news.galaPromo}

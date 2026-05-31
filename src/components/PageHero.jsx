@@ -1,9 +1,16 @@
 import OptimizedImage from './OptimizedImage';
 import PullQuote from './PullQuote';
+import { ArtSectionBackground } from './decor';
 
-export default function PageHero({ eyebrow, title, description, image, quote, quoteSource }) {
-  const isArtwork = image?.includes('/art/');
-
+export default function PageHero({
+  eyebrow,
+  title,
+  description,
+  image,
+  artBackground,
+  quote,
+  quoteSource,
+}) {
   return (
     <div
       data-nav-zone="dark"
@@ -13,21 +20,11 @@ export default function PageHero({ eyebrow, title, description, image, quote, qu
         src={image}
         alt=""
         priority
-        className={`absolute inset-0 w-full h-full object-cover ${
-          isArtwork ? 'object-[center_40%] scale-105' : 'brightness-[0.45]'
-        }`}
+        className="absolute inset-0 w-full h-full object-cover brightness-[0.45]"
         wrapperClassName="absolute inset-0 w-full h-full"
       />
-      <div
-        className={`absolute inset-0 ${
-          isArtwork
-            ? 'bg-gradient-to-r from-navy-deep/92 via-navy-deep/55 to-navy-deep/25'
-            : 'bg-gradient-to-t from-navy-deep/95 via-navy-deep/50 to-transparent'
-        }`}
-      />
-      {isArtwork && (
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/30 to-transparent" />
-      )}
+      {artBackground && <ArtSectionBackground src={artBackground} tone="dark" position="center" />}
+      <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/95 via-navy-deep/50 to-transparent" />
       <div className="absolute inset-0 flex items-end pb-10 sm:pb-12 z-[1]">
         <div className="site-container w-full">
           {eyebrow && <p className="text-sm text-white/50 mb-2">{eyebrow}</p>}

@@ -10,7 +10,7 @@ import { useFormModal } from '@/lib/FormModalContext';
 import { site } from '@/content/site';
 import { Link } from 'react-router-dom';
 import { contactPaths } from '@/lib/contactPaths';
-import { pageHeroImages } from '@/content/images';
+import { pageHeroImages, pageArtBackgrounds } from '@/content/images';
 import { pageCopy } from '@/content/voice';
 
 export default function Learning() {
@@ -31,6 +31,7 @@ export default function Learning() {
         title="Learning"
         description={pageCopy.learning.hero}
         image={pageHeroImages.learning}
+        artBackground={pageArtBackgrounds.learning}
       />
 
       <PageSection variant="white" first>

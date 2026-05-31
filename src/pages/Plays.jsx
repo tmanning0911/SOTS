@@ -7,7 +7,7 @@ import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
 import SectionHeader from '../components/SectionHeader';
 import ProductionFeature from '../components/ProductionFeature';
-import { pageHeroImages } from '@/content/images';
+import { pageHeroImages, pageArtBackgrounds } from '@/content/images';
 import { pageCopy } from '@/content/voice';
 
 export default function Plays() {
@@ -27,6 +27,7 @@ export default function Plays() {
         title="Productions"
         description={pageCopy.plays.hero}
         image={pageHeroImages.plays}
+        artBackground={pageArtBackgrounds.plays}
       />
 
       <PageSection variant="white" first>

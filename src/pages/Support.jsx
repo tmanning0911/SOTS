@@ -2,7 +2,7 @@ import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import { Link } from 'react-router-dom';
 import { site } from '@/content/site';
-import { pageHeroImages } from '@/content/images';
+import { pageHeroImages, pageArtBackgrounds } from '@/content/images';
 import { pageCopy, homeCopy } from '@/content/voice';
 import { contactPaths } from '@/lib/contactPaths';
 import PageSection from '../components/PageSection';
@@ -67,6 +67,7 @@ export default function Support() {
         title="Support the festival"
         description={pageCopy.support.hero}
         image={pageHeroImages.support}
+        artBackground={pageArtBackgrounds.support}
       />
 
       <PageSection variant="white" first>

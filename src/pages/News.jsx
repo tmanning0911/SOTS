@@ -5,7 +5,7 @@ import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
 import NewsCard from '../components/NewsCard';
-import { pageHeroImages } from '@/content/images';
+import { pageHeroImages, pageArtBackgrounds } from '@/content/images';
 import { homeCopy } from '@/content/voice';
 
 export default function News() {
@@ -27,6 +27,7 @@ export default function News() {
         title="Latest news"
         description={homeCopy.newsIntro}
         image={pageHeroImages.news}
+        artBackground={pageArtBackgrounds.news}
       />
 
       <PageSection variant="white" first>

@@ -1,19 +1,21 @@
 import { Link } from 'react-router-dom';
 import OptimizedImage from '../OptimizedImage';
+import { ArtSectionBackground } from '../decor';
 import { site } from '@/content/site';
 import { images } from '@/content/images';
 
 /** Donate + for kids — two teasers from the live site homepage. */
 export default function HomeSupportKids() {
   return (
-    <section className="section bg-white border-b border-navy/10" data-nav-zone="light">
-      <div className="site-container">
+    <section className="section relative bg-white border-b border-navy/10 overflow-hidden" data-nav-zone="light">
+      <ArtSectionBackground src={images.art.tragedyScene} tone="light" position="center" />
+      <div className="site-container relative z-[1]">
         <div className="grid md:grid-cols-2 gap-10 md:gap-12">
           <article className="grid sm:grid-cols-[1fr_1.1fr] gap-6 items-center">
             <OptimizedImage
-              src={images.art.townSquareNight}
-              alt="Illustration of a moonlit town square"
-              className="w-full aspect-[4/3] object-cover object-center"
+              src={images.backgrounds.parkAudienceNyt}
+              alt="Audience at Shakespeare on the Sound in Pinkney Park"
+              className="w-full aspect-[4/3] object-cover"
               wrapperClassName="w-full"
             />
             <div>
@@ -35,9 +37,9 @@ export default function HomeSupportKids() {
 
           <article className="grid sm:grid-cols-[1fr_1.1fr] gap-6 items-center">
             <OptimizedImage
-              src={images.art.masqueArches}
-              alt="Illustration of figures in a masquerade hall"
-              className="w-full aspect-[4/3] object-cover object-[center_40%]"
+              src={images.news.kidsKings}
+              alt="Shakespeare for Kids performance"
+              className="w-full aspect-[4/3] object-cover"
               wrapperClassName="w-full"
             />
             <div>

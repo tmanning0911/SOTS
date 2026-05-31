@@ -3,7 +3,7 @@ import PageHero from '../components/PageHero';
 import FormCTA from '../components/forms/FormCTA';
 import PageSection from '../components/PageSection';
 import { site } from '@/content/site';
-import { pageHeroImages } from '@/content/images';
+import { pageHeroImages, pageArtBackgrounds } from '@/content/images';
 import { pageCopy } from '@/content/voice';
 
 export default function Contact() {
@@ -14,6 +14,7 @@ export default function Contact() {
         title="Get in touch"
         description={pageCopy.contact.hero}
         image={pageHeroImages.contact}
+        artBackground={pageArtBackgrounds.contact}
       />
 
       <PageSection variant="white" first>

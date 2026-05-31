@@ -9,7 +9,7 @@ import ContactChannelLink from '../components/ContactChannelLink';
 import OptimizedImage from '../components/OptimizedImage';
 import StaAffiliation from '../components/StaAffiliation';
 import { site, visitInfo } from '@/content/site';
-import { images, pageHeroImages } from '@/content/images';
+import { images, pageHeroImages, pageArtBackgrounds } from '@/content/images';
 import faqsSeed from '../../public/data/faqs.json';
 import teamSeed from '../../public/data/team.json';
 import milestonesSeed from '../../public/data/milestones.json';
@@ -42,6 +42,7 @@ export default function About() {
         title="About"
         description={site.mission}
         image={pageHeroImages.about}
+        artBackground={pageArtBackgrounds.about}
       />
 
       <PageSection variant="white" first>

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import SectionHeading from './SectionHeading';
 import NewsCard from '../NewsCard';
+import { ArtSectionBackground } from '../decor';
+import { images } from '@/content/images';
 import { cms } from '@/lib/cms';
 import { seedArticles } from '@/lib/contentSeed';
 
@@ -20,8 +22,9 @@ export default function HomeRecentNews() {
   if (articles.length === 0) return null;
 
   return (
-    <section className="section bg-white border-t border-navy/10" data-nav-zone="light">
-      <div className="site-container">
+    <section className="section relative bg-white border-t border-navy/10 overflow-hidden" data-nav-zone="light">
+      <ArtSectionBackground src={images.art.masqueArches} tone="light" position="left" />
+      <div className="site-container relative z-[1]">
         <SectionHeading label="News" title="Latest from Rowayton" href="/news" linkLabel="All news" />
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
           {articles.map((item) => (
