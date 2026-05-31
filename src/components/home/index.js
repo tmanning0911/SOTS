@@ -1,5 +1,6 @@
 export { default as SectionHeading } from './SectionHeading';
 export { default as HomeHero } from './HomeHero';
+export { default as HomeSeasonIntro } from './HomeSeasonIntro';
 export { default as HomeComingUp } from './HomeComingUp';
 export { default as HomeWhatsOn } from './HomeWhatsOn';
 export { default as HomeSupportKids } from './HomeSupportKids';

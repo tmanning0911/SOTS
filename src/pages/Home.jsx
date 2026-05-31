@@ -1,6 +1,7 @@
 import PageLayout from '../components/PageLayout';
 import {
   HomeHero,
+  HomeSeasonIntro,
   HomeComingUp,
   HomeWhatsOn,
   HomeOurStory,
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <PageLayout preFooter>
       <HomeHero />
+      <HomeSeasonIntro />
       <HomeComingUp />
       <HomeWhatsOn />
       <HomeOurStory />

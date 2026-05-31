@@ -5,7 +5,7 @@ import { images } from '@/content/images';
 import OptimizedImage from '../OptimizedImage';
 import { ShakespeareWatermark } from '../decor';
 
-/** Homepage hero — stacked poster on mobile, cinematic overlay on desktop. */
+/** Homepage hero — stacked poster on mobile, cinematic gradient overlay on desktop. */
 export default function HomeHero() {
   return (
     <section data-nav-zone="dark" className="home-hero bg-navy-deep">
@@ -30,29 +30,27 @@ export default function HomeHero() {
 
       <div className="home-hero__panel">
         <div className="site-container home-hero__inner">
-          <div className="home-hero__copy">
-            <p className="home-hero__eyebrow">
-              {seasonVoice.runDates}, {seasonVoice.year} · Pinkney Park
-            </p>
-            <h1 className="home-hero__title">{seasonVoice.mainStage}</h1>
-            <p className="home-hero__setting">{seasonVoice.setting}</p>
-            <p className="home-hero__meta home-hero__meta--mobile">
-              Gates {seasonVoice.parkOpens} · Show {seasonVoice.showTime}
-            </p>
-            <p className="home-hero__description">{homeCopy.heroMain.description}</p>
-            <div className="home-hero__actions">
-              <a href={site.ticketsUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
-                Book tickets
-              </a>
-              <Link to="/plays" className="btn-ghost-light">
-                Season details
-              </Link>
-            </div>
-            <p className="home-hero__meta home-hero__meta--desktop">
-              Directed by {seasonVoice.director} · Gates {seasonVoice.parkOpens} · Show{' '}
-              {seasonVoice.showTime}
-            </p>
+          <p className="home-hero__eyebrow">
+            {seasonVoice.runDates}, {seasonVoice.year} · Pinkney Park
+          </p>
+          <h1 className="home-hero__title">{seasonVoice.mainStage}</h1>
+          <p className="home-hero__setting">{seasonVoice.setting}</p>
+          <p className="home-hero__meta home-hero__meta--mobile">
+            Gates {seasonVoice.parkOpens} · Show {seasonVoice.showTime}
+          </p>
+          <p className="home-hero__description lg:hidden">{homeCopy.heroMain.description}</p>
+          <div className="home-hero__actions">
+            <a href={site.ticketsUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
+              Book tickets
+            </a>
+            <Link to="/plays" className="btn-ghost-light">
+              Season details
+            </Link>
           </div>
+          <p className="home-hero__meta home-hero__meta--desktop">
+            Directed by {seasonVoice.director} · Gates {seasonVoice.parkOpens} · Show{' '}
+            {seasonVoice.showTime}
+          </p>
         </div>
       </div>
     </section>

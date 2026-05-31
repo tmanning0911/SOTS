@@ -18,6 +18,24 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { headerRef, isHeroOverlay, isLightBar, theme } = useNavTheme();
+  const [headerHeight, setHeaderHeight] = useState(0);
+
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+
+    const update = () => setHeaderHeight(el.getBoundingClientRect().height);
+    update();
+
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    window.addEventListener('resize', update);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', update);
+    };
+  }, [menuOpen, isLightBar, isHeroOverlay, location.pathname]);
 
   useEffect(() => {
     setMenuOpen(false);
@@ -57,8 +75,14 @@ export default function Navbar() {
     navigate(path);
   };
 
-  const headerClass = isHeroOverlay
+  const desktopHeaderClass = isHeroOverlay
     ? 'nav-theme-hero bg-gradient-to-b from-navy-deep/80 via-navy-deep/40 to-transparent py-4 md:py-5'
+    : isLightBar
+      ? 'nav-theme-light bg-white border-b border-navy/10 shadow-[0_1px_3px_rgba(26,39,68,0.06)] py-3'
+      : 'nav-theme-dark bg-navy-deep/95 backdrop-blur-md border-b border-white/10 py-3';
+
+  const mobileBarClass = menuOpen
+    ? 'nav-theme-dark bg-navy-deep border-b border-white/10 py-3'
     : isLightBar
       ? 'nav-theme-light bg-white border-b border-navy/10 shadow-[0_1px_3px_rgba(26,39,68,0.06)] py-3'
       : 'nav-theme-dark bg-navy-deep/95 backdrop-blur-md border-b border-white/10 py-3';
@@ -80,24 +104,21 @@ export default function Navbar() {
     setMenuOpen(true);
   }, []);
 
-  const mobileBarClass = menuOpen
-    ? 'nav-theme-dark bg-navy-deep border-b border-white/10 py-3'
-    : headerClass;
   const mobileIconBtnClass = menuOpen ? 'nav-icon-btn-dark' : iconBtnClass;
-  const mobileMenuTop = 'max(3.75rem, calc(env(safe-area-inset-top) + 3.75rem))';
+  const mobileMenuTop = headerHeight || undefined;
 
   return (
     <>
       <header
         ref={headerRef}
         data-nav-theme={theme}
-        className={`fixed top-0 left-0 right-0 overflow-visible transition-colors duration-300 ease-smooth ${
+        className={`site-nav fixed top-0 left-0 right-0 overflow-visible transition-colors duration-300 ease-smooth ${
           menuOpen ? 'z-[100]' : 'z-50'
-        } ${headerClass}`}
+        }`}
       >
         {/* Utility bar removed — reduces clutter; links live in nav + footer */}
         <div
-          className="hidden lg:block"
+          className={`hidden lg:block ${desktopHeaderClass}`}
           onMouseLeave={() => openMegaItem && closeNav()}
         >
           <div className="max-w-[92rem] mx-auto px-6 sm:px-10 lg:px-12 xl:px-16">
@@ -166,7 +187,7 @@ export default function Navbar() {
           )}
         </div>
 
-        <div className={`max-w-[92rem] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 lg:hidden transition-colors duration-300 ${mobileBarClass}`}>
+        <div className={`max-w-[92rem] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 lg:hidden ${mobileBarClass}`}>
           <div className="flex items-center gap-3 min-h-[3.75rem]">
             <Link
               to="/"
@@ -221,8 +242,12 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[100] bg-navy-deep/85 backdrop-blur-md flex items-start justify-center pt-safe px-4 sm:px-6"
-            style={{ paddingTop: 'max(5.5rem, calc(env(safe-area-inset-top) + 4rem))' }}
+            className="fixed inset-0 z-[100] bg-navy-deep/85 backdrop-blur-md flex items-start justify-center px-4 sm:px-6"
+            style={{
+              paddingTop: mobileMenuTop
+                ? `${mobileMenuTop + 16}px`
+                : 'max(5.5rem, calc(env(safe-area-inset-top) + 4rem))',
+            }}
             onClick={() => setSearchOpen(false)}
             role="presentation"
           >
@@ -288,7 +313,9 @@ export default function Navbar() {
             exit={{ opacity: 0, x: '100%' }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             className="fixed left-0 right-0 bottom-0 z-[90] lg:hidden bg-navy-deep px-4 sm:px-6 pb-safe flex flex-col overflow-y-auto overscroll-contain"
-            style={{ top: mobileMenuTop }}
+            style={{
+              top: mobileMenuTop ?? 'max(5.25rem, calc(env(safe-area-inset-top) + 4.5rem))',
+            }}
             role="dialog"
             aria-modal="true"
             aria-label="Main menu"
