@@ -147,6 +147,7 @@ export const searchablePages = [
   { label: 'Contact', path: '/contact' },
   { label: 'News', path: '/news' },
   { label: 'Watch on YouTube', path: '/watch' },
+  { label: 'Cookie Policy', path: '/cookie-policy' },
 ];
 
 export function isNavItemActive(item, pathname, hash = '') {

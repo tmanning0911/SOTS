@@ -4,6 +4,7 @@ import { seasonVoice } from '@/content/voice';
 import { IconFacebook, IconInstagram, IconTwitter, IconYoutube } from '@/components/icons';
 import LogoImage from './LogoImage';
 import { useFormModal } from '@/lib/FormModalContext';
+import { useCookieConsent } from '@/lib/CookieConsentContext';
 
 const iconMap = {
   Facebook: IconFacebook,
@@ -59,6 +60,20 @@ function FooterFormLink({ variant, children }) {
       className="text-sm text-white/65 hover:text-white transition-colors text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
     >
       {children}
+    </button>
+  );
+}
+
+function FooterCookieSettings() {
+  const { openSettings } = useCookieConsent();
+
+  return (
+    <button
+      type="button"
+      onClick={openSettings}
+      className="text-white/45 hover:text-white transition-colors text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
+    >
+      Cookie settings
     </button>
   );
 }
@@ -192,10 +207,19 @@ export default function Footer({ preFooter = false }) {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="site-container py-4">
+        <div className="site-container py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <p className="text-xs text-white/35">
             © {new Date().getFullYear()} {site.name}. 501(c)(3) nonprofit.
           </p>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+            <Link
+              to="/cookie-policy"
+              className="text-white/45 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
+            >
+              Cookie Policy
+            </Link>
+            <FooterCookieSettings />
+          </div>
         </div>
       </div>
     </footer>

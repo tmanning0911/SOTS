@@ -13,10 +13,12 @@ import News from './pages/News';
 import NewsArticle from './pages/NewsArticle';
 import WatchPage from './pages/WatchPage';
 import Events from './pages/Events';
+import CookiePolicy from './pages/CookiePolicy';
 import ShakespeareHubPage from './pages/ShakespeareHubPage';
 import Admin from './pages/Admin';
 import AdminLogin from './pages/AdminLogin';
 import { FormModalProvider } from '@/lib/FormModalContext';
+import { CookieConsentProvider } from '@/lib/CookieConsentContext';
 import { SeoOverrideProvider } from '@/lib/SeoOverrideContext';
 import DonateEdgeTab from './components/DonateEdgeTab';
 
@@ -24,28 +26,31 @@ function App() {
   return (
     <Router>
       <SeoOverrideProvider>
-        <FormModalProvider>
-          <ScrollToTop />
-          <PageSEO />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/plays" element={<Plays />} />
-            <Route path="/learning" element={<Learning />} />
-            <Route path="/support" element={<Support />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/news" element={<News />} />
-            <Route path="/news/:id" element={<NewsArticle />} />
-            <Route path="/watch" element={<WatchPage />} />
-            <Route path="/events" element={<Events />} />
-            <Route path="/on-demand" element={<Navigate to="/watch" replace />} />
-            <Route path="/shakespeare-hub" element={<ShakespeareHubPage />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-          <DonateEdgeTab />
-        </FormModalProvider>
+        <CookieConsentProvider>
+          <FormModalProvider>
+            <ScrollToTop />
+            <PageSEO />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/plays" element={<Plays />} />
+              <Route path="/learning" element={<Learning />} />
+              <Route path="/support" element={<Support />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/news" element={<News />} />
+              <Route path="/news/:id" element={<NewsArticle />} />
+              <Route path="/watch" element={<WatchPage />} />
+              <Route path="/events" element={<Events />} />
+              <Route path="/cookie-policy" element={<CookiePolicy />} />
+              <Route path="/on-demand" element={<Navigate to="/watch" replace />} />
+              <Route path="/shakespeare-hub" element={<ShakespeareHubPage />} />
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+            <DonateEdgeTab />
+          </FormModalProvider>
+        </CookieConsentProvider>
       </SeoOverrideProvider>
       <Toaster />
     </Router>

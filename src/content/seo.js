@@ -78,6 +78,12 @@ export const pageSeo = {
       'Much Ado About Something gala, opening night receptions, Pay-What-You-Will nights, and community events at Shakespeare on the Sound.',
     path: '/events',
   },
+  '/cookie-policy': {
+    title: 'Cookie Policy',
+    description:
+      'How Shakespeare on the Sound uses cookies, what categories we offer, and how to manage your preferences.',
+    path: '/cookie-policy',
+  },
   '/on-demand': {
     title: 'Watch on YouTube',
     description:

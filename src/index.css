@@ -1101,6 +1101,63 @@
     @apply hidden sm:block mt-5 lg:mt-6;
   }
 
+  /* Cookie consent */
+  .cookie-consent {
+    @apply fixed inset-x-0 bottom-0 z-[85] border-t border-navy/10 bg-white shadow-[0_-8px_32px_rgba(26,39,68,0.12)];
+    padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  @media (max-width: 768px) {
+    .cookie-consent {
+      padding-bottom: max(4.75rem, calc(env(safe-area-inset-bottom, 0px) + 3.75rem));
+    }
+  }
+
+  .cookie-consent__inner {
+    @apply py-4 sm:py-5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 lg:gap-8;
+  }
+
+  .cookie-consent__text {
+    @apply text-sm sm:text-base text-navy/80 leading-relaxed max-w-3xl;
+  }
+
+  .cookie-consent__link {
+    @apply text-navy font-semibold underline underline-offset-2 decoration-navy/25 hover:text-gold hover:decoration-gold transition-colors;
+  }
+
+  .cookie-consent__actions {
+    @apply flex flex-col sm:flex-row flex-wrap gap-3 shrink-0;
+  }
+
+  .cookie-consent__btn {
+    @apply w-full sm:w-auto justify-center min-h-[44px];
+  }
+
+  .cookie-consent__toggle {
+    @apply relative inline-flex items-center cursor-pointer;
+  }
+
+  .cookie-consent__toggle-track {
+    @apply relative block w-11 h-6 rounded-full bg-navy/15 transition-colors duration-200;
+  }
+
+  .cookie-consent__toggle-track::after {
+    content: '';
+    @apply absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform duration-200;
+  }
+
+  .cookie-consent__toggle-track[data-on='true'] {
+    @apply bg-gold;
+  }
+
+  .cookie-consent__toggle-track[data-on='true']::after {
+    transform: translateX(1.25rem);
+  }
+
+  .cookie-consent__toggle:has(input:disabled) {
+    @apply opacity-70 cursor-not-allowed;
+  }
+
   /* Homepage — cinematic hero */
   .hero-vignette {
     box-shadow: inset 0 0 120px 40px hsl(220 48% 11% / 0.65);
