@@ -8,11 +8,15 @@ export default function OptimizedImage({
   wrapperClassName = '',
   priority = false,
   webp,
+  /** Skip fade-in — for decorative backgrounds that set their own opacity */
+  decorative = false,
   ...props
 }) {
-  const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(decorative);
   const webpPath = webp ?? webpSrc(src);
-  const imgClass = `transition-opacity duration-700 ease-smooth ${loaded ? 'opacity-100' : 'opacity-0'} ${className}`;
+  const imgClass = decorative
+    ? className
+    : `transition-opacity duration-700 ease-smooth ${loaded ? 'opacity-100' : 'opacity-0'} ${className}`;
 
   const imgProps = {
     src,
