@@ -1011,17 +1011,22 @@
     @apply block w-0 h-0.5 bg-gold mt-2 transition-all duration-300 ease-out group-hover:w-8;
   }
 
-  /* Homepage hero — poster stack on mobile, overlay on desktop */
+  /* Homepage hero — full-bleed poster, gradient overlay */
   .home-hero {
-    @apply flex flex-col lg:relative lg:block lg:min-h-screen lg:overflow-hidden;
+    @apply relative w-full min-h-[100svh] overflow-hidden;
   }
 
   .home-hero__media {
-    @apply relative w-full h-[34svh] min-h-[200px] max-h-[300px] shrink-0 overflow-hidden lg:absolute lg:inset-0 lg:h-full lg:max-h-none;
+    @apply absolute inset-0 w-full h-full;
   }
 
-  .home-hero__scrim--desktop {
-    @apply hidden lg:block absolute inset-0 pointer-events-none;
+  .home-hero__media picture,
+  .home-hero__media img {
+    @apply block w-full h-full object-cover object-center;
+  }
+
+  .home-hero__scrim {
+    @apply absolute inset-0 pointer-events-none z-[1];
     background: linear-gradient(
       to right,
       hsl(var(--navy-deep) / 0.99) 0%,
@@ -1032,7 +1037,7 @@
     );
   }
 
-  .home-hero__scrim--desktop::after {
+  .home-hero__scrim::after {
     content: '';
     @apply absolute inset-0;
     background: linear-gradient(
@@ -1046,11 +1051,19 @@
   }
 
   .home-hero__panel {
-    @apply relative z-10 bg-navy-deep border-t border-white/10 lg:absolute lg:inset-0 lg:flex lg:items-end lg:bg-transparent lg:border-t-0;
+    @apply absolute inset-0 z-10 flex items-end bg-transparent;
   }
 
   .home-hero__inner {
-    @apply py-8 sm:py-10 lg:pb-20 lg:pt-0 w-full max-w-3xl;
+    @apply py-8 sm:py-10 w-full max-w-3xl;
+    padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 1.5rem));
+  }
+
+  @media (min-width: 1024px) {
+    .home-hero__inner {
+      @apply pb-20;
+      padding-bottom: max(5rem, calc(env(safe-area-inset-bottom, 0px) + 4rem));
+    }
   }
 
   .home-hero__eyebrow {
@@ -1069,10 +1082,6 @@
   .home-hero__setting {
     @apply font-display text-base sm:text-lg italic text-white/90 mt-2 mb-0 lg:mb-5;
     text-shadow: 0 1px 16px hsl(var(--navy-deep) / 0.7);
-  }
-
-  .home-hero__description {
-    @apply text-sm text-white/85 max-w-prose mt-3 mb-4 leading-relaxed line-clamp-3;
   }
 
   .home-hero__actions {
