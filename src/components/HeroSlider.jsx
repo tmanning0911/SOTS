@@ -3,16 +3,19 @@ import { IconChevronLeft, IconChevronRight } from '@/components/icons';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { site } from '@/content/site';
+import { homeCopy } from '@/content/voice';
 import { webpSrc } from '@/lib/media';
+import PullQuote from './PullQuote';
 
 const SLIDE_DURATION = 10000;
 
 const slides = [
   {
     title: 'Much Ado About Nothing',
-    subtitle: 'Tickets On Sale · June 10–28, 2026',
-    description:
-      "Shakespeare's most sparkling comedy — under the stars at Pinkney Park, Rowayton, CT.",
+    subtitle: homeCopy.heroMain.subtitle,
+    description: homeCopy.heroMain.description,
+    quote: homeCopy.heroMain.quote,
+    quoteSource: homeCopy.heroMain.quoteSource,
     tag: 'Get Tickets',
     image: '/images/hero-much-ado.png',
     ticketUrl: site.ticketsUrl,
@@ -21,8 +24,7 @@ const slides = [
   {
     title: 'Much Ado About Something',
     subtitle: 'Gala — October 16, 2026',
-    description:
-      'An evening of cocktails, bites, dancing, and live & silent auctions at The House Up on the Hill, Norwalk.',
+    description: homeCopy.heroGala.description,
     tag: 'Join the Committee',
     image: '/images/news/gala-2026.jpg',
     ticketUrl: '/events#gala-2026',
@@ -31,8 +33,7 @@ const slides = [
   {
     title: 'Shakespeare for Everyone',
     subtitle: 'Education Programs',
-    description:
-      'Workshops, summer camps, school tours, and in-park performances across Fairfield County.',
+    description: homeCopy.heroEducation.description,
     tag: 'Explore Learning',
     image: '/images/news/shakespeare-for-kids.jpg',
     ticketUrl: '/learning',
@@ -129,9 +130,14 @@ export default function HeroSlider() {
               <h1 className="font-display text-white text-[clamp(2rem,8vw,4.5rem)] leading-[0.98] font-semibold mb-3 sm:mb-4 max-w-4xl text-balance">
                 {slide.title}
               </h1>
-              <p className="font-inter text-white/75 text-sm sm:text-base md:text-lg max-w-lg mb-6 sm:mb-8 leading-relaxed">
+              <p className="font-inter text-white/75 text-sm sm:text-base md:text-lg max-w-lg mb-4 sm:mb-5 leading-relaxed">
                 {slide.description}
               </p>
+              {slide.quote && (
+                <PullQuote cite={slide.quoteSource} light className="mb-6 sm:mb-8 hidden sm:block">
+                  {slide.quote}
+                </PullQuote>
+              )}
               <div className="btn-stack-mobile max-w-md">
                 {isExternal ? (
                   <a

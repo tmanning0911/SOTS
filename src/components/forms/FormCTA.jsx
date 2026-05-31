@@ -1,16 +1,12 @@
 import { useFormModal } from '@/lib/FormModalContext';
 import { formCopy } from '@/content/forms';
 
-/**
- * Card with a button that opens the site-wide form modal.
- */
 export default function FormCTA({
   variant = 'contact',
   title,
   description,
   buttonLabel,
   className = '',
-  featured = false,
 }) {
   const { openForm } = useFormModal();
   const copy = formCopy[variant] || formCopy.contact;
@@ -18,31 +14,13 @@ export default function FormCTA({
   const body = description || copy.description;
   const label =
     buttonLabel ||
-    (variant === 'newsletter' ? 'Subscribe' : variant === 'sponsorship' ? 'Inquire' : 'Send Message');
+    (variant === 'newsletter' ? 'Subscribe' : variant === 'sponsorship' ? 'Inquire' : 'Send message');
 
   return (
-    <div
-      className={`flex flex-col h-full p-6 sm:p-8 transition-shadow duration-300 card-lift ${
-        featured
-          ? 'bg-navy text-white border border-navy shadow-soft'
-          : 'content-card hover:border-gold/30'
-      } ${className}`}
-    >
-      <h3
-        className={`font-display text-lg sm:text-xl font-semibold uppercase mb-3 ${
-          featured ? 'text-white' : 'text-navy'
-        }`}
-      >
-        {heading}
-      </h3>
-      <p className={`font-inter text-sm leading-relaxed flex-1 mb-6 ${featured ? 'text-white/70' : 'text-navy/70'}`}>
-        {body}
-      </p>
-      <button
-        type="button"
-        onClick={() => openForm(variant)}
-        className={featured ? 'btn-primary w-full sm:w-auto' : 'btn-navy w-full sm:w-auto'}
-      >
+    <div className={`flex flex-col h-full p-6 sm:p-8 border border-navy/10 bg-white ${className}`}>
+      <h3 className="font-display text-xl font-medium text-navy mb-3">{heading}</h3>
+      <p className="text-body text-sm flex-1 mb-6">{body}</p>
+      <button type="button" onClick={() => openForm(variant)} className="btn-outline w-full sm:w-auto">
         {label}
       </button>
     </div>

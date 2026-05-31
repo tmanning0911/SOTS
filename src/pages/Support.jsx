@@ -1,121 +1,61 @@
 import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
-import Reveal from '../components/Reveal';
-import { useInView, useMotionValue, useTransform, animate, motion, useReducedMotion } from 'framer-motion';
-import { IconMasks, IconLaurel, IconStage } from '@/components/icons';
 import { Link } from 'react-router-dom';
 import { site } from '@/content/site';
 import { pageHeroImages } from '@/content/images';
+import { pageCopy, homeCopy } from '@/content/voice';
 import { contactPaths } from '@/lib/contactPaths';
-import { useEffect, useRef } from 'react';
 import PageSection from '../components/PageSection';
 import SectionHeader from '../components/SectionHeader';
 
-function AnimatedStat({ stat }) {
-  const ref = useRef(null);
-  const reduceMotion = useReducedMotion();
-  const isInView = useInView(ref, { once: true });
-  const match = stat.match(/^(\d+)(.*)$/);
-  const numericEnd = match ? parseInt(match[1], 10) : 0;
-  const suffix = match ? match[2] : stat;
-  const count = useMotionValue(0);
-  const rounded = useTransform(count, (v) => `${Math.round(v)}${suffix}`);
-
-  useEffect(() => {
-    if (isInView && !reduceMotion && numericEnd > 0) {
-      const controls = animate(count, numericEnd, { duration: 1.6, ease: 'easeOut' });
-      return controls.stop;
-    }
-  }, [isInView, count, numericEnd, reduceMotion]);
-
-  if (reduceMotion || !match) {
-    return <span className="tabular-nums">{stat}</span>;
-  }
-
-  return (
-    <span ref={ref} className="tabular-nums">
-      {isInView ? <motion.span>{rounded}</motion.span> : stat}
-    </span>
-  );
-}
-
 const ways = [
   {
-    icon: IconMasks,
     title: 'Donate',
     description: site.donateBlurb,
-    cta: 'Make a Donation',
-    highlight: true,
+    cta: 'Make a donation',
     href: site.donateUrl,
     external: true,
   },
   {
-    icon: IconLaurel,
-    title: '2026 Gala',
-    description: `Save the Date for our Much Ado About Something gala on ${site.gala.date}, ${site.gala.time} at ${site.gala.venue}, ${site.gala.address}. Cocktails, bites, dancing, and live & silent auctions.`,
-    cta: 'Join the Committee',
-    highlight: false,
+    title: '2026 gala',
+    description: `Much Ado About Something — ${site.gala.date}, ${site.gala.time} at ${site.gala.venue}. Cocktails, bites, dancing, and live & silent auctions.`,
+    cta: 'Gala details',
     href: '/events#gala-2026',
     external: false,
   },
   {
-    icon: IconStage,
-    title: 'Corporate Partners',
-    description:
-      'Partner with Shakespeare on the Sound and align your brand with professional, community Shakespeare in Fairfield County.',
-    cta: 'Become a Sponsor',
-    highlight: false,
+    title: 'Corporate partners',
+    description: homeCopy.getInvolved,
+    cta: 'Sponsorship inquiry',
     href: contactPaths.sponsorship,
     external: false,
   },
 ];
 
-function SupportCard({ way, index }) {
-  const className = `group flex flex-col h-full p-7 sm:p-10 card-lift ${
-    way.highlight
-      ? 'bg-gold text-navy-deep shadow-glow border border-gold-light/30'
-      : 'content-card'
-  }`;
+function SupportCard({ way }) {
+  const className =
+    'group flex flex-col h-full p-8 border border-navy/10 bg-white hover:border-navy/25 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold';
 
   const inner = (
     <>
-      <way.icon className={`mb-5 ${way.highlight ? 'text-navy-deep' : 'text-gold'}`} size={28} />
-      <h3
-        className={`font-display text-2xl font-semibold uppercase mb-3 ${
-          way.highlight ? 'text-navy-deep' : 'text-navy'
-        }`}
-      >
-        {way.title}
-      </h3>
-      <p
-        className={`font-inter text-sm leading-relaxed mb-6 flex-1 ${
-          way.highlight ? 'text-navy-deep/85' : 'text-navy/85'
-        }`}
-      >
-        {way.description}
-      </p>
-      <span
-        className={`text-xs tracking-[0.2em] uppercase font-semibold inline-flex items-center gap-2 transition-transform duration-300 group-hover:gap-3 ${
-          way.highlight ? 'text-navy-deep' : 'text-gold'
-        }`}
-      >
-        {way.cta} →
-      </span>
+      <h3 className="font-display text-2xl font-medium text-navy mb-3">{way.title}</h3>
+      <p className="text-body text-sm mb-8 flex-1 max-w-prose">{way.description}</p>
+      <span className="text-link text-sm">{way.cta}</span>
     </>
   );
 
+  if (way.external) {
+    return (
+      <a href={way.href} target="_blank" rel="noopener noreferrer" className={className}>
+        {inner}
+      </a>
+    );
+  }
+
   return (
-    <Reveal delay={index * 0.08} className="h-full">
-      {way.external ? (
-        <a href={way.href} target="_blank" rel="noopener noreferrer" className={className}>
-          {inner}
-        </a>
-      ) : (
-        <Link to={way.href} className={className}>
-          {inner}
-        </Link>
-      )}
-    </Reveal>
+    <Link to={way.href} className={className}>
+      {inner}
+    </Link>
   );
 }
 
@@ -123,56 +63,33 @@ export default function Support() {
   return (
     <PageLayout>
       <PageHero
-        eyebrow="Get Involved"
-        title="Support Us"
-        description="Shakespeare on the Sound is supported by generous individuals and businesses who share our passion for making professional Shakespeare accessible to everyone in Fairfield County."
+        eyebrow="Get involved"
+        title="Support the festival"
+        description={pageCopy.support.hero}
         image={pageHeroImages.support}
       />
 
       <PageSection variant="white" first>
         <SectionHeader
-          eyebrow="Ways to Give"
-          title="Make a Difference"
-          align="center"
-          className="!mb-10 sm:!mb-14"
+          eyebrow="Ways to give"
+          title="Help keep tickets affordable"
+          description={homeCopy.supportCard}
+          align="left"
         />
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-          {ways.map((way, i) => (
-            <SupportCard key={way.title} way={way} index={i} />
+        <div className="grid md:grid-cols-3 gap-8 lg:gap-10">
+          {ways.map((way) => (
+            <SupportCard key={way.title} way={way} />
           ))}
         </div>
       </PageSection>
 
-      <section className="bg-navy-deep section-block grain-overlay accent-top-dark" data-nav-zone="dark">
-        <div className="page-container relative z-[1]">
-          <SectionHeader
-            eyebrow="Impact"
-            title="Your Impact"
-            align="center"
-            light
-            className="!mb-8 sm:!mb-12"
-          />
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
-            {[
-              { stat: '16+', label: 'Summer Performances' },
-              { stat: '115K', label: 'Raised Each Year' },
-              { stat: '6', label: 'Sponsor Partners' },
-              { stat: '8+', label: 'Education Programs' },
-            ].map((item) => (
-              <div key={item.label} className="border border-white/10 py-6 px-4">
-                <p className="font-display text-gold text-3xl sm:text-4xl md:text-5xl font-semibold mb-2">
-                  <AnimatedStat stat={item.stat} />
-                </p>
-                <p className="font-inter text-white/75 text-[10px] sm:text-xs tracking-widest uppercase">{item.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <PageSection variant="cream" tight className="text-center">
-        <Link to="/#sponsors" className="link-gold inline-flex items-center gap-2">
-          View our {new Date().getFullYear()} partner logos →
+      <PageSection variant="white" tight className="text-center !border-t">
+        <p className="text-body max-w-prose mx-auto mb-6">
+          Sixteen summer performances, eight education programs, and thirty seasons on the Five Mile River — made
+          possible by neighbors who show up.
+        </p>
+        <Link to="/#sponsors" className="text-link text-sm">
+          See our {new Date().getFullYear()} partners
         </Link>
       </PageSection>
     </PageLayout>

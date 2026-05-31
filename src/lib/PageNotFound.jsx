@@ -15,9 +15,7 @@ export default function PageNotFound() {
           <p className="font-display text-white/15 text-[8rem] sm:text-[10rem] leading-none font-semibold select-none">
             404
           </p>
-          <h1 className="font-display text-white text-2xl sm:text-3xl font-semibold uppercase -mt-16 sm:-mt-20">
-            Page Not Found
-          </h1>
+          <h1 className="heading-section text-white -mt-16 sm:-mt-20 mb-4">Page not found</h1>
           <p className="font-inter text-white/60 text-sm">
             We couldn&apos;t find &ldquo;{pageName}&rdquo;. Perhaps it moved with the season.
           </p>

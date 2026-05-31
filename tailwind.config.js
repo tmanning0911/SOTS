@@ -25,9 +25,11 @@ module.exports = {
           light: 'hsl(40 78% 58%)',
           muted: 'hsl(38 45% 38%)',
         },
+        twilight: 'hsl(228 42% 12%)',
+        starlight: 'hsl(45 60% 92%)',
         rust: 'hsl(38 72% 48%)',
         cream: {
-          DEFAULT: 'hsl(42 35% 96%)',
+          DEFAULT: 'hsl(42 20% 97%)',
           dark: 'hsl(42 25% 91%)',
         },
         background: 'hsl(var(--background))',
@@ -104,6 +106,14 @@ module.exports = {
           from: { transform: 'scaleX(0)' },
           to: { transform: 'scaleX(1)' },
         },
+        marquee: {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(calc(-100% - 2rem))' },
+        },
+        'marquee-vertical': {
+          from: { transform: 'translateY(0)' },
+          to: { transform: 'translateY(calc(-100% - 2rem))' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -112,6 +122,8 @@ module.exports = {
         'fade-in': 'fade-in 0.6s ease-out forwards',
         'ken-burns': 'ken-burns 14s cubic-bezier(0.22, 1, 0.36, 1) forwards',
         shimmer: 'shimmer 2.5s linear infinite',
+        marquee: 'marquee var(--duration, 40s) linear infinite',
+        'marquee-vertical': 'marquee-vertical var(--duration, 40s) linear infinite',
       },
     },
   },

@@ -10,8 +10,7 @@ function matchPath(pathname, hash, targetPath) {
   return hash === `#${targetHash}`;
 }
 
-export default function NavDropdown({ item, isLightBar }) {
-  const [open, setOpen] = useState(false);
+export default function NavDropdown({ item, isLightBar, isOpen, onOpen, onClose }) {
   const ref = useRef(null);
   const closeTimer = useRef(null);
   const location = useLocation();
@@ -19,6 +18,7 @@ export default function NavDropdown({ item, isLightBar }) {
 
   const linkClass = isLightBar ? 'nav-link-light' : 'nav-link';
   const active = isNavItemActive(item, pathname, hash);
+  const hasMenu = item.mega ? item.groups?.length : item.children?.length;
 
   const clearCloseTimer = () => {
     if (closeTimer.current) {
@@ -29,32 +29,36 @@ export default function NavDropdown({ item, isLightBar }) {
 
   const openMenu = () => {
     clearCloseTimer();
-    setOpen(true);
+    onOpen?.();
   };
 
   const scheduleClose = () => {
     clearCloseTimer();
-    closeTimer.current = setTimeout(() => setOpen(false), 120);
+    if (!item.mega) {
+      closeTimer.current = setTimeout(() => onClose?.(), 150);
+    }
   };
 
   useEffect(() => {
-    setOpen(false);
-  }, [pathname, hash]);
+    onClose?.();
+  }, [pathname, hash, onClose]);
 
   useEffect(() => {
-    const onPointerDown = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener('pointerdown', onPointerDown);
-    return () => {
-      document.removeEventListener('pointerdown', onPointerDown);
-      clearCloseTimer();
-    };
-  }, []);
+    if (!item.mega) {
+      const onPointerDown = (e) => {
+        if (ref.current && !ref.current.contains(e.target)) {
+          onClose?.();
+        }
+      };
+      document.addEventListener('pointerdown', onPointerDown);
+      return () => document.removeEventListener('pointerdown', onPointerDown);
+    }
+    return undefined;
+  }, [item.mega, onClose]);
 
-  if (!item.children?.length) {
+  useEffect(() => () => clearCloseTimer(), []);
+
+  if (!hasMenu && item.path) {
     return (
       <Link
         to={item.path}
@@ -79,60 +83,61 @@ export default function NavDropdown({ item, isLightBar }) {
     >
       <button
         type="button"
-        className={`${linkClass} gap-1 ${active ? 'nav-link-active' : ''}`}
-        aria-expanded={open}
+        className={`${linkClass} gap-1 ${active || isOpen ? 'nav-link-active' : ''}`}
+        aria-expanded={isOpen}
         aria-haspopup="true"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => (isOpen ? onClose?.() : onOpen?.())}
       >
         {item.label}
         <IconChevronDown
           size={12}
-          className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
           aria-hidden
         />
       </button>
 
-      {/* pt-2 bridge keeps hover alive while moving from button to menu */}
-      <div
-        className={`nav-dropdown-flyout ${open ? 'visible opacity-100 pointer-events-auto' : 'invisible opacity-0 pointer-events-none'}`}
-        aria-hidden={!open}
-      >
+      {!item.mega && (
         <div
-          className={`nav-dropdown-panel ${isLightBar ? 'nav-dropdown-panel-light' : 'nav-dropdown-panel-dark'}`}
-          role="menu"
+          className={`nav-dropdown-flyout ${isOpen ? 'visible opacity-100 pointer-events-auto' : 'invisible opacity-0 pointer-events-none'}`}
+          aria-hidden={!isOpen}
         >
-          {item.path && (
-            <Link
-              to={item.path}
-              role="menuitem"
-              tabIndex={open ? 0 : -1}
-              className="nav-dropdown-item nav-dropdown-item-featured"
-              onClick={() => setOpen(false)}
-            >
-              <span className="nav-dropdown-label">All {item.label}</span>
-            </Link>
-          )}
-          {item.children.map((child) => {
-            const childActive = matchPath(pathname, hash, child.path);
-            return (
+          <div
+            className={`nav-dropdown-panel ${isLightBar ? 'nav-dropdown-panel-light' : 'nav-dropdown-panel-dark'}`}
+            role="menu"
+          >
+            {item.path && (
               <Link
-                key={child.path}
-                to={child.path}
+                to={item.path}
                 role="menuitem"
-                tabIndex={open ? 0 : -1}
-                aria-current={childActive ? 'page' : undefined}
-                className={`nav-dropdown-item ${childActive ? 'nav-dropdown-item-active' : ''}`}
-                onClick={() => setOpen(false)}
+                tabIndex={isOpen ? 0 : -1}
+                className="nav-dropdown-item nav-dropdown-item-featured"
+                onClick={onClose}
               >
-                <span className="nav-dropdown-label">{child.label}</span>
-                {child.description && (
-                  <span className="nav-dropdown-desc">{child.description}</span>
-                )}
+                <span className="nav-dropdown-label">All {item.label}</span>
               </Link>
-            );
-          })}
+            )}
+            {item.children?.map((child) => {
+              const childActive = matchPath(pathname, hash, child.path);
+              return (
+                <Link
+                  key={child.path}
+                  to={child.path}
+                  role="menuitem"
+                  tabIndex={isOpen ? 0 : -1}
+                  aria-current={childActive ? 'page' : undefined}
+                  className={`nav-dropdown-item ${childActive ? 'nav-dropdown-item-active' : ''}`}
+                  onClick={onClose}
+                >
+                  <span className="nav-dropdown-label">{child.label}</span>
+                  {child.description && (
+                    <span className="nav-dropdown-desc">{child.description}</span>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -142,8 +147,10 @@ export function MobileNavGroup({ item, onNavigate }) {
   const location = useLocation();
   const { pathname, hash } = location;
   const active = isNavItemActive(item, pathname, hash);
+  const groups = item.mega ? item.groups : null;
+  const children = item.children || [];
 
-  if (!item.children?.length) {
+  if (!groups?.length && !children.length && item.path) {
     return (
       <Link
         to={item.path}
@@ -157,6 +164,10 @@ export function MobileNavGroup({ item, onNavigate }) {
       </Link>
     );
   }
+
+  const allLinks = groups
+    ? groups.flatMap((g) => g.links.map((l) => ({ ...l, group: g.title })))
+    : children;
 
   return (
     <div>
@@ -188,15 +199,26 @@ export function MobileNavGroup({ item, onNavigate }) {
               </Link>
             </li>
           )}
-          {item.children.map((child) => (
-            <li key={child.path}>
-              <Link
-                to={child.path}
-                className="font-inter text-white/80 hover:text-gold text-sm block py-1"
-                onClick={onNavigate}
-              >
-                {child.label}
-              </Link>
+          {allLinks.map((link) => (
+            <li key={link.path + link.label}>
+              {link.path?.startsWith('http') || link.path?.startsWith('tel:') ? (
+                <a
+                  href={link.path}
+                  className="font-inter text-white/80 hover:text-gold text-sm block py-1"
+                  onClick={onNavigate}
+                  {...(link.path.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  to={link.path}
+                  className="font-inter text-white/80 hover:text-gold text-sm block py-1"
+                  onClick={onNavigate}
+                >
+                  {link.label}
+                </Link>
+              )}
             </li>
           ))}
         </ul>

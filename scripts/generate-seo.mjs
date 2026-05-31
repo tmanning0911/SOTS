@@ -2,7 +2,7 @@
  * Post-build: refresh sitemap.xml with canonical URLs.
  * Run: node scripts/generate-seo.mjs
  */
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 const siteUrl = (process.env.VITE_SITE_URL || 'https://www.shakespeareonthesound.org').replace(
@@ -13,14 +13,27 @@ const siteUrl = (process.env.VITE_SITE_URL || 'https://www.shakespeareonthesound
 const routes = [
   { loc: '/', changefreq: 'weekly', priority: '1.0' },
   { loc: '/plays', changefreq: 'weekly', priority: '0.95' },
+  { loc: '/events', changefreq: 'weekly', priority: '0.85' },
   { loc: '/learning', changefreq: 'monthly', priority: '0.85' },
   { loc: '/support', changefreq: 'monthly', priority: '0.8' },
   { loc: '/about', changefreq: 'monthly', priority: '0.8' },
   { loc: '/contact', changefreq: 'monthly', priority: '0.75' },
   { loc: '/news', changefreq: 'weekly', priority: '0.75' },
-  { loc: '/events', changefreq: 'weekly', priority: '0.85' },
   { loc: '/watch', changefreq: 'monthly', priority: '0.6' },
 ];
+
+let articles = [];
+try {
+  articles = JSON.parse(readFileSync(path.resolve('public/data/articles.json'), 'utf8')).filter(
+    (a) => a.published !== false && a.id,
+  );
+} catch {
+  articles = [];
+}
+
+for (const article of articles) {
+  routes.push({ loc: `/news/${article.id}`, changefreq: 'monthly', priority: '0.65' });
+}
 
 const lastmod = new Date().toISOString().slice(0, 10);
 

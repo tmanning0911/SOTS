@@ -1,9 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { site } from '@/content/site';
 
-/**
- * Fixed donate tab on the right edge — always visible on public pages.
- */
+/** Fixed donate tab — right edge on desktop, bottom corner on mobile. */
 export default function DonateEdgeTab() {
   const { pathname } = useLocation();
 
@@ -14,8 +12,8 @@ export default function DonateEdgeTab() {
       href={site.donateUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="donate-edge-tab group"
-      aria-label="Donate to Shakespeare on the Sound (opens PayPal in a new tab)"
+      className="donate-edge-tab"
+      aria-label="Donate to Shakespeare on the Sound (opens in a new tab)"
     >
       <span className="donate-edge-tab__label">Donate</span>
     </a>

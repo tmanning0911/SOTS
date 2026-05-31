@@ -13,6 +13,7 @@ export const images = {
   backgrounds: {
     theatre: '/images/backgrounds/theatre-stage.jpg',
     audience: '/images/backgrounds/outdoor-audience.jpg',
+    parkAudienceNyt: '/images/backgrounds/park-audience-nyt.jpg',
     education: '/images/backgrounds/education-workshop.jpg',
     history: '/images/backgrounds/history-heritage.jpg',
     cast: '/images/backgrounds/much-ado-cast.jpg',
@@ -32,8 +33,13 @@ export const images = {
   },
   news: {
     seasonBanner: '/images/news/season-banner-2026.jpg',
+    seasonMaanBanner: '/images/news/season-maan-banner.jpg',
     gala: '/images/news/gala-2026.jpg',
+    galaPromo: '/images/news/gala-promo.png',
     kids: '/images/news/shakespeare-for-kids.jpg',
+    kidsKings: '/images/news/kids-kings.jpg',
+    kidsClassroom: '/images/learning/kids-classroom.jpeg',
+    educationBanner: '/images/news/education-banner.jpg',
     production: '/images/news/much-ado-production.jpg',
     audience: '/images/news/pinkney-park-audience.jpg',
   },

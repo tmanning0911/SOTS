@@ -1,21 +1,16 @@
 import { Link } from 'react-router-dom';
-import SectionHeader from './SectionHeader';
 import PageSection from './PageSection';
+import { pageCopy } from '@/content/voice';
 
-/** Single link to the contact hub — avoids duplicating form cards on About. */
 export default function ContactCta() {
   return (
-    <PageSection variant="parchment" tight bordered data-nav-zone="light">
-      <SectionHeader
-        eyebrow="Get in Touch"
-        title="Questions? We're Here to Help"
-        description="Tickets, education, volunteering, and sponsorship — choose the right form on our contact page. We respond from our team inbox during the season."
-        align="center"
-        className="!mb-8"
-      />
-      <div className="text-center">
+    <PageSection variant="white" tight bordered data-nav-zone="light">
+      <div className="max-w-2xl">
+        <p className="label mb-2">Contact</p>
+        <h2 className="heading-section mb-4">Talk to the box office</h2>
+        <p className="text-body mb-8 max-w-prose">{pageCopy.contact.cta}</p>
         <Link to="/contact" className="btn-primary">
-          Go to Contact
+          Contact us
         </Link>
       </div>
     </PageSection>

@@ -6,6 +6,8 @@ import SectionHeader from './SectionHeader';
 import ProductionStatusBadge from './ProductionStatusBadge';
 import { cms } from '@/lib/cms';
 import { seedPlays } from '@/lib/contentSeed';
+import { homeCopy, seasonVoice } from '@/content/voice';
+import PullQuote from './PullQuote';
 
 export default function ProductionStrip() {
   const [productions, setProductions] = useState(seedPlays);
@@ -23,13 +25,18 @@ export default function ProductionStrip() {
     <section className="bg-navy-deep grain-overlay relative overflow-hidden accent-top-dark" data-nav-zone="dark">
       <div className="page-container page-gutter pt-10 sm:pt-12 pb-2 relative z-[1]">
         <SectionHeader
-          eyebrow="2026 Season"
+          eyebrow={`${seasonVoice.number}th Summer Season`}
           title="On Stage This Summer"
-          description={`${productions.length} production${productions.length > 1 ? 's' : ''} at Pinkney Park, Rowayton`}
+          description={homeCopy.productionsIntro}
           align="center"
           light
           className="!mb-6 sm:!mb-8 !max-w-2xl"
         />
+        <div className="flex justify-center mb-6 sm:mb-8">
+          <PullQuote cite={homeCopy.productionsQuote.source} light className="text-center sm:text-left">
+            {homeCopy.productionsQuote.text}
+          </PullQuote>
+        </div>
       </div>
       <div
         className={`grid grid-cols-1 gap-1 pb-10 sm:pb-12 page-gutter ${

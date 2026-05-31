@@ -25,7 +25,6 @@ function App() {
     <Router>
       <SeoOverrideProvider>
         <FormModalProvider>
-          <DonateEdgeTab />
           <ScrollToTop />
           <PageSEO />
           <Routes>
@@ -45,6 +44,7 @@ function App() {
             <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
+          <DonateEdgeTab />
         </FormModalProvider>
       </SeoOverrideProvider>
       <Toaster />

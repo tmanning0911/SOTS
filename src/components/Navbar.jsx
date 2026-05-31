@@ -1,16 +1,18 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { IconMenu, IconClose, IconSearch } from '@/components/icons';
 import { motion, AnimatePresence } from 'framer-motion';
 import { site } from '@/content/site';
 import LogoImage from './LogoImage';
 import NavDropdown, { MobileNavGroup } from './NavDropdown';
+import NavMegaPanel from './NavMegaPanel';
 import { navItems, searchablePages } from '@/content/nav';
 import { useNavTheme } from '@/hooks/useNavTheme';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [openNav, setOpenNav] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const searchInputRef = useRef(null);
   const navigate = useNavigate();
@@ -19,6 +21,7 @@ export default function Navbar() {
 
   useEffect(() => {
     setMenuOpen(false);
+    setOpenNav(null);
   }, [location.pathname]);
 
   useEffect(() => {
@@ -55,14 +58,22 @@ export default function Navbar() {
   };
 
   const headerClass = isHeroOverlay
-    ? 'nav-theme-hero bg-gradient-to-b from-navy-deep/80 via-navy-deep/50 to-transparent py-5 md:py-6'
+    ? 'nav-theme-hero bg-gradient-to-b from-navy-deep/80 via-navy-deep/40 to-transparent py-4 md:py-5'
     : isLightBar
-      ? 'nav-theme-light bg-cream border-b-2 border-navy/15 py-3.5 shadow-soft'
-      : 'nav-theme-dark bg-navy-deep border-b border-white/15 py-3.5 shadow-nav';
+      ? 'nav-theme-light bg-white border-b border-navy/10 shadow-[0_1px_3px_rgba(26,39,68,0.06)] py-3'
+      : 'nav-theme-dark bg-navy-deep/95 backdrop-blur-md border-b border-white/10 py-3';
 
   const iconBtnClass = isLightBar ? 'nav-icon-btn-light' : 'nav-icon-btn-dark';
-  const donateClass = isLightBar ? 'btn-navy !py-2.5 !px-6' : 'nav-donate-on-dark !py-2.5 !px-6';
+  const donateClass = isLightBar ? 'nav-donate-on-light' : 'nav-donate-on-dark';
+  const ticketsClass = isHeroOverlay
+    ? 'nav-tickets nav-tickets--hero'
+    : isLightBar
+      ? 'nav-tickets nav-tickets--light'
+      : 'nav-tickets nav-tickets--dark';
   const actionsDividerClass = isLightBar ? 'nav-actions-divider-light' : 'nav-actions-divider-dark';
+
+  const openMegaItem = navItems.find((i) => i.label === openNav && i.mega);
+  const closeNav = useCallback(() => setOpenNav(null), []);
 
   return (
     <>
@@ -71,62 +82,79 @@ export default function Navbar() {
         data-nav-theme={theme}
         className={`fixed top-0 left-0 right-0 z-50 overflow-visible transition-colors duration-300 ease-smooth ${headerClass}`}
       >
-        <div className="max-w-[92rem] mx-auto px-6 sm:px-10 lg:px-12 xl:px-16">
-          {/* Desktop: logo | nav | actions in three balanced columns */}
-          <div className="hidden lg:grid lg:grid-cols-[1fr_auto_1fr] items-center gap-x-12 xl:gap-x-20 min-h-[4rem]">
-            <div className="flex justify-start min-w-0 pr-4 xl:pr-8">
-              <Link
-                to="/"
-                className="relative z-10 flex-shrink-0 min-w-0 transition-opacity duration-300 hover:opacity-90 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
-              >
-                <LogoImage
-                  priority
-                  className={`h-12 lg:h-14 xl:h-[3.75rem] w-auto max-w-[min(42vw,200px)] object-contain object-left ${
-                    isLightBar ? '' : 'drop-shadow-md'
-                  }`}
-                />
-              </Link>
-            </div>
+        {/* Utility bar removed — reduces clutter; links live in nav + footer */}
+        <div
+          className="hidden lg:block"
+          onMouseLeave={() => openMegaItem && closeNav()}
+        >
+          <div className="max-w-[92rem] mx-auto px-6 sm:px-10 lg:px-12 xl:px-16">
+            <div className="grid lg:grid-cols-[1fr_auto_1fr] items-center gap-x-12 xl:gap-x-20 min-h-[4rem]">
+              <div className="flex justify-start min-w-0 pr-4 xl:pr-8">
+                <Link
+                  to="/"
+                  className="relative z-10 flex-shrink-0 min-w-0 transition-opacity duration-300 hover:opacity-90 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                >
+                  <LogoImage
+                    priority
+                    className={`h-12 lg:h-14 xl:h-[3.75rem] w-auto max-w-[min(42vw,200px)] object-contain object-left ${
+                      isLightBar ? '' : 'drop-shadow-md'
+                    }`}
+                  />
+                </Link>
+              </div>
 
-            <nav
-              className="flex items-center justify-center gap-x-3 xl:gap-x-4 2xl:gap-x-5 overflow-visible px-2 xl:px-4"
-              aria-label="Main"
-            >
-              {navItems.map((item) => (
-                <NavDropdown key={item.label} item={item} isLightBar={isLightBar} />
-              ))}
-            </nav>
+              <nav
+                className="flex items-center justify-center gap-x-2 xl:gap-x-3 2xl:gap-x-4 overflow-visible px-2 xl:px-4 relative"
+                aria-label="Main"
+              >
+                {navItems.map((item) => (
+                  <NavDropdown
+                    key={item.label}
+                    item={item}
+                    isLightBar={isLightBar}
+                    isOpen={openNav === item.label}
+                    onOpen={() => setOpenNav(item.label)}
+                    onClose={closeNav}
+                  />
+                ))}
+              </nav>
 
-            <div className={`flex items-center justify-end gap-5 flex-shrink-0 pl-4 xl:pl-8 ${actionsDividerClass}`}>
-              <button
-                type="button"
-                onClick={() => setSearchOpen(true)}
-                className={`w-11 h-11 flex items-center justify-center border ${iconBtnClass}`}
-                aria-label="Search site"
-              >
-                <IconSearch size={16} aria-hidden />
-              </button>
-              <a
-                href={site.donateUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={donateClass}
-              >
-                Donate
-              </a>
-              <a
-                href={site.ticketsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary !py-2.5 !px-6"
-              >
-                Get Tickets
-              </a>
+              <div className={`flex items-center justify-end gap-5 flex-shrink-0 pl-4 xl:pl-8 ${actionsDividerClass}`}>
+                <button
+                  type="button"
+                  onClick={() => setSearchOpen(true)}
+                  className={`w-11 h-11 flex items-center justify-center border ${iconBtnClass}`}
+                  aria-label="Search site"
+                >
+                  <IconSearch size={16} aria-hidden />
+                </button>
+                <a
+                  href={site.donateUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={donateClass}
+                >
+                  Donate
+                </a>
+                <a
+                  href={site.ticketsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={ticketsClass}
+                >
+                  Get tickets
+                </a>
+              </div>
             </div>
           </div>
 
-          {/* Mobile */}
-          <div className="flex lg:hidden items-center gap-3 min-h-[3.75rem]">
+          {openMegaItem && (
+            <NavMegaPanel item={openMegaItem} dark={!isLightBar} onNavigate={closeNav} />
+          )}
+        </div>
+
+        <div className="max-w-[92rem] mx-auto px-6 sm:px-10 lg:px-12 xl:px-16 lg:hidden">
+          <div className="flex items-center gap-3 min-h-[3.75rem]">
             <Link
               to="/"
               className="relative z-10 flex-shrink-0 min-w-0 transition-opacity duration-300 hover:opacity-90 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
@@ -179,7 +207,7 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="w-full max-w-xl bg-cream shadow-card overflow-hidden border border-navy/10"
+              className="w-full max-w-xl bg-white shadow-card overflow-hidden border border-navy/10"
               onClick={(e) => e.stopPropagation()}
               role="dialog"
               aria-modal="true"
@@ -253,12 +281,12 @@ export default function Navbar() {
                 </motion.div>
               ))}
             </nav>
-            <div className="flex flex-col gap-4 pt-10 mt-6 border-t border-white/15 sticky bottom-0 bg-navy-deep pb-2">
-              <a href={site.donateUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary w-full justify-center">
-                Donate
+            <div className="flex flex-col gap-3 pt-10 mt-6 border-t border-white/15 sticky bottom-0 bg-navy-deep pb-2">
+              <a href={site.ticketsUrl} target="_blank" rel="noopener noreferrer" className="nav-tickets nav-tickets--hero w-full justify-center">
+                Get tickets
               </a>
-              <a href={site.ticketsUrl} target="_blank" rel="noopener noreferrer" className="btn-primary w-full justify-center">
-                Get Tickets
+              <a href={site.donateUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost-light w-full justify-center">
+                Donate
               </a>
             </div>
           </motion.div>

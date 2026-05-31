@@ -1,24 +1,27 @@
 import PageLayout from '../components/PageLayout';
-import HeroSlider from '../components/HeroSlider';
-import ProductionStrip from '../components/ProductionStrip';
-import HomeCTA from '../components/HomeCTA';
+import {
+  HomeHero,
+  HomeComingUp,
+  HomeWhatsOn,
+  HomeOurStory,
+  HomeSupportKids,
+  HomeEducationImpact,
+  HomeRecentNews,
+} from '../components/home';
 import Sponsors from '../components/Sponsors';
-import ShakespeareHub from '../components/ShakespeareHub';
-import VisitTeaser from '../components/VisitTeaser';
-import LatestNews from '../components/LatestNews';
-/**
- * Homepage: Hero → Productions → Give → Sponsors → Education → Visit teaser → News
- */
+
+/** Homepage — photo hero, programme list, story, one dark band, news, partners. */
 export default function Home() {
   return (
-    <PageLayout>
-      <HeroSlider />
-      <ProductionStrip />
-      <HomeCTA />
+    <PageLayout preFooter>
+      <HomeHero />
+      <HomeComingUp />
+      <HomeWhatsOn />
+      <HomeOurStory />
+      <HomeSupportKids />
+      <HomeEducationImpact />
+      <HomeRecentNews />
       <Sponsors />
-      <ShakespeareHub />
-      <VisitTeaser />
-      <LatestNews />
     </PageLayout>
   );
 }

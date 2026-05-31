@@ -5,9 +5,9 @@ import { OrnamentDivider } from './decor';
 import OptimizedImage from './OptimizedImage';
 import { site } from '@/content/site';
 const features = [
-  { Icon: IconBookOpen, label: 'In Schools', desc: 'Workshops for grades K–12 across Fairfield County' },
-  { Icon: IconStage, label: 'Summer Camps', desc: 'The Globe Company for ages 8–15' },
-  { Icon: IconMasks, label: 'Teacher Resources', desc: 'Professional development and in-park programming' },
+  { Icon: IconBookOpen, label: 'In Schools', desc: 'Workshops and touring shows for K–12 — book through Stephanie for your district or library.' },
+  { Icon: IconStage, label: 'Summer Camps', desc: 'The Globe Company, ages 8–15 — a full week of Shakespeare in Rowayton each July.' },
+  { Icon: IconMasks, label: 'In the Park', desc: 'Education tent before the show, plus the free Kids\' Show at 6:30pm every performance night.' },
 ];
 
 export default function ShakespeareHub() {

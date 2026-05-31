@@ -7,9 +7,11 @@
     "dev": "vite",
     "build": "vite build && node scripts/generate-seo.mjs",
     "scrape": "node scripts/scrape-wix.mjs",
+    "sync-assets": "node scripts/sync-wix-assets.mjs",
     "lint": "eslint . --quiet",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
+    "audit": "node scripts/audit.mjs",
     "deploy": "git push netlify main"
   },
   "dependencies": {

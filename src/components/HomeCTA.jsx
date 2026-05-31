@@ -5,6 +5,7 @@ import PageSection from './PageSection';
 import SectionHeader from './SectionHeader';
 import { OrnamentDivider } from './decor';
 import { site } from '@/content/site';
+import { homeCopy } from '@/content/voice';
 
 function parseGalaDate(dateStr) {
   const match = dateStr.match(/(\w+)\s+(\d{1,2}),?\s+(\d{4})/);
@@ -19,7 +20,7 @@ const sideCards = [
     icon: IconMasks,
     eyebrow: 'Philanthropy',
     title: 'Support Us',
-    body: 'Donate, sponsor, or join the gala committee — every gift fuels productions and education across Fairfield County.',
+    body: homeCopy.supportCard,
     cta: 'Ways to Give',
     href: '/support',
   },
@@ -27,7 +28,7 @@ const sideCards = [
     icon: IconBookOpen,
     eyebrow: 'Education',
     title: 'For Kids!',
-    body: 'Bring Shakespeare into your classroom and catch free Shakespeare for Kids in the park before evening performances.',
+    body: homeCopy.kidsCard,
     cta: 'Education Programs',
     href: '/learning',
   },
@@ -78,7 +79,7 @@ export default function HomeCTA() {
       <SectionHeader
         eyebrow="Get Involved"
         title="Gala, Gifts & Education"
-        description="Three ways to join our community beyond the main stage."
+        description={homeCopy.getInvolved}
         align="center"
         className="!mb-10 sm:!mb-12"
       />

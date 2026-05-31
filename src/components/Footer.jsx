@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
 import { site, socialLinks, sponsors } from '@/content/site';
+import { seasonVoice } from '@/content/voice';
 import { IconFacebook, IconInstagram, IconTwitter, IconYoutube } from '@/components/icons';
 import LogoImage from './LogoImage';
-import StaAffiliation from './StaAffiliation';
-import { contactPaths } from '@/lib/contactPaths';
 import { useFormModal } from '@/lib/FormModalContext';
 
 const iconMap = {
@@ -13,56 +12,39 @@ const iconMap = {
   YouTube: IconYoutube,
 };
 
-const linkClass =
-  'font-inter text-white/70 text-xs hover:text-white transition-colors text-left leading-relaxed';
-
-const navGroups = [
-  {
-    heading: 'Season',
-    links: [
-      { type: 'route', label: 'Productions', to: '/plays' },
-      { type: 'route', label: 'Special Events', to: '/events' },
-      { type: 'route', label: 'News', to: '/news' },
-      { type: 'route', label: 'Watch on YouTube', to: '/watch' },
-      { type: 'external', label: 'Get Tickets', href: site.ticketsUrl },
-    ],
-  },
-  {
-    heading: 'Education',
-    links: [
-      { type: 'route', label: 'All Programs', to: '/learning' },
-      { type: 'form', label: 'Book a School Program', variant: 'education' },
-      { type: 'route', label: 'Visit Pinkney Park', to: '/about#visit' },
-    ],
-  },
-  {
-    heading: 'Support & About',
-    links: [
-      { type: 'route', label: 'Ways to Give', to: '/support' },
-      { type: 'form', label: 'Gala & Sponsorship', variant: 'sponsorship' },
-      { type: 'route', label: 'About Us', to: '/about' },
-      { type: 'route', label: 'Contact', to: '/contact' },
-    ],
-  },
+const footerLinks = [
+  { label: 'Productions', to: '/plays' },
+  { label: 'Special events', to: '/events' },
+  { label: 'News', to: '/news' },
+  { label: 'Education', to: '/learning' },
+  { label: 'About', to: '/about' },
+  { label: 'Plan a visit', to: '/about#visit' },
+  { label: 'Support', to: '/support' },
+  { label: 'Contact', to: '/contact' },
+  { label: 'FAQ', to: '/about#faq' },
+  { label: 'Watch', to: '/watch' },
+  { label: 'Get tickets', href: site.ticketsUrl, external: true },
+  { label: 'Donate', href: site.donateUrl, external: true },
 ];
 
-function FooterNavItem({ item }) {
-  if (item.type === 'external') {
+function FooterLink({ item }) {
+  const className =
+    'text-sm text-white/65 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm';
+
+  if (item.external) {
     return (
-      <a href={item.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
+      <a href={item.href} target="_blank" rel="noopener noreferrer" className={className}>
         {item.label}
-        <span className="text-white/35" aria-hidden>
-          {' '}
-          ↗
-        </span>
       </a>
     );
   }
-  if (item.type === 'form') {
-    return <FooterFormLink variant={item.variant}>{item.label}</FooterFormLink>;
+
+  if (item.form) {
+    return <FooterFormLink variant={item.form}>{item.label}</FooterFormLink>;
   }
+
   return (
-    <Link to={item.to} className={linkClass}>
+    <Link to={item.to} className={className}>
       {item.label}
     </Link>
   );
@@ -71,34 +53,89 @@ function FooterNavItem({ item }) {
 function FooterFormLink({ variant, children }) {
   const { openForm } = useFormModal();
   return (
-    <button type="button" onClick={() => openForm(variant)} className={linkClass}>
+    <button
+      type="button"
+      onClick={() => openForm(variant)}
+      className="text-sm text-white/65 hover:text-white transition-colors text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
+    >
       {children}
     </button>
   );
 }
 
-export default function Footer() {
+export default function Footer({ preFooter = false }) {
+  const { openForm } = useFormModal();
+
   return (
-    <footer className="bg-navy-deep border-t border-white/10" data-nav-zone="dark">
-      <div className="max-w-6xl mx-auto page-gutter py-8 sm:py-9">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
-          <div className="lg:col-span-5 flex flex-col">
+    <footer className="bg-navy-deep text-white" data-nav-zone="dark">
+      {preFooter && (
+        <div className="border-b border-white/10">
+          <div className="site-container py-6 md:py-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1 text-sm">
+              <div>
+                <span className="text-white/40 mr-2">Box office</span>
+                <a
+                  href={`tel:${site.phone.replace(/\D/g, '')}`}
+                  className="font-display text-lg text-white hover:text-gold transition-colors"
+                >
+                  {site.phone}
+                </a>
+              </div>
+              <p className="text-white/45 text-xs sm:text-sm">
+                Gates {seasonVoice.parkOpens} · Show {seasonVoice.showTime}
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href={site.ticketsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary btn-sm"
+              >
+                Get tickets
+              </a>
+              <button
+                type="button"
+                onClick={() => openForm('newsletter')}
+                className="btn-ghost-light btn-sm"
+              >
+                Join the list
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="site-container py-12 md:py-14">
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] gap-12 lg:gap-16">
+          <div>
             <Link
               to="/"
-              className="inline-block w-fit mb-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
+              className="inline-block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
             >
               <LogoImage className="h-10 sm:h-11 w-auto object-contain" priority />
             </Link>
-            <p className="font-inter text-white/55 text-xs leading-relaxed mb-4 max-w-xs">
-              {site.location} · {site.mailingAddress}
+
+            <p className="font-display text-xl text-white/90 mt-6 mb-1">{seasonVoice.mainStage}</p>
+            <p className="text-sm text-white/50">
+              {seasonVoice.runDates}, {seasonVoice.year} · {site.location}
             </p>
-            <p className="font-inter text-xs text-white/65 mb-4">
-              <a href={`tel:${site.phone.replace(/\D/g, '')}`} className="hover:text-white transition-colors">
+
+            <address className="not-italic text-sm text-white/45 mt-5 leading-relaxed">
+              {site.mailingAddress}
+            </address>
+
+            <p className="mt-4 text-sm">
+              <a
+                href={`tel:${site.phone.replace(/\D/g, '')}`}
+                className="text-white/70 hover:text-white transition-colors"
+              >
                 {site.phone}
               </a>
-              <span className="text-white/55"> · {site.phoneNote}</span>
+              <span className="text-white/35"> · {site.phoneNote}</span>
             </p>
-            <div className="flex gap-2 mt-auto">
+
+            <div className="flex gap-2 mt-6">
               {socialLinks.map(({ label, url }) => {
                 const SocialIcon = iconMap[label] || IconYoutube;
                 return (
@@ -108,7 +145,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${label} (opens in new tab)`}
-                    className="w-8 h-8 border border-white/15 flex items-center justify-center text-white/55 hover:text-gold hover:border-gold/40 transition-colors"
+                    className="w-10 h-10 border border-white/15 flex items-center justify-center text-white/50 hover:text-white hover:border-white/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
                   >
                     <SocialIcon size={14} />
                   </a>
@@ -117,45 +154,47 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-5">
-            {navGroups.map((group) => (
-              <div key={group.heading}>
-                <p className="font-inter text-gold-light/90 text-[10px] tracking-[0.25em] uppercase font-semibold mb-3">
-                  {group.heading}
-                </p>
-                <ul className="space-y-2">
-                  {group.links.map((item) => (
-                    <li key={item.label}>
-                      <FooterNavItem item={item} />
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          <nav aria-label="Footer">
+            <p className="label text-white/35 mb-4">Explore</p>
+            <ul className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-2.5">
+              {footerLinks.map((item) => (
+                <li key={item.label}>
+                  <FooterLink item={item} />
+                </li>
+              ))}
+              <li>
+                <FooterFormLink variant="education">Book a school program</FooterFormLink>
+              </li>
+              <li>
+                <FooterFormLink variant="sponsorship">Gala & sponsorship</FooterFormLink>
+              </li>
+            </ul>
+          </nav>
         </div>
 
-        <div className="mt-7 pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5">
-          <StaAffiliation theme="dark" align="left" compact />
-          <p className="font-inter text-white/55 text-[10px] leading-relaxed sm:text-right whitespace-nowrap">
-            {sponsors.map((s) => s.name).join(' · ')}
-          </p>
+        <div className="mt-12 pt-8 border-t border-white/10">
+          <p className="label text-white/35 mb-4">Supported by</p>
+          <ul className="flex flex-wrap gap-x-5 gap-y-2">
+            {sponsors.map((sponsor) => (
+              <li key={sponsor.name}>
+                <a
+                  href={sponsor.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-white/50 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
+                >
+                  {sponsor.name}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
-      <div className="border-t border-white/10 bg-[hsl(220_52%_8%)]">
-        <div className="max-w-6xl mx-auto page-gutter py-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
-          <p className="font-inter text-white/45 text-[10px]">
+      <div className="border-t border-white/10">
+        <div className="site-container py-4">
+          <p className="text-xs text-white/35">
             © {new Date().getFullYear()} {site.name}. 501(c)(3) nonprofit.
-          </p>
-          <p className="font-inter text-white/45 text-[10px] flex flex-wrap items-center justify-center sm:justify-end gap-x-2 gap-y-1">
-            <FooterFormLink variant="education">Education</FooterFormLink>
-            <span className="text-white/25" aria-hidden>
-              ·
-            </span>
-            <Link to={contactPaths.general} className={linkClass}>
-              Contact
-            </Link>
           </p>
         </div>
       </div>

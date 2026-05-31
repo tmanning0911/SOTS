@@ -8,6 +8,7 @@ import OptimizedImage from './OptimizedImage';
 import SectionHeader from './SectionHeader';
 import { cms } from '@/lib/cms';
 import { seedArticles } from '@/lib/contentSeed';
+import { homeCopy } from '@/content/voice';
 
 function formatArticleDate(dateStr) {
   if (!dateStr) return '';
@@ -107,8 +108,8 @@ export default function LatestNews() {
         <div className="flex flex-col gap-6 mb-8 sm:mb-10 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeader
             eyebrow="News & Updates"
-            title="Latest Stories"
-            description="Season announcements, tickets, sponsors, and education news."
+            title="Recent News"
+            description={homeCopy.newsIntro}
             align="left"
             light
             className="!mb-0 max-w-2xl"

@@ -23,6 +23,7 @@ export function useNavTheme() {
     const stack = document.elementsFromPoint(probeX, probeY);
     for (const el of stack) {
       if (header?.contains(el)) continue;
+      if (el.id === 'main-content' || el.tagName === 'MAIN') continue;
       const zone = el.closest('[data-nav-zone]')?.getAttribute('data-nav-zone');
       if (zone === 'light' || zone === 'dark') {
         setNavZone(zone);
@@ -59,8 +60,8 @@ export function useNavTheme() {
     return () => clearTimeout(t);
   }, [location.pathname, measure]);
 
-  const isHeroOverlay = isHome && atTop && navZone === 'dark';
-  const isLightBar = !isHeroOverlay && navZone === 'light';
+  const isHeroOverlay = isHome && navZone === 'dark';
+  const isLightBar = navZone === 'light';
   const theme = isHeroOverlay ? 'hero' : isLightBar ? 'light' : 'dark';
 
   return { headerRef, atTop, navZone, isHome, isHeroOverlay, isLightBar, theme };

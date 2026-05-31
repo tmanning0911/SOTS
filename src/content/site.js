@@ -35,7 +35,7 @@ export const site = {
   missionEducation:
     'Our educational programming goal is to build community through the arts, giving the works of Shakespeare a vibrant life beyond the summer festival with school, library, adult education, and art programs for people of all ages and economic backgrounds.',
   educationBlurb:
-    'Education is at the cornerstone of Shakespeare on the Sound. We provide workshops, touring shows, and summer camps.',
+    'We run workshops in Fairfield County schools and libraries, summer camps for ages 8–15, and a free Kids\' Show at 6:30pm every performance night — before the main stage at Pinkney Park.',
   diversityStatement:
     'Shakespeare on the Sound is committed to the concept that theatre is for everyone and should be accessible to all. We seek to include a diverse group of artists and theatre creators in our casting, hiring, and producing, and we are continuing to expand our education programs to those who do not have access to theatre education.',
   donateBlurb:

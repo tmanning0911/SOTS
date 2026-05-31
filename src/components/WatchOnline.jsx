@@ -1,74 +1,82 @@
-import { IconStage } from '@/components/icons';
+import { Link } from 'react-router-dom';
 import { site } from '@/content/site';
-import Reveal from './Reveal';
-import SectionHeader from './SectionHeader';
-import { TheatreBackdrop } from './decor';
+import { images } from '@/content/images';
+import OptimizedImage from './OptimizedImage';
+import PageSection from './PageSection';
 
-const highlights = [
+const playlists = [
   {
     title: 'Shakespeare in 30 Minutes',
-    category: 'In the Park',
-    description: 'A family-friendly half-hour version of our MainStage show before select performances.',
+    description: 'Family-friendly half-hour versions before select performances.',
+    image: images.news.kids,
   },
   {
-    title: 'Education & Outreach',
-    category: 'Schools & Camps',
+    title: 'Education & outreach',
     description: 'Workshops, touring shows, and summer camps across Fairfield County.',
+    image: images.learning.inSchools,
   },
   {
-    title: 'Season Highlights',
-    category: 'On YouTube',
-    description: 'Clips, interviews, and behind-the-scenes from Shakespeare on the Sound.',
+    title: 'Season highlights',
+    description: 'Clips, interviews, and behind-the-scenes from Pinkney Park.',
+    image: images.news.audience,
   },
 ];
 
 export default function WatchOnline() {
   return (
-    <TheatreBackdrop variant="white" className="section-block-first">
-      <div className="page-container">
-        <SectionHeader
-          eyebrow="Watch & Listen"
-          title="On YouTube"
-          description={`Follow ${site.name} for performance clips, education features, and season announcements.`}
-          align="left"
-          className="!mb-10 sm:!mb-12"
+    <PageSection variant="white" first>
+      <div className="relative aspect-video bg-navy-deep overflow-hidden mb-12 md:mb-16">
+        <OptimizedImage
+          src={images.news.audience}
+          alt=""
+          className="w-full h-full object-cover opacity-80"
+          wrapperClassName="absolute inset-0"
         />
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 mb-10 sm:mb-12">
-          {highlights.map((item, i) => (
-            <Reveal key={item.title} delay={i * 0.06} className="h-full">
-              <div className="flex flex-col h-full bg-white border border-navy/8 p-6 sm:p-7 shadow-soft">
-                <div
-                  className="w-10 h-10 bg-navy flex items-center justify-center mb-5"
-                  aria-hidden
-                >
-                  <IconStage size={18} className="text-white" />
-                </div>
-                <span className="section-eyebrow !text-[9px] !tracking-[0.25em] mb-2">{item.category}</span>
-                <p className="font-display text-navy text-lg font-semibold uppercase leading-tight mb-2">
-                  {item.title}
-                </p>
-                <p className="font-inter text-navy/70 text-sm leading-relaxed flex-1">{item.description}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-
-        <Reveal className="text-center">
-          <p className="font-inter text-navy/60 text-sm max-w-md mx-auto mb-6 leading-relaxed">
-            Subscribe for behind-the-scenes moments, education spotlights, and performance highlights from Pinkney
-            Park and beyond.
-          </p>
+        <div className="absolute inset-0 bg-navy-deep/50 flex flex-col items-center justify-center text-center p-8">
+          <p className="label text-white/45 mb-3">YouTube channel</p>
+          <h2 className="heading-section text-white mb-4 max-w-lg">Performance clips & education features</h2>
           <a
             href={site.youtubeUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary w-full sm:w-auto px-8 sm:px-10"
+            className="btn-primary"
           >
-            Open YouTube Channel
+            Open channel
           </a>
-        </Reveal>
+        </div>
       </div>
-    </TheatreBackdrop>
+
+      <div className="grid sm:grid-cols-3 gap-8 mb-12">
+        {playlists.map((item) => (
+          <a
+            key={item.title}
+            href={site.youtubeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
+          >
+            <OptimizedImage
+              src={item.image}
+              alt=""
+              className="w-full aspect-[16/10] object-cover mb-4"
+              wrapperClassName="w-full"
+            />
+            <h3 className="font-display text-lg font-medium text-navy mb-2 group-hover:text-gold transition-colors">
+              {item.title}
+            </h3>
+            <p className="text-body text-sm">{item.description}</p>
+          </a>
+        ))}
+      </div>
+
+      <div className="border-t border-navy/10 pt-10 text-center">
+        <p className="text-body max-w-prose mx-auto mb-6">
+          Subscribe for behind-the-scenes moments, education spotlights, and performance highlights from Pinkney Park.
+        </p>
+        <Link to="/learning" className="text-link text-sm">
+          Explore education programs
+        </Link>
+      </div>
+    </PageSection>
   );
 }
