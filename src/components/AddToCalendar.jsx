@@ -5,51 +5,73 @@ import {
   getCalendarOccurrences,
 } from '@/lib/calendar';
 
+function CalendarIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden className="shrink-0">
+      <rect x="3" y="5" width="18" height="16" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function ChevronIcon() {
+  return (
+    <svg
+      width="12"
+      height="12"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden
+      className="add-to-calendar__chevron shrink-0"
+    >
+      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 /**
- * Add to calendar — Google Calendar + .ics download (Apple, Outlook, etc.)
+ * Add to calendar — compact dropdown with Google + .ics options.
  */
-export default function AddToCalendar({ item, className = '', compact = false }) {
+export default function AddToCalendar({ item, className = '' }) {
   const occurrences = getCalendarOccurrences(item);
   if (!occurrences.length) return null;
 
   const multi = occurrences.length > 1;
 
-  const handleIcs = (e) => {
-    e.preventDefault();
-    downloadIcsFile(item);
-  };
-
   return (
-    <div className={`add-to-calendar ${className}`}>
-      <p className={`text-navy/45 ${compact ? 'text-xs mb-1.5' : 'text-xs mb-2'}`}>Add to calendar</p>
-      <ul className={`list-none p-0 m-0 ${multi ? 'space-y-2' : ''}`}>
+    <details className={`add-to-calendar group relative inline-block ${className}`}>
+      <summary className="add-to-calendar__trigger">
+        <CalendarIcon />
+        <span>Add to calendar</span>
+        <ChevronIcon />
+      </summary>
+
+      <div className="add-to-calendar__menu" role="menu">
         {occurrences.map((occ, index) => (
-          <li
-            key={`${occ.start}-${index}`}
-            className={`flex flex-wrap items-center gap-x-3 gap-y-1 ${compact ? 'text-xs' : 'text-sm'}`}
-          >
+          <div key={`${occ.start}-${index}`} className={multi ? 'add-to-calendar__group' : ''}>
             {multi && (
-              <span className="text-navy/55 shrink-0 w-full sm:w-auto">{formatOccurrenceLabel(occ.start)}</span>
+              <p className="add-to-calendar__date">{formatOccurrenceLabel(occ.start)}</p>
             )}
-            <span className="inline-flex flex-wrap items-center gap-x-3 gap-y-1">
-              <a
-                href={buildGoogleCalendarUrl(item, occ)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-link"
-              >
-                Google
-              </a>
-              <span className="text-navy/25" aria-hidden>
-                ·
-              </span>
-              <button type="button" onClick={handleIcs} className="text-link bg-transparent border-0 p-0 cursor-pointer">
-                Apple / Outlook
-              </button>
-            </span>
-          </li>
+            <a
+              href={buildGoogleCalendarUrl(item, occ)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="add-to-calendar__option"
+              role="menuitem"
+            >
+              Google Calendar
+            </a>
+            <button
+              type="button"
+              className="add-to-calendar__option"
+              role="menuitem"
+              onClick={() => downloadIcsFile(item, multi ? occ : undefined)}
+            >
+              Apple / Outlook
+            </button>
+          </div>
         ))}
-      </ul>
-    </div>
+      </div>
+    </details>
   );
 }

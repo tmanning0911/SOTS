@@ -8,6 +8,7 @@ import ContactCta from '../components/ContactCta';
 import PageSection from '../components/PageSection';
 import ShowCard from '../components/ShowCard';
 import EventProgrammeList from '../components/EventProgrammeList';
+import ProgrammeEventsBand from '../components/ProgrammeEventsBand';
 import { seedEvents } from '@/lib/contentSeed';
 import { pageHeroImages, pageArtBackgrounds } from '@/content/images';
 import { site } from '@/content/site';
@@ -77,14 +78,16 @@ export default function Events() {
             for the latest schedule.
           </p>
         ) : (
-          <EventProgrammeList events={seasonEvents} />
+          <ProgrammeEventsBand showHeader={false} art={null}>
+            <EventProgrammeList events={seasonEvents} />
+          </ProgrammeEventsBand>
         )}
 
         <div className="mt-14 pt-10 border-t border-navy/10 text-center">
           <p className="text-body text-sm mb-6 max-w-prose mx-auto">
             Gates open at {seasonVoice.parkOpens} on show days; box office opens at {seasonVoice.boxOfficeOpens}.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="btn-stack-mobile sm:flex-row sm:justify-center">
             <CtaLink href={site.ticketsUrl} className="btn-primary">
               Get main stage tickets
             </CtaLink>

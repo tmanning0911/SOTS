@@ -10,14 +10,14 @@ export default function HomeHero() {
   return (
     <section
       data-nav-zone="dark"
-      className="relative min-h-[88vh] max-h-[920px] flex items-end bg-navy-deep overflow-hidden"
+      className="relative min-h-[72svh] sm:min-h-[80vh] lg:min-h-[88vh] max-h-[920px] flex items-end bg-navy-deep overflow-hidden"
     >
       <OptimizedImage
         src={images.heroMuchAdo}
         webp={images.heroMuchAdoWebp}
         alt="Illustration of masked dancers at a Sicilian masquerade for Much Ado About Nothing"
         priority
-        className="absolute inset-0 w-full h-full object-cover object-[58%_45%] scale-105"
+        className="absolute inset-0 w-full h-full object-cover object-[70%_45%] sm:object-[58%_45%] scale-105"
         wrapperClassName="absolute inset-0 w-full h-full"
       />
       <div
@@ -30,18 +30,18 @@ export default function HomeHero() {
       />
       <ShakespeareWatermark variant="folio" tone="dark" position="right" className="z-[1]" />
 
-      <div className="relative z-10 w-full site-container pb-14 md:pb-20 pt-28 md:pt-36">
-        <p className="text-sm text-white/50 mb-4">
+      <div className="relative z-10 w-full site-container pb-12 sm:pb-14 md:pb-20 pt-[max(6.5rem,calc(env(safe-area-inset-top)+5rem))] md:pt-36">
+        <p className="text-xs sm:text-sm text-white/50 mb-3 sm:mb-4">
           {seasonVoice.runDates}, {seasonVoice.year} · Pinkney Park, Rowayton
         </p>
         <h1 className="heading-display text-white text-balance max-w-4xl">
           {seasonVoice.mainStage}
         </h1>
-        <p className="font-display text-xl md:text-2xl italic text-white/75 mt-3 mb-6">
+        <p className="font-display text-lg sm:text-xl md:text-2xl italic text-white/75 mt-2 sm:mt-3 mb-4 sm:mb-6">
           {seasonVoice.setting}
         </p>
-        <p className="text-body-lg text-white/65 max-w-prose mb-8">{homeCopy.heroMain.description}</p>
-        <div className="flex flex-wrap gap-3">
+        <p className="text-body-lg text-white/65 max-w-prose mb-6 sm:mb-8">{homeCopy.heroMain.description}</p>
+        <div className="btn-stack-mobile">
           <a href={site.ticketsUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
             Book tickets
           </a>

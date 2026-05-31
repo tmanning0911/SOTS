@@ -31,7 +31,7 @@ export default function HomeComingUp() {
               {site.gala.venue} · {site.gala.address}
             </p>
             <p className="text-body max-w-prose mb-8">{site.gala.description}</p>
-            <div className="flex flex-wrap gap-3 mb-6">
+            <div className="flex flex-wrap gap-3 btn-stack-mobile sm:flex-row mb-6">
               <Link to="/events#gala-2026" className="btn-primary">
                 Gala details
               </Link>

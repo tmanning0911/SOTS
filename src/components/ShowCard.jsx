@@ -135,7 +135,7 @@ export default function ShowCard({
           </Link>
         )}
       </div>
-      <AddToCalendar item={item} className="mt-4" compact />
+      <AddToCalendar item={item} className="mt-4" />
     </article>
   );
 }

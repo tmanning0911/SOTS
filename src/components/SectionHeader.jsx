@@ -11,7 +11,7 @@ export default function SectionHeader({
     align === 'left' ? 'text-left mr-auto' : align === 'right' ? 'text-right ml-auto' : 'text-center mx-auto';
 
   return (
-    <header className={`max-w-2xl mb-10 md:mb-12 ${alignClass} ${className}`}>
+    <header className={`max-w-2xl mb-8 sm:mb-10 md:mb-12 ${alignClass} ${className}`}>
       {eyebrow && (
         <p className={`label mb-2 ${light ? 'text-white/45' : ''}`}>{eyebrow}</p>
       )}

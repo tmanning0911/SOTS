@@ -76,8 +76,11 @@ export function buildGoogleCalendarUrl(item, occurrence) {
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
-export function buildIcsFile(item) {
-  const occurrences = getCalendarOccurrences(item);
+export function buildIcsFile(item, occurrenceFilter) {
+  const all = getCalendarOccurrences(item);
+  const occurrences = occurrenceFilter
+    ? all.filter((o) => o.start === occurrenceFilter.start && o.end === occurrenceFilter.end)
+    : all;
   const tz = item.calendar?.timezone || DEFAULT_TZ;
   const stamp = new Date()
     .toISOString()
@@ -110,12 +113,13 @@ ${events}
 END:VCALENDAR`;
 }
 
-export function downloadIcsFile(item) {
-  const blob = new Blob([buildIcsFile(item)], { type: 'text/calendar;charset=utf-8' });
+export function downloadIcsFile(item, occurrence) {
+  const blob = new Blob([buildIcsFile(item, occurrence)], { type: 'text/calendar;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement('a');
   anchor.href = url;
-  anchor.download = `${item.id || 'event'}.ics`;
+  const suffix = occurrence ? `-${occurrence.start.slice(0, 10)}` : '';
+  anchor.download = `${item.id || 'event'}${suffix}.ics`;
   anchor.click();
   URL.revokeObjectURL(url);
 }

@@ -4,6 +4,7 @@ import OptimizedImage from '../OptimizedImage';
 import { ArtSectionBackground } from '../decor';
 import CtaLink from '../CtaLink';
 import EventProgrammeList from '../EventProgrammeList';
+import ProgrammeEventsBand from '../ProgrammeEventsBand';
 import AddToCalendar from '../AddToCalendar';
 import { cms } from '@/lib/cms';
 import { seedPlays, seedEvents } from '@/lib/contentSeed';
@@ -68,7 +69,7 @@ export default function HomeWhatsOn() {
                   {mainStage.description.split('\n\n')[0]}
                 </p>
               )}
-              <div className="flex flex-wrap gap-3 mt-auto">
+              <div className="btn-stack-mobile mt-auto">
                 <CtaLink href={mainStage.ticketUrl || site.ticketsUrl} className="btn-primary">
                   Book tickets
                 </CtaLink>
@@ -82,10 +83,9 @@ export default function HomeWhatsOn() {
         )}
 
         {preview.length > 0 && (
-          <div>
-            <h3 className="heading-section text-navy mb-2 md:mb-4">Special events</h3>
+          <ProgrammeEventsBand href="/events" linkLabel="All events">
             <EventProgrammeList events={preview} compact />
-          </div>
+          </ProgrammeEventsBand>
         )}
       </div>
     </section>

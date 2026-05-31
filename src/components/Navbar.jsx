@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { IconMenu, IconClose, IconSearch } from '@/components/icons';
+import { IconClose, IconSearch, MenuSkullIcon } from '@/components/icons';
 import { motion, AnimatePresence } from 'framer-motion';
 import { site } from '@/content/site';
 import LogoImage from './LogoImage';
@@ -153,7 +153,7 @@ export default function Navbar() {
           )}
         </div>
 
-        <div className="max-w-[92rem] mx-auto px-6 sm:px-10 lg:px-12 xl:px-16 lg:hidden">
+        <div className="max-w-[92rem] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 lg:hidden">
           <div className="flex items-center gap-3 min-h-[3.75rem]">
             <Link
               to="/"
@@ -183,7 +183,11 @@ export default function Navbar() {
                 aria-label={menuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={menuOpen}
               >
-                {menuOpen ? <IconClose size={20} aria-hidden /> : <IconMenu size={20} aria-hidden />}
+                {menuOpen ? (
+                  <IconClose size={20} aria-hidden />
+                ) : (
+                  <MenuSkullIcon light={isLightBar} />
+                )}
               </button>
             </div>
           </div>

@@ -85,7 +85,7 @@ export default function Footer({ preFooter = false }) {
                 Gates {seasonVoice.parkOpens} · Show {seasonVoice.showTime}
               </p>
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 btn-stack-mobile">
               <a
                 href={site.ticketsUrl}
                 target="_blank"
