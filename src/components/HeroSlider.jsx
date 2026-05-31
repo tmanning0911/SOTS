@@ -17,7 +17,7 @@ const slides = [
     quote: homeCopy.heroMain.quote,
     quoteSource: homeCopy.heroMain.quoteSource,
     tag: 'Get Tickets',
-    image: '/images/hero-much-ado.png',
+    image: '/images/hero-much-ado.jpg',
     ticketUrl: site.ticketsUrl,
     external: true,
   },

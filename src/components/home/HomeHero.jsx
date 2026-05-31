@@ -15,13 +15,17 @@ export default function HomeHero() {
       <OptimizedImage
         src={images.heroMuchAdo}
         webp={images.heroMuchAdoWebp}
-        alt=""
+        alt="Illustration of masked dancers at a Sicilian masquerade for Much Ado About Nothing"
         priority
-        className="absolute inset-0 w-full h-full object-cover object-[center_30%] brightness-[0.5]"
+        className="absolute inset-0 w-full h-full object-cover object-[58%_45%] scale-105"
         wrapperClassName="absolute inset-0 w-full h-full"
       />
       <div
-        className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/40 to-navy-deep/10"
+        className="absolute inset-0 bg-gradient-to-r from-navy-deep/90 via-navy-deep/35 to-navy-deep/15"
+        aria-hidden
+      />
+      <div
+        className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/25 to-transparent"
         aria-hidden
       />
       <ShakespeareWatermark variant="folio" tone="dark" position="right" className="z-[1]" />

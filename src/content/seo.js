@@ -5,7 +5,7 @@ export const siteUrl = (
   import.meta.env.VITE_SITE_URL || 'https://www.shakespeareonthesound.org'
 ).replace(/\/$/, '');
 
-export const defaultOgImage = `${siteUrl}/images/hero-much-ado.png`;
+export const defaultOgImage = `${siteUrl}/images/hero-much-ado.jpg`;
 
 export const seoDefaults = {
   siteName: site.name,

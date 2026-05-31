@@ -4,7 +4,7 @@ export const images = {
   logo: '/images/logo.png',
   logoWebp: '/images/logo.webp',
   staLogo: '/images/sta-logo.jpg',
-  heroMuchAdo: '/images/hero-much-ado.png',
+  heroMuchAdo: '/images/hero-much-ado.jpg',
   heroMuchAdoWebp: '/images/hero-much-ado.webp',
   aboutBanner: '/images/about-banner.png',
   shakespeareHub: '/images/shakespeare-hub.png',

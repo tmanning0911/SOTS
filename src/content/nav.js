@@ -38,7 +38,7 @@ export const navItems = [
       title: 'Much Ado About Nothing',
       tag: 'Main Stage · On Sale',
       date: 'June 10–28, 2026',
-      image: '/images/hero-much-ado.png',
+      image: '/images/hero-much-ado.jpg',
       path: '/plays',
     },
   },
