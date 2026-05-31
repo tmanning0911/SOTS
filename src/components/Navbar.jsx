@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { IconClose, IconSearch, MenuSkullIcon } from '@/components/icons';
+import { IconChevronLeft, IconClose, IconSearch, MenuSkullIcon } from '@/components/icons';
 import { motion, AnimatePresence } from 'framer-motion';
 import { site } from '@/content/site';
 import LogoImage from './LogoImage';
@@ -74,13 +74,26 @@ export default function Navbar() {
 
   const openMegaItem = navItems.find((i) => i.label === openNav && i.mega);
   const closeNav = useCallback(() => setOpenNav(null), []);
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
+  const openMenu = useCallback(() => {
+    setSearchOpen(false);
+    setMenuOpen(true);
+  }, []);
+
+  const mobileBarClass = menuOpen
+    ? 'nav-theme-dark bg-navy-deep border-b border-white/10 py-3'
+    : headerClass;
+  const mobileIconBtnClass = menuOpen ? 'nav-icon-btn-dark' : iconBtnClass;
+  const mobileMenuTop = 'max(3.75rem, calc(env(safe-area-inset-top) + 3.75rem))';
 
   return (
     <>
       <header
         ref={headerRef}
         data-nav-theme={theme}
-        className={`fixed top-0 left-0 right-0 z-50 overflow-visible transition-colors duration-300 ease-smooth ${headerClass}`}
+        className={`fixed top-0 left-0 right-0 overflow-visible transition-colors duration-300 ease-smooth ${
+          menuOpen ? 'z-[100]' : 'z-50'
+        } ${headerClass}`}
       >
         {/* Utility bar removed — reduces clutter; links live in nav + footer */}
         <div
@@ -153,7 +166,7 @@ export default function Navbar() {
           )}
         </div>
 
-        <div className="max-w-[92rem] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 lg:hidden">
+        <div className={`max-w-[92rem] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 lg:hidden transition-colors duration-300 ${mobileBarClass}`}>
           <div className="flex items-center gap-3 min-h-[3.75rem]">
             <Link
               to="/"
@@ -162,29 +175,36 @@ export default function Navbar() {
               <LogoImage
                 priority
                 className={`h-11 sm:h-12 w-auto max-w-[min(48vw,190px)] object-contain object-left ${
-                  isLightBar ? '' : 'drop-shadow-md'
+                  isLightBar && !menuOpen ? '' : 'drop-shadow-md'
                 }`}
               />
             </Link>
 
             <div className="flex items-center gap-3 ml-auto">
+              {!menuOpen && (
+                <button
+                  type="button"
+                  onClick={() => setSearchOpen(true)}
+                  className={`w-11 h-11 flex items-center justify-center border ${mobileIconBtnClass}`}
+                  aria-label="Search site"
+                >
+                  <IconSearch size={18} aria-hidden />
+                </button>
+              )}
               <button
                 type="button"
-                onClick={() => setSearchOpen(true)}
-                className={`w-11 h-11 flex items-center justify-center border ${iconBtnClass}`}
-                aria-label="Search site"
-              >
-                <IconSearch size={18} aria-hidden />
-              </button>
-              <button
-                type="button"
-                className={`w-11 h-11 flex items-center justify-center border ${iconBtnClass}`}
-                onClick={() => setMenuOpen(!menuOpen)}
-                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                className={`flex items-center justify-center border ${mobileIconBtnClass} ${
+                  menuOpen ? 'nav-menu-back-btn' : 'w-11 h-11'
+                }`}
+                onClick={() => (menuOpen ? closeMenu() : openMenu())}
+                aria-label={menuOpen ? 'Back to page' : 'Open menu'}
                 aria-expanded={menuOpen}
               >
                 {menuOpen ? (
-                  <IconClose size={20} aria-hidden />
+                  <>
+                    <IconChevronLeft size={18} aria-hidden />
+                    <span>Back</span>
+                  </>
                 ) : (
                   <MenuSkullIcon light={isLightBar} />
                 )}
@@ -267,13 +287,13 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[90] lg:hidden bg-navy-deep px-6 sm:px-10 pb-safe flex flex-col overflow-y-auto overscroll-contain"
-            style={{ paddingTop: 'max(5.5rem, calc(env(safe-area-inset-top) + 4.5rem))' }}
+            className="fixed left-0 right-0 bottom-0 z-[90] lg:hidden bg-navy-deep px-4 sm:px-6 pb-safe flex flex-col overflow-y-auto overscroll-contain"
+            style={{ top: mobileMenuTop }}
             role="dialog"
             aria-modal="true"
             aria-label="Main menu"
           >
-            <nav className="flex flex-col gap-7 sm:gap-8 flex-1" aria-label="Mobile">
+            <nav className="flex flex-col gap-7 sm:gap-8 flex-1 pt-6" aria-label="Mobile">
               {navItems.map((item, i) => (
                 <motion.div
                   key={item.label}
@@ -281,7 +301,7 @@ export default function Navbar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.05 + i * 0.05 }}
                 >
-                  <MobileNavGroup item={item} onNavigate={() => setMenuOpen(false)} />
+                  <MobileNavGroup item={item} onNavigate={closeMenu} />
                 </motion.div>
               ))}
             </nav>

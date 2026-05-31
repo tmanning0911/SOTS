@@ -762,6 +762,11 @@
     mix-blend-mode: lighten;
   }
 
+  .nav-menu-back-btn {
+    @apply h-11 px-3 gap-1.5 font-inter text-sm font-medium text-white/90 hover:text-white transition-colors duration-200;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy-deep;
+  }
+
   .nav-donate-on-dark {
     @apply inline-flex h-10 items-center justify-center px-5 bg-transparent text-white/90 text-sm font-medium border border-white/30 transition-colors duration-200;
     @apply hover:bg-white/10 hover:text-white hover:border-white/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy-deep;
@@ -955,6 +960,64 @@
 
   .home-visit-bar-underline {
     @apply block w-0 h-0.5 bg-gold mt-2 transition-all duration-300 ease-out group-hover:w-8;
+  }
+
+  /* Homepage hero — poster stack on mobile, overlay on desktop */
+  .home-hero {
+    @apply flex flex-col lg:relative lg:block lg:min-h-[88vh] lg:overflow-hidden;
+  }
+
+  .home-hero__media {
+    @apply relative w-full h-[34svh] min-h-[200px] max-h-[300px] shrink-0 overflow-hidden lg:absolute lg:inset-0 lg:h-full lg:max-h-none;
+  }
+
+  .home-hero__scrim--desktop {
+    @apply hidden lg:block absolute inset-0 bg-gradient-to-r from-navy-deep/90 via-navy-deep/35 to-navy-deep/15 pointer-events-none;
+  }
+
+  .home-hero__scrim--desktop::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/25 to-transparent;
+  }
+
+  .home-hero__panel {
+    @apply relative z-10 bg-navy-deep border-t border-white/10 lg:absolute lg:inset-0 lg:flex lg:items-end lg:bg-transparent lg:border-t-0;
+  }
+
+  .home-hero__inner {
+    @apply py-8 sm:py-10 lg:pb-20 lg:pt-36;
+  }
+
+  .home-hero__eyebrow {
+    @apply text-xs sm:text-sm text-white/50 mb-3 leading-relaxed;
+  }
+
+  .home-hero__title {
+    @apply font-display font-medium text-white text-balance max-w-4xl;
+    font-size: clamp(2rem, 8vw, 4rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  .home-hero__setting {
+    @apply font-display text-lg italic text-white/75 mt-2 mb-0 lg:mb-6;
+  }
+
+  .home-hero__description {
+    @apply hidden sm:block text-body-lg text-white/65 max-w-prose mt-4 mb-6 lg:mb-8;
+  }
+
+  .home-hero__actions {
+    @apply flex flex-col sm:flex-row gap-3 mt-6 sm:mt-0 lg:mt-0;
+  }
+
+  .home-hero__actions .btn-primary,
+  .home-hero__actions .btn-ghost-light {
+    @apply w-full sm:w-auto justify-center;
+  }
+
+  .home-hero__meta {
+    @apply hidden sm:block text-xs text-white/40 mt-6 lg:mt-8;
   }
 
   /* Homepage — cinematic hero */
