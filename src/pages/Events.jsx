@@ -6,7 +6,6 @@ import CtaLink from '../components/CtaLink';
 import SectionHeader from '../components/SectionHeader';
 import ContactCta from '../components/ContactCta';
 import PageSection from '../components/PageSection';
-import ShowCard from '../components/ShowCard';
 import EventProgrammeList from '../components/EventProgrammeList';
 import ProgrammeEventsBand from '../components/ProgrammeEventsBand';
 import { seedEvents } from '@/lib/contentSeed';
@@ -26,7 +25,6 @@ export default function Events() {
 
   const featured = events.filter((e) => e.featured);
   const seasonEvents = events.filter((e) => !e.featured);
-  const isFirstSectionFeatured = featured.length > 0;
 
   return (
     <PageLayout>
@@ -46,23 +44,13 @@ export default function Events() {
             description={`${site.gala.title} supports year-round productions and education across Fairfield County.`}
             align="left"
           />
-          <div className="space-y-14">
-            {featured.map((event) => (
-              <ShowCard
-                key={event.id}
-                item={event}
-                featured
-                detailHref={`/events#${event.id}`}
-                ticketHref={event.ctaUrl}
-                ticketLabel={event.ctaLabel}
-                showDetail={false}
-              />
-            ))}
-          </div>
+          <ProgrammeEventsBand showHeader={false}>
+            <EventProgrammeList events={featured} />
+          </ProgrammeEventsBand>
         </PageSection>
       )}
 
-      <PageSection variant="white" first={!isFirstSectionFeatured}>
+      <PageSection variant="white" first={featured.length === 0}>
         <SectionHeader
           eyebrow="Summer 2026"
           title="Season highlights"
@@ -78,7 +66,7 @@ export default function Events() {
             for the latest schedule.
           </p>
         ) : (
-          <ProgrammeEventsBand showHeader={false} art={null}>
+          <ProgrammeEventsBand showHeader={false}>
             <EventProgrammeList events={seasonEvents} />
           </ProgrammeEventsBand>
         )}

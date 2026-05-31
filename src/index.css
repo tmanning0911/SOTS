@@ -415,53 +415,408 @@
     @apply pb-2.5;
   }
 
-  /* Special events — cream colour break */
-  .programme-events-band {
-    @apply relative -mx-4 sm:-mx-6 md:-mx-8 lg:-mx-10 px-4 sm:px-6 md:px-8 lg:px-10 py-10 md:py-12 mt-2 md:mt-4;
-    @apply bg-cream border-y border-navy/10;
-    box-shadow: inset 0 1px 0 hsl(38 72% 48% / 0.12);
+  /* Ticket card — date block opens add-to-calendar menu */
+  .add-to-calendar--ticket-date {
+    @apply inline-block min-w-0;
   }
 
-  .programme-events-band__art {
-    @apply absolute inset-0 overflow-hidden pointer-events-none;
+  .add-to-calendar--ticket-date .add-to-calendar__trigger-ticket {
+    @apply inline-flex items-center gap-2 min-w-0 p-0 m-0 border-0 bg-transparent cursor-pointer select-none;
+    @apply text-left transition-opacity hover:opacity-80;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 rounded-sm;
+    color: hsl(var(--navy));
+    list-style: none;
   }
 
-  .programme-events-band__header {
-    @apply flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-8 md:mb-10 pb-6 border-b border-gold/25;
+  .add-to-calendar--ticket-date .add-to-calendar__ticket-date-text {
+    @apply flex flex-col gap-0.5 min-w-0;
   }
 
-  .programme-event-category {
-    @apply inline-block mt-2 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wider text-navy/70 bg-white/70 border border-gold/25 rounded-sm;
+  .add-to-calendar--ticket-date .add-to-calendar__ticket-date-primary {
+    @apply font-inter font-normal leading-snug text-navy;
+    font-size: 0.875rem;
   }
 
-  .programme-events-band .programme-event-category {
-    @apply bg-white border-gold/30 text-gold-muted;
+  .add-to-calendar--ticket-date .add-to-calendar__ticket-date-secondary {
+    @apply font-inter font-normal leading-snug text-navy/50;
+    font-size: 0.8125rem;
   }
 
-  /* Programme event rows — stack on mobile, date column on sm+ */
-  .programme-event-row {
-    @apply grid gap-3 sm:gap-x-6 sm:gap-y-0;
-    grid-template-columns: 1fr;
+  .add-to-calendar--ticket-date .add-to-calendar__chevron {
+    @apply text-navy/40 ml-0.5 shrink-0;
   }
 
-  @media (min-width: 640px) {
-    .programme-event-row {
-      grid-template-columns: minmax(7rem, 9rem) minmax(0, 1fr);
-      align-items: start;
+  .add-to-calendar--ticket-date[open] .add-to-calendar__chevron {
+    @apply text-navy/70;
+  }
+
+  .add-to-calendar--ticket-date .add-to-calendar__menu {
+    @apply absolute left-0 top-full z-50 mt-2;
+    min-width: 11.5rem;
+  }
+
+  @media (max-width: 639px) {
+    .add-to-calendar--ticket-date .add-to-calendar__ticket-date-primary {
+      font-size: 0.75rem;
+    }
+
+    .add-to-calendar--ticket-date .add-to-calendar__ticket-date-secondary {
+      font-size: 0.6875rem;
+    }
+
+    .add-to-calendar--ticket-date .add-to-calendar__menu {
+      position: absolute;
+      left: 0;
+      right: auto;
+      bottom: auto;
+      top: 100%;
+      width: max-content;
+      max-width: min(calc(100vw - 2rem), 14rem);
     }
   }
 
-  .programme-event-row__date {
-    @apply shrink-0;
+  /* Special events — ticket cards on branded cream band */
+  .programme-events-band {
+    @apply relative -mx-4 sm:-mx-6 md:-mx-8 lg:-mx-10 px-4 sm:px-6 md:px-8 lg:px-10 py-10 md:py-14 mt-2 md:mt-4 overflow-x-clip;
+    @apply border-y border-gold/25;
+    --ticket-notch: hsl(42 28% 94%);
+    background-color: hsl(42 28% 94%);
   }
 
-  .programme-event-row__actions {
-    @apply flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 mt-4;
+  .programme-events-band__texture {
+    @apply absolute inset-0 pointer-events-none;
+    background-image:
+      radial-gradient(ellipse 60% 80% at -8% 35%, hsl(38 72% 48% / 0.1), transparent 58%),
+      radial-gradient(ellipse 50% 65% at 108% 80%, hsl(220 42% 18% / 0.06), transparent 52%);
   }
 
-  .programme-event-row__link {
-    @apply inline-flex items-center justify-center min-h-[44px] text-sm font-semibold text-navy hover:text-gold transition-colors;
+  .programme-events-band::before {
+    content: '';
+    @apply absolute top-0 left-0 right-0 h-1 pointer-events-none z-[1];
+    background: linear-gradient(
+      90deg,
+      hsl(220 42% 18% / 0.15) 0%,
+      hsl(38 72% 48%) 28%,
+      hsl(40 78% 58%) 50%,
+      hsl(38 72% 48%) 72%,
+      hsl(220 42% 18% / 0.15) 100%
+    );
+  }
+
+  .programme-events-band__inner {
+    @apply relative z-[1];
+  }
+
+  .programme-events-band__header {
+    @apply flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 md:mb-10 pb-6 border-b border-gold/30;
+  }
+
+  .programme-events-band__footer {
+    @apply mt-8 md:mt-10 pt-6 border-t border-gold/25;
+  }
+
+  .event-ticket-list {
+    @apply flex flex-col;
+    gap: 2rem;
+    padding-top: 0.625rem;
+  }
+
+  .event-ticket-stack {
+    @apply relative list-none;
+    --ticket-notch: hsl(42 28% 94%);
+    padding: 0.5rem 0.5rem 1.25rem;
+  }
+
+  .event-ticket-stack__layer {
+    @apply absolute pointer-events-none rounded-[1.25rem] border border-navy/10;
+    left: 0.625rem;
+    right: 0.625rem;
+    top: 0.625rem;
+    bottom: 0;
+    z-index: 1;
+    background: hsl(42 20% 86%);
+  }
+
+  .event-ticket-stack__layer--1 {
+    z-index: 2;
+    transform: translateY(6px);
+    background: hsl(42 25% 91%);
+  }
+
+  .event-ticket-stack__layer--2 {
+    transform: translateY(12px);
+    background: hsl(42 22% 88%);
+  }
+
+  .event-ticket {
+    @apply relative bg-white border border-navy/10;
+    z-index: 3;
+    border-radius: 1.25rem;
+    box-shadow: 0 8px 28px hsl(220 48% 11% / 0.1);
+    color: hsl(var(--navy));
+    overflow: visible;
+  }
+
+  .event-ticket__tab {
+    @apply absolute z-[5] left-5;
+    top: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+  }
+
+  .event-ticket__tab-label {
+    @apply relative inline-block font-inter font-semibold text-white whitespace-nowrap;
+    font-size: 0.625rem;
+    line-height: 1.2;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4375rem 0.875rem 0.8125rem;
+    background: hsl(var(--navy));
+    filter: drop-shadow(0 2px 5px hsl(var(--navy-deep) / 0.22));
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% calc(100% - 9px),
+      calc(100% - 7px) calc(100% - 2px),
+      50% 100%,
+      7px calc(100% - 2px),
+      0 calc(100% - 9px)
+    );
+  }
+
+  .event-ticket__tab-label::before {
+    content: '';
+    @apply absolute left-0 top-0 bottom-[9px] w-[3px];
+    background: hsl(var(--gold));
+    border-radius: 2px 0 0 0;
+  }
+
+  .event-ticket__hero {
+    @apply relative flex items-start justify-between gap-4 sm:gap-3;
+    min-height: 8.75rem;
+    padding: 1.75rem 1.35rem 0.85rem 1.35rem;
+    border-radius: 1.25rem 1.25rem 0 0;
+    background: #fff;
+  }
+
+  .event-ticket__copy {
+    @apply relative z-[2] min-w-0 flex-1 max-w-none sm:max-w-[48%] pr-1;
+  }
+
+  .event-ticket__title {
+    @apply font-display font-medium leading-[1.12] text-balance m-0 text-navy;
+    font-size: clamp(1.35rem, 3.2vw, 2.35rem);
+  }
+
+  .event-ticket__title-link {
+    @apply text-inherit no-underline transition-colors hover:text-gold;
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm;
+  }
+
+  .event-ticket__subtitle {
+    @apply mt-2 mb-0 font-inter font-medium uppercase text-navy/45;
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+  }
+
+  .event-ticket__price {
+    @apply mt-1.5 mb-0 font-inter text-sm font-medium text-navy/70;
+  }
+
+  .event-ticket__cta {
+    @apply inline-flex items-center justify-center mt-3 min-h-[40px] px-4 py-2 text-sm w-full sm:w-auto;
+  }
+
+  .event-ticket__cta-hint {
+    @apply mt-2 mb-0 font-inter text-xs leading-snug text-navy/45 max-w-[16rem];
+  }
+
+  .event-ticket__media {
+    @apply relative z-[2] flex flex-col items-start sm:items-end gap-2 shrink-0;
+    width: 100%;
+    max-width: 100%;
+    padding-top: 0;
+  }
+
+  @media (min-width: 640px) {
+    .event-ticket__media {
+      width: min(44%, 13.5rem);
+      padding-top: 0.35rem;
+    }
+  }
+
+  .event-ticket__image-wrap {
+    @apply relative overflow-hidden w-full;
+    aspect-ratio: 4 / 3;
+    border-radius: 0.625rem;
+  }
+
+  .event-ticket__image-wrap::before {
+    content: '';
+    @apply absolute inset-0 z-[1] pointer-events-none;
+    background: linear-gradient(to right, #fff 0%, rgba(255, 255, 255, 0.92) 14%, transparent 38%);
+  }
+
+  @media (max-width: 639px) {
+    .event-ticket__image-wrap::before {
+      background: linear-gradient(to top, #fff 0%, rgba(255, 255, 255, 0.88) 18%, transparent 42%);
+    }
+  }
+
+  .event-ticket__image-inner {
+    @apply absolute inset-0 w-full h-full;
+  }
+
+  .event-ticket__image {
+    @apply w-full h-full object-cover object-center;
+  }
+
+  .event-ticket__location {
+    @apply flex items-start gap-1.5 justify-start sm:justify-end text-left sm:text-right w-full;
+    color: hsl(var(--navy));
+  }
+
+  .event-ticket__location-text {
+    @apply flex flex-col gap-0.5 items-start sm:items-end min-w-0;
+  }
+
+  .event-ticket__location-venue {
+    @apply font-inter text-xs sm:text-sm font-normal leading-snug text-navy;
+  }
+
+  .event-ticket__location-city {
+    @apply font-inter text-xs font-semibold leading-snug text-navy;
+  }
+
+  .event-ticket__rip {
+    @apply relative bg-white;
+    height: 1rem;
+  }
+
+  .event-ticket__notch {
+    @apply absolute top-1/2 -translate-y-1/2 rounded-full;
+    width: 1rem;
+    height: 1rem;
+    background: var(--ticket-notch);
+    box-shadow: inset 0 0 0 1px hsl(220 42% 18% / 0.06);
+  }
+
+  .event-ticket__notch--left {
+    left: -0.5rem;
+  }
+
+  .event-ticket__notch--right {
+    right: -0.5rem;
+  }
+
+  .event-ticket__perforation {
+    @apply absolute left-4 right-4 top-1/2 -translate-y-1/2;
+    border-top: 2px dotted hsl(220 42% 18% / 0.15);
+  }
+
+  .event-ticket__details {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 0.75rem 1.35rem 1.2rem;
+    border-radius: 0 0 1.25rem 1.25rem;
+    color: hsl(var(--navy));
+  }
+
+  @media (max-width: 639px) {
+    .event-ticket__details {
+      padding: 0.65rem 0.85rem 1rem;
+      column-gap: 0.35rem;
+    }
+
+    .event-ticket__hero {
+      @apply flex-col gap-4;
+      min-height: auto;
+      padding-bottom: 1rem;
+    }
+
+    .event-ticket__copy {
+      @apply max-w-none;
+    }
+
+    .event-ticket__media {
+      @apply w-full max-w-[14rem];
+    }
+
+    .event-ticket__location-venue {
+      font-size: 0.6875rem;
+    }
+
+    .event-ticket__detail-primary {
+      font-size: 0.75rem;
+    }
+
+    .event-ticket__detail-secondary {
+      font-size: 0.6875rem;
+    }
+
+    .event-ticket__detail svg {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+  }
+
+  .event-ticket__detail {
+    @apply flex items-center gap-2 min-w-0;
+  }
+
+  .event-ticket__detail--date {
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+  }
+
+  .event-ticket__detail-text {
+    @apply flex flex-col gap-0.5 min-w-0;
+  }
+
+  .event-ticket__detail-primary {
+    @apply font-inter font-normal leading-snug text-navy;
+    font-size: 0.875rem;
+  }
+
+  .event-ticket__detail-secondary {
+    @apply font-inter font-normal leading-snug text-navy/50;
+    font-size: 0.8125rem;
+  }
+
+  .event-ticket__session {
+    display: inline-flex;
+    align-items: center;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: hsl(var(--navy) / 0.55);
+    white-space: nowrap;
+  }
+
+  .event-ticket__time-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1;
+    color: #fff;
+    background: hsl(var(--navy));
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    box-shadow: 0 1px 2px hsl(var(--navy-deep) / 0.12);
+  }
+
+  @media (max-width: 639px) {
+    .event-ticket__time-pill {
+      font-size: 0.6875rem;
+      padding: 0.4rem 0.65rem;
+    }
   }
 
   .card-lift {
@@ -1048,27 +1403,35 @@
   }
 
   .home-hero__image {
-    @apply block max-w-none object-cover;
+    @apply absolute inset-0 block max-w-none object-cover;
     width: 100%;
     height: 100%;
     min-width: 100%;
     min-height: 100%;
-    object-position: 58% 42%;
-    transform: scale(1.12);
+    object-position: 72% 48%;
+    transform: scale(1.12) translateY(5%);
     transform-origin: center center;
   }
 
   .home-hero__scrim {
     @apply absolute inset-0 pointer-events-none z-[1];
-    background: linear-gradient(
-      to top,
-      hsl(var(--navy-deep) / 0.99) 0%,
-      hsl(var(--navy-deep) / 0.94) 22%,
-      hsl(var(--navy-deep) / 0.82) 40%,
-      hsl(var(--navy-deep) / 0.5) 58%,
-      hsl(var(--navy-deep) / 0.2) 72%,
-      transparent 88%
-    );
+    background:
+      linear-gradient(
+        to right,
+        hsl(var(--navy-deep) / 0.92) 0%,
+        hsl(var(--navy-deep) / 0.55) 28%,
+        hsl(var(--navy-deep) / 0.15) 52%,
+        transparent 72%
+      ),
+      linear-gradient(
+        to top,
+        hsl(var(--navy-deep) / 0.99) 0%,
+        hsl(var(--navy-deep) / 0.94) 22%,
+        hsl(var(--navy-deep) / 0.82) 40%,
+        hsl(var(--navy-deep) / 0.5) 58%,
+        hsl(var(--navy-deep) / 0.2) 72%,
+        transparent 88%
+      );
   }
 
   .home-hero__scrim::after {
@@ -1076,18 +1439,25 @@
   }
 
   .home-hero__panel {
-    @apply relative z-10 flex items-end bg-transparent pointer-events-none;
+    @apply relative z-10 flex items-end justify-start w-full bg-transparent pointer-events-none;
   }
 
   .home-hero__inner {
-    @apply py-8 sm:py-10 w-full max-w-3xl pointer-events-auto;
-    padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 1.5rem));
+    @apply flex items-end justify-start w-full pointer-events-none;
+    padding-bottom: max(1.25rem, calc(env(safe-area-inset-bottom, 0px) + 0.75rem));
+  }
+
+  .home-hero__copy {
+    @apply w-full max-w-lg sm:max-w-xl lg:max-w-2xl pt-6 sm:pt-8 pb-3 sm:pb-4 pointer-events-auto text-left mr-auto;
   }
 
   @media (min-width: 1024px) {
     .home-hero__inner {
-      @apply pb-20;
-      padding-bottom: max(5rem, calc(env(safe-area-inset-bottom, 0px) + 4rem));
+      padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 1.25rem));
+    }
+
+    .home-hero__copy {
+      @apply pt-10 pb-5;
     }
   }
 
@@ -1097,7 +1467,7 @@
   }
 
   .home-hero__title {
-    @apply font-display font-medium text-white text-balance max-w-4xl;
+    @apply font-display font-medium text-white text-balance;
     font-size: clamp(1.75rem, 7.5vw, 4rem);
     line-height: 1.08;
     letter-spacing: -0.02em;

@@ -5,6 +5,7 @@ export const images = {
   logoWebp: '/images/logo.webp',
   staLogo: '/images/sta-logo.jpg',
   heroMuchAdo: '/images/hero-much-ado.jpg',
+  heroMuchAdoGif: '/images/hero-much-ado.gif',
   heroMuchAdoWebp: '/images/hero-much-ado.webp',
   /** Production artwork — painterly backgrounds and section visuals */
   art: {

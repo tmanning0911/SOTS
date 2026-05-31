@@ -33,20 +33,15 @@ export default function HomeWhatsOn() {
   }, []);
 
   const mainStage = plays.find((p) => p.featured) || plays[0];
-  const preview = events.slice(0, 5);
+  const preview = events.slice(0, 4);
 
   return (
     <section className="section relative bg-white border-b border-navy/10 overflow-x-clip" data-nav-zone="light">
       <ArtSectionBackground src={images.art.townSquareNight} tone="light" position="center" />
       <div className="site-container relative z-[1]">
-        <header className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12 md:mb-16">
-          <div>
-            <p className="label mb-2">What&apos;s on</p>
-            <h2 className="heading-section">This summer</h2>
-          </div>
-          <Link to="/events" className="text-link text-sm shrink-0">
-            All events
-          </Link>
+        <header className="mb-12 md:mb-16">
+          <p className="label mb-2">What&apos;s on</p>
+          <h2 className="heading-section">This summer</h2>
         </header>
 
         {mainStage && (
@@ -83,8 +78,12 @@ export default function HomeWhatsOn() {
         )}
 
         {preview.length > 0 && (
-          <ProgrammeEventsBand href="/events" linkLabel="All events">
-            <EventProgrammeList events={preview} compact />
+          <ProgrammeEventsBand
+            footerHref="/events"
+            footerLabel="View full summer programme"
+            intro="Receptions, talks, and community nights during the Much Ado run at Pinkney Park."
+          >
+            <EventProgrammeList events={preview} />
           </ProgrammeEventsBand>
         )}
       </div>
