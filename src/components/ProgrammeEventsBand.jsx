@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { OrnamentDivider } from './decor';
+import Reveal from './Reveal';
 
-/** Branded cream band — special-events ticket cards. */
+/** Branded white band — special-events ticket cards. */
 export default function ProgrammeEventsBand({
   eyebrow = 'Beyond the main stage',
   title = 'Special events',
@@ -19,7 +20,7 @@ export default function ProgrammeEventsBand({
       <div className="programme-events-band__texture" aria-hidden />
       <div className="programme-events-band__inner">
         {showHeader && (
-          <header className="programme-events-band__header">
+          <Reveal as="header" className="programme-events-band__header" y={20}>
             <div className="max-w-2xl">
               {eyebrow && (
                 <div className="flex items-center gap-3 mb-3">
@@ -39,17 +40,17 @@ export default function ProgrammeEventsBand({
                 {linkLabel}
               </Link>
             )}
-          </header>
+          </Reveal>
         )}
 
         {children}
 
         {footerHref && (
-          <footer className="programme-events-band__footer">
+          <Reveal as="footer" className="programme-events-band__footer" delay={0.15} y={16}>
             <Link to={footerHref} className="text-link text-link--arrow text-sm font-semibold">
               {footerLabel}
             </Link>
-          </footer>
+          </Reveal>
         )}
       </div>
     </div>

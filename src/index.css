@@ -453,6 +453,29 @@
   .add-to-calendar--ticket-date .add-to-calendar__menu {
     @apply absolute left-0 top-full z-50 mt-2;
     min-width: 11.5rem;
+    box-shadow: 0 10px 28px hsl(220 48% 11% / 0.14);
+  }
+
+  @keyframes calendar-menu-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .add-to-calendar[open] .add-to-calendar__menu {
+      animation: calendar-menu-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+      transform-origin: top left;
+    }
+  }
+
+  .add-to-calendar--ticket-date[open] {
+    @apply relative z-50;
   }
 
   @media (max-width: 639px) {
@@ -475,32 +498,22 @@
     }
   }
 
-  /* Special events — ticket cards on branded cream band */
+  /* Special events — ticket cards on white band */
   .programme-events-band {
-    @apply relative -mx-4 sm:-mx-6 md:-mx-8 lg:-mx-10 px-4 sm:px-6 md:px-8 lg:px-10 py-10 md:py-14 mt-2 md:mt-4 overflow-x-clip;
-    @apply border-y border-gold/25;
-    --ticket-notch: hsl(42 28% 94%);
-    background-color: hsl(42 28% 94%);
+    @apply relative -mx-4 sm:-mx-6 md:-mx-8 lg:-mx-10 px-4 sm:px-6 md:px-8 lg:px-10 py-10 md:py-14 mt-2 md:mt-4 overflow-x-clip bg-white;
+    @apply border-y border-navy/10;
+    --ticket-notch: #fff;
   }
 
   .programme-events-band__texture {
     @apply absolute inset-0 pointer-events-none;
     background-image:
-      radial-gradient(ellipse 60% 80% at -8% 35%, hsl(38 72% 48% / 0.1), transparent 58%),
-      radial-gradient(ellipse 50% 65% at 108% 80%, hsl(220 42% 18% / 0.06), transparent 52%);
+      radial-gradient(ellipse 60% 80% at -8% 35%, hsl(220 42% 18% / 0.03), transparent 58%),
+      radial-gradient(ellipse 50% 65% at 108% 80%, hsl(220 42% 18% / 0.04), transparent 52%);
   }
 
   .programme-events-band::before {
-    content: '';
-    @apply absolute top-0 left-0 right-0 h-1 pointer-events-none z-[1];
-    background: linear-gradient(
-      90deg,
-      hsl(220 42% 18% / 0.15) 0%,
-      hsl(38 72% 48%) 28%,
-      hsl(40 78% 58%) 50%,
-      hsl(38 72% 48%) 72%,
-      hsl(220 42% 18% / 0.15) 100%
-    );
+    content: none;
   }
 
   .programme-events-band__inner {
@@ -508,23 +521,37 @@
   }
 
   .programme-events-band__header {
-    @apply flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 md:mb-10 pb-6 border-b border-gold/30;
+    @apply flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 md:mb-10 pb-6 border-b border-navy/10;
   }
 
   .programme-events-band__footer {
-    @apply mt-8 md:mt-10 pt-6 border-t border-gold/25;
+    @apply mt-8 md:mt-10 pt-6 border-t border-navy/10;
   }
 
   .event-ticket-list {
     @apply flex flex-col;
-    gap: 2rem;
-    padding-top: 0.625rem;
+    gap: 4rem;
+  }
+
+  @media (min-width: 768px) {
+    .event-ticket-list {
+      gap: 5.5rem;
+    }
   }
 
   .event-ticket-stack {
     @apply relative list-none;
-    --ticket-notch: hsl(42 28% 94%);
-    padding: 0.5rem 0.5rem 1.25rem;
+    --ticket-notch: #fff;
+    padding: 0.5rem 0.5rem 1.5rem;
+  }
+
+  .event-ticket-stack:has(.add-to-calendar[open]) {
+    z-index: 30;
+    transform: none;
+  }
+
+  .event-ticket-stack:has(.add-to-calendar[open]):hover {
+    transform: none;
   }
 
   .event-ticket-stack__layer {
@@ -534,18 +561,23 @@
     top: 0.625rem;
     bottom: 0;
     z-index: 1;
-    background: hsl(42 20% 86%);
+    background: hsl(220 20% 96%);
   }
 
   .event-ticket-stack__layer--1 {
     z-index: 2;
     transform: translateY(6px);
-    background: hsl(42 25% 91%);
+    background: hsl(220 15% 98%);
   }
 
   .event-ticket-stack__layer--2 {
     transform: translateY(12px);
-    background: hsl(42 22% 88%);
+    background: hsl(220 18% 94%);
+  }
+
+  .event-ticket-stack__layer--1,
+  .event-ticket-stack__layer--2 {
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease;
   }
 
   .event-ticket {
@@ -555,57 +587,99 @@
     box-shadow: 0 8px 28px hsl(220 48% 11% / 0.1);
     color: hsl(var(--navy));
     overflow: visible;
+    transition:
+      box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .event-ticket-stack {
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .event-ticket-stack:hover {
+      transform: translateY(-5px);
+    }
+
+    .event-ticket-stack:hover .event-ticket {
+      box-shadow: 0 18px 44px hsl(220 48% 11% / 0.14);
+    }
+
+    .event-ticket-stack:hover .event-ticket-stack__layer--1 {
+      transform: translateY(10px);
+    }
+
+    .event-ticket-stack:hover .event-ticket-stack__layer--2 {
+      transform: translateY(20px);
+    }
+
+    .event-ticket__image {
+      transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .event-ticket-stack:hover .event-ticket__image {
+      transform: scale(1.05);
+    }
+
+    .event-ticket__cta {
+      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+    }
+
+    .event-ticket-stack:hover .event-ticket__cta {
+      transform: translateY(-1px);
+    }
+
+    .event-ticket__time-pill {
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+    }
+
+    .event-ticket-stack:hover .event-ticket__time-pill {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px hsl(var(--navy-deep) / 0.18);
+    }
+
+    .event-ticket__tab {
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .event-ticket-stack:hover .event-ticket__tab {
+      transform: translateY(calc(-50% - 2px));
+    }
+  }
+
+  .event-ticket-stack:has(.add-to-calendar[open]) .event-ticket {
+    z-index: 31;
   }
 
   .event-ticket__tab {
-    @apply absolute z-[5] left-5;
+    @apply absolute z-[5] font-inter font-semibold text-white whitespace-nowrap;
     top: 0;
-    transform: translateY(-100%);
-    pointer-events: none;
-  }
-
-  .event-ticket__tab-label {
-    @apply relative inline-block font-inter font-semibold text-white whitespace-nowrap;
+    left: 1.25rem;
     font-size: 0.625rem;
     line-height: 1.2;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.4375rem 0.875rem 0.8125rem;
+    padding: 0.375rem 0.625rem 0.4375rem;
     background: hsl(var(--navy));
-    filter: drop-shadow(0 2px 5px hsl(var(--navy-deep) / 0.22));
-    clip-path: polygon(
-      0 0,
-      100% 0,
-      100% calc(100% - 9px),
-      calc(100% - 7px) calc(100% - 2px),
-      50% 100%,
-      7px calc(100% - 2px),
-      0 calc(100% - 9px)
-    );
-  }
-
-  .event-ticket__tab-label::before {
-    content: '';
-    @apply absolute left-0 top-0 bottom-[9px] w-[3px];
-    background: hsl(var(--gold));
-    border-radius: 2px 0 0 0;
+    border-radius: 0.3rem 0.3rem 0 0;
+    transform: translateY(-50%);
+    box-shadow: 0 2px 6px hsl(var(--navy-deep) / 0.18);
   }
 
   .event-ticket__hero {
-    @apply relative flex items-start justify-between gap-4 sm:gap-3;
-    min-height: 8.75rem;
-    padding: 1.75rem 1.35rem 0.85rem 1.35rem;
+    @apply relative flex items-start justify-between gap-4 sm:gap-5;
+    min-height: 9.5rem;
+    padding: 2.125rem 1.5rem 1.35rem 1.5rem;
     border-radius: 1.25rem 1.25rem 0 0;
     background: #fff;
   }
 
   .event-ticket__copy {
-    @apply relative z-[2] min-w-0 flex-1 max-w-none sm:max-w-[48%] pr-1;
+    @apply relative z-[2] min-w-0 flex-1 flex flex-col items-start max-w-[52%] sm:max-w-[48%] pr-1;
+    gap: 1.125rem;
   }
 
   .event-ticket__title {
     @apply font-display font-medium leading-[1.12] text-balance m-0 text-navy;
-    font-size: clamp(1.35rem, 3.2vw, 2.35rem);
+    font-size: clamp(1.65rem, 4vw, 2.35rem);
   }
 
   .event-ticket__title-link {
@@ -614,35 +688,19 @@
   }
 
   .event-ticket__subtitle {
-    @apply mt-2 mb-0 font-inter font-medium uppercase text-navy/45;
+    @apply m-0 font-inter font-medium uppercase text-navy/45;
     font-size: 0.6875rem;
     letter-spacing: 0.2em;
   }
 
-  .event-ticket__price {
-    @apply mt-1.5 mb-0 font-inter text-sm font-medium text-navy/70;
-  }
-
   .event-ticket__cta {
-    @apply inline-flex items-center justify-center mt-3 min-h-[40px] px-4 py-2 text-sm w-full sm:w-auto;
-  }
-
-  .event-ticket__cta-hint {
-    @apply mt-2 mb-0 font-inter text-xs leading-snug text-navy/45 max-w-[16rem];
+    @apply inline-flex items-center justify-center m-0 min-h-[40px] px-4 py-2 text-sm w-full sm:w-auto;
   }
 
   .event-ticket__media {
-    @apply relative z-[2] flex flex-col items-start sm:items-end gap-2 shrink-0;
-    width: 100%;
-    max-width: 100%;
-    padding-top: 0;
-  }
-
-  @media (min-width: 640px) {
-    .event-ticket__media {
-      width: min(44%, 13.5rem);
-      padding-top: 0.35rem;
-    }
+    @apply relative z-[2] flex flex-col items-end gap-2 shrink-0;
+    width: min(44%, 13.5rem);
+    padding-top: 0.35rem;
   }
 
   .event-ticket__image-wrap {
@@ -657,12 +715,6 @@
     background: linear-gradient(to right, #fff 0%, rgba(255, 255, 255, 0.92) 14%, transparent 38%);
   }
 
-  @media (max-width: 639px) {
-    .event-ticket__image-wrap::before {
-      background: linear-gradient(to top, #fff 0%, rgba(255, 255, 255, 0.88) 18%, transparent 42%);
-    }
-  }
-
   .event-ticket__image-inner {
     @apply absolute inset-0 w-full h-full;
   }
@@ -671,13 +723,34 @@
     @apply w-full h-full object-cover object-center;
   }
 
+  .event-ticket__details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+    flex-wrap: nowrap;
+    background: #fff;
+    padding: 1.125rem 1.5rem 1.375rem;
+    border-radius: 0 0 1.25rem 1.25rem;
+    color: hsl(var(--navy));
+  }
+
+  .event-ticket__meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+    margin-left: auto;
+    min-width: 0;
+  }
+
   .event-ticket__location {
-    @apply flex items-start gap-1.5 justify-start sm:justify-end text-left sm:text-right w-full;
+    @apply flex items-center gap-2 min-w-0;
     color: hsl(var(--navy));
   }
 
   .event-ticket__location-text {
-    @apply flex flex-col gap-0.5 items-start sm:items-end min-w-0;
+    @apply flex items-baseline gap-1.5 min-w-0 whitespace-nowrap;
   }
 
   .event-ticket__location-venue {
@@ -685,12 +758,12 @@
   }
 
   .event-ticket__location-city {
-    @apply font-inter text-xs font-semibold leading-snug text-navy;
+    @apply font-inter text-xs sm:text-sm font-semibold leading-snug text-navy;
   }
 
   .event-ticket__rip {
     @apply relative bg-white;
-    height: 1rem;
+    height: 1.125rem;
   }
 
   .event-ticket__notch {
@@ -714,37 +787,33 @@
     border-top: 2px dotted hsl(220 42% 18% / 0.15);
   }
 
-  .event-ticket__details {
-    display: flex;
-    align-items: center;
-    background: #fff;
-    padding: 0.75rem 1.35rem 1.2rem;
-    border-radius: 0 0 1.25rem 1.25rem;
-    color: hsl(var(--navy));
-  }
-
   @media (max-width: 639px) {
     .event-ticket__details {
-      padding: 0.65rem 0.85rem 1rem;
-      column-gap: 0.35rem;
+      padding: 1rem 0.875rem 1.25rem;
+      gap: 0.875rem 1rem;
+    }
+
+    .event-ticket__meta {
+      gap: 0.875rem;
+    }
+
+    .event-ticket__location-venue,
+    .event-ticket__location-city {
+      font-size: 0.6875rem;
     }
 
     .event-ticket__hero {
-      @apply flex-col gap-4;
-      min-height: auto;
-      padding-bottom: 1rem;
+      min-height: 10.75rem;
+      padding-bottom: 1.125rem;
     }
 
     .event-ticket__copy {
-      @apply max-w-none;
+      max-width: 54%;
+      gap: 1rem;
     }
 
     .event-ticket__media {
-      @apply w-full max-w-[14rem];
-    }
-
-    .event-ticket__location-venue {
-      font-size: 0.6875rem;
+      width: 42%;
     }
 
     .event-ticket__detail-primary {
@@ -766,12 +835,16 @@
   }
 
   .event-ticket__detail--date {
-    flex-wrap: wrap;
-    gap: 0.5rem 0.75rem;
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   .event-ticket__detail-text {
     @apply flex flex-col gap-0.5 min-w-0;
+  }
+
+  .event-ticket__detail-text--right {
+    @apply items-end text-right;
   }
 
   .event-ticket__detail-primary {
@@ -784,16 +857,8 @@
     font-size: 0.8125rem;
   }
 
-  .event-ticket__session {
-    display: inline-flex;
-    align-items: center;
-    font-family: Inter, system-ui, sans-serif;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: hsl(var(--navy) / 0.55);
-    white-space: nowrap;
+  .event-ticket__detail-city {
+    @apply font-semibold text-navy;
   }
 
   .event-ticket__time-pill {

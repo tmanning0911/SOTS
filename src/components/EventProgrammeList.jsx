@@ -1,15 +1,13 @@
 import { Link } from 'react-router-dom';
+import { motion, useReducedMotion } from 'framer-motion';
 import OptimizedImage from './OptimizedImage';
 import AddToCalendar from './AddToCalendar';
 import CtaLink from './CtaLink';
-import {
-  formatProgrammeDate,
-  parseEventLocation,
-  getCategoryAccent,
-  formatTicketTime,
-} from '@/lib/programmeDate';
+import { formatProgrammeDate, parseEventLocation, getCategoryAccent, formatTicketTime } from '@/lib/programmeDate';
 import { getCalendarOccurrences } from '@/lib/calendar';
 import { images } from '@/content/images';
+
+const ease = [0.22, 1, 0.36, 1];
 
 const CATEGORY_IMAGES = {
   reception: images.art.masqueArches,
@@ -48,54 +46,39 @@ function getEventImage(event) {
   return CATEGORY_IMAGES[getCategoryAccent(event.category)] || CATEGORY_IMAGES.default;
 }
 
-function isEventbriteAddon(event) {
-  return Boolean(event.priceNote && event.ctaUrl?.includes('eventbrite.com'));
-}
-
 /** Ticket-style event card for the special-events programme. */
-export function EventTicketCard({ event }) {
+export function EventTicketCard({ event, index = 0 }) {
+  const reduceMotion = useReducedMotion();
   const parts = formatProgrammeDate(event.date);
   const { venue, city } = parseEventLocation(event.location);
   const image = getEventImage(event);
   const dateLine = parts.monthFull && parts.day ? `${parts.monthFull} ${parts.day}` : event.date;
   const timeLabel = formatTicketTime(event.time);
   const hasCalendar = getCalendarOccurrences(event).length > 0;
-  const ticketAction = Boolean(event.ctaUrl);
+  const stagger = index * 0.11;
 
-  return (
-    <li id={event.id} className="event-ticket-stack scroll-mt-24 sm:scroll-mt-28 min-w-0">
+  const card = (
+    <>
       <div className="event-ticket-stack__layer event-ticket-stack__layer--2" aria-hidden />
       <div className="event-ticket-stack__layer event-ticket-stack__layer--1" aria-hidden />
 
       <article className="event-ticket">
-        <div className="event-ticket__tab">
-          <span className="event-ticket__tab-label">Event Calendar</span>
-        </div>
+        <span className="event-ticket__tab">Event Calendar</span>
 
         <div className="event-ticket__hero">
           <div className="event-ticket__copy">
             <h3 className="event-ticket__title">
-              {ticketAction ? (
-                event.title
-              ) : (
-                <Link to={`/events#${event.id}`} className="event-ticket__title-link">
-                  {event.title}
-                </Link>
-              )}
+              <Link to={`/events#${event.id}`} className="event-ticket__title-link">
+                {event.title}
+              </Link>
             </h3>
             {event.category && (
               <p className="event-ticket__subtitle">{event.category.toUpperCase()}</p>
             )}
-            {event.priceNote && <p className="event-ticket__price">{event.priceNote}</p>}
-            {ticketAction ? (
-              <>
-                <CtaLink href={event.ctaUrl} className="btn-primary event-ticket__cta">
-                  {event.ctaLabel || 'Get tickets'}
-                </CtaLink>
-                {isEventbriteAddon(event) && (
-                  <p className="event-ticket__cta-hint">Add when booking on Eventbrite</p>
-                )}
-              </>
+            {event.ctaUrl ? (
+              <CtaLink href={event.ctaUrl} className="btn-primary event-ticket__cta">
+                {event.ctaLabel || 'Get tickets'}
+              </CtaLink>
             ) : (
               <Link to={`/events#${event.id}`} className="btn-outline event-ticket__cta">
                 Details
@@ -113,15 +96,6 @@ export function EventTicketCard({ event }) {
                 wrapperClassName="event-ticket__image-inner"
               />
             </div>
-            {event.location && (
-              <div className="event-ticket__location">
-                <PinIcon />
-                <div className="event-ticket__location-text">
-                  <span className="event-ticket__location-venue">{venue}</span>
-                  {city && <span className="event-ticket__location-city">{city}</span>}
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
@@ -146,14 +120,46 @@ export function EventTicketCard({ event }) {
                 </div>
               </>
             )}
-            {event.timeNote && (
-              <span className="event-ticket__session">{event.timeNote}</span>
-            )}
-            {timeLabel && <span className="event-ticket__time-pill">{timeLabel}</span>}
           </div>
+
+          {(timeLabel || event.location) && (
+            <div className="event-ticket__meta">
+              {timeLabel && <span className="event-ticket__time-pill">{timeLabel}</span>}
+              {event.location && (
+                <div className="event-ticket__location">
+                  <PinIcon />
+                  <span className="event-ticket__location-text">
+                    <span className="event-ticket__location-venue">{venue}</span>
+                    {city && <span className="event-ticket__location-city">{city}</span>}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </article>
-    </li>
+    </>
+  );
+
+  if (reduceMotion) {
+    return (
+      <li id={event.id} className="event-ticket-stack scroll-mt-24 sm:scroll-mt-28 min-w-0">
+        {card}
+      </li>
+    );
+  }
+
+  return (
+    <motion.li
+      id={event.id}
+      className="event-ticket-stack scroll-mt-24 sm:scroll-mt-28 min-w-0"
+      initial={{ opacity: 0, y: 44 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-48px' }}
+      transition={{ duration: 0.72, delay: stagger, ease }}
+    >
+      {card}
+    </motion.li>
   );
 }
 
@@ -162,8 +168,8 @@ export default function EventProgrammeList({ events, className = '' }) {
 
   return (
     <ul className={`event-ticket-list list-none p-0 m-0 ${className}`}>
-      {events.map((event) => (
-        <EventTicketCard key={event.id} event={event} />
+      {events.map((event, index) => (
+        <EventTicketCard key={event.id} event={event} index={index} />
       ))}
     </ul>
   );
