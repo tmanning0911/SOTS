@@ -8,6 +8,7 @@ import NavDropdown, { MobileNavGroup } from './NavDropdown';
 import NavMegaPanel from './NavMegaPanel';
 import { navItems, searchablePages } from '@/content/nav';
 import { useNavTheme } from '@/hooks/useNavTheme';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,6 +16,8 @@ export default function Navbar() {
   const [openNav, setOpenNav] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const searchInputRef = useRef(null);
+  const searchDialogRef = useRef(null);
+  const menuDialogRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { headerRef, isHeroOverlay, isLightBar, theme } = useNavTheme();
@@ -36,6 +39,9 @@ export default function Navbar() {
       window.removeEventListener('resize', update);
     };
   }, [menuOpen, isLightBar, isHeroOverlay, location.pathname]);
+
+  useFocusTrap(searchOpen, searchDialogRef);
+  useFocusTrap(menuOpen, menuDialogRef);
 
   useEffect(() => {
     setMenuOpen(false);
@@ -252,6 +258,7 @@ export default function Navbar() {
             role="presentation"
           >
             <motion.div
+              ref={searchDialogRef}
               initial={{ opacity: 0, y: -16, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
@@ -283,7 +290,7 @@ export default function Navbar() {
                 </button>
               </div>
               {filteredResults.length > 0 && (
-                <ul className="py-2" role="listbox">
+                <ul className="py-2">
                   {filteredResults.map((r) => (
                     <li key={r.path}>
                       <button
@@ -308,6 +315,7 @@ export default function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
+            ref={menuDialogRef}
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}

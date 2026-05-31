@@ -1,9 +1,8 @@
 export const CONSENT_STORAGE_KEY = 'sots-cookie-consent';
-export const CONSENT_VERSION = 1;
+export const CONSENT_VERSION = 2;
 
 export const defaultPreferences = {
   essential: true,
-  analytics: false,
 };
 
 export function readConsent() {
@@ -18,7 +17,6 @@ export function readConsent() {
 
     return {
       essential: true,
-      analytics: Boolean(parsed.analytics),
       decidedAt: parsed.decidedAt || null,
     };
   } catch {
@@ -26,15 +24,16 @@ export function readConsent() {
   }
 }
 
-export function writeConsent(preferences) {
+export function writeConsent() {
   if (typeof window === 'undefined') return;
+
+  const preferences = { essential: true };
 
   window.localStorage.setItem(
     CONSENT_STORAGE_KEY,
     JSON.stringify({
       version: CONSENT_VERSION,
       essential: true,
-      analytics: Boolean(preferences.analytics),
       decidedAt: new Date().toISOString(),
     }),
   );

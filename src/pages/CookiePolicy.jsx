@@ -1,7 +1,7 @@
 import PageLayout from '../components/PageLayout';
 import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
-import { pageHeroImages } from '@/content/images';
+import { pageHeroImages, pageArtBackgrounds } from '@/content/images';
 import { cookiePolicySections } from '@/content/cookies';
 import { useCookieConsent } from '@/lib/CookieConsentContext';
 
@@ -15,6 +15,7 @@ export default function CookiePolicy() {
         title="Cookie Policy"
         description="How Shakespeare on the Sound uses cookies and how you can manage your preferences."
         image={pageHeroImages.about}
+        artBackground={pageArtBackgrounds.about}
       />
 
       <PageSection variant="white" first>

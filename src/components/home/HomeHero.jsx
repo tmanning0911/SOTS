@@ -13,7 +13,7 @@ export default function HomeHero() {
           <source srcSet={images.heroMuchAdoWebp} type="image/webp" />
           <img
             src={images.heroMuchAdo}
-            alt=""
+            alt="Illustration of masked dancers at a Sicilian masquerade for Much Ado About Nothing"
             fetchPriority="high"
             decoding="async"
             className="home-hero__image"

@@ -22,6 +22,7 @@ Edit files in `public/data/` and redeploy:
 | `plays.json` | Main stage & kids show |
 | `articles.json` | News page |
 | `learning.json` | Education programs |
+| `events.json` | Special events & gala |
 | `faqs.json` | About page FAQs |
 | `team.json` | Staff on About page |
 | `milestones.json` | History timeline |
@@ -40,7 +41,9 @@ Output is saved to `public/data/scraped/` for reference — review and copy into
 
 ## Form submissions (contact, education, newsletter, sponsorship)
 
-Visitors can submit forms on **Home**, **About**, **Contact** (`/contact`), **Learning**, **Support**, and the **footer** mailing list.
+Visitors can submit forms on **Home** (email signup), **Contact** (`/contact`), **About**, **Learning**, and the **footer** (mailing list, school program, gala inquiry).
+
+**Support** links to donate and contact — it does not host forms directly.
 
 ### Netlify Forms (production — Git deploy)
 

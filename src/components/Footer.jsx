@@ -188,7 +188,15 @@ export default function Footer({ preFooter = false }) {
         </div>
 
         <div className="mt-12 pt-8 border-t border-white/10">
-          <p className="label text-white/35 mb-4">Supported by</p>
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-4">
+            <p className="label text-white/35">Supported by</p>
+            <Link
+              to="/#sponsors"
+              className="text-xs text-white/45 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
+            >
+              View partner logos
+            </Link>
+          </div>
           <ul className="flex flex-wrap gap-x-5 gap-y-2">
             {sponsors.map((sponsor) => (
               <li key={sponsor.name}>

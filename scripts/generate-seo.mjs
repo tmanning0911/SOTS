@@ -20,6 +20,7 @@ const routes = [
   { loc: '/contact', changefreq: 'monthly', priority: '0.75' },
   { loc: '/news', changefreq: 'weekly', priority: '0.75' },
   { loc: '/watch', changefreq: 'monthly', priority: '0.6' },
+  { loc: '/cookie-policy', changefreq: 'yearly', priority: '0.4' },
 ];
 
 let articles = [];

@@ -7,10 +7,13 @@ export default function PageHero({
   title,
   description,
   image,
+  imageAlt,
   artBackground,
   quote,
   quoteSource,
 }) {
+  const alt = imageAlt || (title ? `${title} — Shakespeare on the Sound` : '');
+
   return (
     <div
       data-nav-zone="dark"
@@ -18,14 +21,15 @@ export default function PageHero({
     >
       <OptimizedImage
         src={image}
-        alt=""
+        alt={alt}
         priority
+        decorative={!alt}
         className="absolute inset-0 w-full h-full object-cover brightness-[0.45]"
         wrapperClassName="absolute inset-0 w-full h-full"
       />
       {artBackground && <ArtSectionBackground src={artBackground} tone="dark" position="center" />}
       <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/95 via-navy-deep/50 to-transparent" />
-      <div className="absolute inset-0 flex items-end pb-8 sm:pb-10 md:pb-12 z-[1]">
+      <div className="absolute inset-0 flex items-end pb-8 sm:pb-10 md:pb-12 pt-24 sm:pt-28 z-[1]">
         <div className="site-container w-full">
           {eyebrow && <p className="text-sm text-white/50 mb-2">{eyebrow}</p>}
           <h1 className="heading-display text-white text-balance max-w-3xl">{title}</h1>

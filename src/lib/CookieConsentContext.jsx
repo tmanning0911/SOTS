@@ -1,12 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import CookieConsent from '@/components/CookieConsent';
-import {
-  defaultPreferences,
-  hasConsentDecision,
-  readConsent,
-  writeConsent,
-} from '@/lib/cookieConsent';
+import { hasConsentDecision, readConsent, writeConsent } from '@/lib/cookieConsent';
 
 const CookieConsentContext = createContext(null);
 
@@ -14,7 +9,6 @@ export function CookieConsentProvider({ children }) {
   const { pathname } = useLocation();
   const [visible, setVisible] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [preferences, setPreferences] = useState(defaultPreferences);
 
   const isAdmin = pathname.startsWith('/admin');
 
@@ -24,22 +18,11 @@ export function CookieConsentProvider({ children }) {
       return;
     }
 
-    const stored = readConsent();
-    if (stored) {
-      setPreferences({ essential: true, analytics: stored.analytics });
-      setVisible(false);
-      return;
-    }
-
-    setVisible(true);
+    setVisible(!readConsent());
   }, [isAdmin, pathname]);
 
   useEffect(() => {
     const openSettings = () => {
-      const stored = readConsent();
-      if (stored) {
-        setPreferences({ essential: true, analytics: stored.analytics });
-      }
       setSettingsOpen(true);
       setVisible(true);
     };
@@ -48,31 +31,13 @@ export function CookieConsentProvider({ children }) {
     return () => window.removeEventListener('sots:open-cookie-settings', openSettings);
   }, []);
 
-  const persist = useCallback((next) => {
-    const prefs = { essential: true, analytics: Boolean(next.analytics) };
-    writeConsent(prefs);
-    setPreferences(prefs);
+  const accept = useCallback(() => {
+    writeConsent();
     setSettingsOpen(false);
     setVisible(false);
   }, []);
 
-  const acceptAll = useCallback(() => {
-    persist({ essential: true, analytics: true });
-  }, [persist]);
-
-  const declineAll = useCallback(() => {
-    persist({ essential: true, analytics: false });
-  }, [persist]);
-
-  const savePreferences = useCallback(() => {
-    persist(preferences);
-  }, [persist, preferences]);
-
   const openSettings = useCallback(() => {
-    const stored = readConsent();
-    if (stored) {
-      setPreferences({ essential: true, analytics: stored.analytics });
-    }
     setSettingsOpen(true);
     setVisible(true);
   }, []);
@@ -80,10 +45,9 @@ export function CookieConsentProvider({ children }) {
   const value = useMemo(
     () => ({
       hasDecision: hasConsentDecision(),
-      preferences,
       openSettings,
     }),
-    [openSettings, preferences],
+    [openSettings],
   );
 
   return (
@@ -92,7 +56,6 @@ export function CookieConsentProvider({ children }) {
       {!isAdmin && visible && (
         <CookieConsent
           settingsOpen={settingsOpen}
-          preferences={preferences}
           onOpenSettings={() => setSettingsOpen(true)}
           onCloseSettings={() => {
             if (hasConsentDecision()) {
@@ -102,10 +65,9 @@ export function CookieConsentProvider({ children }) {
               setSettingsOpen(false);
             }
           }}
-          onPreferenceChange={setPreferences}
-          onAcceptAll={acceptAll}
-          onDeclineAll={declineAll}
-          onSavePreferences={savePreferences}
+          onAcceptAll={accept}
+          onDeclineAll={accept}
+          onSavePreferences={accept}
         />
       )}
     </CookieConsentContext.Provider>

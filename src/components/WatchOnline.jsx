@@ -28,7 +28,7 @@ export default function WatchOnline() {
       <div className="relative aspect-video bg-navy-deep overflow-hidden mb-12 md:mb-16">
         <OptimizedImage
           src={images.news.audience}
-          alt=""
+          alt="Audience at Shakespeare on the Sound in Pinkney Park"
           className="w-full h-full object-cover opacity-80"
           wrapperClassName="absolute inset-0"
         />
@@ -57,7 +57,7 @@ export default function WatchOnline() {
           >
             <OptimizedImage
               src={item.image}
-              alt=""
+              alt={item.title}
               className="w-full aspect-[16/10] object-cover mb-4"
               wrapperClassName="w-full"
             />

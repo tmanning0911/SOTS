@@ -18,19 +18,26 @@ export default function NewsArticle() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
-  const seoMeta = useMemo(
-    () =>
-      article
-        ? {
-            title: `${article.title} | Shakespeare on the Sound`,
-            description: article.excerpt || article.content?.slice(0, 160),
-            path: `/news/${article.id}`,
-            datePublished: article.date,
-            image: article.image,
-          }
-        : null,
-    [article],
-  );
+  const seoMeta = useMemo(() => {
+    if (article) {
+      return {
+        title: `${article.title} | Shakespeare on the Sound`,
+        description: article.excerpt || article.content?.slice(0, 160),
+        path: `/news/${article.id}`,
+        datePublished: article.date,
+        image: article.image,
+      };
+    }
+    if (notFound) {
+      return {
+        title: 'Article not found | Shakespeare on the Sound',
+        description: 'This news story may have moved or is no longer published.',
+        path: `/news/${id}`,
+        noindex: true,
+      };
+    }
+    return null;
+  }, [article, notFound, id]);
 
   useSeoOverride(seoMeta);
 
@@ -84,7 +91,7 @@ export default function NewsArticle() {
             >
               <OptimizedImage
                 src={article.image}
-                alt=""
+                alt={article.title}
                 priority
                 className="absolute inset-0 w-full h-full object-cover brightness-[0.45]"
                 wrapperClassName="absolute inset-0 w-full h-full"

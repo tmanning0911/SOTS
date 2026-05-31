@@ -17,7 +17,7 @@ export default function HomeComingUp() {
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           <OptimizedImage
             src={images.news.galaPromo}
-            alt=""
+            alt={`${site.gala.title} — annual fundraiser`}
             className="w-full aspect-[16/10] object-contain bg-cream/50 p-4"
             wrapperClassName="w-full border border-navy/10"
           />
