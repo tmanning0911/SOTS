@@ -3,6 +3,7 @@ import OptimizedImage from '../OptimizedImage';
 import { ShakespeareWatermark } from '../decor';
 import { site } from '@/content/site';
 import { seasonVoice } from '@/content/voice';
+import { images } from '@/content/images';
 
 export default function HomeOurStory() {
   return (
@@ -31,9 +32,9 @@ export default function HomeOurStory() {
           </div>
           <figure>
             <OptimizedImage
-              src="/images/park-performance.jpg"
-              alt="Audience at Shakespeare on the Sound in Pinkney Park"
-              className="w-full object-cover aspect-[4/3]"
+              src={images.art.horsemenCastle}
+              alt="Illustration of riders crossing the mountains toward a castle"
+              className="w-full object-cover aspect-[4/3] object-[center_35%]"
               wrapperClassName="w-full"
             />
           </figure>

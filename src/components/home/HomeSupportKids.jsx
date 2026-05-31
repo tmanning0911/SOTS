@@ -11,9 +11,9 @@ export default function HomeSupportKids() {
         <div className="grid md:grid-cols-2 gap-10 md:gap-12">
           <article className="grid sm:grid-cols-[1fr_1.1fr] gap-6 items-center">
             <OptimizedImage
-              src={images.backgrounds.parkAudienceNyt}
-              alt=""
-              className="w-full aspect-[4/3] object-cover"
+              src={images.art.townSquareNight}
+              alt="Illustration of a moonlit town square"
+              className="w-full aspect-[4/3] object-cover object-center"
               wrapperClassName="w-full"
             />
             <div>
@@ -35,9 +35,9 @@ export default function HomeSupportKids() {
 
           <article className="grid sm:grid-cols-[1fr_1.1fr] gap-6 items-center">
             <OptimizedImage
-              src={images.news.kidsKings}
-              alt="Shakespeare for Kids performance"
-              className="w-full aspect-[4/3] object-cover"
+              src={images.art.masqueArches}
+              alt="Illustration of figures in a masquerade hall"
+              className="w-full aspect-[4/3] object-cover object-[center_40%]"
               wrapperClassName="w-full"
             />
             <div>

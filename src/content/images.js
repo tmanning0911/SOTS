@@ -6,6 +6,14 @@ export const images = {
   staLogo: '/images/sta-logo.jpg',
   heroMuchAdo: '/images/hero-much-ado.jpg',
   heroMuchAdoWebp: '/images/hero-much-ado.webp',
+  /** Production artwork — painterly backgrounds and section visuals */
+  art: {
+    cathedralCrowd: '/images/art/cathedral-crowd.jpg',
+    masqueArches: '/images/art/masque-arches.jpg',
+    tragedyScene: '/images/art/tragedy-scene.jpg',
+    townSquareNight: '/images/art/town-square-night.jpg',
+    horsemenCastle: '/images/art/horsemen-castle.jpg',
+  },
   aboutBanner: '/images/about-banner.png',
   shakespeareHub: '/images/shakespeare-hub.png',
   shakespeareForEveryone: '/images/shakespeare-for-everyone.webp',
@@ -46,12 +54,12 @@ export const images = {
 };
 
 export const pageHeroImages = {
-  plays: images.parkPerformance,
-  learning: images.news.kids,
-  support: images.backgrounds.audience,
-  news: images.news.seasonBanner,
-  watch: images.backgrounds.spotlight,
-  about: images.aboutBanner,
-  contact: images.parkPerformance,
-  events: images.news.gala,
+  plays: images.art.masqueArches,
+  learning: images.art.horsemenCastle,
+  support: images.art.cathedralCrowd,
+  news: images.art.townSquareNight,
+  watch: images.art.tragedyScene,
+  about: images.art.cathedralCrowd,
+  contact: images.art.townSquareNight,
+  events: images.art.masqueArches,
 };
