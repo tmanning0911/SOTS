@@ -14,7 +14,7 @@ export default function PageHero({
   return (
     <div
       data-nav-zone="dark"
-      className="relative min-h-[40svh] h-[44vh] sm:h-[48vh] md:h-[52vh] max-h-[480px] overflow-hidden bg-navy-deep"
+      className="relative min-h-[42svh] sm:min-h-[44vh] h-auto sm:h-[48vh] md:h-[52vh] max-h-[480px] overflow-hidden bg-navy-deep"
     >
       <OptimizedImage
         src={image}
@@ -30,7 +30,9 @@ export default function PageHero({
           {eyebrow && <p className="text-sm text-white/50 mb-2">{eyebrow}</p>}
           <h1 className="heading-display text-white text-balance max-w-3xl">{title}</h1>
           {description && (
-            <p className="text-body-lg text-white/65 max-w-prose mt-3 sm:mt-4">{description}</p>
+            <p className="text-body-lg text-white/65 max-w-prose mt-3 sm:mt-4 line-clamp-4 sm:line-clamp-none">
+              {description}
+            </p>
           )}
           {quote && (
             <PullQuote cite={quoteSource} light className="mt-4 max-w-prose text-sm sm:text-base">

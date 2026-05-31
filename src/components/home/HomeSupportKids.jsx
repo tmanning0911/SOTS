@@ -7,11 +7,11 @@ import { images } from '@/content/images';
 /** Donate + for kids — two teasers from the live site homepage. */
 export default function HomeSupportKids() {
   return (
-    <section className="section relative bg-white border-b border-navy/10 overflow-hidden" data-nav-zone="light">
+    <section className="section relative bg-white border-b border-navy/10 overflow-x-clip" data-nav-zone="light">
       <ArtSectionBackground src={images.art.tragedyScene} tone="light" position="center" />
       <div className="site-container relative z-[1]">
-        <div className="grid md:grid-cols-2 gap-8 md:gap-10 lg:gap-12">
-          <article className="grid gap-5 sm:gap-6 md:grid-cols-[1fr_1.1fr] items-center min-w-0">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-10 xl:gap-12">
+          <article className="grid gap-5 sm:gap-6 lg:grid-cols-[1fr_1.1fr] items-center min-w-0">
             <OptimizedImage
               src={images.backgrounds.parkAudienceNyt}
               alt="Audience at Shakespeare on the Sound in Pinkney Park"
@@ -35,7 +35,7 @@ export default function HomeSupportKids() {
             </div>
           </article>
 
-          <article className="grid gap-5 sm:gap-6 md:grid-cols-[1fr_1.1fr] items-center min-w-0">
+          <article className="grid gap-5 sm:gap-6 lg:grid-cols-[1fr_1.1fr] items-center min-w-0">
             <OptimizedImage
               src={images.news.kidsKings}
               alt="Shakespeare for Kids performance"

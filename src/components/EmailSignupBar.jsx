@@ -12,8 +12,8 @@ export default function EmailSignupBar() {
       aria-labelledby="email-signup-heading"
     >
       <div className="site-container py-12 md:py-14">
-        <div className="border border-navy/10 px-4 py-6 sm:px-8 sm:py-8 md:px-10 md:py-9 md:flex md:items-center md:justify-between md:gap-12">
-          <div className="border-l-2 border-gold pl-5 sm:pl-6 max-w-lg">
+        <div className="border border-navy/10 px-4 py-6 sm:px-8 sm:py-8 md:flex md:items-center md:justify-between md:gap-12">
+          <div className="border-l-2 border-gold pl-4 sm:pl-6 max-w-lg">
             <h2 id="email-signup-heading" className="font-display text-2xl md:text-[1.75rem] text-navy leading-tight mb-2">
               Season updates
             </h2>

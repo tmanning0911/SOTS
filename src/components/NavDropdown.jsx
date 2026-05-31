@@ -173,7 +173,7 @@ export function MobileNavGroup({ item, onNavigate }) {
     <div>
       <button
         type="button"
-        className={`w-full flex items-center justify-between font-display text-white text-2xl sm:text-3xl font-medium tracking-wide py-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm ${
+        className={`w-full flex items-center justify-between font-display text-white text-xl sm:text-2xl md:text-3xl font-medium tracking-wide py-3 min-h-[48px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm ${
           active ? 'text-gold' : ''
         }`}
         aria-expanded={expanded}
@@ -187,12 +187,12 @@ export function MobileNavGroup({ item, onNavigate }) {
         />
       </button>
       {expanded && (
-        <ul className="mt-4 mb-2 pl-5 border-l border-white/15 space-y-4">
+        <ul className="mt-3 mb-2 pl-4 border-l border-white/15 space-y-1">
           {item.path && (
             <li>
               <Link
                 to={item.path}
-                className="font-inter text-white/80 hover:text-gold text-sm block py-1"
+                className="font-inter text-white/80 hover:text-gold text-sm flex items-center min-h-[44px] py-2"
                 onClick={onNavigate}
               >
                 All {item.label}
@@ -204,7 +204,7 @@ export function MobileNavGroup({ item, onNavigate }) {
               {link.path?.startsWith('http') || link.path?.startsWith('tel:') ? (
                 <a
                   href={link.path}
-                  className="font-inter text-white/80 hover:text-gold text-sm block py-1"
+                  className="font-inter text-white/80 hover:text-gold text-sm flex items-center min-h-[44px] py-2"
                   onClick={onNavigate}
                   {...(link.path.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 >
@@ -213,7 +213,7 @@ export function MobileNavGroup({ item, onNavigate }) {
               ) : (
                 <Link
                   to={link.path}
-                  className="font-inter text-white/80 hover:text-gold text-sm block py-1"
+                  className="font-inter text-white/80 hover:text-gold text-sm flex items-center min-h-[44px] py-2"
                   onClick={onNavigate}
                 >
                   {link.label}

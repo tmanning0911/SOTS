@@ -15,7 +15,11 @@ export default function ProgrammeEventsBand({
 }) {
   return (
     <div className={`programme-events-band ${className}`}>
-      {art && <ArtSectionBackground src={art} tone="light" position="left" />}
+      {art && (
+        <div className="programme-events-band__art" aria-hidden>
+          <ArtSectionBackground src={art} tone="light" position="left" />
+        </div>
+      )}
       <div className="relative z-[1]">
         {showHeader && (
           <header className="programme-events-band__header">

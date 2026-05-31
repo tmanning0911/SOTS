@@ -123,7 +123,7 @@
     top: 50%;
     right: 0;
     transform: translateY(-50%);
-    padding: 0.75rem 0.5rem 0.75rem 0.6rem;
+    padding: 0.875rem 0.55rem 0.875rem 0.7rem;
     border-radius: 0.125rem 0 0 0.125rem;
     box-shadow: -2px 2px 12px rgba(26, 39, 68, 0.12);
     transition: transform 0.2s ease-out, background-color 0.2s ease-out, box-shadow 0.2s ease-out;
@@ -143,7 +143,8 @@
   .donate-edge-tab__label {
     writing-mode: vertical-rl;
     text-orientation: mixed;
-    @apply font-inter text-xs font-semibold tracking-wide;
+    transform: rotate(180deg);
+    @apply font-inter text-sm font-semibold tracking-wide;
   }
 
   @media (max-width: 768px) {
@@ -161,6 +162,7 @@
     .donate-edge-tab__label {
       writing-mode: horizontal-tb;
       text-orientation: mixed;
+      transform: none;
       @apply text-sm;
     }
 
@@ -359,7 +361,7 @@
   }
 
   .add-to-calendar__trigger {
-    @apply inline-flex items-center gap-1.5 rounded-sm border border-navy/15 bg-white px-3 py-2 min-h-[40px] text-xs font-medium text-navy/75 cursor-pointer select-none transition-colors;
+    @apply inline-flex items-center gap-1.5 rounded-sm border border-navy/15 bg-white px-3 py-2 min-h-[44px] text-sm font-medium text-navy/75 cursor-pointer select-none transition-colors;
     @apply hover:border-navy/30 hover:text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-1;
   }
 
@@ -385,8 +387,14 @@
     }
 
     .add-to-calendar__menu {
-      left: auto;
-      right: 0;
+      position: fixed;
+      z-index: 110;
+      left: 1rem;
+      right: 1rem;
+      bottom: max(5rem, calc(env(safe-area-inset-bottom, 0px) + 4.5rem));
+      top: auto;
+      width: auto;
+      max-width: none;
     }
   }
 
@@ -409,9 +417,13 @@
 
   /* Special events — cream colour break */
   .programme-events-band {
-    @apply relative -mx-4 sm:-mx-6 md:-mx-8 lg:-mx-10 px-4 sm:px-6 md:px-8 lg:px-10 py-10 md:py-12 mt-2 md:mt-4 overflow-hidden;
+    @apply relative -mx-4 sm:-mx-6 md:-mx-8 lg:-mx-10 px-4 sm:px-6 md:px-8 lg:px-10 py-10 md:py-12 mt-2 md:mt-4;
     @apply bg-cream border-y border-navy/10;
     box-shadow: inset 0 1px 0 hsl(38 72% 48% / 0.12);
+  }
+
+  .programme-events-band__art {
+    @apply absolute inset-0 overflow-hidden pointer-events-none;
   }
 
   .programme-events-band__header {
@@ -424,6 +436,32 @@
 
   .programme-events-band .programme-event-category {
     @apply bg-white border-gold/30 text-gold-muted;
+  }
+
+  /* Programme event rows — stack on mobile, date column on sm+ */
+  .programme-event-row {
+    @apply grid gap-3 sm:gap-x-6 sm:gap-y-0;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .programme-event-row {
+      grid-template-columns: minmax(7rem, 9rem) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  .programme-event-row__date {
+    @apply shrink-0;
+  }
+
+  .programme-event-row__actions {
+    @apply flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 mt-4;
+  }
+
+  .programme-event-row__link {
+    @apply inline-flex items-center justify-center min-h-[44px] text-sm font-semibold text-navy hover:text-gold transition-colors;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm;
   }
 
   .card-lift {
@@ -482,7 +520,11 @@
   }
 
   .show-card-actions {
-    @apply flex flex-wrap items-center gap-3;
+    @apply flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3;
+  }
+
+  .show-card-actions > * {
+    @apply w-full sm:w-auto justify-center;
   }
 
   /* ─── SOTS custom brand ─── */
@@ -964,7 +1006,7 @@
 
   /* Homepage hero — poster stack on mobile, overlay on desktop */
   .home-hero {
-    @apply flex flex-col lg:relative lg:block lg:min-h-[88vh] lg:overflow-hidden;
+    @apply flex flex-col lg:relative lg:block lg:min-h-screen lg:overflow-hidden;
   }
 
   .home-hero__media {
@@ -977,7 +1019,7 @@
 
   .home-hero__scrim--desktop::after {
     content: '';
-    @apply absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/25 to-transparent;
+    @apply absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/30 to-transparent;
   }
 
   .home-hero__panel {
@@ -994,21 +1036,21 @@
 
   .home-hero__title {
     @apply font-display font-medium text-white text-balance max-w-4xl;
-    font-size: clamp(2rem, 8vw, 4rem);
+    font-size: clamp(1.75rem, 7.5vw, 4rem);
     line-height: 1.08;
     letter-spacing: -0.02em;
   }
 
   .home-hero__setting {
-    @apply font-display text-lg italic text-white/75 mt-2 mb-0 lg:mb-6;
+    @apply font-display text-base sm:text-lg italic text-white/75 mt-2 mb-0 lg:mb-6;
   }
 
   .home-hero__description {
-    @apply hidden sm:block text-body-lg text-white/65 max-w-prose mt-4 mb-6 lg:mb-8;
+    @apply text-sm sm:text-body-lg text-white/65 max-w-prose mt-3 mb-4 sm:mt-4 sm:mb-6 lg:mb-8 line-clamp-3 sm:line-clamp-none;
   }
 
   .home-hero__actions {
-    @apply flex flex-col sm:flex-row gap-3 mt-6 sm:mt-0 lg:mt-0;
+    @apply flex flex-col sm:flex-row gap-3 mt-4 sm:mt-0 lg:mt-0;
   }
 
   .home-hero__actions .btn-primary,
@@ -1017,7 +1059,15 @@
   }
 
   .home-hero__meta {
-    @apply hidden sm:block text-xs text-white/40 mt-6 lg:mt-8;
+    @apply text-xs text-white/40;
+  }
+
+  .home-hero__meta--mobile {
+    @apply block sm:hidden mt-3;
+  }
+
+  .home-hero__meta--desktop {
+    @apply hidden sm:block mt-6 lg:mt-8;
   }
 
   /* Homepage — cinematic hero */

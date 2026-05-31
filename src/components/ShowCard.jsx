@@ -64,7 +64,7 @@ export default function ShowCard({
           {showExcerpt && item.excerpt && (
             <p className="text-body mb-8 line-clamp-4">{item.excerpt}</p>
           )}
-          <div className="show-card-actions mt-auto">
+          <div className="show-card-actions btn-stack-mobile mt-auto">
             {showTicket && ticketHref && (
               isExternal ? (
                 <a href={ticketHref} target="_blank" rel="noopener noreferrer" className="btn-primary">

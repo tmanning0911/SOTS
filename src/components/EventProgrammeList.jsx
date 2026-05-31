@@ -11,16 +11,16 @@ export function EventProgrammeRow({ event, compact = false }) {
   return (
     <li
       id={event.id}
-      className={`scroll-mt-24 sm:scroll-mt-28 grid sm:grid-cols-[minmax(0,9.5rem)_1fr] lg:grid-cols-[minmax(0,10.5rem)_1fr] gap-x-6 sm:gap-x-8 gap-y-2 sm:gap-y-3 ${pad} border-t border-navy/10 first:border-t-0 first:pt-0 min-w-0`}
+      className={`programme-event-row scroll-mt-24 sm:scroll-mt-28 ${pad} border-t border-navy/10 first:border-t-0 first:pt-0 min-w-0`}
     >
-      <div className="sm:pt-0.5 min-w-0">
-        <p className="font-display text-[0.95rem] sm:text-base md:text-lg text-navy/75 leading-snug">{event.date}</p>
+      <div className="programme-event-row__date">
+        <p className="font-display text-base sm:text-lg text-navy/75 leading-snug">{event.date}</p>
         {event.category && (
           <span className="programme-event-category">{event.category}</span>
         )}
       </div>
 
-      <div className="min-w-0">
+      <div className="programme-event-row__body min-w-0">
         <h3 className={`font-display text-navy leading-snug mb-2 ${compact ? 'text-xl' : 'text-xl md:text-2xl'}`}>
           <Link
             to={`/events#${event.id}`}
@@ -43,15 +43,15 @@ export function EventProgrammeRow({ event, compact = false }) {
         {event.priceNote && <p className="text-sm text-navy/45 mt-2">{event.priceNote}</p>}
 
         {event.ctaUrl ? (
-          <div className="mt-4 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2 sm:gap-3">
-            <CtaLink href={event.ctaUrl} className="text-link text-sm">
+          <div className="programme-event-row__actions">
+            <CtaLink href={event.ctaUrl} className="programme-event-row__link">
               {event.ctaLabel || 'Get tickets'}
             </CtaLink>
             <AddToCalendar item={event} />
           </div>
         ) : (
-          <div className="mt-4 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2 sm:gap-3">
-            <Link to={`/events#${event.id}`} className="text-link text-sm">
+          <div className="programme-event-row__actions">
+            <Link to={`/events#${event.id}`} className="programme-event-row__link">
               Details
             </Link>
             <AddToCalendar item={event} />

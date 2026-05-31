@@ -36,7 +36,7 @@ export default function HomeWhatsOn() {
   const preview = events.slice(0, 5);
 
   return (
-    <section className="section relative bg-white border-b border-navy/10 overflow-hidden" data-nav-zone="light">
+    <section className="section relative bg-white border-b border-navy/10 overflow-x-clip" data-nav-zone="light">
       <ArtSectionBackground src={images.art.townSquareNight} tone="light" position="center" />
       <div className="site-container relative z-[1]">
         <header className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12 md:mb-16">

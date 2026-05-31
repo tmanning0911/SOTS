@@ -27,7 +27,7 @@ export default function HomeEducationImpact() {
               Education is at the cornerstone of Shakespeare on the Sound. We provide workshops,
               touring shows, and summer camps across Fairfield County.
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="btn-stack-mobile">
               <Link to="/learning" className="btn-primary">
                 Programs
               </Link>

@@ -8,7 +8,7 @@ import { ShakespeareWatermark } from '../decor';
 /** Homepage hero — stacked poster on mobile, cinematic overlay on desktop. */
 export default function HomeHero() {
   return (
-    <section data-nav-zone="dark" className="home-hero bg-navy-deep lg:max-h-[920px]">
+    <section data-nav-zone="dark" className="home-hero bg-navy-deep">
       <div className="home-hero__media">
         <OptimizedImage
           src={images.heroMuchAdo}
@@ -16,7 +16,7 @@ export default function HomeHero() {
           alt="Illustration of masked dancers at a Sicilian masquerade for Much Ado About Nothing"
           priority
           decorative
-          className="absolute inset-0 w-full h-full object-cover object-[center_42%] lg:object-[58%_45%] lg:scale-105"
+          className="absolute inset-0 w-full h-full object-cover object-[center_42%] lg:object-[58%_58%] lg:scale-105"
           wrapperClassName="absolute inset-0 w-full h-full"
         />
         <div className="home-hero__scrim home-hero__scrim--desktop" aria-hidden />
@@ -31,10 +31,13 @@ export default function HomeHero() {
       <div className="home-hero__panel">
         <div className="site-container home-hero__inner">
           <p className="home-hero__eyebrow">
-            {seasonVoice.runDates}, {seasonVoice.year} · Pinkney Park, Rowayton
+            {seasonVoice.runDates}, {seasonVoice.year} · Pinkney Park
           </p>
           <h1 className="home-hero__title">{seasonVoice.mainStage}</h1>
           <p className="home-hero__setting">{seasonVoice.setting}</p>
+          <p className="home-hero__meta home-hero__meta--mobile">
+            Gates {seasonVoice.parkOpens} · Show {seasonVoice.showTime}
+          </p>
           <p className="home-hero__description">{homeCopy.heroMain.description}</p>
           <div className="home-hero__actions">
             <a href={site.ticketsUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
@@ -44,7 +47,7 @@ export default function HomeHero() {
               Season details
             </Link>
           </div>
-          <p className="home-hero__meta">
+          <p className="home-hero__meta home-hero__meta--desktop">
             Directed by {seasonVoice.director} · Gates {seasonVoice.parkOpens} · Show{' '}
             {seasonVoice.showTime}
           </p>

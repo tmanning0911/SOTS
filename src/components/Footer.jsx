@@ -145,7 +145,7 @@ export default function Footer({ preFooter = false }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${label} (opens in new tab)`}
-                    className="w-10 h-10 border border-white/15 flex items-center justify-center text-white/50 hover:text-white hover:border-white/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
+                    className="w-11 h-11 border border-white/15 flex items-center justify-center text-white/50 hover:text-white hover:border-white/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
                   >
                     <SocialIcon size={14} />
                   </a>
@@ -156,16 +156,16 @@ export default function Footer({ preFooter = false }) {
 
           <nav aria-label="Footer">
             <p className="label text-white/35 mb-4">Explore</p>
-            <ul className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-2.5">
+            <ul className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-1">
               {footerLinks.map((item) => (
-                <li key={item.label}>
+                <li key={item.label} className="min-h-[44px] flex items-center">
                   <FooterLink item={item} />
                 </li>
               ))}
-              <li>
+              <li className="min-h-[44px] flex items-center">
                 <FooterFormLink variant="education">Book a school program</FooterFormLink>
               </li>
-              <li>
+              <li className="min-h-[44px] flex items-center">
                 <FooterFormLink variant="sponsorship">Gala & sponsorship</FooterFormLink>
               </li>
             </ul>

@@ -251,7 +251,7 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={() => setSearchOpen(false)}
-                  className="nav-icon-btn-light !w-9 !h-9 !min-h-0 border-0"
+                  className="nav-icon-btn-light min-w-[44px] min-h-[44px] border-0"
                   aria-label="Close search"
                 >
                   <IconClose size={18} aria-hidden />
@@ -305,7 +305,7 @@ export default function Navbar() {
                 </motion.div>
               ))}
             </nav>
-            <div className="flex flex-col gap-3 pt-10 mt-6 border-t border-white/15 sticky bottom-0 bg-navy-deep pb-2">
+            <div className="flex flex-col gap-3 pt-8 mt-6 border-t border-white/15 sticky bottom-0 bg-navy-deep pb-[max(1rem,env(safe-area-inset-bottom))]">
               <a href={site.ticketsUrl} target="_blank" rel="noopener noreferrer" className="nav-tickets nav-tickets--hero w-full justify-center">
                 Get tickets
               </a>
