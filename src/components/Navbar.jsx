@@ -328,7 +328,7 @@ export default function Navbar() {
             aria-modal="true"
             aria-label="Main menu"
           >
-            <nav className="flex flex-col gap-7 sm:gap-8 flex-1 pt-6" aria-label="Mobile">
+            <nav className="flex flex-col gap-5 sm:gap-6 flex-1 pt-5" aria-label="Mobile">
               {navItems.map((item, i) => (
                 <motion.div
                   key={item.label}
@@ -340,7 +340,7 @@ export default function Navbar() {
                 </motion.div>
               ))}
             </nav>
-            <div className="flex flex-col gap-3 pt-8 mt-6 border-t border-white/15 sticky bottom-0 bg-navy-deep pb-[max(1rem,env(safe-area-inset-bottom))]">
+            <div className="flex flex-col gap-3 pt-6 mt-5 border-t border-white/15 sticky bottom-0 bg-navy-deep pb-[max(1rem,env(safe-area-inset-bottom))]">
               <a href={site.ticketsUrl} target="_blank" rel="noopener noreferrer" className="nav-tickets nav-tickets--hero w-full justify-center">
                 Get tickets
               </a>

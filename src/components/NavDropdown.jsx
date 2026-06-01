@@ -173,7 +173,7 @@ export function MobileNavGroup({ item, onNavigate }) {
     <div>
       <button
         type="button"
-        className={`w-full flex items-center justify-between font-display text-white text-xl sm:text-2xl md:text-3xl font-medium tracking-wide py-3 min-h-[48px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm ${
+        className={`w-full flex items-center justify-between font-display text-white text-lg sm:text-xl md:text-2xl font-medium tracking-wide py-2.5 min-h-[46px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm ${
           active ? 'text-gold' : ''
         }`}
         aria-expanded={expanded}
@@ -187,7 +187,7 @@ export function MobileNavGroup({ item, onNavigate }) {
         />
       </button>
       {expanded && (
-        <ul className="mt-3 mb-2 pl-4 border-l border-white/15 space-y-1">
+        <ul className="mt-2.5 mb-1 pl-4 border-l border-white/15 space-y-0.5">
           {item.path && (
             <li>
               <Link
