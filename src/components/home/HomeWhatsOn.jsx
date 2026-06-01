@@ -50,10 +50,10 @@ export default function HomeWhatsOn() {
               View all events
             </Link>
           }
-          className="!mb-5 md:!mb-8"
+          className="!mb-4 md:!mb-8"
         />
 
-        <p className="text-body text-sm sm:text-base text-navy/65 max-w-2xl mb-8 md:mb-14 leading-relaxed">
+        <p className="text-body text-sm sm:text-base text-navy/65 max-w-2xl mb-6 sm:mb-10 md:mb-14 leading-relaxed">
           Receptions, talks, and community nights during the Much Ado run at Pinkney Park.
         </p>
 

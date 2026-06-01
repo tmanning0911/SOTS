@@ -6,6 +6,7 @@ import CtaLink from './CtaLink';
 import { formatProgrammeDate, parseEventLocation, formatTicketTime } from '@/lib/programmeDate';
 import { getCalendarOccurrences } from '@/lib/calendar';
 import { images } from '@/content/images';
+import { parkDirectionsUrl, visitInfo } from '@/content/site';
 
 const ease = [0.22, 1, 0.36, 1];
 
@@ -32,6 +33,14 @@ function PinIcon() {
   );
 }
 
+function getLocationDirectionsUrl(location) {
+  if (!location) return null;
+  if (location.toLowerCase().includes('pinkney park')) {
+    return parkDirectionsUrl(location);
+  }
+  return null;
+}
+
 function getEventImage(event) {
   if (event.image) return event.image;
   return images.eventTicket;
@@ -46,6 +55,7 @@ export function EventTicketCard({ event, index = 0 }) {
   const dateLine = parts.monthFull && parts.day ? `${parts.monthFull} ${parts.day}` : event.date;
   const timeLabel = formatTicketTime(event.time);
   const hasCalendar = getCalendarOccurrences(event).length > 0;
+  const locationDirectionsUrl = getLocationDirectionsUrl(event.location);
   const stagger = index * 0.11;
 
   const card = (
@@ -128,10 +138,25 @@ export function EventTicketCard({ event, index = 0 }) {
               {event.location && (
                 <div className="event-ticket__location">
                   <PinIcon />
-                  <span className="event-ticket__location-text">
-                    <span className="event-ticket__location-venue">{venue}</span>
-                    {city && <span className="event-ticket__location-city">{city}</span>}
-                  </span>
+                  {locationDirectionsUrl ? (
+                    <a
+                      href={locationDirectionsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="event-ticket__location-link"
+                      aria-label={`Directions to ${visitInfo.park}, Rowayton, CT`}
+                    >
+                      <span className="event-ticket__location-text">
+                        <span className="event-ticket__location-venue">{venue}</span>
+                        {city && <span className="event-ticket__location-city">{city}</span>}
+                      </span>
+                    </a>
+                  ) : (
+                    <span className="event-ticket__location-text">
+                      <span className="event-ticket__location-venue">{venue}</span>
+                      {city && <span className="event-ticket__location-city">{city}</span>}
+                    </span>
+                  )}
                 </div>
               )}
             </div>

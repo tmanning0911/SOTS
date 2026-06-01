@@ -1,18 +1,30 @@
 import { Link } from 'react-router-dom';
 import OptimizedImage from './OptimizedImage';
 
-/** Editorial news card — dates and titles first, no ticket-style chrome. */
-export default function NewsCard({ article, featured = false }) {
+function NewsMeta({ date, category }) {
+  return (
+    <p className="news-card__meta">
+      <time dateTime={date}>{date}</time>
+      <span className="news-card__meta-sep" aria-hidden>
+        ·
+      </span>
+      <span>{category}</span>
+    </p>
+  );
+}
+
+/** Editorial news card — consistent meta, title, excerpt, and CTA alignment. */
+export default function NewsCard({ article, featured = false, layout = 'default' }) {
   const href = `/news/${article.id}`;
   const imageLabel = `Read: ${article.title}`;
 
   if (featured) {
     return (
-      <article className="grid lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-12 items-center border-b border-navy/10 pb-12 mb-12">
+      <article className="news-card news-card--featured">
         <Link
           to={href}
           aria-label={imageLabel}
-          className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
+          className="news-card__media news-card__media--featured focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
         >
           <OptimizedImage
             src={article.image}
@@ -21,21 +33,15 @@ export default function NewsCard({ article, featured = false }) {
             wrapperClassName="w-full"
           />
         </Link>
-        <div>
-          <p className="label mb-3">
-            {article.date}
-            <span className="text-navy/30 mx-2">·</span>
-            {article.category}
-          </p>
-          <h2 className="heading-section mb-4">
-            <Link to={href} className="hover:text-gold transition-colors">
+        <div className="news-card__body news-card__body--featured">
+          <NewsMeta date={article.date} category={article.category} />
+          <h2 className="news-card__title news-card__title--featured">
+            <Link to={href} className="news-card__title-link">
               {article.title}
             </Link>
           </h2>
-          {article.excerpt && (
-            <p className="text-body mb-6 line-clamp-4">{article.excerpt}</p>
-          )}
-          <Link to={href} className="text-link text-sm">
+          {article.excerpt && <p className="news-card__excerpt">{article.excerpt}</p>}
+          <Link to={href} className="news-card__cta">
             Read story
           </Link>
         </div>
@@ -43,12 +49,29 @@ export default function NewsCard({ article, featured = false }) {
     );
   }
 
+  if (layout === 'editorial') {
+    return (
+      <article className="news-card news-card--editorial">
+        <NewsMeta date={article.date} category={article.category} />
+        <h3 className="news-card__title">
+          <Link to={href} className="news-card__title-link">
+            {article.title}
+          </Link>
+        </h3>
+        {article.excerpt && <p className="news-card__excerpt">{article.excerpt}</p>}
+        <Link to={href} className="news-card__cta">
+          Read story
+        </Link>
+      </article>
+    );
+  }
+
   return (
-    <article className="h-full flex flex-col border-t border-navy/10 pt-6">
+    <article className="news-card news-card--default">
       <Link
         to={href}
         aria-label={imageLabel}
-        className="block mb-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
+        className="news-card__media focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
       >
         <OptimizedImage
           src={article.image}
@@ -57,22 +80,18 @@ export default function NewsCard({ article, featured = false }) {
           wrapperClassName="w-full"
         />
       </Link>
-      <p className="label mb-2">
-        {article.date}
-        <span className="text-navy/30 mx-2">·</span>
-        {article.category}
-      </p>
-      <h3 className="font-display text-xl font-medium leading-snug text-navy mb-3">
-        <Link to={href} className="hover:text-gold transition-colors">
-          {article.title}
+      <div className="news-card__body">
+        <NewsMeta date={article.date} category={article.category} />
+        <h3 className="news-card__title">
+          <Link to={href} className="news-card__title-link">
+            {article.title}
+          </Link>
+        </h3>
+        {article.excerpt && <p className="news-card__excerpt">{article.excerpt}</p>}
+        <Link to={href} className="news-card__cta">
+          Read story
         </Link>
-      </h3>
-      {article.excerpt && (
-        <p className="text-body text-sm line-clamp-2 mb-4 flex-1">{article.excerpt}</p>
-      )}
-      <Link to={href} className="text-link text-sm mt-auto">
-        Read story
-      </Link>
+      </div>
     </article>
   );
 }

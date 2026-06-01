@@ -98,3 +98,8 @@ export const visitInfo = {
   parking:
     'Old School Field on Witch Lane (closest). Overflow: United Church of Rowayton. Municipal lot and street parking on Rowayton Avenue. Handicap parking in Pinkney Park — call (203) 957-1006 to reserve.',
 };
+
+/** Google Maps directions to Pinkney Park. */
+export function parkDirectionsUrl(destination = `${visitInfo.park}, ${visitInfo.address}`) {
+  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
+}

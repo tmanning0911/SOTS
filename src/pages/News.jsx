@@ -37,9 +37,9 @@ export default function News() {
           <>
             {featured && <NewsCard article={featured} featured />}
             {rest.length > 0 && (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
+              <div className="news-card-grid">
                 {rest.map((article) => (
-                  <NewsCard key={article.id} article={article} />
+                  <NewsCard key={article.id} article={article} layout="editorial" />
                 ))}
               </div>
             )}

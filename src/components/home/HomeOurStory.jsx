@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArtSectionBackground } from '../decor';
 import ParkLocationMap from '../ParkLocationMap';
-import { site } from '@/content/site';
+import { site, parkDirectionsUrl } from '@/content/site';
 import { seasonVoice } from '@/content/voice';
 import { images } from '@/content/images';
 
@@ -26,7 +26,7 @@ export default function HomeOurStory() {
                 Our story
               </Link>
               <a
-                href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${site.location}`)}`}
+                href={parkDirectionsUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-link"

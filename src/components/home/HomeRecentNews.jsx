@@ -26,9 +26,9 @@ export default function HomeRecentNews() {
       <ArtSectionBackground src={images.art.masqueArches} tone="light" position="left" />
       <div className="site-container relative z-[1]">
         <SectionHeading label="News" title="Latest from Rowayton" href="/news" linkLabel="All news" />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
+        <div className="news-card-grid">
           {articles.map((item) => (
-            <NewsCard key={item.id} article={item} />
+            <NewsCard key={item.id} article={item} layout="editorial" />
           ))}
         </div>
       </div>

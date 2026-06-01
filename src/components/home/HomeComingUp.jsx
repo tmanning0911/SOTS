@@ -14,23 +14,25 @@ export default function HomeComingUp() {
     <section className="section relative bg-white border-b border-navy/10 overflow-hidden" data-nav-zone="light">
       <ArtSectionBackground src={images.art.masqueArches} tone="light" position="right" />
       <div className="site-container relative z-[1]">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-          <OptimizedImage
-            src={images.news.galaPromo}
-            alt={`${site.gala.title} — annual fundraiser`}
-            className="w-full aspect-[16/10] object-contain bg-cream/50 p-4"
-            wrapperClassName="w-full border border-navy/10"
-          />
-          <div>
+        <div className="coming-up-grid">
+          <div className="coming-up-grid__media">
+            <OptimizedImage
+              src={images.news.galaPromo}
+              alt={`${site.gala.title} — annual fundraiser`}
+              className="w-full aspect-[16/10] object-contain bg-cream/50 p-3 sm:p-4"
+              wrapperClassName="w-full border border-navy/10"
+            />
+          </div>
+          <div className="coming-up-grid__copy">
             <p className="label mb-2">Coming up next</p>
-            <h2 className="heading-section mb-3">{site.gala.title}</h2>
-            <p className="font-display text-lg text-navy/75 mb-1">
+            <h2 className="heading-section mb-3 text-balance">{site.gala.title}</h2>
+            <p className="font-display text-base sm:text-lg text-navy/75 mb-1">
               {site.gala.date} · {site.gala.time}
             </p>
-            <p className="text-sm text-navy/50 mb-5">
+            <p className="text-sm text-navy/50 mb-5 leading-relaxed">
               {site.gala.venue} · {site.gala.address}
             </p>
-            <p className="text-body max-w-prose mb-8">{site.gala.description}</p>
+            <p className="text-body max-w-prose mb-6 sm:mb-8">{site.gala.description}</p>
             <div className="flex flex-wrap gap-3 btn-stack-mobile sm:flex-row mb-6">
               <Link to="/events#gala-2026" className="btn-primary">
                 Gala details
