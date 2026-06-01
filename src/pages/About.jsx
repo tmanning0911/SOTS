@@ -39,6 +39,13 @@ export default function About() {
       .catch(() => setLoading(false));
   }, []);
 
+  const boardOfficers = board.filter((member) =>
+    /(president|chair|vice|secretary|treasurer)/i.test(member.role || ''),
+  );
+  const boardDirectors = board.filter(
+    (member) => !/(president|chair|vice|secretary|treasurer)/i.test(member.role || ''),
+  );
+
   return (
     <PageLayout>
       <PageHero
@@ -177,33 +184,41 @@ export default function About() {
       )}
 
       {!loading && (
-        <PageSection variant="white">
+        <PageSection variant="white" id="staff" className="scroll-mt-28">
           <SectionHeader
             eyebrow="Leadership"
             title="Our staff"
             align="left"
             className="!mb-8 !max-w-none"
           />
+          <p className="about-governance-intro">
+            Our year-round staff guides artistic planning, education programs, and community outreach
+            across Fairfield County.
+          </p>
           {team.length > 0 ? (
-            <ul className="divide-y divide-navy/10">
+            <ul className="about-leadership-grid list-none m-0 p-0">
               {team.map((person) => (
-                <li key={person.name} className="py-8 grid sm:grid-cols-[minmax(0,12rem)_1fr] gap-4 sm:gap-10">
-                  <div>
-                    <p className="font-display text-xl text-navy">{person.name}</p>
-                    <p className="label mt-1">
+                <li key={person.name} className="about-leadership-card">
+                  <OptimizedImage
+                    src={person.photo || images.news.seasonBanner}
+                    alt={`${person.name} — ${person.role}`}
+                    className="about-leadership-card__photo"
+                    wrapperClassName="about-leadership-card__photo-wrap"
+                  />
+                  <header className="about-leadership-card__head">
+                    <p className="about-leadership-card__name">{person.name}</p>
+                    <p className="about-leadership-card__role">
                       {person.role}
                       {person.pronouns ? ` · ${person.pronouns}` : ''}
                     </p>
-                  </div>
-                  <div>
-                    <p className="text-body text-sm mb-4">{person.bio}</p>
-                    <ContactChannelLink
-                      channel={person.role?.toLowerCase().includes('education') ? 'education' : 'general'}
-                      className="text-link text-sm"
-                    >
-                      Send a message
-                    </ContactChannelLink>
-                  </div>
+                  </header>
+                  <p className="about-leadership-card__bio">{person.bio}</p>
+                  <ContactChannelLink
+                    channel={person.role?.toLowerCase().includes('education') ? 'education' : 'general'}
+                    className="about-leadership-card__cta"
+                  >
+                    Send a message
+                  </ContactChannelLink>
                 </li>
               ))}
             </ul>
@@ -214,27 +229,65 @@ export default function About() {
       )}
 
       {!loading && (
-        <PageSection variant="white">
+        <PageSection variant="white" id="board" className="scroll-mt-28">
           <SectionHeader
             eyebrow="Governance"
             title="Our board"
             align="left"
             className="!mb-8 !max-w-none"
           />
+          <p className="about-governance-intro">
+            Our board provides governance, financial stewardship, and strategic direction in support of
+            Shakespeare on the Sound&apos;s mission.
+          </p>
           {board.length > 0 ? (
-            <ul className="divide-y divide-navy/10">
-              {board.map((member) => (
-                <li
-                  key={`${member.name}-${member.role || ''}`}
-                  className="py-6 grid sm:grid-cols-[minmax(0,12rem)_1fr] gap-3 sm:gap-10"
-                >
-                  <p className="font-display text-lg text-navy">{member.name}</p>
-                  <p className="label sm:mt-1">{member.role || 'Board member'}</p>
-                </li>
-              ))}
-            </ul>
+            <div className="about-governance-layout">
+              {boardOfficers.length > 0 && (
+                <div className="about-governance-group">
+                  <h3 className="about-governance-group__title">Board officers</h3>
+                  <ul className="about-board-grid list-none m-0 p-0">
+                    {boardOfficers.map((member) => (
+                      <li key={`${member.name}-${member.role || ''}`} className="about-board-card about-board-card--officer">
+                        {member.photo && (
+                          <OptimizedImage
+                            src={member.photo}
+                            alt={`${member.name} — ${member.role || 'Board member'}`}
+                            className="about-board-card__photo"
+                            wrapperClassName="about-board-card__photo-wrap"
+                          />
+                        )}
+                        <p className="about-board-card__name">{member.name}</p>
+                        <p className="about-board-card__role">{member.role || 'Board Member'}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {boardDirectors.length > 0 && (
+                <div className="about-governance-group">
+                  <h3 className="about-governance-group__title">Board directors</h3>
+                  <ul className="about-board-grid list-none m-0 p-0">
+                    {boardDirectors.map((member) => (
+                      <li key={`${member.name}-${member.role || ''}`} className="about-board-card">
+                        {member.photo && (
+                          <OptimizedImage
+                            src={member.photo}
+                            alt={`${member.name} — ${member.role || 'Board Member'}`}
+                            className="about-board-card__photo"
+                            wrapperClassName="about-board-card__photo-wrap"
+                          />
+                        )}
+                        <p className="about-board-card__name">{member.name}</p>
+                        <p className="about-board-card__role">{member.role || 'Board Member'}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           ) : (
-            <div className="border border-navy/10 bg-cream/40 p-5 sm:p-6">
+            <div className="about-board-empty">
               <p className="text-body text-sm mb-4">
                 Our board roster will be published soon. For board and governance questions, contact us.
               </p>
@@ -245,7 +298,7 @@ export default function About() {
       )}
 
       <PageSection variant="white">
-        <StaAffiliation align="left" compact />
+        <StaAffiliation align="left" />
       </PageSection>
 
       <ContactCta />

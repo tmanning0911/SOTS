@@ -667,6 +667,117 @@
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm;
   }
 
+  .about-leadership-grid {
+    @apply grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6;
+  }
+
+  .about-governance-intro {
+    @apply text-body text-sm sm:text-base text-navy/70 max-w-3xl mb-6 sm:mb-8;
+  }
+
+  .about-leadership-card {
+    @apply flex flex-col min-w-0 h-full bg-white border border-navy/10 px-5 sm:px-6 py-5 sm:py-6;
+    box-shadow: 0 8px 24px hsl(220 48% 11% / 0.06);
+  }
+
+  .about-leadership-card__photo-wrap {
+    @apply w-full overflow-hidden mb-4 bg-cream/40 border border-navy/10;
+    border-radius: 0.5rem;
+  }
+
+  .about-leadership-card__photo {
+    @apply w-full h-full object-contain bg-cream/20;
+    aspect-ratio: 4 / 3;
+    object-position: center top;
+  }
+
+  .about-leadership-card__head {
+    @apply mb-3 pb-3 border-b border-navy/10;
+  }
+
+  .about-leadership-card__name {
+    @apply font-display text-xl sm:text-[1.45rem] leading-tight text-navy;
+  }
+
+  .about-leadership-card__role {
+    @apply label mt-1;
+  }
+
+  .about-leadership-card__bio {
+    @apply text-body text-sm leading-relaxed flex-1 mb-5;
+  }
+
+  .about-leadership-card__cta {
+    @apply text-link text-sm mt-auto self-start min-h-[44px] inline-flex items-center;
+  }
+
+  .about-board-grid {
+    @apply grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5;
+  }
+
+  .about-governance-layout {
+    @apply flex flex-col gap-7;
+  }
+
+  .about-governance-group {
+    @apply flex flex-col gap-4;
+  }
+
+  .about-governance-group__title {
+    @apply font-inter text-[11px] tracking-[0.2em] uppercase font-semibold text-navy/55;
+  }
+
+  .about-board-card {
+    @apply border border-navy/10 bg-cream/35 px-5 py-4;
+    box-shadow: 0 4px 14px hsl(220 48% 11% / 0.04);
+  }
+
+  .about-board-card--officer {
+    @apply bg-white;
+    box-shadow: 0 8px 22px hsl(220 48% 11% / 0.08);
+  }
+
+  .about-board-card__photo-wrap {
+    @apply w-full overflow-hidden mb-3 bg-cream/40 border border-navy/10;
+    border-radius: 0.45rem;
+  }
+
+  .about-board-card__photo {
+    @apply w-full h-full object-cover;
+    aspect-ratio: 4 / 3;
+  }
+
+  .about-board-card__name {
+    @apply font-display text-lg sm:text-xl leading-tight text-navy;
+  }
+
+  .about-board-card__role {
+    @apply label mt-1.5;
+  }
+
+  .about-board-empty {
+    @apply border border-navy/10 bg-cream/40 p-5 sm:p-6;
+  }
+
+  @media (max-width: 639px) {
+    .about-leadership-grid,
+    .about-board-grid {
+      @apply gap-4;
+    }
+
+    .about-governance-layout {
+      @apply gap-6;
+    }
+
+    .about-leadership-card {
+      @apply px-4 py-4;
+    }
+
+    .about-leadership-card__bio {
+      @apply mb-4 text-[0.9375rem];
+    }
+  }
+
   .heading-display {
     @apply font-display text-[clamp(2.25rem,5.5vw,4rem)] font-medium leading-[1.1] tracking-tight;
   }

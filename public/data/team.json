@@ -3,21 +3,16 @@
     "name": "Aaron Simms",
     "role": "Executive Director",
     "pronouns": "he/him",
+    "photo": "/images/team/aaron-simms.jpg",
     "email": "contactus@shakespeareonthesound.org",
     "bio": "Aaron Simms is a New Yorker from Cincinnati with over thirty years of experience in regional, Off-Broadway, and Broadway theater. He is the founder and Executive Producer of Inwood Art Works in New York City."
   },
   {
     "name": "Stephanie Eiss",
-    "role": "Director of Education",
+    "role": "Director of Education and Outreach",
     "pronouns": "she/her",
+    "photo": "/images/team/stephanie-eiss.jpg",
     "email": "stephanie@shakespeareonthesound.org",
     "bio": "Stephanie Eiss is an actor, Applied Theatre practitioner, teaching artist, and arts administrator who has worked in NYC and Connecticut for 15 years with organizations including CUNY Creative Arts Team and Elm Shakespeare."
-  },
-  {
-    "name": "Nick Urda",
-    "role": "Director of Outreach",
-    "pronouns": "",
-    "email": "nick@shakespeareonthesound.org",
-    "bio": "Contact Nick for school workshops, touring shows, and booking education programs across Fairfield County."
   }
 ]

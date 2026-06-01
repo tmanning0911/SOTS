@@ -3,6 +3,8 @@ import { site } from './site';
 
 export const utilityLinks = [
   { label: 'Pinkney Park', path: '/about#visit' },
+  { label: 'Our Staff', path: '/about#staff' },
+  { label: 'Our Board', path: '/about#board' },
   { label: 'About', path: '/about' },
   { label: 'News', path: '/news' },
   { label: 'Contact', path: '/contact' },
@@ -49,6 +51,8 @@ export const navItems = [
       {
         title: 'Before You Go',
         links: [
+          { label: 'Our Staff', path: '/about#staff' },
+          { label: 'Our Board', path: '/about#board' },
           { label: 'Directions & Parking', path: '/about#visit' },
           { label: 'FAQ', path: '/about#faq' },
           { label: '2026 Schedule', path: '/plays' },
@@ -140,6 +144,8 @@ export const searchablePages = [
   { label: 'Special Events', path: '/events' },
   { label: 'Annual Gala', path: '/events#gala-2026' },
   { label: 'Plan Your Visit', path: '/about#visit' },
+  { label: 'Our Staff', path: '/about#staff' },
+  { label: 'Our Board', path: '/about#board' },
   { label: 'FAQ', path: '/about#faq' },
   { label: 'Learning & Education', path: '/learning' },
   { label: 'Support Us / Donate', path: '/support' },

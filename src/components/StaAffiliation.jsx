@@ -24,10 +24,10 @@ export default function StaAffiliation({
   const isLeft = align === 'left';
 
   const logoClass = compact
-    ? 'h-9 sm:h-10 w-auto object-contain'
+    ? 'h-10 sm:h-11 w-auto object-contain'
     : isLeft
-      ? 'h-12 sm:h-14 w-auto object-contain'
-      : 'h-[72px] sm:h-[88px] w-auto object-contain';
+      ? 'h-14 sm:h-16 w-auto object-contain'
+      : 'h-[84px] sm:h-[98px] w-auto object-contain';
 
   if (isLeft) {
     return (
