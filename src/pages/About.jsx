@@ -12,11 +12,13 @@ import { site, visitInfo } from '@/content/site';
 import { images, pageHeroImages, pageArtBackgrounds } from '@/content/images';
 import faqsSeed from '../../public/data/faqs.json';
 import teamSeed from '../../public/data/team.json';
+import boardSeed from '../../public/data/board.json';
 import milestonesSeed from '../../public/data/milestones.json';
 
 export default function About() {
   const [faqs, setFaqs] = useState(faqsSeed);
   const [team, setTeam] = useState(teamSeed);
+  const [board, setBoard] = useState(boardSeed);
   const [milestones, setMilestones] = useState(milestonesSeed);
   const [loading, setLoading] = useState(true);
 
@@ -24,11 +26,13 @@ export default function About() {
     Promise.all([
       fetch('/data/faqs.json').then((r) => (r.ok ? r.json() : faqsSeed)),
       fetch('/data/team.json').then((r) => (r.ok ? r.json() : teamSeed)),
+      fetch('/data/board.json').then((r) => (r.ok ? r.json() : boardSeed)),
       fetch('/data/milestones.json').then((r) => (r.ok ? r.json() : milestonesSeed)),
     ])
-      .then(([f, t, m]) => {
+      .then(([f, t, b, m]) => {
         setFaqs(Array.isArray(f) && f.length ? f : faqsSeed);
         setTeam(Array.isArray(t) && t.length ? t : teamSeed);
+        setBoard(Array.isArray(b) ? b : boardSeed);
         setMilestones(Array.isArray(m) && m.length ? m : milestonesSeed);
         setLoading(false);
       })
@@ -172,36 +176,71 @@ export default function About() {
         </section>
       )}
 
-      {!loading && team.length > 0 && (
+      {!loading && (
         <PageSection variant="white">
           <SectionHeader
             eyebrow="Leadership"
-            title="Our team"
+            title="Our staff"
             align="left"
             className="!mb-8 !max-w-none"
           />
-          <ul className="divide-y divide-navy/10">
-            {team.map((person) => (
-              <li key={person.name} className="py-8 grid sm:grid-cols-[minmax(0,12rem)_1fr] gap-4 sm:gap-10">
-                <div>
-                  <p className="font-display text-xl text-navy">{person.name}</p>
-                  <p className="label mt-1">
-                    {person.role}
-                    {person.pronouns ? ` · ${person.pronouns}` : ''}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-body text-sm mb-4">{person.bio}</p>
-                  <ContactChannelLink
-                    channel={person.role?.toLowerCase().includes('education') ? 'education' : 'general'}
-                    className="text-link text-sm"
-                  >
-                    Send a message
-                  </ContactChannelLink>
-                </div>
-              </li>
-            ))}
-          </ul>
+          {team.length > 0 ? (
+            <ul className="divide-y divide-navy/10">
+              {team.map((person) => (
+                <li key={person.name} className="py-8 grid sm:grid-cols-[minmax(0,12rem)_1fr] gap-4 sm:gap-10">
+                  <div>
+                    <p className="font-display text-xl text-navy">{person.name}</p>
+                    <p className="label mt-1">
+                      {person.role}
+                      {person.pronouns ? ` · ${person.pronouns}` : ''}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-body text-sm mb-4">{person.bio}</p>
+                    <ContactChannelLink
+                      channel={person.role?.toLowerCase().includes('education') ? 'education' : 'general'}
+                      className="text-link text-sm"
+                    >
+                      Send a message
+                    </ContactChannelLink>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-body text-sm text-navy/70">Staff roster will be posted soon.</p>
+          )}
+        </PageSection>
+      )}
+
+      {!loading && (
+        <PageSection variant="white">
+          <SectionHeader
+            eyebrow="Governance"
+            title="Our board"
+            align="left"
+            className="!mb-8 !max-w-none"
+          />
+          {board.length > 0 ? (
+            <ul className="divide-y divide-navy/10">
+              {board.map((member) => (
+                <li
+                  key={`${member.name}-${member.role || ''}`}
+                  className="py-6 grid sm:grid-cols-[minmax(0,12rem)_1fr] gap-3 sm:gap-10"
+                >
+                  <p className="font-display text-lg text-navy">{member.name}</p>
+                  <p className="label sm:mt-1">{member.role || 'Board member'}</p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="border border-navy/10 bg-cream/40 p-5 sm:p-6">
+              <p className="text-body text-sm mb-4">
+                Our board roster will be published soon. For board and governance questions, contact us.
+              </p>
+              <ContactChannelLink className="text-link text-sm">Contact us</ContactChannelLink>
+            </div>
+          )}
         </PageSection>
       )}
 

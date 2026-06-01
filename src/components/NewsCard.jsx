@@ -4,11 +4,13 @@ import OptimizedImage from './OptimizedImage';
 function NewsMeta({ date, category }) {
   return (
     <p className="news-card__meta">
-      <time dateTime={date}>{date}</time>
+      <time dateTime={date} className="news-card__meta-date">
+        {date}
+      </time>
       <span className="news-card__meta-sep" aria-hidden>
         ·
       </span>
-      <span>{category}</span>
+      <span className="news-card__meta-category">{category}</span>
     </p>
   );
 }
