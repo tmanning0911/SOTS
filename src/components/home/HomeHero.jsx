@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { site } from '@/content/site';
 import { seasonVoice, homeCopy } from '@/content/voice';
 import { images } from '@/content/images';
-import { ShakespeareWatermark } from '../decor';
+import { ShakespearePortrait } from '../decor';
 
 /** Homepage hero — full-bleed animated poster with gradient overlay and bottom copy. */
 export default function HomeHero() {
@@ -17,7 +17,7 @@ export default function HomeHero() {
           className="home-hero__image home-hero__image--gif"
         />
         <div className="home-hero__scrim" />
-        <ShakespeareWatermark variant="folio" tone="dark" position="right" className="hidden lg:block" />
+        <ShakespearePortrait tone="dark" position="right" size="xl" className="hidden sm:block" />
       </div>
 
       <div className="home-hero__panel">

@@ -7,6 +7,13 @@ export const images = {
   heroMuchAdo: '/images/hero-much-ado.jpg',
   heroMuchAdoGif: '/images/hero-much-ado.gif',
   heroMuchAdoWebp: '/images/hero-much-ado.webp',
+  /** Default thumbnail on special-event ticket cards */
+  eventTicket: '/images/hero-much-ado.jpg',
+  /** Decorative brand artwork — ambient section texture */
+  decor: {
+    shakespearePortrait: '/images/decor/shakespeare-portrait.png',
+    shakespearePortraitTransparent: '/images/decor/shakespeare-portrait-transparent.png',
+  },
   /** Production artwork — painterly backgrounds and section visuals */
   art: {
     cathedralCrowd: '/images/art/cathedral-crowd.jpg',
@@ -14,6 +21,7 @@ export const images = {
     tragedyScene: '/images/art/tragedy-scene.jpg',
     townSquareNight: '/images/art/town-square-night.jpg',
     horsemenCastle: '/images/art/horsemen-castle.jpg',
+    specialEventsScene: '/images/art/special-events-scene.png',
   },
   aboutBanner: '/images/about-banner.png',
   shakespeareHub: '/images/shakespeare-hub.png',

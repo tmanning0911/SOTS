@@ -3,20 +3,11 @@ import { motion, useReducedMotion } from 'framer-motion';
 import OptimizedImage from './OptimizedImage';
 import AddToCalendar from './AddToCalendar';
 import CtaLink from './CtaLink';
-import { formatProgrammeDate, parseEventLocation, getCategoryAccent, formatTicketTime } from '@/lib/programmeDate';
+import { formatProgrammeDate, parseEventLocation, formatTicketTime } from '@/lib/programmeDate';
 import { getCalendarOccurrences } from '@/lib/calendar';
 import { images } from '@/content/images';
 
 const ease = [0.22, 1, 0.36, 1];
-
-const CATEGORY_IMAGES = {
-  reception: images.art.masqueArches,
-  talk: images.backgrounds.cast,
-  community: images.learning.inThePark,
-  performance: images.parkPerformance,
-  fundraiser: images.news.gala,
-  default: images.news.production,
-};
 
 function CalendarIconStatic() {
   return (
@@ -43,7 +34,7 @@ function PinIcon() {
 
 function getEventImage(event) {
   if (event.image) return event.image;
-  return CATEGORY_IMAGES[getCategoryAccent(event.category)] || CATEGORY_IMAGES.default;
+  return images.eventTicket;
 }
 
 /** Ticket-style event card for the special-events programme. */
@@ -75,14 +66,11 @@ export function EventTicketCard({ event, index = 0 }) {
             {event.category && (
               <p className="event-ticket__subtitle">{event.category.toUpperCase()}</p>
             )}
-            {event.ctaUrl ? (
-              <CtaLink href={event.ctaUrl} className="btn-primary event-ticket__cta">
-                {event.ctaLabel || 'Get tickets'}
-              </CtaLink>
-            ) : (
-              <Link to={`/events#${event.id}`} className="btn-outline event-ticket__cta">
-                Details
-              </Link>
+            {event.description && (
+              <p className="event-ticket__description">{event.description}</p>
+            )}
+            {event.priceNote && (
+              <p className="event-ticket__price-note">{event.priceNote}</p>
             )}
           </div>
 
@@ -106,19 +94,31 @@ export function EventTicketCard({ event, index = 0 }) {
         </div>
 
         <div className="event-ticket__details">
-          <div className="event-ticket__detail event-ticket__detail--date">
-            {hasCalendar ? (
-              <AddToCalendar item={event} variant="ticket-date" />
+          <div className="event-ticket__actions">
+            <div className="event-ticket__detail event-ticket__detail--date">
+              {hasCalendar ? (
+                <AddToCalendar item={event} variant="ticket-date" />
+              ) : (
+                <>
+                  <CalendarIconStatic />
+                  <div className="event-ticket__detail-text">
+                    <span className="event-ticket__detail-primary">{dateLine}</span>
+                    {parts.weekdayFull && (
+                      <span className="event-ticket__detail-secondary">{parts.weekdayFull}</span>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+
+            {event.ctaUrl ? (
+              <CtaLink href={event.ctaUrl} className="btn-primary event-ticket__cta">
+                {event.ctaLabel || 'Get tickets'}
+              </CtaLink>
             ) : (
-              <>
-                <CalendarIconStatic />
-                <div className="event-ticket__detail-text">
-                  <span className="event-ticket__detail-primary">{dateLine}</span>
-                  {parts.weekdayFull && (
-                    <span className="event-ticket__detail-secondary">{parts.weekdayFull}</span>
-                  )}
-                </div>
-              </>
+              <Link to={`/events#${event.id}`} className="btn-outline event-ticket__cta">
+                Details
+              </Link>
             )}
           </div>
 

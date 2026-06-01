@@ -3,6 +3,7 @@ import { site, socialLinks, sponsors } from '@/content/site';
 import { seasonVoice } from '@/content/voice';
 import { IconFacebook, IconInstagram, IconTwitter, IconYoutube } from '@/components/icons';
 import LogoImage from './LogoImage';
+import { ShakespearePortrait } from './decor';
 import { useFormModal } from '@/lib/FormModalContext';
 import { useCookieConsent } from '@/lib/CookieConsentContext';
 
@@ -82,9 +83,10 @@ export default function Footer({ preFooter = false }) {
   const { openForm } = useFormModal();
 
   return (
-    <footer className="bg-navy-deep text-white" data-nav-zone="dark">
+    <footer className="relative overflow-hidden bg-navy-deep text-white" data-nav-zone="dark">
+      <ShakespearePortrait tone="dark" position="right" size="sm" className="hidden md:block" />
       {preFooter && (
-        <div className="border-b border-white/10">
+        <div className="relative z-[1] border-b border-white/10">
           <div className="site-container py-6 md:py-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1 text-sm">
               <div>
@@ -121,7 +123,7 @@ export default function Footer({ preFooter = false }) {
         </div>
       )}
 
-      <div className="site-container py-12 md:py-14">
+      <div className="site-container relative z-[1] py-12 md:py-14">
         <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] gap-12 lg:gap-16">
           <div>
             <Link
@@ -188,15 +190,7 @@ export default function Footer({ preFooter = false }) {
         </div>
 
         <div className="mt-12 pt-8 border-t border-white/10">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-4">
-            <p className="label text-white/35">Supported by</p>
-            <Link
-              to="/#sponsors"
-              className="text-xs text-white/45 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
-            >
-              View partner logos
-            </Link>
-          </div>
+          <p className="label text-white/35 mb-4">Supported by</p>
           <ul className="flex flex-wrap gap-x-5 gap-y-2">
             {sponsors.map((sponsor) => (
               <li key={sponsor.name}>

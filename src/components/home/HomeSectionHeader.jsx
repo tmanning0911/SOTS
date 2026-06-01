@@ -18,7 +18,7 @@ export default function HomeSectionHeader({
         : 'text-left items-start';
 
   return (
-    <Reveal className={`flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 sm:mb-12 ${className}`}>
+    <Reveal className={`flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 sm:gap-6 ${className}`}>
       <div className={`flex flex-col ${alignClass}`}>
         {eyebrow && (
           <span className={`home-section-eyebrow mb-3 ${light ? 'text-gold-light' : ''}`}>{eyebrow}</span>
@@ -28,7 +28,7 @@ export default function HomeSectionHeader({
         </h2>
         <span className={`home-section-rule mt-4 ${light ? 'home-section-rule-light' : ''}`} aria-hidden />
       </div>
-      {action && <div className="shrink-0">{action}</div>}
+      {action && <div className="shrink-0 w-full sm:w-auto pt-1 sm:pt-0">{action}</div>}
     </Reveal>
   );
 }
