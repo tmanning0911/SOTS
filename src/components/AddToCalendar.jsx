@@ -102,7 +102,7 @@ export default function AddToCalendar({ item, className = '', variant = 'default
 
   return (
     <details className={`add-to-calendar group relative inline-block ${className}`}>
-      <summary className="add-to-calendar__trigger">
+      <summary className="add-to-calendar__trigger btn-outline">
         <CalendarIcon />
         <span>Add to calendar</span>
         <ChevronIcon />

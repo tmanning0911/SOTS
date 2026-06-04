@@ -20,8 +20,6 @@ import AdminLogin from './pages/AdminLogin';
 import { FormModalProvider } from '@/lib/FormModalContext';
 import { CookieConsentProvider } from '@/lib/CookieConsentContext';
 import { SeoOverrideProvider } from '@/lib/SeoOverrideContext';
-import DonateEdgeTab from './components/DonateEdgeTab';
-
 function App() {
   return (
     <Router>
@@ -48,7 +46,6 @@ function App() {
               <Route path="/admin" element={<Admin />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
-            <DonateEdgeTab />
           </FormModalProvider>
         </CookieConsentProvider>
       </SeoOverrideProvider>

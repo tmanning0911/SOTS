@@ -1,7 +1,7 @@
 import { visitInfo, parkDirectionsUrl } from '@/content/site';
 
 const MAP_QUERY = encodeURIComponent(`${visitInfo.park}, ${visitInfo.address}`);
-const EMBED_URL = `https://maps.google.com/maps?q=${MAP_QUERY}&z=15&output=embed`;
+const EMBED_URL = `https://www.google.com/maps?q=${MAP_QUERY}&z=15&output=embed`;
 
 /** Embedded map — Pinkney Park, Rowayton. */
 export default function ParkLocationMap({ className = '', showCaption = true }) {
