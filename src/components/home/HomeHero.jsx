@@ -1,59 +1,58 @@
-import { Link } from 'react-router-dom';
-import { seasonVoice } from '@/content/voice';
+import { motion, useReducedMotion } from 'framer-motion';
+import { site } from '@/content/site';
 import { images } from '@/content/images';
+import OptimizedImage from '../OptimizedImage';
 
-const promoBadges = [
-  { src: images.heroMuchAdo, alt: 'Much Ado About Nothing' },
-  { src: images.parkPerformance, alt: 'Pinkney Park performances' },
-  { src: images.news.kids, alt: 'Shakespeare for Kids' },
-  { src: images.backgrounds.audience, alt: 'Audience at Pinkney Park' },
-  { src: images.backgrounds.cast, alt: 'Much Ado cast' },
-  { src: images.news.seasonMaanBanner, alt: '2026 season' },
-];
-
-/** Homepage hero — Orpheum-style dark split band + white promo strip. */
+/** Orpheum 1:1 — full-bleed hero, one headline, one primary CTA */
 export default function HomeHero() {
-  return (
-    <>
-      <section data-nav-zone="dark" className="home-hero">
-        <div className="site-container home-hero__layout">
-          <div className="home-hero__copy">
-            <h1 className="home-hero__title">
-              Experience the Magic of Shakespeare in Rowayton
-            </h1>
-            <Link to="/plays" className="home-hero__btn">
-              View upcoming shows
-            </Link>
-          </div>
-          <div className="home-hero__figure" aria-hidden>
-            <img
-              src={images.decor.shakespearePortraitTransparent}
-              alt=""
-              decoding="async"
-              className="home-hero__portrait"
-            />
-          </div>
-        </div>
-      </section>
+  const reduceMotion = useReducedMotion();
 
-      <section data-nav-zone="light" className="home-hero-promo">
-        <div className="home-hero-promo__layout">
-          <div className="home-hero-promo__logos" aria-hidden>
-            <div className="home-hero-promo__logos-bg" />
-            <ul className="home-hero-promo__badges">
-              {promoBadges.map((badge) => (
-                <li key={badge.alt} className="home-hero-promo__badge">
-                  <img src={badge.src} alt="" loading="lazy" decoding="async" />
-                </li>
-              ))}
-            </ul>
-          </div>
-          <p className="home-hero-promo__text">
-            Pick {seasonVoice.number} nights of laughter, music, and moonlight at Pinkney Park this
-            summer
-          </p>
-        </div>
-      </section>
-    </>
+  return (
+    <section
+      data-nav-zone="dark"
+      className="relative min-h-[min(88vh,820px)] flex items-end sm:items-center justify-center overflow-hidden bg-navy-deep"
+    >
+      <motion.div
+        className="absolute inset-0"
+        initial={reduceMotion ? false : { scale: 1.05 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <OptimizedImage
+          src={images.heroMuchAdo}
+          webp={images.heroMuchAdoWebp}
+          alt=""
+          priority
+          className="absolute inset-0 w-full h-full object-cover object-center brightness-[0.48]"
+          wrapperClassName="absolute inset-0 w-full h-full"
+        />
+      </motion.div>
+      <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/45 to-navy-deep/25" />
+
+      <div className="relative z-[1] w-full site-container pb-16 sm:pb-0 py-24 sm:py-32 text-center">
+        <motion.h1
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.15 }}
+          className="font-display text-white text-[clamp(2.25rem,7.5vw,5.25rem)] font-semibold leading-[1.02] text-balance max-w-5xl mx-auto mb-8 sm:mb-10"
+        >
+          Experience the Magic of Shakespeare in Rowayton
+        </motion.h1>
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.35 }}
+        >
+          <a
+            href={site.ticketsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary text-xs sm:text-sm min-w-[240px] sm:min-w-[280px] justify-center"
+          >
+            Get Tickets
+          </a>
+        </motion.div>
+      </div>
+    </section>
   );
 }

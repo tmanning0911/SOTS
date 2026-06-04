@@ -67,16 +67,17 @@ Forms are registered via `public/forms.html` at build time. If a form is missing
 
 ## Deploy
 
-**Git (recommended)** — Netlify watches the `netlify` remote repo and rebuilds on push:
+**Git (recommended)** — `npm run deploy` pushes `main` to both remotes; Netlify rebuilds from the `netlify` remote:
 
 ```bash
 npm run deploy
-# same as: git push netlify main
+# same as: git push origin main && git push netlify main
 ```
 
-Live site: **https://ubiquitous-maamoul-8b9b7f.netlify.app**
+- **origin** → `SOTS` on GitHub (backup / collaboration)
+- **netlify** → `ubiquitous-maamoul-8b9b7f` (triggers Netlify deploy)
 
-Optional: `git push origin main` backs up code to the SOTS GitHub repo (does not trigger Netlify).
+Live site: **https://ubiquitous-maamoul-8b9b7f.netlify.app**
 
 **Drag-and-drop** — after `npm run build`, upload `NETLIFY-DROP-UPLOAD.zip` in Netlify → Deploys.
 

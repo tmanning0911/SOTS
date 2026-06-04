@@ -1,42 +1,34 @@
 import { Link } from 'react-router-dom';
+import Reveal from '../Reveal';
 import OptimizedImage from '../OptimizedImage';
-import { ArtSectionBackground } from '../decor';
-import { site } from '@/content/site';
 import { images } from '@/content/images';
 
+/** Orpheum 1:1 — Making an impact full-bleed section */
 export default function HomeEducationImpact() {
   return (
-    <section className="section relative bg-navy-deep text-white overflow-hidden" data-nav-zone="dark">
-      <ArtSectionBackground src={images.art.cathedralCrowd} tone="dark" position="center" />
-      <div className="site-container relative z-[1]">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <figure className="order-2 lg:order-1">
-            <OptimizedImage
-              src={images.news.kidsKings}
-              alt="Shakespeare for Kids performance"
-              className="w-full object-cover aspect-[4/3]"
-              wrapperClassName="w-full"
-            />
-          </figure>
-          <div className="order-1 lg:order-2">
-            <p className="label text-white/45 mb-2">Education</p>
-            <h2 className="heading-section text-white mb-5 text-balance">
-              Workshops, tours, and summer camps
-            </h2>
-            <p className="text-body-lg text-white/70 max-w-prose mb-8">
-              Education is at the cornerstone of Shakespeare on the Sound. We provide workshops,
-              touring shows, and summer camps across Fairfield County.
-            </p>
-            <div className="btn-stack-mobile">
-              <Link to="/learning" className="btn-primary">
-                Programs
-              </Link>
-              <a href={site.donateUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost-light">
-                Donate
-              </a>
-            </div>
-          </div>
-        </div>
+    <section className="relative overflow-hidden bg-navy-deep" data-nav-zone="dark">
+      <OptimizedImage
+        src={images.shakespeareHub}
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover brightness-[0.22]"
+        wrapperClassName="absolute inset-0 w-full h-full"
+      />
+      <div className="absolute inset-0 bg-navy-deep/80" />
+
+      <div className="relative z-[1] site-container section-pad text-center max-w-3xl mx-auto">
+        <Reveal>
+          <p className="section-eyebrow text-gold-light mb-4">Making an Impact</p>
+          <h2 className="font-display text-white text-3xl sm:text-4xl md:text-[2.75rem] font-semibold leading-[1.08] mb-5 text-balance">
+            Setting the Scene for Outdoor Shakespeare
+          </h2>
+          <p className="font-inter text-white/60 text-sm md:text-base leading-relaxed mb-8">
+            Our programs create positive change and foster community by providing a stage for creative
+            expression — in schools, libraries, summer camps, and Pinkney Park.
+          </p>
+          <Link to="/learning" className="orpheum-text-cta orpheum-text-cta-lg text-gold">
+            Education and Community
+          </Link>
+        </Reveal>
       </div>
     </section>
   );

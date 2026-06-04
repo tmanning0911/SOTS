@@ -1,25 +1,32 @@
 import PageLayout from '../components/PageLayout';
 import {
   HomeHero,
-  HomeComingUp,
-  HomeWhatsOn,
+  HomeSeasonStrip,
+  HomeUpcomingEvents,
+  HomeVisitBar,
   HomeOurStory,
-  HomeSupportKids,
+  HomeEducationTeaser,
   HomeEducationImpact,
+  HomeSupportMission,
   HomeRecentNews,
 } from '../components/home';
 import Sponsors from '../components/Sponsors';
 
-/** Homepage — photo hero, programme list, story, one dark band, news, partners. */
+/**
+ * Homepage — Orpheum 1:1 section order with SOTS content
+ * https://www.orpheum-memphis.com/
+ */
 export default function Home() {
   return (
-    <PageLayout preFooter>
+    <PageLayout>
       <HomeHero />
-      <HomeComingUp />
-      <HomeWhatsOn />
+      <HomeSeasonStrip />
+      <HomeUpcomingEvents />
+      <HomeVisitBar />
       <HomeOurStory />
-      <HomeSupportKids />
+      <HomeEducationTeaser />
       <HomeEducationImpact />
+      <HomeSupportMission />
       <HomeRecentNews />
       <Sponsors />
     </PageLayout>

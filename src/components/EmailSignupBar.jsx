@@ -1,32 +1,35 @@
+import SectionHeader from './SectionHeader';
 import { useFormModal } from '@/lib/FormModalContext';
+import { homeCopy } from '@/content/voice';
 
-/** Mailing list — compact note before the footer. */
+/** Orpheum 1:1 — Never Miss a Beat newsletter band */
 export default function EmailSignupBar() {
   const { openForm } = useFormModal();
 
   return (
     <section
       id="email-signup"
-      className="border-t border-navy/10 bg-white scroll-mt-24"
-      data-nav-zone="light"
+      className="bg-navy-deep border-t border-white/10 scroll-mt-24"
+      data-nav-zone="dark"
       aria-labelledby="email-signup-heading"
     >
-      <div className="site-container py-12 md:py-14">
-        <div className="border border-navy/10 px-4 py-6 sm:px-8 sm:py-8 md:flex md:items-center md:justify-between md:gap-12">
-          <div className="border-l-2 border-gold pl-4 sm:pl-6 max-w-lg">
-            <h2 id="email-signup-heading" className="font-display text-2xl md:text-[1.75rem] text-navy leading-tight mb-2">
-              Season updates
-            </h2>
-            <p className="text-body text-sm md:text-base text-navy/70">
-              On-sale dates, cast news, and weather calls — only when it&apos;s worth opening your inbox.
-            </p>
-          </div>
+      <div className="site-container py-10 sm:py-12">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-10">
+          <SectionHeader
+            eyebrow=""
+            title="Never Miss a Beat"
+            titleId="email-signup-heading"
+            description={homeCopy.mailingList}
+            align="left"
+            light
+            className="!mb-0 max-w-xl"
+          />
           <button
             type="button"
-            className="btn-outline mt-6 md:mt-0 shrink-0 w-full sm:w-auto"
+            className="btn-primary min-w-[220px] shrink-0 self-start md:self-auto justify-center"
             onClick={() => openForm('newsletter')}
           >
-            Join the list
+            Sign Up For Our Newsletter
           </button>
         </div>
       </div>

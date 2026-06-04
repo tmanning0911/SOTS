@@ -1,36 +1,42 @@
+import Reveal from './Reveal';
 import SponsorLogo from './SponsorLogo';
 import { sponsors } from '@/content/site';
+import { Link } from 'react-router-dom';
 
+/** Orpheum 1:1 — institutional partners logo grid */
 export default function Sponsors() {
-  const loopedSponsors = [...sponsors, ...sponsors];
-
   return (
     <section
       id="sponsors"
-      className="py-14 md:py-16 bg-white border-t border-navy/10 scroll-mt-24"
+      className="bg-white section-pad border-t border-navy/10 scroll-mt-24"
       data-nav-zone="light"
       aria-labelledby="sponsors-heading"
     >
       <div className="site-container">
-        <p id="sponsors-heading" className="label mb-8 text-center">
-          Supported by our community
-        </p>
-        <div className="sponsors-marquee" role="region" aria-label="Community sponsors">
-          <ul className="sponsors-marquee__track list-none p-0 m-0">
-            {loopedSponsors.map((sponsor, idx) => {
-              const isDuplicate = idx >= sponsors.length;
-              return (
-                <li
-                  key={`${sponsor.name}-${idx}`}
-                  className="sponsors-marquee__item flex items-center justify-center min-h-[56px]"
-                  aria-hidden={isDuplicate}
-                >
-                  <SponsorLogo sponsor={sponsor} />
-                </li>
-              );
-            })}
-          </ul>
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 sm:mb-10">
+          <h2
+            id="sponsors-heading"
+            className="font-display text-navy text-3xl sm:text-4xl font-semibold uppercase tracking-wide"
+          >
+            Our Institutional Partners
+          </h2>
+          <Link to="/support" className="orpheum-text-cta orpheum-text-cta-lg shrink-0">
+            View All Partners
+          </Link>
         </div>
+
+        <Reveal delay={0.05}>
+          <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 list-none p-0 m-0 gap-4 sm:gap-6">
+            {sponsors.map((sponsor) => (
+              <li
+                key={sponsor.name}
+                className="flex items-center justify-center bg-white border border-navy/8 px-4 py-6 sm:py-8 min-h-[88px]"
+              >
+                <SponsorLogo sponsor={sponsor} />
+              </li>
+            ))}
+          </ul>
+        </Reveal>
       </div>
     </section>
   );

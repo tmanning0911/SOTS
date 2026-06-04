@@ -35,7 +35,7 @@ To replace the old Wix site at **www.shakespeareonthesound.org**:
 3. Enable HTTPS
 
 ### 4. Always deploy via Git
-Use `npm run deploy` (pushes to the `netlify` remote).
+Use `npm run deploy` (pushes to `origin` and `netlify`; Netlify builds from `netlify`).
 
 **Do not** rely on drag-and-drop uploads for production — admin APIs and form functions require Git deploy.
 

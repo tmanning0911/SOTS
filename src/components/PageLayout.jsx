@@ -1,9 +1,10 @@
 import Navbar from './Navbar';
 import Footer from './Footer';
 import EmailSignupBar from './EmailSignupBar';
+import { HomeFooterUtility } from './home';
 import SkipLink from './SkipLink';
 
-export default function PageLayout({ children, className = '', preFooter = false }) {
+export default function PageLayout({ children, className = '', hideEmailBar = false }) {
   return (
     <div className={`min-h-screen bg-white flex flex-col ${className}`}>
       <SkipLink />
@@ -14,8 +15,9 @@ export default function PageLayout({ children, className = '', preFooter = false
       >
         {children}
       </main>
-      {preFooter && <EmailSignupBar />}
-      <Footer preFooter={!preFooter} />
+      {!hideEmailBar && <EmailSignupBar />}
+      <HomeFooterUtility />
+      <Footer />
     </div>
   );
 }

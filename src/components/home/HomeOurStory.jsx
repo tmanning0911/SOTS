@@ -1,43 +1,34 @@
 import { Link } from 'react-router-dom';
-import { ArtSectionBackground } from '../decor';
-import ParkLocationMap from '../ParkLocationMap';
-import { site, parkDirectionsUrl } from '@/content/site';
-import { seasonVoice } from '@/content/voice';
+import Reveal from '../Reveal';
+import OptimizedImage from '../OptimizedImage';
+import PageSection from '../PageSection';
+import { site } from '@/content/site';
 import { images } from '@/content/images';
 
+/** Orpheum 1:1 — Our Story split section */
 export default function HomeOurStory() {
   return (
-    <section className="section relative bg-white border-b border-navy/10 overflow-hidden" data-nav-zone="light">
-      <ArtSectionBackground src={images.art.horsemenCastle} tone="light" position="left" />
-      <div className="site-container relative z-[1]">
-        <div className="our-story-grid">
-          <div className="our-story-grid__copy">
-            <p className="label mb-2">About us</p>
-            <h2 className="heading-section mb-5 text-balance">
-              {seasonVoice.number} seasons under the stars
-            </h2>
-            <p className="text-body max-w-prose mb-5">{site.mission}</p>
-            <p className="text-body text-navy/60 max-w-prose mb-8">
-              {seasonVoice.number} seasons on the Five Mile River — bring a blanket, pack a picnic, gates open at{' '}
-              {seasonVoice.parkOpens}.
-            </p>
-            <div className="flex flex-wrap gap-4 text-sm">
-              <Link to="/about" className="text-link">
-                Our story
-              </Link>
-              <a
-                href={parkDirectionsUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-link"
-              >
-                Plan your visit
-              </a>
-            </div>
-          </div>
-          <ParkLocationMap className="visit-map--feature our-story-grid__map" />
-        </div>
+    <PageSection variant="parchment" bordered data-nav-zone="light">
+      <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <Reveal>
+          <p className="section-eyebrow mb-4">Our Story</p>
+          <h2 className="font-display text-navy text-3xl sm:text-4xl md:text-[2.75rem] font-semibold leading-[1.08] mb-6 text-balance">
+            Enriching Fairfield County Through Performing Arts
+          </h2>
+          <p className="body-text mb-8">{site.mission}</p>
+          <Link to="/about" className="orpheum-text-cta orpheum-text-cta-lg">
+            Our Story
+          </Link>
+        </Reveal>
+        <Reveal delay={0.08} className="relative">
+          <OptimizedImage
+            src={images.parkPerformance}
+            alt="Audience at Shakespeare on the Sound in Pinkney Park"
+            className="w-full object-cover aspect-[4/3]"
+            wrapperClassName="w-full"
+          />
+        </Reveal>
       </div>
-    </section>
+    </PageSection>
   );
 }
