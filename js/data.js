@@ -412,8 +412,8 @@ export const UPCOMING_EVENTS = [
 
 export const VISIT_TILES = [
   { title: "Plan Your Visit", href: "/about/visit/" },
-  { title: "Parking and Directions", href: "/about/getting-here/" },
-  { title: "Seating Charts", href: "/about/visit/" },
+  { title: "Parking", href: "/about/getting-here/" },
+  { title: "Seating", href: "/about/visit/" },
   { title: "Box Office", href: "/about/contact/" },
 ];
 
@@ -480,10 +480,10 @@ export const MAIN_NAV = NAV_ITEMS.map((item) => ({
 }));
 
 export const QUICK_BAR_LINKS = [
-  { label: "Parking & Directions", href: "/about/getting-here/" },
-  { label: "Seating Chart", href: "/about/visit/" },
+  { label: "Parking", href: "/about/getting-here/" },
+  { label: "Seating", href: "/about/visit/" },
   { label: "Box Office", href: "/about/contact/" },
-  { label: "Access Tickets", action: "access-tickets" },
+  { label: "Tickets", action: "access-tickets" },
 ];
 
 export const SEASON_SHOWS = [

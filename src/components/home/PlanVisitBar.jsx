@@ -39,8 +39,8 @@ function VisitIcon({ type }) {
 
 const TILE_ICONS = {
   "Plan Your Visit": "visit",
-  "Parking and Directions": "parking",
-  "Seating Charts": "seating",
+  Parking: "parking",
+  Seating: "seating",
   "Box Office": "boxoffice",
 };
 
