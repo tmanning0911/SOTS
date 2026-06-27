@@ -18,9 +18,7 @@ function EventGridCard({ event, variant = "photo" }) {
   const isPhoto = variant === "photo";
 
   return (
-    <article
-      className={`orpheum-events-grid__card orpheum-events-grid__card--${variant}`}
-    >
+    <article className={`orpheum-events-grid__card orpheum-events-grid__card--${variant}`}>
       <img src={image} alt={event.title} loading="lazy" width={isPhoto ? 640 : 960} height={isPhoto ? 360 : 540} />
 
       {!isPhoto ? (
@@ -65,6 +63,33 @@ function EventGridCard({ event, variant = "photo" }) {
   );
 }
 
+function EventScrollCard({ event }) {
+  const image = event.featureImage ?? event.image;
+
+  return (
+    <article className="orpheum-events-scroll__card">
+      <a className="orpheum-events-scroll__media" href={event.href}>
+        <img src={image} alt="" loading="lazy" width={320} height={180} />
+      </a>
+      <div className="orpheum-events-scroll__body">
+        <p className="orpheum-events-scroll__meta">{event.genre}</p>
+        <h4>
+          <a href={event.href}>{event.title}</a>
+        </h4>
+        <p className="orpheum-events-scroll__dates">{event.dates}</p>
+        <div className="orpheum-events-scroll__actions">
+          {event.tickets ? (
+            <ArrowButton href={event.tickets} target="_blank" rel="noopener noreferrer" className="orpheum-arrow-btn--compact">
+              Buy Tickets
+            </ArrowButton>
+          ) : null}
+          <LearnMoreLink href={event.href} />
+        </div>
+      </div>
+    </article>
+  );
+}
+
 export function UpcomingEvents() {
   const [featured, sideA, sideB] = UPCOMING_EVENTS;
 
@@ -75,12 +100,20 @@ export function UpcomingEvents() {
         <ArrowButton href="/productions/past-productions/">View All Events</ArrowButton>
       </div>
 
-      <div className="orpheum-events-grid__layout" data-reveal>
+      <div className="orpheum-events-grid__layout orpheum-events-grid__layout--desktop" data-reveal>
         <EventGridCard event={featured} variant="feature" />
 
         <div className="orpheum-events-grid__stack">
           {sideA ? <EventGridCard event={sideA} /> : null}
           {sideB ? <EventGridCard event={sideB} /> : null}
+        </div>
+      </div>
+
+      <div className="orpheum-events-scroll" data-reveal aria-label="Scroll upcoming events">
+        <div className="orpheum-events-scroll__track">
+          {UPCOMING_EVENTS.map((event) => (
+            <EventScrollCard key={event.href} event={event} />
+          ))}
         </div>
       </div>
     </section>
