@@ -31,6 +31,24 @@ function initSmoothScroll() {
   gsap.ticker.lagSmoothing(0);
 }
 
+function revealOnScroll(el, { y = 32, duration = 0.8 } = {}) {
+  gsap.from(el, {
+    y,
+    opacity: 0,
+    duration,
+    ease: "power3.out",
+    immediateRender: false,
+    scrollTrigger: {
+      trigger: el,
+      start: "top 90%",
+      toggleActions: "play none none none",
+    },
+    onComplete: () => {
+      gsap.set(el, { clearProps: "transform,opacity" });
+    },
+  });
+}
+
 /** Run after React mounts HomePage */
 export function initHomePageMotion() {
   const root = document.querySelector(".home--orpheum");
@@ -72,17 +90,7 @@ export function initHomePageMotion() {
     }
 
     gsap.utils.toArray("[data-reveal]").forEach((el) => {
-      gsap.from(el, {
-        y: 32,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 90%",
-          toggleActions: "play none none none",
-        },
-      });
+      revealOnScroll(el);
     });
   }, root);
 }
@@ -118,17 +126,7 @@ export function initInnerPageMotion() {
     gsap.utils.toArray("main [data-reveal]").forEach((el) => {
       if (heroInner && (el === heroInner || heroInner.contains(el))) return;
 
-      gsap.from(el, {
-        y: 28,
-        opacity: 0,
-        duration: 0.75,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 90%",
-          toggleActions: "play none none none",
-        },
-      });
+      revealOnScroll(el, { y: 28, duration: 0.75 });
     });
   });
 }
