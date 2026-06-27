@@ -986,8 +986,8 @@ body.page-home .site-header.is-scrolled {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 48px;
+  height: 48px;
   border: 1px solid var(--orp-line);
   border-radius: 3px;
   background: var(--orp-stone-100);
@@ -999,8 +999,8 @@ body.page-home .site-header.is-scrolled {
   display: none;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 48px;
+  height: 48px;
   padding: 0;
   border: 1px solid var(--orp-line);
   border-radius: 3px;
@@ -1831,9 +1831,9 @@ body.page-home .site-header.is-scrolled {
 
 .orpheum-footer__venues {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.9rem;
+  gap: 0.65rem 0.9rem;
   margin-top: 1.65rem;
 }
 
@@ -1853,14 +1853,14 @@ body.page-home .site-header.is-scrolled {
 
 .orpheum-footer__venues a {
   font-family: var(--orp-sans);
-  font-size: 0.58rem;
+  font-size: clamp(0.58rem, 2vw, 0.68rem);
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: rgba(var(--brand-navy-rgb), 0.72);
   text-decoration: none;
   line-height: 1.25;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .orpheum-footer__venues a:hover,
@@ -1899,8 +1899,8 @@ body.page-home .site-header.is-scrolled {
 
 .orpheum-footer__group-links {
   display: grid;
-  grid-template-columns: repeat(2, max-content);
-  column-gap: clamp(4rem, 16vw, 12rem);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(1.5rem, 8vw, 4rem);
   row-gap: 0.35rem;
 }
 
@@ -2006,6 +2006,9 @@ body.page-home .site-header.is-scrolled {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.35rem;
   color: var(--brand-navy);
   opacity: 0.88;
   transition: color 0.2s ease;
@@ -2076,7 +2079,7 @@ body.page-home .site-header.is-scrolled {
   padding: 0.5rem 0.35rem;
   text-align: center;
   font-family: var(--orp-sans);
-  font-size: 0.58rem;
+  font-size: clamp(0.58rem, 2.5vw, 0.68rem);
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -2531,7 +2534,7 @@ body.page-home .site-header.is-scrolled {
   transform: translateX(3px);
 }
 
-@media (max-width: 767px) {
+@media (max-width: 991px) {
   .orpheum-season-promo {
     margin-top: -1.5rem;
     padding-left: 1.25rem;
@@ -2939,7 +2942,7 @@ body.page-home .site-header.is-scrolled {
   text-align: center;
   text-decoration: none;
   color: var(--orp-white);
-  font-size: 0.72rem;
+  font-size: clamp(0.72rem, 2.2vw, 0.82rem);
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -3861,10 +3864,6 @@ body.page-home .site-header.is-scrolled {
 }
 
 @media (min-width: 640px) {
-  .orpheum-news-feed__stack {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
   .orpheum-news-feed__card .orpheum-news-feed__excerpt {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -4122,8 +4121,8 @@ body.page-home .site-header.is-scrolled {
 
 .site-search__close {
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border: none;
   border-radius: 4px;
   background: var(--orp-stone-100);
@@ -4544,12 +4543,13 @@ body.search-open {
 
 .orpheum-faq-item__trigger {
   width: 100%;
+  min-height: 48px;
   padding: 1rem 1.15rem;
   border: 0;
   background: transparent;
   text-align: left;
   font-family: var(--orp-sans);
-  font-size: 1rem;
+  font-size: clamp(0.95rem, 2.5vw, 1rem);
   font-weight: 700;
   color: var(--orp-dark);
   cursor: pointer;
@@ -4681,17 +4681,40 @@ body.search-open {
   color: var(--orp-stone-500);
 }
 
-.page-inner {
-  padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+@media (max-width: 991px) {
+  body.page-inner {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+
+  body.page-inner .mobile-dock {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1200;
+    gap: 0.15rem;
+    background: rgba(250, 248, 243, 0.94);
+    backdrop-filter: blur(14px) saturate(1.3);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    border-top: 1px solid rgba(10, 61, 48, 0.1);
+    padding: 0.4rem var(--orp-chrome-gutter, 1rem);
+    padding-bottom: calc(0.4rem + env(safe-area-inset-bottom, 0px));
+    box-shadow: 0 -4px 24px rgba(var(--brand-navy-rgb), 0.08);
+  }
+
+  .orpheum-production-page__related-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 992px) {
-  .page-inner {
+  body.page-inner {
     padding-bottom: 0;
   }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1200px) {
   .orpheum-production-page__related-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -4735,13 +4758,13 @@ body.page-inner {
   }
 
   .orpheum-header__menu {
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 48px;
+    min-height: 48px;
   }
 
   .orpheum-header__search {
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 48px;
+    min-height: 48px;
   }
 
   .orpheum-hero {
@@ -4874,14 +4897,53 @@ body.page-inner {
   }
 
   .orpheum-visit-bar__item {
-    min-height: 4.5rem;
-    padding: 0.85rem 0.65rem;
-    font-size: 0.72rem;
+    min-height: 4.75rem;
+    padding: 0.85rem 0.75rem;
+    font-size: clamp(0.72rem, 2.4vw, 0.82rem);
   }
 
   .orpheum-visit-bar__item svg {
     width: 26px;
     height: 26px;
+  }
+
+  .orpheum-our-story {
+    overflow-x: clip;
+  }
+
+  .orpheum-our-story__watermark {
+    font-size: clamp(3.5rem, 16vw, 8rem);
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .orpheum-our-story__tickets {
+    margin-bottom: clamp(-2.5rem, -5vw, -3.5rem);
+  }
+
+  .orpheum-inner-page__hero {
+    padding-top: clamp(2.75rem, 8vw, 4rem);
+    padding-bottom: clamp(1.5rem, 4rem, 2rem);
+  }
+
+  .orpheum-inner-page__hero h1 {
+    font-size: clamp(2rem, 7vw, 3.25rem);
+  }
+
+  .orpheum-inner-page__body {
+    padding-top: clamp(1.75rem, 4vw, 2.5rem);
+    padding-bottom: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .orpheum-season-promo {
+    padding-left: var(--orp-chrome-gutter);
+    padding-right: var(--orp-chrome-gutter);
+  }
+
+  .orpheum-support-banner__shell {
+    padding-left: var(--orp-chrome-gutter);
+    padding-right: var(--orp-chrome-gutter);
   }
 
   .orpheum-our-story__inner,
@@ -4898,10 +4960,6 @@ body.page-inner {
     padding-right: var(--orp-chrome-gutter);
   }
 
-  .orpheum-mobile-nav.mobile-nav.is-open {
-    display: block;
-  }
-
   .orpheum-mobile-nav.mobile-nav {
     display: none;
     position: fixed;
@@ -4910,13 +4968,21 @@ body.page-inner {
     overflow-y: auto;
     overscroll-behavior: contain;
     padding: calc(env(safe-area-inset-top, 0px) + 1rem) var(--orp-chrome-gutter)
-      calc(1.5rem + env(safe-area-inset-bottom, 0px));
+      calc(var(--bottom-chrome-height, 64px) + 1.5rem + env(safe-area-inset-bottom, 0px));
     background: var(--orp-white);
     color: var(--orp-dark);
   }
 
   .orpheum-mobile-nav.mobile-nav.is-open {
     display: block;
+  }
+
+  .page-home {
+    --bottom-chrome-height: 56px;
+  }
+
+  body.page-inner {
+    --bottom-chrome-height: 64px;
   }
 
   .orpheum-mobile-nav .mobile-nav__header {
@@ -4929,8 +4995,8 @@ body.page-inner {
   }
 
   .orpheum-mobile-nav .mobile-nav__close {
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 48px;
+    min-height: 48px;
     display: grid;
     place-items: center;
     font-size: 1.75rem;
@@ -4985,8 +5051,19 @@ body.page-inner {
   .orpheum-quickbar a,
   .orpheum-quickbar button {
     min-height: 56px;
-    font-size: clamp(0.52rem, 2.4vw, 0.58rem);
-    padding-inline: 0.25rem;
+    font-size: clamp(0.58rem, 2.6vw, 0.68rem);
+    padding-inline: 0.35rem;
+    line-height: 1.25;
+  }
+}
+
+@media (max-width: 639px) {
+  .orpheum-quickbar ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .orpheum-quickbar li:nth-child(n + 3) {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
   }
 }
 
@@ -5044,22 +5121,71 @@ body.page-inner {
   .orpheum-visit-bar__item {
     border-right: none !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    min-height: 3.75rem;
+    font-size: 0.78rem;
   }
 
   .orpheum-visit-bar__item:last-child {
     border-bottom: none;
   }
 
-  .orpheum-quickbar ul {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .orpheum-quickbar li:nth-child(n + 3) {
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
-  }
-
   .orpheum-mobile-nav .mobile-nav__ctas {
     grid-template-columns: 1fr;
+  }
+
+  .orpheum-inner-page__hero h1 {
+    font-size: clamp(1.85rem, 9vw, 2.5rem);
+  }
+
+  .orpheum-events-scroll__card {
+    flex-basis: min(86vw, 20rem);
+  }
+}
+
+@media (max-width: 1024px) {
+  .orpheum-news-split__grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .orpheum-news-split__posters {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 991px) {
+  .site-search {
+    padding: calc(env(safe-area-inset-top, 0px) + 0.75rem) var(--orp-chrome-gutter, 1rem) 1rem;
+    align-items: stretch;
+  }
+
+  .site-search__panel {
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px) - 1.5rem);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .site-search__results {
+    max-height: none;
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  body.page-inner .mobile-dock__item {
+    min-height: 48px;
+    font-size: 0.65rem;
+  }
+
+  .orpheum-not-found-page__actions .orpheum-btn,
+  .orpheum-production-page__actions .orpheum-btn,
+  .orpheum-inner-page__cta .orpheum-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .orpheum-footer__shell {
+    padding-left: var(--orp-chrome-gutter, 1.25rem);
+    padding-right: var(--orp-chrome-gutter, 1.25rem);
   }
 }
 

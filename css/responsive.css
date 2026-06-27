@@ -554,17 +554,17 @@ body:has(.announcement) .production-hero {
   }
 }
 
-/* Tablet (768px–1049px): hamburger in header, no pill yet */
+/* Tablet (768px–1049px): hamburger in header; inner pages keep bottom dock */
 @media (min-width: 48rem) and (max-width: 65.4375rem) {
   :root {
     --mobile-dock-height: 0px;
   }
 
-  body {
+  body:not(.page-inner) {
     padding-bottom: 0;
   }
 
-  .mobile-dock {
+  body:not(.page-inner) .mobile-dock {
     display: none !important;
   }
 
