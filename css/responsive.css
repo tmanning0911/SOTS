@@ -142,13 +142,18 @@ body:has(.announcement) .production-hero {
 /* ── Mobile (default enhancements up to 767px) ── */
 @media (max-width: 47.9375rem) {
   :root {
-    --header-height: 60px;
+    --header-height: 64px;
     --mobile-dock-height: calc(64px + var(--safe-bottom));
   }
 
-  body {
+  body:not(.page-home):not(.page-inner) {
     padding-bottom: var(--mobile-dock-height);
     font-size: 1rem;
+  }
+
+  body.page-home,
+  body.page-inner {
+    padding-bottom: calc(var(--bottom-chrome-height, 64px) + var(--safe-bottom));
   }
 
   .mobile-dock {

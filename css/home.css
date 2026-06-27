@@ -21,6 +21,13 @@
   --orp-line: #e4e9ef;
   --orp-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --orp-sans: "DM Sans", system-ui, sans-serif;
+  /* Responsive breakpoints (single source of truth) */
+  --bp-xs: 30rem;   /* 480px */
+  --bp-sm: 48rem;   /* 768px */
+  --bp-md: 62rem;   /* 992px — mobile/tablet vs desktop nav */
+  --bp-lg: 64rem;   /* 1024px */
+  --bp-xl: 80rem;   /* 1280px */
+  --bottom-chrome-height: 0px;
 }
 
 .page-home,
@@ -1926,7 +1933,7 @@ body.page-home .site-header.is-scrolled {
   color: var(--brand-navy);
   text-decoration: none;
   transition: color 0.2s ease;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .orpheum-footer__text-btn {
@@ -3924,6 +3931,24 @@ a.orpheum-events-grid__card {
   }
 }
 
+@media (min-width: 992px) and (max-width: 1024px) {
+  .orpheum-events-grid__stack {
+    grid-template-columns: 1fr;
+  }
+
+  .orpheum-nav__panel-shell {
+    padding-inline: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .orpheum-nav__panel-inner {
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .orpheum-nav__col {
+    min-width: 9.5rem;
+  }
+}
+
 @media (max-width: 1024px) {
   .orpheum-events-grid {
     padding-left: 1.25rem;
@@ -3932,11 +3957,6 @@ a.orpheum-events-grid__card {
 
   .orpheum-events-grid__layout {
     grid-template-columns: 1fr;
-  }
-
-  .orpheum-events-grid__stack {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: none;
   }
 
   .orpheum-our-story__inner,
@@ -4576,7 +4596,7 @@ body.search-open {
   color: var(--orp-stone-700);
 }
 
-@media (min-width: 900px) {
+@media (min-width: 992px) {
   .orpheum-production-page__content {
     grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.8fr);
     max-width: 72rem;
@@ -4595,8 +4615,8 @@ body.search-open {
   .orpheum-inner-page__hero,
   .orpheum-inner-page__body,
   .orpheum-production-page__hero-inner {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+    padding-left: var(--orp-chrome-gutter, 1.25rem);
+    padding-right: var(--orp-chrome-gutter, 1.25rem);
   }
 }
 
