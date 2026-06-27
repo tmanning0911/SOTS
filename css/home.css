@@ -2119,7 +2119,7 @@ body.page-home .site-header.is-scrolled {
   }
 
   .orpheum-hero__shell {
-    padding: calc(var(--header-height, 96px) + var(--chrome-bar-gap, 14px) + 1.5rem) 1.25rem 3rem;
+    padding: calc(var(--header-height, 96px) + var(--chrome-bar-gap, 14px) + 1rem) 1.25rem 1.75rem;
   }
 
   .orpheum-hero__content {
@@ -2127,12 +2127,13 @@ body.page-home .site-header.is-scrolled {
   }
 
   .orpheum-hero__title {
-    font-size: clamp(2.75rem, 11vw, 4rem);
+    font-size: clamp(2.1rem, 8.5vw, 3.1rem);
     max-width: none;
+    margin-bottom: 1.15rem;
   }
 
   .orpheum-hero__title-line--lead {
-    font-size: 1.08em;
+    font-size: 1.02em;
   }
 
   .orpheum-hero__title-line--final {
@@ -2159,7 +2160,7 @@ body.page-home .site-header.is-scrolled {
   }
 
   .orpheum-season-promo {
-    margin-top: -1.5rem;
+    margin-top: -0.5rem;
   }
 
   .page-home .mobile-nav {
@@ -2536,9 +2537,10 @@ body.page-home .site-header.is-scrolled {
 
 @media (max-width: 991px) {
   .orpheum-season-promo {
-    margin-top: -1.5rem;
+    margin-top: -0.5rem;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
+    padding-bottom: 1.25rem;
   }
 
   .orpheum-season-promo__ticket {
@@ -2547,7 +2549,7 @@ body.page-home .site-header.is-scrolled {
 
   .orpheum-season-promo__visual {
     flex: none;
-    min-height: 200px;
+    min-height: 160px;
     border-radius: 13px 13px 0 0;
     border-right: 1px solid rgba(var(--brand-navy-rgb), 0.1);
     border-bottom: none;
@@ -4791,11 +4793,16 @@ body.page-inner {
   }
 
   .orpheum-hero {
-    min-height: min(88svh, 760px);
+    min-height: min(70svh, 520px);
   }
 
   .orpheum-hero__shell {
-    padding: calc(var(--header-height) + 1.25rem) var(--orp-chrome-gutter) 2.75rem;
+    padding: calc(var(--header-height) + 0.85rem) var(--orp-chrome-gutter) 1.5rem;
+  }
+
+  .orpheum-hero__title {
+    font-size: clamp(2.1rem, 8.5vw, 3.1rem);
+    margin-bottom: 1.15rem;
   }
 
   .orpheum-hero__actions {
@@ -4920,14 +4927,30 @@ body.page-inner {
   }
 
   .orpheum-visit-bar__item {
-    min-height: 4.75rem;
-    padding: 0.85rem 0.75rem;
-    font-size: clamp(0.72rem, 2.4vw, 0.82rem);
+    min-height: 4.25rem;
+    padding: 0.75rem 0.5rem;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    line-height: 1.25;
+    white-space: normal;
+  }
+
+  .orpheum-visit-bar__item:nth-child(odd) {
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .orpheum-visit-bar__item:nth-child(-n + 2) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .orpheum-visit-bar__item:nth-child(2),
+  .orpheum-visit-bar__item:nth-child(4) {
+    border-right: none;
   }
 
   .orpheum-visit-bar__item svg {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
   }
 
   .orpheum-our-story {
@@ -5078,8 +5101,8 @@ body.page-inner {
 
   .orpheum-quickbar a,
   .orpheum-quickbar button {
-    min-height: 56px;
-    font-size: clamp(0.58rem, 2.6vw, 0.68rem);
+    min-height: 52px;
+    font-size: clamp(0.62rem, 2.8vw, 0.72rem);
     padding-inline: 0.35rem;
     line-height: 1.25;
   }
@@ -5095,7 +5118,7 @@ body.page-inner {
   }
 
   body.page-home {
-    --bottom-chrome-height: 112px;
+    --bottom-chrome-height: 104px;
   }
 }
 
@@ -5111,7 +5134,7 @@ body.page-inner {
 
 @media (min-width: 768px) and (max-width: 991px) {
   .orpheum-hero__title {
-    font-size: clamp(3rem, 7vw, 4.25rem);
+    font-size: clamp(2.35rem, 6vw, 3rem);
   }
 
   .orpheum-season-promo__copy h2 {
@@ -5137,28 +5160,17 @@ body.page-inner {
   }
 
   .orpheum-hero__title {
-    font-size: clamp(2.35rem, 12vw, 3.1rem);
+    font-size: clamp(1.95rem, 9.5vw, 2.65rem);
   }
 
   .orpheum-partners__intro h2,
   .orpheum-support-banner__content h2,
   .orpheum-impact-split__title {
-    font-size: clamp(2.25rem, 10vw, 2.75rem);
+    font-size: clamp(2rem, 9vw, 2.5rem);
   }
 
-  .orpheum-visit-bar__inner {
-    grid-template-columns: 1fr;
-  }
-
-  .orpheum-visit-bar__item {
-    border-right: none !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-    min-height: 3.75rem;
-    font-size: 0.78rem;
-  }
-
-  .orpheum-visit-bar__item:last-child {
-    border-bottom: none;
+  .orpheum-partners__intro {
+    margin-bottom: 1.5rem;
   }
 
   .orpheum-mobile-nav .mobile-nav__ctas {
@@ -5179,6 +5191,118 @@ body.page-inner {
   }
 
   .orpheum-footer__venues a {
+    font-size: 0.72rem;
+  }
+}
+
+/* ═══ MOBILE POLISH — density, readability, scroll length ═══ */
+@media (max-width: 991px) {
+  .orpheum-events-grid {
+    padding-top: 1rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .orpheum-events-scroll__body h4 {
+    font-size: 1.05rem;
+  }
+
+  .orpheum-events-scroll__dates {
+    font-size: 0.875rem;
+  }
+
+  .orpheum-our-story {
+    padding: 2rem 0 2.25rem;
+  }
+
+  .orpheum-our-story__copy p:not(.orpheum-small-heading) {
+    font-size: 1rem;
+    line-height: 1.65;
+    margin-bottom: 1.15rem;
+  }
+
+  .orpheum-our-story__tickets {
+    margin-top: 1.25rem;
+    margin-bottom: -1.25rem;
+  }
+
+  .orpheum-impact-split {
+    padding: 2.25rem var(--orp-chrome-gutter, 1.25rem) 1.5rem;
+    margin-top: 0.25rem;
+  }
+
+  .orpheum-impact-split__title::after {
+    margin: 0.75rem 0;
+  }
+
+  .orpheum-support-banner__shell {
+    padding: 1.15rem var(--orp-chrome-gutter, 1rem);
+  }
+
+  .orpheum-news-feed {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .orpheum-news-feed__card .orpheum-news-feed__excerpt {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    font-size: 0.9rem;
+  }
+
+  .orpheum-partners {
+    padding: 1.75rem var(--orp-chrome-gutter, 1.25rem);
+  }
+
+  .orpheum-partners__intro h2 {
+    font-size: clamp(2rem, 7vw, 2.75rem);
+  }
+
+  .orpheum-newsletter-banner__shell,
+  .orpheum-newsletter {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .orpheum-newsletter h2,
+  .orpheum-newsletter-banner__content h2 {
+    font-size: clamp(1.65rem, 6vw, 2.15rem);
+    margin-bottom: 1rem;
+  }
+
+  .orpheum-footer__shell {
+    padding: 2rem var(--orp-chrome-gutter, 1.25rem) 1.25rem;
+  }
+
+  .orpheum-footer__primary {
+    row-gap: 1.5rem;
+  }
+
+  .orpheum-footer__group-links a,
+  .orpheum-footer__season a,
+  .orpheum-footer__text-btn {
+    font-size: 0.9375rem;
+    white-space: normal;
+  }
+
+  .orpheum-footer__utility a {
+    font-size: 0.8125rem;
+    white-space: normal;
+  }
+
+  .orpheum-footer__copyright,
+  .orpheum-footer__tagline,
+  .orpheum-footer__education-note {
+    font-size: 0.8125rem;
+    text-align: left;
+  }
+
+  .orpheum-footer__venues a {
+    font-size: 0.72rem;
+  }
+
+  body.page-inner .mobile-dock__item {
     font-size: 0.68rem;
   }
 }
