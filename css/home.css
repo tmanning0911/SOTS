@@ -1057,9 +1057,29 @@ body.page-home .site-header.is-scrolled {
   display: none;
 }
 
-/* Mobile drawer: hidden by default everywhere; fixed overlay when open ≤991px */
+/* Mobile drawer: never in document flow; overlay only when open ≤991px */
 .orpheum-mobile-nav.mobile-nav {
   display: none;
+  position: fixed;
+  inset: 0;
+  visibility: hidden;
+  pointer-events: none;
+  overflow: hidden;
+  height: 0;
+  width: 0;
+  z-index: 1500;
+}
+
+@media (min-width: 992px) {
+  .orpheum-mobile-nav.mobile-nav,
+  .orpheum-mobile-nav.mobile-nav.is-open {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+  }
 }
 
 /* ═══ HERO ═══ */
@@ -5073,6 +5093,10 @@ body.page-inner {
     display: none;
     position: fixed;
     inset: 0;
+    width: auto;
+    height: auto;
+    visibility: hidden;
+    pointer-events: none;
     z-index: 1500;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -5084,6 +5108,8 @@ body.page-inner {
 
   .orpheum-mobile-nav.mobile-nav.is-open {
     display: block;
+    visibility: visible;
+    pointer-events: auto;
   }
 
   .page-home {
