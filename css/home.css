@@ -1984,7 +1984,7 @@ body.page-home .site-header.is-scrolled {
   color: rgba(var(--brand-navy-rgb), 0.62);
   text-decoration: none;
   transition: color 0.2s ease;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .orpheum-footer__meta-right {
