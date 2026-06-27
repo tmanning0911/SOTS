@@ -2140,7 +2140,7 @@ body.page-home .site-header.is-scrolled {
   }
 
   .page-home {
-    padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(var(--bottom-chrome-height, 56px) + env(safe-area-inset-bottom, 0px));
   }
 
   .orpheum-quickbar {
@@ -2642,6 +2642,11 @@ body.page-home .site-header.is-scrolled {
   background: var(--orp-dark);
 }
 
+a.orpheum-events-grid__card {
+  text-decoration: none;
+  color: inherit;
+}
+
 .orpheum-events-grid__card > img,
 .orpheum-events-grid__card > .orpheum-events-grid__overlay,
 .orpheum-events-grid__card > .orpheum-events-grid__feature-cap,
@@ -2806,6 +2811,8 @@ body.page-home .site-header.is-scrolled {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  min-height: 44px;
+  padding: 0.35rem 0;
   font-family: var(--orp-sans);
   font-size: 0.78rem;
   font-weight: 600;
@@ -2874,8 +2881,8 @@ body.page-home .site-header.is-scrolled {
     display: none;
   }
 
-  .orpheum-events-grid__card--photo .orpheum-events-grid__overlay {
-    display: none;
+  .orpheum-events-grid__card--photo .orpheum-events-grid__photo-cap {
+    opacity: 1;
   }
 }
 
@@ -4018,6 +4025,11 @@ body.page-home .site-header.is-scrolled {
   position: absolute;
   top: 0.75rem;
   right: 0.75rem;
+  display: grid;
+  place-items: center;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0;
   background: none;
   border: none;
   font-size: 1.5rem;
@@ -4683,7 +4695,7 @@ body.search-open {
 
 @media (max-width: 991px) {
   body.page-inner {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(var(--bottom-chrome-height, 64px) + env(safe-area-inset-bottom, 0px));
   }
 
   body.page-inner .mobile-dock {
@@ -4737,6 +4749,17 @@ body.page-inner {
 }
 
 @media (max-width: 991px) {
+  body.page-home,
+  body.page-inner {
+    --header-height: 64px;
+  }
+
+  .orpheum-nav__panel {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
   .orpheum-utility,
   .orpheum-header,
   .orpheum-footer,
@@ -4985,6 +5008,11 @@ body.page-inner {
     --bottom-chrome-height: 64px;
   }
 
+  body.page-home,
+  body.page-inner {
+    padding-bottom: calc(var(--bottom-chrome-height) + env(safe-area-inset-bottom, 0px));
+  }
+
   .orpheum-mobile-nav .mobile-nav__header {
     margin-bottom: 1.25rem;
   }
@@ -5065,6 +5093,10 @@ body.page-inner {
   .orpheum-quickbar li:nth-child(n + 3) {
     border-top: 1px solid rgba(255, 255, 255, 0.12);
   }
+
+  body.page-home {
+    --bottom-chrome-height: 112px;
+  }
 }
 
 @media (min-width: 992px) {
@@ -5139,6 +5171,15 @@ body.page-inner {
 
   .orpheum-events-scroll__card {
     flex-basis: min(86vw, 20rem);
+  }
+
+  .orpheum-footer__copyright,
+  .orpheum-footer__utility a {
+    white-space: normal;
+  }
+
+  .orpheum-footer__venues a {
+    font-size: 0.68rem;
   }
 }
 

@@ -16,48 +16,48 @@ function LearnMoreLink({ href }) {
 function EventGridCard({ event, variant = "photo" }) {
   const image = event.featureImage ?? event.image;
   const isPhoto = variant === "photo";
+  const cardClass = `orpheum-events-grid__card orpheum-events-grid__card--${variant}`;
 
-  return (
-    <article className={`orpheum-events-grid__card orpheum-events-grid__card--${variant}`}>
-      <img src={image} alt={event.title} loading="lazy" width={isPhoto ? 640 : 960} height={isPhoto ? 360 : 540} />
-
-      {!isPhoto ? (
-        <div className="orpheum-events-grid__feature-cap" aria-hidden="true">
-          <span>
-            {event.genre} · {event.dates}
-          </span>
-        </div>
-      ) : (
+  if (isPhoto) {
+    return (
+      <a
+        href={event.href}
+        className={cardClass}
+        aria-label={`${event.title}, ${event.dates}`}
+      >
+        <img src={image} alt="" loading="lazy" width={640} height={360} />
         <div className="orpheum-events-grid__photo-cap">
           <strong>{event.title}</strong>
           <span>{event.dates}</span>
         </div>
-      )}
+      </a>
+    );
+  }
+
+  return (
+    <article className={cardClass}>
+      <img src={image} alt={event.title} loading="lazy" width={960} height={540} />
+
+      <div className="orpheum-events-grid__feature-cap" aria-hidden="true">
+        <span>
+          {event.genre} · {event.dates}
+        </span>
+      </div>
 
       <div className="orpheum-events-grid__overlay">
-        {!isPhoto ? (
-          <>
-            <div className="orpheum-events-grid__overlay-copy">
-              <h4>{event.title}</h4>
-              <p>{event.dates}</p>
-            </div>
+        <div className="orpheum-events-grid__overlay-copy">
+          <h4>{event.title}</h4>
+          <p>{event.dates}</p>
+        </div>
 
-            <div className="orpheum-events-grid__overlay-actions">
-              {event.tickets ? (
-                <ArrowButton href={event.tickets} target="_blank" rel="noopener noreferrer">
-                  Buy Tickets
-                </ArrowButton>
-              ) : null}
-              <LearnMoreLink href={event.href} />
-            </div>
-          </>
-        ) : (
-          <div className="orpheum-events-grid__overlay-actions">
-            <ArrowButton href={event.href} variant="ghost" className="orpheum-arrow-btn--compact orpheum-events-grid__learn-btn">
-              Learn More
+        <div className="orpheum-events-grid__overlay-actions">
+          {event.tickets ? (
+            <ArrowButton href={event.tickets} target="_blank" rel="noopener noreferrer">
+              Buy Tickets
             </ArrowButton>
-          </div>
-        )}
+          ) : null}
+          <LearnMoreLink href={event.href} />
+        </div>
       </div>
     </article>
   );

@@ -40,6 +40,17 @@ export function SiteHeader() {
     header?.classList.toggle("is-nav-open", openNav !== null);
   }, [openNav]);
 
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 991px)");
+    function onViewportChange() {
+      if (mq.matches) setOpenNav(null);
+    }
+
+    onViewportChange();
+    mq.addEventListener("change", onViewportChange);
+    return () => mq.removeEventListener("change", onViewportChange);
+  }, []);
+
   function toggleNav(label) {
     setOpenNav((current) => (current === label ? null : label));
   }
