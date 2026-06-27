@@ -6,7 +6,15 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const sotsData = path.resolve(root, "../SOTS/public/data");
+const sotsDataCandidates = [
+  path.resolve(root, "../SOTS/public/data"),
+  path.resolve(root, "public/data"),
+];
+const sotsData = sotsDataCandidates.find((dir) => fs.existsSync(path.join(dir, "faqs.json")));
+
+if (!sotsData) {
+  throw new Error("Could not find SOTS data JSON (public/data/faqs.json).");
+}
 
 function readJson(name) {
   return JSON.parse(fs.readFileSync(path.join(sotsData, name), "utf8"));
