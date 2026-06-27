@@ -1,0 +1,3 @@
+Contact: mailto:contactus@shakespeareonthesound.org
+Preferred-Languages: en
+Canonical: https://www.shakespeareonthesound.org/.well-known/security.txt

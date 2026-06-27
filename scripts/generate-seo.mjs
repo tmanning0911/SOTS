@@ -1,80 +1,44 @@
 /**
- * Post-build: refresh sitemap.xml with canonical URLs.
- * Run: node scripts/generate-seo.mjs
+ * Post-build sitemap for Netlify deploy.
  */
-import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
-import path from 'node:path';
+import { writeFileSync, mkdirSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { INNER_PAGES, hrefToRoutePath } from "../js/pages-data.js";
 
-const siteUrl = (process.env.VITE_SITE_URL || 'https://www.shakespeareonthesound.org').replace(
-  /\/$/,
-  '',
-);
-
-const routes = [
-  { loc: '/', changefreq: 'weekly', priority: '1.0' },
-  { loc: '/plays', changefreq: 'weekly', priority: '0.95' },
-  { loc: '/events', changefreq: 'weekly', priority: '0.85' },
-  { loc: '/learning', changefreq: 'monthly', priority: '0.85' },
-  { loc: '/support', changefreq: 'monthly', priority: '0.8' },
-  { loc: '/about', changefreq: 'monthly', priority: '0.8' },
-  { loc: '/contact', changefreq: 'monthly', priority: '0.75' },
-  { loc: '/news', changefreq: 'weekly', priority: '0.75' },
-  { loc: '/watch', changefreq: 'monthly', priority: '0.6' },
-  { loc: '/cookie-policy', changefreq: 'yearly', priority: '0.4' },
-];
-
-let articles = [];
-try {
-  articles = JSON.parse(readFileSync(path.resolve('public/data/articles.json'), 'utf8')).filter(
-    (a) => a.published !== false && a.id,
-  );
-} catch {
-  articles = [];
-}
-
-for (const article of articles) {
-  routes.push({ loc: `/news/${article.id}`, changefreq: 'monthly', priority: '0.65' });
-}
-
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const siteUrl = (process.env.VITE_SITE_URL || "https://www.shakespeareonthesound.org").replace(/\/$/, "");
 const lastmod = new Date().toISOString().slice(0, 10);
 
-const urls = routes
+const routes = [
+  { loc: "/", priority: "1.0", changefreq: "weekly" },
+  ...INNER_PAGES.map((page) => ({
+    loc: hrefToRoutePath(page.href),
+    priority: page.href.includes("/productions/") ? "0.9" : "0.8",
+    changefreq: "monthly",
+  })),
+  { loc: "/productions/much-ado-about-nothing", priority: "0.95", changefreq: "weekly" },
+  { loc: "/productions/kids-show", priority: "0.85", changefreq: "monthly" },
+  { loc: "/productions/past-productions", priority: "0.75", changefreq: "yearly" },
+];
+
+const unique = [...new Map(routes.map((r) => [r.loc, r])).values()];
+
+const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${unique
   .map(
-    (r) => `  <url>
-    <loc>${siteUrl}${r.loc === '/' ? '' : r.loc}</loc>
+    (route) => `  <url>
+    <loc>${siteUrl}${route.loc.startsWith("/") ? route.loc : `/${route.loc}`}</loc>
     <lastmod>${lastmod}</lastmod>
-    <changefreq>${r.changefreq}</changefreq>
-    <priority>${r.priority}</priority>
+    <changefreq>${route.changefreq}</changefreq>
+    <priority>${route.priority}</priority>
   </url>`,
   )
-  .join('\n');
-
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls}
+  .join("\n")}
 </urlset>
 `;
 
-const distDir = path.resolve('dist');
-const publicDir = path.resolve('public');
-
-mkdirSync(distDir, { recursive: true });
-writeFileSync(path.join(distDir, 'sitemap.xml'), sitemap);
-writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemap);
-
-const robots = `# https://www.shakespeareonthesound.org/robots.txt
-User-agent: *
-Allow: /
-
-Disallow: /admin
-Disallow: /admin/
-Disallow: /api/content-admin
-Disallow: /api/admin-auth
-
-Sitemap: ${siteUrl}/sitemap.xml
-`;
-
-writeFileSync(path.join(distDir, 'robots.txt'), robots);
-writeFileSync(path.join(publicDir, 'robots.txt'), robots);
-
-console.log(`SEO files written for ${siteUrl}`);
+mkdirSync(path.join(root, "dist"), { recursive: true });
+writeFileSync(path.join(root, "dist/sitemap.xml"), xml);
+console.log(`Wrote dist/sitemap.xml (${unique.length} URLs)`);

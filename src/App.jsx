@@ -1,57 +1,59 @@
-import { Toaster } from '@/components/ui/toaster';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import PageNotFound from './lib/PageNotFound';
-import ScrollToTop from './components/ScrollToTop';
-import PageSEO from './components/PageSEO';
-import Home from './pages/Home';
-import Plays from './pages/Plays';
-import Learning from './pages/Learning';
-import Support from './pages/Support';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import News from './pages/News';
-import NewsArticle from './pages/NewsArticle';
-import WatchPage from './pages/WatchPage';
-import Events from './pages/Events';
-import CookiePolicy from './pages/CookiePolicy';
-import ShakespeareHubPage from './pages/ShakespeareHubPage';
-import Admin from './pages/Admin';
-import AdminLogin from './pages/AdminLogin';
-import { FormModalProvider } from '@/lib/FormModalContext';
-import { CookieConsentProvider } from '@/lib/CookieConsentContext';
-import { SeoOverrideProvider } from '@/lib/SeoOverrideContext';
-function App() {
+import { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { AppLayout } from "./layout/AppLayout.jsx";
+import { HomePage } from "./pages/HomePage.jsx";
+import { InnerPage } from "./pages/InnerPage.jsx";
+import { FaqPage } from "./pages/FaqPage.jsx";
+import { ProductionPage } from "./pages/ProductionPage.jsx";
+import { NotFoundPage } from "./pages/NotFoundPage.jsx";
+import { INNER_PAGES, hrefToRoutePath } from "../js/pages-data.js";
+
+function PageTitle({ title }) {
+  const location = useLocation();
+  useEffect(() => {
+    if (title) document.title = `${title} - Shakespeare on the Sound`;
+  }, [title, location.pathname]);
+  return null;
+}
+
+function InnerPageRoute({ page }) {
   return (
-    <Router>
-      <SeoOverrideProvider>
-        <CookieConsentProvider>
-          <FormModalProvider>
-            <ScrollToTop />
-            <PageSEO />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/plays" element={<Plays />} />
-              <Route path="/learning" element={<Learning />} />
-              <Route path="/support" element={<Support />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/news/:id" element={<NewsArticle />} />
-              <Route path="/watch" element={<WatchPage />} />
-              <Route path="/events" element={<Events />} />
-              <Route path="/cookie-policy" element={<CookiePolicy />} />
-              <Route path="/on-demand" element={<Navigate to="/watch" replace />} />
-              <Route path="/shakespeare-hub" element={<ShakespeareHubPage />} />
-              <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin" element={<Admin />} />
-              <Route path="*" element={<PageNotFound />} />
-            </Routes>
-          </FormModalProvider>
-        </CookieConsentProvider>
-      </SeoOverrideProvider>
-      <Toaster />
-    </Router>
+    <>
+      <PageTitle title={page.title} />
+      <InnerPage page={page} />
+    </>
   );
 }
 
-export default App;
+function routePair(path, element) {
+  return [
+    <Route key={path} path={path} element={element} />,
+    <Route key={`${path}/`} path={`${path}/`} element={element} />,
+  ];
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route element={<AppLayout />}>
+        <Route index element={<HomePage />} />
+        {INNER_PAGES.flatMap((page) => {
+          const path = hrefToRoutePath(page.href);
+          if (page.faq) {
+            return routePair(
+              path,
+              <>
+                <PageTitle title={page.title} />
+                <FaqPage />
+              </>
+            );
+          }
+          return routePair(path, <InnerPageRoute page={page} />);
+        })}
+        {routePair("productions/:slug", <ProductionPage />)}
+        <Route path="404" element={<NotFoundPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
+  );
+}

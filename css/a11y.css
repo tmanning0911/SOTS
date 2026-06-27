@@ -1,0 +1,49 @@
+/* Accessibility — focus, forms, reduced motion (MS Web Dev for Beginners) */
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-gold-accent);
+  outline-offset: 3px;
+}
+
+body.using-mouse :focus:not(:focus-visible) {
+  outline: none;
+}
+
+.form-error {
+  color: #b42318;
+  font-size: 0.85rem;
+  margin: 0.35rem 0 0;
+  font-weight: 500;
+}
+
+.form-group input[aria-invalid="true"],
+.form-group textarea[aria-invalid="true"] {
+  border-color: #b42318;
+  box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.12);
+}
+
+[data-form-message][role="status"] {
+  padding: 0.75rem 1rem;
+  background: rgba(75, 145, 109, 0.12);
+  border-radius: 8px;
+  border: 1px solid rgba(75, 145, 109, 0.25);
+}
+
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

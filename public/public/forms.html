@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Forms</title>
+  </head>
+  <body>
+  <div id="site-chrome"></div>
+    <!-- Netlify build-time form detection (SPA) — do not delete -->
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="contact" />
+      <input name="bot-field" />
+      <input name="name" type="text" />
+      <input name="email" type="email" />
+      <input name="phone" type="tel" />
+      <select name="topic"></select>
+      <textarea name="message"></textarea>
+    </form>
+
+    <form name="education" netlify netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="education" />
+      <input name="bot-field" />
+      <input name="name" type="text" />
+      <input name="email" type="email" />
+      <input name="organization" type="text" />
+      <input name="program" type="text" />
+      <textarea name="message"></textarea>
+    </form>
+
+    <form name="newsletter" netlify netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="newsletter" />
+      <input name="bot-field" />
+      <input name="email" type="email" />
+      <input name="name" type="text" />
+    </form>
+
+    <form name="sponsorship" netlify netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="sponsorship" />
+      <input name="bot-field" />
+      <input name="name" type="text" />
+      <input name="email" type="email" />
+      <input name="organization" type="text" />
+      <textarea name="message"></textarea>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+[
+  {
+    "category": "Theatre",
+    "question": "Where are you located?",
+    "answer": "Our main summer production takes place in Pinkney Park at 177 Rowayton Avenue in Rowayton, CT. Our offices are at the Rowayton Community Center, 33 Highland Avenue."
+  },
+  {
+    "category": "Theatre",
+    "question": "Where do I park?",
+    "answer": "Parking for our summer production is located at Old School Field on Witch Lane, down the road from Pinkney Park. Overflow parking is available at the United Church of Rowayton. There is a municipal parking lot in Rowayton and on-street parking on Rowayton Avenue. Handicap parking is available in Pinkney Park — contact our office at (203) 957-1006 in advance to secure an accessible space."
+  },
+  {
+    "category": "Theatre",
+    "question": "What time does the park open?",
+    "answer": "Gates open at 4pm on show days. The box office opens at 5pm. After 5pm, you can place personal blankets and chairs."
+  },
+  {
+    "category": "Theatre",
+    "question": "Can we picnic?",
+    "answer": "Picnicking before the show is a time-honored SOS tradition and highly encouraged! Be prepared for an actor to steal a piece of cheese! A list of local restaurants can be found on our Visit page."
+  },
+  {
+    "category": "Theatre",
+    "question": "Can I bring alcohol or a dog?",
+    "answer": "You can bring alcohol into the park — please drink responsibly. With the exception of certified service animals, pets are prohibited for the safety of our actors."
+  },
+  {
+    "category": "Theatre",
+    "question": "Do I need my own chair?",
+    "answer": "General admission tickets do not include chairs or blankets. VIP tickets include a high or low-back chair. We recommend arriving 30 minutes before the show; gates open at 4pm for picnics and seating. Box office opens at 5pm."
+  },
+  {
+    "category": "Performance",
+    "question": "What happens in inclement weather?",
+    "answer": "We make every effort to perform under safe weather conditions. If a show is cancelled, we notify ticket holders by email, social media (Facebook and Instagram), and our box office voicemail. Performances may be delayed or briefly held; we only cancel in extreme weather. See our cancellation policy for refunds and exchanges."
+  },
+  {
+    "category": "Performance",
+    "question": "Is the play suitable for children?",
+    "answer": "Children are welcome to all performances. There is a free Kids' Show at 6:30pm near the house in Pinkney Park every show evening — a 30-minute version of the MainStage play."
+  },
+  {
+    "category": "Performance",
+    "question": "Will I understand the play?",
+    "answer": "We take great pride in producing Shakespeare that is accessible, engaging, and clear to everyone. A synopsis is included in the program and on our website."
+  }
+]

@@ -1,0 +1,11 @@
+# Static assets (must come before SPA catch-all)
+/data/*    /data/:splat    200
+/images/*  /images/:splat  200
+/assets/*  /assets/:splat  200
+/.well-known/*  /.well-known/:splat  200
+/site.webmanifest  /site.webmanifest  200
+/robots.txt  /robots.txt  200
+/sitemap.xml  /sitemap.xml  200
+
+# SPA client-side routing (must be last)
+/*    /index.html   200

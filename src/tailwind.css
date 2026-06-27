@@ -1,0 +1,14 @@
+@import "tailwindcss" prefix(tw);
+
+@theme {
+  --breakpoint-pill: 65.625rem;
+}
+
+@custom-variant max-pill (@media (width < 65.625rem));
+
+/* Stronger pill shadow when header scrolls (polish.js toggles .is-scrolled) */
+.site-header.is-scrolled .tw-pill-nav {
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.08),
+    0 12px 32px rgba(0, 0, 0, 0.14);
+}

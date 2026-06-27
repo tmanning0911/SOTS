@@ -1,0 +1,15 @@
+/* Shakespeare on the Sound — palette sampled from logo */
+:root {
+  --brand-gold: #f9c534;
+  --brand-gold-dark: #dfaf28;
+  --brand-gold-deep: #c9971f;
+  --brand-blue: #2165b4;
+  --brand-blue-dark: #1a5090;
+  --brand-blue-deep: #123d66;
+  --brand-navy: #0f2d4d;
+  --brand-white: #ffffff;
+
+  --brand-gold-rgb: 249, 197, 52;
+  --brand-blue-rgb: 33, 101, 180;
+  --brand-navy-rgb: 15, 45, 77;
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Shakespeare on the Sound",
+  "short_name": "SOTS",
+  "description": "Outdoor Shakespeare in Pinkney Park, Rowayton, CT",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1a2e",
+  "theme_color": "#0f1a2e",
+  "icons": [
+    {
+      "src": "/images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

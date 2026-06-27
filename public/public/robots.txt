@@ -1,0 +1,10 @@
+# https://www.shakespeareonthesound.org/robots.txt
+User-agent: *
+Allow: /
+
+Disallow: /admin
+Disallow: /admin/
+Disallow: /api/content-admin
+Disallow: /api/admin-auth
+
+Sitemap: https://www.shakespeareonthesound.org/sitemap.xml
