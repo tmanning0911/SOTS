@@ -672,9 +672,9 @@ body.page-home .site-header.is-scrolled {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.5rem 0.7rem;
+  padding: 0.55rem 0.85rem;
   font-family: var(--orp-sans);
-  font-size: 1rem;
+  font-size: 1.02rem;
   font-weight: 500;
   letter-spacing: 0.01em;
   white-space: nowrap;
@@ -727,9 +727,9 @@ body.page-home .site-header.is-scrolled {
 
 .orpheum-nav__panel-shell {
   background: var(--orp-white);
-  border-top: none;
-  box-shadow: 0 16px 48px rgba(var(--brand-navy-rgb), 0.12);
-  padding: 1.75rem var(--orp-chrome-gutter, 9.25rem) 2.25rem;
+  border-top: 1px solid var(--orp-line);
+  box-shadow: 0 18px 56px rgba(var(--brand-navy-rgb), 0.14);
+  padding: 2.35rem var(--orp-chrome-gutter, 9.25rem) 2.85rem;
   animation: orpheum-nav-drop 0.2s ease;
 }
 
@@ -746,30 +746,31 @@ body.page-home .site-header.is-scrolled {
 .orpheum-nav__panel-heading {
   display: inline-flex;
   align-items: baseline;
-  gap: 0.2rem;
-  font-family: var(--orp-serif);
-  font-size: clamp(1.75rem, 2.4vw, 2.25rem);
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+  gap: 0.35rem;
+  font-family: var(--orp-sans);
+  font-size: clamp(2rem, 2.65vw, 2.65rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
   color: var(--orp-dark);
   text-decoration: none;
-  margin-bottom: 1.75rem;
+  margin-bottom: 2.15rem;
 }
 
 .orpheum-nav__panel-heading:hover {
-  color: var(--brand-blue);
+  color: var(--orp-dark);
 }
 
 .orpheum-nav__panel-heading-arrow {
   font-family: var(--orp-sans);
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 0.92em;
 }
 
 .orpheum-nav__panel-inner {
   display: flex;
   align-items: flex-start;
-  gap: clamp(2rem, 4vw, 3.5rem);
+  gap: clamp(2.75rem, 5vw, 4.75rem);
   background: transparent;
   border: none;
   box-shadow: none;
@@ -780,41 +781,42 @@ body.page-home .site-header.is-scrolled {
 .orpheum-nav__columns {
   display: flex;
   flex-wrap: wrap;
-  gap: clamp(1.5rem, 3vw, 2.75rem);
+  gap: clamp(2.25rem, 3.5vw, 3.75rem);
   flex: 1;
   min-width: 0;
 }
 
 .orpheum-nav__col {
-  min-width: 150px;
+  min-width: 11.5rem;
   flex: 0 1 auto;
 }
 
 .orpheum-nav__col--split {
-  min-width: min(100%, 280px);
-  flex: 1.15 1 280px;
+  min-width: min(100%, 22rem);
+  flex: 1.35 1 22rem;
 }
 
 .orpheum-nav__panel-title {
   font-family: var(--orp-sans);
-  font-size: 0.875rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: none;
-  color: var(--orp-stone-500);
-  margin: 0 0 0.75rem;
-  padding-bottom: 0.55rem;
-  border-bottom: 2px solid var(--brand-blue);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--orp-stone-700);
+  margin: 0 0 1rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 2px solid var(--orp-gold);
   width: 100%;
 }
 
 .orpheum-nav__panel-title--feature {
   border-bottom: none;
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: var(--orp-stone-500);
   padding-bottom: 0;
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.85rem;
 }
 
 .orpheum-nav__col ul,
@@ -827,18 +829,20 @@ body.page-home .site-header.is-scrolled {
 .orpheum-nav__col--split ul {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: clamp(1.5rem, 3vw, 2.75rem);
+  column-gap: clamp(2rem, 3.5vw, 3.25rem);
+  row-gap: 0.15rem;
 }
 
 .orpheum-nav__col a,
 .orpheum-nav__links a {
   display: block;
-  padding: 0.45rem 0;
-  font-size: 1.125rem;
+  padding: 0.52rem 0;
+  font-size: 1.28rem;
   font-weight: 500;
   color: var(--orp-dark);
   text-decoration: none;
-  line-height: 1.4;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
 }
 
 .orpheum-nav__col a:hover,
@@ -858,33 +862,35 @@ body.page-home .site-header.is-scrolled {
 
 .orpheum-nav__venues strong {
   display: block;
-  font-family: var(--orp-serif);
-  font-size: 1rem;
-  font-weight: 600;
+  font-family: var(--orp-sans);
+  font-size: 1.28rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
 .orpheum-nav__venues span {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--orp-stone-500);
 }
 
 .orpheum-nav__featured {
   flex-shrink: 0;
-  width: min(100%, 260px);
+  width: min(100%, 17.75rem);
 }
 
 .orpheum-nav__feature-card {
   display: block;
   background: var(--orp-stone-100);
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.2s, transform 0.2s;
 }
 
 .orpheum-nav__feature-card:hover {
-  box-shadow: 0 6px 20px rgba(var(--brand-navy-rgb), 0.1);
+  box-shadow: 0 10px 28px rgba(var(--brand-navy-rgb), 0.12);
+  transform: translateY(-1px);
 }
 
 .orpheum-nav__feature-card:hover strong,
@@ -901,16 +907,16 @@ body.page-home .site-header.is-scrolled {
 }
 
 .orpheum-nav__feature-card-body {
-  padding: 1rem 1.1rem 1.15rem;
+  padding: 1.1rem 1.15rem 1.25rem;
 }
 
 .orpheum-nav__feature-meta {
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--orp-stone-500);
-  margin: 0 0 0.45rem;
+  margin: 0 0 0.55rem;
 }
 
 .orpheum-nav__feature-tag {
@@ -919,24 +925,25 @@ body.page-home .site-header.is-scrolled {
 
 .orpheum-nav__feature-card strong {
   display: block;
-  font-family: var(--orp-serif);
-  font-size: 1.1rem;
-  font-weight: 600;
-  line-height: 1.25;
-  margin-bottom: 0.25rem;
+  font-family: var(--orp-sans);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.35rem;
   color: var(--orp-dark);
 }
 
 .orpheum-nav__feature-dates {
   display: block;
-  font-size: 0.88rem;
-  color: var(--orp-stone-500);
-  margin-bottom: 0.65rem;
+  font-size: 0.95rem;
+  color: var(--orp-stone-700);
+  margin-bottom: 0.85rem;
 }
 
 .orpheum-nav__feature-cta {
   display: block;
-  font-size: 0.92rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--orp-dark);
 }
@@ -1020,8 +1027,17 @@ body.page-home .site-header.is-scrolled {
 
 @media (min-width: 992px) and (max-width: 1280px) {
   .orpheum-nav__trigger {
-    padding: 0.45rem 0.5rem;
-    font-size: 0.85rem;
+    padding: 0.5rem 0.65rem;
+    font-size: 0.92rem;
+  }
+
+  .orpheum-nav__col a,
+  .orpheum-nav__links a {
+    font-size: 1.12rem;
+  }
+
+  .orpheum-nav__panel-heading {
+    font-size: clamp(1.75rem, 2.2vw, 2.15rem);
   }
 
   .orpheum-header__logo img {
