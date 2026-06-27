@@ -1329,8 +1329,8 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-slate);
 }
 
-/* Mobile nav */
-.mobile-nav {
+/* Mobile nav — legacy Roundabout pages only */
+.mobile-nav:not(.orpheum-mobile-nav) {
   display: none;
   position: fixed;
   inset: 0;
@@ -1340,11 +1340,11 @@ h1, h2, h3, h4, h5, h6 {
   padding: var(--spacing-50) var(--spacing-40);
 }
 
-.mobile-nav.is-open {
+.mobile-nav:not(.orpheum-mobile-nav).is-open {
   display: block;
 }
 
-.mobile-nav__header {
+.mobile-nav:not(.orpheum-mobile-nav) .mobile-nav__header {
   display: flex;
   justify-content: space-between;
   align-items: center;

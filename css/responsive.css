@@ -156,7 +156,8 @@ body:has(.announcement) .production-hero {
     padding-bottom: calc(var(--bottom-chrome-height, 64px) + var(--safe-bottom));
   }
 
-  .mobile-dock {
+  body.page-inner .mobile-dock,
+  body:not(.page-home):not(.page-inner) .mobile-dock {
     display: flex;
     position: fixed;
     bottom: 0;
@@ -389,33 +390,33 @@ body:has(.announcement) .production-hero {
     gap: var(--spacing-50);
   }
 
-  /* Mobile nav drawer */
-  .mobile-nav {
+  /* Mobile nav drawer — legacy pages only (Orpheum uses .orpheum-mobile-nav) */
+  .mobile-nav:not(.orpheum-mobile-nav) {
     padding: calc(var(--safe-top) + var(--spacing-40)) var(--page-gutter) calc(var(--mobile-dock-height) + var(--spacing-40));
   }
 
-  .mobile-nav__ctas {
+  .mobile-nav:not(.orpheum-mobile-nav) .mobile-nav__ctas {
     flex-direction: column;
   }
 
-  .mobile-nav__ctas .btn {
+  .mobile-nav:not(.orpheum-mobile-nav) .mobile-nav__ctas .btn {
     width: 100%;
     text-align: center;
     justify-content: center;
     min-height: var(--touch-min);
   }
 
-  .mobile-nav__toggle {
+  .mobile-nav:not(.orpheum-mobile-nav) .mobile-nav__toggle {
     min-height: var(--touch-min);
     padding: 0.85rem 0;
   }
 
-  .mobile-nav__sub a {
+  .mobile-nav:not(.orpheum-mobile-nav) .mobile-nav__sub a {
     padding: 0.65rem 0;
     font-size: 1rem;
   }
 
-  .mobile-nav__close {
+  .mobile-nav:not(.orpheum-mobile-nav) .mobile-nav__close {
     width: var(--touch-min);
     height: var(--touch-min);
     display: grid;
