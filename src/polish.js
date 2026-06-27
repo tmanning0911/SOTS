@@ -40,7 +40,8 @@ function revealOnScroll(el, { y = 32, duration = 0.8 } = {}) {
     immediateRender: false,
     scrollTrigger: {
       trigger: el,
-      start: "top 90%",
+      start: "top 92%",
+      once: true,
       toggleActions: "play none none none",
     },
     onComplete: () => {
@@ -92,6 +93,8 @@ export function initHomePageMotion() {
     gsap.utils.toArray("[data-reveal]").forEach((el) => {
       revealOnScroll(el);
     });
+
+    ScrollTrigger.refresh();
   }, root);
 }
 
@@ -128,6 +131,8 @@ export function initInnerPageMotion() {
 
       revealOnScroll(el, { y: 28, duration: 0.75 });
     });
+
+    ScrollTrigger.refresh();
   });
 }
 

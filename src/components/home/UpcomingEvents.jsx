@@ -109,7 +109,7 @@ export function UpcomingEvents() {
         </div>
       </div>
 
-      <div className="orpheum-events-scroll-wrap" data-reveal>
+      <div className="orpheum-events-scroll-wrap">
         <div className="orpheum-events-scroll" aria-label="Scroll upcoming events">
           <div className="orpheum-events-scroll__track">
             {UPCOMING_EVENTS.map((event) => (

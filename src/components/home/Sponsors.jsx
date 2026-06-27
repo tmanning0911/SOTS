@@ -12,7 +12,6 @@ export function Sponsors() {
 
         <div
           className="orpheum-partners__carousel"
-          data-reveal
           aria-label="Sponsor logos carousel"
           aria-live="off"
         >

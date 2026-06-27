@@ -44,7 +44,7 @@ export function RecentNews() {
           </a>
         </div>
 
-        <div className="orpheum-news-feed__grid" data-reveal>
+        <div className="orpheum-news-feed__grid">
           <article className="orpheum-news-feed__feature">
             <a className="orpheum-news-feed__feature-link" href={featured.href}>
               <div className="orpheum-news-feed__feature-media">
