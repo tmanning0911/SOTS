@@ -1057,6 +1057,11 @@ body.page-home .site-header.is-scrolled {
   display: none;
 }
 
+/* Mobile drawer: hidden by default everywhere; fixed overlay when open ≤991px */
+.orpheum-mobile-nav.mobile-nav {
+  display: none;
+}
+
 /* ═══ HERO ═══ */
 .orpheum-hero {
   position: relative;
@@ -4123,9 +4128,7 @@ body.search-open {
 }
 
 .orpheum-inner-page__hero {
-  padding: calc(var(--chrome-top, calc(var(--utility-height, 52px) + var(--header-height, 82px))) + clamp(1.25rem, 3vw, 2.5rem))
-    var(--orp-chrome-gutter, 9.25rem)
-    clamp(2rem, 4vw, 3rem);
+  padding: clamp(4rem, 8vw, 6rem) var(--orp-chrome-gutter, 9.25rem) clamp(2rem, 4vw, 3rem);
   border-bottom: 1px solid var(--orp-line);
 }
 
@@ -5034,7 +5037,7 @@ body.page-inner {
   }
 
   .orpheum-inner-page__hero {
-    padding-top: calc(var(--chrome-top, var(--header-height)) + clamp(1rem, 3vw, 1.75rem));
+    padding-top: clamp(2.75rem, 8vw, 4rem);
     padding-bottom: clamp(1.5rem, 4vw, 2rem);
   }
 
@@ -5449,10 +5452,6 @@ body.page-inner {
   .orpheum-quickbar button {
     font-size: 0.74rem;
     letter-spacing: 0.04em;
-  }
-
-  body.page-inner .orpheum-production-page__hero-inner {
-    padding-top: calc(var(--chrome-top, var(--header-height)) + 2rem);
   }
 }
 
