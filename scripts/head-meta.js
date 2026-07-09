@@ -47,6 +47,16 @@ export function renderHead({
   <link rel="dns-prefetch" href="https://static.wixstatic.com" />`;
 }
 
+export const FEEDBUCKET_SCRIPT = `  <script type="text/javascript">
+    (function (k) {
+      const s = document.createElement('script');
+      s.defer = true;
+      s.src = 'https://cdn.feedbucket.app/assets/feedbucket.js';
+      s.dataset.feedbucket = k;
+      document.head.appendChild(s);
+    })('b3rMrhoJpumgkXUyZrg7');
+  </script>`;
+
 function escapeHtml(str) {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }

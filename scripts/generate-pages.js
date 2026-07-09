@@ -6,7 +6,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { renderHead } from "./head-meta.js";
+import { renderHead, FEEDBUCKET_SCRIPT } from "./head-meta.js";
 import { INNER_PAGES, PRODUCTION_DETAILS } from "../js/pages-data.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -26,6 +26,7 @@ ${renderHead({ title, description, path: href, image })}
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
+${FEEDBUCKET_SCRIPT}
 </body>
 </html>`;
 }
