@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { profileInitials, profileSlug } from "../../js/profile-utils.js";
+import { getProfileImageCandidates } from "../../js/profile-images.js";
+import { ProfilePlaceholderIcon } from "./ProfilePlaceholderIcon.jsx";
 
 export function ProfileAvatar({ name, image, folder, classPrefix = "orpheum-profile-card" }) {
-  const slug = profileSlug(name);
-  const [failedSrc, setFailedSrc] = useState(null);
-  const candidates = [image, `/images/${folder}/${slug}.webp`, `/images/${folder}/${slug}.jpg`].filter(Boolean);
-  const src = candidates.find((candidate) => candidate !== failedSrc);
+  const candidates = getProfileImageCandidates(name, folder, image);
+  const [candidateIndex, setCandidateIndex] = useState(0);
+  const src = candidates[candidateIndex];
 
   if (!src) {
     return (
-      <div className={`${classPrefix}__avatar`} aria-hidden="true">
-        {profileInitials(name)}
+      <div className={`${classPrefix}__avatar ${classPrefix}__avatar--empty`} aria-hidden="true">
+        <ProfilePlaceholderIcon />
       </div>
     );
   }
@@ -22,7 +22,13 @@ export function ProfileAvatar({ name, image, folder, classPrefix = "orpheum-prof
       alt={`Portrait of ${name}`}
       loading="lazy"
       decoding="async"
-      onError={() => setFailedSrc(src)}
+      onError={() => {
+        setCandidateIndex((index) => index + 1);
+      }}
     />
   );
+}
+
+export function profileHasPhoto(name, folder, image) {
+  return getProfileImageCandidates(name, folder, image).length > 0;
 }

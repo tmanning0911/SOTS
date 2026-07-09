@@ -1,15 +1,16 @@
-import { ProfileAvatar } from "./ProfileAvatar.jsx";
+import { ProfileAvatar, profileHasPhoto } from "./ProfileAvatar.jsx";
 import { ProfileBio } from "./ProfileBio.jsx";
 import { ProfilePhotoFrame } from "./ProfilePhotoFrame.jsx";
 
 export function TeamProfileCard({ person, variant = "featured" }) {
   const frameSize = variant === "featured" ? "xl" : "lg";
-  const frameShape = variant === "featured" ? "portrait" : "portrait";
+  const frameShape = "portrait";
+  const hasPhoto = profileHasPhoto(person.name, "team", person.image);
 
   return (
     <article className={`orpheum-team-card orpheum-team-card--${variant}`}>
       <div className="orpheum-team-card__media">
-        <ProfilePhotoFrame shape={frameShape} size={frameSize}>
+        <ProfilePhotoFrame shape={frameShape} size={frameSize} empty={!hasPhoto}>
           <ProfileAvatar
             name={person.name}
             image={person.image}

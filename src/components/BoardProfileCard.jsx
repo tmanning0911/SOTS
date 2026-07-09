@@ -1,5 +1,5 @@
 import { getBoardProfile } from "../../js/board-profiles.js";
-import { ProfileAvatar } from "./ProfileAvatar.jsx";
+import { ProfileAvatar, profileHasPhoto } from "./ProfileAvatar.jsx";
 import { ProfileBio } from "./ProfileBio.jsx";
 import { ProfilePhotoFrame } from "./ProfilePhotoFrame.jsx";
 
@@ -11,6 +11,7 @@ export function BoardProfileCard({ person, variant = "member" }) {
   const meta = [person.note, person.location].filter(Boolean).join(" · ");
   const frameShape = variant === "officer" ? "square" : "circle";
   const frameSize = variant === "officer" ? "lg" : variant === "advisory" ? "sm" : "md";
+  const hasPhoto = profileHasPhoto(person.name, "board", image);
 
   if (variant === "advisory") {
     return (
@@ -32,7 +33,7 @@ export function BoardProfileCard({ person, variant = "member" }) {
   return (
     <article className={`orpheum-board-card orpheum-board-card--${variant}`}>
       <div className="orpheum-board-card__media">
-        <ProfilePhotoFrame shape={frameShape} size={frameSize}>
+        <ProfilePhotoFrame shape={frameShape} size={frameSize} empty={!hasPhoto}>
           <ProfileAvatar
             name={person.name}
             image={image}

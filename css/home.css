@@ -4693,6 +4693,14 @@ body.search-open {
   aspect-ratio: 4 / 5;
 }
 
+.orpheum-profile-frame--empty {
+  padding: 0;
+}
+
+.orpheum-profile-frame--empty .orpheum-profile-frame__photo {
+  margin-top: 0;
+}
+
 .orpheum-profile-bio {
   display: grid;
   gap: 0.65rem;
@@ -4796,6 +4804,25 @@ body.search-open {
     var(--brand-blue) 0%,
     rgba(var(--brand-blue-rgb), 0.72) 100%
   );
+}
+
+.orpheum-team-card__avatar--empty,
+.orpheum-board-card__avatar--empty {
+  color: var(--orp-stone-400);
+  background: var(--orp-stone-100);
+  border: 1px dashed rgba(var(--brand-blue-rgb), 0.18);
+  box-shadow: none;
+}
+
+.orpheum-profile-placeholder__icon {
+  width: 42%;
+  height: 42%;
+  opacity: 0.72;
+}
+
+.orpheum-board-card--advisory .orpheum-profile-placeholder__icon {
+  width: 55%;
+  height: 55%;
 }
 
 .orpheum-profile-frame--circle .orpheum-team-card__photo,
@@ -5000,20 +5027,13 @@ body.search-open {
 .orpheum-board-card__avatar {
   display: grid;
   place-items: center;
-  font-family: var(--orp-sans);
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--orp-white);
-  background: linear-gradient(
-    145deg,
-    var(--brand-blue) 0%,
-    rgba(var(--brand-blue-rgb), 0.72) 100%
-  );
+  color: var(--orp-stone-400);
+  background: var(--orp-stone-100);
+  border: 1px dashed rgba(var(--brand-blue-rgb), 0.18);
 }
 
 .orpheum-board-card--member .orpheum-board-card__avatar {
-  font-size: 1.1rem;
+  font-size: 0;
 }
 
 .orpheum-board-card__body {

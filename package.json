@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/ensure-site-chrome.js && node scripts/use-dev-assets.js && vite",
-    "build": "node scripts/ensure-site-chrome.js && vite build && node scripts/generate-seo.mjs",
+    "build": "node scripts/ensure-site-chrome.js && node scripts/generate-profile-images.mjs && vite build && node scripts/generate-seo.mjs",
     "build:static": "npm run build && node scripts/patch-html.js",
     "sync:sots": "node scripts/sync-sots-content.mjs",
     "deploy": "node scripts/deploy-to-sots.mjs",
