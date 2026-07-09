@@ -9,6 +9,7 @@
     "build:static": "npm run build && node scripts/patch-html.js",
     "sync:sots": "node scripts/sync-sots-content.mjs",
     "deploy": "node scripts/deploy-to-sots.mjs",
+    "deploy:push": "node scripts/push-production.mjs",
     "generate": "node scripts/generate-pages.js && node scripts/generate-sitemap.js",
     "sitemap": "node scripts/generate-sitemap.js",
     "start": "npm run preview:local",
