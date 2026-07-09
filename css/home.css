@@ -213,7 +213,8 @@ body.page-home .site-header.is-scrolled {
   background: var(--orp-utility-bg);
   color: var(--orp-white);
   font-family: var(--orp-sans);
-  font-size: 0.72rem;
+  --utility-link-size: 0.78rem;
+  font-size: var(--utility-link-size);
   font-weight: 500;
   border-bottom: none;
 }
@@ -262,6 +263,8 @@ body.page-home .site-header.is-scrolled {
   background: none;
   border: none;
   font: inherit;
+  font-size: var(--utility-link-size);
+  line-height: 1.25;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -279,7 +282,6 @@ body.page-home .site-header.is-scrolled {
 .orpheum-utility__item.has-dropdown .orpheum-utility__trigger {
   padding: 0.4rem 0.7rem;
   border-radius: 2px 2px 0 0;
-  font-size: 0.88rem;
   transition: background 0.2s, color 0.2s;
 }
 
@@ -352,6 +354,7 @@ body.page-home .site-header.is-scrolled {
 }
 
 .orpheum-utility__left a {
+  font-size: var(--utility-link-size);
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -5418,7 +5421,7 @@ body.page-inner {
 
   body.page-inner .orpheum-utility__item a,
   body.page-inner .orpheum-utility__item .orpheum-utility__trigger {
-    font-size: 0.72rem;
+    font-size: var(--utility-link-size);
     letter-spacing: 0.06em;
     text-transform: uppercase;
     min-height: 36px;
