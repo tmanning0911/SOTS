@@ -379,6 +379,8 @@ export const HOMEPAGE_NEWS = [
   {
     title: "Much Ado About Nothing — 30th Summer Season",
     category: "Production",
+    date: "15 Apr 2026",
+    dateIso: "2026-04-15",
     excerpt: "Join us June 10–28, 2026 at Pinkney Park for Shakespeare's sparkling comedy. VIP pre-sale April 7–14; general admission on sale April 15.",
     href: "/productions/much-ado-about-nothing/",
     image: "/images/news/season-banner-2026.jpg",
@@ -386,6 +388,8 @@ export const HOMEPAGE_NEWS = [
   {
     title: "Save the Date: Much Ado About Something Gala",
     category: "Events",
+    date: "1 Mar 2026",
+    dateIso: "2026-03-01",
     excerpt: "Friday, October 16, 2026, 6–10pm at The House Up on the Hill, 26 Seir Hill Rd., Norwalk, CT.",
     href: "/support/events/",
     image: "/images/news/gala-2026.jpg",
@@ -393,25 +397,26 @@ export const HOMEPAGE_NEWS = [
   {
     title: "2026 Season Sponsors Announced",
     category: "News",
+    date: "22 Apr 2026",
+    dateIso: "2026-04-22",
     excerpt: "We thank DR Bank, Neil Hauck Architects, R+C, Russo & Rizio, Rowayton Seafood, and Fairfield County Bank for supporting our 30th season.",
-    href: "/#recent-news",
+    href: "/support/donors/",
     image: "/images/news/pinkney-park-audience.jpg",
   },
   {
     title: "VIP Pre-Sale & General Tickets Now Available",
     category: "Production",
+    date: "7 Apr 2026",
+    dateIso: "2026-04-07",
     excerpt: "VIP reserved seating $75. General admission $25 adults / $5 children. Student & senior rush $15 at the box office day-of.",
     href: "/productions/much-ado-about-nothing/",
     image: "/images/news/much-ado-production.jpg",
-  }
+  },
 ];
 
 export const NEWS_FEATURED = HOMEPAGE_NEWS.slice(0, 3);
 
-export const NEWS_LIST = HOMEPAGE_NEWS.map((item, i) => ({
-  ...item,
-  date: ["15 Apr 2026","1 Mar 2026","22 Apr 2026","7 Apr 2026"][i] ?? "",
-}));
+export const NEWS_LIST = HOMEPAGE_NEWS;
 
 export const MAIN_NAV = NAV_ITEMS.map((item) => ({
   label: item.label,
@@ -541,6 +546,27 @@ export const HOMEPAGE_STATS = [
   { value: "Pinkney Park", label: "Rowayton, Connecticut" },
   { value: "June 10–28", label: "2026 summer season" },
 ];
+
+export const SUPPORT_MISSION = {
+  eyebrow: "Join & Give",
+  title: "Keep Free Shakespeare Alive",
+  body:
+    "Admission at Pinkney Park is free because donors, sponsors, and volunteers make it possible. Each season we raise more than $115,000 to fund performances, education in schools, and programs that reach families across Fairfield County.",
+  donateLabel: "Donate Now",
+  donateHref: SITE.donateUrl,
+  secondaryLabel: "Ways to Give",
+  secondaryHref: "/support/individual-giving/",
+  stats: [
+    { value: "30 seasons", label: "of outdoor theatre" },
+    { value: "$115K+", label: "raised from supporters yearly" },
+    { value: "Free", label: "lawn seating for everyone" },
+  ],
+  pathways: [
+    { label: "Individual Giving", href: "/support/individual-giving/" },
+    { label: "Sponsorships", href: "/support/program-ads-sponsorships/" },
+    { label: "Gala & Events", href: "/support/events/" },
+  ],
+};
 
 export const HOMEPAGE_PATHWAYS = [
   {
