@@ -349,66 +349,7 @@ export const SOCIAL_LINKS = [
   { label: "YouTube", href: "https://www.youtube.com/user/ShakespeareOnSound", platform: "youtube" },
 ];
 
-export const UPCOMING_EVENTS = [
-  {
-    title: "Much Ado About Nothing",
-    dates: "June 10–28, 2026",
-    genre: "Main Stage · Pinkney Park",
-    image: MEDIA.muchAdoPoster,
-    featureImage: MEDIA.heroBanner,
-    href: "/productions/much-ado-about-nothing/",
-    tickets: SITE.ticketsUrl,
-  },
-  {
-    title: "Kids' Show",
-    dates: "Summer 2026",
-    genre: "Family · Pinkney Park",
-    image: MEDIA.kidsImage,
-    href: "/productions/kids-show/",
-  },
-  {
-    title: "Much Ado About Something",
-    dates: "Oct 16, 2026",
-    genre: "Gala · Norwalk, CT",
-    image: MEDIA.galaImage,
-    href: "/support/events/",
-  },
-  {
-    title: "Summer Camps",
-    dates: "Summer 2026",
-    genre: "Education",
-    image: MEDIA.kidsImage,
-    href: "/education/summer-camps/",
-  },
-  {
-    title: "In Schools",
-    dates: "Year-round",
-    genre: "Education",
-    image: MEDIA.educationImage,
-    href: "/education/in-schools/",
-  },
-  {
-    title: "Past Productions",
-    dates: "1998–2025",
-    genre: "Archive",
-    image: MEDIA.educationImage,
-    href: "/productions/past-productions/",
-  },
-  {
-    title: "Education Events",
-    dates: "Year-round",
-    genre: "Community",
-    image: MEDIA.educationBanner,
-    href: "/education/events/",
-  },
-  {
-    title: "Support the Season",
-    dates: "Year-round",
-    genre: "Donate",
-    image: MEDIA.donateImage,
-    href: "/support/donate/",
-  },
-];
+export { HOME_UPCOMING_EVENTS as UPCOMING_EVENTS } from "./home-upcoming-events.js";
 
 export const VISIT_TILES = [
   { title: "Plan Your Visit", href: "/about/visit/" },
