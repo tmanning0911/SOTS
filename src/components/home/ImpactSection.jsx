@@ -1,7 +1,6 @@
-import { MEDIA } from "../../../js/data.js";
 import { ArrowButton } from "../ArrowButton.jsx";
 
-const IMPACT_FRAME_ACCENT = "/images/impact-frame-accent.png";
+const IMPACT_IMAGE = "/images/news/kids-kings.jpg";
 
 function ImpactSquiggle() {
   return (
@@ -26,22 +25,17 @@ export function ImpactSection() {
       <div className="orpheum-impact-split__inner" data-reveal>
         <div className="orpheum-impact-split__media">
           <div className="orpheum-impact-frame">
+            <span className="orpheum-impact-frame__accent" aria-hidden="true" />
             <div className="orpheum-impact-frame__photo">
               <img
                 className="orpheum-impact-frame__image"
-                src={MEDIA.kidsImage}
+                src={IMPACT_IMAGE}
                 alt="Young performers at Shakespeare on the Sound"
                 loading="lazy"
                 width={600}
                 height={600}
               />
             </div>
-            <img
-              className="orpheum-impact-frame__accent"
-              src={IMPACT_FRAME_ACCENT}
-              alt=""
-              aria-hidden="true"
-            />
             <ImpactSquiggle />
           </div>
         </div>
