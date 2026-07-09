@@ -22,11 +22,11 @@ function appShell({ title, description, path: href, image }) {
 <html lang="en-US">
 <head>
 ${renderHead({ title, description, path: href, image })}
+${FEEDBUCKET_SCRIPT}
 </head>
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
-${FEEDBUCKET_SCRIPT}
 </body>
 </html>`;
 }
