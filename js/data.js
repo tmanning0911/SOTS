@@ -56,7 +56,7 @@ export const SEASON_PROMO = {
 
 export const PILL_NAV = [
   { label: "Shows & Tickets", href: "/productions/much-ado-about-nothing/" },
-  { label: "Join & Give", href: "/support/donate/" },
+  { label: "Support Us", href: "/support/donate/" },
   { label: "Venues", href: "/about/visit/" },
   { label: "Education", href: "/education/in-schools/" },
   { label: "About", href: "/about/mission-history/" },
@@ -548,18 +548,18 @@ export const HOMEPAGE_STATS = [
 ];
 
 export const SUPPORT_MISSION = {
-  eyebrow: "Join & Give",
-  title: "Keep Free Shakespeare Alive",
+  eyebrow: "Support the Arts",
+  title: "Your Gift Powers the Season",
   body:
-    "Admission at Pinkney Park is free because donors, sponsors, and volunteers make it possible. Each season we raise more than $115,000 to fund performances, education in schools, and programs that reach families across Fairfield County.",
+    "Ticket sales alone do not cover the full cost of our productions. Each year we raise more than $115,000 from donors, sponsors, and volunteers to sustain performances, education in schools, and community programs across Fairfield County.",
   donateLabel: "Donate Now",
   donateHref: SITE.donateUrl,
-  secondaryLabel: "Ways to Give",
+  secondaryLabel: "Explore Giving Options",
   secondaryHref: "/support/individual-giving/",
   stats: [
-    { value: "30 seasons", label: "of outdoor theatre" },
-    { value: "$115K+", label: "raised from supporters yearly" },
-    { value: "Free", label: "lawn seating for everyone" },
+    { value: "30 seasons", label: "of Shakespeare in the park" },
+    { value: "$115K+", label: "annual fundraising goal" },
+    { value: "From $5", label: "general admission for children" },
   ],
   pathways: [
     { label: "Individual Giving", href: "/support/individual-giving/" },
@@ -587,7 +587,7 @@ export const HOMEPAGE_PATHWAYS = [
   },
   {
     title: "Support Us",
-    desc: "Your gift keeps free Shakespeare alive for every generation.",
+    desc: "Your gift helps keep ticket prices accessible and funds education programs for the next generation.",
     href: "/support/donate/",
     image: MEDIA.donateImage,
     accent: "gold",
@@ -605,8 +605,8 @@ export const HOMEPAGE_PATHWAYS = [
 
 export const HOMEPAGE_FAQ = [
   {
-    q: "Are performances really free?",
-    a: "Yes. Shakespeare on the Sound presents professional outdoor theatre at no charge. We rely on donations and community support to keep the arts accessible for everyone.",
+    q: "How much are tickets?",
+    a: "General admission is $25 for adults, $15 for students and seniors, and $5 for children 12 and under. VIP reserved seating is $75. Tuesdays are donation-only performances — pay what you can at the door.",
   },
   {
     q: "What should I bring to Pinkney Park?",
@@ -617,8 +617,8 @@ export const HOMEPAGE_FAQ = [
     a: "Performances may be delayed or rescheduled due to weather. Check our website and social channels for same-day updates, or review our cancellation policy for full details.",
   },
   {
-    q: "How do I get tickets for reserved seating?",
-    a: "General admission is free and open seating on the lawn. Limited reserved seating and special packages are available through our Eventbrite page for select performances.",
+    q: "How do I get reserved seating?",
+    a: "VIP tickets include a reserved high-back or low-back chair and can be purchased through Eventbrite. General admission is open lawn seating — bring your own blanket or low-back chair.",
   },
 ];
 
