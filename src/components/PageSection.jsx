@@ -3,6 +3,12 @@ function ensurePeriod(text) {
   return text.endsWith(".") ? text : `${text}.`;
 }
 
+function BoardPersonMeta({ person }) {
+  const parts = [person.note, person.location].filter(Boolean);
+  if (!parts.length) return null;
+  return <p className="orpheum-board-card__meta">{parts.join(" · ")}</p>;
+}
+
 export function PageSection({ section }) {
   const heading = section.heading ? ensurePeriod(section.heading) : null;
 
@@ -23,6 +29,65 @@ export function PageSection({ section }) {
               ))}
             </article>
           ))}
+        </div>
+      </section>
+    );
+  }
+
+  if (section.type === "board") {
+    return (
+      <section className="orpheum-inner-page__section orpheum-inner-page__section--board">
+        {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
+
+        <div className="orpheum-board">
+          <div className="orpheum-board__officers">
+            <h3 className="orpheum-board__label">Officers</h3>
+            <ul className="orpheum-board__officer-grid">
+              {section.officers.map((officer) => (
+                <li key={officer.role}>
+                  <article className="orpheum-board-card orpheum-board-card--officer">
+                    <p className="orpheum-board-card__role">{officer.role}</p>
+                    <h4>{officer.name}</h4>
+                    {officer.location ? (
+                      <p className="orpheum-board-card__meta">{officer.location}</p>
+                    ) : null}
+                  </article>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="orpheum-board__members">
+            <h3 className="orpheum-board__label">Board Members</h3>
+            <ul className="orpheum-board__member-grid">
+              {section.members.map((member) => (
+                <li key={member.name}>
+                  <article className="orpheum-board-card orpheum-board-card--member">
+                    <h4>{member.name}</h4>
+                    {member.location ? (
+                      <p className="orpheum-board-card__meta">{member.location}</p>
+                    ) : null}
+                  </article>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {section.advisory?.length ? (
+            <div className="orpheum-board__advisory">
+              <h3 className="orpheum-board__label">Advisory Board</h3>
+              <ul className="orpheum-board__member-grid orpheum-board__member-grid--advisory">
+                {section.advisory.map((person) => (
+                  <li key={person.name}>
+                    <article className="orpheum-board-card orpheum-board-card--member orpheum-board-card--advisory">
+                      <h4>{person.name}</h4>
+                      <BoardPersonMeta person={person} />
+                    </article>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </div>
       </section>
     );
