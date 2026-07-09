@@ -443,7 +443,14 @@ export const INNER_PAGES = [
     intro: "Meet the artists and administrators who bring Shakespeare to life under the stars.",
     sections: [
       {
+        type: "prose",
+        paragraphs: [
+          "To share a staff headshot or biography update, email contactus@shakespeareonthesound.org.",
+        ],
+      },
+      {
         type: "people",
+        layout: "featured",
         people: [
           {
             name: "Aaron Simms",
@@ -462,11 +469,12 @@ export const INNER_PAGES = [
       {
         type: "people",
         heading: "Artistic Leadership History",
+        layout: "history",
         people: [
           {
             name: "Claire Shannon Kelly",
             role: "Artistic Director, 2016–2023",
-            bio: "From 2011–2015 Claire worked at Shakespeare on the Sound as Artistic Associate and Director of Education. For Shakespeare on the Sound's main stage she has directed Hamlet, The Two Gentlemen of Verona (which won the BroadwayWorld CT award for Best Ensemble Cast in a play), Macbeth, A Midsummer Night's Dream (2018 & 2021), Twelfth Night, King John, and As You Like It. Educationally, Claire has directed a 5-person A Midsummer Night's Dream. She co-created and directed Shakespeare on the Sound's K-5 touring production Let's Play Shakespeare!, directed their anti-bullying program Speaking Daggers, and devised and directed a children's version of All's Well That Ends Well. Currently she is in development of two new plays: The Family and Wordsmith. She has worked at the Guthrie Theater, the Shakespeare Theater of New Jersey, the Ordway Music Theater, and the George Street Playhouse among others. Claire holds a Masters of Arts degree from New York University in Educational Theater.",
+            bio: "From 2011–2015 Claire worked at Shakespeare on the Sound as Artistic Associate and Director of Education. For Shakespeare on the Sound's main stage she has directed Hamlet, The Two Gentlemen of Verona (which won the BroadwayWorld CT award for Best Ensemble Cast in a play), Macbeth, A Midsummer Night's Dream (2018 & 2021), Twelfth Night, King John, and As You Like It. Educationally, Claire has directed a 5-person A Midsummer Night's Dream. She co-created and directed Shakespeare on the Sound's K-5 touring production Let's Play Shakespeare!, directed their anti-bullying program Speaking Daggers, and devised and directed a children's version of All's Well That Ends Well. Currently she is in development of two new plays: The Family and Wordsmith. She has worked at the Guthrie Theater, the Shakespeare Theater of New Jersey, the Ordway Music Theater, and the George Street Playhouse among others. Claire is also a teaching artist who has taught theater to students from preschool through high school, and traveled to Livingstone, Zambia in 2017 and 2019 to teach and direct A Midsummer Night's Dream. Claire holds a Masters of Arts degree from New York University in Educational Theater.",
           },
           {
             name: "Steven Yuhasz",
@@ -501,6 +509,7 @@ export const INNER_PAGES = [
         paragraphs: [
           "Shakespeare on the Sound is governed by a board of directors drawn from communities across lower Fairfield County. Officers and members oversee fundraising, education partnerships, and the summer festival at Pinkney Park — ensuring the organization stays accountable to the audiences and families we serve.",
           "The advisory board includes founders and longtime supporters whose counsel helps shape our next chapter as we celebrate 30 seasons of Shakespeare under the stars.",
+          "To share a board headshot or biography update, email contactus@shakespeareonthesound.org.",
         ],
       },
       {

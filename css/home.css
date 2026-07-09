@@ -4633,6 +4633,130 @@ body.search-open {
   gap: 1.5rem;
 }
 
+.orpheum-team__grid {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.orpheum-team__grid--featured {
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.orpheum-team__grid--history {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.orpheum-team-card {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1.25rem;
+  height: 100%;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid var(--orp-line);
+  border-radius: 6px;
+  background: var(--orp-white);
+}
+
+.orpheum-team-card--featured {
+  background: linear-gradient(
+    145deg,
+    rgba(var(--brand-blue-rgb), 0.08) 0%,
+    var(--orp-white) 58%
+  );
+  border-color: rgba(var(--brand-blue-rgb), 0.16);
+}
+
+.orpheum-team-card--history {
+  flex-direction: column;
+  background: var(--orp-stone-100);
+}
+
+.orpheum-team-card__media {
+  flex-shrink: 0;
+}
+
+.orpheum-team-card__photo,
+.orpheum-team-card__avatar {
+  display: block;
+  width: 7.5rem;
+  height: 9.5rem;
+  border-radius: 4px;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.orpheum-team-card--history .orpheum-team-card__photo,
+.orpheum-team-card--history .orpheum-team-card__avatar {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  max-height: 18rem;
+}
+
+.orpheum-team-card__avatar {
+  display: grid;
+  place-items: center;
+  font-family: var(--orp-sans);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--orp-white);
+  background: linear-gradient(
+    145deg,
+    var(--brand-blue) 0%,
+    rgba(var(--brand-blue-rgb), 0.72) 100%
+  );
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+
+.orpheum-team-card__body {
+  min-width: 0;
+}
+
+.orpheum-team-card h3 {
+  margin: 0 0 0.25rem;
+  font-family: var(--orp-sans);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--orp-dark);
+}
+
+.orpheum-team-card__role {
+  margin: 0 0 0.15rem;
+  font-family: var(--orp-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--orp-gold-dark);
+}
+
+.orpheum-team-card__pronouns {
+  margin: 0 0 0.75rem;
+  font-family: var(--orp-sans);
+  font-size: 0.9rem;
+  color: var(--orp-stone-500);
+}
+
+.orpheum-team-card__bio {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.orpheum-team-card__bio p {
+  margin: 0;
+  font-family: var(--orp-sans);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--orp-stone-700);
+}
+
 .orpheum-inner-page__person h3 {
   margin: 0 0 0.25rem;
   font-family: var(--orp-sans);
@@ -4707,6 +4831,9 @@ body.search-open {
 }
 
 .orpheum-board-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
   height: 100%;
   padding: 1.1rem 1.15rem;
   border: 1px solid var(--orp-line);
@@ -4715,6 +4842,9 @@ body.search-open {
 }
 
 .orpheum-board-card--officer {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1rem;
   background: linear-gradient(
     145deg,
     rgba(var(--brand-blue-rgb), 0.1) 0%,
@@ -4725,6 +4855,45 @@ body.search-open {
 
 .orpheum-board-card--advisory {
   background: var(--orp-white);
+}
+
+.orpheum-board-card__media {
+  flex-shrink: 0;
+}
+
+.orpheum-board-card__photo,
+.orpheum-board-card__avatar {
+  display: block;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.orpheum-board-card--officer .orpheum-board-card__photo,
+.orpheum-board-card--officer .orpheum-board-card__avatar {
+  width: 5.25rem;
+  height: 5.25rem;
+}
+
+.orpheum-board-card__avatar {
+  display: grid;
+  place-items: center;
+  font-family: var(--orp-sans);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--orp-white);
+  background: linear-gradient(
+    145deg,
+    var(--brand-blue) 0%,
+    rgba(var(--brand-blue-rgb), 0.72) 100%
+  );
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+
+.orpheum-board-card__body {
+  min-width: 0;
 }
 
 .orpheum-board-card__role {
@@ -4752,6 +4921,14 @@ body.search-open {
   font-size: 0.82rem;
   line-height: 1.4;
   color: var(--orp-stone-500);
+}
+
+.orpheum-board-card__bio {
+  margin: 0.65rem 0 0;
+  font-family: var(--orp-sans);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--orp-stone-700);
 }
 
 .orpheum-board__advisory {
@@ -5591,6 +5768,22 @@ body.page-inner {
 
   .orpheum-board__member-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .orpheum-team__grid--history {
+    grid-template-columns: 1fr;
+  }
+
+  .orpheum-team-card {
+    flex-direction: column;
+  }
+
+  .orpheum-team-card__photo,
+  .orpheum-team-card__avatar {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    max-height: 16rem;
   }
 
   .orpheum-support-split {

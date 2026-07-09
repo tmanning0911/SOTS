@@ -1,35 +1,27 @@
+import { BoardProfileCard } from "./BoardProfileCard.jsx";
+import { TeamProfileCard } from "./TeamProfileCard.jsx";
+
 function ensurePeriod(text) {
   if (!text) return text;
   return text.endsWith(".") ? text : `${text}.`;
-}
-
-function BoardPersonMeta({ person }) {
-  const parts = [person.note, person.location].filter(Boolean);
-  if (!parts.length) return null;
-  return <p className="orpheum-board-card__meta">{parts.join(" · ")}</p>;
 }
 
 export function PageSection({ section }) {
   const heading = section.heading ? ensurePeriod(section.heading) : null;
 
   if (section.type === "people") {
+    const variant = section.layout === "history" ? "history" : "featured";
+
     return (
-      <section className="orpheum-inner-page__section">
+      <section className="orpheum-inner-page__section orpheum-inner-page__section--team">
         {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
-        <div className="orpheum-inner-page__people">
+        <ul className={`orpheum-team__grid orpheum-team__grid--${variant}`}>
           {section.people.map((person) => (
-            <article key={person.name} className="orpheum-inner-page__person">
-              <h3>{person.name}</h3>
-              {person.role ? <p className="orpheum-inner-page__person-role">{person.role}</p> : null}
-              {person.pronouns ? (
-                <p className="orpheum-inner-page__person-pronouns">{person.pronouns}</p>
-              ) : null}
-              {(person.paragraphs ?? (person.bio ? [person.bio] : [])).map((paragraph) => (
-                <p key={paragraph.slice(0, 40)}>{paragraph}</p>
-              ))}
-            </article>
+            <li key={person.name}>
+              <TeamProfileCard person={person} variant={variant} />
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
     );
   }
@@ -45,13 +37,7 @@ export function PageSection({ section }) {
             <ul className="orpheum-board__officer-grid">
               {section.officers.map((officer) => (
                 <li key={officer.role}>
-                  <article className="orpheum-board-card orpheum-board-card--officer">
-                    <p className="orpheum-board-card__role">{officer.role}</p>
-                    <h4>{officer.name}</h4>
-                    {officer.location ? (
-                      <p className="orpheum-board-card__meta">{officer.location}</p>
-                    ) : null}
-                  </article>
+                  <BoardProfileCard person={officer} variant="officer" />
                 </li>
               ))}
             </ul>
@@ -62,12 +48,7 @@ export function PageSection({ section }) {
             <ul className="orpheum-board__member-grid">
               {section.members.map((member) => (
                 <li key={member.name}>
-                  <article className="orpheum-board-card orpheum-board-card--member">
-                    <h4>{member.name}</h4>
-                    {member.location ? (
-                      <p className="orpheum-board-card__meta">{member.location}</p>
-                    ) : null}
-                  </article>
+                  <BoardProfileCard person={member} variant="member" />
                 </li>
               ))}
             </ul>
@@ -79,10 +60,7 @@ export function PageSection({ section }) {
               <ul className="orpheum-board__member-grid orpheum-board__member-grid--advisory">
                 {section.advisory.map((person) => (
                   <li key={person.name}>
-                    <article className="orpheum-board-card orpheum-board-card--member orpheum-board-card--advisory">
-                      <h4>{person.name}</h4>
-                      <BoardPersonMeta person={person} />
-                    </article>
+                    <BoardProfileCard person={person} variant="advisory" />
                   </li>
                 ))}
               </ul>
