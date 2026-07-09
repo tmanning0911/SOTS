@@ -1,7 +1,6 @@
 import {
   SITE,
   NAV_ITEMS,
-  UPCOMING_EVENTS,
   HOMEPAGE_NEWS,
   HOMEPAGE_FAQ,
   UTILITY_LINKS,
@@ -9,6 +8,7 @@ import {
   SEASON_SHOWS,
   QUICK_BAR_LINKS,
 } from "./data.js";
+import { HOME_UPCOMING_EVENTS } from "./home-upcoming-events.js";
 import { INNER_PAGES, PRODUCTION_DETAILS } from "./pages-data.js";
 
 let cachedIndex = null;
@@ -81,7 +81,7 @@ export function buildSearchIndex() {
     });
   });
 
-  UPCOMING_EVENTS.forEach((event) => {
+  HOME_UPCOMING_EVENTS.forEach((event) => {
     pushItem(items, seen, {
       title: event.title,
       excerpt: `${event.dates} · ${event.genre}`,

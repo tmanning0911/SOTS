@@ -349,8 +349,6 @@ export const SOCIAL_LINKS = [
   { label: "YouTube", href: "https://www.youtube.com/user/ShakespeareOnSound", platform: "youtube" },
 ];
 
-export { HOME_UPCOMING_EVENTS as UPCOMING_EVENTS } from "./home-upcoming-events.js";
-
 export const VISIT_TILES = [
   { title: "Plan Your Visit", href: "/about/visit/" },
   { title: "Parking", href: "/about/getting-here/" },

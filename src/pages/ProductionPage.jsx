@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { PRODUCTION_DETAILS } from "../../js/pages-data.js";
-import { UPCOMING_EVENTS } from "../../js/data.js";
+import { HOME_UPCOMING_EVENTS } from "../../js/home-upcoming-events.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { PageSection } from "../components/PageSection.jsx";
@@ -9,7 +9,7 @@ import { PageSection } from "../components/PageSection.jsx";
 export function ProductionPage() {
   const { slug } = useParams();
   const data = PRODUCTION_DETAILS[slug];
-  const relatedEvents = UPCOMING_EVENTS.filter((event) => event.href !== `/productions/${slug}/`).slice(0, 4);
+  const relatedEvents = HOME_UPCOMING_EVENTS.filter((event) => event.href !== `/productions/${slug}/`).slice(0, 4);
   const sections =
     data?.sections ??
     (data?.description
