@@ -9,9 +9,9 @@
 [build.environment]
   NODE_VERSION = "20"
   VITE_SITE_URL = "https://www.shakespeareonthesound.org"
-  # Comma-separated origins allowed to call admin APIs (add your *.netlify.app preview URL in Netlify UI)
-  # Add your Netlify preview URL after first deploy, e.g. https://your-site.netlify.app
-  SITE_ALLOWED_ORIGINS = "https://www.shakespeareonthesound.org,https://shakespeareonthesound.org"
+  # Preview site (Netlify) — use this URL to QA until the custom domain is pointed here
+  # https://ubiquitous-maamoul-8b9b7f.netlify.app
+  SITE_ALLOWED_ORIGINS = "https://www.shakespeareonthesound.org,https://shakespeareonthesound.org,https://ubiquitous-maamoul-8b9b7f.netlify.app"
 
 [[redirects]]
   from = "/api/content"

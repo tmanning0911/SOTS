@@ -1,11 +1,17 @@
 #!/usr/bin/env node
 /**
- * Push main to both remotes — origin (SOTS GitHub) and netlify (Netlify-linked repo).
- * Netlify deploys from the `netlify` remote, NOT origin alone.
+ * Push main to both remotes:
+ *   origin  → github.com/tmanning0911/SOTS (backup)
+ *   netlify → github.com/tmanning0911/ubiquitous-maamoul-8b9b7f (triggers Netlify deploy)
+ *
+ * QA / preview site (NOT the live Wix domain):
+ *   https://ubiquitous-maamoul-8b9b7f.netlify.app
  */
 import { execSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+const PREVIEW_URL = 'https://ubiquitous-maamoul-8b9b7f.netlify.app';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -22,4 +28,5 @@ if (branch !== 'main') {
 
 run('git push origin main');
 run('git push netlify main');
-console.log('\nPushed to origin + netlify. Netlify will build from ubiquitous-maamoul-8b9b7f.');
+console.log(`\nDeploy triggered. Preview site (check here): ${PREVIEW_URL}`);
+console.log('Note: www.shakespeareonthesound.org is still on Wix until DNS is pointed to Netlify.');
