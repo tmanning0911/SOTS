@@ -2127,12 +2127,17 @@ body.page-home .site-header.is-scrolled {
   color: var(--brand-blue);
 }
 
-/* Homepage mobile quick bar (Orpheum-style) */
+/* Homepage mobile quick bar (matches visit bar wave + blue) */
 .orpheum-quickbar {
   display: none;
+  position: relative;
+  background: var(--brand-blue);
+  color: var(--orp-white);
 }
 
 .orpheum-quickbar ul {
+  position: relative;
+  z-index: 2;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -2147,7 +2152,7 @@ body.page-home .site-header.is-scrolled {
   justify-content: center;
   width: 100%;
   min-height: 56px;
-  padding: 0.5rem 0.35rem;
+  padding: 0.55rem 0.35rem;
   text-align: center;
   font-family: var(--orp-sans);
   font-size: clamp(0.65rem, 2.5vw, 0.75rem);
@@ -2156,15 +2161,22 @@ body.page-home .site-header.is-scrolled {
   text-transform: uppercase;
   text-decoration: none;
   color: var(--orp-white);
-  background: var(--orp-dark);
+  background: transparent;
   border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
+  line-height: 1.25;
+  transition: background 0.2s ease;
+}
+
+.orpheum-quickbar li:nth-child(4n) a,
+.orpheum-quickbar li:nth-child(4n) button {
+  border-right: none;
 }
 
 .orpheum-quickbar a:hover,
 .orpheum-quickbar button:hover {
-  background: var(--brand-blue);
+  background: rgba(0, 0, 0, 0.12);
 }
 
 /* Legacy footer selectors kept for non-React pages */
@@ -2908,21 +2920,26 @@ a.orpheum-events-grid__card {
   }
 }
 
-/* ═══ TEAL VISIT BAR ═══ */
-.orpheum-visit-bar {
-  position: relative;
-  background: var(--orp-blue);
-  color: var(--orp-white);
+@keyframes visit-bar-wave-edge {
+  from {
+    -webkit-mask-position: 0% 0;
+    mask-position: 0% 0;
+  }
+
+  to {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
 }
 
-.orpheum-visit-bar::before {
+.orpheum-wave-edge-top::before {
   content: "";
   position: absolute;
-  top: -12px;
+  top: 0;
   left: 0;
   right: 0;
   height: 12px;
-  background: var(--orp-blue);
+  background: inherit;
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 24' preserveAspectRatio='none'%3E%3Cpath fill='black' d='M0 24V12c50-12 100 12 150 0s100-12 150 0 100 12 150 0 100-12 150 0 100 12 150 0 100-12 150 0 100 12 150 0 100-12 150 0 100 12 150 0 100-12 150 0 100 12 150 0 100-12 150 0 100 12 150 0 100-12 150 0 100 12 150 0 100-12 150 0 100 12 150 0V24z'/%3E%3C/svg%3E");
   mask-size: 200% 100%;
   mask-repeat: repeat-x;
@@ -2931,6 +2948,29 @@ a.orpheum-events-grid__card {
   -webkit-mask-repeat: repeat-x;
   animation: visit-bar-wave-edge 12s linear infinite;
   pointer-events: none;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orpheum-wave-edge-top::before {
+    animation: none;
+    mask-size: 100% 100%;
+    -webkit-mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+  }
+}
+
+/* ═══ TEAL VISIT BAR ═══ */
+.orpheum-visit-bar {
+  position: relative;
+  background: var(--orp-blue);
+  color: var(--orp-white);
+}
+
+.orpheum-visit-bar.orpheum-wave-edge-top::before {
+  top: -12px;
+  background: var(--orp-blue);
 }
 
 .orpheum-visit-bar__inner {
@@ -2971,28 +3011,6 @@ a.orpheum-events-grid__card {
 
 .orpheum-visit-bar__item:hover {
   background: rgba(0, 0, 0, 0.12);
-}
-
-@keyframes visit-bar-wave-edge {
-  from {
-    -webkit-mask-position: 0% 0;
-    mask-position: 0% 0;
-  }
-
-  to {
-    -webkit-mask-position: 100% 0;
-    mask-position: 100% 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .orpheum-visit-bar::before {
-    animation: none;
-    mask-size: 100% 100%;
-    -webkit-mask-size: 100% 100%;
-    mask-repeat: no-repeat;
-    -webkit-mask-repeat: no-repeat;
-  }
 }
 
 /* ═══ OUR STORY (dark) ═══ */
@@ -5058,6 +5076,16 @@ body.page-inner {
   overflow-x: clip;
 }
 
+.home--orpheum {
+  overflow-x: clip;
+}
+
+.home--orpheum img,
+.home--orpheum video {
+  max-width: 100%;
+  height: auto;
+}
+
 @media (max-width: 991px) {
   body.page-home,
   body.page-inner,
@@ -5113,8 +5141,17 @@ body.page-inner {
     right: 0;
     bottom: 0;
     z-index: 900;
-    background: var(--orp-dark);
+    padding-top: 12px;
     padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-shadow: 0 -8px 24px rgba(var(--brand-blue-rgb), 0.22);
+  }
+
+  .orpheum-quickbar.orpheum-wave-edge-top::before {
+    background: var(--brand-blue);
+  }
+
+  .page-home .orpheum-footer__shell {
+    padding-bottom: calc(1.5rem + var(--bottom-chrome-height, 56px));
   }
 
   .orpheum-arrow-btn--header {
@@ -5536,7 +5573,7 @@ body.page-inner {
   }
 
   .page-home {
-    --bottom-chrome-height: 56px;
+    --bottom-chrome-height: 68px;
   }
 
   body.page-inner {
@@ -5775,6 +5812,26 @@ body.page-inner {
   .orpheum-footer__education-note {
     font-size: 0.8125rem;
     text-align: left;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .orpheum-footer__education-note a {
+    word-break: break-word;
+  }
+
+  .orpheum-footer__meta {
+    gap: 1.35rem;
+  }
+
+  .orpheum-footer__meta-right {
+    border-top: 1px solid rgba(var(--brand-navy-rgb), 0.1);
+    padding-top: 1.15rem;
+    gap: 0.55rem;
+  }
+
+  .orpheum-footer__sta {
+    max-width: 80px;
   }
 
   .orpheum-footer__venues a {
@@ -5857,12 +5914,30 @@ body.page-inner {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .orpheum-quickbar li:nth-child(n + 3) {
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  .orpheum-quickbar li:nth-child(4n) a,
+  .orpheum-quickbar li:nth-child(4n) button {
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .orpheum-quickbar li:nth-child(2n) a,
+  .orpheum-quickbar li:nth-child(2n) button {
+    border-right: none;
+  }
+
+  .orpheum-quickbar li:nth-child(-n + 2) a,
+  .orpheum-quickbar li:nth-child(-n + 2) button {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .orpheum-quickbar a,
+  .orpheum-quickbar button {
+    min-height: 52px;
+    font-size: clamp(0.68rem, 2.8vw, 0.75rem);
+    padding-inline: 0.35rem;
   }
 
   body.page-home {
-    --bottom-chrome-height: 104px;
+    --bottom-chrome-height: 116px;
   }
 
   body.page-inner {
@@ -5904,7 +5979,7 @@ body.page-inner {
 
 @media (max-width: 639px) {
   body.page-home {
-    --bottom-chrome-height: 104px;
+    --bottom-chrome-height: 116px;
   }
 }
 

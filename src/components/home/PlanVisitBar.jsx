@@ -46,7 +46,7 @@ const TILE_ICONS = {
 
 export function PlanVisitBar() {
   return (
-    <section className="orpheum-visit-bar" aria-label="Plan your visit">
+    <section className="orpheum-visit-bar orpheum-wave-edge-top" aria-label="Plan your visit">
       <div className="orpheum-visit-bar__inner">
         {VISIT_TILES.map((tile) => (
           <a key={tile.href} className="orpheum-visit-bar__item" href={tile.href}>

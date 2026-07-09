@@ -5,7 +5,7 @@ export function HomeQuickBar() {
   const { openAccessTickets } = useUI();
 
   return (
-    <nav className="orpheum-quickbar" aria-label="Quick links">
+    <nav className="orpheum-quickbar orpheum-wave-edge-top" aria-label="Quick links">
       <ul>
         {QUICK_BAR_LINKS.map((link) => (
           <li key={link.label}>
