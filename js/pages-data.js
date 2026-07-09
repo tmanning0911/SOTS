@@ -443,12 +443,6 @@ export const INNER_PAGES = [
     intro: "Meet the artists and administrators who bring Shakespeare to life under the stars.",
     sections: [
       {
-        type: "prose",
-        paragraphs: [
-          "To share a staff headshot or biography update, email contactus@shakespeareonthesound.org.",
-        ],
-      },
-      {
         type: "people",
         layout: "featured",
         people: [
@@ -509,7 +503,6 @@ export const INNER_PAGES = [
         paragraphs: [
           "Shakespeare on the Sound is governed by a board of directors drawn from communities across lower Fairfield County. Officers and members oversee fundraising, education partnerships, and the summer festival at Pinkney Park — ensuring the organization stays accountable to the audiences and families we serve.",
           "The advisory board includes founders and longtime supporters whose counsel helps shape our next chapter as we celebrate 30 seasons of Shakespeare under the stars.",
-          "To share a board headshot or biography update, email contactus@shakespeareonthesound.org.",
         ],
       },
       {

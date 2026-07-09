@@ -1,5 +1,4 @@
-import { BoardProfileCard } from "./BoardProfileCard.jsx";
-import { TeamProfileCard } from "./TeamProfileCard.jsx";
+import { BoardOfficer, BoardRosterItem, TeamProfile } from "./RosterProfile.jsx";
 
 function ensurePeriod(text) {
   if (!text) return text;
@@ -10,18 +9,16 @@ export function PageSection({ section }) {
   const heading = section.heading ? ensurePeriod(section.heading) : null;
 
   if (section.type === "people") {
-    const variant = section.layout === "history" ? "history" : "featured";
+    const variant = section.layout === "history" ? "history" : "lead";
 
     return (
       <section className="orpheum-inner-page__section orpheum-inner-page__section--team">
         {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
-        <ul className={`orpheum-team__grid orpheum-team__grid--${variant}`}>
+        <div className={`orpheum-roster orpheum-roster--team orpheum-roster--${variant}`}>
           {section.people.map((person) => (
-            <li key={person.name}>
-              <TeamProfileCard person={person} variant={variant} />
-            </li>
+            <TeamProfile key={person.name} person={person} variant={variant} />
           ))}
-        </ul>
+        </div>
       </section>
     );
   }
@@ -31,43 +28,33 @@ export function PageSection({ section }) {
       <section className="orpheum-inner-page__section orpheum-inner-page__section--board">
         {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
 
-        <div className="orpheum-board">
-          <div className="orpheum-board__band orpheum-board__band--officers">
-            <div className="orpheum-board__officers">
-              <h3 className="orpheum-board__label">Officers</h3>
-              <ul className="orpheum-board__officer-grid">
-                {section.officers.map((officer) => (
-                  <li key={officer.role}>
-                    <BoardProfileCard person={officer} variant="officer" />
-                  </li>
-                ))}
-              </ul>
+        <div className="orpheum-roster orpheum-roster--board">
+          <div className="orpheum-roster__group">
+            <h3 className="orpheum-roster__heading">Officers</h3>
+            <div className="orpheum-roster__officers">
+              {section.officers.map((officer) => (
+                <BoardOfficer key={officer.role} person={officer} />
+              ))}
             </div>
           </div>
 
-          <div className="orpheum-board__members">
-            <h3 className="orpheum-board__label">Board Members</h3>
-            <ul className="orpheum-board__member-grid">
+          <div className="orpheum-roster__group">
+            <h3 className="orpheum-roster__heading">Board Members</h3>
+            <ul className="orpheum-roster__list">
               {section.members.map((member) => (
-                <li key={member.name}>
-                  <BoardProfileCard person={member} variant="member" />
-                </li>
+                <BoardRosterItem key={member.name} person={member} />
               ))}
             </ul>
           </div>
 
           {section.advisory?.length ? (
-            <div className="orpheum-board__band orpheum-board__band--advisory">
-              <div className="orpheum-board__advisory">
-                <h3 className="orpheum-board__label">Advisory Board</h3>
-                <ul className="orpheum-board__advisory-grid">
-                  {section.advisory.map((person) => (
-                    <li key={person.name}>
-                      <BoardProfileCard person={person} variant="advisory" />
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div className="orpheum-roster__group">
+              <h3 className="orpheum-roster__heading">Advisory Board</h3>
+              <ul className="orpheum-roster__list orpheum-roster__list--advisory">
+                {section.advisory.map((person) => (
+                  <BoardRosterItem key={person.name} person={person} />
+                ))}
+              </ul>
             </div>
           ) : null}
         </div>
