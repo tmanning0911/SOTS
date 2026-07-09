@@ -32,15 +32,17 @@ export function PageSection({ section }) {
         {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
 
         <div className="orpheum-board">
-          <div className="orpheum-board__officers">
-            <h3 className="orpheum-board__label">Officers</h3>
-            <ul className="orpheum-board__officer-grid">
-              {section.officers.map((officer) => (
-                <li key={officer.role}>
-                  <BoardProfileCard person={officer} variant="officer" />
-                </li>
-              ))}
-            </ul>
+          <div className="orpheum-board__band orpheum-board__band--officers">
+            <div className="orpheum-board__officers">
+              <h3 className="orpheum-board__label">Officers</h3>
+              <ul className="orpheum-board__officer-grid">
+                {section.officers.map((officer) => (
+                  <li key={officer.role}>
+                    <BoardProfileCard person={officer} variant="officer" />
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           <div className="orpheum-board__members">
@@ -55,15 +57,17 @@ export function PageSection({ section }) {
           </div>
 
           {section.advisory?.length ? (
-            <div className="orpheum-board__advisory">
-              <h3 className="orpheum-board__label">Advisory Board</h3>
-              <ul className="orpheum-board__member-grid orpheum-board__member-grid--advisory">
-                {section.advisory.map((person) => (
-                  <li key={person.name}>
-                    <BoardProfileCard person={person} variant="advisory" />
-                  </li>
-                ))}
-              </ul>
+            <div className="orpheum-board__band orpheum-board__band--advisory">
+              <div className="orpheum-board__advisory">
+                <h3 className="orpheum-board__label">Advisory Board</h3>
+                <ul className="orpheum-board__advisory-grid">
+                  {section.advisory.map((person) => (
+                    <li key={person.name}>
+                      <BoardProfileCard person={person} variant="advisory" />
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           ) : null}
         </div>

@@ -19,7 +19,7 @@ export function ProfileAvatar({ name, image, folder, classPrefix = "orpheum-prof
     <img
       className={`${classPrefix}__photo`}
       src={src}
-      alt=""
+      alt={`Portrait of ${name}`}
       loading="lazy"
       decoding="async"
       onError={() => setFailedSrc(src)}

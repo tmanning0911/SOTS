@@ -1,34 +1,35 @@
 import { ProfileAvatar } from "./ProfileAvatar.jsx";
-
-function TeamBio({ person }) {
-  const paragraphs = person.paragraphs ?? (person.bio ? [person.bio] : []);
-  if (!paragraphs.length) return null;
-
-  return (
-    <div className="orpheum-team-card__bio">
-      {paragraphs.map((paragraph) => (
-        <p key={paragraph.slice(0, 48)}>{paragraph}</p>
-      ))}
-    </div>
-  );
-}
+import { ProfileBio } from "./ProfileBio.jsx";
+import { ProfilePhotoFrame } from "./ProfilePhotoFrame.jsx";
 
 export function TeamProfileCard({ person, variant = "featured" }) {
+  const frameSize = variant === "featured" ? "xl" : "lg";
+  const frameShape = variant === "featured" ? "portrait" : "portrait";
+
   return (
     <article className={`orpheum-team-card orpheum-team-card--${variant}`}>
       <div className="orpheum-team-card__media">
-        <ProfileAvatar
-          name={person.name}
-          image={person.image}
-          folder="team"
-          classPrefix="orpheum-team-card"
-        />
+        <ProfilePhotoFrame shape={frameShape} size={frameSize}>
+          <ProfileAvatar
+            name={person.name}
+            image={person.image}
+            folder="team"
+            classPrefix="orpheum-team-card"
+          />
+        </ProfilePhotoFrame>
       </div>
       <div className="orpheum-team-card__body">
-        <h3>{person.name}</h3>
-        {person.role ? <p className="orpheum-team-card__role">{person.role}</p> : null}
-        {person.pronouns ? <p className="orpheum-team-card__pronouns">{person.pronouns}</p> : null}
-        <TeamBio person={person} />
+        <div className="orpheum-team-card__header">
+          <h3>{person.name}</h3>
+          {person.role ? <p className="orpheum-team-card__role">{person.role}</p> : null}
+          {person.pronouns ? <p className="orpheum-team-card__pronouns">{person.pronouns}</p> : null}
+        </div>
+        <ProfileBio
+          paragraphs={person.paragraphs}
+          bio={person.bio}
+          className="orpheum-team-card__bio"
+          limit={variant === "featured" ? 280 : 180}
+        />
       </div>
     </article>
   );
