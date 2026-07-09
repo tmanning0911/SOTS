@@ -556,7 +556,7 @@ export const SUPPORT_MISSION = {
   donateHref: SITE.donateUrl,
   secondaryLabel: "Explore Giving Options",
   secondaryHref: "/support/individual-giving/",
-  image: "/images/backgrounds/park-audience-nyt.jpg",
+  backgroundImage: "/images/support/harbor-bg.png",
   stats: [
     { value: "30 seasons", label: "of Shakespeare in the park" },
     { value: "$115K+", label: "annual fundraising goal" },

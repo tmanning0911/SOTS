@@ -3340,41 +3340,59 @@ a.orpheum-events-grid__card {
   }
 }
 
-/* ═══ SUPPORT SPLIT (matches impact / news on white) ═══ */
+/* ═══ SUPPORT SPLIT (harbor art background) ═══ */
 .orpheum-support-split {
+  --support-bg: none;
   position: relative;
   z-index: 3;
-  background: linear-gradient(
-    180deg,
-    rgba(var(--brand-blue-rgb), 0.1) 0%,
-    var(--orp-stone-100) 42%,
-    rgba(var(--brand-blue-rgb), 0.06) 100%
-  );
+  isolation: isolate;
+  min-height: clamp(22rem, 38vw, 30rem);
+  background-color: var(--orp-stone-100);
+  background-image: var(--support-bg);
+  background-size: cover;
+  background-position: 72% center;
+  background-repeat: no-repeat;
   border-block: 1px solid var(--orp-line);
   padding: clamp(2.75rem, 5vw, 4.5rem) var(--orp-chrome-gutter, 9.25rem);
   overflow: clip;
 }
 
+.orpheum-support-split__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    102deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(244, 247, 250, 0.96) 34%,
+    rgba(244, 247, 250, 0.82) 48%,
+    rgba(244, 247, 250, 0.45) 62%,
+    rgba(var(--brand-blue-rgb), 0.12) 78%,
+    rgba(var(--brand-blue-rgb), 0.04) 100%
+  );
+}
+
 .orpheum-support-split__inner {
+  position: relative;
+  z-index: 1;
   max-width: 1320px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: clamp(1.5rem, 3vw, 2rem) clamp(2rem, 4vw, 3rem);
+  display: flex;
   align-items: center;
-}
-
-.orpheum-support-split__copy {
-  order: 1;
-}
-
-.orpheum-support-split__media {
-  order: 2;
+  min-height: clamp(16rem, 28vw, 22rem);
 }
 
 .orpheum-support-split__prose {
   width: 100%;
-  max-width: 42rem;
+  max-width: min(40rem, 100%);
+  padding: clamp(1.15rem, 2.5vw, 1.65rem);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 18px 40px rgba(var(--brand-blue-rgb), 0.08);
 }
 
 .orpheum-support-split__eyebrow {
@@ -3423,7 +3441,7 @@ a.orpheum-events-grid__card {
   padding: 1rem;
   border: 1px solid var(--orp-line);
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.88);
   list-style: none;
 }
 
@@ -4216,9 +4234,31 @@ a.orpheum-events-grid__card {
   }
 
   .orpheum-our-story__inner,
-  .orpheum-impact-split__inner,
-  .orpheum-support-split__inner {
+  .orpheum-impact-split__inner {
     grid-template-columns: 1fr;
+  }
+
+  .orpheum-support-split {
+    background-position: center 35%;
+    min-height: auto;
+  }
+
+  .orpheum-support-split__scrim {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.97) 0%,
+      rgba(244, 247, 250, 0.93) 52%,
+      rgba(244, 247, 250, 0.78) 100%
+    );
+  }
+
+  .orpheum-support-split__inner {
+    min-height: 0;
+    align-items: stretch;
+  }
+
+  .orpheum-support-split__prose {
+    background: rgba(255, 255, 255, 0.9);
   }
 
   .orpheum-impact-split,
@@ -5623,18 +5663,6 @@ body.page-inner {
 
   .orpheum-support-split {
     padding: 1.75rem var(--orp-chrome-gutter, 1rem) 1.25rem;
-  }
-
-  .orpheum-support-split__inner {
-    grid-template-columns: 1fr;
-  }
-
-  .orpheum-support-split__media {
-    order: 2;
-  }
-
-  .orpheum-support-split__copy {
-    order: 1;
   }
 
   .orpheum-support-split__title::after {
