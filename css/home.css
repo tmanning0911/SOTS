@@ -3344,8 +3344,14 @@ a.orpheum-events-grid__card {
 .orpheum-support-split {
   position: relative;
   z-index: 3;
-  background: var(--orp-white);
-  padding: clamp(2.5rem, 5vw, 4rem) var(--orp-chrome-gutter, 9.25rem);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--brand-blue-rgb), 0.1) 0%,
+    var(--orp-stone-100) 42%,
+    rgba(var(--brand-blue-rgb), 0.06) 100%
+  );
+  border-block: 1px solid var(--orp-line);
+  padding: clamp(2.75rem, 5vw, 4.5rem) var(--orp-chrome-gutter, 9.25rem);
   overflow: clip;
 }
 
@@ -3414,8 +3420,10 @@ a.orpheum-events-grid__card {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.85rem;
   margin: 0 0 1.5rem;
-  padding: 1rem 0 0;
-  border-top: 1px solid var(--orp-line);
+  padding: 1rem;
+  border: 1px solid var(--orp-line);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.82);
   list-style: none;
 }
 
