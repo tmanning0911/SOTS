@@ -2028,6 +2028,105 @@ html.lenis.lenis-smooth .sots-checkout__card-container iframe,
   gap: 1rem;
 }
 
+.sots-checkout-page__main {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.sots-checkout-step {
+  border: 1px solid rgba(15, 45, 77, 0.1);
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 8px 28px rgba(15, 45, 77, 0.05);
+  overflow: hidden;
+}
+
+.sots-checkout-step--payment {
+  border-color: rgba(33, 101, 180, 0.22);
+  box-shadow: 0 12px 32px rgba(33, 101, 180, 0.08);
+}
+
+.sots-checkout-step__head {
+  padding: 1.15rem 1.25rem 1rem;
+  border-bottom: 1px solid rgba(15, 45, 77, 0.06);
+  background: linear-gradient(180deg, #f8fbff 0%, #fff 100%);
+}
+
+.sots-checkout-step__title {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--brand-navy, #0f2d4d);
+}
+
+.sots-checkout-step__desc {
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+  color: #4a5560;
+  line-height: 1.45;
+}
+
+.sots-checkout-step__body {
+  padding: 1.15rem 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.sots-checkout-step__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem 1.15rem;
+  border-top: 1px solid rgba(15, 45, 77, 0.08);
+  background: #fafbfd;
+}
+
+.sots-checkout-step__actions--pay {
+  justify-content: space-between;
+}
+
+.sots-checkout-step__back {
+  border: none;
+  background: none;
+  padding: 0.5rem 0;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--brand-blue-dark, #1a5090);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.sots-checkout-step__back:hover {
+  color: var(--brand-navy, #0f2d4d);
+}
+
+.sots-checkout-step__actions .orpheum-arrow-btn,
+.sots-checkout-step__actions .sots-checkout__submit {
+  min-width: 12rem;
+  min-height: 3rem;
+}
+
+@media (max-width: 560px) {
+  .sots-checkout-step__actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .sots-checkout-step__actions .orpheum-arrow-btn,
+  .sots-checkout-step__actions .sots-checkout__submit {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .sots-checkout-step__back {
+    align-self: flex-start;
+  }
+}
+
 .sots-checkout__form {
   display: grid;
   gap: 1.25rem;
@@ -2474,12 +2573,12 @@ body.sots-checkout-active .sots-checkout__card-container iframe {
 
 .sots-checkout-page__body {
   padding-top: 1.25rem;
-  padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  padding-bottom: 2rem;
 }
 
 @media (min-width: 900px) {
   .sots-checkout-page__body {
-    padding-bottom: 2rem;
+    padding-bottom: 2.5rem;
   }
 }
 

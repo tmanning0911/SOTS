@@ -27,6 +27,11 @@ html.lenis body {
   scroll-behavior: auto !important;
 }
 
+body.sots-checkout-active iframe,
+html.lenis.lenis-smooth body.sots-checkout-active iframe {
+  pointer-events: auto !important;
+}
+
 body {
   background: var(--color-cream);
   font-family: var(--font-body);

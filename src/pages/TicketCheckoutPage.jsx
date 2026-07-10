@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { MEDIA } from "../../js/data.js";
 import { PRODUCTION_DETAILS } from "../../js/pages-data.js";
-import { pauseSmoothScroll, resumeSmoothScroll } from "../polish.js";
+import { disableSmoothScrollForCheckout, restoreSmoothScrollAfterCheckout } from "../polish.js";
 import {
   formatPerformanceDate,
   isPurchasablePerformance,
@@ -56,10 +56,10 @@ export function TicketCheckoutPage() {
 
   useEffect(() => {
     document.body.classList.add("sots-checkout-active");
-    pauseSmoothScroll();
+    disableSmoothScrollForCheckout();
     return () => {
       document.body.classList.remove("sots-checkout-active");
-      resumeSmoothScroll();
+      restoreSmoothScrollAfterCheckout();
     };
   }, []);
 
