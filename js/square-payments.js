@@ -45,7 +45,7 @@ const SQUARE_CARD_STYLE = {
   input: {
     backgroundColor: "#ffffff",
     color: "#0f2d4d",
-    fontFamily: '"DM Sans", system-ui, sans-serif',
+    fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
     fontSize: "16px",
   },
   "input::placeholder": {
