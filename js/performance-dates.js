@@ -43,23 +43,38 @@ export function parseEtLocalIso(isoLocal) {
   return new Date(utc);
 }
 
+export function performanceShowDateKey(performance) {
+  return performance?.start?.slice(0, 10) ?? null;
+}
+
+/** Today's calendar date in Eastern (YYYY-MM-DD). */
+export function etDateKey(now = new Date()) {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: ET,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(now);
+}
+
+/** True once the show day has passed in Eastern (hidden from midnight onward). */
+export function isPastPerformance(performance, now = new Date()) {
+  const showDate = performanceShowDateKey(performance);
+  if (!showDate) return false;
+  return etDateKey(now) > showDate;
+}
+
 export function derivePerformanceStatus(performance, now = new Date()) {
   if (!performance) return "completed";
   if (performance.status === "cancelled") return "cancelled";
+  if (isPastPerformance(performance, now)) return "completed";
 
   const start = parseEtLocalIso(performance.start);
-  const end = parseEtLocalIso(performance.end) ?? start;
   if (!start || Number.isNaN(start.getTime())) return performance.status ?? "on_sale";
 
-  const nowMs = now.getTime();
-  if (end && nowMs > end.getTime()) return "completed";
-  if (nowMs >= start.getTime()) return "live";
+  if (now.getTime() >= start.getTime()) return "live";
   if (performance.status === "draft") return "draft";
   return "on_sale";
-}
-
-export function isPastPerformance(performance, now = new Date()) {
-  return derivePerformanceStatus(performance, now) === "completed";
 }
 
 export function normalizePerformance(performance, now = new Date()) {
@@ -117,7 +132,7 @@ export function normalizeTicketCatalog(catalog, now = new Date()) {
   };
 }
 
-/** Performances patrons should see (excludes dates that have already ended). */
+/** Performances patrons should see (excludes dates after the show day in Eastern). */
 export function displayPerformances(catalog, limit, now = new Date()) {
   const list = (catalog?.performances ?? [])
     .map((p) => normalizePerformance(p, now))
