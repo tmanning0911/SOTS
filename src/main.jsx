@@ -15,6 +15,7 @@ import "../css/responsive.css";
 import "../css/home.css";
 import "../css/inner-pages.css";
 import "../css/ticketing.css";
+import "../css/tickets-page.css";
 import "../css/checkout.css";
 import "../css/shop.css";
 import "../css/a11y.css";

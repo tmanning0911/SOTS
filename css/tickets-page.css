@@ -1,0 +1,650 @@
+/* ═══ TICKETS HUB (redesigned /tickets/) ═══ */
+
+.tix-page {
+  background: var(--orp-white, #fff);
+}
+
+/* ── Hero ── */
+.tix-page__hero {
+  position: relative;
+  min-height: clamp(24rem, 52vh, 36rem);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.tix-page__hero-bg {
+  position: absolute;
+  inset: 0;
+  background: center/cover no-repeat;
+}
+
+.tix-page__hero-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--brand-navy-rgb, 15, 45, 77), 0.15) 0%,
+    rgba(var(--brand-navy-rgb, 15, 45, 77), 0.92) 100%
+  );
+}
+
+.tix-page__hero-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 52rem;
+  padding: clamp(3.5rem, 7vw, 5rem) var(--orp-chrome-gutter, 9.25rem) clamp(5rem, 9vw, 6.5rem);
+  color: #fff;
+}
+
+.tix-page__hero-eyebrow {
+  margin: 0 0 1rem;
+  font-family: var(--orp-sans, "Source Sans 3", sans-serif);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--orp-gold, #c9a227);
+}
+
+.tix-page__hero h1 {
+  margin: 0;
+  font-family: var(--font-heading, "Marcellus", Georgia, serif);
+  font-size: clamp(2.75rem, 6vw, 4.25rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+}
+
+.tix-page__hero-lead {
+  max-width: 36rem;
+  margin: 1.1rem 0 0;
+  font-size: 1.08rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tix-page__hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-top: 1.15rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.tix-page__hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+/* ── Quick bar ── */
+.tix-page__quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.25rem;
+  justify-content: center;
+  padding: 0.85rem var(--orp-chrome-gutter, 9.25rem);
+  background: var(--orp-dark, #0f2d4d);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tix-page__quick-link {
+  font-family: var(--orp-sans, "Source Sans 3", sans-serif);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.tix-page__quick-link:hover {
+  color: var(--orp-gold, #c9a227);
+}
+
+.tix-page__quick-link:focus-visible {
+  outline: 2px solid var(--orp-gold, #c9a227);
+  outline-offset: 3px;
+}
+
+/* ── Spotlight (ticket stub) ── */
+.tix-page__spotlight {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(-4rem, -7vw, -2.75rem);
+  padding: 0 var(--orp-chrome-gutter, 9.25rem) clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.tix-page__spotlight-ticket {
+  display: flex;
+  align-items: stretch;
+  max-width: 72rem;
+  margin: 0 auto;
+  filter:
+    drop-shadow(0 4px 10px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.08))
+    drop-shadow(0 20px 44px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.14));
+}
+
+.tix-page__spotlight-visual {
+  flex: 0 0 clamp(9rem, 28%, 13.5rem);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1.25rem 1rem 0;
+  background: linear-gradient(165deg, #1a3a5c 0%, #0f2d4d 100%);
+  border: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.12);
+  border-right: none;
+  border-radius: 14px 0 0 14px;
+}
+
+.tix-page__spotlight-visual img {
+  width: 100%;
+  max-width: 11rem;
+  height: auto;
+  margin-bottom: -0.35rem;
+  border-radius: 6px 6px 0 0;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  object-fit: cover;
+  aspect-ratio: 2 / 3;
+}
+
+.tix-page__spotlight-copy {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: clamp(1.75rem, 3vw, 2.5rem) clamp(1.5rem, 3vw, 2.25rem);
+  background: #fff;
+  border: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.1);
+  border-left: 2px dashed rgba(var(--brand-navy-rgb, 15, 45, 77), 0.14);
+  border-radius: 0 14px 14px 0;
+}
+
+.tix-page__spotlight-eyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orp-gold, #c9a227);
+}
+
+.tix-page__spotlight-copy h2 {
+  margin: 0;
+  font-family: var(--font-heading, "Marcellus", Georgia, serif);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--orp-dark, #0f2d4d);
+}
+
+.tix-page__spotlight-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  margin: 0;
+  font-size: 0.92rem;
+  color: #4a5560;
+}
+
+.tix-page__spotlight-meta span:not(:last-child)::after {
+  content: "·";
+  margin-left: 1rem;
+  color: #b8c2cb;
+}
+
+.tix-page__spotlight-price {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--brand-blue-dark, #1a5090);
+}
+
+.tix-page__spotlight-lead {
+  margin: 0.25rem 0 0;
+  max-width: 40rem;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: #4a5560;
+}
+
+.tix-page__spotlight-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* ── Book section ── */
+.tix-page__book {
+  padding: clamp(2rem, 4vw, 3rem) var(--orp-chrome-gutter, 9.25rem) clamp(3rem, 6vw, 4.5rem);
+  background: #f7f9fb;
+  border-top: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.06);
+}
+
+.tix-page__section-eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orp-gold, #c9a227);
+}
+
+.tix-page__book-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  max-width: 72rem;
+  margin: 0 auto 1.75rem;
+}
+
+.tix-page__book-head h2 {
+  margin: 0;
+  font-family: var(--font-heading, "Marcellus", Georgia, serif);
+  font-size: clamp(1.75rem, 3.5vw, 2.35rem);
+  font-weight: 400;
+  color: var(--orp-dark, #0f2d4d);
+}
+
+.tix-page__book-note {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #4a5560;
+}
+
+.tix-page__book-note a {
+  color: var(--brand-blue-dark, #1a5090);
+  font-weight: 600;
+}
+
+.tix-page__book-grid {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 992px) {
+  .tix-page__book-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
+    align-items: start;
+  }
+}
+
+.tix-page__dates-panel {
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  background: #fff;
+  border: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.08);
+  border-radius: 14px;
+  box-shadow: 0 12px 36px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.06);
+}
+
+.tix-page__aside {
+  display: grid;
+  gap: 1rem;
+}
+
+.tix-page__aside .sots-ticket-pricing {
+  padding: 1.25rem;
+  background: #fff;
+  border: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.08);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.05);
+}
+
+.tix-page__aside .sots-ticket-pricing__title {
+  font-family: var(--font-heading, "Marcellus", Georgia, serif);
+  font-weight: 400;
+  font-size: 1.25rem;
+}
+
+.tix-page__tiers {
+  padding: 1.25rem;
+  background: #fff;
+  border: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.08);
+  border-radius: 14px;
+}
+
+.tix-page__tiers-title {
+  margin: 0 0 0.85rem;
+  font-family: var(--font-heading, "Marcellus", Georgia, serif);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--orp-dark, #0f2d4d);
+}
+
+.tix-page__tiers-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.tix-page__tiers-list li {
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.08);
+}
+
+.tix-page__tiers-list li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.tix-page__tiers-list strong {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 0.92rem;
+  color: var(--orp-dark, #0f2d4d);
+}
+
+.tix-page__tiers-list p {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: #4a5560;
+}
+
+.tix-page__help-card {
+  padding: 1.25rem;
+  background: linear-gradient(145deg, #0f2d4d 0%, #1a5090 100%);
+  border-radius: 14px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.tix-page__help-card h3 {
+  margin: 0 0 0.65rem;
+  font-family: var(--font-heading, "Marcellus", Georgia, serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #fff;
+}
+
+.tix-page__help-card p {
+  margin: 0 0 1rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.tix-page__help-card a {
+  color: var(--orp-gold, #c9a227);
+  font-weight: 600;
+}
+
+.tix-page__error {
+  display: grid;
+  gap: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  color: #4a5560;
+}
+
+.tix-page__skeleton {
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* Calendar overrides inside hub */
+.tix-page__calendar.sots-performance-calendar {
+  gap: 1.25rem;
+}
+
+.tix-page__calendar .sots-date-picker__heading {
+  font-family: var(--font-heading, "Marcellus", Georgia, serif);
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.tix-page__calendar .sots-date-picker__toggle-btn {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.tix-page__calendar .sots-date-picker__toggle-btn:focus-visible {
+  outline: 2px solid var(--orp-gold, #c9a227);
+  outline-offset: 2px;
+}
+
+.tix-page__calendar .sots-date-list__row.is-available {
+  cursor: pointer;
+  border-left: 3px solid transparent;
+}
+
+.tix-page__calendar .sots-date-list__row.is-available:hover {
+  border-left-color: var(--orp-gold, #c9a227);
+  transform: translateX(2px);
+}
+
+.tix-page__calendar .sots-date-list__cta {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(var(--brand-navy-rgb, 15, 45, 77), 0.06);
+  color: var(--orp-dark, #0f2d4d);
+  transition: background-color 0.2s ease;
+}
+
+.tix-page__calendar .sots-date-list__row.is-available:hover .sots-date-list__cta {
+  background: var(--orp-gold, #c9a227);
+  color: #fff;
+}
+
+.tix-page__calendar .sots-performance-calendar__day.is-available:focus-visible {
+  outline: 2px solid var(--orp-gold, #c9a227);
+  outline-offset: 2px;
+}
+
+/* ── More events ── */
+.tix-page__more {
+  padding: clamp(2.5rem, 5vw, 3.5rem) var(--orp-chrome-gutter, 9.25rem);
+}
+
+.tix-page__more-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 72rem;
+  margin: 0 auto 1.5rem;
+}
+
+.tix-page__more-head h2 {
+  margin: 0;
+  font-family: var(--font-heading, "Marcellus", Georgia, serif);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 400;
+}
+
+.tix-page__more-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+  max-width: 72rem;
+  margin-inline: auto;
+}
+
+@media (min-width: 640px) {
+  .tix-page__more-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .tix-page__more-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.tix-page__more-card {
+  display: block;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.08);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.tix-page__more-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.12);
+}
+
+.tix-page__more-card:focus-visible {
+  outline: 2px solid var(--orp-gold, #c9a227);
+  outline-offset: 2px;
+}
+
+.tix-page__more-card img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.tix-page__more-card-copy {
+  padding: 1rem 1.1rem 1.15rem;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.tix-page__more-card-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--orp-gold, #c9a227);
+}
+
+.tix-page__more-card strong {
+  font-size: 1rem;
+  color: var(--orp-dark, #0f2d4d);
+}
+
+.tix-page__more-card span:last-child {
+  font-size: 0.88rem;
+  color: #4a5560;
+}
+
+/* ── Steps band ── */
+.tix-page__steps {
+  padding: clamp(2rem, 4vw, 2.75rem) var(--orp-chrome-gutter, 9.25rem) clamp(3rem, 6vw, 4rem);
+  background: var(--orp-dark, #0f2d4d);
+}
+
+.tix-page__steps-list {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  display: grid;
+  gap: 1.25rem;
+  max-width: 72rem;
+}
+
+@media (min-width: 768px) {
+  .tix-page__steps-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+.tix-page__steps-list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.tix-page__steps-num {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: var(--orp-gold, #c9a227);
+  color: var(--orp-dark, #0f2d4d);
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+.tix-page__steps-list strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.tix-page__steps-list p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tix-page__more-card,
+  .tix-page__calendar .sots-date-list__row.is-available {
+    transition: none;
+  }
+
+  .tix-page__more-card:hover,
+  .tix-page__calendar .sots-date-list__row.is-available:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .tix-page__hero-inner,
+  .tix-page__quick,
+  .tix-page__spotlight,
+  .tix-page__book,
+  .tix-page__more,
+  .tix-page__steps {
+    padding-inline: var(--orp-chrome-gutter-mobile, 1.25rem);
+  }
+
+  .tix-page__spotlight-ticket {
+    flex-direction: column;
+  }
+
+  .tix-page__spotlight-visual {
+    flex: none;
+    border-right: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.12);
+    border-radius: 14px 14px 0 0;
+    padding-bottom: 0;
+  }
+
+  .tix-page__spotlight-visual img {
+    max-width: 8rem;
+    margin-bottom: 0;
+  }
+
+  .tix-page__spotlight-copy {
+    border-left: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.1);
+    border-top: 2px dashed rgba(var(--brand-navy-rgb, 15, 45, 77), 0.14);
+    border-radius: 0 0 14px 14px;
+  }
+
+  .tix-page__spotlight-meta span:not(:last-child)::after {
+    display: none;
+  }
+
+  .tix-page__spotlight-meta {
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+}

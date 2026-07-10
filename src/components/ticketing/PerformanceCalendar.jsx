@@ -133,6 +133,8 @@ export function PerformanceCalendar({
   imageAlt,
   allPerformances = false,
   compact = false,
+  hideShowHeader = false,
+  className = "",
 }) {
   const navigate = useNavigate();
   const [view, setView] = useState("list");
@@ -179,6 +181,16 @@ export function PerformanceCalendar({
   }
 
   if (!state.canPurchase && !allPerformances) {
+    if (hideShowHeader) {
+      return (
+        <section className={`sots-performance-calendar sots-performance-calendar--ended${className ? ` ${className}` : ""}`}>
+          <p className="sots-performance-calendar__lead">
+            {state.isEnded ? "This production has ended." : "Tickets are not currently on sale."}
+          </p>
+          <TicketCheckoutButton />
+        </section>
+      );
+    }
     return (
       <section className="sots-performance-calendar sots-performance-calendar--ended">
         <div className="sots-performance-calendar__show">
@@ -197,25 +209,29 @@ export function PerformanceCalendar({
   }
 
   return (
-    <section className={`sots-performance-calendar${compact ? " sots-performance-calendar--compact" : ""}`}>
-      <div className="sots-performance-calendar__show">
-        <img src={image} alt={imageAlt ?? title} className="sots-performance-calendar__image" loading="lazy" />
-        <div className="sots-performance-calendar__show-copy">
-          <h2 className="sots-performance-calendar__title">{title}</h2>
-          {venue ? (
-            <p className="sots-performance-calendar__venue">
-              {venue}
-              {location ? ` · ${location}` : ""}
-            </p>
-          ) : null}
-          {priceFrom ? <p className="sots-performance-calendar__price-from">From {priceFrom}</p> : null}
-          {production?.slug ? (
-            <Link className="sots-performance-calendar__about" to={`/productions/${production.slug}/`}>
-              About the show
-            </Link>
-          ) : null}
+    <section
+      className={`sots-performance-calendar${compact ? " sots-performance-calendar--compact" : ""}${className ? ` ${className}` : ""}`}
+    >
+      {!hideShowHeader ? (
+        <div className="sots-performance-calendar__show">
+          <img src={image} alt={imageAlt ?? title} className="sots-performance-calendar__image" loading="lazy" />
+          <div className="sots-performance-calendar__show-copy">
+            <h2 className="sots-performance-calendar__title">{title}</h2>
+            {venue ? (
+              <p className="sots-performance-calendar__venue">
+                {venue}
+                {location ? ` · ${location}` : ""}
+              </p>
+            ) : null}
+            {priceFrom ? <p className="sots-performance-calendar__price-from">From {priceFrom}</p> : null}
+            {production?.slug ? (
+              <Link className="sots-performance-calendar__about" to={`/productions/${production.slug}/`}>
+                About the show
+              </Link>
+            ) : null}
+          </div>
         </div>
-      </div>
+      ) : null}
 
       {performances.length ? (
         <>
