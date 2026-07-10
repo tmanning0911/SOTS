@@ -1,6 +1,6 @@
 {
   "provider": "square",
-  "syncedAt": "2026-07-10T18:35:22.577Z",
+  "syncedAt": "2026-07-10T18:58:50.726Z",
   "organization": {
     "id": "2093560299743",
     "name": "Shakespeare on the Sound"
@@ -21,7 +21,7 @@
     "venue": "Pinkney Park",
     "location": "177 Rowayton Avenue, Norwalk, CT 06853",
     "isSoldOut": false,
-    "ticketsAvailable": null
+    "ticketsAvailable": false
   },
   "ticketClasses": [
     {

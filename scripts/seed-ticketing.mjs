@@ -17,6 +17,16 @@ function slugTicketType(name) {
     .replace(/^-|-$/g, "");
 }
 
+function derivePerformanceStatus(performance, now = new Date()) {
+  if (performance.status === "cancelled") return "cancelled";
+  const start = performance.start ? new Date(performance.start) : null;
+  const end = performance.end ? new Date(performance.end) : start;
+  if (!start || Number.isNaN(start.getTime())) return performance.status ?? "on_sale";
+  if (end && now > end) return "completed";
+  if (now >= start) return "live";
+  return "on_sale";
+}
+
 function buildCatalog(eb) {
   const ticketTypes = (eb.ticketClasses ?? [])
     .filter((tc) => tc.price?.value > 0)
@@ -33,25 +43,35 @@ function buildCatalog(eb) {
 
   const performances = (eb.performances ?? [])
     .filter((p) => !p.isSeriesParent)
-    .map((p) => ({
-      id: p.id,
-      name: p.name,
-      status: p.status,
-      start: p.start,
-      end: p.end,
-      timezone: p.timezone ?? "America/New_York",
-      venue: p.venue,
-      location: p.location,
-      isSoldOut: Boolean(p.isSoldOut),
-      ticketsAvailable: p.ticketsAvailable,
-      minPrice: p.minPrice ?? eb.priceFrom ?? null,
-    }));
+    .map((p) => {
+      const status = derivePerformanceStatus(p);
+      const onSale = ["on_sale", "live", "started", "draft"].includes(status);
+      return {
+        id: p.id,
+        name: p.name,
+        status,
+        start: p.start,
+        end: p.end,
+        timezone: p.timezone ?? "America/New_York",
+        venue: p.venue,
+        location: p.location,
+        isSoldOut: Boolean(p.isSoldOut),
+        ticketsAvailable: onSale ? p.ticketsAvailable !== false : false,
+        minPrice: p.minPrice ?? eb.priceFrom ?? null,
+      };
+    });
 
-  const performanceByDate = {};
-  for (const p of performances) {
-    const key = p.start?.slice(0, 10);
-    if (key) performanceByDate[key] = p;
-  }
+  const purchasableCount = performances.filter((p) =>
+    ["on_sale", "live", "started", "draft"].includes(p.status),
+  ).length;
+
+  const featuredStatus = eb.featuredTicket
+    ? derivePerformanceStatus({
+        status: eb.featuredTicket.status,
+        start: eb.featuredTicket.start,
+        end: eb.featuredTicket.end,
+      })
+    : "on_sale";
 
   return {
     provider: "square",
@@ -66,20 +86,24 @@ function buildCatalog(eb) {
     featuredTicket: {
       id: eb.featuredTicket?.id,
       name: eb.featuredTicket?.name,
-      status: eb.featuredTicket?.status,
+      status: featuredStatus,
       start: eb.featuredTicket?.start,
       end: eb.featuredTicket?.end,
       timezone: eb.featuredTicket?.timezone ?? "America/New_York",
       venue: eb.featuredTicket?.venue,
       location: eb.featuredTicket?.location,
       isSoldOut: eb.featuredTicket?.isSoldOut ?? false,
-      ticketsAvailable: eb.featuredTicket?.ticketsAvailable,
+      ticketsAvailable: purchasableCount > 0,
     },
     ticketClasses: ticketTypes,
     ticketTypes,
     priceFrom: eb.priceFrom ?? null,
     performances,
-    performanceByDate,
+    performanceByDate: Object.fromEntries(
+      performances
+        .map((p) => [p.start?.slice(0, 10), p])
+        .filter(([key]) => Boolean(key)),
+    ),
     meta: {
       ...(eb.meta ?? {}),
       provider: "square",
