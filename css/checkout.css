@@ -132,6 +132,12 @@ html.sots-checkout-scroll iframe {
   gap: 0.75rem;
 }
 
+@media (max-width: 959px) {
+  .sots-co__aside {
+    display: none;
+  }
+}
+
 @media (min-width: 960px) {
   .sots-co__aside {
     position: sticky;
@@ -248,6 +254,54 @@ html.sots-checkout-scroll iframe {
 
 .sots-co__change-date:hover {
   text-decoration: underline;
+}
+
+.sots-co__change-date--mobile {
+  display: block;
+}
+
+@media (min-width: 960px) {
+  .sots-co__change-date--mobile {
+    display: none;
+  }
+}
+
+.sots-co__card-fallback {
+  display: grid;
+  gap: 0.65rem;
+  justify-items: start;
+}
+
+.sots-co__confirm {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 4vw, 2rem) clamp(2.5rem, 5vw, 3.5rem);
+  text-align: center;
+}
+
+.sots-co__confirm .sots-checkout__success-badge {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 auto 1rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #1f6b3a;
+  color: #fff;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.sots-co__confirm .sots-checkout__confirmation-title {
+  font-family: var(--font-heading, Georgia, serif);
+}
+
+.sots-co__confirm .sots-checkout__confirm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 1.25rem;
 }
 
 .sots-co__mobile-total {
@@ -617,17 +671,26 @@ html.sots-checkout-scroll iframe {
   color: #5c4a12;
 }
 
-body.page-checkout {
-  padding-bottom: 0 !important;
+body.page-checkout .site-footer,
+body.page-checkout .orpheum-utility {
+  display: none !important;
 }
 
 body.page-checkout .mobile-dock {
   display: none !important;
 }
 
+body.page-checkout {
+  padding-bottom: 0 !important;
+}
+
 body.page-checkout #main {
   overflow: visible;
   min-height: 0;
+}
+
+body.page-checkout .orpheum-site-chrome {
+  box-shadow: 0 1px 0 rgba(15, 45, 77, 0.08);
 }
 
 .sots-co__terms {
@@ -683,12 +746,6 @@ body.page-checkout #main {
     width: 100%;
     min-width: 0;
   }
-}
-
-.sots-co__confirm {
-  max-width: 40rem;
-  margin: 0 auto;
-  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 4vw, 2rem);
 }
 
 .sots-co__skeleton {

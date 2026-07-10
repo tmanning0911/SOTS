@@ -98,7 +98,7 @@ function OrderSummary({
           <span>
             {ticketCount ? `${ticketCount} ticket${ticketCount === 1 ? "" : "s"}` : "Order total"}
           </span>
-          <strong>{formatCents(totalCents)}</strong>
+          <strong>{ticketCount ? formatCents(totalCents) : "—"}</strong>
         </div>
       </div>
     );
@@ -227,6 +227,7 @@ export function TicketCheckoutForm({
   const [loading, setLoading] = useState(false);
   const [cardReady, setCardReady] = useState(false);
   const [paymentError, setPaymentError] = useState(false);
+  const [cardMountKey, setCardMountKey] = useState(0);
 
   const clearPromoPreview = useCallback(() => {
     setPromoPreview(null);
@@ -276,7 +277,18 @@ export function TicketCheckoutForm({
   );
 
   const discountCents = hold?.discountCents ?? promoPreview?.discountCents ?? 0;
-  const estimatedTotal = hold?.totalCents ?? Math.max(100, ticketSubtotal + donationCents - discountCents);
+  const estimatedTotal = selectedItems.length
+    ? (hold?.totalCents ?? Math.max(100, ticketSubtotal + donationCents - discountCents))
+    : 0;
+
+  const scrollToCheckoutStep = useCallback((stepId) => {
+    const targets = {
+      tickets: "co-section-tickets",
+      details: "co-section-details",
+      pay: "co-section-payment",
+    };
+    document.getElementById(targets[stepId])?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
 
   const checkoutStep = useMemo(() => {
     if (!selectedItems.length) return "tickets";
@@ -311,14 +323,16 @@ export function TicketCheckoutForm({
     setShowDonation(false);
     cardRef.current?.destroy?.();
     cardRef.current = null;
+    setCardMountKey((key) => key + 1);
   }, [performanceId, storedBuyer.name, storedBuyer.email, patronUser?.email, ticketTypes]);
 
   useEffect(() => {
-    if (cardRef.current) return undefined;
-
     let cancelled = false;
 
     async function mountCard() {
+      setCardReady(false);
+      setPaymentError(false);
+
       for (let attempt = 0; attempt < 40; attempt += 1) {
         if (cancelled) return;
         if (document.getElementById(CARD_CONTAINER_ID)) break;
@@ -337,6 +351,7 @@ export function TicketCheckoutForm({
         }
         cardRef.current = card;
         setCardReady(true);
+        setError((prev) => (prev === "Could not load payment form. Refresh and try again." ? "" : prev));
       } catch (err) {
         if (!cancelled) setError(err.message || "Could not load payment form");
       }
@@ -345,8 +360,17 @@ export function TicketCheckoutForm({
     mountCard();
     return () => {
       cancelled = true;
+      cardRef.current?.destroy?.();
+      cardRef.current = null;
     };
-  }, [performanceId]);
+  }, [performanceId, cardMountKey]);
+
+  function retryCardMount() {
+    setError("");
+    cardRef.current?.destroy?.();
+    cardRef.current = null;
+    setCardMountKey((key) => key + 1);
+  }
 
   async function handleApplyPromo() {
     setError("");
@@ -444,7 +468,7 @@ export function TicketCheckoutForm({
   return (
     <>
       <div className="sots-co__progress-wrap">
-        <CheckoutProgress current={checkoutStep} />
+        <CheckoutProgress current={checkoutStep} onStepSelect={scrollToCheckoutStep} />
       </div>
 
       <div className="sots-co__body">
@@ -478,6 +502,9 @@ export function TicketCheckoutForm({
               totalCents={estimatedTotal}
               compact
             />
+            <Link to={changeDateHref} className="sots-co__change-date sots-co__change-date--mobile">
+              ← Choose a different date
+            </Link>
 
             {error ? (
               <div className="sots-co__alert" role="alert">
@@ -693,10 +720,17 @@ export function TicketCheckoutForm({
                         Click below and type your card number, expiry, and CVV.
                       </p>
                     ) : (
-                      <p className="sots-co__loading">
-                        <span className="sots-co__loading-dot" aria-hidden="true" />
-                        Loading secure payment form…
-                      </p>
+                      <div className="sots-co__card-fallback">
+                        <p className="sots-co__loading">
+                          <span className="sots-co__loading-dot" aria-hidden="true" />
+                          Loading secure payment form…
+                        </p>
+                        {error && !cardReady ? (
+                          <button type="button" className="orpheum-arrow-btn orpheum-arrow-btn--ghost" onClick={retryCardMount}>
+                            Retry payment form
+                          </button>
+                        ) : null}
+                      </div>
                     )}
                     <div id={CARD_CONTAINER_ID} className="sots-co__card-mount" />
                   </div>
@@ -711,9 +745,13 @@ export function TicketCheckoutForm({
                     <button
                       type="submit"
                       className="orpheum-arrow-btn orpheum-arrow-btn--gold sots-co__submit"
-                      disabled={loading || !cardReady || !selectedItems.length}
+                      disabled={loading || !cardReady || !selectedItems.length || !name.trim() || !email.trim()}
                     >
-                      {loading ? "Processing…" : `Pay ${formatCents(estimatedTotal)}`}
+                      {loading
+                        ? "Processing…"
+                        : selectedItems.length
+                          ? `Pay ${formatCents(estimatedTotal)}`
+                          : "Choose tickets to continue"}
                     </button>
                   </div>
                 </div>
