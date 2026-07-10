@@ -3,6 +3,11 @@ let catalogAt = 0;
 const CACHE_MS = 60_000;
 
 export const SHOP_PAGE_PATH = "/shop/";
+export const SHOP_CHECKOUT_PATH = "/shop/checkout";
+
+export function getShopCheckoutPath() {
+  return `${SHOP_CHECKOUT_PATH}/`;
+}
 
 export function formatCents(cents) {
   return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(

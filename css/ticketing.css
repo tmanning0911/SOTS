@@ -1330,11 +1330,6 @@ iframe[id^="eventbrite-widget-modal-"] {
     min-height: 3.75rem;
     padding: 0.35rem 0.2rem;
   }
-
-  .sots-performance-calendar__day-time,
-  .sots-performance-calendar__day-price {
-    display: none;
-  }
 }
 
 /* Ticket checkout page */
@@ -1463,14 +1458,363 @@ iframe[id^="eventbrite-widget-modal-"] {
   min-width: 11rem;
 }
 
+.sots-performance-calendar__price-from {
+  margin: 0 0 0.5rem;
+  font-weight: 700;
+  color: #1a5090;
+}
+
+.sots-date-picker__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.sots-date-picker__heading {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #0f2d4d;
+}
+
+.sots-date-picker__toggle {
+  display: inline-flex;
+  border: 1px solid rgba(15, 45, 77, 0.16);
+  border-radius: 999px;
+  padding: 0.2rem;
+  background: #f8fafc;
+}
+
+.sots-date-picker__toggle-btn {
+  border: none;
+  background: none;
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: #4a5560;
+}
+
+.sots-date-picker__toggle-btn.is-active {
+  background: #0f2d4d;
+  color: #fff;
+}
+
+.sots-date-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.sots-date-list__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.25rem 1rem;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(15, 45, 77, 0.12);
+  border-radius: 0.75rem;
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sots-date-list__row.is-available:hover {
+  border-color: #1a5090;
+  box-shadow: 0 8px 24px rgba(15, 45, 77, 0.08);
+}
+
+.sots-date-list__row.is-unavailable {
+  opacity: 0.6;
+  background: #f8fafc;
+}
+
+.sots-date-list__when {
+  grid-column: 1;
+  font-weight: 700;
+  color: #0f2d4d;
+}
+
+.sots-date-list__meta {
+  grid-column: 1;
+  font-size: 0.88rem;
+  color: #4a5560;
+}
+
+.sots-date-list__cta {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1a5090;
+  white-space: nowrap;
+}
+
+.sots-tickets-page__hero--compact {
+  min-height: auto;
+}
+
+.sots-tickets-page__layout--calendar {
+  grid-template-columns: minmax(0, 1fr) minmax(12rem, 16rem);
+}
+
+.sots-checkout__ticket-hint {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.82rem;
+  color: #4a5560;
+}
+
+.sots-checkout-page__top {
+  padding: clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 4vw, 3rem) 0;
+}
+
+.sots-checkout-page__breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.88rem;
+  color: #4a5560;
+}
+
+.sots-checkout-page__breadcrumb a {
+  color: #1a5090;
+  font-weight: 600;
+}
+
+.sots-checkout-page__title {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: #0f2d4d;
+}
+
+.sots-checkout-page__subtitle {
+  margin: 0.35rem 0 0;
+  color: #4a5560;
+}
+
+.sots-checkout-page__body {
+  padding-top: 1rem;
+  padding-bottom: 5rem;
+}
+
+.sots-checkout-page__layout--form {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 900px) {
+  .sots-checkout-page__layout--form {
+    grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.sots-checkout-page__summary-pane {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 900px) {
+  .sots-checkout-page__summary-pane {
+    position: sticky;
+    top: 1rem;
+  }
+}
+
+.sots-checkout-page__poster--summary {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .sots-checkout-page__poster--summary {
+    display: block;
+  }
+}
+
+.sots-checkout-page__summary-card {
+  padding: 1rem;
+  border: 1px solid rgba(15, 45, 77, 0.12);
+  border-radius: 0.75rem;
+  background: #f8fafc;
+}
+
+.sots-checkout-page__summary-heading {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  color: #0f2d4d;
+}
+
+.sots-checkout-page__summary-date {
+  margin: 0;
+  font-weight: 700;
+  color: #0f2d4d;
+}
+
+.sots-checkout-page__summary-venue {
+  margin: 0.15rem 0 0.75rem;
+  font-size: 0.88rem;
+  color: #4a5560;
+}
+
+.sots-checkout-page__summary-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+}
+
+.sots-checkout-page__summary-lines li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  color: #4a5560;
+}
+
+.sots-checkout-page__summary-empty {
+  color: #8a97a3;
+  font-style: italic;
+}
+
+.sots-checkout-page__summary-line {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.35rem 0 0;
+  font-size: 0.88rem;
+  color: #4a5560;
+}
+
+.sots-checkout-page__summary-line.is-discount {
+  color: #1f6b3a;
+}
+
+.sots-checkout-page__summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 0.75rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(15, 45, 77, 0.1);
+  font-size: 0.95rem;
+  color: #0f2d4d;
+}
+
+.sots-checkout-page__form-pane {
+  border: 1px solid rgba(15, 45, 77, 0.12);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  background: #fff;
+}
+
+.sots-checkout-page__section-title {
+  margin: 0 0 0.65rem;
+  font-size: 1rem;
+  color: #0f2d4d;
+}
+
+.sots-checkout-page__paybar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem clamp(1rem, 4vw, 2rem);
+  border-top: 1px solid rgba(15, 45, 77, 0.12);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 -8px 24px rgba(15, 45, 77, 0.08);
+}
+
+.sots-checkout-page__paybar .sots-checkout__submit {
+  width: auto;
+  min-width: 10rem;
+}
+
+@media (min-width: 900px) {
+  .sots-checkout-page__paybar {
+    position: static;
+    grid-column: 1 / -1;
+    border: 1px solid rgba(15, 45, 77, 0.12);
+    border-radius: 0.75rem;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+}
+
+.sots-checkout__next-steps {
+  padding: 0.85rem 1rem;
+  border-radius: 0.75rem;
+  background: #f0f6fc;
+  border: 1px solid rgba(26, 80, 144, 0.12);
+}
+
+.sots-checkout__next-steps h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.92rem;
+  color: #0f2d4d;
+}
+
+.sots-checkout__next-steps ol {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: #4a5560;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.sots-checkout__confirmation--page {
+  max-width: 36rem;
+}
+
+.sots-checkout__confirmation-eyebrow {
+  margin: 0 0 0.25rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #1a5090;
+  font-weight: 700;
+}
+
+.sots-checkout__confirmation-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.5rem;
+  color: #0f2d4d;
+}
+
 @media (max-width: 640px) {
-  .sots-checkout-page__actions {
+  .sots-date-list__row {
+    grid-template-columns: 1fr;
+  }
+
+  .sots-date-list__cta {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .sots-checkout-page__paybar {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .sots-checkout-page__actions .sots-checkout__submit {
+  .sots-checkout-page__paybar .sots-checkout__submit {
     width: 100%;
     min-width: 0;
+  }
+
+  .sots-tickets-page__layout--calendar {
+    grid-template-columns: 1fr;
   }
 }

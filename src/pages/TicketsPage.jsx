@@ -5,16 +5,10 @@ import { getPriceFromLabel, getTicketCheckoutPath } from "../../js/ticketing.js"
 import { HOME_UPCOMING_EVENTS } from "../../js/home-upcoming-events.js";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { PerformanceCalendar } from "../components/ticketing/PerformanceCalendar.jsx";
-import { TicketPricing } from "../components/ticketing/TicketPricing.jsx";
 import { TicketStatusBadge } from "../components/ticketing/TicketStatusBadge.jsx";
 import { useTickets } from "../context/TicketProvider.jsx";
 
 const PRODUCTION_SLUG = "much-ado-about-nothing";
-
-const HOW_IT_WORKS = [
-  { step: "1", title: "Pick a date", text: "Choose your performance below." },
-  { step: "2", title: "Pay and go", text: "Checkout takes about a minute. Tickets arrive by email and in My Tickets." },
-];
 
 export function TicketsPage() {
   const { data, loading, error, refresh, ticketingState } = useTickets();
@@ -36,7 +30,7 @@ export function TicketsPage() {
   return (
     <InnerPageShell showVisit showNewsletter>
       <article className="orpheum-inner-page sots-tickets-page">
-        <header className="orpheum-inner-page__hero sots-tickets-page__hero">
+        <header className="orpheum-inner-page__hero sots-tickets-page__hero sots-tickets-page__hero--compact">
           <div
             className="sots-tickets-page__hero-bg"
             style={{ backgroundImage: `url('${MEDIA.heroHome}')` }}
@@ -46,9 +40,6 @@ export function TicketsPage() {
           <div className="orpheum-inner-page__hero-inner sots-tickets-page__hero-inner" data-reveal>
             <p className="orpheum-inner-page__eyebrow">2026 Season</p>
             <h1>Tickets</h1>
-            <p className="orpheum-inner-page__intro">
-              Choose a performance below. Checkout is on this site — pick tickets, pay, and you&apos;re done.
-            </p>
             {!loading && ticketingState.statusLabel ? (
               <div className="sots-tickets-page__meta">
                 <TicketStatusBadge status={ticketingState.statusLabel} />
@@ -65,25 +56,11 @@ export function TicketsPage() {
         </header>
 
         <div className="orpheum-inner-page__body">
-          <section className="sots-tickets-page__how" aria-label="How ticketing works" data-reveal>
-            <ol className="sots-tickets-page__how-list">
-              {HOW_IT_WORKS.map((item) => (
-                <li key={item.step}>
-                  <span className="sots-tickets-page__how-step">{item.step}</span>
-                  <div>
-                    <strong>{item.title}</strong>
-                    <p>{item.text}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </section>
-
-          <div className="sots-tickets-page__layout" data-reveal>
+          <div className="sots-tickets-page__layout sots-tickets-page__layout--calendar" data-reveal>
             <div className="sots-tickets-page__main">
               {loading ? (
                 <div className="sots-ticketing-loading">
-                  <p>Loading performances and availability…</p>
+                  <p>Loading performances…</p>
                 </div>
               ) : error ? (
                 <div className="sots-ticketing-loading">
@@ -94,9 +71,7 @@ export function TicketsPage() {
                 </div>
               ) : data ? (
                 <>
-                  <section className="sots-tickets-page__show" aria-labelledby="tickets-show-heading">
-                    <PerformanceCalendar data={data} allPerformances image={MEDIA.muchAdoPoster} />
-                  </section>
+                  <PerformanceCalendar data={data} allPerformances image={MEDIA.muchAdoPoster} />
 
                   {relatedEvents.length ? (
                     <section className="sots-tickets-page__more" aria-labelledby="tickets-more-heading">
@@ -123,9 +98,6 @@ export function TicketsPage() {
             </div>
 
             <aside className="sots-tickets-page__sidebar">
-              {data ? (
-                <TicketPricing ticketClasses={data.ticketClasses ?? data.ticketTypes} priceFrom={data.priceFrom} />
-              ) : null}
               <div className="sots-tickets-page__help">
                 <h2 className="sots-tickets-page__help-title">Box Office</h2>
                 <p>
@@ -133,11 +105,9 @@ export function TicketsPage() {
                   <a href="tel:+12039571006">(203) 957-1006</a> noon–5pm during the run.
                 </p>
                 <p>
-                  <Link to="/my-tickets/">My Tickets</Link>
+                  <Link to="/about/visit/">Plan your visit</Link>
                   {" · "}
                   <Link to="/about/contact/">Contact us</Link>
-                  {" · "}
-                  <Link to="/about/visit/">Plan your visit</Link>
                 </p>
               </div>
             </aside>

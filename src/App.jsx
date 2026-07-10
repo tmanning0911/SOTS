@@ -5,6 +5,7 @@ import { HomePage } from "./pages/HomePage.jsx";
 import { InnerPage } from "./pages/InnerPage.jsx";
 import { FaqPage } from "./pages/FaqPage.jsx";
 import { ProductionPage } from "./pages/ProductionPage.jsx";
+import { ShopCheckoutPage } from "./pages/ShopCheckoutPage.jsx";
 import { ShopPage } from "./pages/ShopPage.jsx";
 import { TicketCheckoutPage } from "./pages/TicketCheckoutPage.jsx";
 import { TicketsPage } from "./pages/TicketsPage.jsx";
@@ -59,6 +60,7 @@ export default function App() {
         {routePair("productions/:slug", <ProductionPage />)}
         {routePair("tickets/checkout/:performanceId", <TicketCheckoutPage />)}
         {routePair("tickets", <TicketsPage />)}
+        {routePair("shop/checkout", <ShopCheckoutPage />)}
         {routePair("shop", <ShopPage />)}
         {routePair("access-your-tickets", <AccessTicketsPage />)}
         {routePair("my-tickets", <MyTicketsPage />)}

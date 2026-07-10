@@ -8,6 +8,64 @@ export function getTicketCheckoutPath(performanceId) {
   return `${TICKET_CHECKOUT_PATH}/${encodeURIComponent(String(performanceId))}/`;
 }
 
+/** Strip internal QA prefixes from catalog titles shown to patrons. */
+export function patronDisplayName(name) {
+  if (!name || typeof name !== "string") return name ?? "";
+  return name.replace(/^TEST\s*[—–-]\s*/i, "").trim();
+}
+
+const TICKET_TIER = [
+  { test: (t) => t.slug === "general-admission" || /general admission/i.test(t.name ?? "") && !/child|kid|vip/i.test(t.name ?? ""), tier: 0 },
+  { test: (t) => /child|kid|under/i.test(t.name ?? "") || /child|kid/i.test(t.slug ?? ""), tier: 1 },
+  { test: (t) => /vip|reserved/i.test(t.name ?? "") || /vip/i.test(t.slug ?? ""), tier: 2 },
+];
+
+export function sortTicketTypesForDisplay(ticketTypes) {
+  return [...(ticketTypes ?? [])].sort((a, b) => {
+    const tier = (t) => TICKET_TIER.find((rule) => rule.test(t))?.tier ?? 3;
+    const diff = tier(a) - tier(b);
+    if (diff !== 0) return diff;
+    return (a.sortOrder ?? 0) - (b.sortOrder ?? 0);
+  });
+}
+
+export function ticketTypeHint(ticketType) {
+  if (!ticketType) return "";
+  const slug = ticketType.slug ?? "";
+  const name = ticketType.name ?? "";
+  if (/general admission/i.test(name) && !/child|kid/i.test(name)) {
+    return "Open seating on the lawn.";
+  }
+  if (/child|kid|under/i.test(name)) return "For ages 12 and under.";
+  if (/low back vip/i.test(name)) return "Reserved low-back chair seating.";
+  if (/high back vip/i.test(name)) return "Reserved high-back chair seating.";
+  if (/vip|reserved/i.test(name)) return "Reserved seating.";
+  if (/vip/i.test(slug)) return "Reserved seating.";
+  return "";
+}
+
+export function formatPerformanceListDate(isoLocal) {
+  if (!isoLocal) return "";
+  const date = new Date(isoLocal);
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZone: "America/New_York",
+  }).format(date);
+}
+
+export function formatPerformanceTime(isoLocal) {
+  if (!isoLocal) return "";
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    timeZone: "America/New_York",
+  }).format(new Date(isoLocal));
+}
+
 let cache = null;
 let cacheAt = 0;
 const CACHE_MS = 60_000;

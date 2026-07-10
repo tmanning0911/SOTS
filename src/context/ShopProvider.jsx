@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   cartItemCount,
   cartTotalCents,
+  getShopCheckoutPath,
   loadShopCatalog,
 } from "../../js/shop.js";
-import { ShopCheckoutModal } from "../components/shop/ShopCheckoutModal.jsx";
 import { ShopContext } from "./ShopContext.jsx";
-import { pauseSmoothScroll, resumeSmoothScroll } from "../polish.js";
 
 const CART_KEY = "sots-shop-cart";
 
@@ -20,10 +20,10 @@ function readStoredCart() {
 }
 
 export function ShopProvider({ children }) {
+  const navigate = useNavigate();
   const [catalog, setCatalog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState(() => readStoredCart());
-  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -92,14 +92,8 @@ export function ShopProvider({ children }) {
   const clearCart = useCallback(() => setCart([]), []);
 
   const openCheckout = useCallback(() => {
-    setCheckoutOpen(true);
-    pauseSmoothScroll();
-  }, []);
-
-  const closeCheckout = useCallback(() => {
-    setCheckoutOpen(false);
-    resumeSmoothScroll();
-  }, []);
+    navigate(getShopCheckoutPath());
+  }, [navigate]);
 
   const value = useMemo(
     () => ({
@@ -117,10 +111,5 @@ export function ShopProvider({ children }) {
     [catalog, loading, cart, addToCart, updateQuantity, removeFromCart, clearCart, openCheckout],
   );
 
-  return (
-    <ShopContext.Provider value={value}>
-      {children}
-      <ShopCheckoutModal open={checkoutOpen} onClose={closeCheckout} onSuccess={clearCart} />
-    </ShopContext.Provider>
-  );
+  return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
 }

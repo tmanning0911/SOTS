@@ -1,3 +1,5 @@
+import { patronDisplayName } from "../../../js/ticketing.js";
+
 export function TicketPricing({ ticketClasses, priceFrom }) {
   const classes = (ticketClasses ?? []).filter((tc) => !tc.hidden && tc.onSale);
 
@@ -15,7 +17,7 @@ export function TicketPricing({ ticketClasses, priceFrom }) {
         {classes.map((ticket) => (
           <li key={ticket.id} className="sots-ticket-pricing__item">
             <div className="sots-ticket-pricing__row">
-              <strong>{ticket.name}</strong>
+              <strong>{patronDisplayName(ticket.name)}</strong>
               <span>
                 {ticket.free ? "Free" : ticket.price?.display ?? "Price TBA"}
               </span>
