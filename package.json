@@ -10,6 +10,8 @@
     "sync:sots": "node scripts/sync-sots-content.mjs",
     "sync:ticketing": "node scripts/seed-ticketing.mjs",
     "sync:square-tickets": "node scripts/sync-square-ticket-types.mjs",
+    "sync:square-shop": "node scripts/sync-square-shop.mjs",
+    "sync:shop": "node scripts/seed-shop.mjs",
     "seed:test": "TICKETING_TEST_MODE=true node scripts/seed-ticketing.mjs && node scripts/seed-shop.mjs",
     "seed:square-test": "node scripts/seed-square-test-data.mjs",
     "setup:eventbrite": "node scripts/setup-eventbrite.mjs",

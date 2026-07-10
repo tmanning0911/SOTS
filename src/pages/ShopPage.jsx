@@ -16,6 +16,7 @@ export function ShopPage() {
     cartCount,
     cartTotal,
     addToCart,
+    buyNow,
     updateQuantity,
     removeFromCart,
     openCheckout,
@@ -78,7 +79,7 @@ export function ShopPage() {
               ) : products.length ? (
                 <div className="sots-shop-page__grid">
                   {products.map((product) => (
-                    <ProductCard key={product.id} product={product} onAdd={addToCart} />
+                    <ProductCard key={product.id} product={product} onAdd={addToCart} onBuyNow={buyNow} />
                   ))}
                 </div>
               ) : (
@@ -134,6 +135,20 @@ export function ShopPage() {
           </div>
         </div>
       </article>
+
+      {cartCount > 0 ? (
+        <div className="sots-shop-page__mobile-bar" aria-live="polite">
+          <div>
+            <strong>
+              {cartCount} {cartCount === 1 ? "item" : "items"}
+            </strong>
+            <span>{formatCents(cartTotal)}</span>
+          </div>
+          <button type="button" className="orpheum-arrow-btn orpheum-arrow-btn--gold orpheum-arrow-btn--compact" onClick={openCheckout}>
+            Checkout
+          </button>
+        </div>
+      ) : null}
     </InnerPageShell>
   );
 }

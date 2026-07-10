@@ -1,9 +1,26 @@
 import { useState } from "react";
 import { formatCents } from "../../../js/shop.js";
 
-export function ProductCard({ product, onAdd }) {
+export function ProductCard({ product, onAdd, onBuyNow }) {
   const [option, setOption] = useState(product.options?.[0]?.values?.[0] ?? "");
+  const [added, setAdded] = useState(false);
   const hasOptions = Boolean(product.options?.length);
+
+  const selection = { option: hasOptions ? option : undefined };
+
+  const handleAdd = () => {
+    onAdd(product, selection);
+    setAdded(true);
+    window.setTimeout(() => setAdded(false), 1800);
+  };
+
+  const handleBuyNow = () => {
+    if (onBuyNow) {
+      onBuyNow(product, selection);
+      return;
+    }
+    handleAdd();
+  };
 
   return (
     <article className="sots-shop-card">
@@ -33,13 +50,23 @@ export function ProductCard({ product, onAdd }) {
         ) : null}
         <div className="sots-shop-card__footer">
           <strong>{product.price?.display}</strong>
-          <button
-            type="button"
-            className="orpheum-arrow-btn orpheum-arrow-btn--gold orpheum-arrow-btn--compact"
-            onClick={() => onAdd(product, { option: hasOptions ? option : undefined })}
-          >
-            Add to cart
-          </button>
+          <div className="sots-shop-card__actions">
+            <button
+              type="button"
+              className={`orpheum-arrow-btn orpheum-arrow-btn--gold orpheum-arrow-btn--compact sots-shop-card__add${added ? " is-added" : ""}`}
+              onClick={handleAdd}
+              aria-live="polite"
+            >
+              {added ? "Added" : "Add to cart"}
+            </button>
+            <button
+              type="button"
+              className="sots-shop-card__buy-now"
+              onClick={handleBuyNow}
+            >
+              Buy now
+            </button>
+          </div>
         </div>
       </div>
     </article>

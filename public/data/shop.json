@@ -1,7 +1,7 @@
 {
   "provider": "square",
   "source": "seed",
-  "syncedAt": "2026-07-10T23:23:40.920Z",
+  "syncedAt": "2026-07-10T23:36:14.962Z",
   "categories": [
     {
       "id": "apparel",
@@ -72,7 +72,7 @@
       "id": "sots-pin",
       "itemId": "sots-pin",
       "name": "Much Ado Enamel Pin",
-      "description": "Collectible pin from the 2026 production.",
+      "description": "Collectible enamel pin from the 2026 summer production.",
       "category": "gifts",
       "categoryLabel": "Gifts & Souvenirs",
       "price": {
@@ -86,7 +86,7 @@
     },
     {
       "id": "sots-gift-50",
-      "itemId": "sots-gift-cert",
+      "itemId": "sots-gift-cert-50",
       "name": "Gift Certificate — $50",
       "description": "Redeemable for any Shakespeare on the Sound performance. Emailed after purchase.",
       "category": "gift-certificates",
@@ -103,7 +103,7 @@
     },
     {
       "id": "sots-gift-100",
-      "itemId": "sots-gift-cert",
+      "itemId": "sots-gift-cert-100",
       "name": "Gift Certificate — $100",
       "description": "Redeemable for any Shakespeare on the Sound performance. Emailed after purchase.",
       "category": "gift-certificates",

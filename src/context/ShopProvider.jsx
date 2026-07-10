@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { flushSync } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import {
   cartItemCount,
@@ -73,6 +74,16 @@ export function ShopProvider({ children }) {
     });
   }, []);
 
+  const buyNow = useCallback(
+    (product, { quantity = 1, option } = {}) => {
+      flushSync(() => {
+        addToCart(product, { quantity, option });
+      });
+      navigate(getShopCheckoutPath());
+    },
+    [addToCart, navigate],
+  );
+
   const updateQuantity = useCallback((lineKey, quantity) => {
     setCart((prev) =>
       prev
@@ -103,12 +114,13 @@ export function ShopProvider({ children }) {
       cartCount: cartItemCount(cart),
       cartTotal: cartTotalCents(cart),
       addToCart,
+      buyNow,
       updateQuantity,
       removeFromCart,
       clearCart,
       openCheckout,
     }),
-    [catalog, loading, cart, addToCart, updateQuantity, removeFromCart, clearCart, openCheckout],
+    [catalog, loading, cart, addToCart, buyNow, updateQuantity, removeFromCart, clearCart, openCheckout],
   );
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;

@@ -1,12 +1,17 @@
 import { resolveLocationId, squareRequest } from "./square.mjs";
+import {
+  canonicalCategoryId,
+  categoryMetaForSlug,
+  isTestShopProduct,
+} from "../../../js/shop-catalog.js";
 
-const TEST_IMAGE_FALLBACKS = {
-  "TEST-SOTS-TEE": "/images/hero-much-ado.jpg",
-  "TEST-SOTS-TOTE": "/images/news/kids-kings.jpg",
-  "TEST-SOTS-PIN": "/images/decor/shakespeare-portrait.png",
-  "TEST-PLAYBILL-2026": "/images/news/season-maan-banner.jpg",
-  "TEST-GIFT-50": "/images/backgrounds/park-audience-nyt.jpg",
-  "TEST-GIFT-100": "/images/backgrounds/park-audience-nyt.jpg",
+const SHOP_IMAGE_FALLBACKS = {
+  "SOTS-TEE": "/images/hero-much-ado.jpg",
+  "SOTS-TOTE": "/images/news/kids-kings.jpg",
+  "SOTS-PIN": "/images/decor/shakespeare-portrait.png",
+  "PLAYBILL-2026": "/images/news/season-maan-banner.jpg",
+  "GIFT-50": "/images/backgrounds/park-audience-nyt.jpg",
+  "GIFT-100": "/images/backgrounds/park-audience-nyt.jpg",
 };
 
 function formatMoney(cents) {
@@ -15,11 +20,12 @@ function formatMoney(cents) {
   );
 }
 
-function slugify(value) {
-  return String(value ?? "gifts")
+function categoryFromLabel(label) {
+  const slug = String(label ?? "gifts")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
+  return canonicalCategoryId(slug);
 }
 
 function resolveImageUrl(imageIds, lookup) {
@@ -50,8 +56,10 @@ export function normalizeCatalogProducts(items = [], relatedObjects = []) {
     if (!data) continue;
 
     const categoryObj = data.category_id ? lookup.get(data.category_id) : null;
-    const categoryLabel = categoryObj?.category_data?.name ?? "Gifts";
-    const category = slugify(categoryLabel);
+    const rawCategoryLabel = categoryObj?.category_data?.name ?? "Gifts";
+    const category = categoryFromLabel(rawCategoryLabel);
+    const categoryMeta = categoryMetaForSlug(category);
+    const categoryLabel = categoryMeta.label;
     const variationIds = (data.variations ?? []).map((v) => v.id);
 
     for (const variationId of variationIds) {
@@ -65,6 +73,7 @@ export function normalizeCatalogProducts(items = [], relatedObjects = []) {
       const variationName = varData.name && varData.name !== "Regular" ? varData.name : null;
       const name = variationName ? `${data.name} — ${variationName}` : data.name;
       const sku = varData.sku ?? null;
+      if (isTestShopProduct({ name, sku })) continue;
       if (sku?.startsWith("TEST-TIX-") || sku?.startsWith("SOTS-TIX-")) continue;
 
       products.push({
@@ -79,7 +88,7 @@ export function normalizeCatalogProducts(items = [], relatedObjects = []) {
           display: formatMoney(amount),
           currency: varData.price_money?.currency ?? "USD",
         },
-        image: resolveImageUrl(data.image_ids, lookup) || TEST_IMAGE_FALLBACKS[sku] || null,
+        image: resolveImageUrl(data.image_ids, lookup) || SHOP_IMAGE_FALLBACKS[sku] || null,
         sku,
         onSale: data.ecom_available !== false,
       });

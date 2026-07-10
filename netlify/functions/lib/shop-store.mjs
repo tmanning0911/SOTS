@@ -1,5 +1,13 @@
 import { getStore } from "@netlify/blobs";
 import { randomBytes } from "node:crypto";
+import {
+  buildShopCatalog,
+  enrichShopProducts,
+  filterLiveShopProducts,
+  SHOP_CATEGORIES,
+  SHOP_DINE_PARTNERS,
+  SHOP_FULFILLMENT,
+} from "../../../js/shop-catalog.js";
 import { fetchSquareShopCatalog } from "./square-catalog.mjs";
 import { readStaticJsonCatalog } from "./static-catalog.mjs";
 
@@ -10,28 +18,19 @@ function store() {
   return getStore({ name: STORE_NAME, consistency: "strong" });
 }
 
-function filterShopProducts(products = []) {
-  const testProducts = products.filter((p) => p.name.startsWith("TEST —"));
-  return testProducts.length ? testProducts : products;
-}
-
 export async function readShopCatalog() {
   const fileCatalog = await readStaticJsonCatalog("shop.json");
+  const baseMeta = {
+    categories: fileCatalog?.categories ?? SHOP_CATEGORIES,
+    shopAndDine: fileCatalog?.shopAndDine ?? SHOP_DINE_PARTNERS,
+    fulfillment: fileCatalog?.fulfillment ?? SHOP_FULFILLMENT,
+  };
 
   if (process.env.SQUARE_ACCESS_TOKEN && process.env.SQUARE_APPLICATION_ID) {
     try {
-      const products = filterShopProducts(await fetchSquareShopCatalog());
-      if (products.length) {
-        return {
-          ...(fileCatalog ?? {}),
-          provider: "square",
-          source: "square",
-          syncedAt: new Date().toISOString(),
-          products,
-          categories: fileCatalog?.categories ?? [],
-          shopAndDine: fileCatalog?.shopAndDine ?? [],
-          fulfillment: fileCatalog?.fulfillment ?? {},
-        };
+      const squareProducts = enrichShopProducts(await fetchSquareShopCatalog());
+      if (squareProducts.length) {
+        return buildShopCatalog(squareProducts, "square");
       }
     } catch {
       /* fall through */
@@ -41,7 +40,8 @@ export async function readShopCatalog() {
   if (fileCatalog?.products?.length) {
     return {
       ...fileCatalog,
-      products: filterShopProducts(fileCatalog.products),
+      products: filterLiveShopProducts(fileCatalog.products),
+      ...baseMeta,
     };
   }
 

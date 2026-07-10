@@ -151,10 +151,82 @@
 
 .sots-shop-card__footer {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: stretch;
   gap: 0.75rem;
   margin-top: 0.5rem;
+}
+
+.sots-shop-card__footer > strong {
+  font-size: 1.1rem;
+}
+
+.sots-shop-card__actions {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.sots-shop-card__add.is-added .orpheum-arrow-btn__label,
+.sots-shop-card__add.is-added .orpheum-arrow-btn__icon {
+  background: #1a7a45;
+}
+
+.sots-shop-card__buy-now {
+  padding: 0.7rem 1rem;
+  border: 1px solid rgba(15, 45, 77, 0.22);
+  border-radius: 4px;
+  background: #fff;
+  color: #0f2d4d;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.sots-shop-card__buy-now:hover {
+  background: #f7f9fb;
+  border-color: #0f2d4d;
+}
+
+.sots-shop-page__mobile-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(3.5rem + env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  background: rgba(15, 45, 77, 0.97);
+  color: #fff;
+  box-shadow: 0 -8px 24px rgba(15, 45, 77, 0.18);
+}
+
+.sots-shop-page__mobile-bar strong {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.sots-shop-page__mobile-bar span {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+@media (min-width: 992px) {
+  .sots-shop-page__mobile-bar {
+    display: none;
+  }
+}
+
+@media (max-width: 991px) {
+  .sots-shop-page {
+    padding-bottom: 5rem;
+  }
 }
 
 .sots-shop-page__cart-inner {
