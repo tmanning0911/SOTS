@@ -42,7 +42,12 @@ export function sandboxSalesEnabled() {
   return process.env.TICKETING_SANDBOX_SALES === "true";
 }
 
+function isNetlifyProductionDeploy() {
+  return (process.env.CONTEXT || "").toLowerCase() === "production";
+}
+
 function productionCatalogMode() {
+  if (!isNetlifyProductionDeploy()) return false;
   return squareEnvironment() === "production" && !sandboxSalesEnabled();
 }
 

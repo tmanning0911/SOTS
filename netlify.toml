@@ -20,6 +20,8 @@
 
 [context.deploy-preview.environment]
   TICKETING_TEST_MODE = "true"
+  # Keep Square production on preview when credentials are shared; test dates come from TICKETING_TEST_MODE builds.
+  SQUARE_ENVIRONMENT = "production"
 
 [context.branch-deploy.environment]
   TICKETING_TEST_MODE = "true"
