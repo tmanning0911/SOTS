@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════
    Homepage — Orpheum Theatre Group 1:1 layout (SOS content)
    https://www.orpheum-memphis.com/
-   Fonts loaded in polish.css (Cormorant Garamond + DM Sans)
+   Fonts loaded in polish.css (Marcellus + Source Sans 3)
    ═══════════════════════════════════════════════════════════ */
 
 .page-home,
@@ -19,8 +19,8 @@
   --orp-magenta: var(--brand-blue);
   --orp-blue: var(--brand-blue);
   --orp-line: #e4e9ef;
-  --orp-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --orp-sans: "DM Sans", system-ui, sans-serif;
+  --orp-serif: "Marcellus", Georgia, "Times New Roman", serif;
+  --orp-sans: "Source Sans 3", system-ui, sans-serif;
   /* Responsive breakpoints (single source of truth) */
   --bp-xs: 30rem;   /* 480px */
   --bp-sm: 48rem;   /* 768px */
@@ -195,8 +195,8 @@ body.page-home .site-header.is-scrolled {
   --orp-chrome-gutter: clamp(1rem, 7.75vw, 9.25rem);
   --orp-utility-bg: var(--brand-blue-deep);
   --orp-header-bar-bg: var(--orp-white);
-  --orp-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --orp-sans: "DM Sans", system-ui, sans-serif;
+  --orp-serif: "Marcellus", Georgia, "Times New Roman", serif;
+  --orp-sans: "Source Sans 3", system-ui, sans-serif;
   --utility-height: 52px;
   --chrome-bar-gap: 0px;
   --header-height: 82px;

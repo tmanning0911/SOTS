@@ -12,9 +12,9 @@
   --color-gold: var(--brand-gold);
   --color-imperial: var(--brand-blue);
 
-  --font-heading: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --font-body: "DM Sans", system-ui, sans-serif;
-  --font-button: "DM Sans", system-ui, sans-serif;
+  --font-heading: "Marcellus", Georgia, "Times New Roman", serif;
+  --font-body: "Source Sans 3", system-ui, sans-serif;
+  --font-button: "Source Sans 3", system-ui, sans-serif;
 
   --fs-40: clamp(16px, 1rem + ((1vw - 3.2px) * 0.455), 20px);
   --fs-50: clamp(18px, 1.125rem + ((1vw - 3.2px) * 0.455), 22px);
