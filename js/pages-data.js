@@ -43,7 +43,7 @@ export const FAQ_SECTIONS = [
       },
       {
         q: "What time should I arrive?",
-        a: "It is recommended to arrive 30 minutes before the show, but the park opens at 5:00 pm, and we encourage patrons to arrive earlier and have a preshow picnic in the park and stake your area even earlier!",
+        a: "It is recommended to arrive 30 minutes before the show. The park opens at 4pm on show days; the box office opens at 5pm. We encourage arriving earlier for a pre-show picnic and to choose your spot on the lawn.",
       },
       {
         q: "Can I sit anywhere?",
@@ -52,10 +52,6 @@ export const FAQ_SECTIONS = [
       {
         q: "Is there late seating?",
         a: "Late arrivals will be allowed in at the discretion of the front of house staff.",
-      },
-      {
-        q: "Can I bring my pet?",
-        a: "For the safety of our actors, pets are prohibited and will not be admitted into the show.",
       },
     ],
   },
@@ -782,6 +778,25 @@ export const INNER_PAGES = [
     ],
   },
   {
+    href: "/about/privacy/",
+    title: "Privacy Policy",
+    heading: "Privacy Policy.",
+    eyebrow: "Your Information",
+    intro: "How Shakespeare on the Sound handles information when you visit our site, buy tickets, or contact us.",
+    showNewsletter: false,
+    sections: [
+      {
+        type: "prose",
+        paragraphs: [
+          "We collect only the information needed to process ticket and shop orders, respond to inquiries, and send confirmations you request (such as order emails or My Tickets sign-in links).",
+          "Payment card data is processed by Square and is not stored on our web servers. Order details (name, email, performance date, ticket codes) are stored securely to fulfill your purchase and support box-office operations.",
+          "We do not sell your personal information. We may share data with service providers who help us operate ticketing, email delivery, or payment processing, under confidentiality obligations.",
+          "You may contact us at contactus@shakespeareonthesound.org to ask about your order history, request correction of contact information, or ask questions about this policy.",
+        ],
+      },
+    ],
+  },
+  {
     href: "/education/in-schools/",
     title: "In Schools",
     heading: "In Schools.",
@@ -917,7 +932,7 @@ export const INNER_PAGES = [
       },
       {
         type: "programs",
-        heading: "2025 Summer Camps",
+        heading: "2026 Summer Camps",
         programs: [
           {
             title: "The Globe Company",
@@ -1172,7 +1187,7 @@ export const INNER_PAGES = [
     title: "Donate",
     heading: "Support Our Mission.",
     eyebrow: "Join & Give",
-    showSupport: true,
+    showSupport: false,
     intro: "Your gift keeps affordable, professional Shakespeare alive for every generation.",
     sections: [
       {
@@ -1193,7 +1208,7 @@ export const INNER_PAGES = [
     title: "Individual Giving",
     heading: "Individual Giving.",
     eyebrow: "Join & Give",
-    showSupport: true,
+    showSupport: false,
     intro: "Join the community of supporters who make Shakespeare on the Sound possible.",
     sections: [
       {
@@ -1202,7 +1217,7 @@ export const INNER_PAGES = [
           "Your charitable contributions help defray the cost of our 16 summer performances in Pinkney Park, Rowayton, as well as our year-round education program.",
           "Our ticket prices do not cover the total expense of our summer productions. Each year we must raise at least $115,000 from supporters like you to maintain our low ticket prices.",
           "Please help us to continue our mission of providing affordable, professional Shakespeare productions to our community. Your tax-deductible gift of any amount will be most appreciated.",
-          "Please contact our Managing Director, Lorah Haskins, with questions: Lorah@ShakespeareOnTheSound.org.",
+          "Please contact our Executive Director, Aaron Simms, with questions: contactus@shakespeareonthesound.org.",
           "If you prefer to donate via check, mail your tax-deductible contribution to Shakespeare on the Sound, Inc., P.O. Box 15, Norwalk, CT 06853.",
           "Shakespeare on the Sound is a tax-exempt 501(c)(3) non-profit corporation. Tax ID: 06-1437037. All donations are fully tax deductible provided that no goods or services were provided in exchange for the donation.",
         ],
@@ -1274,7 +1289,7 @@ export const INNER_PAGES = [
     title: "Program Ads & Sponsorships",
     heading: "Program Ads & Sponsorships.",
     eyebrow: "Join & Give",
-    showSupport: true,
+    showSupport: false,
     intro: "Get your business noticed and support Shakespeare on the Sound.",
     sections: [
       {
@@ -1365,7 +1380,7 @@ export const INNER_PAGES = [
     title: "Events",
     heading: "Events.",
     eyebrow: "Join & Give",
-    showSupport: true,
+    showSupport: false,
     intro: "Save the date for our annual gala celebration and community fundraisers.",
     sections: [
       {
@@ -1398,7 +1413,7 @@ export const INNER_PAGES = [
     title: "Donors",
     heading: "Thank You.",
     eyebrow: "Join & Give",
-    showSupport: true,
+    showSupport: false,
     intro: "We gratefully acknowledge the generous supporters who make our work possible.",
     sections: [
       {

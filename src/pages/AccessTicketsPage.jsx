@@ -16,7 +16,7 @@ export function AccessTicketsPage() {
   }, []);
 
   return (
-    <InnerPageShell showVisit showNewsletter>
+    <InnerPageShell showVisit={false} showNewsletter={false}>
       <article className="orpheum-inner-page sots-account-page">
         <InnerPageHero
           className="sots-account-page__hero"

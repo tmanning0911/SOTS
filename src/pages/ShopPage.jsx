@@ -46,14 +46,6 @@ export function ShopPage() {
           title="Gift Shop"
           intro="Merchandise, playbills, and gift certificates — plus our favorite Rowayton spots for a pre-show picnic or dinner."
           image={heroImageForHref("/shop/")}
-          actions={
-            <>
-              <ArrowButton href="/tickets/">Get Tickets</ArrowButton>
-              <ArrowButton href="/support/donate/" variant="ghost">
-                Donate
-              </ArrowButton>
-            </>
-          }
         />
 
         <div className="orpheum-inner-page__body">

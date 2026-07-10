@@ -150,7 +150,7 @@ export function TicketsPage() {
   }
 
   return (
-    <InnerPageShell showVisit={false} showNewsletter>
+    <InnerPageShell showVisit={false} showNewsletter={false}>
       <article className="tix-page">
         <header className="tix-page__hero">
           <div
@@ -236,7 +236,7 @@ export function TicketsPage() {
               <div className="tix-page__help-card">
                 <h3>Before you arrive</h3>
                 <p>
-                  Gates open one hour before showtime. Picnics welcome — see our{" "}
+                  Gates open at 4pm; box office at 5pm on show days. Picnics welcome — see our{" "}
                   <Link to="/about/visit/">visit guide</Link> for parking and accessibility.
                 </p>
                 <ArrowButton href="/about/visit/">Plan your visit</ArrowButton>
@@ -252,7 +252,7 @@ export function TicketsPage() {
                 <p className="tix-page__section-eyebrow">This season</p>
                 <h2 id="tix-more-heading">More events</h2>
               </div>
-              <ArrowButton href="/support/events/">View all</ArrowButton>
+              <ArrowButton href="/#upcoming-events">View all events</ArrowButton>
             </div>
             <ul className="tix-page__more-grid">
               {relatedEvents.map((event) => (

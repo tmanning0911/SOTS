@@ -35,30 +35,29 @@ export function OrpheumInnerPage({ page }) {
               <PageSection key={`${section.heading ?? "section"}-${index}`} section={section} />
             ))}
 
-            {page.cta ? (
+            {(page.cta || page.secondaryCta) ? (
               <div className="orpheum-inner-page__cta">
-                <ArrowButton
-                  href={page.cta.href}
-                  {...(page.cta.external ? { target: "_blank", rel: "noopener" } : {})}
-                >
-                  {page.cta.label}
-                </ArrowButton>
-              </div>
-            ) : null}
-
-            {page.secondaryCta ? (
-              <div className="orpheum-inner-page__cta">
-                {isTicketCheckoutUrl(page.secondaryCta.href, TICKETS_PAGE_PATH) ? (
-                  <TicketArrowButton label={page.secondaryCta.label} variant="ghost" />
-                ) : (
+                {page.cta ? (
                   <ArrowButton
-                    href={page.secondaryCta.href}
-                    variant="ghost"
-                    {...(page.secondaryCta.external ? { target: "_blank", rel: "noopener" } : {})}
+                    href={page.cta.href}
+                    {...(page.cta.external ? { target: "_blank", rel: "noopener" } : {})}
                   >
-                    {page.secondaryCta.label}
+                    {page.cta.label}
                   </ArrowButton>
-                )}
+                ) : null}
+                {page.secondaryCta ? (
+                  isTicketCheckoutUrl(page.secondaryCta.href, TICKETS_PAGE_PATH) ? (
+                    <TicketArrowButton label={page.secondaryCta.label} variant="ghost" />
+                  ) : (
+                    <ArrowButton
+                      href={page.secondaryCta.href}
+                      variant="ghost"
+                      {...(page.secondaryCta.external ? { target: "_blank", rel: "noopener" } : {})}
+                    >
+                      {page.secondaryCta.label}
+                    </ArrowButton>
+                  )
+                ) : null}
               </div>
             ) : null}
           </div>

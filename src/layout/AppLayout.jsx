@@ -65,7 +65,7 @@ export function AppLayout() {
       </main>
 
       {!isCheckout ? <SiteFooter /> : null}
-      {isHome ? <HomeQuickBar /> : <MobileDock />}
+      {isHome ? <HomeQuickBar /> : isCheckout ? null : <MobileDock />}
       <AccessTicketsModal open={accessTicketsOpen} onClose={closeAccessTickets} />
       <SiteSearch />
     </>

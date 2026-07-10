@@ -689,9 +689,38 @@ body.page-checkout #main {
   min-height: 0;
 }
 
-body.page-checkout .orpheum-site-chrome {
-  box-shadow: 0 1px 0 rgba(15, 45, 77, 0.08);
+body.page-checkout .orpheum-site-chrome .orpheum-nav,
+body.page-checkout .orpheum-site-chrome .orpheum-header__actions .orpheum-header__search {
+  display: none !important;
 }
+
+body.page-checkout .orpheum-header__logo img {
+  max-height: 2.5rem;
+}
+
+.orpheum-production-page__ticketing-hub-card {
+  max-width: 52rem;
+  padding: clamp(1.5rem, 3vw, 2rem);
+  background: #fff;
+  border: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.1);
+  border-radius: 14px;
+  box-shadow: 0 12px 36px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.06);
+}
+
+.orpheum-production-page__ticketing-hub-card p {
+  margin: 0 0 1.25rem;
+  line-height: 1.6;
+  color: #4a5560;
+}
+
+.orpheum-newsletter-banner__lead {
+  max-width: 32rem;
+  margin: 0 0 1.25rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+}
+
 
 .sots-co__terms {
   margin: 0;

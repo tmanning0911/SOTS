@@ -7,8 +7,6 @@ import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { PageSection } from "../components/PageSection.jsx";
-import { PerformanceCalendar } from "../components/ticketing/PerformanceCalendar.jsx";
-import { TicketCheckoutButton } from "../components/ticketing/TicketCheckoutButton.jsx";
 import { TicketPricing } from "../components/ticketing/TicketPricing.jsx";
 import { TicketStatusBadge } from "../components/ticketing/TicketStatusBadge.jsx";
 import { useTickets } from "../context/TicketProvider.jsx";
@@ -61,7 +59,7 @@ export function ProductionPage() {
           actions={
             <>
               {showTicketing ? (
-                <TicketCheckoutButton label="Tickets" />
+                <ArrowButton href="/tickets/#dates">Tickets</ArrowButton>
               ) : data.tickets ? (
                 <ArrowButton href={data.tickets} target="_blank" rel="noopener">
                   Tickets
@@ -76,8 +74,20 @@ export function ProductionPage() {
 
         <div className="orpheum-inner-page__body">
           {showTicketing && !ticketsLoading && eventbrite ? (
-            <div className="orpheum-production-page__ticketing" id="ticketing" data-reveal>
-              <PerformanceCalendar data={eventbrite} compact image={data.heroImage ?? data.image} imageAlt={data.title} />
+            <div className="orpheum-production-page__ticketing orpheum-production-page__ticketing-hub" id="ticketing" data-reveal>
+              <div className="orpheum-production-page__ticketing-hub-card">
+                <h2 className="orpheum-inner-page__section-title">Get tickets.</h2>
+                <p>
+                  Choose your performance date, select ticket types, and checkout securely on our
+                  tickets page — with instant email confirmation and QR codes for the gate.
+                </p>
+                <div className="orpheum-inner-page__cta">
+                  <ArrowButton href="/tickets/#dates">See dates &amp; buy tickets</ArrowButton>
+                  <ArrowButton href="/my-tickets/" variant="ghost">
+                    My Tickets
+                  </ArrowButton>
+                </div>
+              </div>
             </div>
           ) : showTicketing && ticketsLoading ? (
             <div className="orpheum-production-page__ticketing sots-ticketing-loading" data-reveal>

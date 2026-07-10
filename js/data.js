@@ -122,7 +122,7 @@ export const NAV_ITEMS = [
           { label: "Gala", href: "/support/events/" },
           { label: "Education", href: "/education/in-schools/" },
           { label: "Comedy", href: "/productions/much-ado-about-nothing/" },
-          { label: "Music", href: "/productions/much-ado-about-nothing/" },
+          { label: "Past Productions", href: "/productions/past-productions/" },
           { label: "Special Event", href: "/support/events/" },
           { label: "Youth Programs", href: "/education/summer-camps/" },
         ],
@@ -152,7 +152,7 @@ export const NAV_ITEMS = [
       {
         title: "Parking And Directions",
         links: [
-          { label: "Accessibility", href: "/about/faq/" },
+          { label: "Accessibility", href: "/about/visit/" },
           { label: "Getting Here", href: "/about/getting-here/" },
           { label: "Plan Your Visit", href: "/about/visit/" },
           { label: "FAQ", href: "/about/faq/" },
@@ -213,6 +213,7 @@ export const NAV_ITEMS = [
           { label: "Individual Giving", href: "/support/individual-giving/" },
           { label: "Program Ads & Sponsorships", href: "/support/program-ads-sponsorships/" },
           { label: "Donate", href: "/support/donate/" },
+          { label: "Gift Shop", href: SITE.shopUrl },
           { label: "Events", href: "/support/events/" },
           { label: "Thank You", href: "/support/donors/" },
         ],
@@ -310,9 +311,9 @@ export const FOOTER_MAIN = {
 export const FOOTER_UTILITY = [
   { label: "Contact Us", href: "/about/contact/" },
   { label: "Employment", href: "/about/employment/" },
-  { label: "Privacy Policy", href: "/about/mission-history/" },
+  { label: "Privacy Policy", href: "/about/privacy/" },
   { label: "FAQ", href: "/about/faq/" },
-  { label: "Accessibility", href: "/about/faq/" },
+  { label: "Accessibility", href: "/about/visit/" },
 ];
 
 export const FOOTER_COLUMNS = [

@@ -118,7 +118,7 @@ export function TicketingAdminPage() {
 
   if (!token) {
     return (
-      <main className="orpheum-page orpheum-page--inner sots-ticketing-admin">
+      <div className="orpheum-page orpheum-page--inner sots-ticketing-admin">
         <div className="orpheum-container orpheum-container--narrow">
           <p className="orpheum-kicker">Staff</p>
           <h1>Ticketing Admin</h1>
@@ -147,12 +147,12 @@ export function TicketingAdminPage() {
             </p>
           ) : null}
         </div>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="orpheum-page orpheum-page--inner sots-ticketing-admin">
+    <div className="orpheum-page orpheum-page--inner sots-ticketing-admin">
       <div className="orpheum-container">
         <div className="sots-ticketing-admin__head">
           <div>
@@ -253,6 +253,6 @@ export function TicketingAdminPage() {
 
         {!loading && !orders.length ? <p>No orders found.</p> : null}
       </div>
-    </main>
+    </div>
   );
 }
