@@ -6,23 +6,27 @@ import {
   FOOTER_UTILITY,
   SOCIAL_LINKS,
 } from "../../js/data.js";
+import { isTicketCheckoutUrl } from "../../js/ticketing.js";
 import { SocialIcon } from "./SocialIcon.jsx";
 import { TicketCheckoutLink } from "./ticketing/TicketCheckoutLink.jsx";
 
 const FOOTER_SOCIAL = SOCIAL_LINKS.filter((social) => social.platform !== "x");
 
 function FooterLink({ link }) {
-  const external = link.external || link.href?.startsWith("http");
-
-  if (external) {
+  if (isTicketCheckoutUrl(link.href, SITE.ticketsUrl)) {
     return (
-      <TicketCheckoutLink href={link.href} className="sots-ticket-checkout-link" external>
+      <TicketCheckoutLink href={link.href} className="sots-ticket-checkout-link">
         {link.label}
       </TicketCheckoutLink>
     );
   }
 
-  return <a href={link.href}>{link.label}</a>;
+  const external = link.external || link.href?.startsWith("http");
+  return (
+    <a href={link.href} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+      {link.label}
+    </a>
+  );
 }
 
 export function SiteFooter() {

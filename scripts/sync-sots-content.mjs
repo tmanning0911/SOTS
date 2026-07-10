@@ -26,10 +26,8 @@ const events = readJson("events.json");
 const plays = readJson("plays.json");
 const team = readJson("team.json");
 
-const featuredPlay = plays.find((p) => p.featured) ?? plays[0];
-const ticketsUrl =
-  featuredPlay?.ticketUrl ??
-  "https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile";
+const TICKETS_PAGE_PATH = "/productions/much-ado-about-nothing/";
+const ticketsUrl = TICKETS_PAGE_PATH;
 
 const dataPath = path.join(root, "js/data.js");
 let data = fs.readFileSync(dataPath, "utf8");

@@ -1,40 +1,30 @@
-import { useTickets } from "../context/TicketProvider.jsx";
-
-const ORDER_LOOKUP = "https://www.eventbrite.com/signin/signup?referrer=%2Fmytickets";
+import { Link } from "react-router-dom";
+import { OrderLookupPanel } from "../components/ticketing/OrderLookupPanel.jsx";
 
 export function AccessTicketsModal({ open, onClose }) {
-  const { openCheckout } = useTickets();
-
   if (!open) return null;
 
   return (
     <div className="orpheum-modal" role="dialog" aria-modal="true" aria-labelledby="access-tickets-title">
       <button type="button" className="orpheum-modal__backdrop" aria-label="Close" onClick={onClose} />
-      <div className="orpheum-modal__panel">
+      <div className="orpheum-modal__panel orpheum-modal__panel--wide">
         <button type="button" className="orpheum-modal__close" aria-label="Close" onClick={onClose}>
           &times;
         </button>
         <h2 id="access-tickets-title">Access Your Tickets</h2>
-        <p>Mobile tickets make entry to events quick and easy.</p>
+
+        <OrderLookupPanel />
+
         <ul className="orpheum-modal__options">
           <li>
-            <a href={ORDER_LOOKUP} target="_blank" rel="noopener noreferrer">
-              <strong>View My Tickets</strong>
-              <span>Log in to view your mobile tickets</span>
-            </a>
-          </li>
-          <li>
-            <button
-              type="button"
+            <Link
+              to="/tickets/"
               className="sots-ticket-checkout-link sots-ticket-checkout-link--modal"
-              onClick={() => {
-                onClose();
-                openCheckout();
-              }}
+              onClick={onClose}
             >
               <strong>Buy Tickets</strong>
               <span>General admission and reserved seating — checkout on this site</span>
-            </button>
+            </Link>
           </li>
           <li>
             <a href="/about/contact/">

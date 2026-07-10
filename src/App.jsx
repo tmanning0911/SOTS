@@ -5,6 +5,11 @@ import { HomePage } from "./pages/HomePage.jsx";
 import { InnerPage } from "./pages/InnerPage.jsx";
 import { FaqPage } from "./pages/FaqPage.jsx";
 import { ProductionPage } from "./pages/ProductionPage.jsx";
+import { ShopPage } from "./pages/ShopPage.jsx";
+import { TicketsPage } from "./pages/TicketsPage.jsx";
+import { AccessTicketsPage } from "./pages/AccessTicketsPage.jsx";
+import { MyTicketsPage } from "./pages/MyTicketsPage.jsx";
+import { TicketingAdminPage } from "./pages/TicketingAdminPage.jsx";
 import { NotFoundPage } from "./pages/NotFoundPage.jsx";
 import { INNER_PAGES, hrefToRoutePath } from "../js/pages-data.js";
 
@@ -51,6 +56,11 @@ export default function App() {
           return routePair(path, <InnerPageRoute page={page} />);
         })}
         {routePair("productions/:slug", <ProductionPage />)}
+        {routePair("tickets", <TicketsPage />)}
+        {routePair("shop", <ShopPage />)}
+        {routePair("access-your-tickets", <AccessTicketsPage />)}
+        {routePair("my-tickets", <MyTicketsPage />)}
+        {routePair("admin/ticketing", <TicketingAdminPage />)}
         <Route path="404" element={<NotFoundPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

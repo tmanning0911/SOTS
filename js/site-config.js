@@ -70,7 +70,7 @@ export function buildFeaturedEventJsonLd() {
     organizer: { "@type": "Organization", name: SITE_META.name, url: SITE_URL },
     offers: {
       "@type": "Offer",
-      url: "https://MuchAdo2026.eventbrite.com",
+      url: "https://www.shakespeareonthesound.org/productions/much-ado-about-nothing/",
       price: "0",
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",

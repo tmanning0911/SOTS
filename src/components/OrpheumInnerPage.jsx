@@ -1,6 +1,8 @@
 import { ArrowButton } from "./ArrowButton.jsx";
 import { InnerPageShell } from "./InnerPageShell.jsx";
 import { PageSection } from "./PageSection.jsx";
+import { TicketArrowButton } from "./ticketing/TicketArrowButton.jsx";
+import { isTicketCheckoutUrl, TICKETS_PAGE_PATH } from "../../js/ticketing.js";
 
 export function OrpheumInnerPage({ page }) {
   if (!page) return null;
@@ -45,13 +47,17 @@ export function OrpheumInnerPage({ page }) {
 
             {page.secondaryCta ? (
               <div className="orpheum-inner-page__cta">
-                <ArrowButton
-                  href={page.secondaryCta.href}
-                  variant="ghost"
-                  {...(page.secondaryCta.external ? { target: "_blank", rel: "noopener" } : {})}
-                >
-                  {page.secondaryCta.label}
-                </ArrowButton>
+                {isTicketCheckoutUrl(page.secondaryCta.href, TICKETS_PAGE_PATH) ? (
+                  <TicketArrowButton label={page.secondaryCta.label} variant="ghost" />
+                ) : (
+                  <ArrowButton
+                    href={page.secondaryCta.href}
+                    variant="ghost"
+                    {...(page.secondaryCta.external ? { target: "_blank", rel: "noopener" } : {})}
+                  >
+                    {page.secondaryCta.label}
+                  </ArrowButton>
+                )}
               </div>
             ) : null}
           </div>

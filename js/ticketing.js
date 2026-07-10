@@ -1,16 +1,18 @@
 export const AFFILIATE_CODE = "ebdsoporgprofile";
 export const TICKETS_CTA_LABEL = "Tickets";
+export const TICKETS_PAGE_PATH = "/tickets/";
 
 let cache = null;
 let cacheAt = 0;
 const CACHE_MS = 60_000;
 
-const ACTIVE_STATUSES = new Set(["live", "started", "draft"]);
+const ACTIVE_STATUSES = new Set(["live", "started", "draft", "on_sale"]);
 const STATUS_DISPLAY = {
   completed: "Ended",
   live: "On Sale",
   started: "On Sale",
   draft: "Coming Soon",
+  on_sale: "On Sale",
   cancelled: "Cancelled",
 };
 
@@ -20,12 +22,12 @@ export function affiliateUrl(url) {
   return `${url}${sep}aff=${AFFILIATE_CODE}`;
 }
 
-export async function loadEventbriteData({ fresh = false } = {}) {
+export async function loadTicketData({ fresh = false } = {}) {
   if (!fresh && cache && Date.now() - cacheAt < CACHE_MS) {
     return cache;
   }
 
-  const sources = ["/api/tickets", "/data/eventbrite.json"];
+  const sources = ["/api/tickets", "/data/ticketing.json", "/data/eventbrite.json"];
   let lastError = null;
 
   for (const source of sources) {
@@ -46,8 +48,27 @@ export async function loadEventbriteData({ fresh = false } = {}) {
   return null;
 }
 
-export function getTicketsUrl(data, fallback) {
-  return data?.featuredTicket?.affiliateUrl ?? data?.featuredTicket?.url ?? fallback ?? null;
+/** @deprecated Use loadTicketData */
+export async function loadEventbriteData(options) {
+  return loadTicketData(options);
+}
+
+export function getTicketsUrl(_data, fallback = TICKETS_PAGE_PATH) {
+  return TICKETS_PAGE_PATH ?? fallback;
+}
+
+/** Performance ID for native checkout (Square). */
+export function getCheckoutPerformanceId(data, performanceId) {
+  return getWidgetEventId(data, performanceId);
+}
+
+export function getWidgetEventId(data, eventId) {
+  if (eventId) return String(eventId);
+  const purchasable = purchasablePerformances(data, 1)[0]?.id;
+  if (purchasable) return String(purchasable);
+  const firstPerformance =
+    data?.performances?.find((p) => !p.isSeriesParent)?.id ?? data?.performances?.[0]?.id;
+  return firstPerformance ? String(firstPerformance) : null;
 }
 
 /** @deprecated Prefer getDefaultCheckoutEventId — series parent IDs break embedded checkout. */
@@ -149,20 +170,24 @@ export function performanceForDate(data, isoStart) {
 export function isTicketCheckoutUrl(href, ticketsUrl) {
   if (!href || typeof href !== "string") return false;
   if (/eventbrite\.com/i.test(href)) return true;
-  if (ticketsUrl && href === ticketsUrl) return true;
+  if (href === "/tickets" || href.startsWith("/tickets?") || href.startsWith("/tickets/")) return true;
+  if (ticketsUrl && (href === ticketsUrl || href.startsWith(`${ticketsUrl}#`))) return true;
+  if (href === TICKETS_PAGE_PATH || href.startsWith(`${TICKETS_PAGE_PATH}#`)) return true;
+  if (href === "/productions/much-ado-about-nothing/" || href.startsWith("/productions/much-ado-about-nothing")) {
+    return true;
+  }
   return false;
 }
 
 export function enrichPlayWithTickets(play, data) {
   if (!play || !data) return play;
   const state = getTicketingState(data);
-  const url = state.ticketsUrl ?? play.ticketUrl;
   const priceLabel = state.canPurchase ? getPriceFromLabel(data) : null;
-  const eventbriteId = state.defaultEventId ?? play.eventbriteId;
+  const eventbriteId = getWidgetEventId(data, state.defaultEventId ?? play.eventbriteId);
 
   return {
     ...play,
-    ticketUrl: url ?? play.ticketUrl,
+    ticketUrl: TICKETS_PAGE_PATH,
     priceLabel,
     eventbriteId,
     status: state.statusLabel,
@@ -175,14 +200,18 @@ export function enrichEventWithTickets(event, data) {
   const calendarStart = event.calendar?.start ?? event.calendar?.occurrences?.[0]?.start;
   const matched = performanceForDate(data, calendarStart);
   const state = getTicketingState(data);
-  const fallback = state.ticketsUrl ?? event.ctaUrl;
-  const ctaUrl = matched?.affiliateUrl ?? (event.external ? fallback : event.ctaUrl);
+  const isTicketEvent =
+    event.external ||
+    /eventbrite/i.test(event.ctaUrl ?? "") ||
+    /ticket/i.test(event.ctaLabel ?? "");
+  const ctaUrl = isTicketEvent ? TICKETS_PAGE_PATH : event.ctaUrl;
   const matchedPurchasable = matched && isPurchasablePerformance(matched);
 
   return {
     ...event,
     ctaUrl,
-    eventbriteId: matchedPurchasable ? matched.id : state.defaultEventId ?? event.eventbriteId,
+    external: isTicketEvent ? false : event.external,
+    eventbriteId: getWidgetEventId(data, matched?.id ?? state.defaultEventId ?? event.eventbriteId),
     ticketStatus: matched ? ticketStatusLabel(matched) : state.statusLabel,
     canPurchase: matched ? isPurchasablePerformance(matched) : state.canPurchase,
     priceNote:

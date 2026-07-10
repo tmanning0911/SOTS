@@ -1,0 +1,11 @@
+{
+  "codes": [
+    {
+      "code": "STARS10",
+      "type": "percent",
+      "value": 10,
+      "active": true,
+      "description": "10% off tickets"
+    }
+  ]
+}

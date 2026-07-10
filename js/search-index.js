@@ -169,11 +169,10 @@ export function buildSearchIndex() {
 
   pushItem(items, seen, {
     title: "Get Tickets",
-    excerpt: "Purchase general admission and reserved seating through Eventbrite.",
+    excerpt: "Purchase general admission and reserved seating on our site.",
     href: SITE.ticketsUrl,
     type: "Tickets",
-    external: true,
-    keywords: ["eventbrite", "buy", "reserved", "seating"],
+    keywords: ["buy", "reserved", "seating", "tickets"],
   });
 
   cachedIndex = items;

@@ -2,7 +2,9 @@ import { useId, useMemo } from "react";
 import {
   formatPerformanceDate,
   getTicketingState,
+  isPurchasablePerformance,
   purchasablePerformances,
+  seriesPerformances,
   ticketStatusLabel,
 } from "../../../js/ticketing.js";
 import { useTickets } from "../../context/TicketProvider.jsx";
@@ -13,6 +15,7 @@ function PerformanceButton({ performance, selectedId, onSelect, onBuy }) {
   const soldOut = performance.isSoldOut || performance.ticketsAvailable === false;
   const isSelected = selectedId === performance.id;
   const status = ticketStatusLabel(performance);
+  const canBuy = isPurchasablePerformance(performance);
 
   return (
     <li className="sots-performance-picker__item">
@@ -21,9 +24,9 @@ function PerformanceButton({ performance, selectedId, onSelect, onBuy }) {
         className={`sots-performance-picker__btn${isSelected ? " is-selected" : ""}${soldOut ? " is-sold-out" : ""}`}
         onClick={() => {
           onSelect?.(performance);
-          onBuy(performance.id);
+          if (canBuy) onBuy(performance.id);
         }}
-        disabled={soldOut}
+        disabled={!canBuy}
         aria-pressed={isSelected}
       >
         <span className="sots-performance-picker__date">{formatPerformanceDate(performance.start)}</span>
@@ -36,10 +39,19 @@ function PerformanceButton({ performance, selectedId, onSelect, onBuy }) {
   );
 }
 
-export function PerformancePicker({ data, selectedId, onSelect, limit = 12 }) {
+export function PerformancePicker({
+  data,
+  selectedId,
+  onSelect,
+  limit = 12,
+  allPerformances = false,
+}) {
   const listId = useId();
   const { openCheckout } = useTickets();
-  const performances = useMemo(() => purchasablePerformances(data, limit), [data, limit]);
+  const performances = useMemo(() => {
+    const list = allPerformances ? seriesPerformances(data) : purchasablePerformances(data, limit);
+    return allPerformances ? list : list;
+  }, [allPerformances, data, limit]);
   const state = useMemo(() => getTicketingState(data), [data]);
 
   if (!data?.featuredTicket) return null;
@@ -67,10 +79,12 @@ export function PerformancePicker({ data, selectedId, onSelect, limit = 12 }) {
     <section className="sots-performance-picker" aria-labelledby={listId}>
       <div className="sots-performance-picker__head">
         <h2 id={listId} className="sots-performance-picker__title">
-          Choose a Performance
+          {allPerformances ? "All Performances" : "Choose a Performance"}
         </h2>
         <p className="sots-performance-picker__lead">
-          Select a date to buy tickets. Checkout opens right here on our site.
+          {allPerformances
+            ? "Every performance this summer. Select a date to buy tickets — checkout opens on this page."
+            : "Select a date to buy tickets. Checkout opens right here on our site."}
         </p>
       </div>
       {performances.length ? (

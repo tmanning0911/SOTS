@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { buildHomeUpcomingEvents } from "../../../js/home-upcoming-events.js";
-import { enrichEventWithTickets, enrichPlayWithTickets } from "../../../js/ticketing.js";
+import { enrichEventWithTickets, enrichPlayWithTickets, TICKETS_PAGE_PATH } from "../../../js/ticketing.js";
 import { ArrowButton } from "../ArrowButton.jsx";
 import { useTickets } from "../../context/TicketProvider.jsx";
 import { TicketStatusBadge } from "../ticketing/TicketStatusBadge.jsx";
@@ -18,23 +18,22 @@ function LearnMoreLink({ href }) {
 }
 
 function EventCta({ event, compact = false }) {
-  const { openCheckout, ticketsUrl } = useTickets();
   const label = event.ctaLabel || "Learn More";
   const href = event.ctaHref || event.href;
-  const external = event.ctaExternal;
-  const isTicket = external && event.canPurchase !== false && (event.eventbriteId || event.ctaHref?.includes("eventbrite"));
+  const isTicket =
+    /ticket/i.test(label) &&
+    (href === TICKETS_PAGE_PATH || href?.startsWith("/tickets") || Boolean(event.eventbriteId));
 
   if (label === "Learn More") {
     return <LearnMoreLink href={href} />;
   }
 
-  if (isTicket && ticketsUrl) {
+  if (isTicket) {
+    const ticketsHref = event.eventbriteId
+      ? `${TICKETS_PAGE_PATH}?performance=${encodeURIComponent(event.eventbriteId)}`
+      : TICKETS_PAGE_PATH;
     return (
-      <ArrowButton
-        className={compact ? "orpheum-arrow-btn--compact" : ""}
-        type="button"
-        onClick={() => openCheckout(event.eventbriteId)}
-      >
+      <ArrowButton href={ticketsHref} className={compact ? "orpheum-arrow-btn--compact" : ""}>
         Tickets
       </ArrowButton>
     );
@@ -44,8 +43,6 @@ function EventCta({ event, compact = false }) {
     <ArrowButton
       href={href}
       className={compact ? "orpheum-arrow-btn--compact" : ""}
-      target={external ? "_blank" : undefined}
-      rel={external ? "noopener noreferrer" : undefined}
     >
       {label}
     </ArrowButton>

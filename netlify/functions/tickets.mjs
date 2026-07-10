@@ -1,15 +1,16 @@
-import { getStore } from '@netlify/blobs';
-import { readFile } from 'node:fs/promises';
-import path from 'node:path';
-import { PREVIEW_SITE_URL, PRODUCTION_SITE_URL } from '../../scripts/lib/site-domains.mjs';
-import { corsHeaders, jsonResponse } from './lib/cors.mjs';
-
-const STORE_NAME = 'sots-ticketing';
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+import { PREVIEW_SITE_URL, PRODUCTION_SITE_URL } from "../../scripts/lib/site-domains.mjs";
+import { corsHeaders, jsonResponse } from "./lib/cors.mjs";
+import {
+  getInventoryMap,
+  mergeCatalogWithInventory,
+  readCatalog,
+} from "./lib/ticketing-store.mjs";
 
 const STATIC_CANDIDATES = [
-  path.join(process.cwd(), 'dist', 'data', 'eventbrite.json'),
-  path.join(process.cwd(), 'data', 'eventbrite.json'),
-  path.join(process.cwd(), 'public', 'data', 'eventbrite.json'),
+  path.join(process.cwd(), "dist", "data", "ticketing.json"),
+  path.join(process.cwd(), "public", "data", "ticketing.json"),
 ];
 
 function siteDataUrls() {
@@ -22,77 +23,67 @@ function siteDataUrls() {
   ]);
   return [...urls]
     .filter(Boolean)
-    .map((base) => `${String(base).replace(/\/$/, '')}/data/eventbrite.json`);
+    .map((base) => `${String(base).replace(/\/$/, "")}/data/ticketing.json`);
 }
 
-async function readStaticTicketData() {
+async function readStaticCatalog() {
+  const fromLib = await readCatalog();
+  if (fromLib) return fromLib;
+
   for (const filePath of STATIC_CANDIDATES) {
     try {
-      const raw = await readFile(filePath, 'utf8');
-      return JSON.parse(raw);
+      return JSON.parse(await readFile(filePath, "utf8"));
     } catch {
-      // try next path
+      // next
     }
   }
 
   for (const url of siteDataUrls()) {
     try {
-      const res = await fetch(url, { headers: { Accept: 'application/json' } });
+      const res = await fetch(url, { headers: { Accept: "application/json" } });
       if (!res.ok) continue;
       return await res.json();
     } catch {
-      // try next URL
+      // next
     }
   }
-
-  return null;
-}
-
-async function readTicketData() {
-  try {
-    const store = getStore({ name: STORE_NAME, consistency: 'strong' });
-    const cached = await store.get('eventbrite', { type: 'json' });
-    if (cached) return cached;
-  } catch {
-    // blobs unavailable
-  }
-
-  const staticData = await readStaticTicketData();
-  if (staticData) return staticData;
 
   return null;
 }
 
 export const handler = async (event) => {
   const { headers, allowed, origin } = corsHeaders(event, {
-    methods: 'GET, OPTIONS',
+    methods: "GET, OPTIONS",
   });
 
-  if (event.httpMethod === 'OPTIONS') {
+  if (event.httpMethod === "OPTIONS") {
     if (!allowed && origin) return { statusCode: 403, headers };
     return { statusCode: 204, headers };
   }
 
-  if (event.httpMethod !== 'GET') {
-    return jsonResponse(405, { error: 'Method not allowed' }, event);
+  if (event.httpMethod !== "GET") {
+    return jsonResponse(405, { error: "Method not allowed" }, event);
   }
 
   try {
-    const data = await readTicketData();
-    if (!data) {
-      return jsonResponse(503, { error: 'Ticket data unavailable' }, event);
+    const catalog = await readStaticCatalog();
+    if (!catalog) {
+      return jsonResponse(503, { error: "Ticket data unavailable" }, event);
     }
+
+    const inventory = await getInventoryMap();
+    const data = mergeCatalogWithInventory(catalog, inventory);
 
     const responseHeaders = {
       ...headers,
-      'Cache-Control': 'public, max-age=300, stale-while-revalidate=600',
+      "Cache-Control": "public, max-age=60, stale-while-revalidate=120",
     };
 
     if (!allowed && origin) {
       return {
         statusCode: 403,
         headers: responseHeaders,
-        body: JSON.stringify({ error: 'Origin not allowed' }),
+        body: JSON.stringify({ error: "Origin not allowed" }),
       };
     }
 
@@ -102,7 +93,7 @@ export const handler = async (event) => {
       body: JSON.stringify(data),
     };
   } catch (err) {
-    console.error('tickets handler failed:', err);
-    return jsonResponse(500, { error: 'Ticket data unavailable' }, event);
+    console.error("tickets handler failed:", err);
+    return jsonResponse(500, { error: "Ticket data unavailable" }, event);
   }
 };

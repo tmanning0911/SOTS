@@ -3,7 +3,6 @@ import { MEDIA, NAV_ITEMS, SITE } from "../../js/data.js";
 import { trapFocus } from "../../js/a11y.js";
 import { useNav } from "../context/NavContext.jsx";
 import { useUI } from "../context/UIContext.jsx";
-import { useTickets } from "../context/TicketProvider.jsx";
 import { TicketCheckoutLink } from "./ticketing/TicketCheckoutLink.jsx";
 
 function flattenNavLinks(item) {
@@ -15,7 +14,6 @@ function flattenNavLinks(item) {
 export function MobileNav() {
   const { menuOpen, closeMenu } = useNav();
   const { openSearch } = useUI();
-  const { openCheckout } = useTickets();
   const [expanded, setExpanded] = useState(null);
 
   useEffect(() => {
@@ -62,16 +60,9 @@ export function MobileNav() {
         <button type="button" className="orpheum-btn orpheum-btn--secondary mobile-nav__search" onClick={() => { closeMenu(); openSearch(); }}>
           Search site
         </button>
-        <button
-          type="button"
-          className="orpheum-btn orpheum-btn--gold"
-          onClick={() => {
-            handleClose();
-            openCheckout();
-          }}
-        >
+        <a className="orpheum-btn orpheum-btn--gold" href="/tickets/" onClick={handleClose}>
           Tickets
-        </button>
+        </a>
         <a className="orpheum-btn orpheum-btn--donate" href="/support/donate/" onClick={handleClose}>
           Donate
         </a>

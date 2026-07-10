@@ -1,0 +1,344 @@
+.sots-shop-page__hero {
+  background: linear-gradient(135deg, #0f2d4d 0%, #1a5090 100%);
+  color: #fff;
+}
+
+.sots-shop-page__hero .orpheum-inner-page__intro {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.sots-shop-page__hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.sots-shop-page__layout {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 992px) {
+  .sots-shop-page__layout {
+    grid-template-columns: minmax(0, 1fr) 320px;
+    align-items: start;
+  }
+}
+
+.sots-shop-page__fulfillment {
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  border-radius: 0.75rem;
+  background: #f7f9fb;
+  border: 1px solid rgba(15, 45, 77, 0.1);
+  color: #4a5560;
+  line-height: 1.55;
+}
+
+.sots-shop-page__fulfillment p {
+  margin: 0 0 0.5rem;
+}
+
+.sots-shop-page__fulfillment p:last-child {
+  margin-bottom: 0;
+}
+
+.sots-shop-page__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.sots-shop-page__filter {
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 45, 77, 0.2);
+  background: #fff;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sots-shop-page__filter.is-active {
+  background: #0f2d4d;
+  border-color: #0f2d4d;
+  color: #fff;
+}
+
+.sots-shop-page__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.sots-shop-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(15, 45, 77, 0.12);
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #fff;
+}
+
+.sots-shop-card__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: #eef1f4;
+}
+
+.sots-shop-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sots-shop-card__placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #d4d9de, #eef1f4);
+}
+
+.sots-shop-card__badge {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  background: #0f2d4d;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.sots-shop-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  flex: 1;
+}
+
+.sots-shop-card__category {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #1a5090;
+}
+
+.sots-shop-card__body h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.sots-shop-card__desc {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #4a5560;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.sots-shop-card__option {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.sots-shop-card__option select {
+  padding: 0.45rem 0.5rem;
+  border: 1px solid rgba(15, 45, 77, 0.2);
+  border-radius: 0.4rem;
+  font: inherit;
+}
+
+.sots-shop-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.sots-shop-page__cart-inner {
+  position: sticky;
+  top: 1rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(15, 45, 77, 0.12);
+  border-radius: 1rem;
+  background: #fff;
+}
+
+.sots-shop-page__cart h2 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+}
+
+.sots-shop-page__cart-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: #c9a227;
+  color: #0f2d4d;
+  font-size: 0.8rem;
+  vertical-align: middle;
+}
+
+.sots-shop-cart__empty {
+  color: #4a5560;
+  margin: 0 0 1rem;
+}
+
+.sots-shop-cart__list {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.sots-shop-cart__item {
+  display: grid;
+  gap: 0.35rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(15, 45, 77, 0.1);
+  font-size: 0.9rem;
+}
+
+.sots-shop-cart__option {
+  display: block;
+  color: #4a5560;
+  font-size: 0.82rem;
+}
+
+.sots-shop-cart__qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sots-shop-cart__qty button {
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid rgba(15, 45, 77, 0.2);
+  border-radius: 0.35rem;
+  background: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.sots-shop-cart__remove {
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #1a5090;
+  font-size: 0.82rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.sots-shop-cart__total {
+  margin: 0 0 1rem;
+}
+
+.sots-shop-page__cart-note {
+  margin: 0.75rem 0 0;
+  font-size: 0.85rem;
+  color: #4a5560;
+}
+
+.sots-shop-page__dine {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(15, 45, 77, 0.12);
+}
+
+.sots-shop-page__dine h2 {
+  margin: 0 0 0.5rem;
+}
+
+.sots-shop-page__dine-lead {
+  margin: 0 0 1.25rem;
+  color: #4a5560;
+  line-height: 1.55;
+  max-width: 52ch;
+}
+
+.sots-shop-page__dine-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.sots-shop-page__dine-card {
+  display: block;
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(15, 45, 77, 0.12);
+  border-radius: 0.75rem;
+  background: #fff;
+  color: inherit;
+  text-decoration: none;
+}
+
+.sots-shop-page__dine-card strong {
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+.sots-shop-page__dine-card span {
+  font-size: 0.88rem;
+  color: #1a5090;
+}
+
+.sots-shop-page__dine-card p {
+  margin: 0.5rem 0 0;
+  color: #4a5560;
+  line-height: 1.5;
+}
+
+.sots-shop-checkout__summary {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  font-size: 0.9rem;
+  color: #4a5560;
+}
+
+.sots-shop-checkout__fulfillment {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  border: 0;
+  padding: 0;
+}
+
+.sots-shop-checkout__fulfillment label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.92rem;
+}
+
+.orpheum-arrow-btn--compact {
+  padding: 0.55rem 0.85rem;
+  font-size: 0.82rem;
+}
+
+@media (max-width: 991px) {
+  .sots-shop-page__cart-inner {
+    position: static;
+  }
+}

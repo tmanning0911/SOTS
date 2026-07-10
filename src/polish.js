@@ -145,3 +145,12 @@ export function refreshScroll() {
   ScrollTrigger.refresh();
   syncChromeMetrics();
 }
+
+export function pauseSmoothScroll() {
+  lenis?.stop();
+}
+
+export function resumeSmoothScroll() {
+  lenis?.start();
+  refreshScroll();
+}

@@ -60,10 +60,7 @@ export function ProductionPage() {
             ) : null}
             <div className="orpheum-production-page__actions">
               {showTicketing ? (
-                <TicketCheckoutButton
-                  label="Tickets"
-                  eventId={selectedPerformanceId ?? undefined}
-                />
+                <TicketCheckoutButton label="Tickets" />
               ) : data.tickets ? (
                 <ArrowButton href={data.tickets} target="_blank" rel="noopener">
                   Tickets
@@ -78,7 +75,7 @@ export function ProductionPage() {
 
         <div className="orpheum-inner-page__body">
           {showTicketing && !ticketsLoading && eventbrite ? (
-            <div className="orpheum-production-page__ticketing" data-reveal>
+            <div className="orpheum-production-page__ticketing" id="ticketing" data-reveal>
               <PerformancePicker
                 data={eventbrite}
                 selectedId={selectedPerformanceId}

@@ -39,6 +39,86 @@
   status = 200
 
 [[redirects]]
+  from = "/api/checkout/config"
+  to = "/.netlify/functions/checkout-config"
+  status = 200
+
+[[redirects]]
+  from = "/api/checkout/prepare"
+  to = "/.netlify/functions/checkout-prepare"
+  status = 200
+
+[[redirects]]
+  from = "/api/checkout/complete"
+  to = "/.netlify/functions/checkout-complete"
+  status = 200
+
+[[redirects]]
+  from = "/api/orders/lookup"
+  to = "/.netlify/functions/orders-lookup"
+  status = 200
+
+[[redirects]]
+  from = "/api/orders/resend"
+  to = "/.netlify/functions/orders-resend"
+  status = 200
+
+[[redirects]]
+  from = "/api/patron/auth"
+  to = "/.netlify/functions/patron-auth"
+  status = 200
+
+[[redirects]]
+  from = "/api/patron/session"
+  to = "/.netlify/functions/patron-auth"
+  status = 200
+
+[[redirects]]
+  from = "/api/patron/orders"
+  to = "/.netlify/functions/patron-auth"
+  status = 200
+
+[[redirects]]
+  from = "/api/ticketing/admin"
+  to = "/.netlify/functions/ticketing-admin"
+  status = 200
+
+[[redirects]]
+  from = "/api/ticketing/admin/export"
+  to = "/.netlify/functions/ticketing-admin"
+  status = 200
+
+[[redirects]]
+  from = "/api/ticketing/admin/refund"
+  to = "/.netlify/functions/ticketing-admin"
+  status = 200
+
+[[redirects]]
+  from = "/api/tickets/qr"
+  to = "/.netlify/functions/ticket-qr"
+  status = 200
+
+[[redirects]]
+  from = "/api/shop"
+  to = "/.netlify/functions/shop"
+  status = 200
+
+[[redirects]]
+  from = "/api/shop/checkout/prepare"
+  to = "/.netlify/functions/shop-checkout-prepare"
+  status = 200
+
+[[redirects]]
+  from = "/api/shop/checkout/complete"
+  to = "/.netlify/functions/shop-checkout-complete"
+  status = 200
+
+[[redirects]]
+  from = "/api/webhooks/square"
+  to = "/.netlify/functions/square-webhook"
+  status = 200
+
+[[redirects]]
   from = "/api/contact"
   to = "/.netlify/functions/contact"
   status = 200
@@ -61,7 +141,7 @@
     X-DNS-Prefetch-Control = "on"
     Cross-Origin-Opener-Policy = "same-origin"
     Cross-Origin-Resource-Policy = "same-site"
-    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://www.paypal.com https://www.eventbrite.com; upgrade-insecure-requests; script-src 'self' https://cdn.feedbucket.app https://www.eventbrite.com https://www.eventbriteapi.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.feedbucket.app; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.feedbucket.app https://*.feedbucket.com https://www.eventbrite.com https://www.eventbriteapi.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com https://maps.google.com https://*.feedbucket.app https://www.eventbrite.com https://www.eventbriteapi.com; manifest-src 'self'"
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://www.paypal.com; upgrade-insecure-requests; script-src 'self' https://cdn.feedbucket.app https://sandbox.web.squarecdn.com https://web.squarecdn.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.feedbucket.app; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.feedbucket.app https://*.feedbucket.com https://connect.squareupsandbox.com https://connect.squareup.com https://pci-connect.squareupsandbox.com https://pci-connect.squareup.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com https://maps.google.com https://*.feedbucket.app https://web.squarecdn.com https://sandbox.web.squarecdn.com; manifest-src 'self'"
 
 [[headers]]
   for = "/admin"

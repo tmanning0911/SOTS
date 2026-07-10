@@ -8,10 +8,10 @@ export const SITE = {
   educationOutreachContact: "nick@shakespeareonthesound.org",
   educationOutreachName: "Nick Urda, Director of Educational Programming",
   educationDirectorName: "Stephanie Eiss, Director of Education and Outreach",
-  ticketsUrl: "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
+  ticketsUrl: "/tickets/",
   donateUrl: "https://www.paypal.com/donate/?hosted_button_id=5FTZQ4CXESHXY",
-  shopUrl: "https://www.shakespeareonthesound.org",
-  accountUrl: "https://www.shakespeareonthesound.org/my-sos-account",
+  shopUrl: "/shop/",
+  accountUrl: "/my-tickets/",
 };
 
 function wix(file, w, h) {
@@ -42,7 +42,7 @@ export const HERO_HOME = {
   titleHighlight: "Stars",
   ctaLabel: "Tickets",
   ctaHref: SITE.ticketsUrl,
-  ctaExternal: true,
+  ctaExternal: false,
 };
 
 export const SEASON_PROMO = {
@@ -50,12 +50,12 @@ export const SEASON_PROMO = {
   heading: "Join Us for a Summer of Laughter, Magic, Mystery and More!",
   ctaLabel: "Tickets",
   ctaHref: SITE.ticketsUrl,
-  ctaExternal: true,
+  ctaExternal: false,
   showId: "much-ado",
 };
 
 export const PILL_NAV = [
-  { label: "Shows & Tickets", href: "/productions/much-ado-about-nothing/" },
+  { label: "Shows & Tickets", href: "/tickets/" },
   { label: "Support Us", href: "/support/donate/" },
   { label: "Venues", href: "/about/visit/" },
   { label: "Education", href: "/education/in-schools/" },
@@ -80,8 +80,8 @@ export const UTILITY_LINKS = [
     ],
   },
   { label: "News", href: "/#recent-news" },
-  { label: "Shop", href: SITE.shopUrl, external: true },
-  { label: "My Account", href: SITE.accountUrl, external: true },
+  { label: "Shop", href: SITE.shopUrl },
+  { label: "My Account", href: SITE.accountUrl },
   { label: "Access Your Tickets", action: "access-tickets" },
 ];
 
@@ -109,7 +109,7 @@ export const NAV_ITEMS = [
       {
         title: "Events By Location",
         links: [
-          { label: "All Events", href: "/productions/much-ado-about-nothing/" },
+          { label: "All Events", href: "/tickets/" },
           { label: "Pinkney Park", href: "/about/visit/" },
           { label: "Education Events", href: "/education/events/" },
         ],
@@ -118,7 +118,7 @@ export const NAV_ITEMS = [
         title: "Events By Genre",
         twoColumn: true,
         links: [
-          { label: "Main Stage", href: "/productions/much-ado-about-nothing/" },
+          { label: "Main Stage", href: "/tickets/" },
           { label: "Family", href: "/productions/kids-show/" },
           { label: "Gala", href: "/support/events/" },
           { label: "Education", href: "/education/in-schools/" },
@@ -132,8 +132,8 @@ export const NAV_ITEMS = [
         title: "Ticket Information",
         links: [
           { label: "Box Office", href: "/about/contact/" },
-          { label: "Tickets", href: SITE.ticketsUrl, external: true },
-          { label: "Reserved Seating", href: SITE.ticketsUrl, external: true },
+          { label: "Tickets", href: SITE.ticketsUrl },
+          { label: "Reserved Seating", href: SITE.ticketsUrl },
           { label: "FAQ", href: "/about/faq/" },
           { label: "Cancellation Policy", href: "/about/cancellation-policy/" },
         ],
@@ -292,10 +292,10 @@ export const FOOTER_MAIN = {
   title: SITE.name,
   columns: [
     [
-      { label: "Events", href: "/productions/much-ado-about-nothing/" },
+      { label: "Events", href: "/tickets/" },
       { label: "Plan a Visit", href: "/about/visit/" },
-      { label: "Gift Shop", href: SITE.shopUrl, external: true },
-      { label: "Tickets", href: SITE.ticketsUrl, external: true },
+      { label: "Gift Shop", href: SITE.shopUrl },
+      { label: "Tickets", href: SITE.ticketsUrl },
       { label: "Parking and Directions", href: "/about/getting-here/" },
     ],
     [

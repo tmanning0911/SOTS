@@ -167,8 +167,9 @@ export function propagateTicketUrls(root, payload) {
   const featured = payload.featuredTicket;
   if (!featured?.affiliateUrl) return [];
 
-  const ticketsUrl = featured.affiliateUrl;
-  const vanityUrl = featured.vanityUrl || featured.url;
+  const TICKETS_PAGE_PATH = "/productions/much-ado-about-nothing/";
+  const SITE_OFFERS_URL = `https://www.shakespeareonthesound.org${TICKETS_PAGE_PATH}`;
+  const ticketsUrl = TICKETS_PAGE_PATH;
   const changes = [];
 
   const dataJs = path.join(root, "js/data.js");
@@ -188,7 +189,8 @@ export function propagateTicketUrls(root, payload) {
       /tickets: "https:\/\/[^"]*eventbrite[^"]*"/,
       `tickets: "${ticketsUrl}"`,
     );
-    pages = pages.replace(/https:\/\/MuchAdo2026\.eventbrite\.com/g, vanityUrl);
+    pages = pages.replace(/https:\/\/MuchAdo2026\.eventbrite\.com/g, ticketsUrl);
+    pages = pages.replace(/https:\/\/www\.eventbrite\.com\/e\/[^"]+/g, ticketsUrl);
     if (pages !== before) {
       fs.writeFileSync(pagesData, pages);
       changes.push("js/pages-data.js");
@@ -221,11 +223,13 @@ export function propagateTicketUrls(root, payload) {
       const dateKey = performanceDateKey(calendarStart);
       const matched = dateKey ? payload.performanceByDate[dateKey] : null;
 
-      if (matched?.affiliateUrl && event.external) {
-        event.ctaUrl = matched.affiliateUrl;
+      if (matched?.id && (event.external || event.ctaUrl?.includes("eventbrite"))) {
+        event.ctaUrl = ticketsUrl;
+        event.external = false;
         touched = true;
       } else if (event.ctaUrl?.includes("eventbrite")) {
         event.ctaUrl = ticketsUrl;
+        event.external = false;
         touched = true;
       }
 
@@ -234,8 +238,12 @@ export function propagateTicketUrls(root, payload) {
         event.ticketsAvailable = matched.ticketsAvailable;
         event.eventbriteId = matched.id;
         touched = true;
-      } else if (event.external && event.ctaUrl?.includes("eventbrite")) {
+      } else if (event.ctaUrl?.includes("eventbrite") || event.external) {
         event.ticketStatus = featuredPlayStatus(payload);
+        if (event.ctaUrl?.includes("eventbrite")) {
+          event.ctaUrl = ticketsUrl;
+          event.external = false;
+        }
         touched = true;
       }
     }
@@ -251,7 +259,7 @@ export function propagateTicketUrls(root, payload) {
     const before = html;
     html = html.replace(
       /"offers": \{ "@type": "Offer", "url": "[^"]+"/,
-      `"offers": { "@type": "Offer", "url": "${ticketsUrl}"`,
+      `"offers": { "@type": "Offer", "url": "${SITE_OFFERS_URL}"`,
     );
     const price = priceFromDisplay(payload);
     if (price) {

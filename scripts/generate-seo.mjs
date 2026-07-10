@@ -17,7 +17,10 @@ const routes = [
     priority: page.href.includes("/productions/") ? "0.9" : "0.8",
     changefreq: "monthly",
   })),
-  { loc: "/productions/much-ado-about-nothing", priority: "0.95", changefreq: "weekly" },
+  { loc: "/tickets", priority: "0.95", changefreq: "weekly" },
+  { loc: "/shop", priority: "0.85", changefreq: "weekly" },
+  { loc: "/productions/much-ado-about-nothing", priority: "0.9", changefreq: "weekly" },
+  { loc: "/access-your-tickets", priority: "0.7", changefreq: "monthly" },
   { loc: "/productions/kids-show", priority: "0.85", changefreq: "monthly" },
   { loc: "/productions/past-productions", priority: "0.75", changefreq: "yearly" },
 ];

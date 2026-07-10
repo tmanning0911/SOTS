@@ -1,5 +1,5 @@
-import { useTickets } from "../../context/TicketProvider.jsx";
-import { isTicketCheckoutUrl } from "../../../js/ticketing.js";
+import { Link } from "react-router-dom";
+import { isTicketCheckoutUrl, TICKETS_PAGE_PATH } from "../../../js/ticketing.js";
 
 export function TicketCheckoutLink({
   href,
@@ -9,31 +9,33 @@ export function TicketCheckoutLink({
   onClick,
   external,
 }) {
-  const { openCheckout, ticketsUrl } = useTickets();
-  const isTicket = external !== false && isTicketCheckoutUrl(href, ticketsUrl);
+  const isTicket = isTicketCheckoutUrl(href, TICKETS_PAGE_PATH);
 
   if (isTicket) {
+    const to = eventId ? `${TICKETS_PAGE_PATH}?performance=${encodeURIComponent(eventId)}` : TICKETS_PAGE_PATH;
     return (
-      <button
-        type="button"
+      <Link to={to} className={className} onClick={onClick}>
+        {children}
+      </Link>
+    );
+  }
+
+  if (external) {
+    return (
+      <a
+        href={href}
         className={className}
-        onClick={(e) => {
-          onClick?.(e);
-          if (!e.defaultPrevented) openCheckout(eventId);
-        }}
+        onClick={onClick}
+        target="_blank"
+        rel="noopener noreferrer"
       >
         {children}
-      </button>
+      </a>
     );
   }
 
   return (
-    <a
-      href={href}
-      className={className}
-      onClick={onClick}
-      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-    >
+    <a href={href} className={className} onClick={onClick}>
       {children}
     </a>
   );

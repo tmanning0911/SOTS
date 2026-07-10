@@ -1,4 +1,6 @@
 import { BoardOfficer, BoardRosterItem, TeamProfile } from "./RosterProfile.jsx";
+import { TicketCheckoutLink } from "./ticketing/TicketCheckoutLink.jsx";
+import { isTicketCheckoutUrl, TICKETS_PAGE_PATH } from "../../js/ticketing.js";
 
 function ensurePeriod(text) {
   if (!text) return text;
@@ -150,9 +152,15 @@ export function PageSection({ section }) {
         <ul className="orpheum-inner-page__links">
           {section.links.map((link) => (
             <li key={link.href + link.label}>
-              <a href={link.href} {...(link.external ? { target: "_blank", rel: "noopener" } : {})}>
-                {link.label}
-              </a>
+              {isTicketCheckoutUrl(link.href, TICKETS_PAGE_PATH) ? (
+                <TicketCheckoutLink href={link.href} className="sots-ticket-checkout-link">
+                  {link.label}
+                </TicketCheckoutLink>
+              ) : (
+                <a href={link.href} {...(link.external ? { target: "_blank", rel: "noopener" } : {})}>
+                  {link.label}
+                </a>
+              )}
             </li>
           ))}
         </ul>

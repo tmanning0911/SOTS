@@ -1,4 +1,5 @@
 import { MEDIA, SITE } from "./data.js";
+import { TICKETS_PAGE_PATH } from "./ticketing.js";
 
 const PLAY_ROUTES = {
   "much-ado-2026": "/productions/much-ado-about-nothing/",
@@ -13,7 +14,7 @@ const SEED_PLAYS = [
     image: "/images/hero-much-ado.jpg",
     featured: true,
     status: "On Sale",
-    ticketUrl: SITE.ticketsUrl,
+    ticketUrl: TICKETS_PAGE_PATH,
     sort_order: 1,
   },
   {
@@ -50,8 +51,8 @@ const SEED_EVENTS = [
     time: "6–7:30pm",
     image: "/images/hero-much-ado.jpg",
     ctaLabel: "Get Tickets",
-    ctaUrl: SITE.ticketsUrl,
-    external: true,
+    ctaUrl: TICKETS_PAGE_PATH,
+    external: false,
     sort_order: 2,
   },
   {
@@ -62,8 +63,8 @@ const SEED_EVENTS = [
     time: "6–6:45pm",
     image: "/images/hero-much-ado.jpg",
     ctaLabel: "Get Tickets",
-    ctaUrl: SITE.ticketsUrl,
-    external: true,
+    ctaUrl: TICKETS_PAGE_PATH,
+    external: false,
     sort_order: 3,
   },
 ];
@@ -89,9 +90,8 @@ function formatEventGenre(event) {
 }
 
 function fromPlay(play, { featured = false } = {}) {
-  const ticketUrl = play.ticketUrl || null;
-  const isExternal = Boolean(ticketUrl?.startsWith("http"));
   const href = playHref(play);
+  const isTicketed = play.status !== "Free" && play.status !== "Archived";
   return {
     id: play.id,
     title: play.title,
@@ -100,17 +100,17 @@ function fromPlay(play, { featured = false } = {}) {
     image: play.image || MEDIA.heroHome,
     featureImage: play.image || MEDIA.heroBanner,
     href,
-    tickets: isExternal ? ticketUrl : null,
-    ctaLabel: play.status === "Free" ? "Free in the Park" : "Buy Tickets",
-    ctaHref: isExternal ? ticketUrl : href,
-    ctaExternal: isExternal,
+    tickets: isTicketed ? TICKETS_PAGE_PATH : null,
+    ctaLabel: play.status === "Free" ? "Free in the Park" : "Tickets",
+    ctaHref: isTicketed ? TICKETS_PAGE_PATH : href,
+    ctaExternal: false,
     variant: featured ? "feature" : "photo",
   };
 }
 
 function fromEvent(event) {
-  const ticketHref = event.ctaUrl || null;
-  const isExternal = event.external ?? ticketHref?.startsWith("http");
+  const isTicket = /ticket/i.test(event.ctaLabel ?? "");
+  const ticketHref = isTicket ? TICKETS_PAGE_PATH : event.ctaUrl || null;
   return {
     id: event.id,
     title: event.title,
@@ -119,10 +119,10 @@ function fromEvent(event) {
     image: event.image || event.poster || MEDIA.galaImage,
     featureImage: event.image || MEDIA.galaImage,
     href: eventHref(event),
-    tickets: isExternal ? ticketHref : null,
-    ctaLabel: event.ctaLabel || (isExternal ? "Tickets" : "Learn More"),
+    tickets: isTicket ? TICKETS_PAGE_PATH : null,
+    ctaLabel: event.ctaLabel || (isTicket ? "Tickets" : "Learn More"),
     ctaHref: ticketHref || eventHref(event),
-    ctaExternal: Boolean(isExternal),
+    ctaExternal: false,
     variant: "photo",
   };
 }
