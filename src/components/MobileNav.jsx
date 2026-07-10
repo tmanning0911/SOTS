@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { SITE, MEDIA, NAV_ITEMS } from "../../js/data.js";
+import { MEDIA, NAV_ITEMS, SITE } from "../../js/data.js";
 import { trapFocus } from "../../js/a11y.js";
 import { useNav } from "../context/NavContext.jsx";
 import { useUI } from "../context/UIContext.jsx";
+import { useTickets } from "../context/TicketProvider.jsx";
+import { TicketCheckoutLink } from "./ticketing/TicketCheckoutLink.jsx";
 
 function flattenNavLinks(item) {
   const links = [];
@@ -13,6 +15,7 @@ function flattenNavLinks(item) {
 export function MobileNav() {
   const { menuOpen, closeMenu } = useNav();
   const { openSearch } = useUI();
+  const { openCheckout } = useTickets();
   const [expanded, setExpanded] = useState(null);
 
   useEffect(() => {
@@ -59,9 +62,16 @@ export function MobileNav() {
         <button type="button" className="orpheum-btn orpheum-btn--secondary mobile-nav__search" onClick={() => { closeMenu(); openSearch(); }}>
           Search site
         </button>
-        <a className="orpheum-btn orpheum-btn--gold" href={SITE.ticketsUrl} target="_blank" rel="noopener" onClick={handleClose}>
-          Get Tickets
-        </a>
+        <button
+          type="button"
+          className="orpheum-btn orpheum-btn--gold"
+          onClick={() => {
+            handleClose();
+            openCheckout();
+          }}
+        >
+          Tickets
+        </button>
         <a className="orpheum-btn orpheum-btn--donate" href="/support/donate/" onClick={handleClose}>
           Donate
         </a>
@@ -82,14 +92,15 @@ export function MobileNav() {
           </button>
           <div className="mobile-nav__sub">
             {flattenNavLinks(item).map((link) => (
-              <a
+              <TicketCheckoutLink
                 key={link.href + link.label}
                 href={link.href}
+                className="sots-ticket-checkout-link"
+                external={link.external}
                 onClick={handleClose}
-                {...(link.external ? { target: "_blank", rel: "noopener" } : {})}
               >
                 {link.label}
-              </a>
+              </TicketCheckoutLink>
             ))}
             {item.featured ? (
               <a href={item.featured.href} onClick={handleClose}>

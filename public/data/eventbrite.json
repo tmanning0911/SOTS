@@ -1,0 +1,1476 @@
+{
+  "syncedAt": "2026-07-10T17:26:28.901Z",
+  "organization": {
+    "id": "2093560299743",
+    "name": "Shakespeare on the Sound"
+  },
+  "featuredTicket": {
+    "id": "1986841853468",
+    "name": "Shakespeare on the Sound's Much Ado About Nothing",
+    "status": "completed",
+    "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986841853468",
+    "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
+    "vanityUrl": "https://MuchAdo2026.eventbrite.com",
+    "start": "2026-06-10T19:30:00",
+    "end": "2026-06-28T22:00:00",
+    "timezone": "America/New_York",
+    "venue": "Pinkney Park",
+    "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+    "isFree": false,
+    "ticketsAvailable": null,
+    "isSeriesParent": true,
+    "isSoldOut": false,
+    "minPrice": null,
+    "maxPrice": null
+  },
+  "ticketClasses": [
+    {
+      "id": "3427455977",
+      "name": "Low Back VIP Reserved Seating",
+      "free": false,
+      "soldOut": false,
+      "onSale": true,
+      "hidden": false,
+      "price": {
+        "display": "$75.00",
+        "currency": "USD",
+        "value": 7500
+      },
+      "salesStart": null,
+      "salesEnd": "2026-06-28T22:30:00Z",
+      "capacity": 75,
+      "sold": 0
+    },
+    {
+      "id": "3427455978",
+      "name": "High Back VIP Reserved Seating",
+      "free": false,
+      "soldOut": false,
+      "onSale": true,
+      "hidden": false,
+      "price": {
+        "display": "$75.00",
+        "currency": "USD",
+        "value": 7500
+      },
+      "salesStart": null,
+      "salesEnd": "2026-06-28T22:30:00Z",
+      "capacity": 62,
+      "sold": 0
+    },
+    {
+      "id": "3427455974",
+      "name": "General Admission",
+      "free": false,
+      "soldOut": false,
+      "onSale": true,
+      "hidden": false,
+      "price": {
+        "display": "$25.00",
+        "currency": "USD",
+        "value": 2500
+      },
+      "salesStart": null,
+      "salesEnd": "2026-06-28T22:30:00Z",
+      "capacity": 300,
+      "sold": 0
+    },
+    {
+      "id": "3427455976",
+      "name": "Children 12 & Under General Admission",
+      "free": false,
+      "soldOut": false,
+      "onSale": true,
+      "hidden": false,
+      "price": {
+        "display": "$5.00",
+        "currency": "USD",
+        "value": 500
+      },
+      "salesStart": null,
+      "salesEnd": "2026-06-28T22:30:00Z",
+      "capacity": 100,
+      "sold": 0
+    },
+    {
+      "id": "3427455973",
+      "name": "Donate to Support our Educational Programs",
+      "free": false,
+      "soldOut": false,
+      "onSale": true,
+      "hidden": false,
+      "price": null,
+      "salesStart": null,
+      "salesEnd": "2026-06-28T22:30:00Z",
+      "capacity": 0,
+      "sold": 0
+    }
+  ],
+  "priceFrom": {
+    "display": "$25.00",
+    "currency": "USD",
+    "value": 2500
+  },
+  "performances": [
+    {
+      "id": "1986851399019",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986851399019",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986851399019?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-10T19:30:00",
+      "end": "2026-06-10T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844602691",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844602691",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844602691?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-11T19:30:00",
+      "end": "2026-06-11T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844603694",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844603694",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844603694?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-12T19:30:00",
+      "end": "2026-06-12T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844604697",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844604697",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844604697?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-13T19:30:00",
+      "end": "2026-06-13T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "108.20 USD",
+        "currency": "USD",
+        "value": 10820
+      }
+    },
+    {
+      "id": "1986844605700",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844605700",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844605700?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-14T19:30:00",
+      "end": "2026-06-14T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844606703",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844606703",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844606703?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-16T19:30:00",
+      "end": "2026-06-16T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844607706",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844607706",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844607706?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-17T19:30:00",
+      "end": "2026-06-17T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844608709",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844608709",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844608709?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-18T19:30:00",
+      "end": "2026-06-18T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844609712",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844609712",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844609712?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-19T19:30:00",
+      "end": "2026-06-19T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844610715",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844610715",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844610715?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-20T19:30:00",
+      "end": "2026-06-20T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844611718",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844611718",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844611718?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-21T19:30:00",
+      "end": "2026-06-21T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844612721",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844612721",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844612721?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-23T19:30:00",
+      "end": "2026-06-23T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844613724",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844613724",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844613724?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-24T19:30:00",
+      "end": "2026-06-24T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844614727",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844614727",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844614727?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-25T19:30:00",
+      "end": "2026-06-25T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844615730",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844615730",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844615730?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-26T19:30:00",
+      "end": "2026-06-26T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844616733",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844616733",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844616733?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-27T19:30:00",
+      "end": "2026-06-27T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844617736",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844617736",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844617736?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-28T19:30:00",
+      "end": "2026-06-28T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    }
+  ],
+  "performanceByDate": {
+    "2026-06-10": {
+      "id": "1986851399019",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986851399019",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986851399019?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-10T19:30:00",
+      "end": "2026-06-10T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    "2026-06-11": {
+      "id": "1986844602691",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844602691",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844602691?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-11T19:30:00",
+      "end": "2026-06-11T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    "2026-06-12": {
+      "id": "1986844603694",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844603694",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844603694?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-12T19:30:00",
+      "end": "2026-06-12T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    "2026-06-13": {
+      "id": "1986844604697",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844604697",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844604697?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-13T19:30:00",
+      "end": "2026-06-13T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "108.20 USD",
+        "currency": "USD",
+        "value": 10820
+      }
+    },
+    "2026-06-14": {
+      "id": "1986844605700",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844605700",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844605700?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-14T19:30:00",
+      "end": "2026-06-14T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    "2026-06-16": {
+      "id": "1986844606703",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844606703",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844606703?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-16T19:30:00",
+      "end": "2026-06-16T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    "2026-06-17": {
+      "id": "1986844607706",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844607706",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844607706?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-17T19:30:00",
+      "end": "2026-06-17T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    "2026-06-18": {
+      "id": "1986844608709",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844608709",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844608709?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-18T19:30:00",
+      "end": "2026-06-18T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    "2026-06-19": {
+      "id": "1986844609712",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844609712",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844609712?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-19T19:30:00",
+      "end": "2026-06-19T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    "2026-06-20": {
+      "id": "1986844610715",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844610715",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844610715?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-20T19:30:00",
+      "end": "2026-06-20T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    "2026-06-21": {
+      "id": "1986844611718",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844611718",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844611718?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-21T19:30:00",
+      "end": "2026-06-21T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    "2026-06-23": {
+      "id": "1986844612721",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844612721",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844612721?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-23T19:30:00",
+      "end": "2026-06-23T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    "2026-06-24": {
+      "id": "1986844613724",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844613724",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844613724?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-24T19:30:00",
+      "end": "2026-06-24T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    "2026-06-25": {
+      "id": "1986844614727",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844614727",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844614727?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-25T19:30:00",
+      "end": "2026-06-25T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    "2026-06-26": {
+      "id": "1986844615730",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844615730",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844615730?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-26T19:30:00",
+      "end": "2026-06-26T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    "2026-06-27": {
+      "id": "1986844616733",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844616733",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844616733?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-27T19:30:00",
+      "end": "2026-06-27T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    "2026-06-28": {
+      "id": "1986844617736",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844617736",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844617736?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-28T19:30:00",
+      "end": "2026-06-28T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    }
+  },
+  "upcoming": [],
+  "recent": [
+    {
+      "id": "1986844617736",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844617736",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844617736?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-28T19:30:00",
+      "end": "2026-06-28T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844616733",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844616733",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844616733?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-27T19:30:00",
+      "end": "2026-06-27T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844615730",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844615730",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844615730?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-26T19:30:00",
+      "end": "2026-06-26T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844614727",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844614727",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844614727?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-25T19:30:00",
+      "end": "2026-06-25T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844613724",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844613724",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844613724?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-24T19:30:00",
+      "end": "2026-06-24T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844612721",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844612721",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844612721?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-23T19:30:00",
+      "end": "2026-06-23T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844611718",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844611718",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844611718?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-21T19:30:00",
+      "end": "2026-06-21T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844610715",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844610715",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844610715?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-20T19:30:00",
+      "end": "2026-06-20T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844609712",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844609712",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844609712?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-19T19:30:00",
+      "end": "2026-06-19T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844608709",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844608709",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844608709?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-18T19:30:00",
+      "end": "2026-06-18T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844607706",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844607706",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844607706?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-17T19:30:00",
+      "end": "2026-06-17T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844606703",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844606703",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844606703?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-16T19:30:00",
+      "end": "2026-06-16T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844605700",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844605700",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844605700?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-14T19:30:00",
+      "end": "2026-06-14T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844604697",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844604697",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844604697?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-13T19:30:00",
+      "end": "2026-06-13T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "108.20 USD",
+        "currency": "USD",
+        "value": 10820
+      }
+    },
+    {
+      "id": "1986844603694",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844603694",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844603694?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-12T19:30:00",
+      "end": "2026-06-12T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    },
+    {
+      "id": "1986844602691",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "completed",
+      "url": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844602691",
+      "affiliateUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844602691?aff=ebdsoporgprofile",
+      "vanityUrl": null,
+      "start": "2026-06-11T19:30:00",
+      "end": "2026-06-11T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isFree": false,
+      "ticketsAvailable": false,
+      "isSeriesParent": false,
+      "isSoldOut": true,
+      "minPrice": {
+        "display": "5.00 USD",
+        "currency": "USD",
+        "value": 500
+      },
+      "maxPrice": {
+        "display": "81.57 USD",
+        "currency": "USD",
+        "value": 8157
+      }
+    }
+  ],
+  "meta": {
+    "featuredEventId": "1986841853468",
+    "affiliateCode": "ebdsoporgprofile",
+    "seriesPerformanceCount": 17
+  }
+}

@@ -8,7 +8,7 @@ export const SITE = {
   educationOutreachContact: "nick@shakespeareonthesound.org",
   educationOutreachName: "Nick Urda, Director of Educational Programming",
   educationDirectorName: "Stephanie Eiss, Director of Education and Outreach",
-  ticketsUrl: "https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
+  ticketsUrl: "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
   donateUrl: "https://www.paypal.com/donate/?hosted_button_id=5FTZQ4CXESHXY",
   shopUrl: "https://www.shakespeareonthesound.org",
   accountUrl: "https://www.shakespeareonthesound.org/my-sos-account",
@@ -40,7 +40,7 @@ export const HERO_HOME = {
   titleLines: ["Experience", "the Magic of", "Shakespeare"],
   titleLastLine: "Under the",
   titleHighlight: "Stars",
-  ctaLabel: "Become a Season Ticket Holder",
+  ctaLabel: "Tickets",
   ctaHref: SITE.ticketsUrl,
   ctaExternal: true,
 };
@@ -48,7 +48,7 @@ export const HERO_HOME = {
 export const SEASON_PROMO = {
   eyebrow: "2026 Summer Tickets Are On Sale Now",
   heading: "Join Us for a Summer of Laughter, Magic, Mystery and More!",
-  ctaLabel: "Get Tickets",
+  ctaLabel: "Tickets",
   ctaHref: SITE.ticketsUrl,
   ctaExternal: true,
   showId: "much-ado",
@@ -82,14 +82,6 @@ export const UTILITY_LINKS = [
   { label: "News", href: "/#recent-news" },
   { label: "Shop", href: SITE.shopUrl, external: true },
   { label: "My Account", href: SITE.accountUrl, external: true },
-  {
-    label: "Season Ticket Holders",
-    children: [
-      { label: "Get Tickets", href: SITE.ticketsUrl, external: true },
-      { label: "Reserved Seating", href: SITE.ticketsUrl, external: true },
-      { label: "FAQ", href: "/about/faq/" },
-    ],
-  },
   { label: "Access Your Tickets", action: "access-tickets" },
 ];
 
@@ -140,7 +132,7 @@ export const NAV_ITEMS = [
         title: "Ticket Information",
         links: [
           { label: "Box Office", href: "/about/contact/" },
-          { label: "Get Tickets", href: SITE.ticketsUrl, external: true },
+          { label: "Tickets", href: SITE.ticketsUrl, external: true },
           { label: "Reserved Seating", href: SITE.ticketsUrl, external: true },
           { label: "FAQ", href: "/about/faq/" },
           { label: "Cancellation Policy", href: "/about/cancellation-policy/" },
@@ -303,7 +295,7 @@ export const FOOTER_MAIN = {
       { label: "Events", href: "/productions/much-ado-about-nothing/" },
       { label: "Plan a Visit", href: "/about/visit/" },
       { label: "Gift Shop", href: SITE.shopUrl, external: true },
-      { label: "Get Tickets", href: SITE.ticketsUrl, external: true },
+      { label: "Tickets", href: SITE.ticketsUrl, external: true },
       { label: "Parking and Directions", href: "/about/getting-here/" },
     ],
     [
@@ -312,14 +304,6 @@ export const FOOTER_MAIN = {
       { label: "Support Our Mission", href: "/support/donate/" },
       { label: "Donate", href: "/support/donate/" },
     ],
-  ],
-};
-
-export const FOOTER_SEASON = {
-  title: "Season Ticket Holders",
-  links: [
-    { label: "Login", href: SITE.accountUrl, external: true },
-    { label: "Access Your Tickets", action: "accessTickets" },
   ],
 };
 
@@ -335,10 +319,6 @@ export const FOOTER_COLUMNS = [
   {
     title: "Shakespeare on the Sound",
     links: FOOTER_MAIN.columns.flat(),
-  },
-  {
-    title: FOOTER_SEASON.title,
-    links: FOOTER_SEASON.links.filter((link) => !link.action),
   },
 ];
 

@@ -30,14 +30,17 @@
     "featured": false,
     "priceNote": "$50 with Main Stage ticket",
     "ctaLabel": "Get Tickets",
-    "ctaUrl": "https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
+    "ctaUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844604697?aff=ebdsoporgprofile",
     "external": true,
     "sort_order": 2,
     "calendar": {
       "start": "2026-06-13T18:00:00",
       "end": "2026-06-13T19:30:00",
       "timezone": "America/New_York"
-    }
+    },
+    "ticketStatus": "Sold Out",
+    "ticketsAvailable": false,
+    "eventbriteId": "1986844604697"
   },
   {
     "id": "directors-discuss",
@@ -49,14 +52,17 @@
     "description": "An in-depth conversation with Executive Director Aaron Simms and director David Frederick Mold about putting together this summer's MainStage production of Much Ado About Nothing.",
     "featured": false,
     "ctaLabel": "Get Tickets",
-    "ctaUrl": "https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
+    "ctaUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844605700?aff=ebdsoporgprofile",
     "external": true,
     "sort_order": 3,
     "calendar": {
       "start": "2026-06-14T18:00:00",
       "end": "2026-06-14T18:45:00",
       "timezone": "America/New_York"
-    }
+    },
+    "ticketStatus": "Sold Out",
+    "ticketsAvailable": false,
+    "eventbriteId": "1986844605700"
   },
   {
     "id": "book-club",
@@ -69,14 +75,17 @@
     "featured": false,
     "priceNote": "$25 with Main Stage ticket",
     "ctaLabel": "Get Tickets",
-    "ctaUrl": "https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
+    "ctaUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844608709?aff=ebdsoporgprofile",
     "external": true,
     "sort_order": 4,
     "calendar": {
       "start": "2026-06-18T18:30:00",
       "end": "2026-06-18T19:30:00",
       "timezone": "America/New_York"
-    }
+    },
+    "ticketStatus": "Sold Out",
+    "ticketsAvailable": false,
+    "eventbriteId": "1986844608709"
   },
   {
     "id": "alumni-night",
@@ -89,14 +98,17 @@
     "featured": false,
     "priceNote": "$50 with Main Stage ticket",
     "ctaLabel": "Get Tickets",
-    "ctaUrl": "https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
+    "ctaUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844610715?aff=ebdsoporgprofile",
     "external": true,
     "sort_order": 5,
     "calendar": {
       "start": "2026-06-20T18:00:00",
       "end": "2026-06-20T19:30:00",
       "timezone": "America/New_York"
-    }
+    },
+    "ticketStatus": "Sold Out",
+    "ticketsAvailable": false,
+    "eventbriteId": "1986844610715"
   },
   {
     "id": "pay-what-you-will",
@@ -108,16 +120,25 @@
     "description": "Two special evenings where admission is pay-what-you-will. Suggested donation: $25 adults, $5 children 12 and under.",
     "featured": false,
     "ctaLabel": "Get Tickets",
-    "ctaUrl": "https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
+    "ctaUrl": "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986844606703?aff=ebdsoporgprofile",
     "external": true,
     "sort_order": 6,
     "calendar": {
       "timezone": "America/New_York",
       "occurrences": [
-        { "start": "2026-06-16T19:30:00", "end": "2026-06-16T22:00:00" },
-        { "start": "2026-06-23T19:30:00", "end": "2026-06-23T22:00:00" }
+        {
+          "start": "2026-06-16T19:30:00",
+          "end": "2026-06-16T22:00:00"
+        },
+        {
+          "start": "2026-06-23T19:30:00",
+          "end": "2026-06-23T22:00:00"
+        }
       ]
-    }
+    },
+    "ticketStatus": "Sold Out",
+    "ticketsAvailable": false,
+    "eventbriteId": "1986844606703"
   },
   {
     "id": "apprentice-matinee",
@@ -136,6 +157,9 @@
       "start": "2026-06-20T13:00:00",
       "end": "2026-06-20T14:30:00",
       "timezone": "America/New_York"
-    }
+    },
+    "ticketStatus": "Sold Out",
+    "ticketsAvailable": false,
+    "eventbriteId": "1986844610715"
   }
 ]

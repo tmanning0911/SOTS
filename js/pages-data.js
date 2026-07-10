@@ -151,7 +151,7 @@ export const PRODUCTION_DETAILS = {
     heroImage: WIX("2fda61_ed5498c346784fa7a58d686004f62ad1~mv2.jpg", 1970, 667),
     description:
       "Join Shakespeare on the Sound as we celebrate 30 seasons of storytelling under the stars with Much Ado About Nothing. Shakespeare's sparkling comedy transports audiences to 19th-century Sicily, where romance blooms, tempers flare, and a battle of wits becomes a battle of hearts.",
-    tickets: "https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
+    tickets: "https://www.eventbrite.com/e/shakespeare-on-the-sounds-much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile",
     eyebrow: "Main Stage",
     intro:
       "Enjoy a brilliant ensemble bringing this merry war of words to life in one of Connecticut's most beloved outdoor settings. Come laugh, love, and experience why Shakespeare's language still dazzles.",

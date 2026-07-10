@@ -29,11 +29,25 @@
   status = 200
 
 [[redirects]]
+  from = "/api/tickets"
+  to = "/.netlify/functions/tickets"
+  status = 200
+
+[[redirects]]
+  from = "/api/eventbrite-webhook"
+  to = "/.netlify/functions/eventbrite-webhook"
+  status = 200
+
+[[redirects]]
   from = "/api/contact"
   to = "/.netlify/functions/contact"
   status = 200
 
-# SPA fallback is in public/_redirects
+# SPA fallback — must be last (see public/_redirects for static assets + API routes)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
 # —— Security headers (public site) ——
 [[headers]]
@@ -47,7 +61,7 @@
     X-DNS-Prefetch-Control = "on"
     Cross-Origin-Opener-Policy = "same-origin"
     Cross-Origin-Resource-Policy = "same-site"
-    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://www.paypal.com; upgrade-insecure-requests; script-src 'self' https://cdn.feedbucket.app; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.feedbucket.app; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.feedbucket.app https://*.feedbucket.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com https://maps.google.com https://*.feedbucket.app; manifest-src 'self'"
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://www.paypal.com https://www.eventbrite.com; upgrade-insecure-requests; script-src 'self' https://cdn.feedbucket.app https://www.eventbrite.com https://www.eventbriteapi.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.feedbucket.app; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.feedbucket.app https://*.feedbucket.com https://www.eventbrite.com https://www.eventbriteapi.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com https://maps.google.com https://*.feedbucket.app https://www.eventbrite.com https://www.eventbriteapi.com; manifest-src 'self'"
 
 [[headers]]
   for = "/admin"
@@ -62,6 +76,12 @@
     X-Robots-Tag = "noindex, nofollow"
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/api/tickets"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Cache-Control = "public, max-age=300, stale-while-revalidate=600"
 
 [[headers]]
   for = "/api/*"

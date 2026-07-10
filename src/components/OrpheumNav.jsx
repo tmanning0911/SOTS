@@ -1,4 +1,5 @@
 import { NAV_ITEMS } from "../../js/data.js";
+import { TicketCheckoutLink } from "./ticketing/TicketCheckoutLink.jsx";
 
 function IconChevron() {
   return (
@@ -70,12 +71,13 @@ export function OrpheumNavPanel({ item, isOpen }) {
                   <ul>
                     {col.links?.map((link) => (
                       <li key={link.href + link.label}>
-                        <a
+                        <TicketCheckoutLink
                           href={link.href}
-                          {...(link.external ? { target: "_blank", rel: "noopener" } : {})}
+                          className="sots-ticket-checkout-link"
+                          external={link.external}
                         >
                           {link.label}
-                        </a>
+                        </TicketCheckoutLink>
                       </li>
                     ))}
                   </ul>

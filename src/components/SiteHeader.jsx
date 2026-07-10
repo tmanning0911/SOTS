@@ -4,6 +4,7 @@ import { useNav } from "../context/NavContext.jsx";
 import { OrpheumNav, OrpheumNavPanel } from "./OrpheumNav.jsx";
 import { ArrowButton } from "./ArrowButton.jsx";
 import { SearchTrigger } from "./SiteSearch.jsx";
+import { TicketCheckoutButton } from "./ticketing/TicketCheckoutButton.jsx";
 
 function IconMenu() {
   return (
@@ -73,6 +74,7 @@ export function SiteHeader() {
 
         <div className="orpheum-header__actions">
           <SearchTrigger className="orpheum-header__search" label="Search site" />
+          <TicketCheckoutButton label="Tickets" className="orpheum-arrow-btn--header" />
           <ArrowButton href="/support/donate/" className="orpheum-arrow-btn--header">
             Donate
           </ArrowButton>

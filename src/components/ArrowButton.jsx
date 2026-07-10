@@ -16,12 +16,14 @@ export function ArrowButton({
   rel,
   onClick,
   type = "button",
+  disabled = false,
+  "aria-busy": ariaBusy,
 }) {
   const classes = `orpheum-arrow-btn orpheum-arrow-btn--${variant} ${className}`.trim();
 
   if (href) {
     return (
-      <a className={classes} href={href} target={target} rel={rel} onClick={onClick}>
+      <a className={classes} href={href} target={target} rel={rel} onClick={onClick} aria-busy={ariaBusy}>
         <span className="orpheum-arrow-btn__label">{children}</span>
         <span className="orpheum-arrow-btn__icon">
           <ChevronIcon />
@@ -31,7 +33,7 @@ export function ArrowButton({
   }
 
   return (
-    <button className={classes} type={type} onClick={onClick}>
+    <button className={classes} type={type} onClick={onClick} disabled={disabled} aria-busy={ariaBusy}>
       <span className="orpheum-arrow-btn__label">{children}</span>
       <span className="orpheum-arrow-btn__icon">
         <ChevronIcon />

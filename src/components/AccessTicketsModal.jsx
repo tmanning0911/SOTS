@@ -1,6 +1,10 @@
-import { SITE } from "../../js/data.js";
+import { useTickets } from "../context/TicketProvider.jsx";
+
+const ORDER_LOOKUP = "https://www.eventbrite.com/signin/signup?referrer=%2Fmytickets";
 
 export function AccessTicketsModal({ open, onClose }) {
+  const { openCheckout } = useTickets();
+
   if (!open) return null;
 
   return (
@@ -14,16 +18,23 @@ export function AccessTicketsModal({ open, onClose }) {
         <p>Mobile tickets make entry to events quick and easy.</p>
         <ul className="orpheum-modal__options">
           <li>
-            <a href={SITE.ticketsUrl} target="_blank" rel="noopener">
-              <strong>General Admission</strong>
-              <span>Purchased via Eventbrite</span>
+            <a href={ORDER_LOOKUP} target="_blank" rel="noopener noreferrer">
+              <strong>View My Tickets</strong>
+              <span>Log in to Eventbrite to access mobile tickets</span>
             </a>
           </li>
           <li>
-            <a href={SITE.ticketsUrl} target="_blank" rel="noopener">
-              <strong>Reserved Seating</strong>
-              <span>Purchased through Eventbrite or box office</span>
-            </a>
+            <button
+              type="button"
+              className="sots-ticket-checkout-link sots-ticket-checkout-link--modal"
+              onClick={() => {
+                onClose();
+                openCheckout();
+              }}
+            >
+              <strong>Buy Tickets</strong>
+              <span>General admission and reserved seating — checkout on this site</span>
+            </button>
           </li>
           <li>
             <a href="/about/contact/">

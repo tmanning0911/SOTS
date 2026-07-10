@@ -3,43 +3,29 @@ import {
   MEDIA,
   FOOTER_VENUES,
   FOOTER_MAIN,
-  FOOTER_SEASON,
   FOOTER_UTILITY,
   SOCIAL_LINKS,
 } from "../../js/data.js";
-import { useUI } from "../context/UIContext.jsx";
 import { SocialIcon } from "./SocialIcon.jsx";
+import { TicketCheckoutLink } from "./ticketing/TicketCheckoutLink.jsx";
 
 const FOOTER_SOCIAL = SOCIAL_LINKS.filter((social) => social.platform !== "x");
 
 function FooterLink({ link }) {
   const external = link.external || link.href?.startsWith("http");
 
-  return (
-    <a
-      href={link.href}
-      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-    >
-      {link.label}
-    </a>
-  );
-}
-
-function FooterSeasonLink({ link, onAccessTickets }) {
-  if (link.action === "accessTickets") {
+  if (external) {
     return (
-      <button type="button" className="orpheum-footer__text-btn" onClick={onAccessTickets}>
+      <TicketCheckoutLink href={link.href} className="sots-ticket-checkout-link" external>
         {link.label}
-      </button>
+      </TicketCheckoutLink>
     );
   }
 
-  return <FooterLink link={link} />;
+  return <a href={link.href}>{link.label}</a>;
 }
 
 export function SiteFooter() {
-  const { openAccessTickets } = useUI();
-
   return (
     <footer className="orpheum-footer">
       <div className="orpheum-footer__shell">
@@ -72,17 +58,6 @@ export function SiteFooter() {
                 </ul>
               ))}
             </div>
-          </div>
-
-          <div className="orpheum-footer__season">
-            <h2 className="orpheum-footer__heading">{FOOTER_SEASON.title}</h2>
-            <ul>
-              {FOOTER_SEASON.links.map((link) => (
-                <li key={link.label}>
-                  <FooterSeasonLink link={link} onAccessTickets={openAccessTickets} />
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
 

@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/ensure-site-chrome.js && node scripts/use-dev-assets.js && vite",
-    "build": "node scripts/ensure-site-chrome.js && node scripts/generate-profile-images.mjs && vite build && node scripts/generate-seo.mjs",
+    "build": "node scripts/ensure-site-chrome.js && node scripts/ensure-eventbrite-sync.mjs && node scripts/generate-profile-images.mjs && vite build && node scripts/generate-seo.mjs",
     "build:static": "npm run build && node scripts/patch-html.js",
     "sync:sots": "node scripts/sync-sots-content.mjs",
+    "sync:eventbrite": "node scripts/sync-eventbrite.mjs",
+    "setup:eventbrite": "node scripts/setup-eventbrite.mjs",
     "deploy": "node scripts/deploy-to-sots.mjs",
     "deploy:push": "node scripts/push-production.mjs",
     "generate": "node scripts/generate-pages.js && node scripts/generate-sitemap.js",

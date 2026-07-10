@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { UTILITY_LEFT, UTILITY_LINKS } from "../../js/data.js";
 import { useUI } from "../context/UIContext.jsx";
 import { SearchTrigger } from "./SiteSearch.jsx";
+import { TicketCheckoutLink } from "./ticketing/TicketCheckoutLink.jsx";
 
 function IconChevron({ open }) {
   return (
@@ -38,12 +39,13 @@ function UtilityDropdown({ link, open, setOpen }) {
       <ul className="orpheum-utility__dropdown">
         {link.children.map((child) => (
           <li key={child.href}>
-            <a
+            <TicketCheckoutLink
               href={child.href}
-              {...(child.external ? { target: "_blank", rel: "noopener" } : {})}
+              className="sots-ticket-checkout-link"
+              external={child.external}
             >
               {child.label}
-            </a>
+            </TicketCheckoutLink>
           </li>
         ))}
       </ul>

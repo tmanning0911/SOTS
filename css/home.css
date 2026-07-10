@@ -543,12 +543,22 @@ body.page-home .site-header.is-scrolled {
   transform: translateX(0);
 }
 
-.orpheum-arrow-btn:hover .orpheum-arrow-btn__line {
-  stroke-dashoffset: 0;
-  transform: translateX(0);
+.orpheum-arrow-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
-.orpheum-arrow-btn--ghost .orpheum-arrow-btn__label,
+.orpheum-arrow-btn:disabled:hover {
+  box-shadow: none;
+  color: var(--orp-dark);
+}
+
+.orpheum-arrow-btn:disabled:hover .orpheum-arrow-btn__label,
+.orpheum-arrow-btn:disabled:hover .orpheum-arrow-btn__icon {
+  background: var(--orp-gold);
+}
+
 .orpheum-arrow-btn--ghost .orpheum-arrow-btn__icon {
   background: rgba(var(--brand-gold-rgb), 0.5);
 }
@@ -2496,6 +2506,10 @@ body.page-home .site-header.is-scrolled {
   color: var(--orp-dark);
   margin: 0 0 1.35rem;
   max-width: 28rem;
+}
+
+.orpheum-season-promo__cta-btn {
+  margin-top: 0.25rem;
 }
 
 .orpheum-season-promo__cta {

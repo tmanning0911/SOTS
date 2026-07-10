@@ -120,7 +120,7 @@ function fromEvent(event) {
     featureImage: event.image || MEDIA.galaImage,
     href: eventHref(event),
     tickets: isExternal ? ticketHref : null,
-    ctaLabel: event.ctaLabel || (isExternal ? "Get Tickets" : "Learn More"),
+    ctaLabel: event.ctaLabel || (isExternal ? "Tickets" : "Learn More"),
     ctaHref: ticketHref || eventHref(event),
     ctaExternal: Boolean(isExternal),
     variant: "photo",

@@ -1,11 +1,17 @@
+import {
+  PREVIEW_SITE_URL,
+  PRODUCTION_SITE_HOSTS,
+  SITE_ALLOWED_ORIGINS,
+} from "../../../scripts/lib/site-domains.mjs";
+
 /** Origin allowlist for admin APIs — set SITE_ALLOWED_ORIGINS in Netlify (comma-separated). */
 
 function parseOrigins() {
-  const defaults = 'https://www.shakespeareonthesound.org,https://shakespeareonthesound.org';
+  const defaults = SITE_ALLOWED_ORIGINS.join(",");
   const raw = [process.env.SITE_ALLOWED_ORIGINS, defaults, process.env.URL, process.env.DEPLOY_PRIME_URL]
     .filter(Boolean)
-    .join(',');
-  return [...new Set(raw.split(',').map((o) => o.trim().replace(/\/$/, '')).filter(Boolean))];
+    .join(",");
+  return [...new Set(raw.split(",").map((o) => o.trim().replace(/\/$/, "")).filter(Boolean))];
 }
 
 function getHeader(event, name) {
@@ -18,9 +24,12 @@ export function isAllowedOrigin(event) {
   if (!origin) return true;
   const allowed = parseOrigins();
   if (allowed.includes(origin)) return true;
-  if (origin.endsWith('.netlify.app') && process.env.CONTEXT !== 'production') {
-    return true;
-  }
+  // Netlify branch / deploy previews for this site only
+  const previewHost = PREVIEW_SITE_URL.replace(/^https?:\/\//, "");
+  if (origin.endsWith(previewHost)) return true;
+  // Apex without www on production hosts
+  if (PRODUCTION_SITE_HOSTS.some((host) => origin === host.replace('www.', ''))) return true;
+  if (origin === PREVIEW_SITE_URL) return true;
   return false;
 }
 

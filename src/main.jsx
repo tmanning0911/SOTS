@@ -13,12 +13,14 @@ import "../css/styles.css";
 import "../css/polish.css";
 import "../css/responsive.css";
 import "../css/home.css";
+import "../css/ticketing.css";
 import "../css/a11y.css";
 import "./tailwind.css";
 
 import App from "./App.jsx";
 import { NavProvider } from "./context/NavContext.jsx";
 import { UIProvider } from "./context/UIContext.jsx";
+import { TicketProvider } from "./context/TicketProvider.jsx";
 import { initA11y } from "../js/a11y.js";
 import { initPolish, refreshScroll } from "./polish.js";
 
@@ -32,7 +34,9 @@ document.addEventListener("DOMContentLoaded", () => {
         <BrowserRouter>
           <NavProvider>
             <UIProvider>
-              <App />
+              <TicketProvider>
+                <App />
+              </TicketProvider>
             </UIProvider>
           </NavProvider>
         </BrowserRouter>

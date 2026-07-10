@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="x-apple-disable-message-reformatting" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="supported-color-schemes" content="light dark" />
+  <!--
+    IMAGES: All photos live in ../assets/ (works for local preview).
+    When sending via Mailchimp etc., upload emails/assets/ to your host and set:
+    {{IMAGE_BASE}} = https://www.shakespeareonthesound.org/emails/assets
+    Then find-replace ../assets/ with {{IMAGE_BASE}}/
+  -->
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <style>
+    table { border-collapse: collapse; }
+    td { font-family: Arial, Helvetica, sans-serif; }
+  </style>
+  <![endif]-->
+  <style>
+    :root { color-scheme: light dark; supported-color-schemes: light dark; }
+
+    body, table, td, a {
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+    table, td {
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+    img {
+      -ms-interpolation-mode: bicubic;
+      border: 0;
+      height: auto;
+      line-height: 100%;
+      outline: none;
+      text-decoration: none;
+    }
+    body {
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100% !important;
+    }
+
+    /* Light-mode tokens (WCAG AA) */
+    .email-bg { background-color: #eef1f4 !important; }
+    .email-card { background-color: #ffffff !important; }
+    .text-primary { color: #1a1a1a !important; }
+    .text-body { color: #2b2b2b !important; }
+    .text-muted { color: #525252 !important; }
+    .text-inverse { color: #ffffff !important; }
+    .text-accent { color: #1a5090 !important; }
+    .link { color: #1a5090 !important; text-decoration: underline !important; }
+    .link-muted { color: #525252 !important; text-decoration: underline !important; }
+    .border-subtle { border-color: #d4d9de !important; }
+    .hero-frame { border-color: #1a5090 !important; background-color: #ffffff !important; }
+    .hero-bar { background-color: #1a5090 !important; }
+    .footer-bar { background-color: #0f2d4d !important; }
+    .btn {
+      background-color: #0f2d4d !important;
+      color: #ffffff !important;
+      border: 2px solid #0f2d4d !important;
+    }
+    .btn-blue {
+      background-color: #1a5090 !important;
+      color: #ffffff !important;
+      border: 2px solid #1a5090 !important;
+    }
+    .divider { color: #8a9aab !important; }
+
+    .event-photo {
+      display: block !important;
+      width: 264px !important;
+      max-width: 100% !important;
+      height: 148px !important;
+      object-fit: cover !important;
+    }
+    .event-btn {
+      display: inline-block !important;
+      min-width: 148px !important;
+      text-align: center !important;
+      box-sizing: border-box !important;
+    }
+
+    @media screen and (max-width: 620px) {
+      .email-container { width: 100% !important; }
+      .stack { display: block !important; width: 100% !important; max-width: 100% !important; }
+      .hero-title { font-size: 1.625rem !important; }
+      .pad-mobile { padding-left: 24px !important; padding-right: 24px !important; }
+    }
+
+    /* PDF export only — ignored by email clients */
+    @media print {
+      @page { size: letter; margin: 0.12in; }
+      html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .email-bg { background: #ffffff !important; }
+      .email-bg > tbody > tr > td { padding: 0 !important; }
+      body { zoom: 0.471; }
+    }
+
+    /* Dark mode — Apple Mail, iOS, some Gmail/Outlook */
+    @media (prefers-color-scheme: dark) {
+      .email-bg { background-color: #121416 !important; }
+      .email-card { background-color: #1e2226 !important; }
+      .text-primary { color: #f3f4f6 !important; }
+      .text-body { color: #e2e5e9 !important; }
+      .text-muted { color: #b8bec6 !important; }
+      .text-accent { color: #9ec5f5 !important; }
+      .link { color: #9ec5f5 !important; }
+      .link-muted { color: #b8bec6 !important; }
+      .border-subtle { border-color: #3a424c !important; }
+      .hero-frame { border-color: #5a9fd4 !important; background-color: #1e2226 !important; }
+      .hero-bar { background-color: #123d66 !important; }
+      .footer-bar { background-color: #0a1828 !important; }
+      .btn {
+        background-color: #5a9fd4 !important;
+        color: #0f1419 !important;
+        border-color: #5a9fd4 !important;
+      }
+      .btn-blue {
+        background-color: #5a9fd4 !important;
+        color: #0f1419 !important;
+        border-color: #5a9fd4 !important;
+      }
+      .divider { color: #6b7785 !important; }
+    }
+
+    /* Outlook.com / Outlook app dark mode */
+    [data-ogsc] .text-primary { color: #f3f4f6 !important; }
+    [data-ogsc] .text-body { color: #e2e5e9 !important; }
+    [data-ogsc] .text-muted { color: #b8bec6 !important; }
+    [data-ogsc] .text-accent { color: #9ec5f5 !important; }
+    [data-ogsc] .link { color: #9ec5f5 !important; }
+    [data-ogsc] .link-muted { color: #b8bec6 !important; }
+    [data-ogsb] .email-bg { background-color: #121416 !important; }
+    [data-ogsb] .email-card { background-color: #1e2226 !important; }
+    [data-ogsb] .hero-frame { background-color: #1e2226 !important; border-color: #5a9fd4 !important; }
+    [data-ogsb] .hero-bar { background-color: #123d66 !important; }
+    [data-ogsb] .footer-bar { background-color: #0a1828 !important; }
+    [data-ogsc] .btn,
+    [data-ogsc] .btn-blue { color: #0f1419 !important; }
+    [data-ogsb] .btn,
+    [data-ogsb] .btn-blue { background-color: #5a9fd4 !important; border-color: #5a9fd4 !important; }
+  </style>
+</head>
+<body class="email-bg" style="margin:0;padding:0;background-color:#eef1f4;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#2b2b2b;">
+  <div id="site-chrome"></div>
+
+  <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;" aria-hidden="true">
+    Summer 2026 at Pinkney Park — Much Ado, free Kids Show, opening night and more under the stars.
+  </div>
+
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="email-bg" style="background-color:#eef1f4;">
+    <tr>
+      <td align="center" style="padding:28px 12px;">
+
+        <table role="presentation" class="email-container email-card" width="600" cellspacing="0" cellpadding="0" border="0" style="max-width:600px;width:100%;background-color:#ffffff;">
+
+          <!-- Logo -->
+          <tr>
+            <td align="center" style="padding:32px 24px 24px;">
+              <a href="https://www.shakespeareonthesound.org" style="text-decoration:none;">
+                <img src="../assets/sots-logo.jpg" width="220" height="74" alt="Shakespeare on the Sound — home" style="display:block;width:220px;max-width:100%;height:auto;" />
+              </a>
+            </td>
+          </tr>
+
+          <!-- Hero -->
+          <tr>
+            <td class="pad-mobile" style="padding:0 24px 32px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="hero-frame" style="border:3px solid #1a5090;background-color:#ffffff;">
+                <tr>
+                  <td align="center" style="padding:20px 16px 12px;">
+                    <p class="hero-title text-accent" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:1.75rem;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:#1a5090;line-height:1.25;">
+                      Under the Stars
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:0;line-height:0;font-size:0;">
+                    <img
+                      src="../assets/hero-under-the-stars.jpg"
+                      width="546"
+                      height="307"
+                      alt="Audience seated outdoors at Pinkney Park watching a Shakespeare performance at dusk"
+                      style="display:block;width:100%;max-width:546px;height:auto;border:0;"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" class="hero-bar" style="background-color:#1a5090;padding:14px 16px;">
+                    <p class="text-inverse" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:0.875rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#ffffff;line-height:1.5;">
+                      Special Events, Talks and Free Family Theatre
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Intro -->
+          <tr>
+            <td class="pad-mobile" align="center" style="padding:0 24px 36px;">
+              <h1 class="text-primary" style="margin:0 0 20px;font-family:Arial,Helvetica,sans-serif;font-size:1.25rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#1a1a1a;line-height:1.4;">
+                Step Inside Shakespeare on the Sound
+              </h1>
+              <p class="text-body" style="margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;font-size:1rem;line-height:1.65;color:#2b2b2b;text-align:center;">
+                For 30 seasons, Fairfield County families have gathered in Pinkney Park for professional Shakespeare under the open sky. This summer brings laughter, music, and community — from our main-stage production to free programming for kids.
+              </p>
+              <p class="text-body" style="margin:0 0 28px;font-family:Arial,Helvetica,sans-serif;font-size:1rem;line-height:1.65;color:#2b2b2b;text-align:center;">
+                Explore what is on this season and make a night of it in Rowayton.
+              </p>
+              <!--[if mso]>
+              <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="https://www.shakespeareonthesound.org/productions/much-ado-about-nothing/" style="height:48px;v-text-anchor:middle;width:220px;" arcsize="50%" strokecolor="#0f2d4d" fillcolor="#0f2d4d">
+                <w:anchorlock/>
+                <center style="color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;">Explore the Season</center>
+              </v:roundrect>
+              <![endif]-->
+              <!--[if !mso]><!-->
+              <a href="https://www.shakespeareonthesound.org/productions/much-ado-about-nothing/" class="btn" style="display:inline-block;background-color:#0f2d4d;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:0.875rem;font-weight:700;line-height:1.4;text-decoration:none;padding:14px 28px;border-radius:999px;border:2px solid #0f2d4d;mso-padding-alt:0;">
+                Explore the Season
+              </a>
+              <!--<![endif]-->
+            </td>
+          </tr>
+
+          <!-- Section heading -->
+          <tr>
+            <td align="center" style="padding:8px 24px 24px;">
+              <h2 class="text-primary" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:1.125rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#1a1a1a;line-height:1.4;">
+                Special Events
+              </h2>
+            </td>
+          </tr>
+
+          <!-- Events grid (2×2) -->
+          <tr>
+            <td class="pad-mobile" style="padding:0 24px 32px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <!-- Pair 1: content -->
+                <tr>
+                  <td class="stack" width="50%" valign="top" style="padding:0 6px 0;">
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                      <tr>
+                        <td align="center" height="148" style="height:148px;padding-bottom:14px;vertical-align:top;">
+                          <img src="../assets/event-much-ado.jpg" width="264" height="148" alt="Much Ado About Nothing production at Pinkney Park" class="event-photo" style="display:block;width:264px;max-width:100%;height:148px;object-fit:cover;" />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" valign="top" style="padding:0 4px;">
+                          <h3 class="text-primary" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:1rem;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:#1a1a1a;line-height:1.4;">
+                            Much Ado About Nothing
+                          </h3>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" valign="top" style="padding:10px 4px 0;">
+                          <p class="text-body" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:1rem;line-height:1.65;color:#2b2b2b;text-align:center;">
+                            Our 2026 main-stage comedy — wit, romance, and live music in Pinkney Park.
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td class="stack" width="50%" valign="top" style="padding:0 6px 0;">
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                      <tr>
+                        <td align="center" height="148" style="height:148px;padding-bottom:14px;vertical-align:top;">
+                          <img src="../assets/event-kids-show.jpg" width="264" height="148" alt="Children watching Shakespeare for Kids in the park" class="event-photo" style="display:block;width:264px;max-width:100%;height:148px;object-fit:cover;" />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" valign="top" style="padding:0 4px;">
+                          <h3 class="text-primary" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:1rem;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:#1a1a1a;line-height:1.4;">
+                            Shakespeare for Kids
+                          </h3>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" valign="top" style="padding:10px 4px 0;">
+                          <p class="text-body" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:1rem;line-height:1.65;color:#2b2b2b;text-align:center;">
+                            A free, family-friendly pre-show — introduce young audiences to the Bard.
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <!-- Pair 1: dates -->
+                <tr>
+                  <td class="stack" width="50%" align="center" valign="top" style="padding:12px 6px 0;">
+                    <p class="text-primary" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:0.9375rem;font-weight:700;color:#1a1a1a;text-align:center;line-height:1.5;">
+                      June 10–28 · 7:30 p.m.
+                    </p>
+                  </td>
+                  <td class="stack" width="50%" align="center" valign="top" style="padding:12px 6px 0;">
+                    <p class="text-primary" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:0.9375rem;font-weight:700;color:#1a1a1a;text-align:center;line-height:1.5;">
+                      Summer 2026 · 6:30 p.m.
+                    </p>
+                  </td>
+                </tr>
+                <!-- Pair 1: buttons -->
+                <tr>
+                  <td class="stack" width="50%" align="center" valign="top" style="padding:16px 6px 20px;">
+                    <a href="https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile" class="btn event-btn" style="display:inline-block;min-width:148px;background-color:#0f2d4d;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:0.875rem;font-weight:700;line-height:1.4;text-align:center;text-decoration:none;padding:12px 22px;border-radius:999px;border:2px solid #0f2d4d;">
+                      Buy Tickets
+                    </a>
+                  </td>
+                  <td class="stack" width="50%" align="center" valign="top" style="padding:16px 6px 20px;">
+                    <a href="https://www.shakespeareonthesound.org/productions/kids-show/" class="btn event-btn" style="display:inline-block;min-width:148px;background-color:#0f2d4d;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:0.875rem;font-weight:700;line-height:1.4;text-align:center;text-decoration:none;padding:12px 22px;border-radius:999px;border:2px solid #0f2d4d;">
+                      Learn More
+                    </a>
+                  </td>
+                </tr>
+                <!-- Pair 2: content -->
+                <tr>
+                  <td class="stack" width="50%" valign="top" style="padding:0 6px 0;">
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                      <tr>
+                        <td align="center" height="148" style="height:148px;padding-bottom:14px;vertical-align:top;">
+                          <img src="../assets/event-opening-night.jpg" width="264" height="148" alt="Opening night reception before a summer performance" class="event-photo" style="display:block;width:264px;max-width:100%;height:148px;object-fit:cover;" />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" valign="top" style="padding:0 4px;">
+                          <h3 class="text-primary" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:1rem;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:#1a1a1a;line-height:1.4;">
+                            Opening Night Reception
+                          </h3>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" valign="top" style="padding:10px 4px 0;">
+                          <p class="text-body" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:1rem;line-height:1.65;color:#2b2b2b;text-align:center;">
+                            Celebrate the first performance with fellow supporters before the show.
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td class="stack" width="50%" valign="top" style="padding:0 6px 0;">
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                      <tr>
+                        <td align="center" height="148" style="height:148px;padding-bottom:14px;vertical-align:top;">
+                          <img src="../assets/event-directors-discuss.jpg" width="264" height="148" alt="Education program discussion about the play" class="event-photo" style="display:block;width:264px;max-width:100%;height:148px;object-fit:cover;" />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" valign="top" style="padding:0 4px;">
+                          <h3 class="text-primary" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:1rem;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:#1a1a1a;line-height:1.4;">
+                            Directors' Discuss
+                          </h3>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" valign="top" style="padding:10px 4px 0;">
+                          <p class="text-body" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:1rem;line-height:1.65;color:#2b2b2b;text-align:center;">
+                            Join Stephanie Eiss and John Love for a guided conversation about the play.
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <!-- Pair 2: dates -->
+                <tr>
+                  <td class="stack" width="50%" align="center" valign="top" style="padding:12px 6px 0;">
+                    <p class="text-primary" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:0.9375rem;font-weight:700;color:#1a1a1a;text-align:center;line-height:1.5;">
+                      Saturday, June 13 · 6–7:30 p.m.
+                    </p>
+                  </td>
+                  <td class="stack" width="50%" align="center" valign="top" style="padding:12px 6px 0;">
+                    <p class="text-primary" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:0.9375rem;font-weight:700;color:#1a1a1a;text-align:center;line-height:1.5;">
+                      Sunday, June 14 · 6–6:45 p.m.
+                    </p>
+                  </td>
+                </tr>
+                <!-- Pair 2: buttons -->
+                <tr>
+                  <td class="stack" width="50%" align="center" valign="top" style="padding:16px 6px 0;">
+                    <a href="https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile" class="btn event-btn" style="display:inline-block;min-width:148px;background-color:#0f2d4d;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:0.875rem;font-weight:700;line-height:1.4;text-align:center;text-decoration:none;padding:12px 22px;border-radius:999px;border:2px solid #0f2d4d;">
+                      Get Tickets
+                    </a>
+                  </td>
+                  <td class="stack" width="50%" align="center" valign="top" style="padding:16px 6px 0;">
+                    <a href="https://www.eventbrite.com/e/much-ado-about-nothing-tickets-1986841853468?aff=ebdsoporgprofile" class="btn event-btn" style="display:inline-block;min-width:148px;background-color:#0f2d4d;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:0.875rem;font-weight:700;line-height:1.4;text-align:center;text-decoration:none;padding:12px 22px;border-radius:999px;border:2px solid #0f2d4d;">
+                      Get Tickets
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Donate -->
+          <tr>
+            <td class="pad-mobile" align="center" style="padding:0 24px 40px;">
+              <p class="text-body" style="margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;font-size:1rem;line-height:1.65;color:#2b2b2b;text-align:center;">
+                Ticket prices do not cover the full cost of our summer festival. Your gift keeps Shakespeare affordable for everyone.
+              </p>
+              <a href="https://www.paypal.com/donate/?hosted_button_id=5FTZQ4CXESHXY" class="btn-blue" style="display:inline-block;background-color:#1a5090;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:0.875rem;font-weight:700;line-height:1.4;text-decoration:none;padding:12px 26px;border-radius:999px;border:2px solid #1a5090;">
+                Donate Now
+              </a>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td align="center" class="border-subtle" style="padding:8px 24px 20px;border-top:1px solid #d4d9de;">
+              <p class="text-primary" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:0.875rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#1a1a1a;line-height:1.5;">
+                Shakespeare on the Sound
+              </p>
+            </td>
+          </tr>
+
+          <!-- Social -->
+          <tr>
+            <td class="footer-bar" style="background-color:#0f2d4d;padding:0;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                  <td align="center" style="padding:16px 12px;">
+                    <a href="https://www.facebook.com/ShakesOnSound" class="text-inverse" style="font-family:Arial,Helvetica,sans-serif;font-size:0.875rem;font-weight:700;line-height:1.5;color:#ffffff;text-decoration:underline;padding:0 8px;">Facebook</a>
+                    <span class="divider" style="color:#8a9aab;" aria-hidden="true"> | </span>
+                    <a href="https://www.instagram.com/shakesonsound/" class="text-inverse" style="font-family:Arial,Helvetica,sans-serif;font-size:0.875rem;font-weight:700;line-height:1.5;color:#ffffff;text-decoration:underline;padding:0 8px;">Instagram</a>
+                    <span class="divider" style="color:#8a9aab;" aria-hidden="true"> | </span>
+                    <a href="https://www.youtube.com/user/ShakespeareOnSound" class="text-inverse" style="font-family:Arial,Helvetica,sans-serif;font-size:0.875rem;font-weight:700;line-height:1.5;color:#ffffff;text-decoration:underline;padding:0 8px;">YouTube</a>
+                    <span class="divider" style="color:#8a9aab;" aria-hidden="true"> | </span>
+                    <a href="https://www.shakespeareonthesound.org/support/donate/" class="text-inverse" style="font-family:Arial,Helvetica,sans-serif;font-size:0.875rem;font-weight:700;line-height:1.5;color:#ffffff;text-decoration:underline;padding:0 8px;">Donate</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Legal -->
+          <tr>
+            <td align="center" class="pad-mobile" style="padding:24px 32px 32px;">
+              <p style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:0.9375rem;line-height:1.6;">
+                <a href="{{VIEW_IN_BROWSER_URL}}" class="link" style="color:#1a5090;text-decoration:underline;">View in browser</a>
+                <span class="text-muted" style="color:#525252;" aria-hidden="true"> &nbsp;|&nbsp; </span>
+                <a href="{{PREFERENCES_URL}}" class="link" style="color:#1a5090;text-decoration:underline;">Update preferences</a>
+                <span class="text-muted" style="color:#525252;" aria-hidden="true"> &nbsp;|&nbsp; </span>
+                <a href="{{UNSUBSCRIBE_URL}}" class="link" style="color:#1a5090;text-decoration:underline;">Unsubscribe</a>
+              </p>
+              <p class="text-muted" style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:0.9375rem;line-height:1.6;color:#525252;">
+                P.O. Box 15, Norwalk, CT 06853<br />
+                Box Office (June): <a href="tel:+12039571006" class="link-muted" style="color:#525252;text-decoration:underline;">(203) 957-1006</a>
+              </p>
+              <p class="text-muted" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:0.9375rem;line-height:1.6;color:#525252;">
+                <a href="mailto:contactus@shakespeareonthesound.org" class="link-muted" style="color:#525252;text-decoration:underline;">contactus@shakespeareonthesound.org</a>
+              </p>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

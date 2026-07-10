@@ -1,3 +1,11 @@
+# API routes (must come before SPA catch-all)
+/api/content           /.netlify/functions/content           200
+/api/content-admin     /.netlify/functions/content-admin     200
+/api/admin-auth        /.netlify/functions/admin-auth        200
+/api/tickets           /.netlify/functions/tickets           200
+/api/eventbrite-webhook /.netlify/functions/eventbrite-webhook 200
+/api/contact           /.netlify/functions/contact           200
+
 # Static assets (must come before SPA catch-all)
 /data/*    /data/:splat    200
 /images/*  /images/:splat  200
@@ -6,6 +14,3 @@
 /site.webmanifest  /site.webmanifest  200
 /robots.txt  /robots.txt  200
 /sitemap.xml  /sitemap.xml  200
-
-# SPA client-side routing (must be last)
-/*    /index.html   200

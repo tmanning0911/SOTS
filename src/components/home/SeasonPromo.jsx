@@ -1,6 +1,10 @@
 import { MEDIA, SEASON_PROMO, SEASON_SHOWS } from "../../../js/data.js";
+import { useTickets } from "../../context/TicketProvider.jsx";
+import { TicketCheckoutButton } from "../ticketing/TicketCheckoutButton.jsx";
+import { TicketStatusBadge } from "../ticketing/TicketStatusBadge.jsx";
 
 export function SeasonPromo() {
+  const { ticketingState, loading } = useTickets();
   const featuredShow =
     SEASON_SHOWS.find((show) => show.id === SEASON_PROMO.showId) ?? SEASON_SHOWS[0];
 
@@ -22,16 +26,10 @@ export function SeasonPromo() {
             <strong>{featuredShow.title}</strong>
             <span>{featuredShow.dates}</span>
           </p>
-          <a
-            className="orpheum-season-promo__cta"
-            href={SEASON_PROMO.ctaHref}
-            {...(SEASON_PROMO.ctaExternal ? { target: "_blank", rel: "noopener" } : {})}
-          >
-            {SEASON_PROMO.ctaLabel}
-            <span className="orpheum-season-promo__cta-arrow" aria-hidden="true">
-              ›
-            </span>
-          </a>
+          {!loading && ticketingState.statusLabel ? (
+            <TicketStatusBadge status={ticketingState.statusLabel} className="orpheum-season-promo__badge" />
+          ) : null}
+          <TicketCheckoutButton className="orpheum-season-promo__cta-btn" />
         </div>
       </div>
     </section>

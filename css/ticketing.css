@@ -1,0 +1,237 @@
+/* Eventbrite ticketing UI */
+
+.sots-ticket-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sots-ticket-badge--on-sale {
+  background: #e8f5ec;
+  color: #1f6b3a;
+}
+
+.sots-ticket-badge--sold-out {
+  background: #f3ecec;
+  color: #8a2f2f;
+}
+
+.sots-ticket-badge--ended {
+  background: #eceff2;
+  color: #4a5560;
+}
+
+.sots-ticket-badge--soon {
+  background: #eef3fa;
+  color: #1a5090;
+}
+
+.orpheum-production-page__ticketing {
+  padding: 0 clamp(1.25rem, 4vw, 3rem) 2rem;
+}
+
+.orpheum-production-page__ticket-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.75rem 0 0.25rem;
+}
+
+.orpheum-production-page__price-from {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.sots-performance-picker,
+.sots-ticket-pricing {
+  border: 1px solid rgba(15, 45, 77, 0.12);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  background: #fff;
+}
+
+.sots-performance-picker__head,
+.sots-ticket-pricing__title {
+  margin-bottom: 0.75rem;
+}
+
+.sots-performance-picker__title,
+.sots-ticket-pricing__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.sots-performance-picker__lead,
+.sots-ticket-pricing__from {
+  margin: 0 0 1rem;
+  color: #4a5560;
+  line-height: 1.55;
+}
+
+.sots-performance-picker__grid,
+.sots-ticket-pricing__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.sots-performance-picker__grid {
+  grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
+}
+
+.sots-performance-picker__btn {
+  width: 100%;
+  text-align: left;
+  border: 1px solid rgba(15, 45, 77, 0.16);
+  border-radius: 0.85rem;
+  background: #f8fafc;
+  padding: 0.85rem 0.9rem;
+  cursor: pointer;
+  display: grid;
+  gap: 0.25rem;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+}
+
+.sots-performance-picker__btn:hover:not(:disabled),
+.sots-performance-picker__btn.is-selected {
+  border-color: #1a5090;
+  background: #eef4fb;
+}
+
+.sots-performance-picker__btn.is-sold-out,
+.sots-performance-picker__btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.sots-performance-picker__date {
+  font-weight: 700;
+  color: #0f2d4d;
+}
+
+.sots-performance-picker__status,
+.sots-performance-picker__price {
+  font-size: 0.82rem;
+  color: #4a5560;
+}
+
+.sots-ticket-pricing {
+  margin-bottom: 1.5rem;
+}
+
+.sots-ticket-pricing__item {
+  border-top: 1px solid rgba(15, 45, 77, 0.08);
+  padding: 0.65rem 0;
+}
+
+.sots-ticket-pricing__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.sots-ticket-pricing__badge {
+  display: inline-block;
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #8a2f2f;
+}
+
+.orpheum-events-grid__price,
+.orpheum-events-scroll__price {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1a5090;
+}
+
+.orpheum-production-page__sidebar .sots-ticket-pricing {
+  margin-bottom: 1.25rem;
+}
+
+/* Button-as-link for nav/footer ticket URLs */
+.sots-ticket-checkout-link {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+  text-decoration: inherit;
+}
+
+.sots-ticket-checkout-link:hover,
+.sots-ticket-checkout-link:focus-visible {
+  text-decoration: underline;
+}
+
+.orpheum-utility__dropdown .sots-ticket-checkout-link,
+.mobile-nav__sub .sots-ticket-checkout-link,
+.orpheum-nav__col .sots-ticket-checkout-link {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.orpheum-footer__group-links .sots-ticket-checkout-link,
+.orpheum-footer__season .sots-ticket-checkout-link {
+  display: inline;
+}
+
+.sots-ticket-checkout-link--modal {
+  display: block;
+  width: 100%;
+  text-align: left;
+  color: inherit;
+}
+
+.sots-ticket-checkout-link--modal strong,
+.sots-ticket-checkout-link--modal span {
+  display: block;
+}
+
+.sots-performance-picker--ended .sots-performance-picker__head {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.sots-ticketing-loading {
+  padding: 1rem clamp(1.25rem, 4vw, 3rem) 2rem;
+  color: #4a5560;
+}
+
+.orpheum-season-promo__badge {
+  margin: 0.35rem 0 0.75rem;
+}
+
+.orpheum-arrow-btn--ghost {
+  background: transparent;
+  border: 1px solid rgba(15, 45, 77, 0.2);
+  color: #0f2d4d;
+}
+
+@media (max-width: 720px) {
+  .orpheum-production-page__ticketing {
+    padding-inline: 1rem;
+  }
+
+  .sots-performance-picker__grid {
+    grid-template-columns: 1fr;
+  }
+}

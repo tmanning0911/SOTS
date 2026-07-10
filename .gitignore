@@ -1,0 +1,11 @@
+.env
+.env.local
+.env.*.local
+node_modules/
+dist/
+.DS_Store
+emails/templates/_pdf-export.html
+emails/.generate-pdf-tmp.cjs
+
+# Local Netlify folder
+.netlify

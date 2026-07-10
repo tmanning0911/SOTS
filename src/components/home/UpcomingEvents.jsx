@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { buildHomeUpcomingEvents } from "../../../js/home-upcoming-events.js";
+import { enrichEventWithTickets, enrichPlayWithTickets } from "../../../js/ticketing.js";
 import { ArrowButton } from "../ArrowButton.jsx";
+import { useTickets } from "../../context/TicketProvider.jsx";
+import { TicketStatusBadge } from "../ticketing/TicketStatusBadge.jsx";
 
 function LearnMoreLink({ href }) {
   return (
@@ -15,12 +18,26 @@ function LearnMoreLink({ href }) {
 }
 
 function EventCta({ event, compact = false }) {
+  const { openCheckout, ticketsUrl } = useTickets();
   const label = event.ctaLabel || "Learn More";
   const href = event.ctaHref || event.href;
   const external = event.ctaExternal;
+  const isTicket = external && event.canPurchase !== false && (event.eventbriteId || event.ctaHref?.includes("eventbrite"));
 
   if (label === "Learn More") {
     return <LearnMoreLink href={href} />;
+  }
+
+  if (isTicket && ticketsUrl) {
+    return (
+      <ArrowButton
+        className={compact ? "orpheum-arrow-btn--compact" : ""}
+        type="button"
+        onClick={() => openCheckout(event.eventbriteId)}
+      >
+        Tickets
+      </ArrowButton>
+    );
   }
 
   return (
@@ -71,6 +88,8 @@ function EventGridCard({ event }) {
         <span className="orpheum-events-grid__tag">{event.genre}</span>
         <strong>{event.title}</strong>
         <span>{event.dates}</span>
+        {event.ticketStatus ? <TicketStatusBadge status={event.ticketStatus} /> : null}
+        {event.priceLabel ? <span className="orpheum-events-grid__price">{event.priceLabel}</span> : null}
       </div>
       <div className="orpheum-events-grid__photo-actions">
         <EventCta event={event} compact />
@@ -92,6 +111,8 @@ function EventScrollCard({ event }) {
           <a href={event.href}>{event.title}</a>
         </h4>
         <p className="orpheum-events-scroll__dates">{event.dates}</p>
+        {event.ticketStatus ? <TicketStatusBadge status={event.ticketStatus} /> : null}
+        {event.priceLabel ? <p className="orpheum-events-scroll__price">{event.priceLabel}</p> : null}
         <div className="orpheum-events-scroll__actions">
           <EventCta event={event} compact />
           <LearnMoreLink href={event.href} />
@@ -121,21 +142,45 @@ function ScrollControls({ scrollRef }) {
 }
 
 export function UpcomingEvents() {
+  const { data: eventbrite, loading } = useTickets();
   const [events, setEvents] = useState(() => buildHomeUpcomingEvents());
   const scrollRef = useRef(null);
 
   useEffect(() => {
+    if (loading) return;
     Promise.all([
       fetch("/data/plays.json").then((r) => (r.ok ? r.json() : [])),
       fetch("/data/events.json").then((r) => (r.ok ? r.json() : [])),
     ])
       .then(([plays, seasonEvents]) => {
-        if (Array.isArray(plays) && plays.length) {
-          setEvents(buildHomeUpcomingEvents(plays, Array.isArray(seasonEvents) ? seasonEvents : []));
-        }
+        if (!Array.isArray(plays) || !plays.length) return;
+        const enrichedPlays = eventbrite
+          ? plays.map((play) => enrichPlayWithTickets(play, eventbrite))
+          : plays;
+        const enrichedEvents = eventbrite
+          ? (Array.isArray(seasonEvents) ? seasonEvents : []).map((event) =>
+              enrichEventWithTickets(event, eventbrite),
+            )
+          : Array.isArray(seasonEvents)
+            ? seasonEvents
+            : [];
+        const built = buildHomeUpcomingEvents(enrichedPlays, enrichedEvents);
+        setEvents(
+          built.map((item) => {
+            const play = enrichedPlays.find((p) => item.id === p.id);
+            const seasonEvent = enrichedEvents.find((e) => item.id === e.id);
+            return {
+              ...item,
+              ticketStatus: seasonEvent?.ticketStatus ?? play?.status,
+              priceLabel: play?.priceLabel,
+              eventbriteId: seasonEvent?.eventbriteId ?? play?.eventbriteId,
+              canPurchase: seasonEvent?.canPurchase ?? play?.canPurchase,
+            };
+          }),
+        );
       })
       .catch(() => {});
-  }, []);
+  }, [eventbrite, loading]);
 
   const [featured, ...rest] = events;
   const sideA = rest[0];

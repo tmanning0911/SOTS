@@ -1,20 +1,32 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { PRODUCTION_DETAILS } from "../../js/pages-data.js";
 import { HOME_UPCOMING_EVENTS } from "../../js/home-upcoming-events.js";
+import { getPriceFromLabel } from "../../js/ticketing.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { PageSection } from "../components/PageSection.jsx";
+import { PerformancePicker } from "../components/ticketing/PerformancePicker.jsx";
+import { TicketCheckoutButton } from "../components/ticketing/TicketCheckoutButton.jsx";
+import { TicketPricing } from "../components/ticketing/TicketPricing.jsx";
+import { TicketStatusBadge } from "../components/ticketing/TicketStatusBadge.jsx";
+import { useTickets } from "../context/TicketProvider.jsx";
+
+const TICKETED_SLUGS = new Set(["much-ado-about-nothing"]);
 
 export function ProductionPage() {
   const { slug } = useParams();
   const data = PRODUCTION_DETAILS[slug];
+  const { data: eventbrite, loading: ticketsLoading } = useTickets();
+  const [selectedPerformanceId, setSelectedPerformanceId] = useState(null);
   const relatedEvents = HOME_UPCOMING_EVENTS.filter((event) => event.href !== `/productions/${slug}/`).slice(0, 4);
   const sections =
     data?.sections ??
     (data?.description
       ? [{ type: "prose", heading: "About the Show", paragraphs: [data.description] }]
       : []);
+  const showTicketing = TICKETED_SLUGS.has(slug);
+  const priceLabel = getPriceFromLabel(eventbrite);
 
   useEffect(() => {
     if (data) document.title = `${data.title} - Shakespeare on the Sound`;
@@ -40,10 +52,21 @@ export function ProductionPage() {
               <p className="orpheum-production-page__credit">Directed by {data.director}</p>
             ) : null}
             {data.intro ? <p className="orpheum-inner-page__intro">{data.intro}</p> : null}
+            {showTicketing && eventbrite?.featuredTicket ? (
+              <div className="orpheum-production-page__ticket-meta">
+                <TicketStatusBadge status={eventbrite.featuredTicket} />
+                {priceLabel ? <span className="orpheum-production-page__price-from">{priceLabel}</span> : null}
+              </div>
+            ) : null}
             <div className="orpheum-production-page__actions">
-              {data.tickets ? (
+              {showTicketing ? (
+                <TicketCheckoutButton
+                  label="Tickets"
+                  eventId={selectedPerformanceId ?? undefined}
+                />
+              ) : data.tickets ? (
                 <ArrowButton href={data.tickets} target="_blank" rel="noopener">
-                  Get Tickets
+                  Tickets
                 </ArrowButton>
               ) : null}
               <ArrowButton href="/about/visit/" variant="ghost">
@@ -54,6 +77,20 @@ export function ProductionPage() {
         </header>
 
         <div className="orpheum-inner-page__body">
+          {showTicketing && !ticketsLoading && eventbrite ? (
+            <div className="orpheum-production-page__ticketing" data-reveal>
+              <PerformancePicker
+                data={eventbrite}
+                selectedId={selectedPerformanceId}
+                onSelect={(performance) => setSelectedPerformanceId(performance.id)}
+              />
+            </div>
+          ) : showTicketing && ticketsLoading ? (
+            <div className="orpheum-production-page__ticketing sots-ticketing-loading" data-reveal>
+              <p>Loading ticket availability…</p>
+            </div>
+          ) : null}
+
           <div className="orpheum-inner-page__content orpheum-production-page__content" data-reveal>
             <div className="orpheum-production-page__main">
               {sections.map((section, index) => (
@@ -62,11 +99,17 @@ export function ProductionPage() {
             </div>
 
             <aside className="orpheum-production-page__sidebar">
+              {showTicketing && eventbrite ? (
+                <TicketPricing
+                  ticketClasses={eventbrite.ticketClasses}
+                  priceFrom={eventbrite.priceFrom}
+                />
+              ) : null}
               <h2 className="orpheum-inner-page__section-title">Details.</h2>
               <dl className="orpheum-inner-page__details">
                 <div className="orpheum-inner-page__detail">
                   <dt>Venue</dt>
-                  <dd>{data.venue}</dd>
+                  <dd>{eventbrite?.featuredTicket?.venue ?? data.venue}</dd>
                 </div>
                 <div className="orpheum-inner-page__detail">
                   <dt>Season</dt>
@@ -76,6 +119,12 @@ export function ProductionPage() {
                   <div className="orpheum-inner-page__detail">
                     <dt>Dates</dt>
                     <dd>{data.date}</dd>
+                  </div>
+                ) : null}
+                {eventbrite?.featuredTicket?.location ? (
+                  <div className="orpheum-inner-page__detail">
+                    <dt>Address</dt>
+                    <dd>{eventbrite.featuredTicket.location}</dd>
                   </div>
                 ) : null}
               </dl>
