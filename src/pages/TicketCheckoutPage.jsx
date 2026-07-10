@@ -2,6 +2,7 @@ import { useEffect, useMemo } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { MEDIA } from "../../js/data.js";
 import { PRODUCTION_DETAILS } from "../../js/pages-data.js";
+import { pauseSmoothScroll, resumeSmoothScroll } from "../polish.js";
 import {
   formatPerformanceDate,
   isPurchasablePerformance,
@@ -52,6 +53,15 @@ export function TicketCheckoutPage() {
   useEffect(() => {
     document.title = `Checkout - ${showTitle} - Shakespeare on the Sound`;
   }, [showTitle]);
+
+  useEffect(() => {
+    document.body.classList.add("sots-checkout-active");
+    pauseSmoothScroll();
+    return () => {
+      document.body.classList.remove("sots-checkout-active");
+      resumeSmoothScroll();
+    };
+  }, []);
 
   if (!loading && data && (!performance || !isPurchasablePerformance(performance))) {
     return <Navigate to={TICKETS_PAGE_PATH} replace />;

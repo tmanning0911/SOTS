@@ -41,11 +41,39 @@ export function loadSquareSdk(webSdkUrl) {
   return sdkPromise;
 }
 
+const SQUARE_CARD_STYLE = {
+  input: {
+    backgroundColor: "#ffffff",
+    color: "#0f2d4d",
+    fontFamily: '"DM Sans", system-ui, sans-serif',
+    fontSize: "16px",
+  },
+  "input::placeholder": {
+    color: "#8a97a3",
+  },
+  "input.is-focus": {
+    color: "#0f2d4d",
+  },
+  ".input-container": {
+    borderColor: "rgba(15, 45, 77, 0.22)",
+    borderRadius: "8px",
+  },
+  ".input-container.is-focus": {
+    borderColor: "#2165b4",
+  },
+  ".input-container.is-error": {
+    borderColor: "#8a2f2f",
+  },
+  ".message-text.is-error": {
+    color: "#8a2f2f",
+  },
+};
+
 export async function initSquareCard(containerId) {
   const config = await fetchCheckoutConfig();
   const Square = await loadSquareSdk(config.webSdkUrl);
   const payments = Square.payments(config.applicationId, config.locationId);
-  const card = await payments.card();
+  const card = await payments.card({ style: SQUARE_CARD_STYLE });
   await card.attach(`#${containerId}`);
   return { card, config };
 }
