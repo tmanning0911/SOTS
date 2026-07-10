@@ -1,8 +1,10 @@
+import { heroImageForHref } from "../../js/page-heroes.js";
+import { isTicketCheckoutUrl, TICKETS_PAGE_PATH } from "../../js/ticketing.js";
 import { ArrowButton } from "./ArrowButton.jsx";
+import { InnerPageHero } from "./InnerPageHero.jsx";
 import { InnerPageShell } from "./InnerPageShell.jsx";
 import { PageSection } from "./PageSection.jsx";
 import { TicketArrowButton } from "./ticketing/TicketArrowButton.jsx";
-import { isTicketCheckoutUrl, TICKETS_PAGE_PATH } from "../../js/ticketing.js";
 
 export function OrpheumInnerPage({ page }) {
   if (!page) return null;
@@ -20,13 +22,12 @@ export function OrpheumInnerPage({ page }) {
       showNewsletter={page.showNewsletter !== false}
     >
       <article className="orpheum-inner-page">
-        <header className="orpheum-inner-page__hero">
-          <div className="orpheum-inner-page__hero-inner" data-reveal>
-            {page.eyebrow ? <p className="orpheum-inner-page__eyebrow">{page.eyebrow}</p> : null}
-            <h1>{page.heading}</h1>
-            {page.intro ? <p className="orpheum-inner-page__intro">{page.intro}</p> : null}
-          </div>
-        </header>
+        <InnerPageHero
+          eyebrow={page.eyebrow}
+          title={page.heading}
+          intro={page.intro}
+          image={page.heroImage ?? heroImageForHref(page.href)}
+        />
 
         <div className="orpheum-inner-page__body">
           <div className="orpheum-inner-page__content" data-reveal>

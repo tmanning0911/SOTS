@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { MEDIA } from "../../js/data.js";
+import { heroImageForHref } from "../../js/page-heroes.js";
 import { formatCents, resendOrderEmail } from "../../js/square-payments.js";
 import { formatPerformanceDate } from "../../js/ticketing.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
+import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { usePatron } from "../context/PatronContext.jsx";
 import { TicketQr } from "../components/ticketing/TicketQr.jsx";
@@ -146,27 +147,21 @@ export function MyTicketsPage() {
   return (
     <InnerPageShell showVisit showNewsletter>
       <article className="orpheum-inner-page sots-account-page">
-        <header className="orpheum-inner-page__hero sots-account-page__hero">
-          <div
-            className="sots-account-page__hero-bg"
-            style={{ backgroundImage: `url('${MEDIA.heroHome}')` }}
-            aria-hidden="true"
-          />
-          <div className="sots-account-page__hero-veil" aria-hidden="true" />
-          <div className="orpheum-inner-page__hero-inner sots-account-page__hero-inner" data-reveal>
-            <p className="orpheum-inner-page__eyebrow">Your Tickets</p>
-            <h1>My Tickets</h1>
-            <p className="orpheum-inner-page__intro">
-              Sign in with your email to see every order in one place — with QR codes ready for the park.
-            </p>
-            <div className="sots-account-page__hero-actions">
+        <InnerPageHero
+          className="sots-account-page__hero"
+          eyebrow="Your Tickets"
+          title="My Tickets"
+          intro="Sign in with your email to see every order in one place — with QR codes ready for the park."
+          image={heroImageForHref("/my-tickets/")}
+          actions={
+            <>
               <ArrowButton href="/tickets/">Buy Tickets</ArrowButton>
               <ArrowButton href="/access-your-tickets/" variant="ghost">
                 Confirmation code lookup
               </ArrowButton>
-            </div>
-          </div>
-        </header>
+            </>
+          }
+        />
 
         <div className="orpheum-inner-page__body">
           <div className="orpheum-container orpheum-container--narrow sots-account-page__body" data-reveal>

@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { Link, Navigate, useSearchParams } from "react-router-dom";
-import { MEDIA } from "../../js/data.js";
+import { heroImageForHref } from "../../js/page-heroes.js";
 import { getPriceFromLabel, getTicketCheckoutPath } from "../../js/ticketing.js";
 import { HOME_UPCOMING_EVENTS } from "../../js/home-upcoming-events.js";
+import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { PerformanceCalendar } from "../components/ticketing/PerformanceCalendar.jsx";
 import { TicketPricing } from "../components/ticketing/TicketPricing.jsx";
@@ -41,38 +42,37 @@ export function TicketsPage() {
   return (
     <InnerPageShell showVisit showNewsletter>
       <article className="orpheum-inner-page sots-tickets-page">
-        <header className="orpheum-inner-page__hero sots-tickets-page__hero sots-tickets-page__hero--compact">
-          <div
-            className="sots-tickets-page__hero-bg"
-            style={{ backgroundImage: `url('${MEDIA.heroHome}')` }}
-            aria-hidden="true"
-          />
-          <div className="sots-tickets-page__hero-veil" aria-hidden="true" />
-          <div className="orpheum-inner-page__hero-inner sots-tickets-page__hero-inner" data-reveal>
-            <p className="orpheum-inner-page__eyebrow">2026 Season</p>
-            <h1>Tickets</h1>
-            {!loading && ticketingState.statusLabel ? (
+        <InnerPageHero
+          className="sots-tickets-page__hero"
+          compact
+          eyebrow="2026 Season"
+          title="Tickets"
+          intro="General admission supports the show and includes open lawn seating. VIP adds a reserved chair. Tuesday performances are pay-what-you-wish at the door."
+          introClassName="sots-tickets-page__intro"
+          image={heroImageForHref("/tickets/")}
+          afterTitle={
+            !loading && ticketingState.statusLabel ? (
               <div className="sots-tickets-page__meta">
                 <TicketStatusBadge status={ticketingState.statusLabel} />
                 {priceLabel ? <span className="sots-tickets-page__price-from">{priceLabel}</span> : null}
               </div>
-            ) : null}
-            <p className="sots-tickets-page__intro">
-              General admission supports the show and includes open lawn seating. VIP adds a reserved chair.
-              Tuesday performances are pay-what-you-wish at the door.
-            </p>
-            <p className="sots-tickets-page__owned-hint">
-              Already purchased?{" "}
-              <Link to="/my-tickets/">My Tickets</Link>
-              {" · "}
-              <Link to="/access-your-tickets/">Look up with a confirmation code</Link>
-            </p>
-            <p className="sots-tickets-page__hero-phone">
-              Questions? Call{" "}
-              <a href="tel:+12039571006">(203) 957-1006</a> noon–5pm during the run.
-            </p>
-          </div>
-        </header>
+            ) : null
+          }
+          belowIntro={
+            <>
+              <p className="sots-tickets-page__owned-hint">
+                Already purchased?{" "}
+                <Link to="/my-tickets/">My Tickets</Link>
+                {" · "}
+                <Link to="/access-your-tickets/">Look up with a confirmation code</Link>
+              </p>
+              <p className="sots-tickets-page__hero-phone">
+                Questions? Call{" "}
+                <a href="tel:+12039571006">(203) 957-1006</a> noon–5pm during the run.
+              </p>
+            </>
+          }
+        />
 
         <div className="orpheum-inner-page__body">
           <section className="sots-tickets-page__how" aria-labelledby="tickets-how-heading">

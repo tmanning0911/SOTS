@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FAQ_SECTIONS, INNER_PAGES } from "../../js/pages-data.js";
+import { heroImageForHref } from "../../js/page-heroes.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
+import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 
 export function FaqPage() {
@@ -10,13 +12,12 @@ export function FaqPage() {
   return (
     <InnerPageShell showSupport={false}>
       <article className="orpheum-inner-page orpheum-faq-page">
-        <header className="orpheum-inner-page__hero">
-          <div className="orpheum-inner-page__hero-inner" data-reveal>
-            {page?.eyebrow ? <p className="orpheum-inner-page__eyebrow">{page.eyebrow}</p> : null}
-            <h1>{page?.heading ?? "FAQ."}</h1>
-            {page?.intro ? <p className="orpheum-inner-page__intro">{page.intro}</p> : null}
-          </div>
-        </header>
+        <InnerPageHero
+          eyebrow={page?.eyebrow ?? "Plan Your Visit"}
+          title={page?.heading ?? "FAQ."}
+          intro={page?.intro}
+          image={heroImageForHref("/about/faq/")}
+        />
 
         <div className="orpheum-inner-page__body">
           <div className="orpheum-inner-page__content orpheum-faq-page__content" data-reveal>

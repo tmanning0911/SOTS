@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { heroImageForHref } from "../../js/page-heroes.js";
 import { formatCents } from "../../js/shop.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
+import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { ProductCard, ShopCartPanel } from "../components/shop/ShopProductCard.jsx";
 import { useShop } from "../context/ShopContext.jsx";
@@ -38,22 +40,21 @@ export function ShopPage() {
   return (
     <InnerPageShell showVisit showNewsletter>
       <article className="orpheum-inner-page sots-shop-page">
-        <header className="orpheum-inner-page__hero sots-shop-page__hero">
-          <div className="orpheum-inner-page__hero-inner" data-reveal>
-            <p className="orpheum-inner-page__eyebrow">Support SOS</p>
-            <h1>Gift Shop</h1>
-            <p className="orpheum-inner-page__intro">
-              Merchandise, playbills, and gift certificates — plus our favorite Rowayton spots for a pre-show
-              picnic or dinner.
-            </p>
-            <div className="sots-shop-page__hero-actions">
+        <InnerPageHero
+          className="sots-shop-page__hero"
+          eyebrow="Support SOS"
+          title="Gift Shop"
+          intro="Merchandise, playbills, and gift certificates — plus our favorite Rowayton spots for a pre-show picnic or dinner."
+          image={heroImageForHref("/shop/")}
+          actions={
+            <>
               <ArrowButton href="/tickets/">Get Tickets</ArrowButton>
               <ArrowButton href="/support/donate/" variant="ghost">
                 Donate
               </ArrowButton>
-            </div>
-          </div>
-        </header>
+            </>
+          }
+        />
 
         <div className="orpheum-inner-page__body">
           <div className="sots-shop-page__layout" data-reveal>

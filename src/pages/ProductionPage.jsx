@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { PRODUCTION_DETAILS } from "../../js/pages-data.js";
 import { HOME_UPCOMING_EVENTS } from "../../js/home-upcoming-events.js";
 import { getPriceFromLabel } from "../../js/ticketing.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
+import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { PageSection } from "../components/PageSection.jsx";
 import { PerformanceCalendar } from "../components/ticketing/PerformanceCalendar.jsx";
@@ -36,28 +37,29 @@ export function ProductionPage() {
   return (
     <InnerPageShell className="orpheum-page-shell--production">
       <article className="orpheum-inner-page orpheum-production-page">
-        <header className="orpheum-production-page__hero">
-          <div
-            className="orpheum-production-page__hero-bg"
-            style={{ backgroundImage: `url('${data.heroImage ?? data.image}')` }}
-            aria-hidden="true"
-          />
-          <div className="orpheum-production-page__hero-veil" aria-hidden="true" />
-          <div className="orpheum-production-page__hero-inner" data-reveal>
-            {data.eyebrow ? <p className="orpheum-inner-page__eyebrow">{data.eyebrow}</p> : null}
-            <p className="orpheum-production-page__meta">{data.date}</p>
-            <h1>{data.title}.</h1>
-            {data.director ? (
-              <p className="orpheum-production-page__credit">Directed by {data.director}</p>
-            ) : null}
-            {data.intro ? <p className="orpheum-inner-page__intro">{data.intro}</p> : null}
-            {showTicketing && eventbrite?.featuredTicket ? (
-              <div className="orpheum-production-page__ticket-meta">
-                <TicketStatusBadge status={eventbrite.featuredTicket} />
-                {priceLabel ? <span className="orpheum-production-page__price-from">{priceLabel}</span> : null}
-              </div>
-            ) : null}
-            <div className="orpheum-production-page__actions">
+        <InnerPageHero
+          className="orpheum-production-page__hero"
+          innerClassName="orpheum-production-page__hero-inner"
+          eyebrow={data.eyebrow}
+          title={`${data.title}.`}
+          intro={data.intro}
+          image={data.heroImage ?? data.image}
+          beforeTitle={<p className="orpheum-production-page__meta">{data.date}</p>}
+          afterTitle={
+            <>
+              {data.director ? (
+                <p className="orpheum-production-page__credit">Directed by {data.director}</p>
+              ) : null}
+              {showTicketing && eventbrite?.featuredTicket ? (
+                <div className="orpheum-production-page__ticket-meta">
+                  <TicketStatusBadge status={eventbrite.featuredTicket} />
+                  {priceLabel ? <span className="orpheum-production-page__price-from">{priceLabel}</span> : null}
+                </div>
+              ) : null}
+            </>
+          }
+          actions={
+            <>
               {showTicketing ? (
                 <TicketCheckoutButton label="Tickets" />
               ) : data.tickets ? (
@@ -68,9 +70,9 @@ export function ProductionPage() {
               <ArrowButton href="/about/visit/" variant="ghost">
                 Plan Your Visit
               </ArrowButton>
-            </div>
-          </div>
-        </header>
+            </>
+          }
+        />
 
         <div className="orpheum-inner-page__body">
           {showTicketing && !ticketsLoading && eventbrite ? (

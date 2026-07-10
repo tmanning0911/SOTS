@@ -1,0 +1,169 @@
+/* ═══ INNER PAGE HERO (unified cinematic + plain) ═══ */
+
+.orpheum-page-hero--cinematic {
+  position: relative;
+  min-height: clamp(22rem, 45vw, 32rem);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  padding: 0;
+  border-bottom: 0;
+}
+
+.orpheum-page-hero--compact {
+  min-height: clamp(18rem, 36vw, 26rem);
+}
+
+.orpheum-page-hero__bg {
+  position: absolute;
+  inset: 0;
+  background: center/cover no-repeat;
+}
+
+.orpheum-page-hero__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--brand-navy-rgb, 15, 45, 77), 0.25) 0%,
+    rgba(var(--brand-navy-rgb, 15, 45, 77), 0.88) 100%
+  );
+}
+
+.orpheum-page-hero--cinematic .orpheum-page-hero__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 52rem;
+  padding: clamp(3rem, 6vw, 4.5rem) var(--orp-chrome-gutter, 9.25rem);
+  color: var(--orp-white, #fff);
+}
+
+.orpheum-page-hero--cinematic .orpheum-inner-page__eyebrow {
+  color: var(--orp-gold);
+}
+
+.orpheum-page-hero--cinematic h1 {
+  color: var(--orp-white, #fff);
+}
+
+.orpheum-page-hero--cinematic .orpheum-inner-page__intro {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.orpheum-page-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.orpheum-page-hero--cinematic .orpheum-page-hero__actions {
+  margin-top: 1.5rem;
+}
+
+/* Plain band — keeps existing padding from home.css, upgrades typography */
+.orpheum-page-hero--plain {
+  padding: clamp(4rem, 8vw, 6rem) var(--orp-chrome-gutter, 9.25rem) clamp(2rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--orp-line);
+}
+
+.orpheum-page-hero--plain .orpheum-page-hero__inner {
+  max-width: 52rem;
+}
+
+/* Marcellus display headings on all inner pages */
+.orpheum-inner-page__hero h1,
+.orpheum-page-hero h1 {
+  font-family: var(--font-heading, "Marcellus", Georgia, serif);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.08;
+}
+
+.orpheum-inner-page__section-title {
+  font-family: var(--font-heading, "Marcellus", Georgia, serif);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* Interaction polish (UI UX Pro Max checklist) */
+.orpheum-faq-item__trigger {
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.orpheum-faq-item__trigger:hover {
+  background: rgba(var(--brand-navy-rgb, 15, 45, 77), 0.04);
+}
+
+.orpheum-faq-item__trigger:focus-visible {
+  outline: 2px solid var(--orp-gold);
+  outline-offset: -2px;
+}
+
+.sots-shop-page__filter {
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.sots-shop-page__filter:focus-visible {
+  outline: 2px solid var(--orp-gold);
+  outline-offset: 2px;
+}
+
+.orpheum-production-page__related-card {
+  cursor: pointer;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.orpheum-production-page__related-card:hover {
+  transform: translateY(-2px);
+}
+
+.orpheum-production-page__related-card:focus-visible {
+  outline: 2px solid var(--orp-gold);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orpheum-faq-item__trigger,
+  .sots-shop-page__filter,
+  .orpheum-production-page__related-card {
+    transition: none;
+  }
+
+  .orpheum-production-page__related-card:hover {
+    transform: none;
+  }
+}
+
+.orpheum-production-page .orpheum-page-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  align-items: center;
+}
+
+.sots-tickets-page__hero .sots-tickets-page__intro,
+.sots-tickets-page__hero .sots-tickets-page__owned-hint,
+.sots-tickets-page__hero .sots-tickets-page__hero-phone {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.sots-tickets-page__hero .sots-tickets-page__owned-hint a,
+.sots-tickets-page__hero .sots-tickets-page__hero-phone a {
+  color: var(--orp-gold, #c9a227);
+}
+
+@media (max-width: 768px) {
+  .orpheum-page-hero--cinematic .orpheum-page-hero__inner {
+    padding-inline: var(--orp-chrome-gutter-mobile, 1.25rem);
+  }
+}

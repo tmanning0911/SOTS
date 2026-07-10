@@ -13,6 +13,7 @@ import "../css/styles.css";
 import "../css/polish.css";
 import "../css/responsive.css";
 import "../css/home.css";
+import "../css/inner-pages.css";
 import "../css/ticketing.css";
 import "../css/checkout.css";
 import "../css/shop.css";
