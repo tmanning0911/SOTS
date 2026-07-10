@@ -17,7 +17,7 @@
     "generate": "node scripts/generate-pages.js && node scripts/generate-sitemap.js",
     "sitemap": "node scripts/generate-sitemap.js",
     "start": "npm run preview:local",
-    "preview:local": "npm run build:static && npx --yes serve . -p 3000",
+    "preview:local": "npm run build && npx --yes serve dist -p 3000",
     "preview": "vite preview"
   },
   "dependencies": {
