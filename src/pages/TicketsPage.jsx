@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link, Navigate, useSearchParams } from "react-router-dom";
+import { MEDIA } from "../../js/data.js";
 import { heroImageForHref } from "../../js/page-heroes.js";
 import { getPriceFromLabel, getTicketCheckoutPath } from "../../js/ticketing.js";
 import { HOME_UPCOMING_EVENTS } from "../../js/home-upcoming-events.js";
