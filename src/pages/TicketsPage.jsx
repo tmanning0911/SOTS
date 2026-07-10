@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, Navigate, useSearchParams } from "react-router-dom";
 import { MEDIA } from "../../js/data.js";
-import { getPriceFromLabel } from "../../js/ticketing.js";
+import { getPriceFromLabel, getTicketCheckoutPath } from "../../js/ticketing.js";
 import { HOME_UPCOMING_EVENTS } from "../../js/home-upcoming-events.js";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
-import { PerformancePicker } from "../components/ticketing/PerformancePicker.jsx";
+import { PerformanceCalendar } from "../components/ticketing/PerformanceCalendar.jsx";
 import { TicketPricing } from "../components/ticketing/TicketPricing.jsx";
 import { TicketStatusBadge } from "../components/ticketing/TicketStatusBadge.jsx";
 import { useTickets } from "../context/TicketProvider.jsx";
@@ -17,10 +17,8 @@ const HOW_IT_WORKS = [
 ];
 
 export function TicketsPage() {
-  const { data, loading, error, refresh, openCheckout, ticketingState } = useTickets();
+  const { data, loading, error, refresh, ticketingState } = useTickets();
   const [searchParams] = useSearchParams();
-  const production = data?.production;
-  const featured = data?.featuredTicket;
   const priceLabel = getPriceFromLabel(data);
   const relatedEvents = HOME_UPCOMING_EVENTS.filter(
     (event) => event.href !== `/productions/${PRODUCTION_SLUG}/`,
@@ -30,11 +28,10 @@ export function TicketsPage() {
     document.title = "Tickets - Shakespeare on the Sound";
   }, []);
 
-  useEffect(() => {
-    const performanceId = searchParams.get("performance");
-    if (!performanceId || loading || !data) return;
-    openCheckout(performanceId);
-  }, [searchParams, loading, data, openCheckout]);
+  const performanceId = searchParams.get("performance");
+  if (performanceId && !loading && data) {
+    return <Navigate to={getTicketCheckoutPath(performanceId)} replace />;
+  }
 
   return (
     <InnerPageShell showVisit showNewsletter>
@@ -98,27 +95,7 @@ export function TicketsPage() {
               ) : data ? (
                 <>
                   <section className="sots-tickets-page__show" aria-labelledby="tickets-show-heading">
-                    <div className="sots-tickets-page__show-head">
-                      <div>
-                        <h2 id="tickets-show-heading" className="sots-tickets-page__show-title">
-                          {production?.title ?? featured?.name ?? "Current Production"}
-                        </h2>
-                        {featured?.venue ? (
-                          <p className="sots-tickets-page__show-venue">
-                            {featured.venue}
-                            {featured.location ? ` · ${featured.location}` : ""}
-                          </p>
-                        ) : null}
-                      </div>
-                      <Link
-                        className="sots-tickets-page__show-link"
-                        to={`/productions/${production?.slug ?? PRODUCTION_SLUG}/`}
-                      >
-                        About the show
-                      </Link>
-                    </div>
-
-                    <PerformancePicker data={data} allPerformances confirmBeforeCheckout />
+                    <PerformanceCalendar data={data} allPerformances image={MEDIA.muchAdoPoster} />
                   </section>
 
                   {relatedEvents.length ? (

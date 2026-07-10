@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { isTicketCheckoutUrl, TICKETS_PAGE_PATH } from "../../../js/ticketing.js";
+import { isTicketCheckoutUrl, getTicketCheckoutPath, TICKETS_PAGE_PATH } from "../../../js/ticketing.js";
 
 export function TicketCheckoutLink({
   href,
@@ -12,7 +12,7 @@ export function TicketCheckoutLink({
   const isTicket = isTicketCheckoutUrl(href, TICKETS_PAGE_PATH);
 
   if (isTicket) {
-    const to = eventId ? `${TICKETS_PAGE_PATH}?performance=${encodeURIComponent(eventId)}` : TICKETS_PAGE_PATH;
+    const to = eventId ? getTicketCheckoutPath(eventId) : TICKETS_PAGE_PATH;
     return (
       <Link to={to} className={className} onClick={onClick}>
         {children}

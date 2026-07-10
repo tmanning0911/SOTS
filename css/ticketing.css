@@ -1185,3 +1185,292 @@ iframe[id^="eventbrite-widget-modal-"] {
   padding-top: 0.5rem;
   padding-bottom: 2rem;
 }
+
+/* Performance calendar */
+.sots-performance-calendar {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.sots-performance-calendar__show {
+  display: grid;
+  grid-template-columns: minmax(7rem, 9rem) minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.sots-performance-calendar--compact .sots-performance-calendar__show {
+  grid-template-columns: minmax(5rem, 7rem) minmax(0, 1fr);
+}
+
+.sots-performance-calendar__image {
+  width: 100%;
+  border-radius: 0.65rem;
+  box-shadow: 0 12px 32px rgba(15, 45, 77, 0.14);
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
+
+.sots-performance-calendar__title {
+  margin: 0 0 0.35rem;
+  font-size: 1.35rem;
+  color: #0f2d4d;
+}
+
+.sots-performance-calendar__venue,
+.sots-performance-calendar__lead {
+  margin: 0 0 0.5rem;
+  color: #4a5560;
+  line-height: 1.5;
+}
+
+.sots-performance-calendar__about {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1a5090;
+}
+
+.sots-performance-calendar__months {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.sots-performance-calendar__month-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+  color: #0f2d4d;
+}
+
+.sots-performance-calendar__weekdays,
+.sots-performance-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.sots-performance-calendar__weekdays {
+  margin-bottom: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #8a97a3;
+  text-align: center;
+}
+
+.sots-performance-calendar__pad,
+.sots-performance-calendar__day {
+  min-height: 4.5rem;
+  border-radius: 0.55rem;
+}
+
+.sots-performance-calendar__day {
+  display: grid;
+  gap: 0.1rem;
+  align-content: start;
+  padding: 0.45rem 0.35rem;
+  border: 1px solid rgba(15, 45, 77, 0.1);
+  background: #f8fafc;
+  text-align: center;
+  font: inherit;
+}
+
+.sots-performance-calendar__day.is-empty {
+  background: #fbfcfd;
+  color: #b8c2cb;
+}
+
+.sots-performance-calendar__day.is-available {
+  cursor: pointer;
+  border-color: rgba(26, 80, 144, 0.35);
+  background: #eef4fb;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sots-performance-calendar__day.is-available:hover {
+  transform: translateY(-1px);
+  border-color: #1a5090;
+  box-shadow: 0 8px 20px rgba(15, 45, 77, 0.12);
+}
+
+.sots-performance-calendar__day.is-unavailable {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.sots-performance-calendar__day-num {
+  font-weight: 700;
+  color: #0f2d4d;
+  font-size: 0.95rem;
+}
+
+.sots-performance-calendar__day-time,
+.sots-performance-calendar__day-price,
+.sots-performance-calendar__day-status {
+  font-size: 0.68rem;
+  line-height: 1.25;
+  color: #4a5560;
+}
+
+.sots-performance-calendar__day-price {
+  font-weight: 700;
+  color: #1a5090;
+}
+
+@media (max-width: 640px) {
+  .sots-performance-calendar__show {
+    grid-template-columns: 1fr;
+  }
+
+  .sots-performance-calendar__image {
+    max-width: 10rem;
+  }
+
+  .sots-performance-calendar__day {
+    min-height: 3.75rem;
+    padding: 0.35rem 0.2rem;
+  }
+
+  .sots-performance-calendar__day-time,
+  .sots-performance-calendar__day-price {
+    display: none;
+  }
+}
+
+/* Ticket checkout page */
+.sots-checkout-page__hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 14rem;
+}
+
+.sots-checkout-page__hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.sots-checkout-page__hero-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 45, 77, 0.45), rgba(15, 45, 77, 0.88));
+}
+
+.sots-checkout-page__hero-inner {
+  position: relative;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  color: #fff;
+}
+
+.sots-checkout-page__back {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.sots-checkout-page__back:hover {
+  text-decoration: underline;
+}
+
+.sots-checkout-page__date,
+.sots-checkout-page__venue,
+.sots-checkout-page__price {
+  margin: 0.35rem 0 0;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.sots-checkout-page__layout {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 900px) {
+  .sots-checkout-page__layout {
+    grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.sots-checkout-page__aside {
+  display: grid;
+  gap: 1rem;
+}
+
+.sots-checkout-page__poster {
+  width: 100%;
+  border-radius: 0.75rem;
+  box-shadow: 0 16px 40px rgba(15, 45, 77, 0.14);
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
+
+.sots-checkout-page__aside-card {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid rgba(15, 45, 77, 0.12);
+  border-radius: 0.75rem;
+  background: #f8fafc;
+}
+
+.sots-checkout-page__aside-date {
+  margin: 0;
+  font-weight: 700;
+  color: #0f2d4d;
+}
+
+.sots-checkout-page__aside-venue {
+  margin: 0;
+  color: #4a5560;
+  font-size: 0.9rem;
+}
+
+.sots-checkout-page__change-date {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1a5090;
+}
+
+.sots-checkout-page__main {
+  border: 1px solid rgba(15, 45, 77, 0.12);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  background: #fff;
+}
+
+.sots-checkout-page__heading {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+  color: #0f2d4d;
+}
+
+.sots-checkout-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(15, 45, 77, 0.1);
+}
+
+.sots-checkout-page__actions .sots-checkout__submit {
+  width: auto;
+  min-width: 11rem;
+}
+
+@media (max-width: 640px) {
+  .sots-checkout-page__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .sots-checkout-page__actions .sots-checkout__submit {
+    width: 100%;
+    min-width: 0;
+  }
+}

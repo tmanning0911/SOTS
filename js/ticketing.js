@@ -1,6 +1,12 @@
 export const AFFILIATE_CODE = "ebdsoporgprofile";
 export const TICKETS_CTA_LABEL = "Tickets";
 export const TICKETS_PAGE_PATH = "/tickets/";
+export const TICKET_CHECKOUT_PATH = "/tickets/checkout";
+
+export function getTicketCheckoutPath(performanceId) {
+  if (!performanceId) return TICKETS_PAGE_PATH;
+  return `${TICKET_CHECKOUT_PATH}/${encodeURIComponent(String(performanceId))}/`;
+}
 
 let cache = null;
 let cacheAt = 0;

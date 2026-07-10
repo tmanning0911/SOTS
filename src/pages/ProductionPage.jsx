@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import { PRODUCTION_DETAILS } from "../../js/pages-data.js";
 import { HOME_UPCOMING_EVENTS } from "../../js/home-upcoming-events.js";
 import { getPriceFromLabel } from "../../js/ticketing.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { PageSection } from "../components/PageSection.jsx";
-import { PerformancePicker } from "../components/ticketing/PerformancePicker.jsx";
+import { PerformanceCalendar } from "../components/ticketing/PerformanceCalendar.jsx";
 import { TicketCheckoutButton } from "../components/ticketing/TicketCheckoutButton.jsx";
 import { TicketPricing } from "../components/ticketing/TicketPricing.jsx";
 import { TicketStatusBadge } from "../components/ticketing/TicketStatusBadge.jsx";
@@ -18,7 +18,6 @@ export function ProductionPage() {
   const { slug } = useParams();
   const data = PRODUCTION_DETAILS[slug];
   const { data: eventbrite, loading: ticketsLoading } = useTickets();
-  const [selectedPerformanceId, setSelectedPerformanceId] = useState(null);
   const relatedEvents = HOME_UPCOMING_EVENTS.filter((event) => event.href !== `/productions/${slug}/`).slice(0, 4);
   const sections =
     data?.sections ??
@@ -76,11 +75,7 @@ export function ProductionPage() {
         <div className="orpheum-inner-page__body">
           {showTicketing && !ticketsLoading && eventbrite ? (
             <div className="orpheum-production-page__ticketing" id="ticketing" data-reveal>
-              <PerformancePicker
-                data={eventbrite}
-                selectedId={selectedPerformanceId}
-                onSelect={(performance) => setSelectedPerformanceId(performance.id)}
-              />
+              <PerformanceCalendar data={eventbrite} compact image={data.heroImage ?? data.image} imageAlt={data.title} />
             </div>
           ) : showTicketing && ticketsLoading ? (
             <div className="orpheum-production-page__ticketing sots-ticketing-loading" data-reveal>

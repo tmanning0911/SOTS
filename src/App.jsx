@@ -6,6 +6,7 @@ import { InnerPage } from "./pages/InnerPage.jsx";
 import { FaqPage } from "./pages/FaqPage.jsx";
 import { ProductionPage } from "./pages/ProductionPage.jsx";
 import { ShopPage } from "./pages/ShopPage.jsx";
+import { TicketCheckoutPage } from "./pages/TicketCheckoutPage.jsx";
 import { TicketsPage } from "./pages/TicketsPage.jsx";
 import { AccessTicketsPage } from "./pages/AccessTicketsPage.jsx";
 import { MyTicketsPage } from "./pages/MyTicketsPage.jsx";
@@ -56,6 +57,7 @@ export default function App() {
           return routePair(path, <InnerPageRoute page={page} />);
         })}
         {routePair("productions/:slug", <ProductionPage />)}
+        {routePair("tickets/checkout/:performanceId", <TicketCheckoutPage />)}
         {routePair("tickets", <TicketsPage />)}
         {routePair("shop", <ShopPage />)}
         {routePair("access-your-tickets", <AccessTicketsPage />)}
