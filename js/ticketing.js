@@ -164,6 +164,7 @@ export function getPriceFromLabel(data) {
 
 export function normalizeStatusLabel(status) {
   if (!status || typeof status !== "string") return "";
+  if (status.toLowerCase() === "unavailable") return "";
   if (STATUS_DISPLAY[status]) return STATUS_DISPLAY[status];
   return status;
 }
@@ -180,7 +181,7 @@ export function ticketStatusLabel(event) {
   if (!event) return "";
   if (typeof event === "string") return normalizeStatusLabel(event);
   const status = typeof event === "object" && event.start ? derivePerformanceStatus(event) : event.status;
-  if (event.ticketsAvailable === false && !ACTIVE_STATUSES.has(status)) return "Unavailable";
+  if (event.ticketsAvailable === false && !ACTIVE_STATUSES.has(status)) return "";
   if (ACTIVE_STATUSES.has(status)) return "On Sale";
   if (status === "draft") return "Coming Soon";
   if (status === "completed") return "Ended";

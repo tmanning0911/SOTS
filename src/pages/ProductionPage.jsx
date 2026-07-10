@@ -50,7 +50,7 @@ export function ProductionPage() {
               ) : null}
               {showTicketing && eventbrite?.featuredTicket ? (
                 <div className="orpheum-production-page__ticket-meta">
-                  <TicketStatusBadge status={eventbrite.featuredTicket} />
+                  <TicketStatusBadge status={eventbrite.featuredTicket} marketingOnly />
                   {priceLabel ? <span className="orpheum-production-page__price-from">{priceLabel}</span> : null}
                 </div>
               ) : null}

@@ -8,7 +8,7 @@ const TONE = {
   Unavailable: "ended",
 };
 
-const HIDDEN_MARKETING_LABELS = new Set(["Unavailable", "Ended", "Cancelled"]);
+const HIDDEN_LABELS = new Set(["Unavailable", "Ended", "Cancelled"]);
 
 export function TicketStatusBadge({ status, className = "", marketingOnly = false }) {
   if (!status) return null;
@@ -17,7 +17,7 @@ export function TicketStatusBadge({ status, className = "", marketingOnly = fals
       ? normalizeStatusLabel(status) || status
       : ticketStatusLabel(status);
   if (!label) return null;
-  if (marketingOnly && HIDDEN_MARKETING_LABELS.has(label)) return null;
+  if (HIDDEN_LABELS.has(label) && (marketingOnly || label === "Unavailable")) return null;
   const tone = TONE[label] ?? "default";
   return (
     <span className={`sots-ticket-badge sots-ticket-badge--${tone} ${className}`.trim()}>

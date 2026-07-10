@@ -79,7 +79,7 @@ function TicketsSpotlight({ data, loading, priceLabel }) {
             <span>{venue} · Rowayton, CT</span>
           </p>
           {!loading && ticketingState?.statusLabel ? (
-            <TicketStatusBadge status={ticketingState.statusLabel} className="tix-page__spotlight-badge" />
+            <TicketStatusBadge status={ticketingState.statusLabel} className="tix-page__spotlight-badge" marketingOnly />
           ) : null}
           {priceLabel ? <p className="tix-page__spotlight-price">{priceLabel}</p> : null}
           <p className="tix-page__spotlight-lead">
@@ -167,7 +167,7 @@ export function TicketsPage() {
             </p>
             {!loading && ticketingState.statusLabel ? (
               <div className="tix-page__hero-meta">
-                <TicketStatusBadge status={ticketingState.statusLabel} />
+                <TicketStatusBadge status={ticketingState.statusLabel} marketingOnly />
                 {priceLabel ? <span>{priceLabel}</span> : null}
               </div>
             ) : null}

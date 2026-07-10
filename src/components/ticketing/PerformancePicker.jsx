@@ -78,7 +78,7 @@ export function PerformancePicker({
           <h2 id={listId} className="sots-performance-picker__title">
             Tickets
           </h2>
-          <TicketStatusBadge status={state.statusLabel} />
+          <TicketStatusBadge status={state.statusLabel} marketingOnly />
           <p className="sots-performance-picker__lead">
             {state.isEnded
               ? "This production has ended. Thank you for supporting Shakespeare on the Sound."

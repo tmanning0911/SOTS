@@ -197,7 +197,7 @@ export function PerformanceCalendar({
           <img src={image} alt={imageAlt ?? title} className="sots-performance-calendar__image" loading="lazy" />
           <div>
             <h2 className="sots-performance-calendar__title">{title}</h2>
-            <TicketStatusBadge status={state.statusLabel} />
+            <TicketStatusBadge status={state.statusLabel} marketingOnly />
             <p className="sots-performance-calendar__lead">
               {state.isEnded ? "This production has ended." : "Tickets are not currently available."}
             </p>
