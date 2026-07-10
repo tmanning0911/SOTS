@@ -103,7 +103,8 @@ function applyTestPerformances(catalog, now = new Date()) {
 
 function shouldIncludeTestPerformances(catalog) {
   if (process.env.TICKETING_TEST_MODE === "false") return false;
-  if (testModeEnabled()) return true;
+  if ((process.env.CONTEXT || "").toLowerCase() === "production") return false;
+  if (process.env.TICKETING_TEST_MODE === "true" || testModeEnabled()) return true;
   const onSale = catalog.performances.filter((p) =>
     ["on_sale", "live", "started", "draft"].includes(p.status),
   ).length;

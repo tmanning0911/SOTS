@@ -1,8 +1,15 @@
 const SQUARE_VERSION = "2024-11-20";
 
 export function squareEnvironment() {
-  const env = (process.env.SQUARE_ENVIRONMENT || "sandbox").toLowerCase();
-  return env === "production" ? "production" : "sandbox";
+  const explicit = (process.env.SQUARE_ENVIRONMENT || "").toLowerCase();
+  if (explicit === "production" || explicit === "sandbox") {
+    return explicit;
+  }
+  // Netlify production deploys should use live Square unless overridden.
+  if ((process.env.CONTEXT || "").toLowerCase() === "production") {
+    return "production";
+  }
+  return "sandbox";
 }
 
 export function squareBaseUrl() {

@@ -1,3 +1,5 @@
+import { catalogAllowsTestPerformances, stripTestPerformances } from "./catalog-production.js";
+
 const ET = "America/New_York";
 
 function coerceNow(now) {
@@ -129,7 +131,7 @@ export function normalizeTicketCatalog(catalog, now = new Date()) {
     performances.map((p) => [p.start?.slice(0, 10), p]).filter(([key]) => Boolean(key)),
   );
 
-  return {
+  const normalized = {
     ...catalog,
     performances,
     featuredTicket,
@@ -139,6 +141,8 @@ export function normalizeTicketCatalog(catalog, now = new Date()) {
       catalogNormalizedAt: now.toISOString(),
     },
   };
+
+  return catalogAllowsTestPerformances(normalized) ? normalized : stripTestPerformances(normalized);
 }
 
 /** Performances patrons should see (excludes dates after the show day in Eastern). */

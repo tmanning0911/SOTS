@@ -1,9 +1,10 @@
 import { getStore } from "@netlify/blobs";
 import { randomBytes } from "node:crypto";
 import { isPastPerformance, normalizeTicketCatalog } from "../../../js/performance-dates.js";
-import { normalizePatronEmail } from "./patron-auth.mjs";
+import { stripTestPerformances, assertProductionPerformanceId } from "../../../js/catalog-production.js";
 import { calculateDiscountCents, validatePromo } from "./promo.mjs";
 import { readStaticJsonCatalog } from "./static-catalog.mjs";
+import { squareEnvironment } from "./square.mjs";
 
 const STORE_NAME = "sots-ticketing";
 const HOLD_TTL_MS = 15 * 60 * 1000;
@@ -37,11 +38,12 @@ async function saveInventoryMap(map) {
 }
 
 export function sandboxSalesEnabled() {
-  return squareEnvIsSandbox() || process.env.TICKETING_SANDBOX_SALES === "true";
+  if (squareEnvironment() === "sandbox") return true;
+  return process.env.TICKETING_SANDBOX_SALES === "true";
 }
 
-function squareEnvIsSandbox() {
-  return (process.env.SQUARE_ENVIRONMENT || "sandbox").toLowerCase() !== "production";
+function productionCatalogMode() {
+  return squareEnvironment() === "production" && !sandboxSalesEnabled();
 }
 
 export function isPerformanceOnSale(performance, catalog) {
@@ -115,12 +117,19 @@ export function mergeCatalogWithInventory(catalog, inventory) {
       }
     : null;
 
-  return {
-    ...base,
-    featuredTicket: featured,
-    performances,
-    inventorySyncedAt: new Date().toISOString(),
-  };
+  return productionCatalogMode()
+    ? stripTestPerformances({
+        ...base,
+        featuredTicket: featured,
+        performances,
+        inventorySyncedAt: new Date().toISOString(),
+      })
+    : {
+        ...base,
+        featuredTicket: featured,
+        performances,
+        inventorySyncedAt: new Date().toISOString(),
+      };
 }
 
 function randomCode(len = 6) {
@@ -255,13 +264,18 @@ export async function markOrderRefunded(orderId, { squareRefundId, amountCents }
 }
 
 export async function createHold({ performanceId, items, buyer, promoCode, donationCents }) {
-  const catalog = await readCatalog();
+  if (productionCatalogMode()) {
+    assertProductionPerformanceId(performanceId);
+  }
+
+  const catalogRaw = await readCatalog();
+  const inventory = await getInventoryMap();
+  const catalog = mergeCatalogWithInventory(catalogRaw, inventory);
   const performance = getPerformance(catalog, performanceId);
   if (!performance || !isPerformanceOnSale(performance, catalog)) {
     throw new Error("This performance is not available for purchase");
   }
 
-  const inventory = await getInventoryMap();
   const lineItems = [];
   let subtotalCents = 0;
 

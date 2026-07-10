@@ -748,6 +748,41 @@ body.page-checkout .orpheum-site-chrome {
   }
 }
 
+.sots-shop-checkout__segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.sots-shop-checkout__segmented .sots-checkout__segment {
+  padding: 0.75rem 0.85rem;
+  border: 1px solid rgba(15, 45, 77, 0.14);
+  border-radius: 0.65rem;
+  background: #fff;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--brand-navy, #0f2d4d);
+  cursor: pointer;
+  text-align: left;
+}
+
+.sots-shop-checkout__segmented .sots-checkout__segment.is-active {
+  border-color: rgba(33, 101, 180, 0.45);
+  background: rgba(33, 101, 180, 0.06);
+}
+
+.sots-shop-checkout__pickup-note {
+  margin: 0;
+  font-size: 0.86rem;
+  color: #4a5560;
+  line-height: 1.45;
+}
+
+.sots-shop-checkout__summary-lines li {
+  align-items: flex-start;
+}
+
 .sots-co__skeleton {
   max-width: 72rem;
   margin: 0 auto;
