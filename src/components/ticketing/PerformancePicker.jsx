@@ -97,9 +97,7 @@ export function PerformancePicker({
           {allPerformances ? "All Performances" : "Choose a Performance"}
         </h2>
         <p className="sots-performance-picker__lead">
-          {useConfirmBar
-            ? "Tap a date below, then continue to checkout. Payment stays right here on our site."
-            : "Select a date to buy tickets. Checkout opens right here on our site."}
+          {useConfirmBar ? "Pick a date, then buy tickets." : "Pick a date to buy tickets."}
         </p>
       </div>
       {performances.length ? (
@@ -132,7 +130,7 @@ export function PerformancePicker({
                 className="orpheum-arrow-btn orpheum-arrow-btn--gold"
                 onClick={() => openCheckout(selectedPerformance.id)}
               >
-                Continue to checkout
+                Buy tickets
               </button>
             </div>
           ) : null}

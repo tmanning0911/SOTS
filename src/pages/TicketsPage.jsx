@@ -13,8 +13,7 @@ const PRODUCTION_SLUG = "much-ado-about-nothing";
 
 const HOW_IT_WORKS = [
   { step: "1", title: "Pick a date", text: "Choose your performance below." },
-  { step: "2", title: "Checkout on our site", text: "Secure payment — no redirects." },
-  { step: "3", title: "Show your QR at the park", text: "Tickets arrive by email and in My Tickets." },
+  { step: "2", title: "Pay and go", text: "Checkout takes about a minute. Tickets arrive by email and in My Tickets." },
 ];
 
 export function TicketsPage() {
@@ -51,8 +50,7 @@ export function TicketsPage() {
             <p className="orpheum-inner-page__eyebrow">2026 Season</p>
             <h1>Tickets</h1>
             <p className="orpheum-inner-page__intro">
-              Choose a performance below to buy tickets. Checkout is secure and stays right here on our
-              site — no redirects.
+              Choose a performance below. Checkout is on this site — pick tickets, pay, and you&apos;re done.
             </p>
             {!loading && ticketingState.statusLabel ? (
               <div className="sots-tickets-page__meta">
