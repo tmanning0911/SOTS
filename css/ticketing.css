@@ -253,10 +253,13 @@
   pointer-events: none !important;
 }
 
-/* Lenis sets iframe { pointer-events: none } — must override for checkout */
+/* Lenis sets iframe { pointer-events: none } — payment widgets must stay interactive */
 html.lenis.lenis-smooth iframe[id^="eventbrite-widget-modal-"],
 .lenis.lenis-smooth iframe[id^="eventbrite-widget-modal-"],
-iframe[id^="eventbrite-widget-modal-"] {
+iframe[id^="eventbrite-widget-modal-"],
+html.lenis.lenis-smooth .sots-checkout__card-container iframe,
+.lenis.lenis-smooth .sots-checkout__card-container iframe,
+.sots-checkout__card-container iframe {
   pointer-events: auto !important;
 }
 
@@ -460,11 +463,13 @@ iframe[id^="eventbrite-widget-modal-"] {
 }
 
 .sots-checkout__card-container {
-  min-height: 56px;
+  min-height: 120px;
   border: 1px solid rgba(15, 45, 77, 0.2);
   border-radius: 0.5rem;
   padding: 0.5rem;
   background: #fff;
+  position: relative;
+  z-index: 1;
 }
 
 .sots-checkout__loading {
@@ -2263,11 +2268,13 @@ iframe[id^="eventbrite-widget-modal-"] {
 }
 
 .sots-checkout__card-container {
-  min-height: 56px;
+  min-height: 120px;
   border: 1px solid rgba(15, 45, 77, 0.15);
   border-radius: 0.65rem;
   padding: 0.65rem 0.75rem;
   background: #fafbfd;
+  position: relative;
+  z-index: 1;
 }
 
 .sots-checkout__loading {

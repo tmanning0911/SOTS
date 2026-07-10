@@ -621,8 +621,8 @@ export function TicketCheckoutForm({
           </CheckoutSection>
 
           <CheckoutSection step="3" title="Payment" description="All major cards accepted. Charged securely by Square.">
-            <div className="sots-checkout__card">
-              <div id={CARD_CONTAINER_ID} className="sots-checkout__card-container" />
+            <div className="sots-checkout__card" data-lenis-prevent>
+              <div id={CARD_CONTAINER_ID} className="sots-checkout__card-container" data-lenis-prevent />
               {!cardReady ? (
                 <p className="sots-checkout__loading">
                   <span className="sots-checkout__loading-dot" aria-hidden="true" />
