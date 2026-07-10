@@ -18,7 +18,8 @@ import { TicketStatusBadge } from "./TicketStatusBadge.jsx";
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 function parsePerformanceDay(iso) {
-  const [datePart] = (iso ?? "").split("T");
+  const datePart = iso?.slice(0, 10);
+  if (!datePart) return { year: NaN, month: NaN, day: NaN, key: "" };
   const [year, month, day] = datePart.split("-").map(Number);
   return { year, month: month - 1, day, key: datePart };
 }
@@ -164,7 +165,18 @@ export function PerformanceCalendar({
     navigate(getTicketCheckoutPath(performanceId));
   }
 
-  if (!data?.featuredTicket) return null;
+  if (!data?.featuredTicket) {
+    return (
+      <section className="sots-performance-calendar sots-performance-calendar--empty">
+        <p className="sots-performance-calendar__lead">Ticket dates will be posted soon.</p>
+        <p>
+          <Link to="/about/contact/">Contact the box office</Link>
+          {" · "}
+          <a href="tel:+12039571006">(203) 957-1006</a>
+        </p>
+      </section>
+    );
+  }
 
   if (!state.canPurchase && !allPerformances) {
     return (

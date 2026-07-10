@@ -8,7 +8,6 @@ import {
   patronDisplayName,
   TICKETS_PAGE_PATH,
 } from "../../js/ticketing.js";
-import { CheckoutProgress } from "../components/ticketing/CheckoutProgress.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { TicketCheckoutForm } from "../components/ticketing/TicketCheckoutForm.jsx";
 import { useTickets } from "../context/TicketProvider.jsx";
@@ -87,10 +86,6 @@ export function TicketCheckoutPage() {
             )}
           </div>
         </header>
-
-        <div className="sots-checkout-page__progress-wrap">
-          <CheckoutProgress current="tickets" />
-        </div>
 
         <div className="orpheum-inner-page__body sots-checkout-page__body">
           {loading ? (

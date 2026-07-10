@@ -1,19 +1,19 @@
 {
   "provider": "square",
-  "syncedAt": "2026-07-10T20:42:24.807Z",
+  "syncedAt": "2026-07-10T21:10:34.368Z",
   "organization": {
     "id": "2093560299743",
     "name": "Shakespeare on the Sound"
   },
   "production": {
-    "id": "test-much-ado-2026",
+    "id": "much-ado-2026",
     "slug": "much-ado-about-nothing",
-    "title": "TEST — Much Ado About Nothing",
+    "title": "Shakespeare on the Sound's Much Ado About Nothing",
     "season": "2026"
   },
   "featuredTicket": {
     "id": "test-perf-001",
-    "name": "TEST — Much Ado About Nothing",
+    "name": "Shakespeare on the Sound's Much Ado About Nothing",
     "status": "on_sale",
     "start": "2026-07-17T19:30:00",
     "end": "2026-07-25T22:00:00",
@@ -147,7 +147,7 @@
   "performances": [
     {
       "id": "test-perf-001",
-      "name": "TEST — Much Ado About Nothing",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-17T19:30:00",
       "end": "2026-07-17T22:00:00",
@@ -165,7 +165,7 @@
     },
     {
       "id": "test-perf-002",
-      "name": "TEST — Much Ado About Nothing",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-18T19:30:00",
       "end": "2026-07-18T22:00:00",
@@ -183,7 +183,7 @@
     },
     {
       "id": "test-perf-003",
-      "name": "TEST — Much Ado About Nothing",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-19T19:30:00",
       "end": "2026-07-19T22:00:00",
@@ -201,7 +201,7 @@
     },
     {
       "id": "test-perf-004",
-      "name": "TEST — Much Ado About Nothing",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-20T19:30:00",
       "end": "2026-07-20T22:00:00",
@@ -219,7 +219,7 @@
     },
     {
       "id": "test-perf-005",
-      "name": "TEST — Much Ado About Nothing",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-24T19:30:00",
       "end": "2026-07-24T22:00:00",
@@ -237,7 +237,7 @@
     },
     {
       "id": "test-perf-006",
-      "name": "TEST — Much Ado About Nothing",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-25T19:30:00",
       "end": "2026-07-25T22:00:00",
@@ -546,7 +546,7 @@
   "performanceByDate": {
     "2026-07-17": {
       "id": "test-perf-001",
-      "name": "TEST — Much Ado About Nothing",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-17T19:30:00",
       "end": "2026-07-17T22:00:00",
@@ -564,7 +564,7 @@
     },
     "2026-07-18": {
       "id": "test-perf-002",
-      "name": "TEST — Much Ado About Nothing",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-18T19:30:00",
       "end": "2026-07-18T22:00:00",
@@ -582,7 +582,7 @@
     },
     "2026-07-19": {
       "id": "test-perf-003",
-      "name": "TEST — Much Ado About Nothing",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-19T19:30:00",
       "end": "2026-07-19T22:00:00",
@@ -600,7 +600,7 @@
     },
     "2026-07-20": {
       "id": "test-perf-004",
-      "name": "TEST — Much Ado About Nothing",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-20T19:30:00",
       "end": "2026-07-20T22:00:00",
@@ -618,7 +618,7 @@
     },
     "2026-07-24": {
       "id": "test-perf-005",
-      "name": "TEST — Much Ado About Nothing",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-24T19:30:00",
       "end": "2026-07-24T22:00:00",
@@ -636,7 +636,7 @@
     },
     "2026-07-25": {
       "id": "test-perf-006",
-      "name": "TEST — Much Ado About Nothing",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-25T19:30:00",
       "end": "2026-07-25T22:00:00",

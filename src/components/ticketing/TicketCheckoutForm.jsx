@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { readStoredBuyer, writeStoredBuyer } from "../../../js/buyer-storage.js";
 import {
@@ -6,6 +6,7 @@ import {
   formatCents,
   initSquareCard,
   prepareCheckout,
+  validatePromoCode,
 } from "../../../js/square-payments.js";
 import {
   formatPerformanceDate,
@@ -14,7 +15,10 @@ import {
   ticketTypeHint,
 } from "../../../js/ticketing.js";
 import { usePatron } from "../../context/PatronContext.jsx";
+import { CheckoutProgress } from "./CheckoutProgress.jsx";
+import { HoldTimer } from "./HoldTimer.jsx";
 import { TicketQr } from "./TicketQr.jsx";
+import { useCheckoutStep } from "../../hooks/useCheckoutStep.js";
 
 const CARD_CONTAINER_ID = "sots-square-card-container";
 const DONATION_PRESETS = [0, 500, 1000, 2500, 5000];
@@ -26,9 +30,15 @@ function defaultQuantities(ticketTypes) {
   return ga ? { [ga.id]: 1 } : {};
 }
 
-function CheckoutSection({ step, title, description, children, className = "" }) {
+function CheckoutSection({ step, progressStep, title, description, children, className = "" }) {
+  const stepKey = progressStep ?? ({ 1: "tickets", 2: "details", 3: "pay" }[step] ?? "tickets");
   return (
-    <section className={`sots-checkout-section ${className}`.trim()} aria-labelledby={`checkout-${step}-heading`}>
+    <section
+      className={`sots-checkout-section ${className}`.trim()}
+      data-checkout-step={stepKey}
+      id={`checkout-section-${stepKey}`}
+      aria-labelledby={`checkout-${step}-heading`}
+    >
       <header className="sots-checkout-section__head">
         <span className="sots-checkout-section__step" aria-hidden="true">
           {step}
@@ -47,39 +57,48 @@ function CheckoutSection({ step, title, description, children, className = "" })
 
 function TicketRow({ ticketType, quantity, max, onChange, highlight }) {
   const hint = ticketTypeHint(ticketType);
+  const soldOut = max <= 0;
+  const lowStock = !soldOut && max <= 5;
+
   return (
-    <article className={`sots-checkout-ticket${highlight ? " is-featured" : ""}${quantity > 0 ? " is-selected" : ""}`}>
+    <article
+      className={`sots-checkout-ticket${highlight ? " is-featured" : ""}${quantity > 0 ? " is-selected" : ""}${soldOut ? " is-sold-out" : ""}`}
+    >
       <div className="sots-checkout-ticket__main">
         <div className="sots-checkout-ticket__head">
           <strong>{patronDisplayName(ticketType.name)}</strong>
-          {highlight ? <span className="sots-checkout-ticket__badge">Most popular</span> : null}
+          {soldOut ? <span className="sots-checkout-ticket__badge sots-checkout-ticket__badge--sold-out">Sold out</span> : null}
+          {!soldOut && highlight ? <span className="sots-checkout-ticket__badge">Most popular</span> : null}
         </div>
         {hint ? <p className="sots-checkout-ticket__hint">{hint}</p> : null}
+        {lowStock ? <p className="sots-checkout-ticket__scarcity">Only {max} left</p> : null}
         <p className="sots-checkout-ticket__price">{ticketType.price?.display}</p>
       </div>
-      <div className="sots-checkout-ticket__qty" aria-label={`Quantity for ${ticketType.name}`}>
-        <button
-          type="button"
-          className="sots-checkout-ticket__qty-btn"
-          onClick={() => onChange(Math.max(0, quantity - 1))}
-          disabled={quantity <= 0}
-          aria-label={`Decrease ${ticketType.name}`}
-        >
-          −
-        </button>
-        <span className="sots-checkout-ticket__qty-value" aria-live="polite">
-          {quantity}
-        </span>
-        <button
-          type="button"
-          className="sots-checkout-ticket__qty-btn"
-          onClick={() => onChange(Math.min(max, quantity + 1))}
-          disabled={quantity >= max}
-          aria-label={`Increase ${ticketType.name}`}
-        >
-          +
-        </button>
-      </div>
+      {soldOut ? null : (
+        <div className="sots-checkout-ticket__qty" aria-label={`Quantity for ${ticketType.name}`}>
+          <button
+            type="button"
+            className="sots-checkout-ticket__qty-btn"
+            onClick={() => onChange(Math.max(0, quantity - 1))}
+            disabled={quantity <= 0}
+            aria-label={`Decrease ${ticketType.name}`}
+          >
+            −
+          </button>
+          <span className="sots-checkout-ticket__qty-value" aria-live="polite">
+            {quantity}
+          </span>
+          <button
+            type="button"
+            className="sots-checkout-ticket__qty-btn"
+            onClick={() => onChange(Math.min(max, quantity + 1))}
+            disabled={quantity >= max}
+            aria-label={`Increase ${ticketType.name}`}
+          >
+            +
+          </button>
+        </div>
+      )}
     </article>
   );
 }
@@ -94,6 +113,7 @@ function OrderSummary({
   discountCents,
   totalCents,
   compact = false,
+  promoLabel,
 }) {
   const ticketCount = selectedItems.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -135,7 +155,7 @@ function OrderSummary({
       ) : null}
       {discountCents ? (
         <p className="sots-checkout-page__summary-line is-discount">
-          <span>Promo discount</span>
+          <span>{promoLabel ?? "Promo discount"}</span>
           <span>−{formatCents(discountCents)}</span>
         </p>
       ) : null}
@@ -227,6 +247,9 @@ export function TicketCheckoutForm({
   const [email, setEmail] = useState(patronUser?.email || storedBuyer.email);
   const [quantities, setQuantities] = useState({});
   const [promoCode, setPromoCode] = useState("");
+  const [promoPreview, setPromoPreview] = useState(null);
+  const [promoMessage, setPromoMessage] = useState("");
+  const [promoLoading, setPromoLoading] = useState(false);
   const [showPromo, setShowPromo] = useState(false);
   const [donationCents, setDonationCents] = useState(0);
   const [showDonation, setShowDonation] = useState(false);
@@ -237,6 +260,18 @@ export function TicketCheckoutForm({
   const [loading, setLoading] = useState(false);
   const [cardReady, setCardReady] = useState(false);
   const [paymentError, setPaymentError] = useState(false);
+  const formLayoutRef = useRef(null);
+  const checkoutStep = useCheckoutStep(formLayoutRef);
+
+  const clearPromoPreview = useCallback(() => {
+    setPromoPreview(null);
+    setPromoMessage("");
+  }, []);
+
+  const handleHoldExpired = useCallback(() => {
+    setHold(null);
+    setError("Your ticket hold expired. Review your order and pay again.");
+  }, []);
 
   const performance = useMemo(
     () => data?.performances?.find((p) => p.id === performanceId) ?? null,
@@ -276,7 +311,8 @@ export function TicketCheckoutForm({
   );
 
   const ticketCount = selectedItems.reduce((sum, item) => sum + item.quantity, 0);
-  const estimatedTotal = hold?.totalCents ?? ticketSubtotal + donationCents - (hold?.discountCents ?? 0);
+  const discountCents = hold?.discountCents ?? promoPreview?.discountCents ?? 0;
+  const estimatedTotal = hold?.totalCents ?? Math.max(100, ticketSubtotal + donationCents - discountCents);
 
   useEffect(() => {
     if (patronUser?.email) setEmail(patronUser.email);
@@ -294,6 +330,9 @@ export function TicketCheckoutForm({
     setCardReady(false);
     setPaymentError(false);
     setPromoCode("");
+    setPromoPreview(null);
+    setPromoMessage("");
+    setPromoLoading(false);
     setShowPromo(false);
     setDonationCents(0);
     setShowDonation(false);
@@ -320,6 +359,34 @@ export function TicketCheckoutForm({
       setCardReady(false);
     };
   }, [performanceId]);
+
+  async function handleApplyPromo() {
+    setError("");
+    setPromoMessage("");
+    if (!selectedItems.length) {
+      setPromoMessage("Select tickets before applying a code.");
+      return;
+    }
+    if (!promoCode.trim()) {
+      setPromoMessage("Enter a promo code.");
+      return;
+    }
+    setPromoLoading(true);
+    try {
+      const result = await validatePromoCode({
+        promoCode: promoCode.trim(),
+        subtotalCents: ticketSubtotal,
+      });
+      setPromoPreview(result);
+      setHold(null);
+      setPromoMessage(result.description ? `${result.description} applied.` : "Promo code applied.");
+    } catch (err) {
+      clearPromoPreview();
+      setPromoMessage(err.message || "Promo code is not valid");
+    } finally {
+      setPromoLoading(false);
+    }
+  }
 
   async function ensureHold() {
     if (hold) return hold;
@@ -371,6 +438,9 @@ export function TicketCheckoutForm({
     } catch (err) {
       setPaymentError(true);
       setError(err.message || "Payment failed. Check your card and try again.");
+      if (String(err.message).toLowerCase().includes("hold")) {
+        setHold(null);
+      }
     } finally {
       setLoading(false);
     }
@@ -381,7 +451,11 @@ export function TicketCheckoutForm({
   }
 
   return (
-    <div className="sots-checkout-page__layout sots-checkout-page__layout--form">
+    <>
+      <div className="sots-checkout-page__progress-wrap sots-checkout-page__progress-wrap--inline">
+        <CheckoutProgress current={checkoutStep} />
+      </div>
+      <div ref={formLayoutRef} className="sots-checkout-page__layout sots-checkout-page__layout--form">
       <aside className="sots-checkout-page__summary-pane" aria-label="Order summary">
         <OrderSummary
           performance={performance}
@@ -390,7 +464,8 @@ export function TicketCheckoutForm({
           selectedItems={selectedItems}
           ticketTypes={ticketTypes}
           donationCents={donationCents}
-          discountCents={hold?.discountCents}
+          discountCents={discountCents}
+          promoLabel={promoPreview?.description ?? hold?.promoCode ?? undefined}
           totalCents={estimatedTotal}
         />
         <Link to={changeDateHref} className="sots-checkout-page__change-date">
@@ -406,11 +481,14 @@ export function TicketCheckoutForm({
             selectedItems={selectedItems}
             ticketTypes={ticketTypes}
             donationCents={donationCents}
-            discountCents={hold?.discountCents}
+            discountCents={discountCents}
+            promoLabel={promoPreview?.description ?? hold?.promoCode ?? undefined}
             totalCents={estimatedTotal}
             compact
           />
         </div>
+
+        <HoldTimer expiresAt={hold?.expiresAt} onExpired={handleHoldExpired} />
 
         <form id="sots-ticket-checkout" className="sots-checkout__form" onSubmit={handlePay}>
           <CheckoutSection step="1" title="Choose your tickets" description="All prices include fees. Kids 12 and under need a child ticket.">
@@ -427,6 +505,7 @@ export function TicketCheckoutForm({
                     onChange={(qty) => {
                       setQuantities((prev) => ({ ...prev, [tt.id]: qty }));
                       setHold(null);
+                      clearPromoPreview();
                     }}
                   />
                 );
@@ -444,19 +523,35 @@ export function TicketCheckoutForm({
               {showPromo ? "Hide promo code" : "Have a promo code?"}
             </button>
             {showPromo ? (
-              <label className="sots-checkout__optional-field">
-                Promo code
-                <input
-                  type="text"
-                  value={promoCode}
-                  onChange={(e) => {
-                    setPromoCode(e.target.value.toUpperCase());
-                    setHold(null);
-                  }}
-                  placeholder="Enter code"
-                  autoComplete="off"
-                />
-              </label>
+              <div className="sots-checkout__promo">
+                <label className="sots-checkout__optional-field">
+                  Promo code
+                  <div className="sots-checkout__promo-row">
+                    <input
+                      type="text"
+                      value={promoCode}
+                      onChange={(e) => {
+                        setPromoCode(e.target.value.toUpperCase());
+                        setHold(null);
+                        clearPromoPreview();
+                      }}
+                      placeholder="Enter code"
+                      autoComplete="off"
+                    />
+                    <button
+                      type="button"
+                      className="orpheum-arrow-btn orpheum-arrow-btn--ghost sots-checkout__promo-apply"
+                      onClick={handleApplyPromo}
+                      disabled={promoLoading || !selectedItems.length}
+                    >
+                      {promoLoading ? "Checking…" : "Apply"}
+                    </button>
+                  </div>
+                </label>
+                {promoMessage ? (
+                  <p className={`sots-checkout__promo-message${promoPreview ? " is-success" : ""}`}>{promoMessage}</p>
+                ) : null}
+              </div>
             ) : null}
 
             <button
@@ -493,7 +588,8 @@ export function TicketCheckoutForm({
           <CheckoutSection step="2" title="Your information" description="We'll email your tickets and QR codes here.">
             {patronUser?.email ? (
               <p className="sots-checkout__signed-in">
-                Signed in as <strong>{patronUser.email}</strong>
+                Signed in as <strong>{patronUser.email}</strong> ·{" "}
+                <Link to="/my-tickets/">My Tickets</Link>
               </p>
             ) : null}
             <div className="sots-checkout__field-grid">
@@ -545,10 +641,21 @@ export function TicketCheckoutForm({
             </ol>
           </div>
 
+          <p className="sots-checkout__terms">
+            By paying you agree to our{" "}
+            <Link to="/about/faq/">ticket policies</Link> (all sales final except weather cancellations).
+          </p>
+
           {error ? (
             <div className="sots-checkout__error-panel" role="alert">
               <p className="sots-checkout__error">{error}</p>
-              {paymentError ? <p className="sots-checkout__hint">Your tickets are still held — please try again.</p> : null}
+              {paymentError ? (
+                <p className="sots-checkout__hint">
+                  {hold?.expiresAt
+                    ? "Your tickets are still held — please try again before the timer runs out."
+                    : "Please check your card details and try again."}
+                </p>
+              ) : null}
             </div>
           ) : null}
         </form>
@@ -579,5 +686,6 @@ export function TicketCheckoutForm({
         </button>
       </div>
     </div>
+    </>
   );
 }

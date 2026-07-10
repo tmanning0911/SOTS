@@ -5,6 +5,7 @@
 /api/tickets           /.netlify/functions/tickets           200
 /api/checkout/config   /.netlify/functions/checkout-config   200
 /api/checkout/prepare  /.netlify/functions/checkout-prepare  200
+/api/checkout/validate-promo  /.netlify/functions/checkout-validate-promo  200
 /api/checkout/complete /.netlify/functions/checkout-complete 200
 /api/orders/lookup     /.netlify/functions/orders-lookup     200
 /api/orders/resend     /.netlify/functions/orders-resend     200

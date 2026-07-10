@@ -56,6 +56,17 @@ export function formatCents(cents) {
   );
 }
 
+export async function validatePromoCode({ promoCode, subtotalCents }) {
+  const res = await fetch("/api/checkout/validate-promo", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({ promoCode, subtotalCents }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || "Promo code is not valid");
+  return data;
+}
+
 export async function prepareCheckout(payload) {
   const res = await fetch("/api/checkout/prepare", {
     method: "POST",

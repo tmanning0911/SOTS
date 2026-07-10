@@ -49,6 +49,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/checkout/validate-promo"
+  to = "/.netlify/functions/checkout-validate-promo"
+  status = 200
+
+[[redirects]]
   from = "/api/checkout/complete"
   to = "/.netlify/functions/checkout-complete"
   status = 200

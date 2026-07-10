@@ -40,7 +40,9 @@ function buildTestPerformances(catalog, now = new Date()) {
   const venue = "Pinkney Park";
   const location = "177 Rowayton Avenue, Norwalk, CT 06853";
   const minPrice = catalog.priceFrom ?? { display: "$25.00", currency: "USD", value: 2500 };
-  const showName = "TEST — Much Ado About Nothing";
+  const rawTitle =
+    catalog.production?.title ?? catalog.featuredTicket?.name ?? "Much Ado About Nothing";
+  const showName = String(rawTitle).replace(/^TEST\s*[—–-]\s*/i, "").trim();
 
   return [7, 8, 9, 10, 14, 15].map((daysOut, index) => {
     const date = etDatePlusDays(daysOut, now);
@@ -66,17 +68,18 @@ function applyTestPerformances(catalog, now = new Date()) {
   const performances = [...testPerformances, ...catalog.performances];
   const first = testPerformances[0];
   const last = testPerformances[testPerformances.length - 1];
+  const showName = first?.name ?? "Much Ado About Nothing";
 
   return {
     ...catalog,
     production: {
       ...catalog.production,
-      id: "test-much-ado-2026",
-      title: "TEST — Much Ado About Nothing",
+      id: catalog.production?.id ?? "much-ado-2026",
+      title: showName,
     },
     featuredTicket: {
       id: first.id,
-      name: first.name,
+      name: showName,
       status: "on_sale",
       start: first.start,
       end: last.end,
