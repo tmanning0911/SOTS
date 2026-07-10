@@ -10,12 +10,17 @@ function store() {
   return getStore({ name: STORE_NAME, consistency: "strong" });
 }
 
+function filterShopProducts(products = []) {
+  const testProducts = products.filter((p) => p.name.startsWith("TEST —"));
+  return testProducts.length ? testProducts : products;
+}
+
 export async function readShopCatalog() {
   const fileCatalog = await readStaticJsonCatalog("shop.json");
 
   if (process.env.SQUARE_ACCESS_TOKEN && process.env.SQUARE_APPLICATION_ID) {
     try {
-      const products = await fetchSquareShopCatalog();
+      const products = filterShopProducts(await fetchSquareShopCatalog());
       if (products.length) {
         return {
           ...(fileCatalog ?? {}),
@@ -31,6 +36,13 @@ export async function readShopCatalog() {
     } catch {
       /* fall through */
     }
+  }
+
+  if (fileCatalog?.products?.length) {
+    return {
+      ...fileCatalog,
+      products: filterShopProducts(fileCatalog.products),
+    };
   }
 
   return fileCatalog;
