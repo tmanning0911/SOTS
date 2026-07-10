@@ -1,5 +1,12 @@
 const ET = "America/New_York";
 
+function coerceNow(now) {
+  if (now instanceof Date && !Number.isNaN(now.getTime())) return now;
+  if (now == null) return new Date();
+  const parsed = new Date(now);
+  return Number.isNaN(parsed.getTime()) ? new Date() : parsed;
+}
+
 /**
  * Parse catalog datetimes (no Z suffix) as wall time in America/New_York.
  */
@@ -59,20 +66,22 @@ export function etDateKey(now = new Date()) {
 
 /** True once the show day has passed in Eastern (hidden from midnight onward). */
 export function isPastPerformance(performance, now = new Date()) {
+  const at = coerceNow(now);
   const showDate = performanceShowDateKey(performance);
   if (!showDate) return false;
-  return etDateKey(now) > showDate;
+  return etDateKey(at) > showDate;
 }
 
 export function derivePerformanceStatus(performance, now = new Date()) {
+  const at = coerceNow(now);
   if (!performance) return "completed";
   if (performance.status === "cancelled") return "cancelled";
-  if (isPastPerformance(performance, now)) return "completed";
+  if (isPastPerformance(performance, at)) return "completed";
 
   const start = parseEtLocalIso(performance.start);
   if (!start || Number.isNaN(start.getTime())) return performance.status ?? "on_sale";
 
-  if (now.getTime() >= start.getTime()) return "live";
+  if (at.getTime() >= start.getTime()) return "live";
   if (performance.status === "draft") return "draft";
   return "on_sale";
 }

@@ -190,7 +190,7 @@ export function ticketStatusLabel(event) {
 
 export function purchasablePerformances(data, limit) {
   const list = displayPerformances(data)
-    .filter(isPurchasablePerformance)
+    .filter((performance) => isPurchasablePerformance(performance))
     .sort((a, b) => (a.start ?? "").localeCompare(b.start ?? ""));
   return typeof limit === "number" ? list.slice(0, limit) : list;
 }
