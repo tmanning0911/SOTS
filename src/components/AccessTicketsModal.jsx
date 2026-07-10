@@ -20,7 +20,7 @@ export function AccessTicketsModal({ open, onClose }) {
           <li>
             <a href={ORDER_LOOKUP} target="_blank" rel="noopener noreferrer">
               <strong>View My Tickets</strong>
-              <span>Log in to Eventbrite to access mobile tickets</span>
+              <span>Log in to view your mobile tickets</span>
             </a>
           </li>
           <li>

@@ -17,7 +17,7 @@ export function TicketPricing({ ticketClasses, priceFrom }) {
             <div className="sots-ticket-pricing__row">
               <strong>{ticket.name}</strong>
               <span>
-                {ticket.free ? "Free" : ticket.price?.display ?? "See Eventbrite"}
+                {ticket.free ? "Free" : ticket.price?.display ?? "Price TBA"}
               </span>
             </div>
             {ticket.soldOut ? <span className="sots-ticket-pricing__badge">Sold out</span> : null}
