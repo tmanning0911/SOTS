@@ -70,6 +70,11 @@ const SQUARE_CARD_STYLE = {
 };
 
 export async function initSquareCard(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) {
+    throw new Error("Payment form is not ready yet. Please wait a moment and try again.");
+  }
+
   const config = await fetchCheckoutConfig();
   const Square = await loadSquareSdk(config.webSdkUrl);
   const payments = Square.payments(config.applicationId, config.locationId);

@@ -155,20 +155,14 @@ export function resumeSmoothScroll() {
   refreshScroll();
 }
 
-/** Checkout needs native scroll + clickable Square iframes (Lenis disables iframe clicks). */
 export function disableSmoothScrollForCheckout() {
   pauseSmoothScroll();
-  document.documentElement.classList.remove("lenis-smooth");
-  document.body.classList.remove("lenis-smooth");
+  document.documentElement.classList.remove("lenis", "lenis-smooth");
+  document.body.classList.remove("lenis", "lenis-smooth");
 }
 
 export function restoreSmoothScrollAfterCheckout() {
-  if (!document.documentElement.classList.contains("lenis")) {
-    document.documentElement.classList.add("lenis");
-  }
-  if (!document.body.classList.contains("lenis")) {
-    document.body.classList.add("lenis");
-  }
-  document.body.classList.add("lenis-smooth");
+  document.documentElement.classList.add("lenis");
+  document.body.classList.add("lenis", "lenis-smooth");
   resumeSmoothScroll();
 }

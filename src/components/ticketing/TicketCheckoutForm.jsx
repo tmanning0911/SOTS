@@ -214,6 +214,7 @@ export function TicketCheckoutForm({
   changeDateHref = "/tickets/",
 }) {
   const cardRef = useRef(null);
+  const mainRef = useRef(null);
   const patron = usePatron();
   const patronUser = patron?.user;
   const storedBuyer = useMemo(() => readStoredBuyer(), []);
@@ -236,7 +237,12 @@ export function TicketCheckoutForm({
   const [cardReady, setCardReady] = useState(false);
   const [paymentError, setPaymentError] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
+  const [paymentMounted, setPaymentMounted] = useState(false);
   const checkoutStep = CHECKOUT_STEPS[stepIndex];
+
+  const scrollToCheckout = useCallback(() => {
+    mainRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
 
   const clearPromoPreview = useCallback(() => {
     setPromoPreview(null);
@@ -312,70 +318,90 @@ export function TicketCheckoutForm({
     setDonationCents(0);
     setShowDonation(false);
     setStepIndex(0);
+    setPaymentMounted(false);
     cardRef.current?.destroy?.();
     cardRef.current = null;
-  }, [performanceId, ticketTypes, storedBuyer.name, storedBuyer.email, patronUser?.email]);
+  }, [performanceId, storedBuyer.name, storedBuyer.email, patronUser?.email]);
 
   useEffect(() => {
-    if (stepIndex !== 2) {
-      cardRef.current?.destroy?.();
-      cardRef.current = null;
-      setCardReady(false);
-      return undefined;
-    }
+    if (!paymentMounted || cardRef.current) return undefined;
 
     let cancelled = false;
-    const timer = window.setTimeout(() => {
-      initSquareCard(CARD_CONTAINER_ID)
-        .then(({ card }) => {
-          if (cancelled) return;
-          cardRef.current = card;
-          setCardReady(true);
-        })
-        .catch((err) => {
-          if (!cancelled) setError(err.message || "Could not load payment form");
-        });
-    }, 100);
 
+    async function mountCard() {
+      for (let attempt = 0; attempt < 30; attempt += 1) {
+        if (cancelled) return;
+        if (document.getElementById(CARD_CONTAINER_ID)) break;
+        await new Promise((resolve) => window.setTimeout(resolve, 50));
+      }
+      if (cancelled || !document.getElementById(CARD_CONTAINER_ID)) {
+        if (!cancelled) setError("Could not load payment form. Refresh and try again.");
+        return;
+      }
+
+      try {
+        const { card } = await initSquareCard(CARD_CONTAINER_ID);
+        if (cancelled) {
+          card.destroy?.();
+          return;
+        }
+        cardRef.current = card;
+        setCardReady(true);
+      } catch (err) {
+        if (!cancelled) setError(err.message || "Could not load payment form");
+      }
+    }
+
+    mountCard();
     return () => {
       cancelled = true;
-      window.clearTimeout(timer);
-      cardRef.current?.destroy?.();
-      cardRef.current = null;
-      setCardReady(false);
     };
-  }, [stepIndex, performanceId]);
+  }, [paymentMounted]);
+
+  function selectCheckoutStep(stepId) {
+    const nextIndex = CHECKOUT_STEPS.indexOf(stepId);
+    if (nextIndex === -1 || nextIndex >= stepIndex) return;
+    setError("");
+    if (stepId !== "pay") setHold(null);
+    setStepIndex(nextIndex);
+    scrollToCheckout();
+  }
 
   function continueToDetails() {
     setError("");
     if (!selectedItems.length) {
       setError("Choose at least one ticket to continue.");
+      scrollToCheckout();
       return;
     }
     setStepIndex(1);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollToCheckout();
   }
 
   function continueToPayment() {
     setError("");
     if (!name.trim() || !email.trim()) {
       setError("Name and email are required.");
+      scrollToCheckout();
       return;
     }
     writeStoredBuyer({ name, email });
+    setPaymentMounted(true);
     setStepIndex(2);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollToCheckout();
   }
 
   function goBackToTickets() {
     setError("");
     setStepIndex(0);
+    scrollToCheckout();
   }
 
   function goBackToDetails() {
     setError("");
     setHold(null);
     setStepIndex(1);
+    scrollToCheckout();
   }
 
   async function handleApplyPromo() {
@@ -469,9 +495,9 @@ export function TicketCheckoutForm({
   }
 
   return (
-    <>
+    <div className="sots-checkout-page__shell">
       <div className="sots-checkout-page__progress-wrap sots-checkout-page__progress-wrap--inline">
-        <CheckoutProgress current={checkoutStep} />
+        <CheckoutProgress current={checkoutStep} onStepSelect={selectCheckoutStep} />
       </div>
       <div className="sots-checkout-page__layout sots-checkout-page__layout--form">
         <aside className="sots-checkout-page__summary-pane" aria-label="Order summary">
@@ -491,7 +517,7 @@ export function TicketCheckoutForm({
           </Link>
         </aside>
 
-        <div className="sots-checkout-page__main">
+        <div ref={mainRef} className="sots-checkout-page__main">
           <div className="sots-checkout-page__mobile-summary" aria-label="Order total">
             <OrderSummary
               performance={performance}
@@ -681,16 +707,20 @@ export function TicketCheckoutForm({
             </section>
           ) : null}
 
-          {stepIndex === 2 ? (
-            <form id="sots-ticket-checkout" className="sots-checkout-step sots-checkout-step--payment" onSubmit={handlePay}>
+          {paymentMounted ? (
+            <form
+              id="sots-ticket-checkout"
+              className={`sots-checkout-step sots-checkout-step--payment${stepIndex !== 2 ? " is-hidden" : ""}`}
+              onSubmit={handlePay}
+            >
               <header className="sots-checkout-step__head">
                 <h2 className="sots-checkout-step__title">Payment</h2>
                 <p className="sots-checkout-step__desc">All major cards accepted. Charged securely by Square.</p>
               </header>
 
-              <HoldTimer expiresAt={hold?.expiresAt} onExpired={handleHoldExpired} />
-
               <div className="sots-checkout-step__body">
+                <HoldTimer expiresAt={hold?.expiresAt} onExpired={handleHoldExpired} />
+
                 <div className={`sots-checkout__payment${cardReady ? " is-ready" : ""}`}>
                   <div className="sots-checkout__payment-trust">
                     <span className="sots-checkout__payment-lock" aria-hidden="true">
@@ -748,6 +778,6 @@ export function TicketCheckoutForm({
           ) : null}
         </div>
       </div>
-    </>
+    </div>
   );
 }

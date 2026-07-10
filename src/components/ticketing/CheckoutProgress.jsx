@@ -10,7 +10,7 @@ export const SHOP_CHECKOUT_STEPS = [
   { id: "pay", label: "Payment" },
 ];
 
-export function CheckoutProgress({ current = "tickets", steps = DEFAULT_STEPS }) {
+export function CheckoutProgress({ current = "tickets", steps = DEFAULT_STEPS, onStepSelect }) {
   const currentIndex = steps.findIndex((step) => step.id === current);
 
   return (
@@ -18,16 +18,28 @@ export function CheckoutProgress({ current = "tickets", steps = DEFAULT_STEPS })
       {steps.map((step, index) => {
         const isComplete = index < currentIndex;
         const isCurrent = step.id === current;
+        const canSelect = isComplete && typeof onStepSelect === "function";
         return (
           <li
             key={step.id}
-            className={`sots-checkout-progress__step${isCurrent ? " is-current" : ""}${isComplete ? " is-complete" : ""}`}
+            className={`sots-checkout-progress__step${isCurrent ? " is-current" : ""}${isComplete ? " is-complete" : ""}${canSelect ? " is-clickable" : ""}`}
             aria-current={isCurrent ? "step" : undefined}
           >
-            <span className="sots-checkout-progress__marker" aria-hidden="true">
-              {isComplete ? "✓" : index + 1}
-            </span>
-            <span className="sots-checkout-progress__label">{step.label}</span>
+            {canSelect ? (
+              <button type="button" className="sots-checkout-progress__button" onClick={() => onStepSelect(step.id)}>
+                <span className="sots-checkout-progress__marker" aria-hidden="true">
+                  ✓
+                </span>
+                <span className="sots-checkout-progress__label">{step.label}</span>
+              </button>
+            ) : (
+              <>
+                <span className="sots-checkout-progress__marker" aria-hidden="true">
+                  {isComplete ? "✓" : index + 1}
+                </span>
+                <span className="sots-checkout-progress__label">{step.label}</span>
+              </>
+            )}
           </li>
         );
       })}
