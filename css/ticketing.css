@@ -109,6 +109,7 @@
 }
 
 .sots-performance-picker__btn.is-sold-out,
+.sots-performance-picker__btn.is-unavailable,
 .sots-performance-picker__btn:disabled {
   opacity: 0.55;
   cursor: not-allowed;

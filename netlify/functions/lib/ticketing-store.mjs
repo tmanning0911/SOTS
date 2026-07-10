@@ -60,7 +60,7 @@ export function isPerformanceOnSale(performance, catalog) {
     return true;
   }
 
-  if (performance.isSoldOut || performance.ticketsAvailable === false) return false;
+  if (performance.ticketsAvailable === false) return false;
   if (["live", "started", "draft", "on_sale"].includes(performance.status)) return true;
   return false;
 }
@@ -105,7 +105,7 @@ export function mergeCatalogWithInventory(catalog, inventory) {
     return {
       ...p,
       status,
-      isSoldOut: onSale ? !anyAvailable : p.isSoldOut,
+      isSoldOut: false,
       ticketsAvailable: onSale ? anyAvailable : false,
       ticketAvailability,
     };
@@ -117,7 +117,7 @@ export function mergeCatalogWithInventory(catalog, inventory) {
     ? {
         ...base.featuredTicket,
         status: purchasable.length ? "on_sale" : base.featuredTicket.status,
-        isSoldOut: !purchasable.length,
+        isSoldOut: false,
         ticketsAvailable: purchasable.length > 0,
       }
     : null;

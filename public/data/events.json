@@ -38,8 +38,6 @@
       "end": "2026-06-13T19:30:00",
       "timezone": "America/New_York"
     },
-    "ticketStatus": "Sold Out",
-    "ticketsAvailable": false,
     "eventbriteId": "1986844604697"
   },
   {
@@ -60,8 +58,6 @@
       "end": "2026-06-14T18:45:00",
       "timezone": "America/New_York"
     },
-    "ticketStatus": "Sold Out",
-    "ticketsAvailable": false,
     "eventbriteId": "1986844605700"
   },
   {
@@ -83,8 +79,6 @@
       "end": "2026-06-18T19:30:00",
       "timezone": "America/New_York"
     },
-    "ticketStatus": "Sold Out",
-    "ticketsAvailable": false,
     "eventbriteId": "1986844608709"
   },
   {
@@ -106,8 +100,6 @@
       "end": "2026-06-20T19:30:00",
       "timezone": "America/New_York"
     },
-    "ticketStatus": "Sold Out",
-    "ticketsAvailable": false,
     "eventbriteId": "1986844610715"
   },
   {
@@ -136,8 +128,6 @@
         }
       ]
     },
-    "ticketStatus": "Sold Out",
-    "ticketsAvailable": false,
     "eventbriteId": "1986844606703"
   },
   {
@@ -158,8 +148,6 @@
       "end": "2026-06-20T14:30:00",
       "timezone": "America/New_York"
     },
-    "ticketStatus": "Sold Out",
-    "ticketsAvailable": false,
     "eventbriteId": "1986844610715"
   }
 ]

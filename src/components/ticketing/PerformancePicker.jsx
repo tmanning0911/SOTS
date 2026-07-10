@@ -12,7 +12,7 @@ import { TicketCheckoutButton } from "./TicketCheckoutButton.jsx";
 import { TicketStatusBadge } from "./TicketStatusBadge.jsx";
 
 function PerformanceButton({ performance, selectedId, onSelect, instantCheckout, onBuy }) {
-  const soldOut = performance.isSoldOut || performance.ticketsAvailable === false;
+  const unavailable = !isPurchasablePerformance(performance);
   const isSelected = selectedId === performance.id;
   const status = ticketStatusLabel(performance);
   const canBuy = isPurchasablePerformance(performance);
@@ -21,7 +21,7 @@ function PerformanceButton({ performance, selectedId, onSelect, instantCheckout,
     <li className="sots-performance-picker__item">
       <button
         type="button"
-        className={`sots-performance-picker__btn${isSelected ? " is-selected" : ""}${soldOut ? " is-sold-out" : ""}`}
+        className={`sots-performance-picker__btn${isSelected ? " is-selected" : ""}${unavailable ? " is-unavailable" : ""}`}
         onClick={() => {
           onSelect?.(performance);
           if (canBuy && instantCheckout) onBuy(performance.id);

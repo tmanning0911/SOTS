@@ -21,7 +21,7 @@ function mapEvent(e) {
     isFree: Boolean(e.is_free),
     ticketsAvailable: availability.has_available_tickets ?? null,
     isSeriesParent: Boolean(e.is_series_parent),
-    isSoldOut: availability.has_available_tickets === false,
+    isSoldOut: false,
     minPrice: minPrice
       ? { display: minPrice.display, currency: minPrice.currency, value: minPrice.value }
       : null,
@@ -41,7 +41,7 @@ function mapTicketClass(tc) {
     id: tc.id,
     name: tc.name,
     free: Boolean(tc.free),
-    soldOut: sold,
+    soldOut: false,
     onSale: tc.on_sale !== false,
     hidden: Boolean(tc.hidden),
     price: tc.cost
@@ -283,7 +283,7 @@ function priceFromDisplay(payload) {
 
 function displayTicketStatus(performance) {
   if (!performance) return "Unavailable";
-  if (performance.isSoldOut || performance.ticketsAvailable === false) return "Sold Out";
+  if (performance.ticketsAvailable === false) return "Unavailable";
   if (["live", "started"].includes(performance.status)) return "On Sale";
   if (performance.status === "draft") return "Coming Soon";
   if (performance.status === "completed") return "Ended";
@@ -294,8 +294,7 @@ function featuredPlayStatus(payload) {
   const purchasable = (payload.performances ?? []).some(
     (p) =>
       ["live", "started", "draft"].includes(p.status) &&
-      p.ticketsAvailable !== false &&
-      !p.isSoldOut,
+      p.ticketsAvailable !== false,
   );
   if (purchasable) return "On Sale";
   return displayTicketStatus(payload.featuredTicket);

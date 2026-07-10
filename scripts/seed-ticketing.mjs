@@ -145,7 +145,7 @@ function buildCatalog(eb) {
         timezone: p.timezone ?? "America/New_York",
         venue: p.venue,
         location: p.location,
-        isSoldOut: Boolean(p.isSoldOut),
+        isSoldOut: false,
         ticketsAvailable: onSale ? p.ticketsAvailable !== false : false,
         minPrice: p.minPrice ?? eb.priceFrom ?? null,
       };
@@ -182,7 +182,7 @@ function buildCatalog(eb) {
       timezone: eb.featuredTicket?.timezone ?? "America/New_York",
       venue: eb.featuredTicket?.venue,
       location: eb.featuredTicket?.location,
-      isSoldOut: eb.featuredTicket?.isSoldOut ?? false,
+      isSoldOut: false,
       ticketsAvailable: purchasableCount > 0,
     },
     ticketClasses: ticketTypes,

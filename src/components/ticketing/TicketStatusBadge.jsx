@@ -2,7 +2,6 @@ import { normalizeStatusLabel, ticketStatusLabel } from "../../../js/ticketing.j
 
 const TONE = {
   "On Sale": "on-sale",
-  "Sold Out": "sold-out",
   Ended: "ended",
   "Coming Soon": "soon",
   Cancelled: "ended",

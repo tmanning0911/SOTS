@@ -31,25 +31,25 @@ function defaultQuantities(ticketTypes) {
 
 function TicketRow({ ticketType, quantity, max, onChange, highlight }) {
   const hint = ticketTypeHint(ticketType);
-  const soldOut = max <= 0;
-  const lowStock = !soldOut && max <= 5;
+  const unavailable = max <= 0;
+  const lowStock = !unavailable && max <= 5;
+
+  if (unavailable) return null;
 
   return (
     <article
-      className={`sots-co__ticket${highlight ? " is-featured" : ""}${quantity > 0 ? " is-selected" : ""}${soldOut ? " is-sold-out" : ""}`}
+      className={`sots-co__ticket${highlight ? " is-featured" : ""}${quantity > 0 ? " is-selected" : ""}`}
     >
       <div>
         <div className="sots-co__ticket-head">
           <strong>{patronDisplayName(ticketType.name)}</strong>
-          {soldOut ? <span className="sots-co__ticket-badge sots-co__ticket-badge--sold-out">Sold out</span> : null}
-          {!soldOut && highlight ? <span className="sots-co__ticket-badge">Most popular</span> : null}
+          {highlight ? <span className="sots-co__ticket-badge">Most popular</span> : null}
         </div>
         {hint ? <p className="sots-co__ticket-hint">{hint}</p> : null}
         {lowStock ? <p className="sots-co__ticket-scarcity">Only {max} left</p> : null}
         <p className="sots-co__ticket-price">{ticketType.price?.display}</p>
       </div>
-      {soldOut ? null : (
-        <div className="sots-co__qty" aria-label={`Quantity for ${ticketType.name}`}>
+      <div className="sots-co__qty" aria-label={`Quantity for ${ticketType.name}`}>
           <button
             type="button"
             className="sots-co__qty-btn"
@@ -72,7 +72,6 @@ function TicketRow({ ticketType, quantity, max, onChange, highlight }) {
             +
           </button>
         </div>
-      )}
     </article>
   );
 }

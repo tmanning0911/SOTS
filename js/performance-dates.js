@@ -95,7 +95,7 @@ export function normalizePerformance(performance, now = new Date()) {
     ...performance,
     status,
     ticketsAvailable: onSale ? performance.ticketsAvailable !== false : false,
-    isSoldOut: status === "completed" ? true : Boolean(performance.isSoldOut),
+    isSoldOut: false,
   };
 }
 
@@ -106,7 +106,7 @@ export function normalizeTicketCatalog(catalog, now = new Date()) {
     .map((p) => normalizePerformance(p, now))
     .filter((p) => !isPastPerformance(p, now));
   const purchasable = performances.filter(
-    (p) => ["on_sale", "live", "started", "draft"].includes(p.status) && p.ticketsAvailable !== false && !p.isSoldOut,
+    (p) => ["on_sale", "live", "started", "draft"].includes(p.status) && p.ticketsAvailable !== false,
   );
 
   const featuredBase = catalog.featuredTicket ?? null;
@@ -122,7 +122,7 @@ export function normalizeTicketCatalog(catalog, now = new Date()) {
           now,
         ),
         status: purchasable.length ? "on_sale" : derivePerformanceStatus(featuredBase, now),
-        isSoldOut: !purchasable.length,
+        isSoldOut: false,
         ticketsAvailable: purchasable.length > 0,
       }
     : null;

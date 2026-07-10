@@ -16,7 +16,7 @@ export function stripTestPerformances(catalog) {
   const performances = (catalog.performances ?? []).filter((p) => !isTestPerformance(p));
   const featuredIsTest = isTestPerformance(catalog.featuredTicket);
   const firstPurchasable =
-    performances.find((p) => p.ticketsAvailable !== false && !p.isSoldOut) ?? performances[0] ?? null;
+    performances.find((p) => p.ticketsAvailable !== false) ?? performances[0] ?? null;
 
   const featuredTicket = featuredIsTest
     ? firstPurchasable
@@ -29,7 +29,7 @@ export function stripTestPerformances(catalog) {
           timezone: firstPurchasable.timezone,
           venue: firstPurchasable.venue,
           location: firstPurchasable.location,
-          isSoldOut: firstPurchasable.isSoldOut,
+          isSoldOut: false,
           ticketsAvailable: firstPurchasable.ticketsAvailable,
         }
       : null

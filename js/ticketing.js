@@ -171,7 +171,7 @@ export function normalizeStatusLabel(status) {
 export function isPurchasablePerformance(performance, now = new Date()) {
   if (!performance) return false;
   if (isPastPerformance(performance, now)) return false;
-  if (performance.isSoldOut || performance.ticketsAvailable === false) return false;
+  if (performance.ticketsAvailable === false) return false;
   const status = derivePerformanceStatus(performance, now);
   return ACTIVE_STATUSES.has(status);
 }
@@ -180,7 +180,7 @@ export function ticketStatusLabel(event) {
   if (!event) return "";
   if (typeof event === "string") return normalizeStatusLabel(event);
   const status = typeof event === "object" && event.start ? derivePerformanceStatus(event) : event.status;
-  if (event.isSoldOut || event.ticketsAvailable === false) return "Sold Out";
+  if (event.ticketsAvailable === false && !ACTIVE_STATUSES.has(status)) return "Unavailable";
   if (ACTIVE_STATUSES.has(status)) return "On Sale";
   if (status === "draft") return "Coming Soon";
   if (status === "completed") return "Ended";
@@ -213,7 +213,6 @@ export function getTicketingState(data) {
     defaultEventId,
     ticketsUrl: getTicketsUrl(data),
     isEnded: featured?.status === "completed" && !canPurchase,
-    isSoldOut: Boolean(featured?.isSoldOut) && !canPurchase,
   };
 }
 
