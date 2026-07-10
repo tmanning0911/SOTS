@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { heroImageForHref } from "../../js/page-heroes.js";
 import { formatCents } from "../../js/shop.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
-import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
-import { ProductCard, ShopCartPanel } from "../components/shop/ShopProductCard.jsx";
+import { ShopCartAside } from "../components/shop/ShopCartAside.jsx";
+import { ShopCartDrawer } from "../components/shop/ShopCartDrawer.jsx";
+import { ShopGiftCertSpotlight } from "../components/shop/ShopGiftCertSpotlight.jsx";
+import { ProductCard } from "../components/shop/ShopProductCard.jsx";
 import { useShop } from "../context/ShopContext.jsx";
 
 export function ShopPage() {
@@ -22,43 +24,83 @@ export function ShopPage() {
     openCheckout,
   } = useShop();
   const [category, setCategory] = useState("all");
+  const [cartOpen, setCartOpen] = useState(false);
 
   useEffect(() => {
     document.title = "Gift Shop - Shakespeare on the Sound";
   }, []);
 
-  const products = useMemo(() => {
-    const list = catalog?.products ?? [];
+  const giftCertificates = useMemo(
+    () => (catalog?.products ?? []).filter((product) => product.category === "gift-certificates"),
+    [catalog],
+  );
+
+  const merchandise = useMemo(() => {
+    const list = (catalog?.products ?? []).filter((product) => product.category !== "gift-certificates");
     if (category === "all") return list;
-    return list.filter((p) => p.category === category);
+    return list.filter((product) => product.category === category);
   }, [catalog, category]);
 
   const categories = useMemo(() => {
-    const cats = catalog?.categories ?? [];
+    const ids = new Set(
+      (catalog?.products ?? [])
+        .filter((product) => product.category !== "gift-certificates")
+        .map((product) => product.category),
+    );
+    const cats = (catalog?.categories ?? []).filter((cat) => ids.has(cat.id));
     return [{ id: "all", label: "All" }, ...cats];
   }, [catalog]);
 
+  const heroImage = heroImageForHref("/shop/");
+
   return (
     <InnerPageShell showVisit showNewsletter>
-      <article className="orpheum-inner-page sots-shop-page">
-        <InnerPageHero
-          className="sots-shop-page__hero"
-          eyebrow="Support SOS"
-          title="Gift Shop"
-          intro="Merchandise, playbills, and gift certificates — plus our favorite Rowayton spots for a pre-show picnic or dinner."
-          image={heroImageForHref("/shop/")}
-        />
+      <article className="sots-shop-page">
+        <header className="sots-shop-page__hero">
+          <div className="sots-shop-page__hero-bg" style={{ backgroundImage: `url('${heroImage}')` }} aria-hidden="true" />
+          <div className="sots-shop-page__hero-veil" aria-hidden="true" />
+          <div className="sots-shop-page__hero-inner" data-reveal>
+            <p className="sots-shop-page__hero-eyebrow">Support SOS</p>
+            <h1>Gift Shop</h1>
+            <p className="sots-shop-page__hero-lead">
+              Take home a piece of Pinkney Park — merchandise, playbills, and gift certificates that support
+              free Shakespeare in Fairfield County.
+            </p>
+          </div>
+        </header>
 
-        <div className="orpheum-inner-page__body">
+        <nav className="sots-shop-page__quick" aria-label="Gift shop shortcuts">
+          <a href="#gift-certificates" className="sots-shop-page__quick-link">
+            Gift certificates
+          </a>
+          <a href="#merchandise" className="sots-shop-page__quick-link">
+            Merchandise
+          </a>
+          <Link to="/tickets/" className="sots-shop-page__quick-link">
+            Get tickets
+          </Link>
+          <Link to="/about/visit/" className="sots-shop-page__quick-link">
+            Plan your visit
+          </Link>
+        </nav>
+
+        <div id="gift-certificates">
+          <ShopGiftCertSpotlight products={giftCertificates} onAdd={addToCart} onBuyNow={buyNow} />
+        </div>
+
+        <section className="sots-shop-page__catalog" id="merchandise" aria-labelledby="shop-merch-heading">
+          <div className="sots-shop-page__catalog-head" data-reveal>
+            <div>
+              <p className="sots-shop-page__section-eyebrow">Merchandise</p>
+              <h2 id="shop-merch-heading">Souvenirs &amp; keepsakes</h2>
+            </div>
+            {catalog?.fulfillment ? (
+              <p className="sots-shop-page__catalog-note">{catalog.fulfillment.pickup}</p>
+            ) : null}
+          </div>
+
           <div className="sots-shop-page__layout" data-reveal>
             <div className="sots-shop-page__main">
-              {catalog?.fulfillment ? (
-                <div className="sots-shop-page__fulfillment">
-                  <p>{catalog.fulfillment.pickup}</p>
-                  <p>{catalog.fulfillment.giftCertificates}</p>
-                </div>
-              ) : null}
-
               <div className="sots-shop-page__filters" role="tablist" aria-label="Product categories">
                 {categories.map((cat) => (
                   <button
@@ -75,80 +117,78 @@ export function ShopPage() {
               </div>
 
               {loading ? (
-                <p className="sots-ticketing-loading">Loading gift shop…</p>
-              ) : products.length ? (
+                <p className="sots-shop-page__loading">Loading gift shop…</p>
+              ) : merchandise.length ? (
                 <div className="sots-shop-page__grid">
-                  {products.map((product) => (
+                  {merchandise.map((product) => (
                     <ProductCard key={product.id} product={product} onAdd={addToCart} onBuyNow={buyNow} />
                   ))}
                 </div>
               ) : (
-                <p>No products in this category right now. Check back soon!</p>
+                <p className="sots-shop-page__empty">No products in this category right now. Check back soon!</p>
               )}
 
-              {catalog?.shopAndDine?.length ? (
-                <section className="sots-shop-page__dine" aria-labelledby="shop-dine-heading">
-                  <h2 id="shop-dine-heading">Shop &amp; Dine</h2>
-                  <p className="sots-shop-page__dine-lead">
-                    Picnicking before the show is a cherished SOS tradition. These local partners are favorites
-                    for pre-show meals and picnic baskets.
+              <section className="sots-shop-page__cross-sell" aria-labelledby="shop-tickets-heading">
+                <div>
+                  <p className="sots-shop-page__section-eyebrow">This summer</p>
+                  <h2 id="shop-tickets-heading">Going to the show?</h2>
+                  <p>Pair your gift with tickets to Much Ado About Nothing under the stars at Pinkney Park.</p>
+                </div>
+                <ArrowButton href="/tickets/">Get tickets</ArrowButton>
+              </section>
+
+              <aside className="sots-shop-page__picnic" aria-labelledby="shop-picnic-heading">
+                <div>
+                  <h2 id="shop-picnic-heading">Picnic before the show</h2>
+                  <p>
+                    A pre-show picnic is a cherished SOS tradition. See our visit guide for parking, accessibility,
+                    and local dining favorites in Rowayton.
                   </p>
-                  <ul className="sots-shop-page__dine-list">
-                    {catalog.shopAndDine.map((partner) => (
-                      <li key={partner.id}>
-                        <a
-                          href={partner.href}
-                          className="sots-shop-page__dine-card"
-                          {...(partner.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                        >
-                          <strong>{partner.name}</strong>
-                          <span>{partner.location}</span>
-                          <p>{partner.description}</p>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              ) : null}
+                </div>
+                <ArrowButton href="/about/visit/" variant="light">
+                  Plan your visit
+                </ArrowButton>
+              </aside>
             </div>
 
-            <aside className="sots-shop-page__cart" aria-labelledby="shop-cart-heading">
-              <div className="sots-shop-page__cart-inner">
-                <h2 id="shop-cart-heading">
-                  Your cart {cartCount ? <span className="sots-shop-page__cart-count">{cartCount}</span> : null}
-                </h2>
-                <ShopCartPanel
-                  cart={cart}
-                  cartTotal={cartTotal}
-                  onUpdate={updateQuantity}
-                  onRemove={removeFromCart}
-                  onCheckout={openCheckout}
-                />
-                {cartTotal > 0 ? (
-                  <p className="sots-shop-page__cart-note">Subtotal {formatCents(cartTotal)} · taxes at checkout</p>
-                ) : null}
-                <p className="sots-checkout__hint">
-                  Questions? <Link to="/about/contact/">Contact the box office</Link>.
-                </p>
-              </div>
-            </aside>
+            <ShopCartAside
+              cart={cart}
+              cartCount={cartCount}
+              cartTotal={cartTotal}
+              onUpdate={updateQuantity}
+              onRemove={removeFromCart}
+              onCheckout={openCheckout}
+              className="sots-shop-cart-aside--desktop"
+            />
           </div>
-        </div>
+        </section>
       </article>
 
       {cartCount > 0 ? (
-        <div className="sots-shop-page__mobile-bar" aria-live="polite">
-          <div>
-            <strong>
-              {cartCount} {cartCount === 1 ? "item" : "items"}
-            </strong>
+        <button
+          type="button"
+          className="sots-shop-page__cart-fab"
+          onClick={() => setCartOpen(true)}
+          aria-label={`Open cart, ${cartCount} items`}
+        >
+          <span className="sots-shop-page__cart-fab-count">{cartCount}</span>
+          <span className="sots-shop-page__cart-fab-copy">
+            <strong>View cart</strong>
             <span>{formatCents(cartTotal)}</span>
-          </div>
-          <button type="button" className="orpheum-arrow-btn orpheum-arrow-btn--gold orpheum-arrow-btn--compact" onClick={openCheckout}>
-            Checkout
-          </button>
-        </div>
+          </span>
+        </button>
       ) : null}
+
+      <ShopCartDrawer
+        open={cartOpen}
+        onClose={() => setCartOpen(false)}
+        cart={cart}
+        cartCount={cartCount}
+        cartTotal={cartTotal}
+        onUpdate={updateQuantity}
+        onRemove={removeFromCart}
+        onCheckout={openCheckout}
+      />
     </InnerPageShell>
   );
 }
