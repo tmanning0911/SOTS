@@ -381,6 +381,20 @@
   font-weight: 600;
 }
 
+.tix-page__help-card .orpheum-arrow-btn {
+  color: var(--orp-dark, #0f2d4d);
+}
+
+.tix-page__help-card .orpheum-arrow-btn:hover {
+  color: var(--orp-dark, #0f2d4d);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+.tix-page__help-card .orpheum-arrow-btn:hover .orpheum-arrow-btn__label,
+.tix-page__help-card .orpheum-arrow-btn:hover .orpheum-arrow-btn__icon {
+  background: var(--orp-gold, #c9a227);
+}
+
 .tix-page__error {
   display: grid;
   gap: 1rem;

@@ -239,7 +239,9 @@ export function TicketsPage() {
                   Gates open at 4pm; box office at 5pm on show days. Picnics welcome — see our{" "}
                   <Link to="/about/visit/">visit guide</Link> for parking and accessibility.
                 </p>
-                <ArrowButton href="/about/visit/">Plan your visit</ArrowButton>
+                <ArrowButton href="/about/visit/" variant="light">
+                  Plan your visit
+                </ArrowButton>
               </div>
             </aside>
           </div>
