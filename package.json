@@ -9,6 +9,8 @@
     "build:static": "npm run build && node scripts/patch-html.js",
     "sync:sots": "node scripts/sync-sots-content.mjs",
     "sync:ticketing": "node scripts/seed-ticketing.mjs",
+    "seed:test": "TICKETING_TEST_MODE=true node scripts/seed-ticketing.mjs && node scripts/seed-shop.mjs",
+    "seed:square-test": "node scripts/seed-square-test-data.mjs",
     "setup:eventbrite": "node scripts/setup-eventbrite.mjs",
     "deploy": "node scripts/deploy-to-sots.mjs",
     "deploy:push": "node scripts/push-production.mjs",

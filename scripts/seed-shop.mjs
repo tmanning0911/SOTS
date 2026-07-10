@@ -7,14 +7,10 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outPath = path.join(root, "public", "data", "shop.json");
 
 const DEFAULT_CATEGORIES = [
-  { id: "apparel", label: "Apparel", description: "Wear your love for Shakespeare under the stars." },
-  { id: "gifts", label: "Gifts & Souvenirs", description: "Take a piece of the season home with you." },
-  {
-    id: "gift-certificates",
-    label: "Gift Certificates",
-    description: "Perfect for birthdays, holidays, and theatre lovers.",
-  },
-  { id: "books", label: "Books & Playbills", description: "Program books and Shakespeare keepsakes." },
+  { id: "apparel", label: "Apparel", description: "T-shirts and wearables." },
+  { id: "gifts", label: "Gifts & Souvenirs", description: "Totes, pins, and keepsakes." },
+  { id: "gift-certificates", label: "Gift Certificates", description: "Good toward any performance." },
+  { id: "books", label: "Books & Playbills", description: "Programs and playbooks." },
 ];
 
 const DEFAULT_PRODUCTS = [
@@ -39,8 +35,20 @@ const DEFAULT_PRODUCTS = [
     category: "gifts",
     categoryLabel: "Gifts & Souvenirs",
     price: { value: 2200, display: "$22.00", currency: "USD" },
-    image: "/images/news/shakespeare-for-kids.jpg",
+    image: "/images/news/kids-kings.jpg",
     sku: "SOTS-TOTE",
+    onSale: true,
+  },
+  {
+    id: "sots-pin",
+    itemId: "sots-pin",
+    name: "Much Ado Enamel Pin",
+    description: "Collectible pin from the 2026 production.",
+    category: "gifts",
+    categoryLabel: "Gifts & Souvenirs",
+    price: { value: 1500, display: "$15.00", currency: "USD" },
+    image: "/images/decor/shakespeare-portrait.png",
+    sku: "SOTS-PIN",
     onSale: true,
   },
   {
@@ -51,7 +59,7 @@ const DEFAULT_PRODUCTS = [
     category: "gift-certificates",
     categoryLabel: "Gift Certificates",
     price: { value: 5000, display: "$50.00", currency: "USD" },
-    image: "/images/hero-much-ado.jpg",
+    image: "/images/backgrounds/park-audience-nyt.jpg",
     sku: "GIFT-50",
     onSale: true,
     digital: true,
@@ -64,7 +72,7 @@ const DEFAULT_PRODUCTS = [
     category: "gift-certificates",
     categoryLabel: "Gift Certificates",
     price: { value: 10000, display: "$100.00", currency: "USD" },
-    image: "/images/hero-much-ado.jpg",
+    image: "/images/backgrounds/park-audience-nyt.jpg",
     sku: "GIFT-100",
     onSale: true,
     digital: true,
@@ -77,7 +85,7 @@ const DEFAULT_PRODUCTS = [
     category: "books",
     categoryLabel: "Books & Playbills",
     price: { value: 800, display: "$8.00", currency: "USD" },
-    image: "/images/hero-much-ado.jpg",
+    image: "/images/news/season-maan-banner.jpg",
     sku: "PLAYBILL-2026",
     onSale: true,
   },
@@ -145,6 +153,11 @@ async function main() {
   if (!products.length) {
     products = DEFAULT_PRODUCTS;
     source = "seed";
+  } else {
+    const testProducts = products.filter((p) => p.name.startsWith("TEST —"));
+    if (testProducts.length) {
+      products = testProducts;
+    }
   }
 
   const catalog = buildCatalog(products, source);

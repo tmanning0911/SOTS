@@ -1,27 +1,27 @@
 {
   "provider": "square",
-  "syncedAt": "2026-07-10T18:58:50.726Z",
+  "syncedAt": "2026-07-10T19:45:08.826Z",
   "organization": {
     "id": "2093560299743",
     "name": "Shakespeare on the Sound"
   },
   "production": {
-    "id": "much-ado-2026",
+    "id": "test-much-ado-2026",
     "slug": "much-ado-about-nothing",
-    "title": "Shakespeare on the Sound's Much Ado About Nothing",
+    "title": "TEST — Much Ado About Nothing",
     "season": "2026"
   },
   "featuredTicket": {
-    "id": "1986841853468",
-    "name": "Shakespeare on the Sound's Much Ado About Nothing",
-    "status": "completed",
-    "start": "2026-06-10T19:30:00",
-    "end": "2026-06-28T22:00:00",
+    "id": "test-perf-001",
+    "name": "TEST — Much Ado About Nothing",
+    "status": "on_sale",
+    "start": "2026-07-17T19:30:00",
+    "end": "2026-07-25T22:00:00",
     "timezone": "America/New_York",
     "venue": "Pinkney Park",
     "location": "177 Rowayton Avenue, Norwalk, CT 06853",
     "isSoldOut": false,
-    "ticketsAvailable": false
+    "ticketsAvailable": true
   },
   "ticketClasses": [
     {
@@ -145,6 +145,114 @@
     "value": 2500
   },
   "performances": [
+    {
+      "id": "test-perf-001",
+      "name": "TEST — Much Ado About Nothing",
+      "status": "on_sale",
+      "start": "2026-07-17T19:30:00",
+      "end": "2026-07-17T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isSoldOut": false,
+      "ticketsAvailable": true,
+      "minPrice": {
+        "display": "$25.00",
+        "currency": "USD",
+        "value": 2500
+      },
+      "isTest": true
+    },
+    {
+      "id": "test-perf-002",
+      "name": "TEST — Much Ado About Nothing",
+      "status": "on_sale",
+      "start": "2026-07-18T19:30:00",
+      "end": "2026-07-18T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isSoldOut": false,
+      "ticketsAvailable": true,
+      "minPrice": {
+        "display": "$25.00",
+        "currency": "USD",
+        "value": 2500
+      },
+      "isTest": true
+    },
+    {
+      "id": "test-perf-003",
+      "name": "TEST — Much Ado About Nothing",
+      "status": "on_sale",
+      "start": "2026-07-19T19:30:00",
+      "end": "2026-07-19T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isSoldOut": false,
+      "ticketsAvailable": true,
+      "minPrice": {
+        "display": "$25.00",
+        "currency": "USD",
+        "value": 2500
+      },
+      "isTest": true
+    },
+    {
+      "id": "test-perf-004",
+      "name": "TEST — Much Ado About Nothing",
+      "status": "on_sale",
+      "start": "2026-07-20T19:30:00",
+      "end": "2026-07-20T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isSoldOut": false,
+      "ticketsAvailable": true,
+      "minPrice": {
+        "display": "$25.00",
+        "currency": "USD",
+        "value": 2500
+      },
+      "isTest": true
+    },
+    {
+      "id": "test-perf-005",
+      "name": "TEST — Much Ado About Nothing",
+      "status": "on_sale",
+      "start": "2026-07-24T19:30:00",
+      "end": "2026-07-24T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isSoldOut": false,
+      "ticketsAvailable": true,
+      "minPrice": {
+        "display": "$25.00",
+        "currency": "USD",
+        "value": 2500
+      },
+      "isTest": true
+    },
+    {
+      "id": "test-perf-006",
+      "name": "TEST — Much Ado About Nothing",
+      "status": "on_sale",
+      "start": "2026-07-25T19:30:00",
+      "end": "2026-07-25T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isSoldOut": false,
+      "ticketsAvailable": true,
+      "minPrice": {
+        "display": "$25.00",
+        "currency": "USD",
+        "value": 2500
+      },
+      "isTest": true
+    },
     {
       "id": "1986851399019",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
@@ -436,6 +544,114 @@
     }
   ],
   "performanceByDate": {
+    "2026-07-17": {
+      "id": "test-perf-001",
+      "name": "TEST — Much Ado About Nothing",
+      "status": "on_sale",
+      "start": "2026-07-17T19:30:00",
+      "end": "2026-07-17T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isSoldOut": false,
+      "ticketsAvailable": true,
+      "minPrice": {
+        "display": "$25.00",
+        "currency": "USD",
+        "value": 2500
+      },
+      "isTest": true
+    },
+    "2026-07-18": {
+      "id": "test-perf-002",
+      "name": "TEST — Much Ado About Nothing",
+      "status": "on_sale",
+      "start": "2026-07-18T19:30:00",
+      "end": "2026-07-18T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isSoldOut": false,
+      "ticketsAvailable": true,
+      "minPrice": {
+        "display": "$25.00",
+        "currency": "USD",
+        "value": 2500
+      },
+      "isTest": true
+    },
+    "2026-07-19": {
+      "id": "test-perf-003",
+      "name": "TEST — Much Ado About Nothing",
+      "status": "on_sale",
+      "start": "2026-07-19T19:30:00",
+      "end": "2026-07-19T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isSoldOut": false,
+      "ticketsAvailable": true,
+      "minPrice": {
+        "display": "$25.00",
+        "currency": "USD",
+        "value": 2500
+      },
+      "isTest": true
+    },
+    "2026-07-20": {
+      "id": "test-perf-004",
+      "name": "TEST — Much Ado About Nothing",
+      "status": "on_sale",
+      "start": "2026-07-20T19:30:00",
+      "end": "2026-07-20T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isSoldOut": false,
+      "ticketsAvailable": true,
+      "minPrice": {
+        "display": "$25.00",
+        "currency": "USD",
+        "value": 2500
+      },
+      "isTest": true
+    },
+    "2026-07-24": {
+      "id": "test-perf-005",
+      "name": "TEST — Much Ado About Nothing",
+      "status": "on_sale",
+      "start": "2026-07-24T19:30:00",
+      "end": "2026-07-24T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isSoldOut": false,
+      "ticketsAvailable": true,
+      "minPrice": {
+        "display": "$25.00",
+        "currency": "USD",
+        "value": 2500
+      },
+      "isTest": true
+    },
+    "2026-07-25": {
+      "id": "test-perf-006",
+      "name": "TEST — Much Ado About Nothing",
+      "status": "on_sale",
+      "start": "2026-07-25T19:30:00",
+      "end": "2026-07-25T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isSoldOut": false,
+      "ticketsAvailable": true,
+      "minPrice": {
+        "display": "$25.00",
+        "currency": "USD",
+        "value": 2500
+      },
+      "isTest": true
+    },
     "2026-06-10": {
       "id": "1986851399019",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
@@ -731,6 +947,8 @@
     "affiliateCode": "ebdsoporgprofile",
     "seriesPerformanceCount": 17,
     "provider": "square",
-    "performanceCount": 17
+    "performanceCount": 17,
+    "testMode": true,
+    "testPerformanceCount": 6
   }
 }

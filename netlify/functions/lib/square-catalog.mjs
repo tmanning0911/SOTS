@@ -1,5 +1,14 @@
 import { resolveLocationId, squareRequest } from "./square.mjs";
 
+const TEST_IMAGE_FALLBACKS = {
+  "TEST-SOTS-TEE": "/images/hero-much-ado.jpg",
+  "TEST-SOTS-TOTE": "/images/news/kids-kings.jpg",
+  "TEST-SOTS-PIN": "/images/decor/shakespeare-portrait.png",
+  "TEST-PLAYBILL-2026": "/images/news/season-maan-banner.jpg",
+  "TEST-GIFT-50": "/images/backgrounds/park-audience-nyt.jpg",
+  "TEST-GIFT-100": "/images/backgrounds/park-audience-nyt.jpg",
+};
+
 function formatMoney(cents) {
   return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(
     (cents ?? 0) / 100,
@@ -25,6 +34,14 @@ export function normalizeCatalogProducts(items = [], relatedObjects = []) {
   for (const obj of [...items, ...relatedObjects]) {
     lookup.set(obj.id, obj);
   }
+  for (const item of items) {
+    if (item.type !== "ITEM") continue;
+    for (const variation of item.item_data?.variations ?? []) {
+      if (variation?.id && variation.item_variation_data) {
+        lookup.set(variation.id, variation);
+      }
+    }
+  }
 
   const products = [];
   for (const item of items) {
@@ -47,6 +64,8 @@ export function normalizeCatalogProducts(items = [], relatedObjects = []) {
 
       const variationName = varData.name && varData.name !== "Regular" ? varData.name : null;
       const name = variationName ? `${data.name} — ${variationName}` : data.name;
+      const sku = varData.sku ?? null;
+      if (sku?.startsWith("TEST-TIX-")) continue;
 
       products.push({
         id: variation.id,
@@ -60,8 +79,8 @@ export function normalizeCatalogProducts(items = [], relatedObjects = []) {
           display: formatMoney(amount),
           currency: varData.price_money?.currency ?? "USD",
         },
-        image: resolveImageUrl(data.image_ids, lookup),
-        sku: varData.sku ?? null,
+        image: resolveImageUrl(data.image_ids, lookup) || TEST_IMAGE_FALLBACKS[sku] || null,
+        sku,
         onSale: data.ecom_available !== false,
       });
     }
@@ -80,5 +99,34 @@ export async function fetchSquareShopCatalog() {
     },
   });
 
-  return normalizeCatalogProducts(data.items ?? [], data.related_objects ?? []);
+  const items = data.items ?? [];
+  const related = [...(data.related_objects ?? [])];
+
+  for (const item of items) {
+    if (item.item_data?.image_ids?.length) continue;
+    try {
+      const detail = await squareRequest(
+        `/v2/catalog/object/${item.id}?include_related_objects=true`,
+      );
+      if (detail.object?.item_data?.image_ids) {
+        item.item_data.image_ids = detail.object.item_data.image_ids;
+      }
+      for (const obj of detail.related_objects ?? []) {
+        related.push(obj);
+      }
+    } catch {
+      /* optional enrichment */
+    }
+  }
+
+  const products = normalizeCatalogProducts(items, related);
+  const bySku = new Map();
+  for (const product of products) {
+    const key = product.sku || product.id;
+    const existing = bySku.get(key);
+    if (!existing || (product.image && !existing.image)) {
+      bySku.set(key, product);
+    }
+  }
+  return [...bySku.values()].sort((a, b) => a.name.localeCompare(b.name));
 }
