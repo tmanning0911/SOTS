@@ -535,7 +535,7 @@ export const SUPPORT_MISSION = {
   body:
     "Ticket sales alone do not cover the full cost of our productions. Each year we raise more than $115,000 from donors, sponsors, and volunteers to sustain performances, education in schools, and community programs across Fairfield County.",
   donateLabel: "Donate Now",
-  donateHref: SITE.donateUrl,
+  donateHref: "/support/donate/",
   secondaryLabel: "Explore Giving Options",
   secondaryHref: "/support/individual-giving/",
   image: "/images/backgrounds/park-audience-nyt.jpg",

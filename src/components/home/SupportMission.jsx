@@ -36,7 +36,12 @@ export function SupportMission() {
             </ul>
 
             <div className="orpheum-support-split__actions">
-              <ArrowButton href={donateHref} target="_blank" rel="noopener noreferrer">
+              <ArrowButton
+                href={donateHref}
+                {...(donateHref.startsWith("http")
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+              >
                 {donateLabel}
               </ArrowButton>
               <a className="orpheum-support-split__secondary" href={secondaryHref}>

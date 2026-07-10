@@ -1201,7 +1201,7 @@ export const INNER_PAGES = [
         ],
       },
     ],
-    cta: { label: "Donate Now", href: "https://www.shakespeareonthesound.org/donate", external: true },
+    cta: { label: "Donate Now", href: "https://www.paypal.com/donate/?hosted_button_id=5FTZQ4CXESHXY", external: true },
   },
   {
     href: "/support/individual-giving/",
@@ -1282,7 +1282,7 @@ export const INNER_PAGES = [
         ],
       },
     ],
-    cta: { label: "Donate Now", href: "https://www.shakespeareonthesound.org/donate", external: true },
+    cta: { label: "Donate Now", href: "https://www.paypal.com/donate/?hosted_button_id=5FTZQ4CXESHXY", external: true },
   },
   {
     href: "/support/program-ads-sponsorships/",

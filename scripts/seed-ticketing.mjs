@@ -19,7 +19,13 @@ function slugTicketType(name) {
 }
 
 export function testModeEnabled() {
-  return process.env.TICKETING_TEST_MODE === "true" || process.argv.includes("--test");
+  if (process.env.TICKETING_TEST_MODE === "true" || process.argv.includes("--test")) {
+    return true;
+  }
+  const deployUrl = process.env.URL || process.env.DEPLOY_PRIME_URL || "";
+  // Netlify preview site — keep purchasable test dates for QA until the custom domain is live.
+  if (deployUrl.includes("ubiquitous-maamoul")) return true;
+  return false;
 }
 
 function etDatePlusDays(daysOut, now = new Date()) {

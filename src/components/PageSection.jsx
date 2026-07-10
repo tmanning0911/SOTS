@@ -7,8 +7,39 @@ function ensurePeriod(text) {
   return text.endsWith(".") ? text : `${text}.`;
 }
 
+function parseTimelineEntry(paragraph) {
+  const match = paragraph.trim().match(/^(\d{4}(?:–\d{4})?|\d{4}–\d{4})\s*[—–-]\s*(.+)$/s);
+  if (!match) return { year: "", text: paragraph };
+  return { year: match[1], text: match[2].trim() };
+}
+
+function isTimelineSection(section) {
+  const paragraphs = section.paragraphs ?? [];
+  if (!paragraphs.length) return false;
+  return paragraphs.every((p) => /^\d{4}/.test(String(p).trim()));
+}
+
 export function PageSection({ section }) {
   const heading = section.heading ? ensurePeriod(section.heading) : null;
+
+  if (section.type !== "people" && isTimelineSection(section)) {
+    return (
+      <section className="orpheum-inner-page__section orpheum-inner-page__section--timeline">
+        {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
+        <ol className="orpheum-timeline">
+          {(section.paragraphs ?? []).map((paragraph) => {
+            const { year, text } = parseTimelineEntry(paragraph);
+            return (
+              <li key={year + text.slice(0, 24)} className="orpheum-timeline__item">
+                <span className="orpheum-timeline__year">{year}</span>
+                <p className="orpheum-timeline__text">{text}</p>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+    );
+  }
 
   if (section.type === "people") {
     const variant = section.layout === "history" ? "history" : "lead";
