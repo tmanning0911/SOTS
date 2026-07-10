@@ -332,6 +332,124 @@
   margin-bottom: 0.35rem;
 }
 
+/* Shop checkout polish (shared layout in ticketing.css) */
+.sots-shop-checkout__summary-lines {
+  padding: 0 1rem;
+}
+
+.sots-shop-checkout__summary-item {
+  display: grid !important;
+  grid-template-columns: 2.75rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.sots-shop-checkout__summary-thumb {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.45rem;
+  object-fit: cover;
+  background: #eef2f6;
+}
+
+.sots-shop-checkout__summary-thumb--empty {
+  display: block;
+}
+
+.sots-shop-checkout__summary-item-copy {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.sots-shop-checkout__summary-item-name {
+  font-size: 0.88rem;
+  color: var(--brand-navy, #0f2d4d);
+  line-height: 1.35;
+}
+
+.sots-shop-checkout__summary-item-price {
+  font-weight: 700;
+  color: var(--brand-navy, #0f2d4d);
+  white-space: nowrap;
+}
+
+.sots-shop-checkout__summary-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brand-blue-dark, #1a5090);
+}
+
+.sots-shop-checkout__segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+
+.sots-shop-checkout__segmented .sots-checkout__segment {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.85rem 0.75rem;
+  text-align: left;
+  min-height: 4.5rem;
+  align-content: center;
+}
+
+.sots-shop-checkout__segment-title {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: inherit;
+}
+
+.sots-shop-checkout__segment-note {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 500;
+  opacity: 0.85;
+  line-height: 1.35;
+}
+
+.sots-shop-checkout__pickup-note {
+  margin: 0.85rem 0 0;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.55rem;
+  background: #f0f6fc;
+  font-size: 0.86rem;
+  color: #4a5560;
+  line-height: 1.45;
+}
+
+.sots-shop-checkout__address {
+  margin-top: 0.85rem;
+}
+
+.sots-shop-checkout__order-lines li {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.sots-shop-checkout__order-lines li div {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.sots-shop-checkout__order-lines li span:last-child {
+  font-weight: 700;
+  color: var(--brand-navy, #0f2d4d);
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .sots-shop-checkout__segmented {
+    grid-template-columns: 1fr;
+  }
+}
+
 .orpheum-arrow-btn--compact {
   padding: 0.55rem 0.85rem;
   font-size: 0.82rem;
