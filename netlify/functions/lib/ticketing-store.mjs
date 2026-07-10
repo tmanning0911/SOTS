@@ -1,5 +1,6 @@
 import { getStore } from "@netlify/blobs";
 import { randomBytes } from "node:crypto";
+import { isPastPerformance, normalizeTicketCatalog } from "../../../js/performance-dates.js";
 import { normalizePatronEmail } from "./patron-auth.mjs";
 import { calculateDiscountCents, validatePromo } from "./promo.mjs";
 import { readStaticJsonCatalog } from "./static-catalog.mjs";
@@ -46,6 +47,7 @@ function squareEnvIsSandbox() {
 export function isPerformanceOnSale(performance, catalog) {
   if (!performance) return false;
   if (performance.status === "cancelled") return false;
+  if (isPastPerformance(performance)) return false;
 
   if (sandboxSalesEnabled()) {
     return true;
@@ -79,12 +81,14 @@ export async function getAvailableQty(performanceId, ticketTypeId, ticketType, i
 
 export function mergeCatalogWithInventory(catalog, inventory) {
   const sandbox = sandboxSalesEnabled();
-  const performances = (catalog.performances ?? []).map((p) => {
+  const base = normalizeTicketCatalog(catalog);
+  const performances = (base.performances ?? [])
+    .map((p) => {
     const onSale = isPerformanceOnSale(p, catalog);
     const status = onSale ? (p.status === "completed" && sandbox ? "on_sale" : p.status) : p.status;
     let anyAvailable = false;
     const ticketAvailability = {};
-    for (const tt of catalog.ticketTypes ?? []) {
+    for (const tt of base.ticketTypes ?? catalog.ticketTypes ?? []) {
       const sold = inventory[invKey(p.id, tt.id)] ?? 0;
       const cap = tt.capacity ?? 0;
       const remaining = cap > 0 ? Math.max(0, cap - sold) : 10;
@@ -98,20 +102,21 @@ export function mergeCatalogWithInventory(catalog, inventory) {
       ticketsAvailable: onSale ? anyAvailable : false,
       ticketAvailability,
     };
-  });
+  })
+    .filter((p) => !isPastPerformance(p));
 
   const purchasable = performances.filter((p) => isPerformanceOnSale(p, catalog) && p.ticketsAvailable);
-  const featured = catalog.featuredTicket
+  const featured = base.featuredTicket
     ? {
-        ...catalog.featuredTicket,
-        status: purchasable.length ? "on_sale" : catalog.featuredTicket.status,
+        ...base.featuredTicket,
+        status: purchasable.length ? "on_sale" : base.featuredTicket.status,
         isSoldOut: !purchasable.length,
         ticketsAvailable: purchasable.length > 0,
       }
     : null;
 
   return {
-    ...catalog,
+    ...base,
     featuredTicket: featured,
     performances,
     inventorySyncedAt: new Date().toISOString(),

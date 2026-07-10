@@ -1,3 +1,10 @@
+import {
+  derivePerformanceStatus,
+  displayPerformances,
+  isPastPerformance,
+  normalizeTicketCatalog,
+} from "./performance-dates.js";
+
 export const AFFILIATE_CODE = "ebdsoporgprofile";
 export const TICKETS_CTA_LABEL = "Tickets";
 export const TICKETS_PAGE_PATH = "/tickets/";
@@ -66,6 +73,13 @@ export function formatPerformanceTime(isoLocal) {
   }).format(new Date(isoLocal));
 }
 
+export {
+  derivePerformanceStatus,
+  displayPerformances,
+  isPastPerformance,
+  normalizeTicketCatalog,
+} from "./performance-dates.js";
+
 let cache = null;
 let cacheAt = 0;
 const CACHE_MS = 60_000;
@@ -100,9 +114,9 @@ export async function loadTicketData({ fresh = false } = {}) {
       if (!res.ok) continue;
       const data = await res.json();
       if (data?.error) continue;
-      cache = data;
+      cache = normalizeTicketCatalog(data);
       cacheAt = Date.now();
-      return data;
+      return cache;
     } catch (err) {
       lastError = err;
     }
@@ -154,25 +168,28 @@ export function normalizeStatusLabel(status) {
   return status;
 }
 
-export function isPurchasablePerformance(performance) {
+export function isPurchasablePerformance(performance, now = new Date()) {
   if (!performance) return false;
+  if (isPastPerformance(performance, now)) return false;
   if (performance.isSoldOut || performance.ticketsAvailable === false) return false;
-  return ACTIVE_STATUSES.has(performance.status);
+  const status = derivePerformanceStatus(performance, now);
+  return ACTIVE_STATUSES.has(status);
 }
 
 export function ticketStatusLabel(event) {
   if (!event) return "";
   if (typeof event === "string") return normalizeStatusLabel(event);
+  const status = typeof event === "object" && event.start ? derivePerformanceStatus(event) : event.status;
   if (event.isSoldOut || event.ticketsAvailable === false) return "Sold Out";
-  if (ACTIVE_STATUSES.has(event.status)) return "On Sale";
-  if (event.status === "draft") return "Coming Soon";
-  if (event.status === "completed") return "Ended";
-  if (event.status === "cancelled") return "Cancelled";
-  return normalizeStatusLabel(event.status);
+  if (ACTIVE_STATUSES.has(status)) return "On Sale";
+  if (status === "draft") return "Coming Soon";
+  if (status === "completed") return "Ended";
+  if (status === "cancelled") return "Cancelled";
+  return normalizeStatusLabel(status);
 }
 
 export function purchasablePerformances(data, limit) {
-  const list = [...(data?.performances ?? [])]
+  const list = displayPerformances(data)
     .filter(isPurchasablePerformance)
     .sort((a, b) => (a.start ?? "").localeCompare(b.start ?? ""));
   return typeof limit === "number" ? list.slice(0, limit) : list;
@@ -219,10 +236,7 @@ export function upcomingPerformances(data, limit) {
 }
 
 export function seriesPerformances(data, limit) {
-  const list = [...(data?.performances ?? [])].sort((a, b) =>
-    (a.start ?? "").localeCompare(b.start ?? ""),
-  );
-  return typeof limit === "number" ? list.slice(0, limit) : list;
+  return displayPerformances(data, limit);
 }
 
 export function performanceForDate(data, isoStart) {

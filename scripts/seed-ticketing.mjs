@@ -5,6 +5,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { derivePerformanceStatus } from "../js/performance-dates.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourcePath = path.join(root, "public/data/eventbrite.json");
@@ -15,16 +16,6 @@ function slugTicketType(name) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
-}
-
-function derivePerformanceStatus(performance, now = new Date()) {
-  if (performance.status === "cancelled") return "cancelled";
-  const start = performance.start ? new Date(performance.start) : null;
-  const end = performance.end ? new Date(performance.end) : start;
-  if (!start || Number.isNaN(start.getTime())) return performance.status ?? "on_sale";
-  if (end && now > end) return "completed";
-  if (now >= start) return "live";
-  return "on_sale";
 }
 
 export function testModeEnabled() {
