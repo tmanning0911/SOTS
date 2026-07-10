@@ -81,8 +81,7 @@ export const UTILITY_LINKS = [
   },
   { label: "News", href: "/#recent-news" },
   { label: "Shop", href: SITE.shopUrl },
-  { label: "My Account", href: SITE.accountUrl },
-  { label: "Access Your Tickets", action: "access-tickets" },
+  { label: "My Tickets", href: SITE.accountUrl },
 ];
 
 export const FEATURED_SPOTLIGHT = [
@@ -133,7 +132,7 @@ export const NAV_ITEMS = [
         links: [
           { label: "Box Office", href: "/about/contact/" },
           { label: "Tickets", href: SITE.ticketsUrl },
-          { label: "Reserved Seating", href: SITE.ticketsUrl },
+          { label: "VIP & Ticket Types", href: `${SITE.ticketsUrl}#ticket-pricing` },
           { label: "FAQ", href: "/about/faq/" },
           { label: "Cancellation Policy", href: "/about/cancellation-policy/" },
         ],
@@ -296,6 +295,7 @@ export const FOOTER_MAIN = {
       { label: "Plan a Visit", href: "/about/visit/" },
       { label: "Gift Shop", href: SITE.shopUrl },
       { label: "Tickets", href: SITE.ticketsUrl },
+      { label: "My Tickets", href: SITE.accountUrl },
       { label: "Parking and Directions", href: "/about/getting-here/" },
     ],
     [
@@ -406,8 +406,9 @@ export const MAIN_NAV = NAV_ITEMS.map((item) => ({
 export const QUICK_BAR_LINKS = [
   { label: "Parking", href: "/about/getting-here/" },
   { label: "Seating", href: "/about/visit/" },
+  { label: "Buy Tickets", href: "/tickets/" },
+  { label: "My Tickets", href: "/my-tickets/" },
   { label: "Box Office", href: "/about/contact/" },
-  { label: "Tickets", action: "access-tickets" },
 ];
 
 export const SEASON_SHOWS = [

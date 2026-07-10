@@ -63,6 +63,9 @@ export function MobileNav() {
         <a className="orpheum-btn orpheum-btn--gold" href="/tickets/" onClick={handleClose}>
           Tickets
         </a>
+        <a className="orpheum-btn orpheum-btn--secondary" href="/my-tickets/" onClick={handleClose}>
+          My Tickets
+        </a>
         <a className="orpheum-btn orpheum-btn--donate" href="/support/donate/" onClick={handleClose}>
           Donate
         </a>

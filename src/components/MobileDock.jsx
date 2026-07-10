@@ -19,21 +19,23 @@ export function MobileDock() {
         </svg>
         Menu
       </button>
-      <a className="mobile-dock__item" href="/productions/much-ado-about-nothing/">
+      <a className="mobile-dock__item" href="/shop/">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M4 19h16M6 16l3-9 3 5 3-7 3 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M6 6h15l-1.5 9h-12L6 6zm0 0L5 3H2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="9" cy="20" r="1.5" fill="currentColor" />
+          <circle cx="18" cy="20" r="1.5" fill="currentColor" />
         </svg>
-        What&apos;s On
+        Shop
       </a>
       <a className="mobile-dock__item mobile-dock__item--primary" href="/tickets/">
         <DockIconTickets />
         Tickets
       </a>
-      <a className="mobile-dock__item" href="/support/donate/">
+      <a className="mobile-dock__item" href="/my-tickets/">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 11c0 5.5-7 10-7 10z" stroke="currentColor" strokeWidth="1.5" />
+          <path d="M9 12l2 2 4-4M7 20h10a2 2 0 0 0 2-2V8l-5-4H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        Donate
+        My Tickets
       </a>
     </nav>
   );

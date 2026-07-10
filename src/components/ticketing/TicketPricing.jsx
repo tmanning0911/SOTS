@@ -4,7 +4,7 @@ export function TicketPricing({ ticketClasses, priceFrom }) {
   if (!classes.length && !priceFrom) return null;
 
   return (
-    <section className="sots-ticket-pricing" aria-labelledby="ticket-pricing-heading">
+    <section className="sots-ticket-pricing" id="ticket-pricing" aria-labelledby="ticket-pricing-heading">
       <h2 id="ticket-pricing-heading" className="sots-ticket-pricing__title">
         Ticket Options
       </h2>

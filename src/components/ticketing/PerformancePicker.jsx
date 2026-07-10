@@ -1,4 +1,4 @@
-import { useId, useMemo } from "react";
+import { useId, useMemo, useState } from "react";
 import {
   formatPerformanceDate,
   getTicketingState,
@@ -11,7 +11,7 @@ import { useTickets } from "../../context/TicketProvider.jsx";
 import { TicketCheckoutButton } from "./TicketCheckoutButton.jsx";
 import { TicketStatusBadge } from "./TicketStatusBadge.jsx";
 
-function PerformanceButton({ performance, selectedId, onSelect, onBuy }) {
+function PerformanceButton({ performance, selectedId, onSelect, instantCheckout, onBuy }) {
   const soldOut = performance.isSoldOut || performance.ticketsAvailable === false;
   const isSelected = selectedId === performance.id;
   const status = ticketStatusLabel(performance);
@@ -24,7 +24,7 @@ function PerformanceButton({ performance, selectedId, onSelect, onBuy }) {
         className={`sots-performance-picker__btn${isSelected ? " is-selected" : ""}${soldOut ? " is-sold-out" : ""}`}
         onClick={() => {
           onSelect?.(performance);
-          if (canBuy) onBuy(performance.id);
+          if (canBuy && instantCheckout) onBuy(performance.id);
         }}
         disabled={!canBuy}
         aria-pressed={isSelected}
@@ -41,18 +41,33 @@ function PerformanceButton({ performance, selectedId, onSelect, onBuy }) {
 
 export function PerformancePicker({
   data,
-  selectedId,
+  selectedId: controlledSelectedId,
   onSelect,
   limit = 12,
   allPerformances = false,
+  confirmBeforeCheckout = false,
 }) {
   const listId = useId();
+  const barId = useId();
   const { openCheckout } = useTickets();
+  const [internalSelectedId, setInternalSelectedId] = useState(null);
+  const selectedId = controlledSelectedId ?? internalSelectedId;
+
   const performances = useMemo(() => {
     const list = allPerformances ? seriesPerformances(data) : purchasablePerformances(data, limit);
     return allPerformances ? list : list;
   }, [allPerformances, data, limit]);
+
   const state = useMemo(() => getTicketingState(data), [data]);
+  const selectedPerformance = performances.find((p) => p.id === selectedId) ?? null;
+  const useConfirmBar = confirmBeforeCheckout || allPerformances;
+
+  function handleSelect(performance) {
+    if (controlledSelectedId === undefined) {
+      setInternalSelectedId(performance.id);
+    }
+    onSelect?.(performance);
+  }
 
   if (!data?.featuredTicket) return null;
 
@@ -82,23 +97,46 @@ export function PerformancePicker({
           {allPerformances ? "All Performances" : "Choose a Performance"}
         </h2>
         <p className="sots-performance-picker__lead">
-          {allPerformances
-            ? "Every performance this summer. Select a date to buy tickets — checkout opens on this page."
+          {useConfirmBar
+            ? "Tap a date below, then continue to checkout. Payment stays right here on our site."
             : "Select a date to buy tickets. Checkout opens right here on our site."}
         </p>
       </div>
       {performances.length ? (
-        <ul className="sots-performance-picker__grid">
-          {performances.map((performance) => (
-            <PerformanceButton
-              key={performance.id}
-              performance={performance}
-              selectedId={selectedId}
-              onSelect={onSelect}
-              onBuy={(id) => openCheckout(id)}
-            />
-          ))}
-        </ul>
+        <>
+          <ul className="sots-performance-picker__grid">
+            {performances.map((performance) => (
+              <PerformanceButton
+                key={performance.id}
+                performance={performance}
+                selectedId={selectedId}
+                onSelect={handleSelect}
+                instantCheckout={!useConfirmBar}
+                onBuy={(id) => openCheckout(id)}
+              />
+            ))}
+          </ul>
+
+          {useConfirmBar && selectedPerformance && isPurchasablePerformance(selectedPerformance) ? (
+            <div className="sots-performance-picker__continue" aria-labelledby={barId}>
+              <div className="sots-performance-picker__continue-copy">
+                <p id={barId} className="sots-performance-picker__continue-label">
+                  Selected performance
+                </p>
+                <p className="sots-performance-picker__continue-date">
+                  {formatPerformanceDate(selectedPerformance.start)}
+                </p>
+              </div>
+              <button
+                type="button"
+                className="orpheum-arrow-btn orpheum-arrow-btn--gold"
+                onClick={() => openCheckout(selectedPerformance.id)}
+              >
+                Continue to checkout
+              </button>
+            </div>
+          ) : null}
+        </>
       ) : (
         <TicketCheckoutButton />
       )}

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { UTILITY_LEFT, UTILITY_LINKS } from "../../js/data.js";
-import { useUI } from "../context/UIContext.jsx";
 import { SearchTrigger } from "./SiteSearch.jsx";
 import { TicketCheckoutLink } from "./ticketing/TicketCheckoutLink.jsx";
 
@@ -56,7 +55,6 @@ function UtilityDropdown({ link, open, setOpen }) {
 export function UtilityBar() {
   const [open, setOpen] = useState(null);
   const barRef = useRef(null);
-  const { openAccessTickets } = useUI();
 
   useEffect(() => {
     function onDocClick(e) {
@@ -88,15 +86,6 @@ export function UtilityBar() {
           {UTILITY_LINKS.map((link) =>
             link.children ? (
               <UtilityDropdown key={link.label} link={link} open={open} setOpen={setOpen} />
-            ) : link.action === "access-tickets" ? (
-              <li
-                key={link.label}
-                className={link.highlight ? "orpheum-utility__item is-highlight" : "orpheum-utility__item"}
-              >
-                <button type="button" className="orpheum-utility__trigger" onClick={openAccessTickets}>
-                  {link.label}
-                </button>
-              </li>
             ) : (
               <li
                 key={link.label}
@@ -109,7 +98,7 @@ export function UtilityBar() {
                   {link.label}
                 </a>
               </li>
-            )
+            ),
           )}
           <li className="orpheum-utility__search">
             <SearchTrigger className="orpheum-utility__search-btn" label="Search site" />

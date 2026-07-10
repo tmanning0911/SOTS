@@ -884,3 +884,130 @@ iframe[id^="eventbrite-widget-modal-"] {
   font-size: 0.82rem;
   margin-top: 0.2rem;
 }
+
+.sots-tickets-page__owned-hint {
+  margin: 1rem 0 0;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.sots-tickets-page__owned-hint a {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.sots-tickets-page__how {
+  margin-bottom: 1.75rem;
+}
+
+.sots-tickets-page__how-list {
+  display: grid;
+  gap: 0.85rem;
+  list-style: none;
+  margin: 0;
+  padding: 1.25rem;
+  border: 1px solid rgba(15, 45, 77, 0.12);
+  border-radius: 1rem;
+  background: #fff;
+}
+
+@media (min-width: 768px) {
+  .sots-tickets-page__how-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+.sots-tickets-page__how-list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.sots-tickets-page__how-step {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 999px;
+  background: #0f2d4d;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.sots-tickets-page__how-list strong {
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.sots-tickets-page__how-list p {
+  margin: 0;
+  color: #4a5560;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.sots-performance-picker__continue {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(15, 45, 77, 0.14);
+  border-radius: 0.75rem;
+  background: #f7f9fb;
+}
+
+.sots-performance-picker__continue-label {
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #4a5560;
+}
+
+.sots-performance-picker__continue-date {
+  margin: 0.15rem 0 0;
+  font-weight: 700;
+  color: #0f2d4d;
+}
+
+.sots-account-page__hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.sots-account-page__hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.sots-account-page__hero-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 45, 77, 0.55), rgba(15, 45, 77, 0.9));
+}
+
+.sots-account-page__hero-inner {
+  position: relative;
+  color: #fff;
+}
+
+.sots-account-page__hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.sots-account-page__body {
+  padding-top: 0.5rem;
+  padding-bottom: 2rem;
+}

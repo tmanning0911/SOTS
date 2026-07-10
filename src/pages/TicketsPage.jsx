@@ -3,7 +3,6 @@ import { Link, useSearchParams } from "react-router-dom";
 import { MEDIA } from "../../js/data.js";
 import { getPriceFromLabel } from "../../js/ticketing.js";
 import { HOME_UPCOMING_EVENTS } from "../../js/home-upcoming-events.js";
-import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { PerformancePicker } from "../components/ticketing/PerformancePicker.jsx";
 import { TicketPricing } from "../components/ticketing/TicketPricing.jsx";
@@ -11,6 +10,12 @@ import { TicketStatusBadge } from "../components/ticketing/TicketStatusBadge.jsx
 import { useTickets } from "../context/TicketProvider.jsx";
 
 const PRODUCTION_SLUG = "much-ado-about-nothing";
+
+const HOW_IT_WORKS = [
+  { step: "1", title: "Pick a date", text: "Choose your performance below." },
+  { step: "2", title: "Checkout on our site", text: "Secure payment — no redirects." },
+  { step: "3", title: "Show your QR at the park", text: "Tickets arrive by email and in My Tickets." },
+];
 
 export function TicketsPage() {
   const { data, loading, error, refresh, openCheckout, ticketingState } = useTickets();
@@ -55,18 +60,30 @@ export function TicketsPage() {
                 {priceLabel ? <span className="sots-tickets-page__price-from">{priceLabel}</span> : null}
               </div>
             ) : null}
-            <div className="sots-tickets-page__hero-actions">
-              <ArrowButton href="/my-tickets/" variant="ghost">
-                My Tickets
-              </ArrowButton>
-              <ArrowButton href="/access-your-tickets/" variant="ghost">
-                Access Your Tickets
-              </ArrowButton>
-            </div>
+            <p className="sots-tickets-page__owned-hint">
+              Already purchased?{" "}
+              <Link to="/my-tickets/">My Tickets</Link>
+              {" · "}
+              <Link to="/access-your-tickets/">Look up with a confirmation code</Link>
+            </p>
           </div>
         </header>
 
         <div className="orpheum-inner-page__body">
+          <section className="sots-tickets-page__how" aria-label="How ticketing works" data-reveal>
+            <ol className="sots-tickets-page__how-list">
+              {HOW_IT_WORKS.map((item) => (
+                <li key={item.step}>
+                  <span className="sots-tickets-page__how-step">{item.step}</span>
+                  <div>
+                    <strong>{item.title}</strong>
+                    <p>{item.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
+
           <div className="sots-tickets-page__layout" data-reveal>
             <div className="sots-tickets-page__main">
               {loading ? (
@@ -103,7 +120,7 @@ export function TicketsPage() {
                       </Link>
                     </div>
 
-                    <PerformancePicker data={data} allPerformances />
+                    <PerformancePicker data={data} allPerformances confirmBeforeCheckout />
                   </section>
 
                   {relatedEvents.length ? (
@@ -141,7 +158,10 @@ export function TicketsPage() {
                   <a href="tel:+12039571006">(203) 957-1006</a> noon–5pm during the run.
                 </p>
                 <p>
-                  <Link to="/about/contact/">Contact us</Link> ·{" "}
+                  <Link to="/my-tickets/">My Tickets</Link>
+                  {" · "}
+                  <Link to="/about/contact/">Contact us</Link>
+                  {" · "}
                   <Link to="/about/visit/">Plan your visit</Link>
                 </p>
               </div>

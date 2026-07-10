@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { MEDIA } from "../../js/data.js";
 import { formatCents, resendOrderEmail } from "../../js/square-payments.js";
 import { formatPerformanceDate } from "../../js/ticketing.js";
+import { ArrowButton } from "../components/ArrowButton.jsx";
+import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { usePatron } from "../context/PatronContext.jsx";
 import { TicketQr } from "../components/ticketing/TicketQr.jsx";
 
@@ -141,88 +144,107 @@ export function MyTicketsPage() {
   }
 
   return (
-    <main className="orpheum-page orpheum-page--inner sots-my-tickets-page">
-      <div className="orpheum-container orpheum-container--narrow">
-        <p className="orpheum-kicker">Tickets</p>
-        <h1>My Tickets</h1>
-        <p className="sots-my-tickets-page__lead">
-          Sign in with your email to see every order in one place — no confirmation codes needed.
-        </p>
-
-        {!isSignedIn ? (
-          <section className="sots-my-tickets-page__auth" aria-labelledby="my-tickets-sign-in">
-            <h2 id="my-tickets-sign-in">Sign in</h2>
-            {verifyingToken ? <p>Signing you in…</p> : null}
-            <form className="sots-order-lookup" onSubmit={handleRequestLink}>
-              <label>
-                Email
-                <input
-                  type="email"
-                  name="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </label>
-              <button
-                type="submit"
-                className="orpheum-arrow-btn orpheum-arrow-btn--gold"
-                disabled={authLoading || verifyingToken}
-              >
-                {authLoading ? "Sending link…" : "Email me a sign-in link"}
-              </button>
-            </form>
-            {authMessage ? <p className="sots-checkout__hint">{authMessage}</p> : null}
-            {authError ? (
-              <p className="sots-checkout__error" role="alert">
-                {authError}
-              </p>
-            ) : null}
-            <p className="sots-checkout__hint">
-              Have a confirmation code instead?{" "}
-              <Link to="/access-your-tickets/">Access Your Tickets</Link>.
+    <InnerPageShell showVisit showNewsletter>
+      <article className="orpheum-inner-page sots-account-page">
+        <header className="orpheum-inner-page__hero sots-account-page__hero">
+          <div
+            className="sots-account-page__hero-bg"
+            style={{ backgroundImage: `url('${MEDIA.heroHome}')` }}
+            aria-hidden="true"
+          />
+          <div className="sots-account-page__hero-veil" aria-hidden="true" />
+          <div className="orpheum-inner-page__hero-inner sots-account-page__hero-inner" data-reveal>
+            <p className="orpheum-inner-page__eyebrow">Your Tickets</p>
+            <h1>My Tickets</h1>
+            <p className="orpheum-inner-page__intro">
+              Sign in with your email to see every order in one place — with QR codes ready for the park.
             </p>
-          </section>
-        ) : (
-          <section className="sots-my-tickets-page__signed-in">
-            <div className="sots-my-tickets-page__signed-in-head">
-              <p>
-                Signed in as <strong>{user?.email}</strong>
-              </p>
-              <button type="button" className="orpheum-arrow-btn orpheum-arrow-btn--ghost" onClick={signOut}>
-                Sign out
-              </button>
+            <div className="sots-account-page__hero-actions">
+              <ArrowButton href="/tickets/">Buy Tickets</ArrowButton>
+              <ArrowButton href="/access-your-tickets/" variant="ghost">
+                Confirmation code lookup
+              </ArrowButton>
             </div>
+          </div>
+        </header>
 
-            {loadingOrders ? <p>Loading your tickets…</p> : null}
-            {error ? (
-              <p className="sots-checkout__error" role="alert">
-                {error}
-              </p>
-            ) : null}
+        <div className="orpheum-inner-page__body">
+          <div className="orpheum-container orpheum-container--narrow sots-account-page__body" data-reveal>
+            {!isSignedIn ? (
+              <section className="sots-my-tickets-page__auth" aria-labelledby="my-tickets-sign-in">
+                <h2 id="my-tickets-sign-in">Sign in with email</h2>
+                <p className="sots-my-tickets-page__lead">
+                  No password needed — we'll email you a secure link.
+                </p>
+                {verifyingToken ? <p>Signing you in…</p> : null}
+                <form className="sots-order-lookup" onSubmit={handleRequestLink}>
+                  <label>
+                    Email
+                    <input
+                      type="email"
+                      name="email"
+                      autoComplete="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </label>
+                  <button
+                    type="submit"
+                    className="orpheum-arrow-btn orpheum-arrow-btn--gold"
+                    disabled={authLoading || verifyingToken}
+                  >
+                    {authLoading ? "Sending link…" : "Email me a sign-in link"}
+                  </button>
+                </form>
+                {authMessage ? <p className="sots-checkout__hint">{authMessage}</p> : null}
+                {authError ? (
+                  <p className="sots-checkout__error" role="alert">
+                    {authError}
+                  </p>
+                ) : null}
+              </section>
+            ) : (
+              <section className="sots-my-tickets-page__signed-in">
+                <div className="sots-my-tickets-page__signed-in-head">
+                  <p>
+                    Signed in as <strong>{user?.email}</strong>
+                  </p>
+                  <button type="button" className="orpheum-arrow-btn orpheum-arrow-btn--ghost" onClick={signOut}>
+                    Sign out
+                  </button>
+                </div>
 
-            {!loadingOrders && !orders.length ? (
-              <div className="sots-my-tickets-page__empty">
-                <p>No ticket orders yet for this email.</p>
-                <Link to="/tickets/" className="orpheum-arrow-btn orpheum-arrow-btn--gold">
-                  Buy tickets
-                </Link>
-              </div>
-            ) : null}
+                {loadingOrders ? <p>Loading your tickets…</p> : null}
+                {error ? (
+                  <p className="sots-checkout__error" role="alert">
+                    {error}
+                  </p>
+                ) : null}
 
-            <div className="sots-my-tickets-page__orders">
-              {orders.map((order) => (
-                <OrderCard key={order.id} order={order} email={user?.email} />
-              ))}
-            </div>
+                {!loadingOrders && !orders.length ? (
+                  <div className="sots-my-tickets-page__empty">
+                    <p>No ticket orders yet for this email.</p>
+                    <Link to="/tickets/" className="orpheum-arrow-btn orpheum-arrow-btn--gold">
+                      Buy tickets
+                    </Link>
+                  </div>
+                ) : null}
 
-            <button type="button" className="orpheum-arrow-btn orpheum-arrow-btn--ghost" onClick={() => refreshOrders()}>
-              Refresh
-            </button>
-          </section>
-        )}
-      </div>
-    </main>
+                <div className="sots-my-tickets-page__orders">
+                  {orders.map((order) => (
+                    <OrderCard key={order.id} order={order} email={user?.email} />
+                  ))}
+                </div>
+
+                <button type="button" className="orpheum-arrow-btn orpheum-arrow-btn--ghost" onClick={() => refreshOrders()}>
+                  Refresh
+                </button>
+              </section>
+            )}
+          </div>
+        </div>
+      </article>
+    </InnerPageShell>
   );
 }

@@ -11,7 +11,10 @@ export function AccessTicketsModal({ open, onClose }) {
         <button type="button" className="orpheum-modal__close" aria-label="Close" onClick={onClose}>
           &times;
         </button>
-        <h2 id="access-tickets-title">Access Your Tickets</h2>
+        <h2 id="access-tickets-title">Look Up an Order</h2>
+        <p className="sots-checkout__hint">
+          Have many orders? <Link to="/my-tickets/" onClick={onClose}>Sign in to My Tickets</Link> instead.
+        </p>
 
         <OrderLookupPanel />
 
