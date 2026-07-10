@@ -85,7 +85,7 @@ function EventGridCard({ event }) {
         <span className="orpheum-events-grid__tag">{event.genre}</span>
         <strong>{event.title}</strong>
         <span>{event.dates}</span>
-        {event.ticketStatus ? <TicketStatusBadge status={event.ticketStatus} /> : null}
+        {event.ticketStatus ? <TicketStatusBadge status={event.ticketStatus} marketingOnly /> : null}
         {event.priceLabel ? <span className="orpheum-events-grid__price">{event.priceLabel}</span> : null}
       </div>
       <div className="orpheum-events-grid__photo-actions">
@@ -108,7 +108,7 @@ function EventScrollCard({ event }) {
           <a href={event.href}>{event.title}</a>
         </h4>
         <p className="orpheum-events-scroll__dates">{event.dates}</p>
-        {event.ticketStatus ? <TicketStatusBadge status={event.ticketStatus} /> : null}
+        {event.ticketStatus ? <TicketStatusBadge status={event.ticketStatus} marketingOnly /> : null}
         {event.priceLabel ? <p className="orpheum-events-scroll__price">{event.priceLabel}</p> : null}
         <div className="orpheum-events-scroll__actions">
           <EventCta event={event} compact />

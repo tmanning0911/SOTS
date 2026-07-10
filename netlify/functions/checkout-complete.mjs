@@ -2,8 +2,20 @@ import { randomBytes } from "node:crypto";
 import { jsonResponse } from "./lib/cors.mjs";
 import { getClientIp, rateLimit } from "./lib/rateLimit.mjs";
 import { sendOrderConfirmationEmail } from "./lib/order-email.mjs";
-import { createSquarePayment } from "./lib/square.mjs";
-import { commitOrder, getHold, publicOrderView } from "./lib/ticketing-store.mjs";
+import { createSquareOrderAndPay, createSquarePayment, resolveLocationId } from "./lib/square.mjs";
+import {
+  buildSquareTicketOrderPayload,
+  canBuildSquareTicketOrder,
+  SQUARE_TICKET_CATALOG_FILENAME,
+} from "./lib/square-ticket-catalog.mjs";
+import { readStaticJsonCatalog } from "./lib/static-catalog.mjs";
+import {
+  commitOrder,
+  getHold,
+  getPerformance,
+  publicOrderView,
+  readCatalog,
+} from "./lib/ticketing-store.mjs";
 
 export async function handler(event) {
   if (event.httpMethod === "OPTIONS") {
@@ -41,15 +53,50 @@ export async function handler(event) {
   }
 
   try {
-    const payment = await createSquarePayment({
-      sourceId,
-      amountCents: hold.totalCents,
-      currency: hold.currency,
-      idempotencyKey: randomBytes(16).toString("hex"),
-      referenceId: holdId,
-      note: `SOTS tickets — ${hold.performanceId}`,
-      buyerEmail: hold.buyer.email,
-    });
+    const catalog = await readCatalog();
+    const performance = getPerformance(catalog, hold.performanceId);
+    const productionTitle = catalog?.production?.title ?? catalog?.featuredTicket?.name ?? "SOTS tickets";
+    const performanceStart = performance?.start ?? hold.performanceLabel;
+    const note = `SOTS tickets — ${productionTitle} — ${performanceStart}`;
+
+    const squareCatalog = await readStaticJsonCatalog(SQUARE_TICKET_CATALOG_FILENAME);
+    let payment;
+    let squareOrderId = null;
+
+    if (canBuildSquareTicketOrder(hold, squareCatalog)) {
+      const locationId = await resolveLocationId();
+      const orderPayload = buildSquareTicketOrderPayload({
+        hold,
+        catalogMapping: squareCatalog,
+        productionTitle,
+        performanceStart,
+        locationId,
+      });
+      const keys = randomBytes(16);
+      const result = await createSquareOrderAndPay({
+        sourceId,
+        order: orderPayload,
+        amountCents: hold.totalCents,
+        currency: hold.currency,
+        orderIdempotencyKey: `${keys.toString("hex")}-order`,
+        paymentIdempotencyKey: randomBytes(16).toString("hex"),
+        referenceId: holdId,
+        note,
+        buyerEmail: hold.buyer.email,
+      });
+      payment = result.payment;
+      squareOrderId = result.order?.id ?? null;
+    } else {
+      payment = await createSquarePayment({
+        sourceId,
+        amountCents: hold.totalCents,
+        currency: hold.currency,
+        idempotencyKey: randomBytes(16).toString("hex"),
+        referenceId: holdId,
+        note,
+        buyerEmail: hold.buyer.email,
+      });
+    }
 
     if (payment.status !== "COMPLETED" && payment.status !== "APPROVED") {
       return jsonResponse(402, { error: "Payment was not completed. Please try again." }, event, {
@@ -57,7 +104,7 @@ export async function handler(event) {
       });
     }
 
-    const order = await commitOrder({ hold, squarePaymentId: payment.id });
+    const order = await commitOrder({ hold, squarePaymentId: payment.id, squareOrderId });
 
     let emailSent = false;
     try {

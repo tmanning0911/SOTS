@@ -208,7 +208,7 @@ export function getTicketingState(data) {
 
   return {
     canPurchase,
-    statusLabel: canPurchase ? "On Sale" : featuredLabel || "Unavailable",
+    statusLabel: canPurchase ? "On Sale" : featuredLabel || "",
     purchasableCount: purchasable.length,
     defaultEventId,
     ticketsUrl: getTicketsUrl(data),

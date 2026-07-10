@@ -27,7 +27,11 @@ export function SeasonPromo() {
             <span>{featuredShow.dates}</span>
           </p>
           {!loading && ticketingState.statusLabel ? (
-            <TicketStatusBadge status={ticketingState.statusLabel} className="orpheum-season-promo__badge" />
+            <TicketStatusBadge
+              status={ticketingState.statusLabel}
+              className="orpheum-season-promo__badge"
+              marketingOnly
+            />
           ) : null}
           <TicketCheckoutButton className="orpheum-season-promo__cta-btn" />
         </div>

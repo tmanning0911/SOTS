@@ -47,3 +47,19 @@ Use Square sandbox test card `4111 1111 1111 1111`.
 npm run sync:ticketing   # rebuild public/data/ticketing.json from eventbrite.json
 npm run deploy:push
 ```
+
+## Square ticket reporting (catalog line items)
+
+Ticket checkout uses **Square for payment only**. Optionally, sync ticket **tiers** (General Admission, VIP, etc.) into Square Catalog so each sale appears in Square with proper line items — not one lump sum.
+
+Ticket types use SKUs like `SOTS-TIX-GENERAL-ADMISSION`. They are **not** shown in the gift shop. Performance date is stored on the Square order note and metadata.
+
+```bash
+npm run sync:ticketing          # refresh ticket tiers + dates
+npm run sync:square-tickets     # push tiers to Square, write square-ticket-catalog.json
+npm run deploy:push
+```
+
+Run `sync:square-tickets` once per environment (sandbox for preview, production for live). Re-run when ticket prices change.
+
+If `public/data/square-ticket-catalog.json` is missing or incomplete, checkout still works — payments fall back to a single charge with a note.

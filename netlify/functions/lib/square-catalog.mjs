@@ -65,7 +65,7 @@ export function normalizeCatalogProducts(items = [], relatedObjects = []) {
       const variationName = varData.name && varData.name !== "Regular" ? varData.name : null;
       const name = variationName ? `${data.name} — ${variationName}` : data.name;
       const sku = varData.sku ?? null;
-      if (sku?.startsWith("TEST-TIX-")) continue;
+      if (sku?.startsWith("TEST-TIX-") || sku?.startsWith("SOTS-TIX-")) continue;
 
       products.push({
         id: variation.id,

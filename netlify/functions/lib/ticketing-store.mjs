@@ -387,7 +387,7 @@ export async function releaseHold(holdId) {
   }
 }
 
-export async function commitOrder({ hold, squarePaymentId }) {
+export async function commitOrder({ hold, squarePaymentId, squareOrderId = null }) {
   const catalog = await readCatalog();
   const performance = getPerformance(catalog, hold.performanceId);
 
@@ -428,6 +428,7 @@ export async function commitOrder({ hold, squarePaymentId }) {
     totalCents: hold.totalCents,
     currency: hold.currency,
     squarePaymentId,
+    squareOrderId,
     status: "completed",
     tickets,
     createdAt: new Date().toISOString(),

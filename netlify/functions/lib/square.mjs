@@ -74,6 +74,7 @@ export async function createSquarePayment({
   referenceId,
   note,
   buyerEmail,
+  orderId,
 }) {
   const locationId = await resolveLocationId();
   const payload = {
@@ -84,11 +85,53 @@ export async function createSquarePayment({
     reference_id: referenceId,
     note,
   };
+  if (orderId) {
+    payload.order_id = orderId;
+  }
   if (buyerEmail) {
     payload.buyer_email_address = buyerEmail;
   }
   const data = await squareRequest("/v2/payments", { method: "POST", body: payload });
   return data.payment;
+}
+
+export async function createSquareOrder({ order, idempotencyKey }) {
+  const data = await squareRequest("/v2/orders", {
+    method: "POST",
+    body: {
+      idempotency_key: idempotencyKey,
+      order,
+    },
+  });
+  return data.order;
+}
+
+export async function createSquareOrderAndPay({
+  sourceId,
+  order,
+  amountCents,
+  currency = "USD",
+  orderIdempotencyKey,
+  paymentIdempotencyKey,
+  referenceId,
+  note,
+  buyerEmail,
+}) {
+  const squareOrder = await createSquareOrder({
+    order,
+    idempotencyKey: orderIdempotencyKey,
+  });
+  const payment = await createSquarePayment({
+    sourceId,
+    amountCents,
+    currency,
+    idempotencyKey: paymentIdempotencyKey,
+    referenceId,
+    note,
+    buyerEmail,
+    orderId: squareOrder.id,
+  });
+  return { order: squareOrder, payment };
 }
 
 export async function refundSquarePayment({ paymentId, amountCents, currency = "USD", idempotencyKey, reason }) {
