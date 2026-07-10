@@ -19,9 +19,8 @@ import { CheckoutProgress } from "./CheckoutProgress.jsx";
 import { HoldTimer } from "./HoldTimer.jsx";
 import { TicketQr } from "./TicketQr.jsx";
 
-const CARD_CONTAINER_ID = "sots-square-card-container";
+const CARD_CONTAINER_ID = "sots-co-card-mount";
 const DONATION_PRESETS = [0, 500, 1000, 2500, 5000];
-const CHECKOUT_STEPS = ["tickets", "details", "pay"];
 
 function defaultQuantities(ticketTypes) {
   const ga =
@@ -37,35 +36,35 @@ function TicketRow({ ticketType, quantity, max, onChange, highlight }) {
 
   return (
     <article
-      className={`sots-checkout-ticket${highlight ? " is-featured" : ""}${quantity > 0 ? " is-selected" : ""}${soldOut ? " is-sold-out" : ""}`}
+      className={`sots-co__ticket${highlight ? " is-featured" : ""}${quantity > 0 ? " is-selected" : ""}${soldOut ? " is-sold-out" : ""}`}
     >
-      <div className="sots-checkout-ticket__main">
-        <div className="sots-checkout-ticket__head">
+      <div>
+        <div className="sots-co__ticket-head">
           <strong>{patronDisplayName(ticketType.name)}</strong>
-          {soldOut ? <span className="sots-checkout-ticket__badge sots-checkout-ticket__badge--sold-out">Sold out</span> : null}
-          {!soldOut && highlight ? <span className="sots-checkout-ticket__badge">Most popular</span> : null}
+          {soldOut ? <span className="sots-co__ticket-badge sots-co__ticket-badge--sold-out">Sold out</span> : null}
+          {!soldOut && highlight ? <span className="sots-co__ticket-badge">Most popular</span> : null}
         </div>
-        {hint ? <p className="sots-checkout-ticket__hint">{hint}</p> : null}
-        {lowStock ? <p className="sots-checkout-ticket__scarcity">Only {max} left</p> : null}
-        <p className="sots-checkout-ticket__price">{ticketType.price?.display}</p>
+        {hint ? <p className="sots-co__ticket-hint">{hint}</p> : null}
+        {lowStock ? <p className="sots-co__ticket-scarcity">Only {max} left</p> : null}
+        <p className="sots-co__ticket-price">{ticketType.price?.display}</p>
       </div>
       {soldOut ? null : (
-        <div className="sots-checkout-ticket__qty" aria-label={`Quantity for ${ticketType.name}`}>
+        <div className="sots-co__qty" aria-label={`Quantity for ${ticketType.name}`}>
           <button
             type="button"
-            className="sots-checkout-ticket__qty-btn"
+            className="sots-co__qty-btn"
             onClick={() => onChange(Math.max(0, quantity - 1))}
             disabled={quantity <= 0}
             aria-label={`Decrease ${ticketType.name}`}
           >
             −
           </button>
-          <span className="sots-checkout-ticket__qty-value" aria-live="polite">
+          <span className="sots-co__qty-value" aria-live="polite">
             {quantity}
           </span>
           <button
             type="button"
-            className="sots-checkout-ticket__qty-btn"
+            className="sots-co__qty-btn"
             onClick={() => onChange(Math.min(max, quantity + 1))}
             disabled={quantity >= max}
             aria-label={`Increase ${ticketType.name}`}
@@ -92,20 +91,29 @@ function OrderSummary({
 }) {
   const ticketCount = selectedItems.reduce((sum, item) => sum + item.quantity, 0);
 
-  return (
-    <div className={`sots-checkout-page__summary-card${compact ? " is-compact" : ""}`}>
-      {!compact && showImage ? (
-        <img src={showImage} alt="" className="sots-checkout-page__summary-poster" loading="lazy" />
-      ) : null}
-      <div className="sots-checkout-page__summary-copy">
-        {!compact ? <p className="sots-checkout-page__summary-eyebrow">Order summary</p> : null}
-        {showTitle && !compact ? <p className="sots-checkout-page__summary-show">{showTitle}</p> : null}
-        {performance ? (
-          <p className="sots-checkout-page__summary-date">{formatPerformanceDate(performance.start)}</p>
-        ) : null}
-        {performance?.venue ? <p className="sots-checkout-page__summary-venue">{performance.venue}</p> : null}
+  if (compact) {
+    return (
+      <div className="sots-co__mobile-total">
+        <div className="sots-co__mobile-total-row">
+          <span>
+            {ticketCount ? `${ticketCount} ticket${ticketCount === 1 ? "" : "s"}` : "Order total"}
+          </span>
+          <strong>{formatCents(totalCents)}</strong>
+        </div>
       </div>
-      <ul className="sots-checkout-page__summary-lines">
+    );
+  }
+
+  return (
+    <div className="sots-co__aside-card">
+      {showImage ? <img src={showImage} alt="" className="sots-co__aside-poster" loading="lazy" /> : null}
+      <div className="sots-co__aside-body">
+        <p className="sots-co__aside-label">Order summary</p>
+        {showTitle ? <p className="sots-co__aside-show">{showTitle}</p> : null}
+        {performance ? <p className="sots-co__aside-date">{formatPerformanceDate(performance.start)}</p> : null}
+        {performance?.venue ? <p className="sots-co__aside-venue">{performance.venue}</p> : null}
+      </div>
+      <ul className="sots-co__lines">
         {selectedItems.length ? (
           selectedItems.map((item) => {
             const tt = ticketTypes.find((t) => t.id === item.ticketTypeId);
@@ -119,38 +127,33 @@ function OrderSummary({
             );
           })
         ) : (
-          <li className="sots-checkout-page__summary-empty">Select tickets to continue</li>
+          <li className="sots-co__lines-empty">Select tickets below</li>
         )}
       </ul>
       {donationCents ? (
-        <p className="sots-checkout-page__summary-line">
+        <p className="sots-co__line-row">
           <span>Donation</span>
           <span>{formatCents(donationCents)}</span>
         </p>
       ) : null}
       {discountCents ? (
-        <p className="sots-checkout-page__summary-line is-discount">
+        <p className="sots-co__line-row is-discount">
           <span>{promoLabel ?? "Promo discount"}</span>
           <span>−{formatCents(discountCents)}</span>
         </p>
       ) : null}
-      <p className="sots-checkout-page__summary-total">
-        <span>
-          Total
-          {ticketCount ? ` · ${ticketCount} ticket${ticketCount === 1 ? "" : "s"}` : ""}
-        </span>
+      <p className="sots-co__total">
+        <span>Total{ticketCount ? ` · ${ticketCount} ticket${ticketCount === 1 ? "" : "s"}` : ""}</span>
         <strong>{formatCents(totalCents)}</strong>
       </p>
-      {!compact ? (
-        <p className="sots-checkout-page__summary-trust">Secure checkout · Instant email confirmation</p>
-      ) : null}
+      <p className="sots-co__trust">Secure checkout · Instant email confirmation</p>
     </div>
   );
 }
 
 function ConfirmationView({ order, emailSent, showTitle }) {
   return (
-    <div className="sots-checkout__confirmation sots-checkout__confirmation--page">
+    <div className="sots-co__confirm sots-checkout__confirmation sots-checkout__confirmation--page">
       <div className="sots-checkout__success-badge" aria-hidden="true">
         ✓
       </div>
@@ -182,17 +185,6 @@ function ConfirmationView({ order, emailSent, showTitle }) {
           </li>
         ))}
       </ul>
-      <div className="sots-checkout__next-steps">
-        <h3>At the park</h3>
-        <ol>
-          <li>Show your QR code at the gate.</li>
-          <li>Arrive early — seating is first come.</li>
-          <li>Bring a blanket or low-back chair for general admission.</li>
-        </ol>
-      </div>
-      {order.donationCents ? (
-        <p className="sots-checkout__hint">Includes a {formatCents(order.donationCents)} donation. Thank you.</p>
-      ) : null}
       <p className="sots-checkout__total sots-checkout__total--confirm">Total paid: {formatCents(order.totalCents)}</p>
       <div className="sots-checkout__confirm-actions">
         <Link to="/my-tickets/" className="orpheum-arrow-btn orpheum-arrow-btn--gold">
@@ -214,7 +206,6 @@ export function TicketCheckoutForm({
   changeDateHref = "/tickets/",
 }) {
   const cardRef = useRef(null);
-  const mainRef = useRef(null);
   const patron = usePatron();
   const patronUser = patron?.user;
   const storedBuyer = useMemo(() => readStoredBuyer(), []);
@@ -236,13 +227,6 @@ export function TicketCheckoutForm({
   const [loading, setLoading] = useState(false);
   const [cardReady, setCardReady] = useState(false);
   const [paymentError, setPaymentError] = useState(false);
-  const [stepIndex, setStepIndex] = useState(0);
-  const [paymentMounted, setPaymentMounted] = useState(false);
-  const checkoutStep = CHECKOUT_STEPS[stepIndex];
-
-  const scrollToCheckout = useCallback(() => {
-    mainRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, []);
 
   const clearPromoPreview = useCallback(() => {
     setPromoPreview(null);
@@ -291,9 +275,17 @@ export function TicketCheckoutForm({
     [selectedItems, ticketTypes],
   );
 
-  const ticketCount = selectedItems.reduce((sum, item) => sum + item.quantity, 0);
   const discountCents = hold?.discountCents ?? promoPreview?.discountCents ?? 0;
   const estimatedTotal = hold?.totalCents ?? Math.max(100, ticketSubtotal + donationCents - discountCents);
+
+  const checkoutStep = useMemo(() => {
+    if (!selectedItems.length) return "tickets";
+    if (!name.trim() || !email.trim()) return "details";
+    return "pay";
+  }, [selectedItems.length, name, email]);
+
+  const ticketsDone = selectedItems.length > 0;
+  const detailsDone = Boolean(name.trim() && email.trim());
 
   useEffect(() => {
     if (patronUser?.email) setEmail(patronUser.email);
@@ -317,19 +309,17 @@ export function TicketCheckoutForm({
     setShowPromo(false);
     setDonationCents(0);
     setShowDonation(false);
-    setStepIndex(0);
-    setPaymentMounted(false);
     cardRef.current?.destroy?.();
     cardRef.current = null;
-  }, [performanceId, storedBuyer.name, storedBuyer.email, patronUser?.email]);
+  }, [performanceId, storedBuyer.name, storedBuyer.email, patronUser?.email, ticketTypes]);
 
   useEffect(() => {
-    if (!paymentMounted || cardRef.current) return undefined;
+    if (cardRef.current) return undefined;
 
     let cancelled = false;
 
     async function mountCard() {
-      for (let attempt = 0; attempt < 30; attempt += 1) {
+      for (let attempt = 0; attempt < 40; attempt += 1) {
         if (cancelled) return;
         if (document.getElementById(CARD_CONTAINER_ID)) break;
         await new Promise((resolve) => window.setTimeout(resolve, 50));
@@ -356,53 +346,7 @@ export function TicketCheckoutForm({
     return () => {
       cancelled = true;
     };
-  }, [paymentMounted]);
-
-  function selectCheckoutStep(stepId) {
-    const nextIndex = CHECKOUT_STEPS.indexOf(stepId);
-    if (nextIndex === -1 || nextIndex >= stepIndex) return;
-    setError("");
-    if (stepId !== "pay") setHold(null);
-    setStepIndex(nextIndex);
-    scrollToCheckout();
-  }
-
-  function continueToDetails() {
-    setError("");
-    if (!selectedItems.length) {
-      setError("Choose at least one ticket to continue.");
-      scrollToCheckout();
-      return;
-    }
-    setStepIndex(1);
-    scrollToCheckout();
-  }
-
-  function continueToPayment() {
-    setError("");
-    if (!name.trim() || !email.trim()) {
-      setError("Name and email are required.");
-      scrollToCheckout();
-      return;
-    }
-    writeStoredBuyer({ name, email });
-    setPaymentMounted(true);
-    setStepIndex(2);
-    scrollToCheckout();
-  }
-
-  function goBackToTickets() {
-    setError("");
-    setStepIndex(0);
-    scrollToCheckout();
-  }
-
-  function goBackToDetails() {
-    setError("");
-    setHold(null);
-    setStepIndex(1);
-    scrollToCheckout();
-  }
+  }, [performanceId]);
 
   async function handleApplyPromo() {
     setError("");
@@ -452,14 +396,17 @@ export function TicketCheckoutForm({
 
     if (!selectedItems.length) {
       setError("Choose at least one ticket.");
+      document.getElementById("co-section-tickets")?.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
     if (!name.trim() || !email.trim()) {
       setError("Name and email are required.");
+      document.getElementById("co-section-details")?.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
     if (!cardRef.current) {
       setError("Payment form is not ready yet.");
+      document.getElementById("co-section-payment")?.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
 
@@ -495,30 +442,31 @@ export function TicketCheckoutForm({
   }
 
   return (
-    <div className="sots-checkout-page__shell">
-      <div className="sots-checkout-page__progress-wrap sots-checkout-page__progress-wrap--inline">
-        <CheckoutProgress current={checkoutStep} onStepSelect={selectCheckoutStep} />
+    <>
+      <div className="sots-co__progress-wrap">
+        <CheckoutProgress current={checkoutStep} />
       </div>
-      <div className="sots-checkout-page__layout sots-checkout-page__layout--form">
-        <aside className="sots-checkout-page__summary-pane" aria-label="Order summary">
-          <OrderSummary
-            performance={performance}
-            showTitle={showTitle}
-            showImage={showImage}
-            selectedItems={selectedItems}
-            ticketTypes={ticketTypes}
-            donationCents={donationCents}
-            discountCents={discountCents}
-            promoLabel={promoPreview?.description ?? hold?.promoCode ?? undefined}
-            totalCents={estimatedTotal}
-          />
-          <Link to={changeDateHref} className="sots-checkout-page__change-date">
-            ← Choose a different date
-          </Link>
-        </aside>
 
-        <div ref={mainRef} className="sots-checkout-page__main">
-          <div className="sots-checkout-page__mobile-summary" aria-label="Order total">
+      <div className="sots-co__body">
+        <div className="sots-co__grid">
+          <aside className="sots-co__aside" aria-label="Order summary">
+            <OrderSummary
+              performance={performance}
+              showTitle={showTitle}
+              showImage={showImage}
+              selectedItems={selectedItems}
+              ticketTypes={ticketTypes}
+              donationCents={donationCents}
+              discountCents={discountCents}
+              promoLabel={promoPreview?.description ?? hold?.promoCode ?? undefined}
+              totalCents={estimatedTotal}
+            />
+            <Link to={changeDateHref} className="sots-co__change-date">
+              ← Choose a different date
+            </Link>
+          </aside>
+
+          <div className="sots-co__main">
             <OrderSummary
               performance={performance}
               showTitle={showTitle}
@@ -530,254 +478,250 @@ export function TicketCheckoutForm({
               totalCents={estimatedTotal}
               compact
             />
-          </div>
 
-          {error ? (
-            <div className="sots-checkout__error-panel" role="alert">
-              <p className="sots-checkout__error">{error}</p>
-              {paymentError ? (
-                <p className="sots-checkout__hint">
-                  {hold?.expiresAt
-                    ? "Your tickets are still held — please try again before the timer runs out."
-                    : "Please check your card details and try again."}
-                </p>
-              ) : null}
-            </div>
-          ) : null}
-
-          {stepIndex === 0 ? (
-            <section className="sots-checkout-step" aria-labelledby="checkout-tickets-heading">
-              <header className="sots-checkout-step__head">
-                <h2 id="checkout-tickets-heading" className="sots-checkout-step__title">
-                  Choose your tickets
-                </h2>
-                <p className="sots-checkout-step__desc">All prices include fees. Kids 12 and under need a child ticket.</p>
-              </header>
-              <div className="sots-checkout-step__body">
-                <div className="sots-checkout-ticket-list">
-                  {ticketTypes.map((tt) => {
-                    const max = performance?.ticketAvailability?.[tt.id] ?? tt.capacity ?? 10;
-                    return (
-                      <TicketRow
-                        key={tt.id}
-                        ticketType={tt}
-                        quantity={quantities[tt.id] ?? 0}
-                        max={max}
-                        highlight={tt.id === gaTicketId}
-                        onChange={(qty) => {
-                          setQuantities((prev) => ({ ...prev, [tt.id]: qty }));
-                          setHold(null);
-                          clearPromoPreview();
-                        }}
-                      />
-                    );
-                  })}
-                </div>
-
-                <div className="sots-checkout__optional sots-checkout__optional--panel">
-                  <button
-                    type="button"
-                    className="sots-checkout__optional-toggle"
-                    aria-expanded={showPromo}
-                    onClick={() => setShowPromo((v) => !v)}
-                  >
-                    {showPromo ? "Hide promo code" : "Have a promo code?"}
-                  </button>
-                  {showPromo ? (
-                    <div className="sots-checkout__promo">
-                      <label className="sots-checkout__optional-field">
-                        Promo code
-                        <div className="sots-checkout__promo-row">
-                          <input
-                            type="text"
-                            value={promoCode}
-                            onChange={(e) => {
-                              setPromoCode(e.target.value.toUpperCase());
-                              setHold(null);
-                              clearPromoPreview();
-                            }}
-                            placeholder="Enter code"
-                            autoComplete="off"
-                          />
-                          <button
-                            type="button"
-                            className="orpheum-arrow-btn orpheum-arrow-btn--ghost sots-checkout__promo-apply"
-                            onClick={handleApplyPromo}
-                            disabled={promoLoading || !selectedItems.length}
-                          >
-                            {promoLoading ? "Checking…" : "Apply"}
-                          </button>
-                        </div>
-                      </label>
-                      {promoMessage ? (
-                        <p className={`sots-checkout__promo-message${promoPreview ? " is-success" : ""}`}>{promoMessage}</p>
-                      ) : null}
-                    </div>
-                  ) : null}
-
-                  <button
-                    type="button"
-                    className="sots-checkout__optional-toggle"
-                    aria-expanded={showDonation}
-                    onClick={() => setShowDonation((v) => !v)}
-                  >
-                    {showDonation ? "Hide donation" : "Add a tax-deductible donation?"}
-                  </button>
-                  {showDonation ? (
-                    <fieldset className="sots-checkout__donation">
-                      <legend className="visually-hidden">Donation amount</legend>
-                      <p className="sots-checkout__donation-note">Support free Shakespeare in the park for everyone.</p>
-                      <div className="sots-checkout__donation-options">
-                        {DONATION_PRESETS.map((amount) => (
-                          <button
-                            key={amount}
-                            type="button"
-                            className={`sots-checkout__donation-btn${donationCents === amount ? " is-selected" : ""}`}
-                            onClick={() => {
-                              setDonationCents(amount);
-                              setHold(null);
-                            }}
-                          >
-                            {amount === 0 ? "None" : formatCents(amount)}
-                          </button>
-                        ))}
-                      </div>
-                    </fieldset>
-                  ) : null}
-                </div>
-              </div>
-              <div className="sots-checkout-step__actions">
-                <button type="button" className="orpheum-arrow-btn orpheum-arrow-btn--gold" onClick={continueToDetails}>
-                  Continue to your details
-                </button>
-              </div>
-            </section>
-          ) : null}
-
-          {stepIndex === 1 ? (
-            <section className="sots-checkout-step" aria-labelledby="checkout-details-heading">
-              <header className="sots-checkout-step__head">
-                <h2 id="checkout-details-heading" className="sots-checkout-step__title">
-                  Your information
-                </h2>
-                <p className="sots-checkout-step__desc">We&apos;ll email your tickets and QR codes here.</p>
-              </header>
-              <div className="sots-checkout-step__body">
-                {patronUser?.email ? (
-                  <p className="sots-checkout__signed-in">
-                    Signed in as <strong>{patronUser.email}</strong> ·{" "}
-                    <Link to="/my-tickets/">My Tickets</Link>
+            {error ? (
+              <div className="sots-co__alert" role="alert">
+                {error}
+                {paymentError ? (
+                  <p style={{ margin: "0.35rem 0 0", fontSize: "0.86rem" }}>
+                    {hold?.expiresAt
+                      ? "Your tickets are still held — please try again before the timer runs out."
+                      : "Please check your card details and try again."}
                   </p>
                 ) : null}
-                <div className="sots-checkout__field-grid">
-                  <label className="sots-checkout__field">
-                    <span>Full name</span>
-                    <input
-                      type="text"
-                      name="name"
-                      autoComplete="name"
-                      required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="Jane Smith"
-                    />
-                  </label>
-                  <label className="sots-checkout__field">
-                    <span>Email</span>
-                    <input
-                      type="email"
-                      name="email"
-                      autoComplete="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="you@example.com"
-                    />
-                  </label>
-                </div>
               </div>
-              <div className="sots-checkout-step__actions">
-                <button type="button" className="sots-checkout-step__back" onClick={goBackToTickets}>
-                  ← Back to tickets
-                </button>
-                <button type="button" className="orpheum-arrow-btn orpheum-arrow-btn--gold" onClick={continueToPayment}>
-                  Continue to payment
-                </button>
-              </div>
-            </section>
-          ) : null}
+            ) : null}
 
-          {paymentMounted ? (
-            <form
-              id="sots-ticket-checkout"
-              className={`sots-checkout-step sots-checkout-step--payment${stepIndex !== 2 ? " is-hidden" : ""}`}
-              onSubmit={handlePay}
-            >
-              <header className="sots-checkout-step__head">
-                <h2 className="sots-checkout-step__title">Payment</h2>
-                <p className="sots-checkout-step__desc">All major cards accepted. Charged securely by Square.</p>
-              </header>
-
-              <div className="sots-checkout-step__body">
-                <HoldTimer expiresAt={hold?.expiresAt} onExpired={handleHoldExpired} />
-
-                <div className={`sots-checkout__payment${cardReady ? " is-ready" : ""}`}>
-                  <div className="sots-checkout__payment-trust">
-                    <span className="sots-checkout__payment-lock" aria-hidden="true">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <rect x="5" y="11" width="14" height="10" rx="2" />
-                        <path d="M8 11V8a4 4 0 0 1 8 0v3" />
-                      </svg>
-                      Secure payment
-                    </span>
-                    <span className="sots-checkout__card-brands" aria-hidden="true">
-                      Visa · Mastercard · Amex · Discover
-                    </span>
+            <form id="sots-ticket-checkout" className="sots-co__form" onSubmit={handlePay}>
+              <section
+                id="co-section-tickets"
+                className={`sots-co__section${ticketsDone ? " sots-co__section--done" : ""}`}
+                aria-labelledby="co-tickets-heading"
+              >
+                <header className="sots-co__section-head">
+                  <span className="sots-co__section-num" aria-hidden="true">
+                    {ticketsDone ? "✓" : "1"}
+                  </span>
+                  <div>
+                    <h2 id="co-tickets-heading" className="sots-co__section-title">
+                      Choose your tickets
+                    </h2>
+                    <p className="sots-co__section-desc">All prices include fees. Kids 12 and under need a child ticket.</p>
                   </div>
-                  {cardReady ? (
-                    <p className="sots-checkout__payment-hint">Click below and type your card number, expiry, and CVV.</p>
-                  ) : (
-                    <p className="sots-checkout__loading">
-                      <span className="sots-checkout__loading-dot" aria-hidden="true" />
-                      Loading secure payment form…
+                </header>
+                <div className="sots-co__section-body">
+                  <div className="sots-co__tickets">
+                    {ticketTypes.map((tt) => {
+                      const max = performance?.ticketAvailability?.[tt.id] ?? tt.capacity ?? 10;
+                      return (
+                        <TicketRow
+                          key={tt.id}
+                          ticketType={tt}
+                          quantity={quantities[tt.id] ?? 0}
+                          max={max}
+                          highlight={tt.id === gaTicketId}
+                          onChange={(qty) => {
+                            setQuantities((prev) => ({ ...prev, [tt.id]: qty }));
+                            setHold(null);
+                            clearPromoPreview();
+                          }}
+                        />
+                      );
+                    })}
+                  </div>
+
+                  <div className="sots-co__extras">
+                    <button
+                      type="button"
+                      className="sots-co__extras-toggle"
+                      aria-expanded={showPromo}
+                      onClick={() => setShowPromo((v) => !v)}
+                    >
+                      {showPromo ? "Hide promo code" : "Have a promo code?"}
+                    </button>
+                    {showPromo ? (
+                      <div className="sots-co__extras-panel">
+                        <label className="sots-checkout__optional-field">
+                          Promo code
+                          <div className="sots-checkout__promo-row">
+                            <input
+                              type="text"
+                              value={promoCode}
+                              onChange={(e) => {
+                                setPromoCode(e.target.value.toUpperCase());
+                                setHold(null);
+                                clearPromoPreview();
+                              }}
+                              placeholder="Enter code"
+                              autoComplete="off"
+                            />
+                            <button
+                              type="button"
+                              className="orpheum-arrow-btn orpheum-arrow-btn--ghost sots-checkout__promo-apply"
+                              onClick={handleApplyPromo}
+                              disabled={promoLoading || !selectedItems.length}
+                            >
+                              {promoLoading ? "Checking…" : "Apply"}
+                            </button>
+                          </div>
+                        </label>
+                        {promoMessage ? (
+                          <p className={`sots-checkout__promo-message${promoPreview ? " is-success" : ""}`}>{promoMessage}</p>
+                        ) : null}
+                      </div>
+                    ) : null}
+
+                    <button
+                      type="button"
+                      className="sots-co__extras-toggle"
+                      aria-expanded={showDonation}
+                      onClick={() => setShowDonation((v) => !v)}
+                    >
+                      {showDonation ? "Hide donation" : "Add a donation?"}
+                    </button>
+                    {showDonation ? (
+                      <div className="sots-co__extras-panel">
+                        <p className="sots-checkout__donation-note">Support free Shakespeare in the park for everyone.</p>
+                        <div className="sots-checkout__donation-options">
+                          {DONATION_PRESETS.map((amount) => (
+                            <button
+                              key={amount}
+                              type="button"
+                              className={`sots-checkout__donation-btn${donationCents === amount ? " is-selected" : ""}`}
+                              onClick={() => {
+                                setDonationCents(amount);
+                                setHold(null);
+                              }}
+                            >
+                              {amount === 0 ? "None" : formatCents(amount)}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+              </section>
+
+              <section
+                id="co-section-details"
+                className={`sots-co__section${detailsDone ? " sots-co__section--done" : ""}`}
+                aria-labelledby="co-details-heading"
+              >
+                <header className="sots-co__section-head">
+                  <span className="sots-co__section-num" aria-hidden="true">
+                    {detailsDone ? "✓" : "2"}
+                  </span>
+                  <div>
+                    <h2 id="co-details-heading" className="sots-co__section-title">
+                      Your information
+                    </h2>
+                    <p className="sots-co__section-desc">We&apos;ll email your tickets and QR codes here.</p>
+                  </div>
+                </header>
+                <div className="sots-co__section-body">
+                  {patronUser?.email ? (
+                    <p className="sots-co__signed-in">
+                      Signed in as <strong>{patronUser.email}</strong> ·{" "}
+                      <Link to="/my-tickets/">My Tickets</Link>
                     </p>
-                  )}
-                  <div className="sots-checkout__card">
-                    <div id={CARD_CONTAINER_ID} className="sots-checkout__card-container" />
+                  ) : null}
+                  <div className="sots-co__fields">
+                    <label className="sots-co__field">
+                      <span>Full name</span>
+                      <input
+                        type="text"
+                        name="name"
+                        autoComplete="name"
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Jane Smith"
+                      />
+                    </label>
+                    <label className="sots-co__field">
+                      <span>Email</span>
+                      <input
+                        type="email"
+                        name="email"
+                        autoComplete="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="you@example.com"
+                      />
+                    </label>
                   </div>
                 </div>
+              </section>
 
-                <div className="sots-checkout__next-steps sots-checkout__next-steps--inline">
-                  <h3>What happens next</h3>
-                  <ol>
-                    <li>Tickets arrive in your inbox within minutes.</li>
-                    <li>QR codes are saved in My Tickets for easy access.</li>
-                    <li>Show your QR at the gate in Pinkney Park.</li>
-                  </ol>
+              <section
+                id="co-section-payment"
+                className="sots-co__section sots-co__section--payment"
+                aria-labelledby="co-payment-heading"
+              >
+                <header className="sots-co__section-head">
+                  <span className="sots-co__section-num" aria-hidden="true">
+                    3
+                  </span>
+                  <div>
+                    <h2 id="co-payment-heading" className="sots-co__section-title">
+                      Payment
+                    </h2>
+                    <p className="sots-co__section-desc">All major cards accepted. Charged securely by Square.</p>
+                  </div>
+                </header>
+
+                {hold?.expiresAt ? (
+                  <HoldTimer expiresAt={hold.expiresAt} onExpired={handleHoldExpired} className="sots-co__hold" />
+                ) : null}
+
+                <div className="sots-co__section-body">
+                  <div className="sots-co__payment-box">
+                    <div className="sots-co__payment-trust">
+                      <span className="sots-co__payment-lock" aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <rect x="5" y="11" width="14" height="10" rx="2" />
+                          <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+                        </svg>
+                        Secure payment
+                      </span>
+                      <span className="sots-co__card-brands">Visa · Mastercard · Amex · Discover</span>
+                    </div>
+                    {cardReady ? (
+                      <p className="sots-checkout__payment-hint" style={{ margin: 0, fontSize: "0.86rem", color: "#4a5560" }}>
+                        Click below and type your card number, expiry, and CVV.
+                      </p>
+                    ) : (
+                      <p className="sots-co__loading">
+                        <span className="sots-co__loading-dot" aria-hidden="true" />
+                        Loading secure payment form…
+                      </p>
+                    )}
+                    <div id={CARD_CONTAINER_ID} className="sots-co__card-mount" />
+                  </div>
+
+                  <p className="sots-co__terms">
+                    By paying you agree to our <Link to="/about/faq/">ticket policies</Link> (all sales final except
+                    weather cancellations).
+                  </p>
+
+                  <div className="sots-co__pay-row">
+                    <p className="sots-co__pay-note">Taxes and fees included · Tickets emailed instantly</p>
+                    <button
+                      type="submit"
+                      className="orpheum-arrow-btn orpheum-arrow-btn--gold sots-co__submit"
+                      disabled={loading || !cardReady || !selectedItems.length}
+                    >
+                      {loading ? "Processing…" : `Pay ${formatCents(estimatedTotal)}`}
+                    </button>
+                  </div>
                 </div>
-
-                <p className="sots-checkout__terms">
-                  By paying you agree to our{" "}
-                  <Link to="/about/faq/">ticket policies</Link> (all sales final except weather cancellations).
-                </p>
-              </div>
-
-              <div className="sots-checkout-step__actions sots-checkout-step__actions--pay">
-                <button type="button" className="sots-checkout-step__back" onClick={goBackToDetails}>
-                  ← Back to your details
-                </button>
-                <button
-                  type="submit"
-                  className="orpheum-arrow-btn orpheum-arrow-btn--gold sots-checkout__submit"
-                  disabled={loading || !cardReady || !selectedItems.length}
-                >
-                  {loading ? "Processing…" : `Pay ${formatCents(estimatedTotal)}`}
-                </button>
-              </div>
+              </section>
             </form>
-          ) : null}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

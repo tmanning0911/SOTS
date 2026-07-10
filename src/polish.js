@@ -6,6 +6,7 @@ import { syncChromeMetrics } from "./components/SiteChrome.jsx";
 gsap.registerPlugin(ScrollTrigger);
 
 let lenis;
+let lenisRafCallback = null;
 let homeMotionCtx = null;
 let innerMotionCtx = null;
 
@@ -27,7 +28,12 @@ function initSmoothScroll() {
 
   lenis.on("scroll", ScrollTrigger.update);
 
-  gsap.ticker.add((time) => lenis.raf(time * 1000));
+  if (!lenisRafCallback) {
+    lenisRafCallback = (time) => {
+      lenis?.raf(time * 1000);
+    };
+    gsap.ticker.add(lenisRafCallback);
+  }
   gsap.ticker.lagSmoothing(0);
 }
 
@@ -155,14 +161,30 @@ export function resumeSmoothScroll() {
   refreshScroll();
 }
 
-export function disableSmoothScrollForCheckout() {
-  pauseSmoothScroll();
-  document.documentElement.classList.remove("lenis", "lenis-smooth");
-  document.body.classList.remove("lenis", "lenis-smooth");
+export function enableCheckoutScrollMode() {
+  if (lenis) {
+    lenis.destroy();
+    lenis = null;
+  }
+  document.documentElement.classList.add("sots-checkout-scroll");
+  document.body.classList.add("sots-checkout-active");
+  document.documentElement.classList.remove("lenis", "lenis-smooth", "lenis-stopped");
+  document.body.classList.remove("lenis", "lenis-smooth", "lenis-stopped");
 }
 
+export function disableCheckoutScrollMode() {
+  document.documentElement.classList.remove("sots-checkout-scroll");
+  document.body.classList.remove("sots-checkout-active");
+  initSmoothScroll();
+  refreshScroll();
+}
+
+/** @deprecated Use enableCheckoutScrollMode */
+export function disableSmoothScrollForCheckout() {
+  enableCheckoutScrollMode();
+}
+
+/** @deprecated Use disableCheckoutScrollMode */
 export function restoreSmoothScrollAfterCheckout() {
-  document.documentElement.classList.add("lenis");
-  document.body.classList.add("lenis", "lenis-smooth");
-  resumeSmoothScroll();
+  disableCheckoutScrollMode();
 }

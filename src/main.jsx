@@ -14,6 +14,7 @@ import "../css/polish.css";
 import "../css/responsive.css";
 import "../css/home.css";
 import "../css/ticketing.css";
+import "../css/checkout.css";
 import "../css/shop.css";
 import "../css/a11y.css";
 import "./tailwind.css";

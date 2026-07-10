@@ -7,7 +7,7 @@ function formatRemaining(ms) {
   return `${mins}:${String(secs).padStart(2, "0")}`;
 }
 
-export function HoldTimer({ expiresAt, onExpired }) {
+export function HoldTimer({ expiresAt, onExpired, className = "" }) {
   const [remainingMs, setRemainingMs] = useState(null);
   const expiredRef = useRef(false);
 
@@ -39,7 +39,7 @@ export function HoldTimer({ expiresAt, onExpired }) {
   if (remainingMs == null || remainingMs <= 0) return null;
 
   return (
-    <p className="sots-checkout__hold-timer" role="status">
+    <p className={`sots-checkout__hold-timer ${className}`.trim()} role="status">
       Tickets held for <strong>{formatRemaining(remainingMs)}</strong>
     </p>
   );

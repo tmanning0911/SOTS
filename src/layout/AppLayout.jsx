@@ -8,11 +8,16 @@ import { HomeQuickBar } from "../components/HomeQuickBar.jsx";
 import { AccessTicketsModal } from "../components/AccessTicketsModal.jsx";
 import { SiteSearch } from "../components/SiteSearch.jsx";
 import { useUI } from "../context/UIContext.jsx";
-import { refreshScroll, initInnerPageMotion, resetInnerPageMotion, resetHomePageMotion } from "../polish.js";
+import { refreshScroll, initInnerPageMotion, resetInnerPageMotion, resetHomePageMotion, enableCheckoutScrollMode, disableCheckoutScrollMode } from "../polish.js";
+
+function isCheckoutPath(pathname) {
+  return /\/checkout(\/|$)/.test(pathname);
+}
 
 export function AppLayout() {
   const location = useLocation();
   const isHome = location.pathname === "/" || location.pathname === "";
+  const isCheckout = isCheckoutPath(location.pathname);
   const { accessTicketsOpen, closeAccessTickets } = useUI();
 
   useEffect(() => {
@@ -21,11 +26,20 @@ export function AppLayout() {
 
   useEffect(() => {
     document.body.classList.toggle("page-home", isHome);
-    document.body.classList.toggle("page-inner", !isHome);
-  }, [isHome]);
+    document.body.classList.toggle("page-inner", !isHome && !isCheckout);
+    document.body.classList.toggle("page-checkout", isCheckout);
+  }, [isHome, isCheckout]);
 
   useEffect(() => {
-    if (isHome) {
+    if (isCheckout) {
+      enableCheckoutScrollMode();
+      return () => disableCheckoutScrollMode();
+    }
+    return undefined;
+  }, [isCheckout]);
+
+  useEffect(() => {
+    if (isHome || isCheckout) {
       resetInnerPageMotion();
       return undefined;
     }
@@ -34,7 +48,7 @@ export function AppLayout() {
     initInnerPageMotion();
     requestAnimationFrame(() => setTimeout(refreshScroll, 80));
     return () => resetInnerPageMotion();
-  }, [location.pathname, isHome]);
+  }, [location.pathname, isHome, isCheckout]);
 
   return (
     <>
