@@ -89,7 +89,10 @@ export function ContactFormModal({ open, onClose, target }) {
 
         {status === "success" ? (
           <div className="sots-contact-modal__success" role="status">
-            <p>Thanks — your message is on its way. We&apos;ll get back to you soon.</p>
+            <p>
+              Thanks — your message is on its way. We&apos;ve also sent a confirmation to your email.
+              We&apos;ll get back to you soon.
+            </p>
             <ArrowButton type="button" onClick={onClose}>
               Close
             </ArrowButton>

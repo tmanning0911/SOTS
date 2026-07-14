@@ -145,6 +145,116 @@ async function deliverStaffMessage(form, data) {
   });
 }
 
+function confirmationCopy(form, data) {
+  const greetName = splitName(data.name).firstName || "there";
+  const siteUrl = getSiteUrl();
+
+  if (form === "newsletter") {
+    return {
+      subject: "You're on the Shakespeare on the Sound list",
+      eyebrow: "Newsletter confirmation",
+      title: "Thanks for signing up",
+      preheader: "You're on our list — watch for season news and events.",
+      bodyHtml: `
+        <p style="margin:0 0 14px;font-size:15px;line-height:1.55;color:#2b2b2b;">Hi ${escapeHtml(greetName)},</p>
+        <p style="margin:0 0 14px;font-size:15px;line-height:1.55;color:#2b2b2b;">
+          You're confirmed on the Shakespeare on the Sound mailing list. We'll send seasonal news,
+          performance updates, and community events to <strong>${escapeHtml(data.email)}</strong>.
+        </p>
+        <p style="margin:0;font-size:15px;line-height:1.55;color:#2b2b2b;">
+          Prefer fewer emails? Use the unsubscribe link in any message we send.
+        </p>
+      `,
+      text: [
+        `Hi ${greetName},`,
+        "",
+        "You're confirmed on the Shakespeare on the Sound mailing list.",
+        `We'll send updates to ${data.email}.`,
+        "",
+        siteUrl,
+      ].join("\n"),
+    };
+  }
+
+  const kind =
+    form === "education"
+      ? "education inquiry"
+      : form === "sponsorship"
+        ? "sponsorship inquiry"
+        : "message";
+  const message = sanitize(data.message, 5000);
+  const recipientLabel = sanitize(data.recipientLabel, 200) || resolveRecipient(data);
+
+  return {
+    subject: "We received your message — Shakespeare on the Sound",
+    eyebrow: "Message confirmation",
+    title: "Thanks — we got your note",
+    preheader: "Your message was received. We'll reply as soon as we can.",
+    bodyHtml: `
+      <p style="margin:0 0 14px;font-size:15px;line-height:1.55;color:#2b2b2b;">Hi ${escapeHtml(greetName)},</p>
+      <p style="margin:0 0 14px;font-size:15px;line-height:1.55;color:#2b2b2b;">
+        Thanks for writing. We received your ${escapeHtml(kind)} and will get back to you soon.
+      </p>
+      <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#5a6570;">Sent to</p>
+      <p style="margin:0 0 16px;font-size:15px;line-height:1.55;color:#2b2b2b;">${escapeHtml(recipientLabel)}</p>
+      <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#5a6570;">Your message</p>
+      <p style="margin:0;font-size:15px;line-height:1.6;color:#2b2b2b;white-space:pre-wrap;">${escapeHtml(message)}</p>
+    `,
+    text: [
+      `Hi ${greetName},`,
+      "",
+      `Thanks for writing. We received your ${kind} and will get back to you soon.`,
+      "",
+      `Sent to: ${recipientLabel}`,
+      "",
+      "Your message:",
+      message,
+      "",
+      siteUrl,
+    ].join("\n"),
+  };
+}
+
+async function deliverSubmitterConfirmation(form, data) {
+  if (!resendConfigured()) return { sent: false, reason: "not_configured" };
+
+  const copy = confirmationCopy(form, data);
+  const html = renderSotsEmail({
+    title: copy.title,
+    preheader: copy.preheader,
+    siteUrl: getSiteUrl(),
+    bodyHtml: copy.bodyHtml,
+    eyebrow: copy.eyebrow,
+  });
+
+  return sendEmail({
+    from: getResendNotificationsFromAddress(),
+    to: data.email,
+    replyTo: DEFAULT_RECIPIENT,
+    subject: copy.subject,
+    html,
+    text: copy.text,
+  });
+}
+
+async function sendConfirmationBestEffort(form, data) {
+  try {
+    const result = await deliverSubmitterConfirmation(form, data);
+    return {
+      confirmationSent: Boolean(result?.sent),
+      confirmationId: result?.id || null,
+      confirmationReason: result?.reason || null,
+    };
+  } catch (err) {
+    console.error("contact confirmation email failed:", err);
+    return {
+      confirmationSent: false,
+      confirmationId: null,
+      confirmationReason: String(err?.message || err).slice(0, 200),
+    };
+  }
+}
+
 export async function handler(event) {
   if (event.httpMethod === "OPTIONS") {
     return jsonResponse(204, {}, event, { methods: "POST, OPTIONS" });
@@ -210,6 +320,7 @@ export async function handler(event) {
         firstName,
         lastName,
       });
+      const confirmation = await sendConfirmationBestEffort(form, validation.data);
       await appendSubmission(event, form, {
         form,
         ...validation.data,
@@ -217,10 +328,16 @@ export async function handler(event) {
         sync: "constant_contact",
         contactId: result.contact_id || null,
         action: result.action || null,
+        ...confirmation,
       });
-      return jsonResponse(200, { ok: true, action: result.action || "subscribed" }, event, {
-        methods: "POST, OPTIONS",
-      });
+      return jsonResponse(
+        200,
+        { ok: true, action: result.action || "subscribed", confirmationSent: confirmation.confirmationSent },
+        event,
+        {
+          methods: "POST, OPTIONS",
+        },
+      );
     } catch (err) {
       await appendSubmission(event, form, {
         form,
@@ -260,6 +377,7 @@ export async function handler(event) {
 
   try {
     const delivery = await deliverStaffMessage(form, validation.data);
+    const confirmation = await sendConfirmationBestEffort(form, validation.data);
     await appendSubmission(event, form, {
       form,
       ...validation.data,
@@ -267,8 +385,14 @@ export async function handler(event) {
       deliver: "resend",
       recipient: resolveRecipient(validation.data),
       emailId: delivery.id || null,
+      ...confirmation,
     });
-    return jsonResponse(200, { ok: true }, event, { methods: "POST, OPTIONS" });
+    return jsonResponse(
+      200,
+      { ok: true, confirmationSent: confirmation.confirmationSent },
+      event,
+      { methods: "POST, OPTIONS" },
+    );
   } catch (err) {
     await appendSubmission(event, form, {
       form,

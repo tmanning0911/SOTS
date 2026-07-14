@@ -68,7 +68,7 @@ export function Newsletter() {
 
             {status === "success" ? (
               <p className="orpheum-newsletter-banner__success" role="status">
-                You’re on the list. Thanks for joining us.
+                You’re on the list — check your email for a confirmation. Thanks for joining us.
               </p>
             ) : (
               <form className="orpheum-newsletter-banner__form" onSubmit={handleSubmit} noValidate>
