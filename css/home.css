@@ -1214,12 +1214,7 @@ body.page-home .site-header.is-scrolled {
 /* ═══ HERO ═══ */
 .orpheum-hero {
   position: relative;
-  /* Same photo frame on every screen: match 1024×576 and fill edge-to-edge */
-  width: 100%;
-  aspect-ratio: 1024 / 576;
-  height: auto;
-  min-height: 0;
-  max-height: 100svh;
+  min-height: min(100svh, 1080px);
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
@@ -1239,7 +1234,6 @@ body.page-home .site-header.is-scrolled {
 
 .orpheum-hero__media video,
 .orpheum-hero__media img {
-  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1345,9 +1339,9 @@ body.page-home .site-header.is-scrolled {
   width: 100%;
   max-width: none;
   margin: 0;
-  padding: calc(var(--chrome-top, calc(var(--utility-height, 52px) + var(--header-height, 82px))) + 1.75rem)
+  padding: calc(var(--chrome-top, calc(var(--utility-height, 52px) + var(--header-height, 82px))) + 2.5rem)
     var(--orp-chrome-gutter, 9.25rem)
-    clamp(3.25rem, 6vw, 6rem);
+    clamp(5rem, 9vw, 9rem);
 }
 
 .orpheum-hero__content {
@@ -5810,14 +5804,18 @@ body.page-inner {
     min-height: 48px;
   }
 
+  .orpheum-hero {
+    min-height: min(88svh, 720px);
+  }
+
   .orpheum-hero__shell {
-    padding: calc(var(--chrome-top, var(--header-height)) + 0.75rem) var(--orp-chrome-gutter)
-      clamp(1.25rem, 4vw, 2rem);
+    padding: calc(var(--chrome-top, var(--header-height)) + 1.25rem) var(--orp-chrome-gutter)
+      clamp(2.75rem, 8vw, 4.5rem);
   }
 
   .orpheum-hero__title {
-    font-size: clamp(1.85rem, 7.5vw, 3.1rem);
-    margin-bottom: 0.85rem;
+    font-size: clamp(2.1rem, 8.5vw, 3.1rem);
+    margin-bottom: 1.15rem;
   }
 
   .orpheum-hero__actions {
@@ -6592,13 +6590,11 @@ body.page-inner {
 }
 
 @media (max-width: 767px) and (orientation: landscape) {
-  .orpheum-hero__shell {
-    padding-top: calc(var(--chrome-top, var(--header-height)) + 0.5rem);
-    padding-bottom: 1.25rem;
+  .orpheum-hero {
+    min-height: auto;
   }
 
-  .orpheum-hero__title {
-    font-size: clamp(1.5rem, 5vw, 2.25rem);
-    margin-bottom: 0.65rem;
+  .orpheum-hero__shell {
+    padding-bottom: 2rem;
   }
 }
