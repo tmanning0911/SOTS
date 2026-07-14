@@ -55,20 +55,20 @@ export function Newsletter() {
           width={1200}
           height={675}
         />
-        <span className="orpheum-newsletter-banner__gradient" aria-hidden="true" />
+        <span className="orpheum-newsletter-banner__wash" aria-hidden="true" />
 
         <div className="orpheum-newsletter-banner__shell">
-          <div className="orpheum-newsletter-banner__frame" aria-hidden="true" />
-
           <div className="orpheum-newsletter-banner__content" data-reveal>
-            <h2 id="newsletter-heading">Never Miss a Beat</h2>
-            <p className="orpheum-newsletter-banner__lead">
-              Season announcements, gala news, and education updates — straight to your inbox.
-            </p>
+            <div className="orpheum-newsletter-banner__copy">
+              <h2 id="newsletter-heading">Never Miss a Beat</h2>
+              <p className="orpheum-newsletter-banner__lead">
+                Season news, gala updates, and education programs — in your inbox.
+              </p>
+            </div>
 
             {status === "success" ? (
               <p className="orpheum-newsletter-banner__success" role="status">
-                You’re on the list — check your email for a confirmation. Thanks for joining us.
+                You’re on the list — check your email for a confirmation.
               </p>
             ) : (
               <form className="orpheum-newsletter-banner__form" onSubmit={handleSubmit} noValidate>
@@ -83,37 +83,40 @@ export function Newsletter() {
                   />
                 </div>
 
-                <div className="orpheum-newsletter-banner__field">
-                  <label htmlFor="newsletter-email">Email</label>
+                <div className="orpheum-newsletter-banner__fields">
+                  <label className="visually-hidden" htmlFor="newsletter-email">
+                    Email
+                  </label>
                   <input
                     id="newsletter-email"
                     name="email"
                     type="email"
                     required
                     autoComplete="email"
-                    placeholder="you@example.com"
+                    placeholder="Email address"
                     disabled={status === "loading"}
                   />
-                </div>
 
-                <div className="orpheum-newsletter-banner__field">
-                  <label htmlFor="newsletter-name">
-                    Name <span className="orpheum-newsletter-banner__optional">(optional)</span>
+                  <label className="visually-hidden" htmlFor="newsletter-name">
+                    Name (optional)
                   </label>
                   <input
                     id="newsletter-name"
                     name="name"
                     type="text"
                     autoComplete="name"
-                    placeholder="Your name"
+                    placeholder="Name (optional)"
                     disabled={status === "loading"}
                   />
-                </div>
 
-                <p className="orpheum-newsletter-banner__consent">
-                  By subscribing, you agree to receive email from Shakespeare on the Sound. You can
-                  unsubscribe anytime.
-                </p>
+                  <ArrowButton
+                    type="submit"
+                    disabled={status === "loading"}
+                    aria-busy={status === "loading"}
+                  >
+                    {status === "loading" ? "Signing up…" : "Subscribe"}
+                  </ArrowButton>
+                </div>
 
                 {status === "error" && error ? (
                   <p className="orpheum-newsletter-banner__error" role="alert">
@@ -121,9 +124,9 @@ export function Newsletter() {
                   </p>
                 ) : null}
 
-                <ArrowButton type="submit" disabled={status === "loading"} aria-busy={status === "loading"}>
-                  {status === "loading" ? "Signing up…" : "Subscribe"}
-                </ArrowButton>
+                <p className="orpheum-newsletter-banner__consent">
+                  Unsubscribe anytime. We never share your email.
+                </p>
               </form>
             )}
           </div>
