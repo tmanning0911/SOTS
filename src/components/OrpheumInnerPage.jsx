@@ -27,6 +27,7 @@ function PageCta({ cta, variant = "gold" }) {
     <ArrowButton
       href={cta.href}
       variant={variant}
+      flat={variant === "ghost"}
       {...(cta.external ? { target: "_blank", rel: "noopener" } : {})}
     >
       {cta.label}

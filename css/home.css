@@ -579,8 +579,38 @@ body.page-home .site-header.is-scrolled {
   pointer-events: none;
 }
 
-.orpheum-arrow-btn--ghost .orpheum-arrow-btn__icon {
-  background: rgba(var(--brand-gold-rgb), 0.5);
+/* Structured ghost (label + chevron): navy outline instead of a second gold chip */
+.orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label) {
+  color: var(--orp-dark);
+  box-shadow: none;
+}
+
+.orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label) .orpheum-arrow-btn__label,
+.orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label) .orpheum-arrow-btn__icon {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.22);
+}
+
+.orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label) .orpheum-arrow-btn__label {
+  border-radius: var(--btn-radius) 0 0 var(--btn-radius);
+}
+
+.orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label) .orpheum-arrow-btn__icon {
+  border-radius: 0 var(--btn-radius) var(--btn-radius) 0;
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.22),
+    inset 1px 0 0 rgba(var(--brand-navy-rgb, 15, 45, 77), 0.12);
+}
+
+.orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label):hover {
+  color: var(--orp-dark);
+  box-shadow: none;
+}
+
+.orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label):hover .orpheum-arrow-btn__label,
+.orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label):hover .orpheum-arrow-btn__icon {
+  background: rgba(var(--brand-navy-rgb, 15, 45, 77), 0.06);
+  box-shadow: inset 0 0 0 1px var(--brand-navy);
 }
 
 .orpheum-arrow-btn--light {
@@ -2690,8 +2720,25 @@ body.page-home .site-header.is-scrolled {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.75rem 1rem;
   margin-bottom: 0.85rem;
+}
+
+.orpheum-events-grid__head-copy {
+  min-width: 0;
+}
+
+.orpheum-events-grid__head-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  flex: 0 0 auto;
+}
+
+.orpheum-events-grid__head-actions .orpheum-events-scroll__controls {
+  display: none;
 }
 
 .orpheum-events-grid__head h3 {
@@ -2784,7 +2831,7 @@ a.orpheum-events-grid__card {
   align-self: end;
   z-index: 3;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 0.65rem;
   padding: 0.65rem 0.85rem 0.75rem;
@@ -2795,6 +2842,14 @@ a.orpheum-events-grid__card {
     opacity 0.3s ease,
     transform 0.3s ease;
   pointer-events: none;
+}
+
+.orpheum-events-grid__photo-actions .orpheum-events-grid__learn-more,
+.orpheum-events-grid__overlay-actions .orpheum-events-grid__learn-more,
+.orpheum-events-grid__photo-actions .orpheum-arrow-btn,
+.orpheum-events-grid__overlay-actions .orpheum-arrow-btn {
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .orpheum-events-grid__card--photo:hover .orpheum-events-grid__photo-actions,
@@ -2959,7 +3014,7 @@ a.orpheum-events-grid__card {
 
 .orpheum-events-grid__overlay-actions {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 0.75rem 1rem;
 }
@@ -3128,11 +3183,6 @@ a.orpheum-events-grid__card {
   position: relative;
   background: var(--orp-blue);
   color: var(--orp-white);
-}
-
-.orpheum-visit-bar.orpheum-wave-edge-top::before {
-  top: -12px;
-  background: var(--orp-blue);
 }
 
 .orpheum-visit-bar__inner {
@@ -5183,6 +5233,10 @@ body.search-open {
 }
 
 .orpheum-inner-page__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--btn-gap, 0.85rem);
   margin-top: 2rem;
 }
 
@@ -5771,43 +5825,30 @@ body.page-inner {
     position: relative;
   }
 
-  .orpheum-events-scroll__controls {
+  .orpheum-events-grid__head-actions .orpheum-events-scroll__controls {
     display: flex;
-    justify-content: flex-end;
     gap: 0.35rem;
-    margin-bottom: 0.5rem;
+    margin: 0;
   }
 
   .orpheum-events-scroll__btn {
-    width: 2.75rem;
-    height: 2.75rem;
+    width: 2.5rem;
+    height: 2.5rem;
     min-width: 44px;
     min-height: 44px;
     border: 1px solid var(--orp-line);
     border-radius: 9999px;
     background: var(--orp-white);
     color: var(--orp-dark);
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     line-height: 1;
     cursor: pointer;
-  }
-
-  .orpheum-events-scroll-wrap::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0.35rem;
-    width: 2.75rem;
-    pointer-events: none;
-    background: linear-gradient(to right, transparent, var(--orp-white));
   }
 
   .orpheum-events-scroll {
     display: block;
     margin-inline: calc(-1 * var(--orp-chrome-gutter));
     padding-inline: var(--orp-chrome-gutter);
-    padding-right: calc(var(--orp-chrome-gutter) + 1.25rem);
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
@@ -5890,11 +5931,30 @@ body.page-inner {
 
   .orpheum-events-scroll__actions {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
-    gap: 0.75rem 1rem;
+    gap: 0.55rem 0.75rem;
     margin-top: auto;
     padding-top: 0.65rem;
+  }
+
+  .orpheum-events-scroll__actions .orpheum-events-grid__learn-more {
+    color: var(--orp-dark);
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .orpheum-events-scroll__actions .orpheum-events-grid__learn-more:hover {
+    color: var(--brand-blue);
+  }
+
+  .orpheum-events-scroll__actions .orpheum-arrow-btn {
+    flex: 0 0 auto;
+  }
+
+  .orpheum-events-scroll__actions .orpheum-arrow-btn__label {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.72rem;
   }
 
   .orpheum-visit-bar__inner {
@@ -6364,14 +6424,21 @@ body.page-inner {
   }
 
   .orpheum-events-grid__head {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-wrap: nowrap;
+    align-items: center;
     gap: 0.65rem;
   }
 
-  .orpheum-events-grid__head .orpheum-arrow-btn {
-    width: 100%;
-    max-width: 16rem;
+  .orpheum-events-grid__head-actions .orpheum-arrow-btn--compact .orpheum-arrow-btn__label {
+    padding: 0.65rem 0.8rem;
+    font-size: 0.68rem;
+  }
+
+  .orpheum-events-grid__head-actions .orpheum-events-scroll__btn {
+    width: 2.35rem;
+    height: 2.35rem;
+    min-width: 2.35rem;
+    min-height: 2.35rem;
   }
 
   .orpheum-news-feed__head {

@@ -186,11 +186,16 @@ export function UpcomingEvents() {
   return (
     <section className="orpheum-events-grid" id="upcoming-events" aria-labelledby="events-heading">
       <div className="orpheum-events-grid__head" data-reveal>
-        <div>
+        <div className="orpheum-events-grid__head-copy">
           <p className="orpheum-events-grid__eyebrow">2026 Season</p>
           <h3 id="events-heading">Upcoming Events</h3>
         </div>
-        <ArrowButton href="/support/events/">View All Events</ArrowButton>
+        <div className="orpheum-events-grid__head-actions">
+          <ScrollControls scrollRef={scrollRef} />
+          <ArrowButton href="/support/events/" className="orpheum-arrow-btn--compact">
+            View All Events
+          </ArrowButton>
+        </div>
       </div>
 
       <div className="orpheum-events-grid__layout orpheum-events-grid__layout--desktop" data-reveal>
@@ -202,7 +207,6 @@ export function UpcomingEvents() {
       </div>
 
       <div className="orpheum-events-scroll-wrap">
-        <ScrollControls scrollRef={scrollRef} />
         <div className="orpheum-events-scroll" ref={scrollRef} aria-label="Upcoming events">
           <div className="orpheum-events-scroll__track">
             {events.map((event) => (

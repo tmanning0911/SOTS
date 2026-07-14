@@ -2,7 +2,7 @@
 
 .orpheum-page-hero--cinematic {
   position: relative;
-  min-height: clamp(22rem, 45vw, 32rem);
+  min-height: clamp(28rem, 58vw, 42rem);
   display: flex;
   align-items: flex-end;
   overflow: hidden;
@@ -17,7 +17,7 @@
 .orpheum-page-hero__bg {
   position: absolute;
   inset: 0;
-  background: center/cover no-repeat;
+  background: center 40%/cover no-repeat;
 }
 
 .orpheum-page-hero__veil {
@@ -25,8 +25,10 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(var(--brand-navy-rgb, 15, 45, 77), 0.25) 0%,
-    rgba(var(--brand-navy-rgb, 15, 45, 77), 0.88) 100%
+    rgba(var(--brand-navy-rgb, 15, 45, 77), 0.12) 0%,
+    rgba(var(--brand-navy-rgb, 15, 45, 77), 0.28) 38%,
+    rgba(var(--brand-navy-rgb, 15, 45, 77), 0.78) 72%,
+    rgba(var(--brand-navy-rgb, 15, 45, 77), 0.92) 100%
   );
 }
 
@@ -35,7 +37,10 @@
   z-index: 1;
   width: 100%;
   max-width: 52rem;
-  padding: clamp(3rem, 6vw, 4.5rem) var(--orp-chrome-gutter, 9.25rem);
+  padding:
+    clamp(5.5rem, 10vw, 8rem)
+    var(--orp-chrome-gutter, 9.25rem)
+    clamp(3.25rem, 6vw, 5rem);
   color: var(--orp-white, #fff);
 }
 
@@ -163,8 +168,15 @@
 }
 
 @media (max-width: 768px) {
+  .orpheum-page-hero--cinematic {
+    min-height: clamp(24rem, 72vw, 34rem);
+  }
+
   .orpheum-page-hero--cinematic .orpheum-page-hero__inner {
-    padding-inline: var(--orp-chrome-gutter-mobile, 1.25rem);
+    padding:
+      clamp(4.5rem, 14vw, 6.5rem)
+      var(--orp-chrome-gutter-mobile, 1.25rem)
+      clamp(2.5rem, 7vw, 3.75rem);
   }
 }
 
@@ -219,8 +231,3 @@
   }
 }
 
-@media (max-width: 768px) {
-  .orpheum-page-hero--cinematic .orpheum-page-hero__inner {
-    padding-inline: var(--orp-chrome-gutter-mobile, 1.25rem);
-  }
-}
