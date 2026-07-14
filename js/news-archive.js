@@ -4,8 +4,10 @@
  */
 
 const IMG = {
-  season: "/images/news/season-banner-2026.jpg",
+  /** Macbeth 2025 season art — only for Macbeth stories */
+  macbeth: "/images/news/season-banner-2026.jpg",
   muchAdo: "/images/news/much-ado-production.jpg",
+  muchAdoHero: "/images/hero-much-ado.jpg",
   gala: "/images/news/gala-2026.jpg",
   park: "/images/news/pinkney-park-audience.jpg",
   kids: "/images/news/shakespeare-for-kids.jpg",
@@ -59,8 +61,8 @@ const RAW = [
     dateIso: "2026-04-15",
     excerpt:
       "Join us June 10–28, 2026 at Pinkney Park for Shakespeare's sparkling comedy. VIP pre-sale April 7–14; general admission on sale April 15.",
-    image: IMG.season,
-    imagePosition: "center center",
+    image: IMG.muchAdoHero,
+    imagePosition: "center 35%",
     body: [
       "For our 30th anniversary season, Shakespeare on the Sound returns to the play that started it all: Much Ado About Nothing — under the stars at Pinkney Park on the Five Mile River in Rowayton.",
       "Performances run June 10–28, 2026. VIP reserved seating pre-sale opened April 7–14; general admission went on sale April 15.",
@@ -75,8 +77,8 @@ const RAW = [
     dateIso: "2026-04-07",
     excerpt:
       "VIP reserved seating $75. General admission $25 adults / $5 children. Student & senior rush $15 at the box office day-of.",
-    image: IMG.muchAdo,
-    imagePosition: "center 35%",
+    image: IMG.parkPerf,
+    imagePosition: "center 40%",
     body: [
       "Tickets for Much Ado About Nothing are open. Choose VIP reserved seating or general admission on the lawn.",
       "VIP reserved seating is $75. General admission is $25 for adults and $5 for children. Student and senior rush seats are $15 at the box office on the day of performance when available.",
@@ -92,7 +94,7 @@ const RAW = [
     excerpt:
       "Friday, October 16, 2026, 6–10pm at The House Up on the Hill, 26 Seir Hill Rd., Norwalk, CT.",
     image: IMG.gala,
-    imagePosition: "center center",
+    imagePosition: "center 30%",
     body: [
       "Join us for Much Ado About Something — our annual gala supporting next summer's festival and education programs.",
       "Friday, October 16, 2026, 6–10pm at The House Up on the Hill, 26 Seir Hill Rd., Norwalk, CT. Expect cocktails, dinner bites, dancing, and live and silent auctions.",
@@ -107,8 +109,8 @@ const RAW = [
     dateIso: "2025-06-01",
     excerpt:
       "Shakespeare on the Sound presented Macbeth for the summer main-stage season at Pinkney Park — another chapter in nearly three decades under the stars.",
-    image: IMG.parkPerf,
-    imagePosition: "center 30%",
+    image: IMG.macbeth,
+    imagePosition: "center center",
     body: [
       "Summer 2025 brought Macbeth back to the Pinkney Park amphitheater — storm, ambition, and Scottish tragedy against the Five Mile River.",
       "The production continued Shakespeare on the Sound's tradition of professional casts, picnic audiences, and nightly community gathering on the lawn.",
@@ -117,17 +119,18 @@ const RAW = [
   },
   {
     slug: "2024-romeo-and-juliet",
-    title: "2024: Romeo & Juliet on the Five Mile River",
-    category: "Production",
-    date: "Jun 2024",
+    title: "2024: Aaron Simms & Romeo and Juliet — Shakespeare's Back!",
+    category: "History",
+    date: "2024",
     dateIso: "2024-06-01",
     excerpt:
-      "The company returned to Shakespeare's great tragedy of young love for the Pinkney Park summer festival.",
-    image: IMG.muchAdo,
+      "Aaron Simms was hired to rebuild and lead the company. He produced a 6-person Romeo and Juliet directed by Claire Karpen that drew over 4,100 to Pinkney Park.",
+    image: IMG.parkPerf,
     imagePosition: "center 40%",
     body: [
-      "Romeo & Juliet returned to Rowayton in 2024, filling Pinkney Park with one of Shakespeare's most familiar — and most devastating — love stories.",
-      "Families, first-time theatergoers, and longtime patrons shared blankets on the hill for evening performances throughout the June run.",
+      "Aaron Simms was hired to rebuild and lead the company in 2024.",
+      "He produced a 6-person production of Romeo and Juliet directed by Claire Karpen that attracted over 4,100 to Pinkney Park.",
+      "\"Shakespeare's Back!\" was the repeated refrain.",
     ],
   },
   {
@@ -424,8 +427,8 @@ const RAW = [
     dateIso: "1995-01-01",
     excerpt:
       "Megan Crowley McAllister recruited Ezra Barnes (founding artistic director) and six neighbors — Susan Reed Basche, Dorsey Gude, Tim Massad, Adrienne & Steven Southworth, Andrew Woolford — to launch outdoor Shakespeare in Fairfield County.",
-    image: IMG.season,
-    imagePosition: "center center",
+    image: IMG.parkPerf,
+    imagePosition: "center 35%",
     body: [
       "Outdoor Shakespeare in Rowayton was the brainchild of Megan Crowley McAllister. She approached actor-director Ezra Barnes, who had founded a similar company in Westerly, Rhode Island.",
       "Together they recruited Susan Reed Basche, Dorsey Gude, Tim Massad, Adrienne and Steven Southworth, and Andrew Woolford. Barnes became founding artistic director. They raised funds for a first production the following summer.",

@@ -83,9 +83,6 @@ function SideNewsCard({ item }) {
   return (
     <article className="orpheum-news-feed__card">
       <Link className="orpheum-news-feed__card-link" to={item.href}>
-        <div className="orpheum-news-feed__card-media">
-          <NewsThumb item={item} width={320} height={180} />
-        </div>
         <div className="orpheum-news-feed__card-body">
           <NewsMeta item={item} />
           <h2>{item.title}</h2>
@@ -101,9 +98,6 @@ function ScrollNewsCard({ item }) {
   return (
     <article className="orpheum-news-feed__scroll-card">
       <Link className="orpheum-news-feed__scroll-link" to={item.href}>
-        <div className="orpheum-news-feed__scroll-media">
-          <NewsThumb item={item} width={320} height={180} />
-        </div>
         <div className="orpheum-news-feed__scroll-body">
           <NewsMeta item={item} />
           <h2>{item.title}</h2>
