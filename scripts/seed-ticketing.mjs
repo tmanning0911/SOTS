@@ -42,6 +42,28 @@ function etDatePlusDays(daysOut, now = new Date()) {
   return `${year}-${month}-${day}`;
 }
 
+function etWeekdayShort(daysOut, now = new Date()) {
+  const target = new Date(now.getTime() + daysOut * 86_400_000);
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    weekday: "short",
+  }).format(target);
+}
+
+/** ~Full summer-run calendar: evenings Tue–Sun over ~3 weeks (matches typical SOTS season density). */
+function seasonTestDayOffsets(now = new Date(), count = 17) {
+  const offsets = [];
+  // Start a few days out so the first week is always in view.
+  let day = 4;
+  while (offsets.length < count && day < 50) {
+    if (etWeekdayShort(day, now) !== "Mon") {
+      offsets.push(day);
+    }
+    day += 1;
+  }
+  return offsets;
+}
+
 function buildTestPerformances(catalog, now = new Date()) {
   const venue = "Pinkney Park";
   const location = "177 Rowayton Avenue, Norwalk, CT 06853";
@@ -50,7 +72,7 @@ function buildTestPerformances(catalog, now = new Date()) {
     catalog.production?.title ?? catalog.featuredTicket?.name ?? "Much Ado About Nothing";
   const showName = String(rawTitle).replace(/^TEST\s*[—–-]\s*/i, "").trim();
 
-  return [7, 8, 9, 10, 14, 15].map((daysOut, index) => {
+  return seasonTestDayOffsets(now).map((daysOut, index) => {
     const date = etDatePlusDays(daysOut, now);
     return {
       id: `test-perf-${String(index + 1).padStart(3, "0")}`,
@@ -108,9 +130,15 @@ function applyTestPerformances(catalog, now = new Date()) {
 }
 
 function shouldIncludeTestPerformances(catalog) {
+  // Explicit opt-in (deploy previews / local seed:test).
+  if (process.env.TICKETING_TEST_MODE === "true" || process.argv.includes("--test")) {
+    return true;
+  }
+  // Netlify preview app stays in QA mode until the custom domain cutover.
+  if (testModeEnabled()) return true;
+  // Hard off for production custom-domain builds.
   if (process.env.TICKETING_TEST_MODE === "false") return false;
   if ((process.env.CONTEXT || "").toLowerCase() === "production") return false;
-  if (process.env.TICKETING_TEST_MODE === "true" || testModeEnabled()) return true;
   const onSale = catalog.performances.filter((p) =>
     ["on_sale", "live", "started", "draft"].includes(p.status),
   ).length;

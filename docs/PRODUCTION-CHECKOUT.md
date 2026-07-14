@@ -13,7 +13,7 @@ Ticket and gift shop checkout use **Square Web Payments** on Netlify. Configure 
 | `RESEND_API_KEY` | For order confirmation emails **and** My Tickets magic-link emails |
 | `RESEND_FROM_EMAIL` | Verified sender, e.g. `Shakespeare on the Sound <tickets@shakespeareonthesound.org>` |
 | `PATRON_AUTH_SECRET` | HMAC secret for My Tickets sign-in (`openssl rand -hex 32`) |
-| `TICKETING_TEST_MODE` | `false` (set automatically in `netlify.toml` for production builds) |
+| `TICKETING_TEST_MODE` | `true` on the Netlify preview app (injects a synthetic full-season calendar). Set `false` when this site serves the live custom domain. |
 
 ## Preview / QA (Netlify deploy previews)
 

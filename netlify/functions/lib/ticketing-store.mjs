@@ -81,6 +81,8 @@ function isNetlifyProductionDeploy() {
 }
 
 function productionCatalogMode() {
+  // Preview / QA builds keep synthetic season dates purchasable.
+  if (process.env.TICKETING_TEST_MODE === "true") return false;
   if (!isNetlifyProductionDeploy()) return false;
   return squareEnvironment() === "production" && !sandboxSalesEnabled();
 }

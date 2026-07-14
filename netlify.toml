@@ -9,14 +9,17 @@
 [build.environment]
   NODE_VERSION = "20"
   VITE_SITE_URL = "https://www.shakespeareonthesound.org"
-  TICKETING_TEST_MODE = "false"
+  # Preview Netlify app (ubiquitous-maamoul) injects a full season of QA dates via seed-ticketing.
+  # Keep false only when this site is serving the real custom domain with live inventory.
+  TICKETING_TEST_MODE = "true"
   # Preview site (Netlify) — use this URL to QA until the custom domain is pointed here
   # https://ubiquitous-maamoul-8b9b7f.netlify.app
   SITE_ALLOWED_ORIGINS = "https://www.shakespeareonthesound.org,https://shakespeareonthesound.org,https://ubiquitous-maamoul-8b9b7f.netlify.app,http://localhost:3000,http://127.0.0.1:3000"
 
 [context.production.environment]
   SQUARE_ENVIRONMENT = "production"
-  TICKETING_TEST_MODE = "false"
+  # Still true on the Netlify preview hostname; seed-ticketing also keys off the deploy URL.
+  TICKETING_TEST_MODE = "true"
 
 [context.deploy-preview.environment]
   TICKETING_TEST_MODE = "true"
