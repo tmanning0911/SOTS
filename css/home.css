@@ -1214,7 +1214,12 @@ body.page-home .site-header.is-scrolled {
 /* ═══ HERO ═══ */
 .orpheum-hero {
   position: relative;
-  min-height: min(100svh, 1080px);
+  /* Size the frame to the hero photo (1024×576) so it fills the box edge-to-edge */
+  width: 100%;
+  aspect-ratio: 1024 / 576;
+  height: auto;
+  min-height: clamp(480px, 56vw, 860px);
+  max-height: min(100svh, 960px);
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
@@ -1236,7 +1241,7 @@ body.page-home .site-header.is-scrolled {
 .orpheum-hero__media img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center center;
   filter: brightness(1.12) saturate(1.2) contrast(1.04);
 }
@@ -1339,9 +1344,9 @@ body.page-home .site-header.is-scrolled {
   width: 100%;
   max-width: none;
   margin: 0;
-  padding: calc(var(--chrome-top, calc(var(--utility-height, 52px) + var(--header-height, 82px))) + 2.5rem)
+  padding: calc(var(--chrome-top, calc(var(--utility-height, 52px) + var(--header-height, 82px))) + 1.75rem)
     var(--orp-chrome-gutter, 9.25rem)
-    clamp(5rem, 9vw, 9rem);
+    clamp(3.25rem, 6vw, 6rem);
 }
 
 .orpheum-hero__content {
@@ -5805,12 +5810,14 @@ body.page-inner {
   }
 
   .orpheum-hero {
-    min-height: min(88svh, 720px);
+    aspect-ratio: 3 / 4;
+    min-height: min(72svh, 640px);
+    max-height: 88svh;
   }
 
   .orpheum-hero__shell {
-    padding: calc(var(--chrome-top, var(--header-height)) + 1.25rem) var(--orp-chrome-gutter)
-      clamp(2.75rem, 8vw, 4.5rem);
+    padding: calc(var(--chrome-top, var(--header-height)) + 1rem) var(--orp-chrome-gutter)
+      clamp(2rem, 6vw, 3.25rem);
   }
 
   .orpheum-hero__title {
