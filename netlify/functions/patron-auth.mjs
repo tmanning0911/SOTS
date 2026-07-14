@@ -12,11 +12,17 @@ import {
 } from "./lib/email-layout.mjs";
 import { getSiteUrl, resendConfigured, sendEmail } from "./lib/resend.mjs";
 import {
+  assertPatronMutationAllowed,
+  buildPatronSessionCookies,
+  consumeMagicLink,
   isValidPatronEmail,
   issueMagicLinkToken,
   issuePatronSession,
   normalizePatronEmail,
   patronAuthConfigured,
+  rateLimitPatronMagic,
+  recordPatronSession,
+  revokePatronSession,
   verifyMagicLinkToken,
   verifyPatronSession,
 } from "./lib/patron-auth.mjs";
@@ -28,22 +34,24 @@ import {
   setPatronAvatar,
   upsertPatronProfile,
 } from "./lib/patron-profile.mjs";
+import { listPatronShopOrders, publicShopOrderView } from "./lib/shop-store.mjs";
 import { listPatronOrders, publicOrderView } from "./lib/ticketing-store.mjs";
 
 const C = EMAIL_COLORS;
+const PATRON_CORS = { allowCredentials: true };
 
 async function sendMagicLinkEmail(email, token) {
   const siteUrl = getSiteUrl();
   const link = `${siteUrl}/my-tickets/?token=${encodeURIComponent(token)}`;
   const subject = "Sign in to My Tickets — Shakespeare on the Sound";
-  const preheader = "Your secure sign-in link expires in 15 minutes.";
+  const preheader = "Your secure one-time sign-in link expires in 10 minutes.";
 
   const text = [
-    "Use this link to view your Shakespeare on the Sound tickets:",
+    "Use this one-time link to view your Shakespeare on the Sound tickets:",
     "",
     link,
     "",
-    "This link expires in 15 minutes. If you did not request it, you can ignore this email.",
+    "This link works once and expires in 10 minutes. If you did not request it, you can ignore this email.",
     "",
     "Shakespeare on the Sound",
   ].join("\n");
@@ -51,7 +59,8 @@ async function sendMagicLinkEmail(email, token) {
   const bodyHtml = `
     ${emailHeading("Sign in to My Tickets")}
     <p style="margin:0 0 18px;">
-      Use the button below to view your tickets. This link expires in <strong>15 minutes</strong>.
+      Use the button below to view your tickets. This link is <strong>one-time use</strong> and expires in
+      <strong>10 minutes</strong>. We use secure email sign-in — no password to remember or steal.
     </p>
     ${emailButtonsRow([{ href: link, label: "View My Tickets", variant: "primary" }])}
     <p style="margin:0 0 12px;font-size:13px;color:${C.muted};line-height:1.55;">
@@ -78,7 +87,6 @@ async function resolveProfileForPatron(email) {
   let profile = await getPatronProfile(email);
   if (profile?.name) return publicPatronProfile(profile);
 
-  // Prefill from most recent order when no saved profile yet.
   const orders = await listPatronOrders(email);
   const latest = orders[0];
   if (latest?.buyer) {
@@ -111,7 +119,7 @@ async function resolveProfileForPatron(email) {
 }
 
 function binaryResponse(statusCode, bodyBuffer, contentType, event, { methods = "GET, OPTIONS" } = {}) {
-  const { headers, allowed, origin } = corsHeaders(event, { methods });
+  const { headers, allowed, origin } = corsHeaders(event, { methods, ...PATRON_CORS });
   if (!allowed && origin) {
     return {
       statusCode: 403,
@@ -131,34 +139,55 @@ function binaryResponse(statusCode, bodyBuffer, contentType, event, { methods = 
   };
 }
 
+function patronJson(statusCode, body, event, options = {}) {
+  return jsonResponse(statusCode, body, event, { ...PATRON_CORS, ...options });
+}
+
 export async function handler(event) {
   bindBlobs(event);
   const path = (event.rawUrl || event.path || "").replace(/\/$/, "");
   const isSessionRoute = path.includes("/patron/session");
+  const isLogoutRoute = path.includes("/patron/logout");
   const isOrdersRoute = path.includes("/patron/orders");
   const isProfileRoute = path.includes("/patron/profile");
   const isAvatarRoute = path.includes("/patron/avatar");
 
   if (event.httpMethod === "OPTIONS") {
-    return jsonResponse(204, {}, event, { methods: "GET, POST, PUT, DELETE, OPTIONS" });
+    return patronJson(204, {}, event, { methods: "GET, POST, PUT, DELETE, OPTIONS" });
+  }
+
+  if (["POST", "PUT", "DELETE"].includes(event.httpMethod) && !assertPatronMutationAllowed(event)) {
+    return patronJson(403, { error: "Request origin not allowed." }, event, {
+      methods: "GET, POST, PUT, DELETE, OPTIONS",
+    });
+  }
+
+  if (event.httpMethod === "POST" && isLogoutRoute) {
+    const patron = await verifyPatronSession(event);
+    if (patron?.jti) await revokePatronSession(patron.jti);
+    return patronJson(
+      200,
+      { ok: true },
+      event,
+      {
+        methods: "POST, OPTIONS",
+        cookies: buildPatronSessionCookies("", event, { clear: true }),
+      },
+    );
   }
 
   if (
     event.httpMethod === "POST" &&
     !isSessionRoute &&
+    !isLogoutRoute &&
     !isOrdersRoute &&
     !isProfileRoute &&
     !isAvatarRoute
   ) {
     const ip = getClientIp(event);
-    if (!rateLimit(`patron-auth:${ip}`, { max: 8, windowMs: 900_000 })) {
-      return jsonResponse(429, { error: "Too many requests. Please try again later." }, event, {
-        methods: "POST, OPTIONS",
-      });
-    }
 
     if (!patronAuthConfigured()) {
-      return jsonResponse(503, { error: "Patron sign-in is not configured yet." }, event, {
+      return patronJson(503, { error: "Patron sign-in is not configured yet." }, event, {
         methods: "POST, OPTIONS",
       });
     }
@@ -167,17 +196,29 @@ export async function handler(event) {
     try {
       body = JSON.parse(event.body || "{}");
     } catch {
-      return jsonResponse(400, { error: "Invalid JSON" }, event, { methods: "POST, OPTIONS" });
+      return patronJson(400, { error: "Invalid JSON" }, event, { methods: "POST, OPTIONS" });
     }
 
     const email = normalizePatronEmail(body.email);
     if (!isValidPatronEmail(email)) {
-      return jsonResponse(400, { error: "Enter a valid email address." }, event, { methods: "POST, OPTIONS" });
+      return patronJson(400, { error: "Enter a valid email address." }, event, { methods: "POST, OPTIONS" });
+    }
+
+    // Memory limit (fast) + durable blob limit (cross-instance).
+    if (
+      !rateLimit(`patron-auth:${ip}`, { max: 8, windowMs: 900_000 }) ||
+      !(await rateLimitPatronMagic({ ip, email }))
+    ) {
+      return patronJson(429, { error: "Too many requests. Please try again later." }, event, {
+        methods: "POST, OPTIONS",
+      });
     }
 
     const token = issueMagicLinkToken(email);
     if (!token) {
-      return jsonResponse(503, { error: "Could not create sign-in link." }, event, { methods: "POST, OPTIONS" });
+      return patronJson(503, { error: "Could not create sign-in link." }, event, {
+        methods: "POST, OPTIONS",
+      });
     }
 
     if (resendConfigured()) {
@@ -185,19 +226,19 @@ export async function handler(event) {
         await sendMagicLinkEmail(email, token);
       } catch (err) {
         console.error("patron magic link email failed:", err);
-        return jsonResponse(502, { error: "Could not send sign-in email. Try again shortly." }, event, {
+        return patronJson(502, { error: "Could not send sign-in email. Try again shortly." }, event, {
           methods: "POST, OPTIONS",
         });
       }
     }
 
-    return jsonResponse(
+    return patronJson(
       200,
       {
         ok: true,
         emailSent: resendConfigured(),
         message: resendConfigured()
-          ? "Check your email for a sign-in link."
+          ? "Check your email for a one-time sign-in link."
           : "Sign-in email is not configured — use Access Your Tickets with your confirmation code.",
       },
       event,
@@ -210,44 +251,76 @@ export async function handler(event) {
     try {
       body = JSON.parse(event.body || "{}");
     } catch {
-      return jsonResponse(400, { error: "Invalid JSON" }, event, { methods: "POST, OPTIONS" });
+      return patronJson(400, { error: "Invalid JSON" }, event, { methods: "POST, OPTIONS" });
     }
 
     const magic = verifyMagicLinkToken(body.token);
     if (!magic?.email) {
-      return jsonResponse(401, { error: "This sign-in link is invalid or expired." }, event, {
+      return patronJson(401, { error: "This sign-in link is invalid or expired." }, event, {
         methods: "POST, OPTIONS",
       });
     }
 
-    const session = issuePatronSession(magic.email);
+    const consumed = await consumeMagicLink(magic);
+    if (!consumed.ok) {
+      return patronJson(
+        401,
+        {
+          error:
+            consumed.reason === "used"
+              ? "This sign-in link was already used. Request a new one."
+              : "Could not verify this sign-in link. Request a new one.",
+        },
+        event,
+        { methods: "POST, OPTIONS" },
+      );
+    }
+
+    const session = issuePatronSession(magic.email, { ip: getClientIp(event) });
     if (!session) {
-      return jsonResponse(503, { error: "Could not start your session." }, event, { methods: "POST, OPTIONS" });
+      return patronJson(503, { error: "Could not start your session." }, event, {
+        methods: "POST, OPTIONS",
+      });
     }
 
+    await recordPatronSession(session);
     const profile = await resolveProfileForPatron(magic.email);
-    return jsonResponse(200, { ...session, profile }, event, { methods: "POST, OPTIONS" });
-  }
-
-  if (event.httpMethod === "GET" && isOrdersRoute) {
-    const patron = verifyPatronSession(event);
-    if (!patron?.email) {
-      return jsonResponse(401, { error: "Sign in required." }, event, { methods: "GET, POST, OPTIONS" });
-    }
-
-    const orders = await listPatronOrders(patron.email);
-    return jsonResponse(
+    // Do not return the raw session token in JSON — the HttpOnly cookie is the session.
+    return patronJson(
       200,
-      { orders: orders.map(publicOrderView) },
+      { ok: true, user: session.user, profile },
       event,
-      { methods: "GET, POST, OPTIONS" },
+      {
+        methods: "POST, OPTIONS",
+        cookies: buildPatronSessionCookies(session.token, event),
+      },
     );
   }
 
-  if (isAvatarRoute) {
-    const patron = verifyPatronSession(event);
+  if (event.httpMethod === "GET" && isOrdersRoute) {
+    const patron = await verifyPatronSession(event);
     if (!patron?.email) {
-      return jsonResponse(401, { error: "Sign in required." }, event, {
+      return patronJson(401, { error: "Sign in required." }, event, { methods: "GET, POST, OPTIONS" });
+    }
+
+    const [ticketOrders, shopOrders] = await Promise.all([
+      listPatronOrders(patron.email),
+      listPatronShopOrders(patron.email),
+    ]);
+    const orders = [
+      ...ticketOrders.map((order) => publicOrderView({ ...order, type: "ticket" })),
+      ...shopOrders.map(publicShopOrderView),
+    ]
+      .filter(Boolean)
+      .sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
+
+    return patronJson(200, { orders }, event, { methods: "GET, POST, OPTIONS" });
+  }
+
+  if (isAvatarRoute) {
+    const patron = await verifyPatronSession(event);
+    if (!patron?.email) {
+      return patronJson(401, { error: "Sign in required." }, event, {
         methods: "GET, PUT, DELETE, OPTIONS",
       });
     }
@@ -255,7 +328,7 @@ export async function handler(event) {
     if (event.httpMethod === "GET") {
       const avatar = await getPatronAvatar(patron.email);
       if (!avatar) {
-        return jsonResponse(404, { error: "No profile photo yet." }, event, {
+        return patronJson(404, { error: "No profile photo yet." }, event, {
           methods: "GET, PUT, DELETE, OPTIONS",
         });
       }
@@ -267,7 +340,7 @@ export async function handler(event) {
     if (event.httpMethod === "PUT") {
       const ip = getClientIp(event);
       if (!rateLimit(`patron-avatar:${ip}`, { max: 12, windowMs: 900_000 })) {
-        return jsonResponse(429, { error: "Too many photo uploads. Please try again later." }, event, {
+        return patronJson(429, { error: "Too many photo uploads. Please try again later." }, event, {
           methods: "GET, PUT, DELETE, OPTIONS",
         });
       }
@@ -276,7 +349,7 @@ export async function handler(event) {
       try {
         body = JSON.parse(event.body || "{}");
       } catch {
-        return jsonResponse(400, { error: "Invalid JSON" }, event, {
+        return patronJson(400, { error: "Invalid JSON" }, event, {
           methods: "GET, PUT, DELETE, OPTIONS",
         });
       }
@@ -290,7 +363,7 @@ export async function handler(event) {
       if (dataUrl.startsWith("data:")) {
         const match = dataUrl.match(/^data:([^;]+);base64,(.+)$/i);
         if (!match) {
-          return jsonResponse(400, { error: "Invalid image data." }, event, {
+          return patronJson(400, { error: "Invalid image data." }, event, {
             methods: "GET, PUT, DELETE, OPTIONS",
           });
         }
@@ -299,21 +372,21 @@ export async function handler(event) {
       } else if (base64) {
         bytes = Buffer.from(base64, "base64");
       } else {
-        return jsonResponse(400, { error: "Missing image data." }, event, {
+        return patronJson(400, { error: "Missing image data." }, event, {
           methods: "GET, PUT, DELETE, OPTIONS",
         });
       }
 
       try {
         const profile = await setPatronAvatar(patron.email, { bytes, contentType: mime });
-        return jsonResponse(
+        return patronJson(
           200,
           { ok: true, profile: publicPatronProfile(profile) },
           event,
           { methods: "GET, PUT, DELETE, OPTIONS" },
         );
       } catch (err) {
-        return jsonResponse(400, { error: err.message || "Could not save photo" }, event, {
+        return patronJson(400, { error: err.message || "Could not save photo" }, event, {
           methods: "GET, PUT, DELETE, OPTIONS",
         });
       }
@@ -322,41 +395,41 @@ export async function handler(event) {
     if (event.httpMethod === "DELETE") {
       try {
         const profile = await deletePatronAvatar(patron.email);
-        return jsonResponse(
+        return patronJson(
           200,
           { ok: true, profile: publicPatronProfile(profile) },
           event,
           { methods: "GET, PUT, DELETE, OPTIONS" },
         );
       } catch (err) {
-        return jsonResponse(400, { error: err.message || "Could not remove photo" }, event, {
+        return patronJson(400, { error: err.message || "Could not remove photo" }, event, {
           methods: "GET, PUT, DELETE, OPTIONS",
         });
       }
     }
 
-    return jsonResponse(405, { error: "Method not allowed" }, event, {
+    return patronJson(405, { error: "Method not allowed" }, event, {
       methods: "GET, PUT, DELETE, OPTIONS",
     });
   }
 
   if (isProfileRoute) {
-    const patron = verifyPatronSession(event);
+    const patron = await verifyPatronSession(event);
     if (!patron?.email) {
-      return jsonResponse(401, { error: "Sign in required." }, event, {
+      return patronJson(401, { error: "Sign in required." }, event, {
         methods: "GET, PUT, OPTIONS",
       });
     }
 
     if (event.httpMethod === "GET") {
       const profile = await resolveProfileForPatron(patron.email);
-      return jsonResponse(200, { profile }, event, { methods: "GET, PUT, OPTIONS" });
+      return patronJson(200, { profile }, event, { methods: "GET, PUT, OPTIONS" });
     }
 
     if (event.httpMethod === "PUT") {
       const ip = getClientIp(event);
       if (!rateLimit(`patron-profile:${ip}`, { max: 20, windowMs: 900_000 })) {
-        return jsonResponse(429, { error: "Too many requests. Please try again later." }, event, {
+        return patronJson(429, { error: "Too many requests. Please try again later." }, event, {
           methods: "GET, PUT, OPTIONS",
         });
       }
@@ -365,19 +438,17 @@ export async function handler(event) {
       try {
         body = JSON.parse(event.body || "{}");
       } catch {
-        return jsonResponse(400, { error: "Invalid JSON" }, event, { methods: "GET, PUT, OPTIONS" });
+        return patronJson(400, { error: "Invalid JSON" }, event, { methods: "GET, PUT, OPTIONS" });
       }
 
       const name = String(body.name ?? "").trim();
       if (!name) {
-        return jsonResponse(400, { error: "Full name is required." }, event, {
+        return patronJson(400, { error: "Full name is required." }, event, {
           methods: "GET, PUT, OPTIONS",
         });
       }
 
       try {
-        // Merge (not overwrite): empty phone/address fields must not wipe values already
-        // on file if the form hydrated before a profile GET finished.
         const profile = await upsertPatronProfile(
           patron.email,
           {
@@ -389,34 +460,33 @@ export async function handler(event) {
           { overwrite: false, source: "my-tickets" },
         );
 
-        // Fire-and-forget CRM sync — do not block the patron on webhook latency.
         syncPatronToCrm(event, profile, { event: "patron.profile_update", source: "my-tickets" }).catch(
           (err) => console.error("patron profile CRM sync:", err),
         );
 
-        return jsonResponse(
+        return patronJson(
           200,
           { ok: true, profile: publicPatronProfile(profile) },
           event,
           { methods: "GET, PUT, OPTIONS" },
         );
       } catch (err) {
-        return jsonResponse(400, { error: err.message || "Could not save profile" }, event, {
+        return patronJson(400, { error: err.message || "Could not save profile" }, event, {
           methods: "GET, PUT, OPTIONS",
         });
       }
     }
 
-    return jsonResponse(405, { error: "Method not allowed" }, event, { methods: "GET, PUT, OPTIONS" });
+    return patronJson(405, { error: "Method not allowed" }, event, { methods: "GET, PUT, OPTIONS" });
   }
 
   if (event.httpMethod === "GET") {
-    const patron = verifyPatronSession(event);
+    const patron = await verifyPatronSession(event);
     if (!patron?.email) {
-      return jsonResponse(401, { error: "Sign in required." }, event, { methods: "GET, POST, OPTIONS" });
+      return patronJson(401, { error: "Sign in required." }, event, { methods: "GET, POST, OPTIONS" });
     }
     const profile = await resolveProfileForPatron(patron.email);
-    return jsonResponse(
+    return patronJson(
       200,
       { user: { email: patron.email, role: patron.role }, profile },
       event,
@@ -424,5 +494,5 @@ export async function handler(event) {
     );
   }
 
-  return jsonResponse(405, { error: "Method not allowed" }, event, { methods: "GET, POST, OPTIONS" });
+  return patronJson(405, { error: "Method not allowed" }, event, { methods: "GET, POST, OPTIONS" });
 }

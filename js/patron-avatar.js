@@ -2,11 +2,20 @@
  * Client helpers for patron profile photos (resize + API).
  */
 
-import { readPatronSession } from "./patron-auth.js";
-
 const MAX_DIMENSION = 512;
 const JPEG_QUALITY = 0.82;
 const MAX_OUTPUT_BYTES = 320_000;
+
+async function patronFetch(url, options = {}) {
+  return fetch(url, {
+    ...options,
+    credentials: "include",
+    headers: {
+      Accept: options.headers?.Accept || "application/json",
+      ...(options.headers || {}),
+    },
+  });
+}
 
 export async function compressPatronAvatar(file) {
   if (!file || !file.type?.startsWith("image/")) {
@@ -48,16 +57,11 @@ export async function compressPatronAvatar(file) {
   return { dataUrl, contentType: "image/jpeg", size: blob.size };
 }
 
-export async function uploadPatronAvatar(file, token = readPatronSession()?.token) {
-  if (!token) throw new Error("Not signed in");
+export async function uploadPatronAvatar(file) {
   const compressed = await compressPatronAvatar(file);
-  const res = await fetch("/api/patron/avatar", {
+  const res = await patronFetch("/api/patron/avatar", {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       dataUrl: compressed.dataUrl,
       contentType: compressed.contentType,
@@ -68,21 +72,16 @@ export async function uploadPatronAvatar(file, token = readPatronSession()?.toke
   return data.profile ?? null;
 }
 
-export async function deletePatronAvatar(token = readPatronSession()?.token) {
-  if (!token) throw new Error("Not signed in");
-  const res = await fetch("/api/patron/avatar", {
-    method: "DELETE",
-    headers: { Accept: "application/json", Authorization: `Bearer ${token}` },
-  });
+export async function deletePatronAvatar() {
+  const res = await patronFetch("/api/patron/avatar", { method: "DELETE" });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || "Could not remove your photo");
   return data.profile ?? null;
 }
 
-export async function fetchPatronAvatarObjectUrl(token = readPatronSession()?.token) {
-  if (!token) return null;
-  const res = await fetch("/api/patron/avatar", {
-    headers: { Authorization: `Bearer ${token}` },
+export async function fetchPatronAvatarObjectUrl() {
+  const res = await patronFetch("/api/patron/avatar", {
+    headers: { Accept: "*/*" },
   });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error("Could not load your photo");

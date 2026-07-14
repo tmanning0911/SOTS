@@ -1020,6 +1020,12 @@ html.lenis.lenis-smooth .sots-checkout__card-container iframe,
   margin-top: 0.35rem;
 }
 
+.sots-my-tickets-page__group--shop {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(15, 45, 77, 0.1);
+}
+
 .sots-my-tickets-page__group-title {
   margin: 0;
   font-size: 0.78rem;
@@ -1465,6 +1471,37 @@ html.lenis.lenis-smooth .sots-checkout__card-container iframe,
   gap: 0.65rem;
   align-items: center;
   margin-top: 1rem;
+}
+
+.sots-order-card__actions .sots-checkout__error {
+  flex: 1 1 100%;
+  margin: 0;
+}
+
+.sots-order-card__lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.sots-order-card__lines li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.94rem;
+  line-height: 1.4;
+  color: #0f2d4d;
+}
+
+.sots-order-card__lines li span:last-child {
+  color: #4a5560;
+  white-space: nowrap;
+}
+
+.sots-order-card--shop {
+  background: linear-gradient(180deg, #fffdf8 0%, #fff 50%);
 }
 
 .sots-ticketing-admin__head,

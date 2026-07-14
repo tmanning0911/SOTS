@@ -1,21 +1,32 @@
 const SESSION_KEY = "sots-patron-session";
 
+/** Cookie session is authoritative; localStorage only caches user/profile for UI. */
 export function readPatronSession() {
   if (typeof window === "undefined") return null;
   try {
     const raw = window.localStorage.getItem(SESSION_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw);
-    if (!parsed?.token || !parsed?.user?.email) return null;
-    return parsed;
+    if (!parsed?.user?.email) return null;
+    // Legacy localStorage tokens are no longer used — strip if present.
+    const { token: _legacyToken, ...safe } = parsed;
+    return { ...safe, signedIn: true };
   } catch {
     return null;
   }
 }
 
 export function writePatronSession(session) {
-  if (typeof window === "undefined" || !session?.token) return;
-  window.localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  if (typeof window === "undefined" || !session?.user?.email) return;
+  const { token: _legacyToken, ...safe } = session;
+  window.localStorage.setItem(
+    SESSION_KEY,
+    JSON.stringify({
+      user: safe.user,
+      profile: safe.profile ?? null,
+      signedIn: true,
+    }),
+  );
 }
 
 export function clearPatronSession() {
@@ -23,10 +34,23 @@ export function clearPatronSession() {
   window.localStorage.removeItem(SESSION_KEY);
 }
 
+async function patronFetch(url, options = {}) {
+  const headers = {
+    Accept: "application/json",
+    ...(options.headers || {}),
+  };
+  const res = await fetch(url, {
+    ...options,
+    credentials: "include",
+    headers,
+  });
+  return res;
+}
+
 export async function requestPatronMagicLink(email) {
-  const res = await fetch("/api/patron/auth", {
+  const res = await patronFetch("/api/patron/auth", {
     method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email }),
   });
   const data = await res.json().catch(() => ({}));
@@ -35,46 +59,49 @@ export async function requestPatronMagicLink(email) {
 }
 
 export async function exchangePatronToken(token) {
-  const res = await fetch("/api/patron/session", {
+  const res = await patronFetch("/api/patron/session", {
     method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ token }),
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || "Sign-in link expired");
-  writePatronSession(data);
-  return data;
+  const session = {
+    signedIn: true,
+    user: data.user,
+    profile: data.profile ?? null,
+  };
+  writePatronSession(session);
+  return session;
 }
 
-export async function fetchPatronProfile(token = readPatronSession()?.token) {
-  if (!token) throw new Error("Not signed in");
-  const res = await fetch("/api/patron/auth", {
-    headers: { Accept: "application/json", Authorization: `Bearer ${token}` },
-  });
+export async function signOutPatron() {
+  try {
+    await patronFetch("/api/patron/logout", { method: "POST" });
+  } catch {
+    /* still clear local UI state */
+  }
+  clearPatronSession();
+}
+
+export async function fetchPatronProfile() {
+  const res = await patronFetch("/api/patron/auth");
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || "Session expired");
   return data;
 }
 
-export async function fetchPatronContactProfile(token = readPatronSession()?.token) {
-  if (!token) throw new Error("Not signed in");
-  const res = await fetch("/api/patron/profile", {
-    headers: { Accept: "application/json", Authorization: `Bearer ${token}` },
-  });
+export async function fetchPatronContactProfile() {
+  const res = await patronFetch("/api/patron/profile");
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || "Could not load your contact information");
   return data.profile ?? null;
 }
 
-export async function updatePatronContactProfile(profile, token = readPatronSession()?.token) {
-  if (!token) throw new Error("Not signed in");
-  const res = await fetch("/api/patron/profile", {
+export async function updatePatronContactProfile(profile) {
+  const res = await patronFetch("/api/patron/profile", {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(profile),
   });
   const data = await res.json().catch(() => ({}));
@@ -82,11 +109,8 @@ export async function updatePatronContactProfile(profile, token = readPatronSess
   return data.profile ?? null;
 }
 
-export async function fetchPatronOrders(token = readPatronSession()?.token) {
-  if (!token) throw new Error("Not signed in");
-  const res = await fetch("/api/patron/orders", {
-    headers: { Accept: "application/json", Authorization: `Bearer ${token}` },
-  });
+export async function fetchPatronOrders() {
+  const res = await patronFetch("/api/patron/orders");
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || "Could not load orders");
   return data.orders ?? [];

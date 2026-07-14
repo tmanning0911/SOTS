@@ -66,9 +66,26 @@ export function jsonResponse(statusCode, body, event, options = {}) {
       body: JSON.stringify({ error: 'Origin not allowed' }),
     };
   }
+
+  const responseHeaders = {
+    ...headers,
+    ...(options.headers || {}),
+  };
+  const cookies = Array.isArray(options.cookies) ? options.cookies.filter(Boolean) : [];
+
+  // Netlify supports multiple Set-Cookie values via multiValueHeaders.
+  if (cookies.length) {
+    return {
+      statusCode,
+      headers: responseHeaders,
+      multiValueHeaders: { "Set-Cookie": cookies },
+      body: statusCode === 204 ? "" : JSON.stringify(body),
+    };
+  }
+
   return {
     statusCode,
-    headers,
-    body: JSON.stringify(body),
+    headers: responseHeaders,
+    body: statusCode === 204 ? "" : JSON.stringify(body),
   };
 }

@@ -10,6 +10,7 @@ import {
   mergeSeedWithSquareProducts,
   SHOP_PRODUCTS,
 } from "../../../js/shop-catalog.js";
+import { normalizePatronEmail } from "./patron-auth.mjs";
 import { readStaticJsonCatalog } from "./static-catalog.mjs";
 
 const STORE_NAME = "sots-shop";
@@ -17,6 +18,78 @@ const HOLD_TTL_MS = 20 * 60 * 1000;
 
 function store() {
   return blobStore(STORE_NAME);
+}
+
+function patronOrdersKey(email) {
+  return `patron-orders:${normalizePatronEmail(email)}`;
+}
+
+async function indexPatronShopOrder(order) {
+  try {
+    const email = normalizePatronEmail(order.buyer?.email);
+    if (!email) return;
+    const s = store();
+    const key = patronOrdersKey(email);
+    const existing = (await s.get(key, { type: "json" })) ?? [];
+    const next = [order.id, ...existing.filter((id) => id !== order.id)].slice(0, 100);
+    await s.setJSON(key, next);
+  } catch {
+    /* optional */
+  }
+}
+
+export async function getShopOrderById(orderId) {
+  try {
+    return (await store().get(`order:${orderId}`, { type: "json" })) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function listPatronShopOrders(email) {
+  const normalized = normalizePatronEmail(email);
+  if (!normalized) return [];
+
+  try {
+    const ids = (await store().get(patronOrdersKey(normalized), { type: "json" })) ?? [];
+    const orders = await Promise.all(ids.map((id) => getShopOrderById(id)));
+    return orders.filter(Boolean).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+  } catch {
+    return [];
+  }
+}
+
+export function publicShopOrderView(order) {
+  if (!order) return null;
+  return {
+    id: order.id,
+    type: "shop",
+    confirmationCode: order.confirmationCode,
+    buyer: order.buyer,
+    lineItems: order.lineItems,
+    totalCents: order.totalCents,
+    currency: order.currency,
+    fulfillment: order.fulfillment,
+    note: order.note,
+    status: order.status,
+    createdAt: order.createdAt,
+  };
+}
+
+export async function lookupShopOrder(email, confirmationCode) {
+  const normalizedEmail = normalizePatronEmail(email);
+  const code = String(confirmationCode ?? "")
+    .trim()
+    .toUpperCase();
+  if (!normalizedEmail || !code) return null;
+
+  try {
+    const ref = await store().get(`order-confirm:${code}`, { type: "json" });
+    if (!ref || normalizePatronEmail(ref.email) !== normalizedEmail) return null;
+    return (await getShopOrderById(ref.orderId)) ?? null;
+  } catch {
+    return null;
+  }
 }
 
 export async function readShopCatalog() {
@@ -172,7 +245,11 @@ export async function commitShopOrder({ hold, squarePaymentId }) {
   try {
     const s = store();
     await s.setJSON(`order:${order.id}`, order);
-    await s.setJSON(`order-confirm:${confirmationCode}`, { orderId: order.id, email: order.buyer.email });
+    await s.setJSON(`order-confirm:${confirmationCode}`, {
+      orderId: order.id,
+      email: normalizePatronEmail(order.buyer.email),
+    });
+    await indexPatronShopOrder(order);
   } catch {
     /* local */
   }

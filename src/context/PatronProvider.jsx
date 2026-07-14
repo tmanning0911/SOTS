@@ -12,6 +12,7 @@ import {
   fetchPatronProfile,
   readPatronSession,
   requestPatronMagicLink,
+  signOutPatron,
   updatePatronContactProfile,
   writePatronSession,
 } from "../../js/patron-auth.js";
@@ -20,11 +21,16 @@ import { PatronContext } from "./PatronContext.jsx";
 function applyProfile(saved, setProfile, setSession) {
   setProfile(saved);
   const current = readPatronSession();
-  if (current?.token) {
-    const nextSession = { ...current, profile: saved };
+  if (current?.user?.email) {
+    const nextSession = { ...current, profile: saved, signedIn: true };
     writePatronSession(nextSession);
     setSession(nextSession);
   }
+}
+
+function isAuthError(err) {
+  const msg = String(err?.message || "").toLowerCase();
+  return msg.includes("expired") || msg.includes("sign in") || msg.includes("required");
 }
 
 export function PatronProvider({ children }) {
@@ -35,8 +41,8 @@ export function PatronProvider({ children }) {
   const [loadingOrders, setLoadingOrders] = useState(false);
   const [loadingProfile, setLoadingProfile] = useState(false);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [bootstrapping, setBootstrapping] = useState(true);
   const [error, setError] = useState("");
-  /** Bumps when a newer profile write wins so older GET responses cannot stomp it. */
   const profileEpochRef = useRef(0);
   const avatarUrlRef = useRef(null);
 
@@ -46,42 +52,43 @@ export function PatronProvider({ children }) {
     setAvatarUrl(nextUrl);
   }, []);
 
+  const clearLocal = useCallback(() => {
+    clearPatronSession();
+    setSession(null);
+    setProfile(null);
+    setOrders([]);
+    replaceAvatarUrl(null);
+  }, [replaceAvatarUrl]);
+
   const refreshOrders = useCallback(async () => {
-    const current = readPatronSession();
-    if (!current?.token) {
+    if (!readPatronSession()?.user?.email && !session?.user?.email) {
       setOrders([]);
       return [];
     }
     setLoadingOrders(true);
     setError("");
     try {
-      const nextOrders = await fetchPatronOrders(current.token);
+      const nextOrders = await fetchPatronOrders();
       setOrders(nextOrders);
       return nextOrders;
     } catch (err) {
-      if (String(err.message).toLowerCase().includes("expired") || String(err.message).includes("Sign in")) {
-        clearPatronSession();
-        setSession(null);
-        setProfile(null);
-        replaceAvatarUrl(null);
-      }
+      if (isAuthError(err)) clearLocal();
       setError(err.message || "Could not load your tickets");
       setOrders([]);
       return [];
     } finally {
       setLoadingOrders(false);
     }
-  }, [replaceAvatarUrl]);
+  }, [clearLocal, session?.user?.email]);
 
   const refreshAvatar = useCallback(
     async (hasAvatar = profile?.hasAvatar) => {
-      const current = readPatronSession();
-      if (!current?.token || !hasAvatar) {
+      if (!hasAvatar) {
         replaceAvatarUrl(null);
         return null;
       }
       try {
-        const url = await fetchPatronAvatarObjectUrl(current.token);
+        const url = await fetchPatronAvatarObjectUrl();
         replaceAvatarUrl(url);
         return url;
       } catch {
@@ -93,8 +100,7 @@ export function PatronProvider({ children }) {
   );
 
   const refreshProfile = useCallback(async () => {
-    const current = readPatronSession();
-    if (!current?.token) {
+    if (!readPatronSession()?.user?.email && !session?.user?.email) {
       setProfile(null);
       replaceAvatarUrl(null);
       return null;
@@ -102,17 +108,17 @@ export function PatronProvider({ children }) {
     const epoch = profileEpochRef.current;
     setLoadingProfile(true);
     try {
-      const nextProfile = await fetchPatronContactProfile(current.token);
-      // A save (or newer refresh) completed while this request was in flight — ignore stale GET.
+      const nextProfile = await fetchPatronContactProfile();
       if (epoch !== profileEpochRef.current) return nextProfile;
       setProfile(nextProfile);
       const latest = readPatronSession();
-      if (!latest?.token) return nextProfile;
-      const nextSession = { ...latest, profile: nextProfile };
-      writePatronSession(nextSession);
-      setSession(nextSession);
+      if (latest?.user?.email) {
+        const nextSession = { ...latest, profile: nextProfile, signedIn: true };
+        writePatronSession(nextSession);
+        setSession(nextSession);
+      }
       if (nextProfile?.hasAvatar) {
-        fetchPatronAvatarObjectUrl(latest.token)
+        fetchPatronAvatarObjectUrl()
           .then((url) => {
             if (epoch === profileEpochRef.current) replaceAvatarUrl(url);
             else if (url) URL.revokeObjectURL(url);
@@ -126,23 +132,47 @@ export function PatronProvider({ children }) {
       return nextProfile;
     } catch (err) {
       if (epoch !== profileEpochRef.current) return null;
-      if (String(err.message).toLowerCase().includes("expired") || String(err.message).includes("Sign in")) {
-        clearPatronSession();
-        setSession(null);
-        setProfile(null);
-        replaceAvatarUrl(null);
-      }
+      if (isAuthError(err)) clearLocal();
       return null;
     } finally {
       if (epoch === profileEpochRef.current) setLoadingProfile(false);
     }
-  }, [replaceAvatarUrl]);
+  }, [clearLocal, replaceAvatarUrl, session?.user?.email]);
+
+  // Restore session from HttpOnly cookie on first load (localStorage alone is not enough).
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const data = await fetchPatronProfile();
+        if (cancelled) return;
+        const nextSession = {
+          signedIn: true,
+          user: data.user,
+          profile: data.profile ?? null,
+        };
+        writePatronSession(nextSession);
+        setSession(nextSession);
+        setProfile(nextSession.profile);
+      } catch {
+        if (!cancelled) {
+          // Cookie missing/expired — drop any stale UI cache.
+          clearLocal();
+        }
+      } finally {
+        if (!cancelled) setBootstrapping(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [clearLocal]);
 
   useEffect(() => {
-    if (!session?.token) return;
+    if (bootstrapping || !session?.user?.email) return;
     refreshOrders();
     refreshProfile();
-  }, [session?.token, refreshOrders, refreshProfile]);
+  }, [bootstrapping, session?.user?.email, refreshOrders, refreshProfile]);
 
   useEffect(
     () => () => {
@@ -156,14 +186,15 @@ export function PatronProvider({ children }) {
     profileEpochRef.current += 1;
     setSession(nextSession);
     setProfile(nextSession.profile ?? null);
+    setBootstrapping(false);
     return nextSession;
   }, []);
 
   const requestMagicLink = useCallback(async (email) => requestPatronMagicLink(email), []);
 
-  const signOut = useCallback(() => {
+  const signOut = useCallback(async () => {
     profileEpochRef.current += 1;
-    clearPatronSession();
+    await signOutPatron();
     setSession(null);
     setOrders([]);
     setProfile(null);
@@ -209,27 +240,22 @@ export function PatronProvider({ children }) {
   }, [replaceAvatarUrl]);
 
   const verifySession = useCallback(async () => {
-    const current = readPatronSession();
-    if (!current?.token) return null;
     try {
-      const data = await fetchPatronProfile(current.token);
+      const data = await fetchPatronProfile();
       const nextSession = {
-        ...current,
+        signedIn: true,
         user: data.user,
-        profile: data.profile ?? current.profile ?? null,
+        profile: data.profile ?? null,
       };
       writePatronSession(nextSession);
       setSession(nextSession);
       setProfile(nextSession.profile);
       return data.user;
     } catch {
-      clearPatronSession();
-      setSession(null);
-      setProfile(null);
-      replaceAvatarUrl(null);
+      clearLocal();
       return null;
     }
-  }, [replaceAvatarUrl]);
+  }, [clearLocal]);
 
   const value = useMemo(
     () => ({
@@ -241,8 +267,9 @@ export function PatronProvider({ children }) {
       loadingOrders,
       loadingProfile,
       uploadingAvatar,
+      bootstrapping,
       error,
-      isSignedIn: Boolean(session?.token),
+      isSignedIn: Boolean(session?.user?.email),
       refreshOrders,
       refreshProfile,
       refreshAvatar,
@@ -267,6 +294,7 @@ export function PatronProvider({ children }) {
       loadingOrders,
       loadingProfile,
       uploadingAvatar,
+      bootstrapping,
       error,
       refreshOrders,
       refreshProfile,

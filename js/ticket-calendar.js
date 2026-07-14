@@ -30,6 +30,7 @@ function icsEscape(value) {
 }
 
 export function isUpcomingOrder(order, now = new Date()) {
+  if (order?.type === "shop") return false;
   if (!order?.performanceStart) return true;
   return !isPastPerformance({ start: order.performanceStart }, now);
 }

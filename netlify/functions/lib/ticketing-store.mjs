@@ -523,6 +523,7 @@ export function publicOrderView(order) {
   if (!order) return null;
   return {
     id: order.id,
+    type: order.type || "ticket",
     confirmationCode: order.confirmationCode,
     performanceStart: order.performanceStart,
     productionTitle: order.productionTitle,

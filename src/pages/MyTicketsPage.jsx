@@ -11,7 +11,7 @@ import { PatronContactForm } from "../components/ticketing/PatronContactForm.jsx
 import { TicketQr } from "../components/ticketing/TicketQr.jsx";
 import { usePatron } from "../context/PatronContext.jsx";
 
-function OrderCard({ order, email, past = false }) {
+function ResendButton({ email, confirmationCode }) {
   const [resendState, setResendState] = useState("idle");
   const [resendError, setResendError] = useState("");
 
@@ -19,7 +19,7 @@ function OrderCard({ order, email, past = false }) {
     setResendState("loading");
     setResendError("");
     try {
-      await resendOrderEmail(email, order.confirmationCode);
+      await resendOrderEmail(email, confirmationCode);
       setResendState("sent");
     } catch (err) {
       setResendError(err.message || "Could not resend email");
@@ -27,6 +27,26 @@ function OrderCard({ order, email, past = false }) {
     }
   }
 
+  return (
+    <>
+      <button
+        type="button"
+        className="orpheum-arrow-btn orpheum-arrow-btn--ghost"
+        onClick={handleResend}
+        disabled={resendState === "loading" || resendState === "sent"}
+      >
+        {resendState === "loading" ? "Sending…" : resendState === "sent" ? "Email sent" : "Resend email"}
+      </button>
+      {resendError ? (
+        <p className="sots-checkout__error" role="alert">
+          {resendError}
+        </p>
+      ) : null}
+    </>
+  );
+}
+
+function OrderCard({ order, email, past = false }) {
   return (
     <article className={`sots-order-card${past ? " sots-order-card--past" : ""}`}>
       <header className="sots-order-card__head">
@@ -47,7 +67,7 @@ function OrderCard({ order, email, past = false }) {
 
       {!past ? (
         <ul className="sots-order-card__tickets">
-          {order.tickets.map((ticket) => (
+          {(order.tickets ?? []).map((ticket) => (
             <li key={ticket.code}>
               <div className="sots-order-card__ticket">
                 <div>
@@ -75,19 +95,61 @@ function OrderCard({ order, email, past = false }) {
             Add to calendar
           </button>
         ) : null}
-        <button
-          type="button"
-          className="orpheum-arrow-btn orpheum-arrow-btn--ghost"
-          onClick={handleResend}
-          disabled={resendState === "loading" || resendState === "sent"}
-        >
-          {resendState === "loading" ? "Sending…" : resendState === "sent" ? "Email sent" : "Resend email"}
-        </button>
-        {resendError ? (
-          <p className="sots-checkout__error" role="alert">
-            {resendError}
+        <ResendButton email={email} confirmationCode={order.confirmationCode} />
+      </div>
+    </article>
+  );
+}
+
+function formatShopDate(iso) {
+  if (!iso) return "";
+  try {
+    return new Intl.DateTimeFormat("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }).format(new Date(iso));
+  } catch {
+    return "";
+  }
+}
+
+function ShopOrderCard({ order, email }) {
+  const itemCount = (order.lineItems ?? []).reduce((sum, line) => sum + (line.quantity || 0), 0);
+  const fulfillmentLabel = order.fulfillment === "ship" ? "Ship to me" : "Park pickup";
+
+  return (
+    <article className="sots-order-card sots-order-card--shop">
+      <header className="sots-order-card__head">
+        <div>
+          <p className="sots-order-card__code">Confirmation {order.confirmationCode}</p>
+          <h3>Gift shop</h3>
+          <p>{formatShopDate(order.createdAt)}</p>
+          <p className="sots-order-card__venue">
+            {fulfillmentLabel}
+            {itemCount ? ` · ${itemCount} item${itemCount === 1 ? "" : "s"}` : ""}
           </p>
-        ) : null}
+        </div>
+        <p className="sots-order-card__total">{formatCents(order.totalCents)}</p>
+      </header>
+
+      <ul className="sots-order-card__lines">
+        {(order.lineItems ?? []).map((line, index) => (
+          <li key={`${line.productId || line.sku || line.name}-${index}`}>
+            <span>
+              {line.quantity}× {line.name}
+              {line.option ? ` (${line.option})` : ""}
+            </span>
+            <span>{formatCents(line.lineTotal ?? (line.unitPrice || 0) * (line.quantity || 0))}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div className="sots-order-card__actions">
+        <Link to="/shop/" className="orpheum-arrow-btn orpheum-arrow-btn--ghost">
+          Visit shop
+        </Link>
+        <ResendButton email={email} confirmationCode={order.confirmationCode} />
       </div>
     </article>
   );
@@ -97,6 +159,7 @@ export function MyTicketsPage() {
   const [params, setParams] = useSearchParams();
   const {
     isSignedIn,
+    bootstrapping,
     user,
     profile,
     avatarUrl,
@@ -163,22 +226,34 @@ export function MyTicketsPage() {
     };
   }, [params, setParams, signInWithToken, isSignedIn]);
 
-  const ticketCount = useMemo(
-    () => orders.reduce((sum, order) => sum + (order.tickets?.length ?? 0), 0),
+  const ticketOrders = useMemo(
+    () => orders.filter((order) => order.type !== "shop"),
     [orders],
+  );
+  const shopOrders = useMemo(
+    () =>
+      orders
+        .filter((order) => order.type === "shop")
+        .sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || ""))),
+    [orders],
+  );
+
+  const ticketCount = useMemo(
+    () => ticketOrders.reduce((sum, order) => sum + (order.tickets?.length ?? 0), 0),
+    [ticketOrders],
   );
 
   const { upcomingOrders, pastOrders } = useMemo(() => {
     const upcoming = [];
     const past = [];
-    for (const order of orders) {
+    for (const order of ticketOrders) {
       if (isUpcomingOrder(order)) upcoming.push(order);
       else past.push(order);
     }
     upcoming.sort((a, b) => String(a.performanceStart).localeCompare(String(b.performanceStart)));
     past.sort((a, b) => String(b.performanceStart).localeCompare(String(a.performanceStart)));
     return { upcomingOrders: upcoming, pastOrders: past };
-  }, [orders]);
+  }, [ticketOrders]);
 
   const displayName = profile?.name?.trim() || "";
 
@@ -223,7 +298,7 @@ export function MyTicketsPage() {
             variant="plain"
             eyebrow="Patron account"
             title="My Tickets"
-            intro="Your tickets and QR codes for Shakespeare on the Sound."
+            intro="Your tickets, QR codes, and gift shop purchases."
           />
         ) : (
           <InnerPageHero
@@ -231,7 +306,7 @@ export function MyTicketsPage() {
             compact
             eyebrow="Patron account"
             title="My Tickets"
-            intro="Sign in with the email from checkout to view tickets and QR codes."
+            intro="Sign in with the email from checkout to view tickets, QR codes, and shop orders."
             image={heroImageForHref("/my-tickets/")}
             actions={
               <ArrowButton href="/access-your-tickets/" variant="ghost">
@@ -243,7 +318,11 @@ export function MyTicketsPage() {
 
         <div className="orpheum-inner-page__body">
           <div className="orpheum-container sots-account-page__body" data-reveal>
-            {!isSignedIn ? (
+            {bootstrapping && !isSignedIn ? (
+              <section className="sots-account-panel" aria-live="polite">
+                <p className="sots-my-tickets-page__lead">Checking your secure session…</p>
+              </section>
+            ) : !isSignedIn ? (
               <section className="sots-my-tickets-page__auth sots-account-panel" aria-labelledby="my-tickets-sign-in">
                 <p className="sots-account-panel__eyebrow">Secure access</p>
                 <h2 id="my-tickets-sign-in">Sign in to your account</h2>
@@ -312,8 +391,11 @@ export function MyTicketsPage() {
                         {orders.length ? (
                           <>
                             {" "}
-                            · {orders.length} order{orders.length === 1 ? "" : "s"} · {ticketCount} ticket
-                            {ticketCount === 1 ? "" : "s"}
+                            · {ticketOrders.length} ticket order{ticketOrders.length === 1 ? "" : "s"}
+                            {ticketCount ? ` · ${ticketCount} ticket${ticketCount === 1 ? "" : "s"}` : ""}
+                            {shopOrders.length
+                              ? ` · ${shopOrders.length} shop order${shopOrders.length === 1 ? "" : "s"}`
+                              : ""}
                           </>
                         ) : null}
                       </p>
@@ -340,24 +422,24 @@ export function MyTicketsPage() {
                   >
                     <div className="sots-patron-contact__intro">
                       <h2 id="patron-tickets-heading">Your tickets</h2>
-                      {orders.length ? (
+                      {ticketOrders.length ? (
                         <p>
                           Upcoming shows first — present QR codes at the entrance. Add a show to your calendar
                           so you don’t miss the night.
                         </p>
                       ) : (
-                        <p>Orders placed with this email will show up here with entry QR codes.</p>
+                        <p>Ticket orders placed with this email will show up here with entry QR codes.</p>
                       )}
                     </div>
 
-                    {loadingOrders ? <p>Loading your tickets…</p> : null}
+                    {loadingOrders ? <p>Loading your orders…</p> : null}
                     {error ? (
                       <p className="sots-checkout__error" role="alert">
                         {error}
                       </p>
                     ) : null}
 
-                    {!loadingOrders && !orders.length ? (
+                    {!loadingOrders && !ticketOrders.length ? (
                       <div className="sots-my-tickets-page__empty">
                         <p className="sots-my-tickets-page__empty-title">No tickets yet</p>
                         <p>When you buy tickets with {user?.email}, they&apos;ll appear here automatically.</p>
@@ -378,10 +460,10 @@ export function MyTicketsPage() {
                       </div>
                     ) : null}
 
-                    {!loadingOrders && orders.length && !upcomingOrders.length ? (
+                    {!loadingOrders && ticketOrders.length && !upcomingOrders.length ? (
                       <div className="sots-my-tickets-page__empty sots-my-tickets-page__empty--inline">
                         <p className="sots-my-tickets-page__empty-title">No upcoming shows</p>
-                        <p>Your past orders are below. Ready for another night at Pinkney Park?</p>
+                        <p>Your past ticket orders are below. Ready for another night at Pinkney Park?</p>
                         <Link to="/tickets/" className="orpheum-arrow-btn orpheum-arrow-btn--gold">
                           Browse performances
                         </Link>
@@ -404,6 +486,32 @@ export function MyTicketsPage() {
                         </div>
                       </details>
                     ) : null}
+
+                    <div className="sots-my-tickets-page__group sots-my-tickets-page__group--shop">
+                      <div className="sots-patron-contact__intro">
+                        <h2 id="patron-shop-heading">Gift shop purchases</h2>
+                        <p>
+                          Receipts for merchandise bought with this email
+                          {shopOrders.length ? " — pickup or shipping details included." : "."}
+                        </p>
+                      </div>
+
+                      {!loadingOrders && !shopOrders.length ? (
+                        <div className="sots-my-tickets-page__empty sots-my-tickets-page__empty--inline">
+                          <p className="sots-my-tickets-page__empty-title">No shop orders yet</p>
+                          <p>Gift shop purchases will show here with your confirmation details.</p>
+                          <Link to="/shop/" className="orpheum-arrow-btn orpheum-arrow-btn--gold">
+                            Browse the shop
+                          </Link>
+                        </div>
+                      ) : (
+                        <div className="sots-my-tickets-page__orders">
+                          {shopOrders.map((order) => (
+                            <ShopOrderCard key={order.id} order={order} email={user?.email} />
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </section>
 
                   <details

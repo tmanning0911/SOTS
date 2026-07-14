@@ -1,9 +1,13 @@
 import { jsonResponse } from "./lib/cors.mjs";
+import { bindBlobs } from "./lib/netlify-blobs.mjs";
 import { getClientIp, rateLimit } from "./lib/rateLimit.mjs";
 import { sendOrderConfirmationEmail } from "./lib/order-email.mjs";
+import { sendShopOrderConfirmationEmail } from "./lib/shop-order-email.mjs";
+import { lookupShopOrder } from "./lib/shop-store.mjs";
 import { lookupOrder } from "./lib/ticketing-store.mjs";
 
 export async function handler(event) {
+  bindBlobs(event);
   if (event.httpMethod === "OPTIONS") {
     return jsonResponse(204, {}, event, { methods: "POST, OPTIONS" });
   }
@@ -25,7 +29,10 @@ export async function handler(event) {
     return jsonResponse(400, { error: "Invalid JSON" }, event, { methods: "POST, OPTIONS" });
   }
 
-  const order = await lookupOrder(body.email, body.confirmationCode);
+  const ticketOrder = await lookupOrder(body.email, body.confirmationCode);
+  const shopOrder = ticketOrder ? null : await lookupShopOrder(body.email, body.confirmationCode);
+  const order = ticketOrder || shopOrder;
+
   if (!order) {
     return jsonResponse(404, { error: "No order found with that email and confirmation code." }, event, {
       methods: "POST, OPTIONS",
@@ -33,7 +40,10 @@ export async function handler(event) {
   }
 
   try {
-    const result = await sendOrderConfirmationEmail(order);
+    const result =
+      order.type === "shop"
+        ? await sendShopOrderConfirmationEmail(order)
+        : await sendOrderConfirmationEmail(order);
     if (!result.sent) {
       return jsonResponse(503, { error: "Email service is not configured yet." }, event, {
         methods: "POST, OPTIONS",

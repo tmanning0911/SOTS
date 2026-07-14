@@ -95,6 +95,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/patron/logout"
+  to = "/.netlify/functions/patron-auth"
+  status = 200
+
+[[redirects]]
   from = "/api/patron/orders"
   to = "/.netlify/functions/patron-auth"
   status = 200
