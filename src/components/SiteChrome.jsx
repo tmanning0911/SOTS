@@ -9,7 +9,14 @@ const CHROME_MOUNT_ID = "site-chrome";
 function visibleChromeHeight(el) {
   if (!el) return 0;
   const style = getComputedStyle(el);
-  if (style.display === "none" || style.visibility === "hidden") return 0;
+  if (
+    style.display === "none" ||
+    style.visibility === "hidden" ||
+    el.classList.contains("is-hidden-at-footer") ||
+    el.hasAttribute("inert")
+  ) {
+    return 0;
+  }
   return el.offsetHeight;
 }
 

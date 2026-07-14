@@ -1,4 +1,6 @@
+import { useRef } from "react";
 import { useNav } from "../context/NavContext.jsx";
+import { useHideChromeAtFooter } from "../hooks/useHideChromeAtFooter.js";
 
 function DockIconTickets() {
   return (
@@ -10,9 +12,11 @@ function DockIconTickets() {
 
 export function MobileDock() {
   const { openMenu } = useNav();
+  const ref = useRef(null);
+  useHideChromeAtFooter(ref);
 
   return (
-    <nav id="mobile-dock" className="mobile-dock" aria-label="Quick actions">
+    <nav ref={ref} id="mobile-dock" className="mobile-dock" aria-label="Quick actions">
       <button className="mobile-dock__item" type="button" aria-label="Open menu" onClick={openMenu}>
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />

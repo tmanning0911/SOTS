@@ -172,6 +172,21 @@ body:has(.announcement) .production-hero {
     padding: 0.4rem var(--page-gutter);
     padding-bottom: calc(0.4rem + var(--safe-bottom));
     box-shadow: 0 -4px 24px rgba(var(--brand-navy-rgb), 0.08);
+    transition:
+      transform 0.28s ease,
+      opacity 0.22s ease,
+      visibility 0s linear 0s;
+  }
+
+  .mobile-dock.is-hidden-at-footer {
+    transform: translateY(110%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      transform 0.28s ease,
+      opacity 0.22s ease,
+      visibility 0s linear 0.28s;
   }
 
   .site-header__inner {
