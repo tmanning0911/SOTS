@@ -12,7 +12,7 @@ export function Hero() {
           fetchPriority="high"
           decoding="async"
           width={1024}
-          height={535}
+          height={576}
         />
       </div>
       <div className="orpheum-hero__veil" aria-hidden="true" />
