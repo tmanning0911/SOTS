@@ -3,6 +3,7 @@ import { MEDIA, NAV_ITEMS, SITE } from "../../js/data.js";
 import { trapFocus } from "../../js/a11y.js";
 import { useNav } from "../context/NavContext.jsx";
 import { useUI } from "../context/UIContext.jsx";
+import { ArrowButton } from "./ArrowButton.jsx";
 import { TicketCheckoutLink } from "./ticketing/TicketCheckoutLink.jsx";
 
 function flattenNavLinks(item) {
@@ -57,18 +58,27 @@ export function MobileNav() {
       </div>
 
       <div className="mobile-nav__ctas">
-        <button type="button" className="orpheum-btn orpheum-btn--secondary mobile-nav__search" onClick={() => { closeMenu(); openSearch(); }}>
+        <ArrowButton
+          type="button"
+          variant="ghost"
+          flat
+          className="mobile-nav__search"
+          onClick={() => {
+            closeMenu();
+            openSearch();
+          }}
+        >
           Search site
-        </button>
-        <a className="orpheum-btn orpheum-btn--gold" href="/tickets/" onClick={handleClose}>
+        </ArrowButton>
+        <ArrowButton href="/tickets/" onClick={handleClose}>
           Tickets
-        </a>
-        <a className="orpheum-btn orpheum-btn--secondary" href="/my-tickets/" onClick={handleClose}>
+        </ArrowButton>
+        <ArrowButton href="/my-tickets/" variant="ghost" onClick={handleClose}>
           My Tickets
-        </a>
-        <a className="orpheum-btn orpheum-btn--donate" href="/support/donate/" onClick={handleClose}>
+        </ArrowButton>
+        <ArrowButton href="/support/donate/" onClick={handleClose}>
           Donate
-        </a>
+        </ArrowButton>
       </div>
 
       {NAV_ITEMS.map((item) => (

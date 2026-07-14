@@ -1,11 +1,13 @@
 import { randomBytes } from "node:crypto";
 import { jsonResponse } from "./lib/cors.mjs";
+import { bindBlobs } from "./lib/netlify-blobs.mjs";
 import { getClientIp, rateLimit } from "./lib/rateLimit.mjs";
 import { sendShopOrderConfirmationEmail } from "./lib/shop-order-email.mjs";
 import { createSquarePayment } from "./lib/square.mjs";
 import { commitShopOrder, getShopHold } from "./lib/shop-store.mjs";
 
 export async function handler(event) {
+  bindBlobs(event);
   if (event.httpMethod === "OPTIONS") {
     return jsonResponse(204, {}, event, { methods: "POST, OPTIONS" });
   }

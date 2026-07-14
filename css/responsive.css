@@ -1,11 +1,11 @@
 /* Responsive system — mobile-first theatre UX
-   Breakpoints: 480 / 768 / 1024 / 1280 */
+   Breakpoints: 480 / 768 / 992 / 1280 (aligned with Orpheum nav) */
 
 :root {
-  --bp-sm: 30rem;
-  --bp-md: 48rem;
-  --bp-lg: 64rem;
-  --bp-xl: 80rem;
+  --bp-sm: 30rem;   /* 480px */
+  --bp-md: 48rem;   /* 768px */
+  --bp-lg: 62rem;   /* 992px — mobile/tablet vs desktop nav */
+  --bp-xl: 80rem;   /* 1280px */
   --announcement-height: 0px;
   --mobile-dock-height: 0px;
   --safe-top: env(safe-area-inset-top, 0px);
@@ -75,8 +75,8 @@ body:has(.announcement) .production-hero {
 
 .mobile-toggle {
   display: none;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
@@ -103,7 +103,7 @@ body:has(.announcement) .production-hero {
   padding: 0.35rem 0.25rem;
   text-decoration: none;
   color: var(--color-charcoal);
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -130,7 +130,7 @@ body:has(.announcement) .production-hero {
   margin-inline: 0.2rem;
   background: linear-gradient(135deg, var(--color-forest) 0%, var(--color-sage) 100%);
   color: white;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(10, 61, 48, 0.28);
 }
@@ -444,7 +444,7 @@ body:has(.announcement) .production-hero {
   }
 
   .mobile-dock__item {
-    font-size: 0.58rem;
+    font-size: 0.75rem;
   }
 }
 
@@ -480,8 +480,8 @@ body:has(.announcement) .production-hero {
   }
 }
 
-/* ── Desktop nav (1050px+ — matches Roundabout) ── */
-@media (min-width: 65.625rem) {
+/* ── Desktop nav (992px+ — matches Orpheum) ── */
+@media (min-width: 62rem) {
   :root {
     --header-height: 88px;
     --mobile-dock-height: 0px;
@@ -560,17 +560,17 @@ body:has(.announcement) .production-hero {
   }
 }
 
-/* Tablet (768px–1049px): hamburger in header; inner pages keep bottom dock */
-@media (min-width: 48rem) and (max-width: 65.4375rem) {
+/* Tablet (768px–991px): hamburger in header; no bottom dock (phone-only) */
+@media (min-width: 48rem) and (max-width: 61.9375rem) {
   :root {
     --mobile-dock-height: 0px;
   }
 
-  body:not(.page-inner) {
+  body {
     padding-bottom: 0;
   }
 
-  body:not(.page-inner) .mobile-dock {
+  .mobile-dock {
     display: none !important;
   }
 

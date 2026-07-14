@@ -1,10 +1,38 @@
 import { heroImageForHref } from "../../js/page-heroes.js";
+import { isContactMailto } from "../../js/contact-recipients.js";
 import { isTicketCheckoutUrl, TICKETS_PAGE_PATH } from "../../js/ticketing.js";
 import { ArrowButton } from "./ArrowButton.jsx";
+import { ContactCtaButton } from "./ContactCtaButton.jsx";
 import { InnerPageHero } from "./InnerPageHero.jsx";
 import { InnerPageShell } from "./InnerPageShell.jsx";
 import { PageSection } from "./PageSection.jsx";
 import { TicketArrowButton } from "./ticketing/TicketArrowButton.jsx";
+
+function PageCta({ cta, variant = "gold" }) {
+  if (!cta) return null;
+
+  if (isContactMailto(cta.href)) {
+    return (
+      <ContactCtaButton href={cta.href} variant={variant}>
+        {cta.label}
+      </ContactCtaButton>
+    );
+  }
+
+  if (isTicketCheckoutUrl(cta.href, TICKETS_PAGE_PATH) && variant !== "gold") {
+    return <TicketArrowButton label={cta.label} variant="ghost" />;
+  }
+
+  return (
+    <ArrowButton
+      href={cta.href}
+      variant={variant}
+      {...(cta.external ? { target: "_blank", rel: "noopener" } : {})}
+    >
+      {cta.label}
+    </ArrowButton>
+  );
+}
 
 export function OrpheumInnerPage({ page }) {
   if (!page) return null;
@@ -37,27 +65,8 @@ export function OrpheumInnerPage({ page }) {
 
             {(page.cta || page.secondaryCta) ? (
               <div className="orpheum-inner-page__cta">
-                {page.cta ? (
-                  <ArrowButton
-                    href={page.cta.href}
-                    {...(page.cta.external ? { target: "_blank", rel: "noopener" } : {})}
-                  >
-                    {page.cta.label}
-                  </ArrowButton>
-                ) : null}
-                {page.secondaryCta ? (
-                  isTicketCheckoutUrl(page.secondaryCta.href, TICKETS_PAGE_PATH) ? (
-                    <TicketArrowButton label={page.secondaryCta.label} variant="ghost" />
-                  ) : (
-                    <ArrowButton
-                      href={page.secondaryCta.href}
-                      variant="ghost"
-                      {...(page.secondaryCta.external ? { target: "_blank", rel: "noopener" } : {})}
-                    >
-                      {page.secondaryCta.label}
-                    </ArrowButton>
-                  )
-                ) : null}
+                <PageCta cta={page.cta} />
+                <PageCta cta={page.secondaryCta} variant="ghost" />
               </div>
             ) : null}
           </div>

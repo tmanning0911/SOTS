@@ -70,8 +70,12 @@ export function ShopCartAside({
               <strong>{formatCents(cartTotal)}</strong>
             </div>
             <p className="sots-shop-cart-aside__note">Taxes calculated at checkout</p>
-            <button type="button" className="orpheum-arrow-btn orpheum-arrow-btn--gold sots-shop-cart-aside__checkout" onClick={onCheckout}>
-              Checkout
+            <button
+              type="button"
+              className="sots-shop-btn sots-shop-btn--checkout sots-shop-btn--lg sots-shop-btn--block sots-shop-cart-aside__checkout"
+              onClick={onCheckout}
+            >
+              Proceed to checkout
             </button>
           </>
         )}

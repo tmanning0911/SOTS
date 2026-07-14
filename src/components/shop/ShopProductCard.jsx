@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function ProductCard({ product, onAdd, onBuyNow }) {
+export function ProductCard({ product, onAdd, onBuyNow, priorityImage = false }) {
   const [option, setOption] = useState(product.options?.[0]?.values?.[0] ?? "");
   const [added, setAdded] = useState(false);
   const hasOptions = Boolean(product.options?.length);
@@ -17,7 +17,14 @@ export function ProductCard({ product, onAdd, onBuyNow }) {
     <article className="sots-shop-card">
       <div className="sots-shop-card__media">
         {product.image ? (
-          <img src={product.image} alt="" loading="lazy" width={400} height={400} />
+          <img
+            src={product.image}
+            alt=""
+            loading={priorityImage ? "eager" : "lazy"}
+            fetchPriority={priorityImage ? "high" : undefined}
+            width={400}
+            height={400}
+          />
         ) : (
           <div className="sots-shop-card__placeholder" aria-hidden="true" />
         )}
@@ -43,13 +50,17 @@ export function ProductCard({ product, onAdd, onBuyNow }) {
           <strong className="sots-shop-card__price">{product.price?.display}</strong>
           <button
             type="button"
-            className={`orpheum-arrow-btn orpheum-arrow-btn--gold orpheum-arrow-btn--compact sots-shop-card__add${added ? " is-added" : ""}`}
+            className={`sots-shop-btn sots-shop-btn--block${added ? " sots-shop-btn--added" : ""}`}
             onClick={handleAdd}
             aria-live="polite"
           >
-            {added ? "Added" : "Add to cart"}
+            {added ? "Added to cart" : "Add to cart"}
           </button>
-          <button type="button" className="sots-shop-text-link" onClick={() => onBuyNow(product, selection)}>
+          <button
+            type="button"
+            className="sots-shop-btn sots-shop-btn--outline sots-shop-btn--block"
+            onClick={() => onBuyNow(product, selection)}
+          >
             Buy now
           </button>
         </div>

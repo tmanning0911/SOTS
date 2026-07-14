@@ -10,7 +10,9 @@ Ticket and gift shop checkout use **Square Web Payments** on Netlify. Configure 
 | `SQUARE_APPLICATION_ID` | Production app ID from [Square Developer Dashboard](https://developer.squareup.com/) |
 | `SQUARE_ACCESS_TOKEN` | Production access token |
 | `SQUARE_LOCATION_ID` | Your Square location ID (Pinkney Park / org location) |
-| `RESEND_API_KEY` | For order confirmation emails |
+| `RESEND_API_KEY` | For order confirmation emails **and** My Tickets magic-link emails |
+| `RESEND_FROM_EMAIL` | Verified sender, e.g. `Shakespeare on the Sound <tickets@shakespeareonthesound.org>` |
+| `PATRON_AUTH_SECRET` | HMAC secret for My Tickets sign-in (`openssl rand -hex 32`) |
 | `TICKETING_TEST_MODE` | `false` (set automatically in `netlify.toml` for production builds) |
 
 ## Preview / QA (Netlify deploy previews)

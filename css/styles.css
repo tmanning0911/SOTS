@@ -277,8 +277,8 @@ h1, h2, h3, h4, h5, h6 {
   transform: rotate(180deg);
 }
 
-/* Pill nav visible at Roundabout desktop breakpoint (1050px+) */
-@media (min-width: 65.625rem) {
+/* Pill nav visible at Orpheum desktop breakpoint (992px+) */
+@media (min-width: 62rem) {
   .site-header__nav {
     display: block;
   }
@@ -302,7 +302,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-@media (max-width: 65.5rem) {
+@media (max-width: 61.9375rem) {
   .nav-pill {
     padding: 0 16px;
   }

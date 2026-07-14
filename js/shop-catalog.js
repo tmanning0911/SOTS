@@ -138,6 +138,49 @@ export function filterLiveShopProducts(products = []) {
   return products.filter((product) => !isTestShopProduct(product) && product.onSale !== false);
 }
 
+export const KNOWN_SHOP_SKUS = new Set(SHOP_PRODUCTS.map((product) => product.sku).filter(Boolean));
+
+export function isKnownShopSku(sku) {
+  return Boolean(sku && KNOWN_SHOP_SKUS.has(sku));
+}
+
+export function mergeSeedWithSquareProducts(squareProducts = []) {
+  const squareBySku = new Map();
+  for (const product of squareProducts) {
+    if (!isKnownShopSku(product?.sku)) continue;
+    squareBySku.set(product.sku, product);
+  }
+
+  const merged = SHOP_PRODUCTS.map((seed) => {
+    const square = squareBySku.get(seed.sku);
+    if (!square) return { ...seed };
+
+    return {
+      ...seed,
+      id: square.id ?? seed.id,
+      itemId: square.itemId ?? seed.itemId,
+      price: square.price ?? seed.price,
+      image: square.image || seed.image,
+      onSale: square.onSale !== false,
+    };
+  });
+
+  return buildShopCatalog(merged, squareBySku.size ? "square" : "seed");
+}
+
+export function resolveShopCatalog(data) {
+  if (!data?.products?.length) {
+    return buildShopCatalog(SHOP_PRODUCTS, "seed");
+  }
+
+  const knownProducts = data.products.filter((product) => isKnownShopSku(product.sku));
+  if (knownProducts.length) {
+    return mergeSeedWithSquareProducts(data.products);
+  }
+
+  return buildShopCatalog(SHOP_PRODUCTS, "seed");
+}
+
 export function canonicalCategoryId(slug) {
   const normalized = String(slug ?? "")
     .toLowerCase()

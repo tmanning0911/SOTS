@@ -1,7 +1,13 @@
-import { getStore } from "@netlify/blobs";
+import {
+  bindBlobs,
+  blobStore,
+  isNetlifyRuntime,
+  persistJson,
+} from "./netlify-blobs.mjs";
 import { randomBytes } from "node:crypto";
 import { isPastPerformance, normalizeTicketCatalog } from "../../../js/performance-dates.js";
 import { stripTestPerformances, assertProductionPerformanceId } from "../../../js/catalog-production.js";
+import { normalizePatronEmail } from "./patron-auth.mjs";
 import { calculateDiscountCents, validatePromo } from "./promo.mjs";
 import { readStaticJsonCatalog } from "./static-catalog.mjs";
 import { squareEnvironment } from "./square.mjs";
@@ -10,7 +16,7 @@ const STORE_NAME = "sots-ticketing";
 const HOLD_TTL_MS = 15 * 60 * 1000;
 
 function store() {
-  return getStore({ name: STORE_NAME, consistency: "strong" });
+  return blobStore(STORE_NAME);
 }
 
 export async function readCatalog() {
@@ -35,6 +41,34 @@ async function saveInventoryMap(map) {
   } catch {
     /* blobs optional locally */
   }
+}
+
+export async function getReservedMap() {
+  try {
+    return (await store().get("reserved", { type: "json" })) ?? {};
+  } catch {
+    return {};
+  }
+}
+
+async function saveReservedMap(map) {
+  try {
+    await store().setJSON("reserved", map);
+  } catch {
+    /* blobs optional locally */
+  }
+}
+
+async function adjustReserved(lineItems, performanceId, deltaSign) {
+  const reserved = await getReservedMap();
+  for (const line of lineItems) {
+    const key = invKey(performanceId, line.ticketTypeId);
+    const next = Math.max(0, (reserved[key] ?? 0) + deltaSign * line.quantity);
+    if (next <= 0) delete reserved[key];
+    else reserved[key] = next;
+  }
+  await saveReservedMap(reserved);
+  return reserved;
 }
 
 export function sandboxSalesEnabled() {
@@ -79,14 +113,16 @@ export async function getSoldCount(performanceId, ticketTypeId, inventory) {
   return map[invKey(performanceId, ticketTypeId)] ?? 0;
 }
 
-export async function getAvailableQty(performanceId, ticketTypeId, ticketType, inventory) {
+export async function getAvailableQty(performanceId, ticketTypeId, ticketType, inventory, reserved) {
   const capacity = ticketType?.capacity;
   if (!capacity || capacity <= 0) return 20;
   const sold = await getSoldCount(performanceId, ticketTypeId, inventory);
-  return Math.max(0, capacity - sold);
+  const reservedMap = reserved ?? (await getReservedMap());
+  const held = reservedMap[invKey(performanceId, ticketTypeId)] ?? 0;
+  return Math.max(0, capacity - sold - held);
 }
 
-export function mergeCatalogWithInventory(catalog, inventory) {
+export function mergeCatalogWithInventory(catalog, inventory, reserved = {}) {
   const sandbox = sandboxSalesEnabled();
   const base = normalizeTicketCatalog(catalog);
   const performances = (base.performances ?? [])
@@ -97,8 +133,9 @@ export function mergeCatalogWithInventory(catalog, inventory) {
     const ticketAvailability = {};
     for (const tt of base.ticketTypes ?? catalog.ticketTypes ?? []) {
       const sold = inventory[invKey(p.id, tt.id)] ?? 0;
+      const held = reserved[invKey(p.id, tt.id)] ?? 0;
       const cap = tt.capacity ?? 0;
-      const remaining = cap > 0 ? Math.max(0, cap - sold) : 10;
+      const remaining = cap > 0 ? Math.max(0, cap - sold - held) : 10;
       ticketAvailability[tt.id] = remaining;
       if (remaining > 0 && tt.onSale !== false) anyAvailable = true;
     }
@@ -275,7 +312,8 @@ export async function createHold({ performanceId, items, buyer, promoCode, donat
 
   const catalogRaw = await readCatalog();
   const inventory = await getInventoryMap();
-  const catalog = mergeCatalogWithInventory(catalogRaw, inventory);
+  const reserved = await getReservedMap();
+  const catalog = mergeCatalogWithInventory(catalogRaw, inventory, reserved);
   const performance = getPerformance(catalog, performanceId);
   if (!performance || !isPerformanceOnSale(performance, catalog)) {
     throw new Error("This performance is not available for purchase");
@@ -291,7 +329,7 @@ export async function createHold({ performanceId, items, buyer, promoCode, donat
     }
     const tt = getTicketType(catalog, ticketTypeId);
     if (!tt?.price?.value) throw new Error("Invalid ticket type");
-    const available = await getAvailableQty(performanceId, ticketTypeId, tt, inventory);
+    const available = await getAvailableQty(performanceId, ticketTypeId, tt, inventory, reserved);
     if (qty > available) {
       throw new Error(`${tt.name} is no longer available in that quantity`);
     }
@@ -339,6 +377,7 @@ export async function createHold({ performanceId, items, buyer, promoCode, donat
     donationCents: donation,
     totalCents,
     currency: "USD",
+    reserved: true,
     buyer: {
       name: String(buyer?.name ?? "").trim().slice(0, 200),
       email: normalizePatronEmail(buyer?.email),
@@ -352,10 +391,23 @@ export async function createHold({ performanceId, items, buyer, promoCode, donat
   }
   if (!hold.buyer.name) throw new Error("Name is required");
 
+  // Re-check availability then reserve (best-effort under Netlify Blobs race conditions).
+  const reservedFresh = await getReservedMap();
+  for (const line of lineItems) {
+    const tt = getTicketType(catalog, line.ticketTypeId);
+    const available = await getAvailableQty(performanceId, line.ticketTypeId, tt, inventory, reservedFresh);
+    if (line.quantity > available) {
+      throw new Error(`${line.name} is no longer available in that quantity`);
+    }
+  }
+  await adjustReserved(lineItems, performanceId, 1);
+
   try {
-    await store().setJSON(`hold:${holdId}`, hold, { metadata: { expiresAt: hold.expiresAt } });
-  } catch {
-    /* local dev */
+    await persistJson(store(), `hold:${holdId}`, hold, { metadata: { expiresAt: hold.expiresAt } });
+  } catch (err) {
+    await adjustReserved(lineItems, performanceId, -1);
+    console.error("ticket hold persist failed:", err);
+    if (isNetlifyRuntime()) throw err;
   }
 
   return hold;
@@ -374,13 +426,18 @@ export async function getHold(holdId) {
       return null;
     }
     return hold;
-  } catch {
+  } catch (err) {
+    console.error("ticket hold read failed:", err);
     return null;
   }
 }
 
 export async function releaseHold(holdId) {
   try {
+    const hold = await store().get(`hold:${holdId}`, { type: "json" });
+    if (hold?.reserved && hold.lineItems?.length) {
+      await adjustReserved(hold.lineItems, hold.performanceId, -1);
+    }
     await store().delete(`hold:${holdId}`);
   } catch {
     /* noop */
@@ -397,6 +454,11 @@ export async function commitOrder({ hold, squarePaymentId, squareOrderId = null 
     inventory[key] = (inventory[key] ?? 0) + line.quantity;
   }
   await saveInventoryMap(inventory);
+
+  // Convert reservation → sold (drop reserved qty for this hold).
+  if (hold.reserved && hold.lineItems?.length) {
+    await adjustReserved(hold.lineItems, hold.performanceId, -1);
+  }
 
   const confirmationCode = randomCode(6);
   const tickets = [];
@@ -443,7 +505,12 @@ export async function commitOrder({ hold, squarePaymentId, squareOrderId = null 
     /* local */
   }
 
-  await releaseHold(hold.id);
+  // Delete hold without double-releasing reserved (already converted above).
+  try {
+    await store().delete(`hold:${hold.id}`);
+  } catch {
+    /* noop */
+  }
   return order;
 }
 

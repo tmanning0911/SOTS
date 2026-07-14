@@ -1,5 +1,13 @@
 import { jsonResponse } from "./lib/cors.mjs";
 import { getClientIp, rateLimit } from "./lib/rateLimit.mjs";
+import {
+  BOX_OFFICE_EMAIL,
+  EMAIL_COLORS,
+  emailButtonsRow,
+  emailHeading,
+  escapeHtml,
+  renderSotsEmail,
+} from "./lib/email-layout.mjs";
 import { getSiteUrl, resendConfigured, sendEmail } from "./lib/resend.mjs";
 import {
   isValidPatronEmail,
@@ -12,32 +20,48 @@ import {
 } from "./lib/patron-auth.mjs";
 import { listPatronOrders, publicOrderView } from "./lib/ticketing-store.mjs";
 
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
+const C = EMAIL_COLORS;
 
 async function sendMagicLinkEmail(email, token) {
   const siteUrl = getSiteUrl();
   const link = `${siteUrl}/my-tickets/?token=${encodeURIComponent(token)}`;
   const subject = "Sign in to My Tickets — Shakespeare on the Sound";
+  const preheader = "Your secure sign-in link expires in 15 minutes.";
+
   const text = [
     "Use this link to view your Shakespeare on the Sound tickets:",
     "",
     link,
     "",
     "This link expires in 15 minutes. If you did not request it, you can ignore this email.",
+    "",
+    "Shakespeare on the Sound",
   ].join("\n");
-  const html = `<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;color:#2b2b2b;padding:24px;">
-    <p>Tap below to view your tickets. This link expires in <strong>15 minutes</strong>.</p>
-    <p><a href="${escapeHtml(link)}" style="display:inline-block;background:#0f2d4d;color:#fff;padding:12px 18px;text-decoration:none;font-weight:bold;">View My Tickets</a></p>
-    <p style="font-size:13px;color:#525252;">If the button does not work, copy and paste this URL:<br>${escapeHtml(link)}</p>
-  </body></html>`;
 
-  return sendEmail({ to: email, subject, html, text });
+  const bodyHtml = `
+    ${emailHeading("Sign in to My Tickets")}
+    <p style="margin:0 0 18px;">
+      Use the button below to view your tickets. This link expires in <strong>15 minutes</strong>.
+    </p>
+    ${emailButtonsRow([{ href: link, label: "View My Tickets", variant: "primary" }])}
+    <p style="margin:0 0 12px;font-size:13px;color:${C.muted};line-height:1.55;">
+      If the button does not work, copy and paste this URL into your browser:<br />
+      <a href="${escapeHtml(link)}" style="color:${C.blue};word-break:break-all;">${escapeHtml(link)}</a>
+    </p>
+    <p style="margin:0;font-size:13px;color:${C.muted};">
+      If you did not request this email, you can ignore it. Your tickets remain safe.
+    </p>
+  `;
+
+  const html = renderSotsEmail({
+    title: subject,
+    preheader,
+    siteUrl,
+    eyebrow: "My Tickets",
+    bodyHtml,
+  });
+
+  return sendEmail({ to: email, subject, html, text, replyTo: BOX_OFFICE_EMAIL });
 }
 
 export async function handler(event) {

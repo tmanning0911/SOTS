@@ -1,6 +1,9 @@
 import { BoardOfficer, BoardRosterItem, TeamProfile } from "./RosterProfile.jsx";
 import { TicketCheckoutLink } from "./ticketing/TicketCheckoutLink.jsx";
 import { isTicketCheckoutUrl, TICKETS_PAGE_PATH } from "../../js/ticketing.js";
+import { looksLikeEmail, extractMailtoAddress } from "../../js/contact-recipients.js";
+import { MailLink } from "./MailLink.jsx";
+import { TextWithMailLinks } from "./TextWithMailLinks.jsx";
 
 function ensurePeriod(text) {
   if (!text) return text;
@@ -131,7 +134,9 @@ export function PageSection({ section }) {
                 </ul>
               ) : null}
               {(program.paragraphs ?? []).map((paragraph) => (
-                <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+                <p key={paragraph.slice(0, 40)}>
+                  <TextWithMailLinks text={paragraph} />
+                </p>
               ))}
             </article>
           ))}
@@ -168,7 +173,13 @@ export function PageSection({ section }) {
           {section.rows.map((row) => (
             <div key={row.label} className="orpheum-inner-page__detail">
               <dt>{row.label}</dt>
-              <dd>{row.value}</dd>
+              <dd>
+                {looksLikeEmail(row.value) ? (
+                  <MailLink email={row.value}>{row.value}</MailLink>
+                ) : (
+                  <TextWithMailLinks text={row.value} />
+                )}
+              </dd>
             </div>
           ))}
         </dl>
@@ -187,6 +198,8 @@ export function PageSection({ section }) {
                 <TicketCheckoutLink href={link.href} className="sots-ticket-checkout-link">
                   {link.label}
                 </TicketCheckoutLink>
+              ) : /^mailto:/i.test(link.href) ? (
+                <MailLink email={extractMailtoAddress(link.href)}>{link.label}</MailLink>
               ) : (
                 <a href={link.href} {...(link.external ? { target: "_blank", rel: "noopener" } : {})}>
                   {link.label}
@@ -203,12 +216,16 @@ export function PageSection({ section }) {
     <section className="orpheum-inner-page__section">
       {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
       {(section.paragraphs ?? []).map((paragraph) => (
-        <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+        <p key={paragraph.slice(0, 40)}>
+          <TextWithMailLinks text={paragraph} />
+        </p>
       ))}
       {section.bullets?.length ? (
         <ul className="orpheum-inner-page__bullets">
           {section.bullets.map((item) => (
-            <li key={item}>{item}</li>
+            <li key={item}>
+              <TextWithMailLinks text={item} />
+            </li>
           ))}
         </ul>
       ) : null}

@@ -1,18 +1,49 @@
 let configPromise = null;
 let sdkPromise = null;
+let sdkUrl = null;
 
-export async function fetchCheckoutConfig() {
-  if (!configPromise) {
-    configPromise = fetch("/api/checkout/config", { headers: { Accept: "application/json" } }).then(
-      async (res) => {
-        if (!res.ok) {
-          const err = await res.json().catch(() => ({}));
-          throw new Error(err.error || "Checkout unavailable");
-        }
-        return res.json();
-      },
-    );
+function checkoutConfigError(res, payload = {}) {
+  if (res.status === 503) {
+    return payload.error || "Payment is not configured on the server yet. Please call (203) 957-1006.";
   }
+  if (res.status === 403) {
+    return "Checkout blocked for this site origin. Try the official site URL or call (203) 957-1006.";
+  }
+  return payload.error || `Checkout could not start (error ${res.status}). Refresh and try again.`;
+}
+
+export function resetSquareCheckoutCache() {
+  configPromise = null;
+  sdkPromise = null;
+  sdkUrl = null;
+}
+
+export async function fetchCheckoutConfig({ fresh = false } = {}) {
+  if (fresh) {
+    resetSquareCheckoutCache();
+  }
+
+  if (!configPromise) {
+    configPromise = fetch("/api/checkout/config", {
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+    })
+      .then(async (res) => {
+        const payload = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(checkoutConfigError(res, payload));
+        }
+        if (!payload.applicationId || !payload.locationId) {
+          throw new Error("Payment configuration is incomplete. Please call (203) 957-1006.");
+        }
+        return payload;
+      })
+      .catch((err) => {
+        configPromise = null;
+        throw err;
+      });
+  }
+
   return configPromise;
 }
 
@@ -20,21 +51,36 @@ export function loadSquareSdk(webSdkUrl) {
   if (typeof window !== "undefined" && window.Square) {
     return Promise.resolve(window.Square);
   }
-  if (sdkPromise) return sdkPromise;
 
+  if (sdkPromise && sdkUrl === webSdkUrl) {
+    return sdkPromise;
+  }
+
+  sdkUrl = webSdkUrl;
   sdkPromise = new Promise((resolve, reject) => {
     const existing = document.querySelector(`script[src="${webSdkUrl}"]`);
     if (existing) {
       existing.addEventListener("load", () => resolve(window.Square), { once: true });
-      existing.addEventListener("error", reject, { once: true });
+      existing.addEventListener(
+        "error",
+        () => {
+          sdkPromise = null;
+          reject(new Error("Square payment script could not load. Disable ad blockers and refresh."));
+        },
+        { once: true },
+      );
       if (window.Square) resolve(window.Square);
       return;
     }
+
     const script = document.createElement("script");
     script.src = webSdkUrl;
     script.async = true;
     script.onload = () => resolve(window.Square);
-    script.onerror = reject;
+    script.onerror = () => {
+      sdkPromise = null;
+      reject(new Error("Square payment script could not load. Disable ad blockers and refresh."));
+    };
     document.head.appendChild(script);
   });
 
@@ -69,18 +115,46 @@ const SQUARE_CARD_STYLE = {
   },
 };
 
-export async function initSquareCard(containerId) {
+function formatSquareInitError(err, config) {
+  const message = String(err?.message || err || "Could not load payment form");
+  const lower = message.toLowerCase();
+
+  if (lower.includes("domain") || lower.includes("not authorized") || lower.includes("application id")) {
+    return `Payment form blocked for this website. Add ${window.location.host} in the Square Developer dashboard, or call (203) 957-1006.`;
+  }
+
+  if (lower.includes("location")) {
+    return "Square location is not configured for payments. Please call (203) 957-1006.";
+  }
+
+  if (config?.environment === "sandbox" && !lower.includes("sandbox")) {
+    return `${message} (sandbox mode)`;
+  }
+
+  return message;
+}
+
+export async function initSquareCard(containerId, { fresh = false } = {}) {
   const container = document.getElementById(containerId);
   if (!container) {
     throw new Error("Payment form is not ready yet. Please wait a moment and try again.");
   }
 
-  const config = await fetchCheckoutConfig();
+  const config = await fetchCheckoutConfig({ fresh });
   const Square = await loadSquareSdk(config.webSdkUrl);
-  const payments = Square.payments(config.applicationId, config.locationId);
-  const card = await payments.card({ style: SQUARE_CARD_STYLE });
-  await card.attach(`#${containerId}`);
-  return { card, config };
+
+  if (!Square?.payments) {
+    throw new Error("Square payment library did not initialize. Refresh and try again.");
+  }
+
+  try {
+    const payments = Square.payments(config.applicationId, config.locationId);
+    const card = await payments.card({ style: SQUARE_CARD_STYLE });
+    await card.attach(`#${containerId}`);
+    return { card, config };
+  } catch (err) {
+    throw new Error(formatSquareInitError(err, config));
+  }
 }
 
 export function formatCents(cents) {

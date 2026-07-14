@@ -44,7 +44,11 @@ export function renderHead({
   <meta name="twitter:description" content="${escapeHtml(description)}" />
   <meta name="twitter:image" content="${image}" />
   <link rel="preconnect" href="https://static.wixstatic.com" crossorigin />
-  <link rel="dns-prefetch" href="https://static.wixstatic.com" />`;
+  <link rel="dns-prefetch" href="https://static.wixstatic.com" />
+  <link rel="prefetch" href="/data/shop.json" as="fetch" crossorigin />
+  <link rel="preload" href="/images/hero-much-ado.jpg" as="image" />
+  <link rel="preload" href="/images/news/kids-kings.jpg" as="image" />
+  <link rel="preload" href="/images/decor/shakespeare-portrait.png" as="image" />`;
 }
 
 export const FEEDBUCKET_SCRIPT = `  <script defer src="https://cdn.feedbucket.app/assets/feedbucket.js" data-feedbucket="b3rMrhoJpumgkXUyZrg7"></script>`;

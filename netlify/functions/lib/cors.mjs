@@ -19,9 +19,15 @@ function getHeader(event, name) {
   return event.headers?.[key] || event.headers?.[name] || '';
 }
 
+function isLocalDevOrigin(origin) {
+  // Vite / local tooling proxies /api to Netlify; allow any localhost port.
+  return /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin);
+}
+
 export function isAllowedOrigin(event) {
   const origin = getHeader(event, 'origin').replace(/\/$/, '');
   if (!origin) return true;
+  if (isLocalDevOrigin(origin)) return true;
   const allowed = parseOrigins();
   if (allowed.includes(origin)) return true;
   // Netlify branch / deploy previews for this site only

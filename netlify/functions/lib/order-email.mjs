@@ -1,26 +1,23 @@
 import { getStore } from "@netlify/blobs";
 import { sendEmail, getSiteUrl, resendConfigured } from "./resend.mjs";
+import {
+  BOX_OFFICE_EMAIL,
+  BOX_OFFICE_PHONE,
+  EMAIL_COLORS,
+  emailButtonsRow,
+  emailCard,
+  emailHeading,
+  emailLabel,
+  escapeHtml,
+  formatCents,
+  renderSotsEmail,
+} from "./email-layout.mjs";
 
 const STORE_NAME = "sots-ticketing";
-const BOX_OFFICE_PHONE = "(203) 957-1006";
-const BOX_OFFICE_EMAIL = "contactus@shakespeareonthesound.org";
+const C = EMAIL_COLORS;
 
 function store() {
   return getStore({ name: STORE_NAME, consistency: "strong" });
-}
-
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
-function formatCents(cents) {
-  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(
-    (cents ?? 0) / 100,
-  );
 }
 
 function formatPerformanceDate(isoLocal) {
@@ -42,23 +39,23 @@ function ticketQrUrl(siteUrl, ticketCode, orderId) {
   return `${siteUrl}/api/tickets/qr?data=${encodeURIComponent(data)}`;
 }
 
-function ticketRowsHtml(order, siteUrl) {
+function ticketCardsHtml(order, siteUrl) {
   return order.tickets
     .map(
       (ticket) => `
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 14px;border:1px solid ${C.line};">
         <tr>
-          <td style="padding:10px 0;border-bottom:1px solid #e5e9ed;color:#2b2b2b;font-family:Georgia,'Times New Roman',serif;">
-            ${escapeHtml(ticket.ticketTypeName)}
-          </td>
-          <td style="padding:10px 0;border-bottom:1px solid #e5e9ed;text-align:right;color:#1a5090;font-family:monospace;font-weight:bold;">
-            ${escapeHtml(ticket.code)}
+          <td style="padding:16px 16px 8px;font-family:Arial,Helvetica,sans-serif;">
+            <p style="margin:0 0 4px;font-size:15px;font-weight:bold;color:${C.navy};">${escapeHtml(ticket.ticketTypeName)}</p>
+            <p style="margin:0;font-size:13px;font-family:Consolas,Monaco,monospace;letter-spacing:0.04em;color:${C.blue};">#${escapeHtml(ticket.code)}</p>
           </td>
         </tr>
         <tr>
-          <td colspan="2" style="padding:0 0 14px;text-align:center;">
-            <img src="${escapeHtml(ticketQrUrl(siteUrl, ticket.code, order.id))}" width="140" height="140" alt="QR code for ticket ${escapeHtml(ticket.code)}" style="display:inline-block;border:1px solid #d4d9de;border-radius:8px;" />
+          <td align="center" style="padding:8px 16px 16px;">
+            <img src="${escapeHtml(ticketQrUrl(siteUrl, ticket.code, order.id))}" width="148" height="148" alt="QR for ticket ${escapeHtml(ticket.code)}" style="display:block;margin:0 auto;border:1px solid ${C.line};border-radius:4px;" />
           </td>
-        </tr>`,
+        </tr>
+      </table>`,
     )
     .join("");
 }
@@ -79,8 +76,12 @@ export function buildOrderConfirmationContent(order, siteUrl = getSiteUrl()) {
   const myTicketsUrl = `${siteUrl}/my-tickets/`;
   const productionTitle = order.productionTitle || "Shakespeare on the Sound";
   const venueLine = [order.venue, order.location].filter(Boolean).join(" · ");
+  const firstName = String(order.buyer.name || "").trim().split(/\s+/)[0] || order.buyer.name;
 
   const subject = `Your tickets — ${order.confirmationCode}`;
+  const preheader = performanceWhen
+    ? `${productionTitle} · ${performanceWhen}`
+    : `Confirmation ${order.confirmationCode} — see you under the stars`;
 
   const text = [
     `Hi ${order.buyer.name},`,
@@ -98,7 +99,7 @@ export function buildOrderConfirmationContent(order, siteUrl = getSiteUrl()) {
     `Total paid: ${formatCents(order.totalCents)}`,
     "",
     `View your tickets anytime: ${accessUrl}`,
-    `My Tickets account: ${myTicketsUrl}`,
+    `My Tickets: ${myTicketsUrl}`,
     "",
     `Questions? Call ${BOX_OFFICE_PHONE} or email ${BOX_OFFICE_EMAIL}.`,
     "",
@@ -108,82 +109,54 @@ export function buildOrderConfirmationContent(order, siteUrl = getSiteUrl()) {
     .filter(Boolean)
     .join("\n");
 
-  const html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>${escapeHtml(subject)}</title>
-</head>
-<body style="margin:0;padding:0;background:#eef1f4;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef1f4;padding:24px 12px;">
-    <tr>
-      <td align="center">
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border:1px solid #d4d9de;">
-          <tr>
-            <td style="background:#0f2d4d;padding:20px 28px;">
-              <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:22px;color:#ffffff;">Shakespeare on the Sound</p>
-            </td>
-          </tr>
-          <tr>
-            <td style="padding:28px;font-family:Arial,Helvetica,sans-serif;color:#2b2b2b;">
-              <p style="margin:0 0 16px;font-size:16px;line-height:1.5;">Hi ${escapeHtml(order.buyer.name)},</p>
-              <p style="margin:0 0 20px;font-size:16px;line-height:1.5;">
-                Thank you for your purchase. Your tickets for <strong>${escapeHtml(productionTitle)}</strong> are confirmed.
-              </p>
+  const bodyHtml = `
+    ${emailHeading("You're going to the show")}
+    <p style="margin:0 0 18px;">Hi ${escapeHtml(firstName)},</p>
+    <p style="margin:0 0 22px;">
+      Thank you for your purchase. Your tickets for <strong>${escapeHtml(productionTitle)}</strong> are confirmed.
+      Show a QR code at the gate, or bring your confirmation code to the box office.
+    </p>
 
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f7f9fb;border:1px solid #d4d9de;margin-bottom:24px;">
-                <tr>
-                  <td style="padding:18px 20px;">
-                    <p style="margin:0 0 6px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#525252;">Confirmation</p>
-                    <p style="margin:0 0 12px;font-size:28px;font-family:monospace;color:#1a5090;letter-spacing:0.06em;">${escapeHtml(order.confirmationCode)}</p>
-                    <p style="margin:0 0 4px;font-size:14px;color:#525252;">Order ${escapeHtml(order.id)}</p>
-                    ${performanceWhen ? `<p style="margin:8px 0 0;font-size:16px;color:#1a1a1a;"><strong>${escapeHtml(performanceWhen)}</strong></p>` : ""}
-                    ${venueLine ? `<p style="margin:4px 0 0;font-size:14px;color:#525252;">${escapeHtml(venueLine)}</p>` : ""}
-                  </td>
-                </tr>
-              </table>
+    ${emailCard(`
+      ${emailLabel("Confirmation")}
+      <p style="margin:0 0 14px;font-size:30px;font-family:Consolas,Monaco,monospace;letter-spacing:0.1em;color:${C.navy};font-weight:bold;">${escapeHtml(order.confirmationCode)}</p>
+      <p style="margin:0 0 10px;font-size:13px;color:${C.muted};">Order ${escapeHtml(order.id)}</p>
+      ${performanceWhen ? `<p style="margin:0 0 4px;font-size:16px;color:${C.ink};"><strong>${escapeHtml(performanceWhen)}</strong></p>` : ""}
+      ${venueLine ? `<p style="margin:0;font-size:14px;color:${C.muted};">${escapeHtml(venueLine)}</p>` : ""}
+    `)}
 
-              <p style="margin:0 0 8px;font-size:14px;font-weight:bold;color:#1a1a1a;">Your tickets</p>
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
-                ${ticketRowsHtml(order, siteUrl)}
-              </table>
+    <p style="margin:0 0 12px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:${C.navy};font-weight:bold;">Your tickets</p>
+    ${ticketCardsHtml(order, siteUrl)}
 
-              ${order.donationCents ? `<p style="margin:0 0 12px;font-size:14px;color:#1a5090;">Includes a ${escapeHtml(formatCents(order.donationCents))} donation — thank you!</p>` : ""}
-              ${order.discountCents ? `<p style="margin:0 0 12px;font-size:14px;color:#1f6b3a;">Promo ${escapeHtml(order.promoCode ?? "")} saved you ${escapeHtml(formatCents(order.discountCents))}.</p>` : ""}
+    ${order.donationCents ? `<p style="margin:0 0 10px;font-size:14px;color:${C.blue};">Includes a ${escapeHtml(formatCents(order.donationCents))} donation — thank you for supporting free Shakespeare.</p>` : ""}
+    ${order.discountCents ? `<p style="margin:0 0 10px;font-size:14px;color:#1f6b3a;">Promo ${escapeHtml(order.promoCode ?? "")} saved you ${escapeHtml(formatCents(order.discountCents))}.</p>` : ""}
 
-              <p style="margin:0 0 24px;font-size:16px;"><strong>Total paid:</strong> ${escapeHtml(formatCents(order.totalCents))}</p>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 22px;border-top:1px solid ${C.line};">
+      <tr>
+        <td style="padding:14px 0 0;font-size:15px;color:${C.ink};"><strong>Total paid</strong></td>
+        <td style="padding:14px 0 0;text-align:right;font-size:18px;color:${C.navy};font-weight:bold;">${escapeHtml(formatCents(order.totalCents))}</td>
+      </tr>
+    </table>
 
-              <table role="presentation" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
-                <tr>
-                  <td style="background:#0f2d4d;border-radius:2px;">
-                    <a href="${escapeHtml(accessUrl)}" style="display:inline-block;padding:14px 22px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;text-decoration:none;">View your tickets</a>
-                  </td>
-                  <td style="width:12px;"></td>
-                  <td style="background:#1a5090;border-radius:2px;">
-                    <a href="${escapeHtml(myTicketsUrl)}" style="display:inline-block;padding:14px 22px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;text-decoration:none;">My Tickets</a>
-                  </td>
-                </tr>
-              </table>
+    ${emailButtonsRow([
+      { href: accessUrl, label: "View your tickets", variant: "primary" },
+      { href: myTicketsUrl, label: "My Tickets", variant: "secondary" },
+    ])}
 
-              <p style="margin:0;font-size:14px;line-height:1.6;color:#525252;">
-                Bring this confirmation code to the box office, or show this email on your phone.
-                Questions? Call <a href="tel:+12039571006" style="color:#1a5090;">${BOX_OFFICE_PHONE}</a>
-                or email <a href="mailto:${BOX_OFFICE_EMAIL}" style="color:#1a5090;">${BOX_OFFICE_EMAIL}</a>.
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <td style="background:#eef1f4;padding:16px 28px;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#525252;text-align:center;">
-              Shakespeare on the Sound · Pinkney Park, Norwalk, CT
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-</body>
-</html>`;
+    <p style="margin:0 0 8px;font-size:14px;color:${C.muted};">
+      Gates open at 4pm; box office at 5pm on show days. See our
+      <a href="${escapeHtml(`${siteUrl}/about/visit/`)}" style="color:${C.blue};">visit guide</a>
+      for parking and accessibility.
+    </p>
+  `;
+
+  const html = renderSotsEmail({
+    title: subject,
+    preheader,
+    siteUrl,
+    eyebrow: "Ticket confirmation",
+    bodyHtml,
+  });
 
   const staffSubject = `[New order] ${order.confirmationCode} — ${formatCents(order.totalCents)}`;
   const staffText = [
@@ -239,7 +212,13 @@ export async function sendOrderConfirmationEmail(order) {
       await sendEmail({
         to: notifyEmail,
         subject: staffSubject,
-        html: `<pre style="font-family:monospace;font-size:13px;white-space:pre-wrap;">${escapeHtml(staffText)}</pre>`,
+        html: renderSotsEmail({
+          title: staffSubject,
+          preheader: `New order ${order.confirmationCode}`,
+          siteUrl,
+          eyebrow: "Box office notification",
+          bodyHtml: `<pre style="margin:0;font-family:Consolas,Monaco,monospace;font-size:13px;line-height:1.5;white-space:pre-wrap;color:${C.ink};">${escapeHtml(staffText)}</pre>`,
+        }),
         text: staffText,
         replyTo: order.buyer.email,
       });

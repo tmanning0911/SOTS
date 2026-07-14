@@ -67,15 +67,7 @@ body::before {
 /* Header polish */
 .site-header.orpheum-header {
   position: relative;
-  top: auto;
-  left: auto;
-  right: auto;
   transition: background 0.4s;
-  transform: none !important;
-}
-
-.site-header.orpheum-header.is-hidden {
-  transform: none !important;
 }
 
 .site-header.is-scrolled .site-header__inner {

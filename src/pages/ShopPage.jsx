@@ -1,7 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { heroImageForHref } from "../../js/page-heroes.js";
-import { formatCents } from "../../js/shop.js";
+import {
+  formatCents,
+  BUNDLED_MERCHANDISE,
+  giftCertificateProducts,
+  merchandiseCategories,
+  merchandiseProducts,
+  prefetchShopProductImages,
+} from "../../js/shop.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { ShopCartAside } from "../components/shop/ShopCartAside.jsx";
@@ -13,7 +20,6 @@ import { useShop } from "../context/ShopContext.jsx";
 export function ShopPage() {
   const {
     catalog,
-    loading,
     cart,
     cartCount,
     cartTotal,
@@ -28,27 +34,21 @@ export function ShopPage() {
 
   useEffect(() => {
     document.title = "Gift Shop - Shakespeare on the Sound";
-  }, []);
+    prefetchShopProductImages(catalog);
+  }, [catalog]);
 
-  const giftCertificates = useMemo(
-    () => (catalog?.products ?? []).filter((product) => product.category === "gift-certificates"),
-    [catalog],
-  );
+  const giftCertificates = useMemo(() => giftCertificateProducts(catalog), [catalog]);
 
   const merchandise = useMemo(() => {
-    const list = (catalog?.products ?? []).filter((product) => product.category !== "gift-certificates");
-    if (category === "all") return list;
-    return list.filter((product) => product.category === category);
+    const list = merchandiseProducts(catalog);
+    const source = list.length ? list : BUNDLED_MERCHANDISE;
+    if (category === "all") return source;
+    return source.filter((product) => product.category === category);
   }, [catalog, category]);
 
   const categories = useMemo(() => {
-    const ids = new Set(
-      (catalog?.products ?? [])
-        .filter((product) => product.category !== "gift-certificates")
-        .map((product) => product.category),
-    );
-    const cats = (catalog?.categories ?? []).filter((cat) => ids.has(cat.id));
-    return [{ id: "all", label: "All" }, ...cats];
+    const derived = merchandiseCategories(catalog);
+    return derived.length > 1 ? derived : merchandiseCategories();
   }, [catalog]);
 
   const heroImage = heroImageForHref("/shop/");
@@ -89,7 +89,7 @@ export function ShopPage() {
         </div>
 
         <section className="sots-shop-page__catalog" id="merchandise" aria-labelledby="shop-merch-heading">
-          <div className="sots-shop-page__catalog-head" data-reveal>
+          <div className="sots-shop-page__catalog-head">
             <div>
               <p className="sots-shop-page__section-eyebrow">Merchandise</p>
               <h2 id="shop-merch-heading">Souvenirs &amp; keepsakes</h2>
@@ -99,7 +99,7 @@ export function ShopPage() {
             ) : null}
           </div>
 
-          <div className="sots-shop-page__layout" data-reveal>
+          <div className="sots-shop-page__layout sots-shop-page__layout--instant">
             <div className="sots-shop-page__main">
               <div className="sots-shop-page__filters" role="tablist" aria-label="Product categories">
                 {categories.map((cat) => (
@@ -116,12 +116,16 @@ export function ShopPage() {
                 ))}
               </div>
 
-              {loading ? (
-                <p className="sots-shop-page__loading">Loading gift shop…</p>
-              ) : merchandise.length ? (
+              {merchandise.length ? (
                 <div className="sots-shop-page__grid">
-                  {merchandise.map((product) => (
-                    <ProductCard key={product.id} product={product} onAdd={addToCart} onBuyNow={buyNow} />
+                  {merchandise.map((product, index) => (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      onAdd={addToCart}
+                      onBuyNow={buyNow}
+                      priorityImage={index < 4}
+                    />
                   ))}
                 </div>
               ) : (

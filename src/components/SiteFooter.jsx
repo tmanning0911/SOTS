@@ -8,6 +8,8 @@ import {
 } from "../../js/data.js";
 import { isTicketCheckoutUrl } from "../../js/ticketing.js";
 import { SocialIcon } from "./SocialIcon.jsx";
+import { ArrowButton } from "./ArrowButton.jsx";
+import { MailLink } from "./MailLink.jsx";
 import { TicketCheckoutLink } from "./ticketing/TicketCheckoutLink.jsx";
 
 const FOOTER_SOCIAL = SOCIAL_LINKS.filter((social) => social.platform !== "x");
@@ -30,8 +32,10 @@ function FooterLink({ link }) {
 }
 
 export function SiteFooter() {
+  const phoneHref = `tel:${SITE.boxOffice.replace(/[^\d+]/g, "")}`;
+
   return (
-    <footer className="orpheum-footer">
+    <footer className="orpheum-footer orpheum-wave-edge-top">
       <div className="orpheum-footer__shell">
         <div className="orpheum-footer__primary">
           <div className="orpheum-footer__brand">
@@ -39,35 +43,67 @@ export function SiteFooter() {
               <img src={MEDIA.logo} alt="" width={188} height={78} />
             </a>
 
+            <p className="orpheum-footer__tagline">{SITE.tagline}</p>
+
+            <address className="orpheum-footer__contact">
+              <a href={phoneHref}>{SITE.boxOffice}</a>
+              <MailLink email={SITE.email}>{SITE.email}</MailLink>
+              <span>{SITE.address}</span>
+            </address>
+
             <div className="orpheum-footer__venues" aria-label="Our venues">
-              {FOOTER_VENUES.map((venue, index) => (
-                <span key={venue.href} className="orpheum-footer__venue-item">
-                  {index > 0 ? <span className="orpheum-footer__venue-divider" aria-hidden="true" /> : null}
-                  <a href={venue.href}>{venue.label}</a>
-                </span>
+              {FOOTER_VENUES.map((venue) => (
+                <a key={venue.href} href={venue.href}>
+                  {venue.label}
+                </a>
               ))}
+            </div>
+
+            <div className="orpheum-footer__ctas">
+              <ArrowButton href={SITE.ticketsUrl} className="orpheum-footer__cta">
+                Tickets
+              </ArrowButton>
+              <ArrowButton href="/support/donate/" variant="light" className="orpheum-footer__cta">
+                Donate
+              </ArrowButton>
             </div>
           </div>
 
-          <div className="orpheum-footer__group">
-            <h2 className="orpheum-footer__heading">{FOOTER_MAIN.title}</h2>
-            <div className="orpheum-footer__group-links">
-              {FOOTER_MAIN.columns.map((column, columnIndex) => (
-                <ul key={columnIndex}>
-                  {column.map((link) => (
+          <nav className="orpheum-footer__nav" aria-label="Footer">
+            {FOOTER_MAIN.columns.map((column) => (
+              <div key={column.title} className="orpheum-footer__col">
+                <h2 className="orpheum-footer__heading">{column.title}</h2>
+                <ul>
+                  {column.links.map((link) => (
                     <li key={link.label}>
                       <FooterLink link={link} />
                     </li>
                   ))}
                 </ul>
-              ))}
-            </div>
-          </div>
+              </div>
+            ))}
+          </nav>
         </div>
 
         <div className="orpheum-footer__divider" aria-hidden="true" />
 
         <div className="orpheum-footer__meta">
+          <div className="orpheum-footer__meta-start">
+            <div className="orpheum-footer__social" aria-label="Social media">
+              {FOOTER_SOCIAL.map((social) => (
+                <a
+                  key={social.href}
+                  href={social.href}
+                  aria-label={social.label}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <SocialIcon platform={social.platform} size={18} />
+                </a>
+              ))}
+            </div>
+          </div>
+
           <nav className="orpheum-footer__utility" aria-label="Footer utility links">
             <ul>
               {FOOTER_UTILITY.map((link) => (
@@ -77,40 +113,14 @@ export function SiteFooter() {
               ))}
             </ul>
           </nav>
+        </div>
 
-          <div className="orpheum-footer__meta-right">
-            <div className="orpheum-footer__meta-badges">
-              <div className="orpheum-footer__social" aria-label="Social media">
-                {FOOTER_SOCIAL.map((social) => (
-                  <a
-                    key={social.href}
-                    href={social.href}
-                    aria-label={social.label}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <SocialIcon platform={social.platform} size={15} />
-                  </a>
-                ))}
-              </div>
-
-              <img
-                className="orpheum-footer__sta"
-                src={MEDIA.staLogo}
-                alt="Shakespeare Theatre Association"
-                width={64}
-                height={24}
-                loading="lazy"
-              />
-            </div>
-
-            <p className="orpheum-footer__tagline">{SITE.tagline}</p>
-            <p className="orpheum-footer__education-note">
-              Questions about education programs? Contact {SITE.educationDirectorName}:{" "}
-              <a href={`mailto:${SITE.educationContact}`}>{SITE.educationContact}</a>
-            </p>
-            <p className="orpheum-footer__copyright">&copy; 2026 {SITE.name}</p>
-          </div>
+        <div className="orpheum-footer__legal">
+          <p className="orpheum-footer__copyright">&copy; 2026 {SITE.name}</p>
+          <p className="orpheum-footer__education-note">
+            Education questions?{" "}
+            <MailLink email={SITE.educationContact}>{SITE.educationDirectorName}</MailLink>
+          </p>
         </div>
       </div>
     </footer>

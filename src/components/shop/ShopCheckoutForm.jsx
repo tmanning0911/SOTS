@@ -2,24 +2,38 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { readStoredBuyer, writeStoredBuyer } from "../../../js/buyer-storage.js";
 import { completeShopCheckout, formatCents, prepareShopCheckout } from "../../../js/shop.js";
-import { initSquareCard } from "../../../js/square-payments.js";
+import { initSquareCard, resetSquareCheckoutCache } from "../../../js/square-payments.js";
+import {
+  CheckoutAlert,
+  CheckoutMobileSummary,
+  CheckoutPaymentPanel,
+  CheckoutSectionHeader,
+  CheckoutStickyPayBar,
+} from "../checkout/CheckoutUi.jsx";
 import { useShop } from "../../context/ShopContext.jsx";
 
 const CARD_CONTAINER_ID = "sots-co-shop-card-mount";
+const FORM_ID = "sots-shop-checkout";
 
-function CartSummary({ cart, totalCents, compact = false, featuredImage }) {
+function CartSummaryLines({ cart }) {
+  return (
+    <ul className="sots-co__lines sots-shop-checkout__summary-lines">
+      {cart.map((line) => (
+        <li key={`${line.id}:${line.option ?? ""}`} className="sots-shop-checkout__summary-item">
+          <span>
+            {line.quantity}× {line.name}
+            {line.option ? ` (${line.option})` : ""}
+            {line.digital ? " · Digital" : ""}
+          </span>
+          <span>{formatCents(line.price.value * line.quantity)}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function CartSummary({ cart, totalCents, featuredImage }) {
   const itemCount = cart.reduce((sum, line) => sum + line.quantity, 0);
-
-  if (compact) {
-    return (
-      <div className="sots-co__mobile-total">
-        <div className="sots-co__mobile-total-row">
-          <span>{itemCount ? `${itemCount} item${itemCount === 1 ? "" : "s"}` : "Order total"}</span>
-          <strong>{itemCount ? formatCents(totalCents) : "—"}</strong>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="sots-co__aside-card">
@@ -31,18 +45,7 @@ function CartSummary({ cart, totalCents, compact = false, featuredImage }) {
           {itemCount} item{itemCount === 1 ? "" : "s"} in your cart
         </p>
       </div>
-      <ul className="sots-co__lines sots-shop-checkout__summary-lines">
-        {cart.map((line) => (
-          <li key={`${line.id}:${line.option ?? ""}`} className="sots-shop-checkout__summary-item">
-            <span>
-              {line.quantity}× {line.name}
-              {line.option ? ` (${line.option})` : ""}
-              {line.digital ? " · Digital" : ""}
-            </span>
-            <span>{formatCents(line.price.value * line.quantity)}</span>
-          </li>
-        ))}
-      </ul>
+      <CartSummaryLines cart={cart} />
       <p className="sots-co__total">
         <span>Total{itemCount ? ` · ${itemCount} item${itemCount === 1 ? "" : "s"}` : ""}</span>
         <strong>{formatCents(totalCents)}</strong>
@@ -132,6 +135,16 @@ export function ShopCheckoutForm({ returnHref = "/shop/", cartTotal, featuredIma
   const [cardMountKey, setCardMountKey] = useState(0);
 
   const subtotal = cartTotal ?? cart.reduce((sum, line) => sum + line.price.value * line.quantity, 0);
+  const itemCount = cart.reduce((sum, line) => sum + line.quantity, 0);
+  const deliveryDone =
+    fulfillment === "pickup" ||
+    Boolean(address.line1.trim() && address.city.trim() && address.state.trim() && address.postalCode.trim());
+  const detailsDone = Boolean(name.trim() && email.trim());
+
+  useEffect(() => {
+    document.body.classList.add("sots-co-has-sticky-pay");
+    return () => document.body.classList.remove("sots-co-has-sticky-pay");
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -148,7 +161,7 @@ export function ShopCheckoutForm({ returnHref = "/shop/", cartTotal, featuredIma
         return;
       }
       try {
-        const { card } = await initSquareCard(CARD_CONTAINER_ID);
+        const { card } = await initSquareCard(CARD_CONTAINER_ID, { fresh: cardMountKey > 0 });
         if (cancelled) {
           card.destroy?.();
           return;
@@ -170,10 +183,17 @@ export function ShopCheckoutForm({ returnHref = "/shop/", cartTotal, featuredIma
 
   function retryCardMount() {
     setError("");
+    resetSquareCheckoutCache();
     cardRef.current?.destroy?.();
     cardRef.current = null;
     setCardMountKey((key) => key + 1);
   }
+
+  const errorHint = paymentError
+    ? error.toLowerCase().includes("session expired")
+      ? "Go back to the shop, add your items again, and retry checkout."
+      : "Please check your card details and try again."
+    : null;
 
   async function handlePay(e) {
     e.preventDefault();
@@ -242,201 +262,194 @@ export function ShopCheckoutForm({ returnHref = "/shop/", cartTotal, featuredIma
     return <ConfirmationView order={order} emailSent={emailSent} returnHref={returnHref} />;
   }
 
+  const payDisabled = loading || !cardReady || !cart.length;
+  const payLabel = cart.length ? `Pay ${formatCents(subtotal)}` : "Cart empty";
+
   return (
-    <div className="sots-co__body">
-      <div className="sots-co__grid">
-        <aside className="sots-co__aside" aria-label="Order summary">
-          <CartSummary cart={cart} totalCents={subtotal} featuredImage={featuredImage} />
-          <Link to={returnHref} className="sots-co__change-date">
-            ← Edit cart
-          </Link>
-        </aside>
+    <>
+      <div className="sots-co__body">
+        <div className="sots-co__grid">
+          <aside className="sots-co__aside" aria-label="Order summary">
+            <CartSummary cart={cart} totalCents={subtotal} featuredImage={featuredImage} />
+            <Link to={returnHref} className="sots-co__change-date">
+              ← Edit cart
+            </Link>
+          </aside>
 
-        <div className="sots-co__main">
-          <CartSummary cart={cart} totalCents={subtotal} compact />
-          <Link to={returnHref} className="sots-co__change-date sots-co__change-date--mobile">
-            ← Edit cart
-          </Link>
+          <div className="sots-co__main">
+            <CheckoutMobileSummary
+              countLabel={itemCount ? `${itemCount} item${itemCount === 1 ? "" : "s"}` : "Your cart"}
+              totalCents={subtotal}
+              editHref={returnHref}
+              editLabel="Edit cart"
+            >
+              <CartSummaryLines cart={cart} />
+              <p className="sots-co__total">
+                <span>Total</span>
+                <strong>{formatCents(subtotal)}</strong>
+              </p>
+            </CheckoutMobileSummary>
 
-          {error ? (
-            <div className="sots-co__alert" role="alert">
-              {error}
-              {paymentError ? (
-                <p style={{ margin: "0.35rem 0 0", fontSize: "0.86rem" }}>Please check your card details and try again.</p>
-              ) : null}
-            </div>
-          ) : null}
+            <CheckoutAlert message={error} hint={errorHint} />
 
-          <form id="sots-shop-checkout" className="sots-co__form" onSubmit={handlePay}>
-            <section id="shop-co-section-delivery" className="sots-co__section" aria-labelledby="shop-co-delivery-heading">
-              <header className="sots-co__section-head">
-                <span className="sots-co__section-num" aria-hidden="true">
-                  1
-                </span>
-                <div>
-                  <h2 id="shop-co-delivery-heading" className="sots-co__section-title">
-                    Pickup or delivery
-                  </h2>
-                  <p className="sots-co__section-desc">Choose how you&apos;d like to receive your order.</p>
-                </div>
-              </header>
-              <div className="sots-co__section-body">
-                <div className="sots-checkout__segmented sots-shop-checkout__segmented">
-                  <button
-                    type="button"
-                    className={`sots-checkout__segment${fulfillment === "pickup" ? " is-active" : ""}`}
-                    onClick={() => {
-                      setFulfillment("pickup");
-                      setHold(null);
-                    }}
-                  >
-                    Pick up at the park
-                  </button>
-                  <button
-                    type="button"
-                    className={`sots-checkout__segment${fulfillment === "ship" ? " is-active" : ""}`}
-                    onClick={() => {
-                      setFulfillment("ship");
-                      setHold(null);
-                    }}
-                  >
-                    Ship to me
-                  </button>
-                </div>
-                {fulfillment === "pickup" ? (
-                  <p className="sots-shop-checkout__pickup-note">
-                    Pick up at the Pinkney Park booth. Digital gift certificates are emailed immediately.
-                  </p>
-                ) : (
-                  <div className="sots-co__fields">
-                    <label className="sots-co__field" style={{ gridColumn: "1 / -1" }}>
-                      <span>Street address</span>
-                      <input
-                        required={fulfillment === "ship"}
-                        value={address.line1}
-                        onChange={(e) => setAddress((a) => ({ ...a, line1: e.target.value }))}
-                        autoComplete="address-line1"
-                        placeholder="123 Main St"
-                      />
-                    </label>
-                    <label className="sots-co__field">
-                      <span>City</span>
-                      <input
-                        required={fulfillment === "ship"}
-                        value={address.city}
-                        onChange={(e) => setAddress((a) => ({ ...a, city: e.target.value }))}
-                        autoComplete="address-level2"
-                        placeholder="Rowayton"
-                      />
-                    </label>
-                    <label className="sots-co__field">
-                      <span>State</span>
-                      <input
-                        required={fulfillment === "ship"}
-                        value={address.state}
-                        onChange={(e) => setAddress((a) => ({ ...a, state: e.target.value }))}
-                        autoComplete="address-level1"
-                      />
-                    </label>
-                    <label className="sots-co__field">
-                      <span>ZIP code</span>
-                      <input
-                        required={fulfillment === "ship"}
-                        value={address.postalCode}
-                        onChange={(e) => setAddress((a) => ({ ...a, postalCode: e.target.value }))}
-                        autoComplete="postal-code"
-                        placeholder="06853"
-                      />
-                    </label>
+            <form id={FORM_ID} className="sots-co__form" onSubmit={handlePay}>
+              <section
+                id="shop-co-section-delivery"
+                className={`sots-co__section${deliveryDone ? " sots-co__section--done" : ""}`}
+                aria-labelledby="shop-co-delivery-heading"
+              >
+                <CheckoutSectionHeader
+                  step={1}
+                  done={deliveryDone}
+                  headingId="shop-co-delivery-heading"
+                  title="Pickup or delivery"
+                  description="Choose how you'd like to receive your order."
+                />
+                <div className="sots-co__section-body">
+                  <div className="sots-checkout__segmented sots-shop-checkout__segmented">
+                    <button
+                      type="button"
+                      className={`sots-checkout__segment${fulfillment === "pickup" ? " is-active" : ""}`}
+                      onClick={() => {
+                        setFulfillment("pickup");
+                        setHold(null);
+                      }}
+                    >
+                      Pick up at the park
+                    </button>
+                    <button
+                      type="button"
+                      className={`sots-checkout__segment${fulfillment === "ship" ? " is-active" : ""}`}
+                      onClick={() => {
+                        setFulfillment("ship");
+                        setHold(null);
+                      }}
+                    >
+                      Ship to me
+                    </button>
                   </div>
-                )}
-              </div>
-            </section>
-
-            <section id="shop-co-section-details" className="sots-co__section" aria-labelledby="shop-co-details-heading">
-              <header className="sots-co__section-head">
-                <span className="sots-co__section-num" aria-hidden="true">
-                  2
-                </span>
-                <div>
-                  <h2 id="shop-co-details-heading" className="sots-co__section-title">
-                    Your information
-                  </h2>
-                  <p className="sots-co__section-desc">We&apos;ll send your receipt and any digital items here.</p>
-                </div>
-              </header>
-              <div className="sots-co__section-body">
-                <div className="sots-co__fields">
-                  <label className="sots-co__field">
-                    <span>Full name</span>
-                    <input required value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" placeholder="Jane Smith" />
-                  </label>
-                  <label className="sots-co__field">
-                    <span>Email</span>
-                    <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" placeholder="you@example.com" />
-                  </label>
-                  <label className="sots-co__field" style={{ gridColumn: "1 / -1" }}>
-                    <span>Phone (optional)</span>
-                    <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} autoComplete="tel" placeholder="(203) 555-0100" />
-                  </label>
-                </div>
-              </div>
-            </section>
-
-            <section id="shop-co-section-payment" className="sots-co__section sots-co__section--payment" aria-labelledby="shop-co-payment-heading">
-              <header className="sots-co__section-head">
-                <span className="sots-co__section-num" aria-hidden="true">
-                  3
-                </span>
-                <div>
-                  <h2 id="shop-co-payment-heading" className="sots-co__section-title">
-                    Payment
-                  </h2>
-                  <p className="sots-co__section-desc">All major cards accepted. Charged securely by Square.</p>
-                </div>
-              </header>
-              <div className="sots-co__section-body">
-                <div className="sots-co__payment-box">
-                  <div className="sots-co__payment-trust">
-                    <span className="sots-co__payment-lock" aria-hidden="true">
-                      Secure payment
-                    </span>
-                    <span className="sots-co__card-brands">Visa · Mastercard · Amex · Discover</span>
-                  </div>
-                  {cardReady ? (
-                    <p className="sots-checkout__payment-hint" style={{ margin: 0, fontSize: "0.86rem", color: "#4a5560" }}>
-                      Click below and type your card number, expiry, and CVV.
+                  {fulfillment === "pickup" ? (
+                    <p className="sots-shop-checkout__pickup-note">
+                      Pick up at the Pinkney Park booth. Digital gift certificates are emailed immediately.
                     </p>
                   ) : (
-                    <div className="sots-co__card-fallback">
-                      <p className="sots-co__loading">
-                        <span className="sots-co__loading-dot" aria-hidden="true" />
-                        Loading secure payment form…
-                      </p>
-                      {error && !cardReady ? (
-                        <button type="button" className="orpheum-arrow-btn orpheum-arrow-btn--ghost" onClick={retryCardMount}>
-                          Retry payment form
-                        </button>
-                      ) : null}
+                    <div className="sots-co__fields">
+                      <label className="sots-co__field" style={{ gridColumn: "1 / -1" }}>
+                        <span>Street address</span>
+                        <input
+                          required={fulfillment === "ship"}
+                          value={address.line1}
+                          onChange={(e) => setAddress((a) => ({ ...a, line1: e.target.value }))}
+                          autoComplete="address-line1"
+                          placeholder="123 Main St"
+                        />
+                      </label>
+                      <label className="sots-co__field">
+                        <span>City</span>
+                        <input
+                          required={fulfillment === "ship"}
+                          value={address.city}
+                          onChange={(e) => setAddress((a) => ({ ...a, city: e.target.value }))}
+                          autoComplete="address-level2"
+                          placeholder="Rowayton"
+                        />
+                      </label>
+                      <label className="sots-co__field">
+                        <span>State</span>
+                        <input
+                          required={fulfillment === "ship"}
+                          value={address.state}
+                          onChange={(e) => setAddress((a) => ({ ...a, state: e.target.value }))}
+                          autoComplete="address-level1"
+                        />
+                      </label>
+                      <label className="sots-co__field">
+                        <span>ZIP code</span>
+                        <input
+                          required={fulfillment === "ship"}
+                          value={address.postalCode}
+                          onChange={(e) => setAddress((a) => ({ ...a, postalCode: e.target.value }))}
+                          autoComplete="postal-code"
+                          placeholder="06853"
+                        />
+                      </label>
                     </div>
                   )}
-                  <div id={CARD_CONTAINER_ID} className="sots-co__card-mount" />
                 </div>
-                <div className="sots-co__pay-row">
-                  <p className="sots-co__pay-note">Taxes included where applicable</p>
-                  <button
-                    type="submit"
-                    className="orpheum-arrow-btn orpheum-arrow-btn--gold sots-co__submit"
-                    disabled={loading || !cardReady || !cart.length}
-                  >
-                    {loading ? "Processing…" : cart.length ? `Pay ${formatCents(subtotal)}` : "Cart empty"}
-                  </button>
+              </section>
+
+              <section
+                id="shop-co-section-details"
+                className={`sots-co__section${detailsDone ? " sots-co__section--done" : ""}`}
+                aria-labelledby="shop-co-details-heading"
+              >
+                <CheckoutSectionHeader
+                  step={2}
+                  done={detailsDone}
+                  headingId="shop-co-details-heading"
+                  title="Your information"
+                  description="We'll send your receipt and any digital items here."
+                />
+                <div className="sots-co__section-body">
+                  <div className="sots-co__fields">
+                    <label className="sots-co__field">
+                      <span>Full name</span>
+                      <input required value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" placeholder="Jane Smith" />
+                    </label>
+                    <label className="sots-co__field">
+                      <span>Email</span>
+                      <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" placeholder="you@example.com" />
+                    </label>
+                    <label className="sots-co__field" style={{ gridColumn: "1 / -1" }}>
+                      <span>Phone (optional)</span>
+                      <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} autoComplete="tel" placeholder="(203) 555-0100" />
+                    </label>
+                  </div>
                 </div>
-              </div>
-            </section>
-          </form>
+              </section>
+
+              <section
+                id="shop-co-section-payment"
+                className="sots-co__section sots-co__section--payment"
+                aria-labelledby="shop-co-payment-heading"
+              >
+                <CheckoutSectionHeader
+                  step={3}
+                  headingId="shop-co-payment-heading"
+                  title="Payment"
+                  description="All major cards accepted. Charged securely by Square."
+                />
+                <div className="sots-co__section-body">
+                  <CheckoutPaymentPanel
+                    cardContainerId={CARD_CONTAINER_ID}
+                    cardReady={cardReady}
+                    onRetry={retryCardMount}
+                    showRetry={Boolean(error && !cardReady)}
+                  />
+                  <div className="sots-co__pay-row">
+                    <p className="sots-co__pay-note">Taxes included where applicable</p>
+                    <button
+                      type="submit"
+                      className="sots-shop-btn sots-shop-btn--pay sots-shop-btn--lg sots-co__submit"
+                      disabled={payDisabled}
+                    >
+                      {loading ? "Processing…" : payLabel}
+                    </button>
+                  </div>
+                </div>
+              </section>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+
+      <CheckoutStickyPayBar
+        formId={FORM_ID}
+        totalCents={subtotal}
+        payLabel={payLabel}
+        disabled={payDisabled}
+        loading={loading}
+      />
+    </>
   );
 }

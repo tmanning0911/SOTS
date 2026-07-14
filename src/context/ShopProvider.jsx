@@ -5,7 +5,10 @@ import {
   cartItemCount,
   cartTotalCents,
   getShopCheckoutPath,
+  INITIAL_SHOP_CATALOG,
   loadShopCatalog,
+  remapCartLines,
+  prefetchShopProductImages,
 } from "../../js/shop.js";
 import { ShopContext } from "./ShopContext.jsx";
 
@@ -14,7 +17,8 @@ const CART_KEY = "sots-shop-cart";
 function readStoredCart() {
   try {
     const raw = localStorage.getItem(CART_KEY);
-    return raw ? JSON.parse(raw) : [];
+    const cart = raw ? JSON.parse(raw) : [];
+    return remapCartLines(cart, INITIAL_SHOP_CATALOG);
   } catch {
     return [];
   }
@@ -22,18 +26,22 @@ function readStoredCart() {
 
 export function ShopProvider({ children }) {
   const navigate = useNavigate();
-  const [catalog, setCatalog] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [catalog, setCatalog] = useState(INITIAL_SHOP_CATALOG);
+  const [loading, setLoading] = useState(false);
   const [cart, setCart] = useState(() => readStoredCart());
 
   useEffect(() => {
+    prefetchShopProductImages();
     let cancelled = false;
     loadShopCatalog()
       .then((data) => {
-        if (!cancelled) setCatalog(data);
+        if (cancelled || !data?.products?.length) return;
+        setCatalog(data);
+        setCart((prev) => remapCartLines(prev, data));
+        prefetchShopProductImages(data);
       })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
+      .catch(() => {
+        /* bundled catalog already shown */
       });
     return () => {
       cancelled = true;
@@ -47,6 +55,19 @@ export function ShopProvider({ children }) {
       /* private mode */
     }
   }, [cart]);
+
+  const refreshCatalog = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await loadShopCatalog({ fresh: true });
+      if (data) {
+        setCatalog(data);
+        setCart((prev) => remapCartLines(prev, data));
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const addToCart = useCallback((product, { quantity = 1, option } = {}) => {
     setCart((prev) => {
@@ -63,6 +84,7 @@ export function ShopProvider({ children }) {
         ...prev,
         {
           id: product.id,
+          sku: product.sku,
           name: product.name,
           price: product.price,
           image: product.image,
@@ -119,8 +141,20 @@ export function ShopProvider({ children }) {
       removeFromCart,
       clearCart,
       openCheckout,
+      refreshCatalog,
     }),
-    [catalog, loading, cart, addToCart, buyNow, updateQuantity, removeFromCart, clearCart, openCheckout],
+    [
+      catalog,
+      loading,
+      cart,
+      addToCart,
+      buyNow,
+      updateQuantity,
+      removeFromCart,
+      clearCart,
+      openCheckout,
+      refreshCatalog,
+    ],
   );
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;

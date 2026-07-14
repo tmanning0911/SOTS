@@ -1,8 +1,9 @@
 import { createContext, useContext } from "react";
+import { INITIAL_SHOP_CATALOG } from "../../js/shop.js";
 
 export const ShopContext = createContext({
-  catalog: null,
-  loading: true,
+  catalog: INITIAL_SHOP_CATALOG,
+  loading: false,
   cart: [],
   cartCount: 0,
   cartTotal: 0,
@@ -12,6 +13,7 @@ export const ShopContext = createContext({
   removeFromCart: () => {},
   clearCart: () => {},
   openCheckout: () => {},
+  refreshCatalog: async () => {},
 });
 
 export function useShop() {

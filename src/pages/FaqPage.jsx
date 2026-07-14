@@ -4,6 +4,7 @@ import { heroImageForHref } from "../../js/page-heroes.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
+import { TextWithMailLinks } from "../components/TextWithMailLinks.jsx";
 
 export function FaqPage() {
   const page = INNER_PAGES.find((p) => p.faq);
@@ -39,7 +40,9 @@ export function FaqPage() {
                           {item.q}
                         </button>
                         <div className="orpheum-faq-item__panel" hidden={!open}>
-                          <p>{item.a}</p>
+                          <p>
+                            <TextWithMailLinks text={item.a} />
+                          </p>
                         </div>
                       </div>
                     );

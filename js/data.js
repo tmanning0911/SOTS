@@ -289,39 +289,50 @@ export const FOOTER_VENUES = [
 ];
 
 export const FOOTER_MAIN = {
-  title: SITE.name,
   columns: [
-    [
-      { label: "Events", href: "/tickets/" },
-      { label: "Plan a Visit", href: "/about/visit/" },
-      { label: "Gift Shop", href: SITE.shopUrl },
-      { label: "Tickets", href: SITE.ticketsUrl },
-      { label: "My Tickets", href: SITE.accountUrl },
-      { label: "Parking and Directions", href: "/about/getting-here/" },
-    ],
-    [
-      { label: "About Us", href: "/about/mission-history/" },
-      { label: "Education and Community", href: "/education/in-schools/" },
-      { label: "Support Our Mission", href: "/support/donate/" },
-      { label: "Donate", href: "/support/donate/" },
-    ],
+    {
+      title: "Visit",
+      links: [
+        { label: "Tickets", href: SITE.ticketsUrl },
+        { label: "Events", href: "/tickets/" },
+        { label: "Plan a Visit", href: "/about/visit/" },
+        { label: "Parking & Directions", href: "/about/getting-here/" },
+        { label: "Gift Shop", href: SITE.shopUrl },
+        { label: "My Tickets", href: SITE.accountUrl },
+      ],
+    },
+    {
+      title: "Experience",
+      links: [
+        { label: "This Season", href: "/productions/much-ado-about-nothing/" },
+        { label: "Kids Show", href: "/productions/kids-show/" },
+        { label: "Summer Camps", href: "/education/summer-camps/" },
+        { label: "Education in Schools", href: "/education/in-schools/" },
+        { label: "Tours", href: "/education/tours/" },
+      ],
+    },
+    {
+      title: "About & Support",
+      links: [
+        { label: "Our Mission", href: "/about/mission-history/" },
+        { label: "Staff", href: "/about/staff/" },
+        { label: "Donate", href: "/support/donate/" },
+        { label: "Individual Giving", href: "/support/individual-giving/" },
+        { label: "Contact", href: "/about/contact/" },
+      ],
+    },
   ],
 };
 
 export const FOOTER_UTILITY = [
-  { label: "Contact Us", href: "/about/contact/" },
-  { label: "Employment", href: "/about/employment/" },
-  { label: "Privacy Policy", href: "/about/privacy/" },
   { label: "FAQ", href: "/about/faq/" },
+  { label: "Employment", href: "/about/employment/" },
   { label: "Accessibility", href: "/about/visit/" },
+  { label: "Cancellation Policy", href: "/about/cancellation-policy/" },
+  { label: "Privacy", href: "/about/privacy/" },
 ];
 
-export const FOOTER_COLUMNS = [
-  {
-    title: "Shakespeare on the Sound",
-    links: FOOTER_MAIN.columns.flat(),
-  },
-];
+export const FOOTER_COLUMNS = FOOTER_MAIN.columns;
 
 export const SOCIAL_LINKS = [
   { label: "Facebook", href: "https://www.facebook.com/ShakesOnSound", platform: "facebook" },

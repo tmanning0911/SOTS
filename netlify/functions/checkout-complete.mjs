@@ -1,5 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { jsonResponse } from "./lib/cors.mjs";
+import { bindBlobs } from "./lib/netlify-blobs.mjs";
 import { getClientIp, rateLimit } from "./lib/rateLimit.mjs";
 import { sendOrderConfirmationEmail } from "./lib/order-email.mjs";
 import { createSquareOrderAndPay, createSquarePayment, resolveLocationId } from "./lib/square.mjs";
@@ -18,6 +19,7 @@ import {
 } from "./lib/ticketing-store.mjs";
 
 export async function handler(event) {
+  bindBlobs(event);
   if (event.httpMethod === "OPTIONS") {
     return jsonResponse(204, {}, event, { methods: "POST, OPTIONS" });
   }

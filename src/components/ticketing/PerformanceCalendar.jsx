@@ -1,10 +1,9 @@
 import { useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { MEDIA } from "../../../js/data.js";
 import {
   formatPerformanceListDate,
   formatPerformanceTime,
-  getTicketCheckoutPath,
   getTicketingState,
   isPurchasablePerformance,
   patronDisplayName,
@@ -15,7 +14,7 @@ import {
 import { TicketCheckoutButton } from "./TicketCheckoutButton.jsx";
 import { TicketStatusBadge } from "./TicketStatusBadge.jsx";
 
-const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
 
 function parsePerformanceDay(iso) {
   const datePart = iso?.slice(0, 10);
@@ -48,8 +47,8 @@ function MonthCalendar({ monthData, onSelect }) {
     <div className="sots-performance-calendar__month">
       <h3 className="sots-performance-calendar__month-title">{monthLabel}</h3>
       <div className="sots-performance-calendar__weekdays" aria-hidden="true">
-        {WEEKDAYS.map((label) => (
-          <span key={label}>{label}</span>
+        {WEEKDAYS.map((label, index) => (
+          <span key={`${label}-${index}`}>{label}</span>
         ))}
       </div>
       <div className="sots-performance-calendar__grid">
@@ -97,7 +96,7 @@ function MonthCalendar({ monthData, onSelect }) {
   );
 }
 
-function PerformanceDateList({ performances }) {
+function PerformanceDateList({ performances, onSelect }) {
   return (
     <ul className="sots-date-list">
       {performances.map((performance) => {
@@ -106,18 +105,24 @@ function PerformanceDateList({ performances }) {
         return (
           <li key={performance.id}>
             {purchasable ? (
-              <Link to={getTicketCheckoutPath(performance.id)} className="sots-date-list__row is-available">
-                <span className="sots-date-list__when">{formatPerformanceListDate(performance.start)}</span>
-                <span className="sots-date-list__meta">
-                  {performance.venue ?? "Pinkney Park"}
-                  {performance.minPrice?.display ? ` · ${performance.minPrice.display}` : ""}
-                </span>
-                <span className="sots-date-list__cta">Get tickets</span>
-              </Link>
+              <div className="sots-date-list__row is-available">
+                <div className="sots-date-list__details">
+                  <span className="sots-date-list__when">{formatPerformanceListDate(performance.start)}</span>
+                  <span className="sots-date-list__meta">
+                    {performance.venue ?? "Pinkney Park"}
+                    {performance.minPrice?.display ? ` · ${performance.minPrice.display}` : ""}
+                  </span>
+                </div>
+                <button type="button" className="sots-date-list__cta" onClick={() => onSelect(performance.id)}>
+                  Get tickets
+                </button>
+              </div>
             ) : (
               <div className="sots-date-list__row is-unavailable" aria-disabled="true">
-                <span className="sots-date-list__when">{formatPerformanceListDate(performance.start)}</span>
-                <span className="sots-date-list__meta">{status}</span>
+                <div className="sots-date-list__details">
+                  <span className="sots-date-list__when">{formatPerformanceListDate(performance.start)}</span>
+                  <span className="sots-date-list__meta">{status}</span>
+                </div>
               </div>
             )}
           </li>
@@ -135,8 +140,8 @@ export function PerformanceCalendar({
   compact = false,
   hideShowHeader = false,
   className = "",
+  onSelectPerformance,
 }) {
-  const navigate = useNavigate();
   const [view, setView] = useState("list");
   const state = useMemo(() => getTicketingState(data), [data]);
 
@@ -164,7 +169,10 @@ export function PerformanceCalendar({
   const priceFrom = data?.priceFrom?.display;
 
   function handleSelect(performanceId) {
-    navigate(getTicketCheckoutPath(performanceId));
+    if (typeof onSelectPerformance === "function") {
+      onSelectPerformance(performanceId);
+      return;
+    }
   }
 
   if (!data?.featuredTicket) {
@@ -260,7 +268,7 @@ export function PerformanceCalendar({
           </div>
 
           {view === "list" ? (
-            <PerformanceDateList performances={performances} />
+            <PerformanceDateList performances={performances} onSelect={handleSelect} />
           ) : (
             <div className="sots-performance-calendar__months">
               {months.map((monthData) => (

@@ -4,6 +4,7 @@ import { PREVIEW_SITE_URL, PRODUCTION_SITE_URL } from "../../scripts/lib/site-do
 import { corsHeaders, jsonResponse } from "./lib/cors.mjs";
 import {
   getInventoryMap,
+  getReservedMap,
   mergeCatalogWithInventory,
   readCatalog,
 } from "./lib/ticketing-store.mjs";
@@ -72,7 +73,8 @@ export const handler = async (event) => {
     }
 
     const inventory = await getInventoryMap();
-    const data = mergeCatalogWithInventory(catalog, inventory);
+    const reserved = await getReservedMap();
+    const data = mergeCatalogWithInventory(catalog, inventory, reserved);
 
     const responseHeaders = {
       ...headers,

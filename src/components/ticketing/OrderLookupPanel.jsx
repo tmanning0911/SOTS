@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { formatCents, lookupOrder, resendOrderEmail } from "../../../js/square-payments.js";
 import { formatPerformanceDate } from "../../../js/ticketing.js";
+import { ArrowButton } from "../ArrowButton.jsx";
 import { TicketQr } from "./TicketQr.jsx";
 
 function OrderDetails({ order, email }) {
@@ -47,9 +48,8 @@ function OrderDetails({ order, email }) {
       </ul>
       <p>Total: {formatCents(order.totalCents)}</p>
       <div className="sots-order-lookup__actions">
-        <button
+        <ArrowButton
           type="button"
-          className="orpheum-arrow-btn orpheum-arrow-btn--gold"
           onClick={handleResend}
           disabled={resendState === "loading" || resendState === "sent"}
         >
@@ -58,7 +58,7 @@ function OrderDetails({ order, email }) {
             : resendState === "sent"
               ? "Email sent"
               : "Resend confirmation email"}
-        </button>
+        </ArrowButton>
         {resendError ? (
           <p className="sots-checkout__error" role="alert">
             {resendError}
@@ -151,9 +151,9 @@ export function OrderLookupPanel({ initialEmail = "", initialCode = "", onBuyTic
             {error}
           </p>
         ) : null}
-        <button type="submit" className="orpheum-arrow-btn orpheum-arrow-btn--gold" disabled={loading}>
+        <ArrowButton type="submit" disabled={loading}>
           {loading ? "Looking up…" : "View Tickets"}
-        </button>
+        </ArrowButton>
       </form>
       {onBuyTickets ? (
         <p className="sots-checkout__hint">

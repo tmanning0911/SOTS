@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function ChevronIcon() {
   return (
     <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
@@ -9,6 +11,7 @@ function ChevronIcon() {
 
 export function ArrowButton({
   href,
+  to,
   children,
   variant = "gold",
   className = "",
@@ -17,27 +20,41 @@ export function ArrowButton({
   onClick,
   type = "button",
   disabled = false,
+  flat = false,
   "aria-busy": ariaBusy,
 }) {
-  const classes = `orpheum-arrow-btn orpheum-arrow-btn--${variant} ${className}`.trim();
+  const classes = `orpheum-arrow-btn orpheum-arrow-btn--${variant}${flat ? " orpheum-arrow-btn--flat" : ""} ${className}`.trim();
+
+  const content = flat ? (
+    children
+  ) : (
+    <>
+      <span className="orpheum-arrow-btn__label">{children}</span>
+      <span className="orpheum-arrow-btn__icon">
+        <ChevronIcon />
+      </span>
+    </>
+  );
+
+  if (to) {
+    return (
+      <Link className={classes} to={to} onClick={onClick} aria-busy={ariaBusy} aria-disabled={disabled || undefined}>
+        {content}
+      </Link>
+    );
+  }
 
   if (href) {
     return (
       <a className={classes} href={href} target={target} rel={rel} onClick={onClick} aria-busy={ariaBusy}>
-        <span className="orpheum-arrow-btn__label">{children}</span>
-        <span className="orpheum-arrow-btn__icon">
-          <ChevronIcon />
-        </span>
+        {content}
       </a>
     );
   }
 
   return (
     <button className={classes} type={type} onClick={onClick} disabled={disabled} aria-busy={ariaBusy}>
-      <span className="orpheum-arrow-btn__label">{children}</span>
-      <span className="orpheum-arrow-btn__icon">
-        <ChevronIcon />
-      </span>
+      {content}
     </button>
   );
 }

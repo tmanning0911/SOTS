@@ -1,40 +1,18 @@
-import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { syncChromeMetrics } from "./components/SiteChrome.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
-let lenis;
-let lenisRafCallback = null;
 let homeMotionCtx = null;
 let innerMotionCtx = null;
+let nativeScrollBound = false;
 
 export function initPolish() {
-  initSmoothScroll();
-}
-
-function initSmoothScroll() {
-  if (lenis) return;
-
-  lenis = new Lenis({
-    lerp: 0.08,
-    smoothWheel: true,
-    anchors: true,
-  });
-
-  document.documentElement.classList.add("lenis");
-  document.body.classList.add("lenis", "lenis-smooth");
-
-  lenis.on("scroll", ScrollTrigger.update);
-
-  if (!lenisRafCallback) {
-    lenisRafCallback = (time) => {
-      lenis?.raf(time * 1000);
-    };
-    gsap.ticker.add(lenisRafCallback);
+  if (!nativeScrollBound) {
+    window.addEventListener("scroll", ScrollTrigger.update, { passive: true });
+    nativeScrollBound = true;
   }
-  gsap.ticker.lagSmoothing(0);
 }
 
 function revealOnScroll(el, { y = 32, duration = 0.8 } = {}) {
@@ -152,30 +130,26 @@ export function refreshScroll() {
   syncChromeMetrics();
 }
 
-export function pauseSmoothScroll() {
-  lenis?.stop();
+export function subscribeScroll(callback) {
+  const handler = () => callback(window.scrollY);
+  window.addEventListener("scroll", handler, { passive: true });
+  return () => window.removeEventListener("scroll", handler);
 }
 
+export function pauseSmoothScroll() {}
+
 export function resumeSmoothScroll() {
-  lenis?.start();
   refreshScroll();
 }
 
 export function enableCheckoutScrollMode() {
-  if (lenis) {
-    lenis.destroy();
-    lenis = null;
-  }
   document.documentElement.classList.add("sots-checkout-scroll");
   document.body.classList.add("sots-checkout-active");
-  document.documentElement.classList.remove("lenis", "lenis-smooth", "lenis-stopped");
-  document.body.classList.remove("lenis", "lenis-smooth", "lenis-stopped");
 }
 
 export function disableCheckoutScrollMode() {
   document.documentElement.classList.remove("sots-checkout-scroll");
   document.body.classList.remove("sots-checkout-active");
-  initSmoothScroll();
   refreshScroll();
 }
 

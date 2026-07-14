@@ -1,51 +1,31 @@
-import { getStore } from "@netlify/blobs";
+import {
+  bindBlobs,
+  blobStore,
+  isNetlifyRuntime,
+  persistJson,
+} from "./netlify-blobs.mjs";
 import { randomBytes } from "node:crypto";
 import {
   buildShopCatalog,
-  enrichShopProducts,
-  filterLiveShopProducts,
-  SHOP_CATEGORIES,
-  SHOP_DINE_PARTNERS,
-  SHOP_FULFILLMENT,
+  mergeSeedWithSquareProducts,
+  SHOP_PRODUCTS,
 } from "../../../js/shop-catalog.js";
-import { fetchSquareShopCatalog } from "./square-catalog.mjs";
 import { readStaticJsonCatalog } from "./static-catalog.mjs";
 
 const STORE_NAME = "sots-shop";
 const HOLD_TTL_MS = 20 * 60 * 1000;
 
 function store() {
-  return getStore({ name: STORE_NAME, consistency: "strong" });
+  return blobStore(STORE_NAME);
 }
 
 export async function readShopCatalog() {
   const fileCatalog = await readStaticJsonCatalog("shop.json");
-  const baseMeta = {
-    categories: fileCatalog?.categories ?? SHOP_CATEGORIES,
-    shopAndDine: fileCatalog?.shopAndDine ?? SHOP_DINE_PARTNERS,
-    fulfillment: fileCatalog?.fulfillment ?? SHOP_FULFILLMENT,
-  };
-
-  if (process.env.SQUARE_ACCESS_TOKEN && process.env.SQUARE_APPLICATION_ID) {
-    try {
-      const squareProducts = enrichShopProducts(await fetchSquareShopCatalog());
-      if (squareProducts.length) {
-        return buildShopCatalog(squareProducts, "square");
-      }
-    } catch {
-      /* fall through */
-    }
-  }
-
   if (fileCatalog?.products?.length) {
-    return {
-      ...fileCatalog,
-      products: filterLiveShopProducts(fileCatalog.products),
-      ...baseMeta,
-    };
+    return mergeSeedWithSquareProducts(fileCatalog.products);
   }
 
-  return fileCatalog;
+  return buildShopCatalog(SHOP_PRODUCTS, "seed");
 }
 
 export function getProduct(catalog, productId) {
@@ -140,9 +120,10 @@ export async function createShopHold({ items, buyer, fulfillment = "pickup", not
   }
 
   try {
-    await store().setJSON(`hold:${hold.id}`, hold, { metadata: { expiresAt: hold.expiresAt } });
-  } catch {
-    /* local dev */
+    await persistJson(store(), `hold:${hold.id}`, hold, { metadata: { expiresAt: hold.expiresAt } });
+  } catch (err) {
+    console.error("shop hold persist failed:", err);
+    if (isNetlifyRuntime()) throw err;
   }
 
   return hold;
@@ -157,7 +138,8 @@ export async function getShopHold(holdId) {
       return null;
     }
     return hold;
-  } catch {
+  } catch (err) {
+    console.error("shop hold read failed:", err);
     return null;
   }
 }

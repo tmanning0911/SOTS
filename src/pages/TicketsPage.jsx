@@ -1,8 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate, useSearchParams } from "react-router-dom";
 import { MEDIA, SEASON_SHOWS } from "../../js/data.js";
 import { heroImageForHref } from "../../js/page-heroes.js";
 import { HOME_UPCOMING_EVENTS } from "../../js/home-upcoming-events.js";
+import { formatCents, BUNDLED_MERCHANDISE, merchandiseProducts } from "../../js/shop.js";
+import { consumeOpenTicketCartFlag } from "../../js/ticket-cart.js";
 import {
   getPriceFromLabel,
   getTicketCheckoutPath,
@@ -12,10 +14,15 @@ import {
 import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { PerformanceCalendar } from "../components/ticketing/PerformanceCalendar.jsx";
+import { ShopMerchTeaser } from "../components/shop/ShopMerchTeaser.jsx";
+import { TicketCartAside } from "../components/ticketing/TicketCartAside.jsx";
+import { TicketCartDrawer } from "../components/ticketing/TicketCartDrawer.jsx";
 import { TicketCheckoutButton } from "../components/ticketing/TicketCheckoutButton.jsx";
+import { TicketPickerSheet } from "../components/ticketing/TicketPickerSheet.jsx";
 import { TicketPricing } from "../components/ticketing/TicketPricing.jsx";
 import { TicketStatusBadge } from "../components/ticketing/TicketStatusBadge.jsx";
 import { useTickets } from "../context/TicketProvider.jsx";
+import { useShop } from "../context/ShopContext.jsx";
 
 const PRODUCTION_SLUG = "much-ado-about-nothing";
 const FEATURED_SHOW = SEASON_SHOWS.find((s) => s.id === "much-ado") ?? SEASON_SHOWS[0];
@@ -132,17 +139,50 @@ function TicketsTierGuide() {
 }
 
 export function TicketsPage() {
-  const { data, loading, error, refresh, ticketingState } = useTickets();
+  const {
+    data,
+    loading,
+    error,
+    refresh,
+    ticketingState,
+    cartCount,
+    cartTotal,
+    cartGroups,
+    cartNotice,
+    dismissCartNotice,
+    cartDrawerOpen,
+    openCartDrawer,
+    closeCartDrawer,
+    updateQuantity,
+    removeFromCart,
+    openCartCheckout,
+    addToCart: addTicketsToCart,
+    buyNow: buyTicketsNow,
+    clearCart,
+    clearPerformance,
+  } = useTickets();
+  const { catalog, addToCart, buyNow } = useShop();
   const [searchParams] = useSearchParams();
+  const [pickerPerformanceId, setPickerPerformanceId] = useState(null);
   const priceLabel = getPriceFromLabel(data);
   const relatedEvents = HOME_UPCOMING_EVENTS.filter(
     (event) => event.href !== `/productions/${PRODUCTION_SLUG}/`,
   ).slice(0, 6);
   const heroImage = heroImageForHref("/tickets/");
+  const shopMerchandise = useMemo(() => {
+    const list = merchandiseProducts(catalog);
+    return list.length ? list : BUNDLED_MERCHANDISE;
+  }, [catalog]);
 
   useEffect(() => {
     document.title = "Tickets - Shakespeare on the Sound";
   }, []);
+
+  useEffect(() => {
+    if (consumeOpenTicketCartFlag() || searchParams.get("cart") === "1") {
+      openCartDrawer();
+    }
+  }, [searchParams, openCartDrawer]);
 
   const performanceId = searchParams.get("performance");
   if (performanceId && !loading && data) {
@@ -163,7 +203,7 @@ export function TicketsPage() {
             <p className="tix-page__hero-eyebrow">Pinkney Park · Summer 2026</p>
             <h1>Tickets &amp; Dates</h1>
             <p className="tix-page__hero-lead">
-              Choose a performance, checkout in minutes, and show your QR code at the gate.
+              Choose a date, add tickets to your cart, then checkout securely—one performance at a time.
             </p>
             {!loading && ticketingState.statusLabel ? (
               <div className="tix-page__hero-meta">
@@ -172,9 +212,7 @@ export function TicketsPage() {
               </div>
             ) : null}
             <div className="tix-page__hero-actions">
-              <a href="#dates" className="orpheum-arrow-btn orpheum-arrow-btn--gold">
-                See dates
-              </a>
+              <ArrowButton href="#dates">See dates</ArrowButton>
               <ArrowButton href={`/productions/${PRODUCTION_SLUG}/`} variant="ghost">
                 About Much Ado
               </ArrowButton>
@@ -193,7 +231,8 @@ export function TicketsPage() {
               <h2 id="tix-dates-heading">Choose a performance</h2>
             </div>
             <p className="tix-page__book-note">
-              Questions?{" "}
+              Select a date to choose ticket types and add them to your cart. Checkout is one night at a
+              time. Questions?{" "}
               <a href="tel:+12039571006">(203) 957-1006</a> ·{" "}
               <Link to="/about/faq/">Ticket FAQ</Link>
             </p>
@@ -206,13 +245,9 @@ export function TicketsPage() {
               ) : error ? (
                 <div className="tix-page__error">
                   <p>Ticket availability is temporarily unavailable.</p>
-                  <button
-                    type="button"
-                    className="orpheum-arrow-btn orpheum-arrow-btn--gold"
-                    onClick={() => refresh()}
-                  >
+                  <ArrowButton type="button" onClick={() => refresh()}>
                     Try again
-                  </button>
+                  </ArrowButton>
                 </div>
               ) : data ? (
                 <PerformanceCalendar
@@ -221,11 +256,27 @@ export function TicketsPage() {
                   hideShowHeader
                   className="tix-page__calendar"
                   image={MEDIA.muchAdoPoster}
+                  onSelectPerformance={setPickerPerformanceId}
                 />
               ) : null}
             </div>
 
             <aside className="tix-page__aside">
+              <TicketCartAside
+                groups={cartGroups}
+                cartCount={cartCount}
+                cartTotal={cartTotal}
+                data={data}
+                cartNotice={cartNotice}
+                onDismissNotice={dismissCartNotice}
+                onUpdate={updateQuantity}
+                onRemove={removeFromCart}
+                onCheckout={openCartCheckout}
+                onClearPerformance={clearPerformance}
+                onClearCart={clearCart}
+                showImage={MEDIA.muchAdoPoster}
+                className="tix-cart-aside--desktop"
+              />
               {data ? (
                 <TicketPricing
                   ticketClasses={data.ticketTypes ?? data.ticketClasses}
@@ -246,6 +297,14 @@ export function TicketsPage() {
             </aside>
           </div>
         </section>
+
+        <ShopMerchTeaser
+          className="tix-page__shop-teaser"
+          headingId="tix-shop-teaser-heading"
+          products={shopMerchandise}
+          onAdd={addToCart}
+          onBuyNow={buyNow}
+        />
 
         {relatedEvents.length ? (
           <section className="tix-page__more" aria-labelledby="tix-more-heading" data-reveal>
@@ -279,29 +338,141 @@ export function TicketsPage() {
           </h2>
           <ol className="tix-page__steps-list">
             <li>
-              <span className="tix-page__steps-num">1</span>
+              <span className="tix-page__steps-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M7 4v2.5M17 4v2.5M5 9.5h14M6.5 7h11A1.5 1.5 0 0 1 19 8.5v10A1.5 1.5 0 0 1 17.5 20h-11A1.5 1.5 0 0 1 5 18.5v-10A1.5 1.5 0 0 1 6.5 7Z"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M9 13h.01M12 13h.01M15 13h.01M9 16h.01M12 16h.01"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
               <div>
                 <strong>Pick a date</strong>
-                <p>Select an upcoming performance at Pinkney Park.</p>
+                <p>Choose a performance at Pinkney Park from the calendar above.</p>
               </div>
             </li>
             <li>
-              <span className="tix-page__steps-num">2</span>
+              <span className="tix-page__steps-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <rect
+                    x="3.5"
+                    y="6.5"
+                    width="17"
+                    height="11"
+                    rx="1.75"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                  />
+                  <path d="M3.5 10.5h17" stroke="currentColor" strokeWidth="1.6" />
+                  <path
+                    d="M7 15h3.5"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
               <div>
-                <strong>Checkout online</strong>
-                <p>Pay securely with card — about two minutes start to finish.</p>
+                <strong>Build your cart</strong>
+                <p>Choose ticket types, add more nights if you like, then pay one show at a time.</p>
               </div>
             </li>
             <li>
-              <span className="tix-page__steps-num">3</span>
+              <span className="tix-page__steps-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <rect
+                    x="4.5"
+                    y="4.5"
+                    width="6.5"
+                    height="6.5"
+                    rx="1"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                  />
+                  <rect
+                    x="13"
+                    y="4.5"
+                    width="6.5"
+                    height="6.5"
+                    rx="1"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                  />
+                  <rect
+                    x="4.5"
+                    y="13"
+                    width="6.5"
+                    height="6.5"
+                    rx="1"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                  />
+                  <path
+                    d="M13 13h2.25v2.25H13V13Zm4.25 0H19.5v2.25h-2.25V13ZM13 17.25h2.25V19.5H13v-2.25Zm2.25 0H17.5V19.5h1.75v-2.25"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
               <div>
                 <strong>Show your QR</strong>
-                <p>Tickets email instantly and live in My Tickets on your phone.</p>
+                <p>Tickets land in your inbox and stay in My Tickets on your phone.</p>
               </div>
             </li>
           </ol>
         </section>
       </article>
+
+      {cartCount > 0 ? (
+        <button
+          type="button"
+          className="sots-shop-page__cart-fab tix-page__cart-fab"
+          onClick={openCartDrawer}
+          aria-label={`Open ticket cart, ${cartCount} tickets`}
+        >
+          <span className="sots-shop-page__cart-fab-count">{cartCount}</span>
+          <span className="sots-shop-page__cart-fab-copy">
+            <strong>View cart</strong>
+            <span>{formatCents(cartTotal)}</span>
+          </span>
+        </button>
+      ) : null}
+
+      <TicketCartDrawer
+        open={cartDrawerOpen}
+        onClose={closeCartDrawer}
+        groups={cartGroups}
+        cartCount={cartCount}
+        cartTotal={cartTotal}
+        data={data}
+        cartNotice={cartNotice}
+        onDismissNotice={dismissCartNotice}
+        onUpdate={updateQuantity}
+        onRemove={removeFromCart}
+        onCheckout={openCartCheckout}
+        onClearPerformance={clearPerformance}
+        onClearCart={clearCart}
+        showImage={MEDIA.muchAdoPoster}
+      />
+
+      <TicketPickerSheet
+        open={Boolean(pickerPerformanceId)}
+        onClose={() => setPickerPerformanceId(null)}
+        data={data}
+        performanceId={pickerPerformanceId}
+        onAddToCart={addTicketsToCart}
+        onBuyNow={buyTicketsNow}
+      />
     </InnerPageShell>
   );
 }

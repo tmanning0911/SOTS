@@ -1,7 +1,7 @@
 const DEFAULT_STEPS = [
   { id: "tickets", label: "Tickets" },
   { id: "details", label: "Your details" },
-  { id: "pay", label: "Payment" },
+  { id: "pay", label: "Review & pay" },
 ];
 
 export const SHOP_CHECKOUT_STEPS = [

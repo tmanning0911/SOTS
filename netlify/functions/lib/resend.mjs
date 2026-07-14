@@ -11,6 +11,15 @@ export function getResendFromAddress() {
   );
 }
 
+/** Contact-form / site notifications — separate from ticket mail when configured. */
+export function getResendNotificationsFromAddress() {
+  return (
+    process.env.RESEND_NOTIFICATIONS_FROM_EMAIL?.trim() ||
+    process.env.RESEND_FROM_EMAIL?.trim() ||
+    "Shakespeare on the Sound Notifications <notifications@shakespeareonthesound.org>"
+  );
+}
+
 export function getSiteUrl() {
   return (
     process.env.SITE_URL?.replace(/\/$/, "") ||
@@ -21,9 +30,9 @@ export function getSiteUrl() {
 }
 
 /**
- * @param {{ to: string | string[], subject: string, html: string, text?: string, bcc?: string | string[], replyTo?: string }} payload
+ * @param {{ to: string | string[], subject: string, html: string, text?: string, bcc?: string | string[], replyTo?: string, from?: string }} payload
  */
-export async function sendEmail({ to, subject, html, text, bcc, replyTo }) {
+export async function sendEmail({ to, subject, html, text, bcc, replyTo, from }) {
   const apiKey = process.env.RESEND_API_KEY?.trim();
   if (!apiKey) {
     console.warn("RESEND_API_KEY not set — skipping email");
@@ -31,7 +40,7 @@ export async function sendEmail({ to, subject, html, text, bcc, replyTo }) {
   }
 
   const body = {
-    from: getResendFromAddress(),
+    from: from?.trim() || getResendFromAddress(),
     to: Array.isArray(to) ? to : [to],
     subject,
     html,

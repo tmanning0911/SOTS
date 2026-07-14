@@ -6,6 +6,7 @@ import { SiteFooter } from "../components/SiteFooter.jsx";
 import { MobileDock } from "../components/MobileDock.jsx";
 import { HomeQuickBar } from "../components/HomeQuickBar.jsx";
 import { AccessTicketsModal } from "../components/AccessTicketsModal.jsx";
+import { ContactFormModal } from "../components/ContactFormModal.jsx";
 import { SiteSearch } from "../components/SiteSearch.jsx";
 import { useUI } from "../context/UIContext.jsx";
 import { refreshScroll, initInnerPageMotion, resetInnerPageMotion, resetHomePageMotion, enableCheckoutScrollMode, disableCheckoutScrollMode } from "../polish.js";
@@ -18,7 +19,13 @@ export function AppLayout() {
   const location = useLocation();
   const isHome = location.pathname === "/" || location.pathname === "";
   const isCheckout = isCheckoutPath(location.pathname);
-  const { accessTicketsOpen, closeAccessTickets } = useUI();
+  const {
+    accessTicketsOpen,
+    closeAccessTickets,
+    contactFormOpen,
+    contactFormTarget,
+    closeContactForm,
+  } = useUI();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -67,6 +74,7 @@ export function AppLayout() {
       {!isCheckout ? <SiteFooter /> : null}
       {isHome ? <HomeQuickBar /> : isCheckout ? null : <MobileDock />}
       <AccessTicketsModal open={accessTicketsOpen} onClose={closeAccessTickets} />
+      <ContactFormModal open={contactFormOpen} target={contactFormTarget} onClose={closeContactForm} />
       <SiteSearch />
     </>
   );

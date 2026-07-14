@@ -1,8 +1,10 @@
 import { jsonResponse } from "./lib/cors.mjs";
+import { bindBlobs } from "./lib/netlify-blobs.mjs";
 import { getClientIp, rateLimit } from "./lib/rateLimit.mjs";
 import { createHold } from "./lib/ticketing-store.mjs";
 
 export async function handler(event) {
+  bindBlobs(event);
   if (event.httpMethod === "OPTIONS") {
     return jsonResponse(204, {}, event, { methods: "POST, OPTIONS" });
   }
