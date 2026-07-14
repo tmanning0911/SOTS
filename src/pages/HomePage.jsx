@@ -33,8 +33,8 @@ export function HomePage() {
       <ImpactSection />
       <SupportMission />
       <RecentNews />
-      <Sponsors />
       <Newsletter />
+      <Sponsors />
     </div>
   );
 }
