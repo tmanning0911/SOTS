@@ -70,6 +70,7 @@ export async function exchangePatronToken(token) {
     signedIn: true,
     user: data.user,
     profile: data.profile ?? null,
+    needsPasskey: Boolean(data.needsPasskey),
   };
   writePatronSession(session);
   return session;
@@ -78,6 +79,15 @@ export async function exchangePatronToken(token) {
 export async function signOutPatron() {
   try {
     await patronFetch("/api/patron/logout", { method: "POST" });
+  } catch {
+    /* still clear local UI state */
+  }
+  clearPatronSession();
+}
+
+export async function signOutPatronEverywhere() {
+  try {
+    await patronFetch("/api/patron/logout-all", { method: "POST" });
   } catch {
     /* still clear local UI state */
   }
@@ -112,6 +122,11 @@ export async function updatePatronContactProfile(profile) {
 export async function fetchPatronOrders() {
   const res = await patronFetch("/api/patron/orders");
   const data = await res.json().catch(() => ({}));
+  if (res.status === 403 && data.needsPasskey) {
+    const err = new Error(data.error || "Confirm with your passkey to continue.");
+    err.needsPasskey = true;
+    throw err;
+  }
   if (!res.ok) throw new Error(data.error || "Could not load orders");
   return data.orders ?? [];
 }

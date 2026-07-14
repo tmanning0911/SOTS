@@ -1,6 +1,7 @@
 import { jsonResponse } from "./lib/cors.mjs";
 import { bindBlobs } from "./lib/netlify-blobs.mjs";
 import { getClientIp, rateLimit } from "./lib/rateLimit.mjs";
+import { durableRateLimit } from "./lib/patron-auth.mjs";
 import { sendOrderConfirmationEmail } from "./lib/order-email.mjs";
 import { sendShopOrderConfirmationEmail } from "./lib/shop-order-email.mjs";
 import { lookupShopOrder } from "./lib/shop-store.mjs";
@@ -16,7 +17,10 @@ export async function handler(event) {
   }
 
   const ip = getClientIp(event);
-  if (!rateLimit(`orders-resend:${ip}`, { max: 6, windowMs: 900_000 })) {
+  if (
+    !rateLimit(`orders-resend:${ip}`, { max: 4, windowMs: 900_000 }) ||
+    !(await durableRateLimit(`orders-resend-ip:${ip || "unknown"}`, { max: 4, windowMs: 900_000 }))
+  ) {
     return jsonResponse(429, { error: "Too many requests. Please wait and try again." }, event, {
       methods: "POST, OPTIONS",
     });

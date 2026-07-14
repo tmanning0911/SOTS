@@ -22,7 +22,9 @@ import {
   patronAuthConfigured,
   rateLimitPatronMagic,
   recordPatronSession,
+  revokeAllPatronSessions,
   revokePatronSession,
+  setPatronSessionAmr,
   verifyMagicLinkToken,
   verifyPatronSession,
 } from "./lib/patron-auth.mjs";
@@ -34,11 +36,38 @@ import {
   setPatronAvatar,
   upsertPatronProfile,
 } from "./lib/patron-profile.mjs";
+import {
+  beginPasskeyAuthentication,
+  beginPasskeyRegistration,
+  finishPasskeyAuthentication,
+  finishPasskeyRegistration,
+  listPatronPasskeys,
+  patronHasPasskeys,
+} from "./lib/patron-webauthn.mjs";
 import { listPatronShopOrders, publicShopOrderView } from "./lib/shop-store.mjs";
 import { listPatronOrders, publicOrderView } from "./lib/ticketing-store.mjs";
 
 const C = EMAIL_COLORS;
 const PATRON_CORS = { allowCredentials: true };
+
+function patronHasWebauthn(patron) {
+  return Array.isArray(patron?.amr) && patron.amr.includes("webauthn");
+}
+
+async function gatePasskeyIfRequired(event, patron) {
+  if (!patron?.email) return null;
+  if (patronHasWebauthn(patron)) return null;
+  if (!(await patronHasPasskeys(patron.email))) return null;
+  return patronJson(
+    403,
+    {
+      error: "Confirm with your passkey to continue.",
+      needsPasskey: true,
+    },
+    event,
+    { methods: "GET, POST, PUT, DELETE, OPTIONS" },
+  );
+}
 
 async function sendMagicLinkEmail(email, token) {
   const siteUrl = getSiteUrl();
@@ -47,7 +76,7 @@ async function sendMagicLinkEmail(email, token) {
   const preheader = "Your secure one-time sign-in link expires in 10 minutes.";
 
   const text = [
-    "Use this one-time link to view your Shakespeare on the Sound tickets:",
+    "Open this one-time link, then tap Confirm sign-in on the page:",
     "",
     link,
     "",
@@ -59,8 +88,9 @@ async function sendMagicLinkEmail(email, token) {
   const bodyHtml = `
     ${emailHeading("Sign in to My Tickets")}
     <p style="margin:0 0 18px;">
-      Use the button below to view your tickets. This link is <strong>one-time use</strong> and expires in
-      <strong>10 minutes</strong>. We use secure email sign-in — no password to remember or steal.
+      Open the button below, then tap <strong>Confirm sign-in</strong> on the website. This stops email
+      scanners from using your link. It is <strong>one-time use</strong> and expires in
+      <strong>10 minutes</strong>.
     </p>
     ${emailButtonsRow([{ href: link, label: "View My Tickets", variant: "primary" }])}
     <p style="margin:0 0 12px;font-size:13px;color:${C.muted};line-height:1.55;">
@@ -147,10 +177,12 @@ export async function handler(event) {
   bindBlobs(event);
   const path = (event.rawUrl || event.path || "").replace(/\/$/, "");
   const isSessionRoute = path.includes("/patron/session");
-  const isLogoutRoute = path.includes("/patron/logout");
+  const isLogoutRoute = path.includes("/patron/logout") && !path.includes("/patron/logout-all");
+  const isLogoutAllRoute = path.includes("/patron/logout-all");
   const isOrdersRoute = path.includes("/patron/orders");
   const isProfileRoute = path.includes("/patron/profile");
   const isAvatarRoute = path.includes("/patron/avatar");
+  const isWebauthnRoute = path.includes("/patron/webauthn");
 
   if (event.httpMethod === "OPTIONS") {
     return patronJson(204, {}, event, { methods: "GET, POST, PUT, DELETE, OPTIONS" });
@@ -160,6 +192,23 @@ export async function handler(event) {
     return patronJson(403, { error: "Request origin not allowed." }, event, {
       methods: "GET, POST, PUT, DELETE, OPTIONS",
     });
+  }
+
+  if (event.httpMethod === "POST" && isLogoutAllRoute) {
+    const patron = await verifyPatronSession(event);
+    if (!patron?.email) {
+      return patronJson(401, { error: "Sign in required." }, event, { methods: "POST, OPTIONS" });
+    }
+    await revokeAllPatronSessions(patron.email);
+    return patronJson(
+      200,
+      { ok: true },
+      event,
+      {
+        methods: "POST, OPTIONS",
+        cookies: buildPatronSessionCookies("", event, { clear: true }),
+      },
+    );
   }
 
   if (event.httpMethod === "POST" && isLogoutRoute) {
@@ -176,13 +225,78 @@ export async function handler(event) {
     );
   }
 
+  if (isWebauthnRoute) {
+    const patron = await verifyPatronSession(event);
+    if (!patron?.email) {
+      return patronJson(401, { error: "Sign in required." }, event, {
+        methods: "GET, POST, OPTIONS",
+      });
+    }
+
+    const action = path.split("/webauthn/")[1] || "";
+
+    try {
+      if (event.httpMethod === "GET" && action.startsWith("status")) {
+        const passkeys = await listPatronPasskeys(patron.email);
+        return patronJson(
+          200,
+          {
+            hasPasskeys: passkeys.length > 0,
+            count: passkeys.length,
+            verified: patronHasWebauthn(patron),
+          },
+          event,
+          { methods: "GET, POST, OPTIONS" },
+        );
+      }
+
+      if (event.httpMethod === "POST" && action === "register/options") {
+        const options = await beginPasskeyRegistration(patron.email, event);
+        return patronJson(200, { options }, event, { methods: "GET, POST, OPTIONS" });
+      }
+
+      if (event.httpMethod === "POST" && action === "register/verify") {
+        const body = JSON.parse(event.body || "{}");
+        const result = await finishPasskeyRegistration(patron.email, body.response, event);
+        await setPatronSessionAmr(patron.jti, ["magic", "webauthn"]);
+        return patronJson(200, { ok: true, ...result, verified: true }, event, {
+          methods: "GET, POST, OPTIONS",
+        });
+      }
+
+      if (event.httpMethod === "POST" && action === "auth/options") {
+        const options = await beginPasskeyAuthentication(patron.email, event);
+        return patronJson(200, { options }, event, { methods: "GET, POST, OPTIONS" });
+      }
+
+      if (event.httpMethod === "POST" && action === "auth/verify") {
+        const body = JSON.parse(event.body || "{}");
+        await finishPasskeyAuthentication(patron.email, body.response, event);
+        await setPatronSessionAmr(patron.jti, ["magic", "webauthn"]);
+        return patronJson(200, { ok: true, verified: true }, event, {
+          methods: "GET, POST, OPTIONS",
+        });
+      }
+    } catch (err) {
+      return patronJson(400, { error: err.message || "Passkey request failed" }, event, {
+        methods: "GET, POST, OPTIONS",
+      });
+    }
+
+    return patronJson(405, { error: "Method not allowed" }, event, {
+      methods: "GET, POST, OPTIONS",
+    });
+  }
+
   if (
     event.httpMethod === "POST" &&
     !isSessionRoute &&
     !isLogoutRoute &&
+    !isLogoutAllRoute &&
     !isOrdersRoute &&
     !isProfileRoute &&
-    !isAvatarRoute
+    !isAvatarRoute &&
+    !isWebauthnRoute
   ) {
     const ip = getClientIp(event);
 
@@ -283,12 +397,13 @@ export async function handler(event) {
       });
     }
 
-    await recordPatronSession(session);
+    await recordPatronSession({ ...session, amr: ["magic"] });
     const profile = await resolveProfileForPatron(magic.email);
+    const needsPasskey = await patronHasPasskeys(magic.email);
     // Do not return the raw session token in JSON — the HttpOnly cookie is the session.
     return patronJson(
       200,
-      { ok: true, user: session.user, profile },
+      { ok: true, user: session.user, profile, needsPasskey },
       event,
       {
         methods: "POST, OPTIONS",
@@ -302,6 +417,8 @@ export async function handler(event) {
     if (!patron?.email) {
       return patronJson(401, { error: "Sign in required." }, event, { methods: "GET, POST, OPTIONS" });
     }
+    const blocked = await gatePasskeyIfRequired(event, patron);
+    if (blocked) return blocked;
 
     const [ticketOrders, shopOrders] = await Promise.all([
       listPatronOrders(patron.email),
@@ -324,6 +441,8 @@ export async function handler(event) {
         methods: "GET, PUT, DELETE, OPTIONS",
       });
     }
+    const blocked = await gatePasskeyIfRequired(event, patron);
+    if (blocked) return blocked;
 
     if (event.httpMethod === "GET") {
       const avatar = await getPatronAvatar(patron.email);
@@ -420,6 +539,8 @@ export async function handler(event) {
         methods: "GET, PUT, OPTIONS",
       });
     }
+    const blocked = await gatePasskeyIfRequired(event, patron);
+    if (blocked) return blocked;
 
     if (event.httpMethod === "GET") {
       const profile = await resolveProfileForPatron(patron.email);
@@ -486,9 +607,15 @@ export async function handler(event) {
       return patronJson(401, { error: "Sign in required." }, event, { methods: "GET, POST, OPTIONS" });
     }
     const profile = await resolveProfileForPatron(patron.email);
+    const needsPasskey = (await patronHasPasskeys(patron.email)) && !patronHasWebauthn(patron);
     return patronJson(
       200,
-      { user: { email: patron.email, role: patron.role }, profile },
+      {
+        user: { email: patron.email, role: patron.role },
+        profile,
+        needsPasskey,
+        amr: patron.amr || ["magic"],
+      },
       event,
       { methods: "GET, POST, OPTIONS" },
     );

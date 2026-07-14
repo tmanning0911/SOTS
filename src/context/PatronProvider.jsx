@@ -13,9 +13,11 @@ import {
   readPatronSession,
   requestPatronMagicLink,
   signOutPatron,
+  signOutPatronEverywhere,
   updatePatronContactProfile,
   writePatronSession,
 } from "../../js/patron-auth.js";
+import { fetchPasskeyStatus } from "../../js/patron-webauthn.js";
 import { PatronContext } from "./PatronContext.jsx";
 
 function applyProfile(saved, setProfile, setSession) {
@@ -42,6 +44,7 @@ export function PatronProvider({ children }) {
   const [loadingProfile, setLoadingProfile] = useState(false);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [bootstrapping, setBootstrapping] = useState(true);
+  const [needsPasskey, setNeedsPasskey] = useState(false);
   const [error, setError] = useState("");
   const profileEpochRef = useRef(0);
   const avatarUrlRef = useRef(null);
@@ -57,6 +60,7 @@ export function PatronProvider({ children }) {
     setSession(null);
     setProfile(null);
     setOrders([]);
+    setNeedsPasskey(false);
     replaceAvatarUrl(null);
   }, [replaceAvatarUrl]);
 
@@ -70,8 +74,14 @@ export function PatronProvider({ children }) {
     try {
       const nextOrders = await fetchPatronOrders();
       setOrders(nextOrders);
+      setNeedsPasskey(false);
       return nextOrders;
     } catch (err) {
+      if (err?.needsPasskey || String(err.message || "").toLowerCase().includes("passkey")) {
+        setNeedsPasskey(true);
+        setOrders([]);
+        return [];
+      }
       if (isAuthError(err)) clearLocal();
       setError(err.message || "Could not load your tickets");
       setOrders([]);
@@ -154,9 +164,17 @@ export function PatronProvider({ children }) {
         writePatronSession(nextSession);
         setSession(nextSession);
         setProfile(nextSession.profile);
+        setNeedsPasskey(Boolean(data.needsPasskey));
+        if (!data.needsPasskey) {
+          try {
+            const status = await fetchPasskeyStatus();
+            if (!cancelled) setNeedsPasskey(Boolean(status.hasPasskeys && !status.verified));
+          } catch {
+            /* optional */
+          }
+        }
       } catch {
         if (!cancelled) {
-          // Cookie missing/expired — drop any stale UI cache.
           clearLocal();
         }
       } finally {
@@ -186,11 +204,16 @@ export function PatronProvider({ children }) {
     profileEpochRef.current += 1;
     setSession(nextSession);
     setProfile(nextSession.profile ?? null);
+    setNeedsPasskey(Boolean(nextSession.needsPasskey));
     setBootstrapping(false);
     return nextSession;
   }, []);
 
   const requestMagicLink = useCallback(async (email) => requestPatronMagicLink(email), []);
+
+  const markPasskeyVerified = useCallback(() => {
+    setNeedsPasskey(false);
+  }, []);
 
   const signOut = useCallback(async () => {
     profileEpochRef.current += 1;
@@ -198,6 +221,18 @@ export function PatronProvider({ children }) {
     setSession(null);
     setOrders([]);
     setProfile(null);
+    setNeedsPasskey(false);
+    replaceAvatarUrl(null);
+    setError("");
+  }, [replaceAvatarUrl]);
+
+  const signOutEverywhere = useCallback(async () => {
+    profileEpochRef.current += 1;
+    await signOutPatronEverywhere();
+    setSession(null);
+    setOrders([]);
+    setProfile(null);
+    setNeedsPasskey(false);
     replaceAvatarUrl(null);
     setError("");
   }, [replaceAvatarUrl]);
@@ -268,6 +303,7 @@ export function PatronProvider({ children }) {
       loadingProfile,
       uploadingAvatar,
       bootstrapping,
+      needsPasskey,
       error,
       isSignedIn: Boolean(session?.user?.email),
       refreshOrders,
@@ -279,6 +315,8 @@ export function PatronProvider({ children }) {
       requestMagicLink,
       signInWithToken,
       signOut,
+      signOutEverywhere,
+      markPasskeyVerified,
       verifySession,
       updateSession: (next) => {
         writePatronSession(next);
@@ -295,6 +333,7 @@ export function PatronProvider({ children }) {
       loadingProfile,
       uploadingAvatar,
       bootstrapping,
+      needsPasskey,
       error,
       refreshOrders,
       refreshProfile,
@@ -305,6 +344,8 @@ export function PatronProvider({ children }) {
       requestMagicLink,
       signInWithToken,
       signOut,
+      signOutEverywhere,
+      markPasskeyVerified,
       verifySession,
     ],
   );

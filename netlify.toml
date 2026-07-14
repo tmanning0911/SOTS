@@ -100,6 +100,16 @@
   status = 200
 
 [[redirects]]
+  from = "/api/patron/logout-all"
+  to = "/.netlify/functions/patron-auth"
+  status = 200
+
+[[redirects]]
+  from = "/api/patron/webauthn/*"
+  to = "/.netlify/functions/patron-auth"
+  status = 200
+
+[[redirects]]
   from = "/api/patron/orders"
   to = "/.netlify/functions/patron-auth"
   status = 200
@@ -185,6 +195,15 @@
     X-Robots-Tag = "noindex, nofollow"
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Cross-Origin-Opener-Policy = "same-origin-allow-popups"
 
 [[headers]]
   for = "/admin/*"

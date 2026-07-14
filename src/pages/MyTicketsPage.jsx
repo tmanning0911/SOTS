@@ -10,6 +10,11 @@ import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { PatronContactForm } from "../components/ticketing/PatronContactForm.jsx";
 import { TicketQr } from "../components/ticketing/TicketQr.jsx";
 import { usePatron } from "../context/PatronContext.jsx";
+import {
+  fetchPasskeyStatus,
+  registerPatronPasskey,
+  verifyPatronPasskey,
+} from "../../js/patron-webauthn.js";
 
 function ResendButton({ email, confirmationCode }) {
   const [resendState, setResendState] = useState("idle");
@@ -160,6 +165,7 @@ export function MyTicketsPage() {
   const {
     isSignedIn,
     bootstrapping,
+    needsPasskey,
     user,
     profile,
     avatarUrl,
@@ -171,6 +177,8 @@ export function MyTicketsPage() {
     requestMagicLink,
     signInWithToken,
     signOut,
+    signOutEverywhere,
+    markPasskeyVerified,
     refreshOrders,
     saveProfile,
     uploadAvatar,
@@ -181,10 +189,14 @@ export function MyTicketsPage() {
   const [authMessage, setAuthMessage] = useState("");
   const [authError, setAuthError] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
+  const [pendingMagicToken, setPendingMagicToken] = useState("");
   const [verifyingToken, setVerifyingToken] = useState(false);
   const [savingProfile, setSavingProfile] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
   const [pastOpen, setPastOpen] = useState(false);
+  const [passkeyBusy, setPasskeyBusy] = useState(false);
+  const [passkeyMessage, setPasskeyMessage] = useState("");
+  const [hasPasskey, setHasPasskey] = useState(false);
   const contactDetailsRef = useRef(null);
 
   useEffect(() => {
@@ -203,28 +215,80 @@ export function MyTicketsPage() {
   useEffect(() => {
     const token = params.get("token");
     if (!token || isSignedIn) return;
+    // Prefetch-safe: hold the token until the patron explicitly confirms.
+    setPendingMagicToken(token);
+    setAuthMessage("Confirm sign-in below to finish. Email scanners cannot use this step.");
+    params.delete("token");
+    setParams(params, { replace: true });
+  }, [params, setParams, isSignedIn]);
 
+  useEffect(() => {
+    if (!isSignedIn || needsPasskey) return;
     let cancelled = false;
-    setVerifyingToken(true);
-    setAuthError("");
-    signInWithToken(token)
-      .then(() => {
-        if (cancelled) return;
-        setAuthMessage("You're signed in.");
-        params.delete("token");
-        setParams(params, { replace: true });
+    fetchPasskeyStatus()
+      .then((status) => {
+        if (!cancelled) setHasPasskey(Boolean(status.hasPasskeys));
       })
-      .catch((err) => {
-        if (!cancelled) setAuthError(err.message || "Sign-in link expired");
-      })
-      .finally(() => {
-        if (!cancelled) setVerifyingToken(false);
+      .catch(() => {
+        if (!cancelled) setHasPasskey(false);
       });
-
     return () => {
       cancelled = true;
     };
-  }, [params, setParams, signInWithToken, isSignedIn]);
+  }, [isSignedIn, needsPasskey]);
+
+  async function handleConfirmMagicLink() {
+    if (!pendingMagicToken) return;
+    setVerifyingToken(true);
+    setAuthError("");
+    try {
+      const session = await signInWithToken(pendingMagicToken);
+      setPendingMagicToken("");
+      setAuthMessage("You're signed in.");
+      if (session?.needsPasskey) {
+        setPasskeyMessage("Unlock with your passkey to view tickets.");
+      }
+    } catch (err) {
+      setAuthError(err.message || "Sign-in link expired");
+      setPendingMagicToken("");
+    } finally {
+      setVerifyingToken(false);
+    }
+  }
+
+  async function handlePasskeyUnlock() {
+    setPasskeyBusy(true);
+    setPasskeyMessage("");
+    setAuthError("");
+    try {
+      await verifyPatronPasskey();
+      markPasskeyVerified();
+      setHasPasskey(true);
+      await refreshOrders();
+      setPasskeyMessage("Passkey confirmed.");
+    } catch (err) {
+      setAuthError(err.message || "Passkey verification failed");
+    } finally {
+      setPasskeyBusy(false);
+    }
+  }
+
+  async function handleAddPasskey() {
+    setPasskeyBusy(true);
+    setPasskeyMessage("");
+    setAuthError("");
+    try {
+      await registerPatronPasskey();
+      markPasskeyVerified();
+      setHasPasskey(true);
+      setPasskeyMessage("Passkey saved on this device. Future sign-ins will ask for it.");
+      await refreshOrders();
+    } catch (err) {
+      setAuthError(err.message || "Could not add passkey");
+    } finally {
+      setPasskeyBusy(false);
+    }
+  }
 
   const ticketOrders = useMemo(
     () => orders.filter((order) => order.type !== "shop"),
@@ -330,27 +394,43 @@ export function MyTicketsPage() {
                   Enter the email used at checkout. We&apos;ll send a secure one-time link — no password
                   required.
                 </p>
-                {verifyingToken ? <p>Signing you in…</p> : null}
-                <form className="sots-order-lookup" onSubmit={handleRequestLink}>
-                  <label>
-                    Email
-                    <input
-                      type="email"
-                      name="email"
-                      autoComplete="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </label>
-                  <button
-                    type="submit"
-                    className="orpheum-arrow-btn orpheum-arrow-btn--gold"
-                    disabled={authLoading || verifyingToken}
-                  >
-                    {authLoading ? "Sending link…" : "Email me a sign-in link"}
-                  </button>
-                </form>
+                {pendingMagicToken ? (
+                  <div className="sots-my-tickets-page__confirm-link">
+                    <p className="sots-checkout__hint">
+                      We found a secure sign-in link. Tap confirm to finish — this keeps email apps from
+                      using the link automatically.
+                    </p>
+                    <button
+                      type="button"
+                      className="orpheum-arrow-btn orpheum-arrow-btn--gold"
+                      onClick={handleConfirmMagicLink}
+                      disabled={verifyingToken}
+                    >
+                      {verifyingToken ? "Signing you in…" : "Confirm sign-in"}
+                    </button>
+                  </div>
+                ) : (
+                  <form className="sots-order-lookup" onSubmit={handleRequestLink}>
+                    <label>
+                      Email
+                      <input
+                        type="email"
+                        name="email"
+                        autoComplete="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </label>
+                    <button
+                      type="submit"
+                      className="orpheum-arrow-btn orpheum-arrow-btn--gold"
+                      disabled={authLoading || verifyingToken}
+                    >
+                      {authLoading ? "Sending link…" : "Email me a sign-in link"}
+                    </button>
+                  </form>
+                )}
                 {authMessage ? <p className="sots-checkout__hint">{authMessage}</p> : null}
                 {authError ? (
                   <p className="sots-checkout__error" role="alert">
@@ -412,9 +492,41 @@ export function MyTicketsPage() {
                     <button type="button" className="orpheum-arrow-btn orpheum-arrow-btn--ghost" onClick={signOut}>
                       Sign out
                     </button>
+                    <button
+                      type="button"
+                      className="orpheum-arrow-btn orpheum-arrow-btn--ghost"
+                      onClick={() => signOutEverywhere()}
+                    >
+                      Sign out everywhere
+                    </button>
                   </div>
                 </header>
 
+                {needsPasskey ? (
+                  <section className="sots-account-panel" aria-labelledby="passkey-unlock-heading">
+                    <h2 id="passkey-unlock-heading">Unlock with passkey</h2>
+                    <p className="sots-my-tickets-page__lead">
+                      This account is protected with a device passkey. Confirm it to view tickets and contact
+                      details — even if someone else opened your email.
+                    </p>
+                    <button
+                      type="button"
+                      className="orpheum-arrow-btn orpheum-arrow-btn--gold"
+                      onClick={handlePasskeyUnlock}
+                      disabled={passkeyBusy}
+                    >
+                      {passkeyBusy ? "Waiting for passkey…" : "Use passkey"}
+                    </button>
+                    {passkeyMessage ? <p className="sots-checkout__hint">{passkeyMessage}</p> : null}
+                    {authError ? (
+                      <p className="sots-checkout__error" role="alert">
+                        {authError}
+                      </p>
+                    ) : null}
+                  </section>
+                ) : null}
+
+                {!needsPasskey ? (
                 <div className="sots-account-layout">
                   <section
                     className="sots-account-panel sots-account-panel--tickets"
@@ -548,7 +660,28 @@ export function MyTicketsPage() {
                       )}
                     </div>
                   </details>
+
+                  <section className="sots-account-panel" aria-labelledby="passkey-security-heading">
+                    <h2 id="passkey-security-heading">Device passkey</h2>
+                    <p className="sots-my-tickets-page__lead">
+                      {hasPasskey
+                        ? "A passkey is registered. After email sign-in, this device must confirm it before tickets unlock."
+                        : "Optional but strongest: add a Face ID / Touch ID / Windows Hello passkey so an inbox leak alone cannot open your tickets."}
+                    </p>
+                    {!hasPasskey ? (
+                      <button
+                        type="button"
+                        className="orpheum-arrow-btn orpheum-arrow-btn--gold"
+                        onClick={handleAddPasskey}
+                        disabled={passkeyBusy}
+                      >
+                        {passkeyBusy ? "Waiting…" : "Add passkey to this device"}
+                      </button>
+                    ) : null}
+                    {passkeyMessage ? <p className="sots-checkout__hint">{passkeyMessage}</p> : null}
+                  </section>
                 </div>
+                ) : null}
               </div>
             )}
           </div>

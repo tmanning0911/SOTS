@@ -6,6 +6,8 @@ import { blobStore } from "./netlify-blobs.mjs";
 const MAGIC_LINK_TTL_MS = 10 * 60 * 1000;
 /** Absolute session lifetime (HttpOnly cookie). */
 const SESSION_TTL_MS = 48 * 60 * 60 * 1000;
+/** Idle timeout — rolling lastSeen; renews on each authenticated request. */
+const SESSION_IDLE_MS = 30 * 60 * 1000;
 
 const COOKIE_LEGACY = "sots_patron";
 const COOKIE_HOST = "__Host-sots_patron";
@@ -240,17 +242,72 @@ export async function revokePatronSession(jti) {
   }
 }
 
+function sessionsIndexKey(email) {
+  return `patron-sessions:${normalizePatronEmail(email)}`;
+}
+
 export async function recordPatronSession(session) {
   if (!session?.jti) return;
+  const email = normalizePatronEmail(session.user?.email);
+  const now = new Date().toISOString();
   try {
-    await authStore().setJSON(`session-meta:${session.jti}`, {
-      email: session.user?.email,
-      createdAt: new Date().toISOString(),
+    const s = authStore();
+    await s.setJSON(`session-meta:${session.jti}`, {
+      email,
+      createdAt: now,
+      lastSeen: now,
       exp: session.exp,
       ip: session.ip || "",
+      amr: session.amr || ["magic"],
     });
+    if (email) {
+      const existing = (await s.get(sessionsIndexKey(email), { type: "json" })) ?? [];
+      const next = [session.jti, ...existing.filter((id) => id !== session.jti)].slice(0, 20);
+      await s.setJSON(sessionsIndexKey(email), next);
+    }
   } catch {
     /* optional */
+  }
+}
+
+export async function touchPatronSession(jti) {
+  if (!jti) return false;
+  try {
+    const s = authStore();
+    const meta = (await s.get(`session-meta:${jti}`, { type: "json" })) ?? null;
+    if (!meta) {
+      await s.setJSON(`session-meta:${jti}`, {
+        lastSeen: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+      });
+      return true;
+    }
+    const lastSeen = Date.parse(meta.lastSeen || meta.createdAt || 0);
+    if (Number.isFinite(lastSeen) && Date.now() - lastSeen > SESSION_IDLE_MS) {
+      await revokePatronSession(jti);
+      return false;
+    }
+    await s.setJSON(`session-meta:${jti}`, {
+      ...meta,
+      lastSeen: new Date().toISOString(),
+    });
+    return true;
+  } catch {
+    return true;
+  }
+}
+
+export async function revokeAllPatronSessions(email) {
+  const normalized = normalizePatronEmail(email);
+  if (!normalized) return 0;
+  try {
+    const s = authStore();
+    const ids = (await s.get(sessionsIndexKey(normalized), { type: "json" })) ?? [];
+    await Promise.all(ids.map((id) => revokePatronSession(id)));
+    await s.setJSON(sessionsIndexKey(normalized), []);
+    return ids.length;
+  } catch {
+    return 0;
   }
 }
 
@@ -261,6 +318,30 @@ export async function isPatronSessionRevoked(jti) {
     return Boolean(hit);
   } catch {
     return false;
+  }
+}
+
+export async function getPatronSessionMeta(jti) {
+  if (!jti) return null;
+  try {
+    return (await authStore().get(`session-meta:${jti}`, { type: "json" })) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function setPatronSessionAmr(jti, amr) {
+  if (!jti) return;
+  try {
+    const s = authStore();
+    const meta = (await s.get(`session-meta:${jti}`, { type: "json" })) ?? {};
+    await s.setJSON(`session-meta:${jti}`, {
+      ...meta,
+      amr: Array.isArray(amr) ? amr : ["magic"],
+      lastSeen: new Date().toISOString(),
+    });
+  } catch {
+    /* optional */
   }
 }
 
@@ -278,34 +359,37 @@ export async function verifyPatronSession(event) {
     return null;
   }
   if (await isPatronSessionRevoked(payload.jti)) return null;
-  return { ...payload, token };
+  const stillActive = await touchPatronSession(payload.jti);
+  if (!stillActive) return null;
+  const meta = await getPatronSessionMeta(payload.jti);
+  return { ...payload, token, amr: meta?.amr || ["magic"] };
+}
+
+export async function durableRateLimit(key, { max = 10, windowMs = 900_000 } = {}) {
+  const now = Date.now();
+  try {
+    const storeKey = `rate:${key}`;
+    const current = (await authStore().get(storeKey, { type: "json" })) ?? null;
+    let start = current?.start ?? now;
+    let count = current?.count ?? 0;
+    if (now - start > windowMs) {
+      start = now;
+      count = 0;
+    }
+    count += 1;
+    await authStore().setJSON(storeKey, { start, count });
+    return count <= max;
+  } catch {
+    return true;
+  }
 }
 
 export async function rateLimitPatronMagic({ ip, email }) {
-  const windowMs = 900_000;
-  const maxPerIp = 5;
-  const maxPerEmail = 3;
-  const now = Date.now();
-
-  async function touch(key, max) {
-    try {
-      const current = (await authStore().get(key, { type: "json" })) ?? null;
-      let start = current?.start ?? now;
-      let count = current?.count ?? 0;
-      if (now - start > windowMs) {
-        start = now;
-        count = 0;
-      }
-      count += 1;
-      await authStore().setJSON(key, { start, count });
-      return count <= max;
-    } catch {
-      return true;
-    }
-  }
-
-  const ipOk = await touch(`rate:patron-magic-ip:${ip || "unknown"}`, maxPerIp);
-  const emailOk = await touch(`rate:patron-magic-email:${normalizePatronEmail(email)}`, maxPerEmail);
+  const ipOk = await durableRateLimit(`patron-magic-ip:${ip || "unknown"}`, { max: 5, windowMs: 900_000 });
+  const emailOk = await durableRateLimit(`patron-magic-email:${normalizePatronEmail(email)}`, {
+    max: 3,
+    windowMs: 900_000,
+  });
   return ipOk && emailOk;
 }
 
@@ -315,4 +399,5 @@ export function patronAuthConfigured() {
 
 export const PATRON_SESSION_COOKIE = COOKIE_HOST;
 export const PATRON_SESSION_TTL_MS = SESSION_TTL_MS;
+export const PATRON_SESSION_IDLE_MS = SESSION_IDLE_MS;
 export const PATRON_MAGIC_TTL_MS = MAGIC_LINK_TTL_MS;
