@@ -7,6 +7,15 @@ export function Hero() {
     <section className="orpheum-hero" aria-labelledby="orpheum-hero-heading">
       <div className="orpheum-hero__media" aria-hidden="true">
         <img
+          className="orpheum-hero__media-fill"
+          src={MEDIA.heroHome}
+          alt=""
+          decoding="async"
+          width={1024}
+          height={576}
+        />
+        <img
+          className="orpheum-hero__media-photo"
           src={MEDIA.heroHome}
           alt=""
           fetchPriority="high"

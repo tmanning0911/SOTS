@@ -1230,10 +1230,38 @@ body.page-home .site-header.is-scrolled {
 .orpheum-hero__media {
   position: absolute;
   inset: 0;
+  overflow: hidden;
+  background: var(--orp-dark);
 }
 
-.orpheum-hero__media video,
-.orpheum-hero__media img {
+/* Soft full-bleed fill so the tall hero never letterboxes */
+.orpheum-hero__media-fill {
+  position: absolute;
+  inset: -12%;
+  width: 124%;
+  height: 124%;
+  object-fit: cover;
+  object-position: center center;
+  filter: blur(28px) brightness(0.78) saturate(1.15);
+  transform: scale(1.08);
+}
+
+/* Full artwork laid out inside the hero box (no crop of the painting) */
+.orpheum-hero__media-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  filter: brightness(1.1) saturate(1.18) contrast(1.04);
+}
+
+.orpheum-hero__media video {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1241,9 +1269,16 @@ body.page-home .site-header.is-scrolled {
   filter: brightness(1.12) saturate(1.2) contrast(1.04);
 }
 
-.orpheum-hero__media video {
-  position: relative;
-  z-index: 1;
+/* Prefer reduced motion / data: single crisp cover image */
+@media (prefers-reduced-motion: reduce) {
+  .orpheum-hero__media-fill {
+    display: none;
+  }
+
+  .orpheum-hero__media-photo {
+    object-fit: cover;
+    filter: brightness(1.12) saturate(1.2) contrast(1.04);
+  }
 }
 
 .orpheum-hero__poster {
