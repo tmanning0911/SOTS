@@ -133,15 +133,17 @@ body.page-home .site-header.is-scrolled {
   border-color: var(--orp-dark);
 }
 
-.orpheum-btn--primary:hover,
-.orpheum-btn--gold:hover,
-.orpheum-btn--donate:hover,
-.orpheum-btn--secondary:hover,
-.orpheum-btn--header-donate:hover,
-.orpheum-btn--ghost:hover {
-  background: var(--brand-blue);
-  color: var(--orp-white);
-  border-color: var(--brand-blue);
+@media (hover: hover) and (pointer: fine) {
+  .orpheum-btn--primary:hover,
+  .orpheum-btn--gold:hover,
+  .orpheum-btn--donate:hover,
+  .orpheum-btn--secondary:hover,
+  .orpheum-btn--header-donate:hover,
+  .orpheum-btn--ghost:hover {
+    background: var(--brand-blue);
+    color: var(--orp-white);
+    border-color: var(--brand-blue);
+  }
 }
 
 .orpheum-btn--small {
@@ -517,11 +519,7 @@ body.page-home .site-header.is-scrolled {
   color: var(--orp-dark);
   transition: box-shadow 0.2s, color 0.2s, background 0.2s, border-color 0.2s;
   min-height: var(--btn-min-height);
-}
-
-.orpheum-arrow-btn:hover {
-  box-shadow: 0 8px 24px rgba(var(--brand-blue-rgb), 0.25);
-  color: var(--orp-white);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .orpheum-arrow-btn:focus-visible {
@@ -550,11 +548,6 @@ body.page-home .site-header.is-scrolled {
   transition: background 0.2s, color 0.2s;
 }
 
-.orpheum-arrow-btn:hover .orpheum-arrow-btn__label,
-.orpheum-arrow-btn:hover .orpheum-arrow-btn__icon {
-  background: var(--brand-blue);
-}
-
 .orpheum-arrow-btn__chevron {
   transition: transform 0.2s;
   transform: translateX(-3px);
@@ -565,10 +558,6 @@ body.page-home .site-header.is-scrolled {
   stroke-dashoffset: 13px;
   transition: stroke-dashoffset 0.15s, transform 0.15s;
   transform: translateX(-3px);
-}
-
-.orpheum-arrow-btn:hover .orpheum-arrow-btn__chevron {
-  transform: translateX(0);
 }
 
 .orpheum-arrow-btn:disabled,
@@ -600,17 +589,6 @@ body.page-home .site-header.is-scrolled {
   box-shadow:
     inset 0 0 0 1px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.22),
     inset 1px 0 0 rgba(var(--brand-navy-rgb, 15, 45, 77), 0.12);
-}
-
-.orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label):hover {
-  color: var(--orp-dark);
-  box-shadow: none;
-}
-
-.orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label):hover .orpheum-arrow-btn__label,
-.orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label):hover .orpheum-arrow-btn__icon {
-  background: rgba(var(--brand-navy-rgb, 15, 45, 77), 0.06);
-  box-shadow: inset 0 0 0 1px var(--brand-navy);
 }
 
 .orpheum-arrow-btn--light {
@@ -646,26 +624,10 @@ body.page-home .site-header.is-scrolled {
   box-sizing: border-box;
 }
 
-.orpheum-arrow-btn--flat:hover,
-.orpheum-arrow-btn:not(:has(.orpheum-arrow-btn__label)):hover {
-  background: var(--brand-blue);
-  border-color: var(--brand-blue);
-  color: var(--orp-white);
-  box-shadow: 0 8px 22px rgba(var(--brand-blue-rgb), 0.28);
-}
-
 .orpheum-arrow-btn--ghost.orpheum-arrow-btn--flat,
 .orpheum-arrow-btn--ghost:not(:has(.orpheum-arrow-btn__label)) {
   background: transparent;
   border: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.22);
-  color: var(--orp-dark);
-  box-shadow: none;
-}
-
-.orpheum-arrow-btn--ghost.orpheum-arrow-btn--flat:hover,
-.orpheum-arrow-btn--ghost:not(:has(.orpheum-arrow-btn__label)):hover {
-  background: rgba(var(--brand-navy-rgb, 15, 45, 77), 0.06);
-  border-color: var(--brand-navy);
   color: var(--orp-dark);
   box-shadow: none;
 }
@@ -676,11 +638,55 @@ body.page-home .site-header.is-scrolled {
   color: var(--orp-dark);
 }
 
-.orpheum-arrow-btn--light.orpheum-arrow-btn--flat:hover,
-.orpheum-arrow-btn--light:not(:has(.orpheum-arrow-btn__label)):hover {
-  background: var(--orp-gold);
-  border-color: var(--orp-gold);
-  color: var(--orp-dark);
+/* Hover polish only when a real mouse can hover — avoids sticky tap styles on mobile */
+@media (hover: hover) and (pointer: fine) {
+  .orpheum-arrow-btn:hover {
+    box-shadow: 0 8px 24px rgba(var(--brand-blue-rgb), 0.25);
+    color: var(--orp-white);
+  }
+
+  .orpheum-arrow-btn:hover .orpheum-arrow-btn__label,
+  .orpheum-arrow-btn:hover .orpheum-arrow-btn__icon {
+    background: var(--brand-blue);
+  }
+
+  .orpheum-arrow-btn:hover .orpheum-arrow-btn__chevron {
+    transform: translateX(0);
+  }
+
+  .orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label):hover {
+    color: var(--orp-dark);
+    box-shadow: none;
+  }
+
+  .orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label):hover .orpheum-arrow-btn__label,
+  .orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label):hover .orpheum-arrow-btn__icon {
+    background: rgba(var(--brand-navy-rgb, 15, 45, 77), 0.06);
+    box-shadow: inset 0 0 0 1px var(--brand-navy);
+  }
+
+  .orpheum-arrow-btn--flat:hover,
+  .orpheum-arrow-btn:not(:has(.orpheum-arrow-btn__label)):hover {
+    background: var(--brand-blue);
+    border-color: var(--brand-blue);
+    color: var(--orp-white);
+    box-shadow: 0 8px 22px rgba(var(--brand-blue-rgb), 0.28);
+  }
+
+  .orpheum-arrow-btn--ghost.orpheum-arrow-btn--flat:hover,
+  .orpheum-arrow-btn--ghost:not(:has(.orpheum-arrow-btn__label)):hover {
+    background: rgba(var(--brand-navy-rgb, 15, 45, 77), 0.06);
+    border-color: var(--brand-navy);
+    color: var(--orp-dark);
+    box-shadow: none;
+  }
+
+  .orpheum-arrow-btn--light.orpheum-arrow-btn--flat:hover,
+  .orpheum-arrow-btn--light:not(:has(.orpheum-arrow-btn__label)):hover {
+    background: var(--orp-gold);
+    border-color: var(--orp-gold);
+    color: var(--orp-dark);
+  }
 }
 
 .orpheum-hero__actions,
@@ -1145,10 +1151,17 @@ body.page-home .site-header.is-scrolled {
   cursor: pointer;
 }
 
-.orpheum-header__search:hover,
-.orpheum-header__menu:hover {
-  background: var(--orp-stone-200);
-  color: var(--brand-blue);
+.orpheum-header__search,
+.orpheum-header__menu {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .orpheum-header__search:hover,
+  .orpheum-header__menu:hover {
+    background: var(--orp-stone-200);
+    color: var(--brand-blue);
+  }
 }
 
 @media (min-width: 992px) {
@@ -2158,10 +2171,6 @@ body.page-home .site-header.is-scrolled {
   margin-top: 0.25rem;
 }
 
-.orpheum-footer__cta.orpheum-arrow-btn:hover {
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
-}
-
 .orpheum-footer__cta.orpheum-arrow-btn--light {
   color: var(--orp-white);
 }
@@ -2187,24 +2196,30 @@ body.page-home .site-header.is-scrolled {
     inset 0 1px 0 0 rgba(255, 255, 255, 0.42);
 }
 
-.orpheum-footer__cta.orpheum-arrow-btn--light:hover {
-  color: var(--brand-navy);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
-}
+@media (hover: hover) and (pointer: fine) {
+  .orpheum-footer__cta.orpheum-arrow-btn:hover {
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+  }
 
-.orpheum-footer__cta.orpheum-arrow-btn--light:hover .orpheum-arrow-btn__label,
-.orpheum-footer__cta.orpheum-arrow-btn--light:hover .orpheum-arrow-btn__icon {
-  background: var(--orp-white);
-  color: var(--brand-navy);
-  box-shadow: none;
-}
+  .orpheum-footer__cta.orpheum-arrow-btn--light:hover {
+    color: var(--brand-navy);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+  }
 
-.orpheum-footer__cta.orpheum-arrow-btn--gold:hover .orpheum-arrow-btn__label,
-.orpheum-footer__cta.orpheum-arrow-btn--gold:hover .orpheum-arrow-btn__icon,
-.orpheum-footer__cta.orpheum-arrow-btn:not(.orpheum-arrow-btn--light):hover .orpheum-arrow-btn__label,
-.orpheum-footer__cta.orpheum-arrow-btn:not(.orpheum-arrow-btn--light):hover .orpheum-arrow-btn__icon {
-  background: var(--orp-white);
-  color: var(--brand-navy);
+  .orpheum-footer__cta.orpheum-arrow-btn--light:hover .orpheum-arrow-btn__label,
+  .orpheum-footer__cta.orpheum-arrow-btn--light:hover .orpheum-arrow-btn__icon {
+    background: var(--orp-white);
+    color: var(--brand-navy);
+    box-shadow: none;
+  }
+
+  .orpheum-footer__cta.orpheum-arrow-btn--gold:hover .orpheum-arrow-btn__label,
+  .orpheum-footer__cta.orpheum-arrow-btn--gold:hover .orpheum-arrow-btn__icon,
+  .orpheum-footer__cta.orpheum-arrow-btn:not(.orpheum-arrow-btn--light):hover .orpheum-arrow-btn__label,
+  .orpheum-footer__cta.orpheum-arrow-btn:not(.orpheum-arrow-btn--light):hover .orpheum-arrow-btn__icon {
+    background: var(--orp-white);
+    color: var(--brand-navy);
+  }
 }
 
 .orpheum-footer__nav {
@@ -2424,9 +2439,21 @@ body.page-home .site-header.is-scrolled {
   border-right: none;
 }
 
-.orpheum-quickbar a:hover,
-.orpheum-quickbar button:hover {
+.orpheum-quickbar a,
+.orpheum-quickbar button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.orpheum-quickbar a:active,
+.orpheum-quickbar button:active {
   background: rgba(0, 0, 0, 0.12);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .orpheum-quickbar a:hover,
+  .orpheum-quickbar button:hover {
+    background: rgba(0, 0, 0, 0.12);
+  }
 }
 
 .orpheum-quickbar.is-hidden-at-footer {
@@ -2769,12 +2796,14 @@ body.page-home .site-header.is-scrolled {
   transition: transform 0.2s ease;
 }
 
-.orpheum-season-promo__cta:hover {
-  color: var(--brand-blue);
-}
+@media (hover: hover) and (pointer: fine) {
+  .orpheum-season-promo__cta:hover {
+    color: var(--brand-blue);
+  }
 
-.orpheum-season-promo__cta:hover .orpheum-season-promo__cta-arrow {
-  transform: translateX(3px);
+  .orpheum-season-promo__cta:hover .orpheum-season-promo__cta-arrow {
+    transform: translateX(3px);
+  }
 }
 
 /* ═══ EVENTS GRID (Orpheum asymmetric) ═══ */
@@ -3104,10 +3133,6 @@ a.orpheum-events-grid__card {
   transition: color 0.2s ease;
 }
 
-.orpheum-events-grid__learn-more:hover {
-  color: var(--orp-gold);
-}
-
 .orpheum-events-grid__card--photo .orpheum-events-grid__overlay {
   justify-content: center;
   align-items: center;
@@ -3129,13 +3154,19 @@ a.orpheum-events-grid__card {
   background: var(--orp-gold);
 }
 
-.orpheum-events-grid__learn-btn:hover {
-  color: var(--orp-white);
-}
+@media (hover: hover) and (pointer: fine) {
+  .orpheum-events-grid__learn-more:hover {
+    color: var(--orp-gold);
+  }
 
-.orpheum-events-grid__learn-btn:hover .orpheum-arrow-btn__label,
-.orpheum-events-grid__learn-btn:hover .orpheum-arrow-btn__icon {
-  background: var(--brand-blue);
+  .orpheum-events-grid__learn-btn:hover {
+    color: var(--orp-white);
+  }
+
+  .orpheum-events-grid__learn-btn:hover .orpheum-arrow-btn__label,
+  .orpheum-events-grid__learn-btn:hover .orpheum-arrow-btn__icon {
+    background: var(--brand-blue);
+  }
 }
 
 .orpheum-events-grid__stack {
@@ -3277,6 +3308,7 @@ a.orpheum-events-grid__card {
   text-transform: uppercase;
   border-right: 1px solid rgba(255, 255, 255, 0.2);
   transition: background 0.25s;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .orpheum-visit-bar__item svg {
@@ -3290,8 +3322,14 @@ a.orpheum-events-grid__card {
   border-right: none;
 }
 
-.orpheum-visit-bar__item:hover {
+.orpheum-visit-bar__item:active {
   background: rgba(0, 0, 0, 0.12);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .orpheum-visit-bar__item:hover {
+    background: rgba(0, 0, 0, 0.12);
+  }
 }
 
 /* ═══ OUR STORY (dark) ═══ */

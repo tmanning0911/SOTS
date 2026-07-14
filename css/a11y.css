@@ -47,3 +47,20 @@ body.using-mouse :focus:not(:focus-visible) {
     scroll-behavior: auto;
   }
 }
+
+/* Touch / coarse pointers: kill sticky :hover after tap on shared chrome */
+@media (hover: none), (pointer: coarse) {
+  a,
+  button,
+  .orpheum-arrow-btn,
+  .orpheum-btn,
+  .sots-shop-btn,
+  .orpheum-quickbar a,
+  .orpheum-quickbar button,
+  .orpheum-visit-bar__item,
+  .orpheum-header__search,
+  .orpheum-header__menu,
+  .mobile-dock__item {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
