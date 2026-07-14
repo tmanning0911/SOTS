@@ -415,12 +415,12 @@ export const MAIN_NAV = NAV_ITEMS.map((item) => ({
   href: item.columns?.[0]?.links?.[0]?.href || "/",
 }));
 
+/** Homepage mobile quick bar — keep exactly 4 for the 2×2 layout. */
 export const QUICK_BAR_LINKS = [
   { label: "Parking", href: "/about/getting-here/" },
   { label: "Seating", href: "/about/visit/" },
   { label: "Buy Tickets", href: "/tickets/" },
   { label: "My Tickets", href: "/my-tickets/" },
-  { label: "Box Office", href: "/about/contact/" },
 ];
 
 export const SEASON_SHOWS = [
