@@ -116,7 +116,13 @@ export function SiteFooter() {
         </div>
 
         <div className="orpheum-footer__legal">
-          <p className="orpheum-footer__copyright">&copy; 2026 {SITE.name}</p>
+          <div className="orpheum-footer__legal-start">
+            <p className="orpheum-footer__copyright">&copy; 2026 {SITE.name}</p>
+            <p className="orpheum-footer__credit">
+              Made with love by the{" "}
+              <a href="/about/board-of-directors/">Board of Directors</a>
+            </p>
+          </div>
           <p className="orpheum-footer__education-note">
             Education questions?{" "}
             <MailLink email={SITE.educationContact}>{SITE.educationDirectorName}</MailLink>

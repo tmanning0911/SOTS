@@ -2249,13 +2249,39 @@ body.page-home .site-header.is-scrolled {
   margin-top: 1.35rem;
 }
 
+.orpheum-footer__legal-start {
+  display: grid;
+  gap: 0.3rem;
+}
+
 .orpheum-footer__copyright,
+.orpheum-footer__credit,
 .orpheum-footer__education-note {
   margin: 0;
   font-family: var(--orp-sans);
   font-size: 0.8125rem;
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.5);
+}
+
+.orpheum-footer__credit {
+  font-style: italic;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.orpheum-footer__credit a {
+  color: rgba(var(--brand-gold-rgb), 0.78);
+  text-decoration: none;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.orpheum-footer__credit a:hover,
+.orpheum-footer__credit a:focus-visible {
+  color: var(--orp-gold);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 
 .orpheum-footer__education-note a,
@@ -6213,6 +6239,7 @@ body.page-inner {
   }
 
   .orpheum-footer__copyright,
+  .orpheum-footer__credit,
   .orpheum-footer__education-note {
     font-size: 0.8125rem;
     overflow-wrap: anywhere;
