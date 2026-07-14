@@ -1,8 +1,8 @@
 import { useMemo, useState } from "react";
-import { HOMEPAGE_NEWS } from "../../../js/data.js";
+import { NEWS_FILTERS, newsForFilter } from "../../../js/news-archive.js";
 import { ArrowButton } from "../ArrowButton.jsx";
 
-const NEWS_FILTERS = ["All", "Production", "Events", "News"];
+const DESKTOP_SIDE_LIMIT = 3;
 
 function InlineChevron() {
   return (
@@ -45,10 +45,15 @@ function NewsMeta({ item }) {
   );
 }
 
+function newsLinkProps(item) {
+  if (!item.external) return {};
+  return { target: "_blank", rel: "noopener noreferrer" };
+}
+
 function FeaturedNewsCard({ item }) {
   return (
     <article className="orpheum-news-feed__feature">
-      <a className="orpheum-news-feed__feature-link" href={item.href}>
+      <a className="orpheum-news-feed__feature-link" href={item.href} {...newsLinkProps(item)}>
         <div className="orpheum-news-feed__feature-media">
           <img src={item.image} alt="" loading="lazy" width={1200} height={675} />
         </div>
@@ -68,7 +73,7 @@ function FeaturedNewsCard({ item }) {
 function SideNewsCard({ item }) {
   return (
     <article className="orpheum-news-feed__card">
-      <a className="orpheum-news-feed__card-link" href={item.href}>
+      <a className="orpheum-news-feed__card-link" href={item.href} {...newsLinkProps(item)}>
         <div className="orpheum-news-feed__card-media">
           <img src={item.image} alt="" loading="lazy" width={320} height={180} />
         </div>
@@ -86,7 +91,7 @@ function SideNewsCard({ item }) {
 function ScrollNewsCard({ item }) {
   return (
     <article className="orpheum-news-feed__scroll-card">
-      <a className="orpheum-news-feed__scroll-link" href={item.href}>
+      <a className="orpheum-news-feed__scroll-link" href={item.href} {...newsLinkProps(item)}>
         <div className="orpheum-news-feed__scroll-media">
           <img src={item.image} alt="" loading="lazy" width={320} height={180} />
         </div>
@@ -103,22 +108,20 @@ function ScrollNewsCard({ item }) {
 export function RecentNews() {
   const [filter, setFilter] = useState("All");
 
-  const filteredNews = useMemo(() => {
-    if (filter === "All") return HOMEPAGE_NEWS;
-    return HOMEPAGE_NEWS.filter((item) => item.category === filter);
-  }, [filter]);
-
-  const [featured, ...sideItems] = filteredNews;
+  const filteredNews = useMemo(() => newsForFilter(filter), [filter]);
+  const [featured, ...rest] = filteredNews;
+  const sideItems = rest.slice(0, DESKTOP_SIDE_LIMIT);
+  const scrollItems = filteredNews;
 
   return (
     <section className="orpheum-news-feed" id="recent-news" aria-labelledby="news-heading">
       <div className="orpheum-news-feed__shell">
         <div className="orpheum-news-feed__head" data-reveal>
           <div>
-            <p className="orpheum-news-feed__eyebrow">Season Updates</p>
-            <h3 id="news-heading">Recent News</h3>
+            <p className="orpheum-news-feed__eyebrow">From 1995 to today</p>
+            <h3 id="news-heading">News & History</h3>
           </div>
-          <ArrowButton href="/productions/much-ado-about-nothing/">View Season Hub</ArrowButton>
+          <ArrowButton href="/about/mission-history/">Mission & History</ArrowButton>
         </div>
 
         <div className="orpheum-news-feed__filters" role="tablist" aria-label="Filter news by topic">
@@ -142,15 +145,15 @@ export function RecentNews() {
               <FeaturedNewsCard item={featured} />
               <div className="orpheum-news-feed__stack">
                 {sideItems.map((item) => (
-                  <SideNewsCard key={`${item.href}-${item.title}`} item={item} />
+                  <SideNewsCard key={`${item.dateIso}-${item.title}`} item={item} />
                 ))}
               </div>
             </div>
 
-            <div className="orpheum-news-feed__scroll" aria-label="Recent news">
+            <div className="orpheum-news-feed__scroll" aria-label="News and history">
               <div className="orpheum-news-feed__scroll-track">
-                {filteredNews.map((item) => (
-                  <ScrollNewsCard key={`scroll-${item.href}-${item.title}`} item={item} />
+                {scrollItems.map((item) => (
+                  <ScrollNewsCard key={`scroll-${item.dateIso}-${item.title}`} item={item} />
                 ))}
               </div>
             </div>

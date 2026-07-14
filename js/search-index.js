@@ -1,7 +1,7 @@
 import {
   SITE,
   NAV_ITEMS,
-  HOMEPAGE_NEWS,
+  NEWS_ARCHIVE,
   HOMEPAGE_FAQ,
   UTILITY_LINKS,
   UTILITY_LEFT,
@@ -91,13 +91,13 @@ export function buildSearchIndex() {
     });
   });
 
-  HOMEPAGE_NEWS.forEach((article) => {
+  NEWS_ARCHIVE.forEach((article) => {
     pushItem(items, seen, {
       title: article.title,
       excerpt: article.excerpt,
       href: article.href,
       type: "News",
-      keywords: [article.category],
+      keywords: [article.category, article.date],
     });
   });
 

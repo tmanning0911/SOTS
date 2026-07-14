@@ -4283,11 +4283,18 @@ a.orpheum-events-grid__card {
     color 0.2s ease;
 }
 
-.orpheum-news-feed__filter:hover,
 .orpheum-news-feed__filter.is-active {
   background: var(--orp-dark);
   border-color: var(--orp-dark);
   color: var(--orp-white);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .orpheum-news-feed__filter:hover {
+    background: var(--orp-dark);
+    border-color: var(--orp-dark);
+    color: var(--orp-white);
+  }
 }
 
 .orpheum-news-feed__empty {

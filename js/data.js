@@ -367,48 +367,14 @@ export const VENUE_DUO = [
   },
 ];
 
-export const HOMEPAGE_NEWS = [
-  {
-    title: "Much Ado About Nothing — 30th Summer Season",
-    category: "Production",
-    date: "15 Apr 2026",
-    dateIso: "2026-04-15",
-    excerpt: "Join us June 10–28, 2026 at Pinkney Park for Shakespeare's sparkling comedy. VIP pre-sale April 7–14; general admission on sale April 15.",
-    href: "/productions/much-ado-about-nothing/",
-    image: "/images/news/season-banner-2026.jpg",
-  },
-  {
-    title: "Save the Date: Much Ado About Something Gala",
-    category: "Events",
-    date: "1 Mar 2026",
-    dateIso: "2026-03-01",
-    excerpt: "Friday, October 16, 2026, 6–10pm at The House Up on the Hill, 26 Seir Hill Rd., Norwalk, CT.",
-    href: "/support/events/",
-    image: "/images/news/gala-2026.jpg",
-  },
-  {
-    title: "2026 Season Sponsors Announced",
-    category: "News",
-    date: "22 Apr 2026",
-    dateIso: "2026-04-22",
-    excerpt: "We thank DR Bank, Neil Hauck Architects, R+C, Russo & Rizio, Rowayton Seafood, and Fairfield County Bank for supporting our 30th season.",
-    href: "/support/donors/",
-    image: "/images/news/pinkney-park-audience.jpg",
-  },
-  {
-    title: "VIP Pre-Sale & General Tickets Now Available",
-    category: "Production",
-    date: "7 Apr 2026",
-    dateIso: "2026-04-07",
-    excerpt: "VIP reserved seating $75. General admission $25 adults / $5 children. Student & senior rush $15 at the box office day-of.",
-    href: "/productions/much-ado-about-nothing/",
-    image: "/images/news/much-ado-production.jpg",
-  },
-];
-
-export const NEWS_FEATURED = HOMEPAGE_NEWS.slice(0, 3);
-
-export const NEWS_LIST = HOMEPAGE_NEWS;
+export {
+  NEWS_ARCHIVE,
+  HOMEPAGE_NEWS,
+  NEWS_FEATURED,
+  NEWS_LIST,
+  NEWS_FILTERS,
+  newsForFilter,
+} from "./news-archive.js";
 
 export const MAIN_NAV = NAV_ITEMS.map((item) => ({
   label: item.label,
