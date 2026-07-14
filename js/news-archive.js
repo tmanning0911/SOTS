@@ -332,7 +332,7 @@ const RAW = [
     imagePosition: "center 30%",
     body: [
       "Joanna Settle directed Othello with original music and songs by Tony Award-winning artist Stew and scenic design by Andrew Lieberman.",
-      "The 15th-season production played site-specifically at Pinkney Park, Rowayton, and Baldwin Park, Greenwich — free outdoor Shakespeare with a suggested donation.",
+      "The 15th-season production played site-specifically at Pinkney Park, Rowayton, and Baldwin Park, Greenwich — affordable outdoor Shakespeare with a suggested donation.",
     ],
     sourceUrl:
       "https://www.broadwayworld.com/connecticut/article/Shakespeare-on-the-Sound-Presents-OTHELLO-In-The-Summer-Of-2010-20091105",
@@ -398,7 +398,7 @@ const RAW = [
     imagePosition: "center 40%",
     body: [
       "After the inaugural summer, Shakespeare on the Sound expanded from eight to twelve performances.",
-      "Twelfth Night (1997), The Taming of the Shrew (1998), and Romeo and Juliet (1999) built a loyal audience and the financial footing to keep free outdoor Shakespeare in Rowayton.",
+      "Twelfth Night (1997), The Taming of the Shrew (1998), and Romeo and Juliet (1999) built a loyal audience and the financial footing to keep accessible outdoor Shakespeare in Rowayton.",
     ],
   },
   {

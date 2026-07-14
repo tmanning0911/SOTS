@@ -15,7 +15,7 @@ export function OurStorySection() {
             Enriching Communities Through Performing Arts
           </h2>
           <p>
-            Shakespeare on the Sound began in 1998 with a simple aim: bring free, professional outdoor Shakespeare
+            Shakespeare on the Sound began in 1998 with a simple aim: bring affordable, accessible professional outdoor Shakespeare
             to Fairfield County. Today, summer productions at Shakespeare in Pinkney Park, education programs in schools and camps,
             and community events come together to create lasting memories and nurture the performing arts under the
             open sky.

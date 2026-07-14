@@ -19,7 +19,7 @@ export function TicketPricing({ ticketClasses, priceFrom }) {
             <div className="sots-ticket-pricing__row">
               <strong>{patronDisplayName(ticket.name)}</strong>
               <span>
-                {ticket.free ? "Free" : ticket.price?.display ?? "Price TBA"}
+                {ticket.free ? "Accessible" : ticket.price?.display ?? "Price TBA"}
               </span>
             </div>
           </li>

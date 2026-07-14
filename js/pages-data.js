@@ -64,7 +64,7 @@ export const FAQ_SECTIONS = [
       },
       {
         q: "Is the play suitable for children?",
-        a: "Children are welcome to all performances. There is a free Kids' Show at 6:30pm near the house in Pinkney Park every show evening — a 30-minute version of the MainStage play.",
+        a: "Children are welcome to all performances. There is an accessible Kids' Show at 6:30pm near the house in Pinkney Park every show evening — a 30-minute version of the MainStage play.",
       },
       {
         q: "Will I be able to understand the plays?",
@@ -104,7 +104,7 @@ export const FAQ_SECTIONS = [
         a: "Students and seniors (65+) are $15 for general admission tickets.",
       },
       {
-        q: "Are kids free?",
+        q: "Do kids need a ticket for the Kids' Show?",
         a: "Children (12 & under) general admission tickets are $5.",
       },
       {
@@ -130,7 +130,7 @@ export const FAQ_SECTIONS = [
       },
       {
         q: "What else do you do for kids?",
-        a: "There will be a kids show for kids ages 1–99 at 6:30pm every night of the show. This show is free to attend!",
+        a: "There will be a kids show for kids ages 1–99 at 6:30pm every night of the show. This show is accessible — no ticket required.",
       },
     ],
   },
@@ -232,7 +232,7 @@ export const PRODUCTION_DETAILS = {
       "Much Ado About Nothing for Kids — a 30-minute version for ages 1–100! A kid-friendly adaptation by our Apprentice Company that also serves as a refresher for those who need a plot reminder.",
     eyebrow: "Family Programming",
     intro:
-      "6:30 pm in the park, every night before the MainStage show. Kids' Shows are FREE — show up, find a spot, and enjoy!",
+      "6:30 pm in the park, every night before the MainStage show. Kids' Shows are accessible to all — show up, find a spot, and enjoy!",
     sections: [
       {
         type: "prose",
@@ -241,7 +241,7 @@ export const PRODUCTION_DETAILS = {
           "Much Ado About Nothing for Kids is a 30-minute version of our season's show for ages 1–100!",
           "A kid-friendly adaptation by our Apprentice Company that also serves as a refresher for those who need a plot reminder.",
           "Performances take place at 6:30 pm in Pinkney Park every evening before the MainStage show, June 10–28 (except Mondays).",
-          "Kids' Shows are FREE! Show up to the park, find a spot, and enjoy.",
+          "Kids' Shows are accessible — no ticket required. Show up to the park, find a spot, and enjoy.",
         ],
       },
       {
@@ -252,7 +252,7 @@ export const PRODUCTION_DETAILS = {
           { label: "Dates", value: "June 10–28, 2026 (except Mondays)" },
           { label: "Time", value: "6:30 pm nightly, before the MainStage show" },
           { label: "Location", value: "Shakespeare in Pinkney Park, Rowayton, CT" },
-          { label: "Admission", value: "Free" },
+          { label: "Admission", value: "Accessible" },
           { label: "Performed By", value: "Shakespeare on the Sound Apprentice Company" },
         ],
       },
@@ -491,7 +491,7 @@ export const INNER_PAGES = [
     heading: "Board of Directors.",
     eyebrow: "Governance",
     intro:
-      "Our volunteer board guides Shakespeare on the Sound with local leadership, fiscal stewardship, and a long-range vision for free outdoor theatre in Fairfield County.",
+      "Our volunteer board guides Shakespeare on the Sound with local leadership, fiscal stewardship, and a long-range vision for affordable, accessible outdoor theatre in Fairfield County.",
     sections: [
       {
         type: "prose",
@@ -589,7 +589,7 @@ export const INNER_PAGES = [
         type: "prose",
         paragraphs: [
           "To apply for open positions, please email our Managing and Producing Director, Aaron Simms at aaron@shakespeareonthesound.org with your cover letter and resume.",
-          "Volunteer in the park and receive free admission! Help out at the box office, with seating, or the merch/ice cream tent.",
+          "Volunteer in the park and receive complimentary admission! Help out at the box office, with seating, or the merch/ice cream tent.",
         ],
       },
       {
@@ -1092,7 +1092,7 @@ export const INNER_PAGES = [
         programs: [
           {
             title: "Much Ado About Nothing for Kids",
-            meta: ["June 10–28, except Mondays", "6:30pm", "Shakespeare in Pinkney Park", "Free"],
+            meta: ["June 10–28, except Mondays", "6:30pm", "Shakespeare in Pinkney Park", "Accessible"],
             paragraphs: [
               "A 30-minute version of Much Ado About Nothing for ages 1–100!",
               "A kid-friendly adaptation by our Apprentice Company that also serves as a refresher for those who need a plot reminder. Show up to the park, find a spot, and enjoy!",

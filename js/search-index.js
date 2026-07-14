@@ -45,7 +45,7 @@ export function buildSearchIndex() {
 
   pushItem(items, seen, {
     title: SITE.name,
-    excerpt: `${SITE.tagline} Free outdoor Shakespeare in Norwalk and Rowayton, Connecticut.`,
+    excerpt: `${SITE.tagline} Affordable outdoor Shakespeare in Norwalk and Rowayton, Connecticut.`,
     href: "/",
     type: "Home",
     keywords: ["shakespeare", "sound", "sos", "theatre", "theater", "connecticut"],

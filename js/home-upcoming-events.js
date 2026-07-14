@@ -22,7 +22,7 @@ const SEED_PLAYS = [
     title: "Shakespeare for Kids",
     dates: "Summer 2026 · 6:30pm before evening performances",
     image: "/images/news/shakespeare-for-kids.jpg",
-    status: "Free",
+    status: "Accessible",
     ticketUrl: "/productions/kids-show/",
     sort_order: 2,
   },
@@ -91,7 +91,7 @@ function formatEventGenre(event) {
 
 function fromPlay(play, { featured = false } = {}) {
   const href = playHref(play);
-  const isTicketed = play.status !== "Free" && play.status !== "Archived";
+  const isTicketed = play.status !== "Accessible" && play.status !== "Archived";
   return {
     id: play.id,
     title: play.title,
@@ -101,7 +101,7 @@ function fromPlay(play, { featured = false } = {}) {
     featureImage: play.image || MEDIA.heroBanner,
     href,
     tickets: isTicketed ? TICKETS_PAGE_PATH : null,
-    ctaLabel: play.status === "Free" ? "Free in the Park" : "Tickets",
+    ctaLabel: play.status === "Accessible" ? "In the Park" : "Tickets",
     ctaHref: isTicketed ? TICKETS_PAGE_PATH : href,
     ctaExternal: false,
     variant: featured ? "feature" : "photo",

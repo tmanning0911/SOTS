@@ -64,7 +64,7 @@ export function ShopPage() {
             <h1>Gift Shop</h1>
             <p className="sots-shop-page__hero-lead">
               Take home a piece of Shakespeare in Pinkney Park — merchandise, playbills, and gift certificates that support
-              free Shakespeare in Fairfield County.
+              accessible Shakespeare in Fairfield County.
             </p>
           </div>
         </header>

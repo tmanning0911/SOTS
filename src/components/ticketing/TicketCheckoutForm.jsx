@@ -799,7 +799,7 @@ export function TicketCheckoutForm({
                     </button>
                     {showDonation ? (
                       <div className="sots-co__extras-panel">
-                        <p className="sots-checkout__donation-note">Support free Shakespeare in the park for everyone.</p>
+                        <p className="sots-checkout__donation-note">Support accessible Shakespeare in the park for everyone.</p>
                         <div className="sots-checkout__donation-options">
                           {DONATION_PRESETS.map((amount) => (
                             <button
@@ -836,7 +836,7 @@ export function TicketCheckoutForm({
                 <div className="sots-co__section-body">
                   {patronUser?.email ? (
                     <p className="sots-co__signed-in">
-                      Signed in as <strong>{patronUser.email}</strong> ·{" "}
+                      Tickets for <strong>{patronUser.email}</strong> ·{" "}
                       <Link to="/my-tickets/">My Tickets</Link>
                     </p>
                   ) : null}

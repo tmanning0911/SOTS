@@ -13,7 +13,7 @@ import { refreshScroll, initHomePageMotion, resetHomePageMotion } from "../polis
 
 export function HomePage() {
   useEffect(() => {
-    document.title = "Shakespeare on the Sound | Free Outdoor Shakespeare in Rowayton, CT";
+    document.title = "Shakespeare on the Sound | Affordable Outdoor Shakespeare in Rowayton, CT";
   }, []);
 
   useEffect(() => {

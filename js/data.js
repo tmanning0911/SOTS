@@ -439,7 +439,7 @@ export const SEASON_SHOWS = [
     dateShort: "Archive",
     venue: "Norwalk & Rowayton, CT",
     description:
-      "Explore decades of free outdoor Shakespeare presented by Shakespeare on the Sound across Fairfield County.",
+      "Explore decades of affordable outdoor Shakespeare presented by Shakespeare on the Sound across Fairfield County.",
     image: MEDIA.educationImage,
     heroImage: MEDIA.educationImage,
     href: "/productions/past-productions/",
@@ -456,7 +456,7 @@ export const SEASON_MILESTONES = [
 
 export const SEASON_BENEFITS = [
   {
-    title: "Free admission",
+    title: "Accessible admission",
     text: "Professional outdoor Shakespeare at no charge. Open lawn seating for everyone.",
   },
   {
@@ -477,12 +477,12 @@ export const SEASON_BENEFITS = [
   },
   {
     title: "Since 1996",
-    text: "Nearly three decades of free theatre for Fairfield County communities.",
+    text: "Nearly three decades of accessible theatre for Fairfield County communities.",
   },
 ];
 
 export const VISIT_ESSENTIALS = [
-  { label: "Admission", value: "Free — donations welcome" },
+  { label: "Admission", value: "Accessible — donations welcome" },
   { label: "Venue", value: "Shakespeare in Pinkney Park, Rowayton, CT" },
   { label: "Seating", value: "Open lawn — bring a blanket or low chair" },
   { label: "Gates", value: "Opens one hour before curtain" },
@@ -503,7 +503,7 @@ export const FEATURED_SHOW = {
 
 export const HOMEPAGE_STATS = [
   { value: "1996", label: "Serving Fairfield County since" },
-  { value: "Free", label: "Outdoor Shakespeare under the stars" },
+  { value: "Accessible", label: "Outdoor Shakespeare under the stars" },
   { value: "Shakespeare in Pinkney Park", label: "Rowayton, Connecticut" },
   { value: "June 10–28", label: "2026 summer season" },
 ];
