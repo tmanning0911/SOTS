@@ -2600,21 +2600,116 @@ body.page-home .site-header.is-scrolled {
     grid-template-columns: 1fr;
   }
 
+  .orpheum-footer__shell {
+    padding:
+      2rem
+      1.15rem
+      calc(1.35rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .orpheum-footer__primary {
+    row-gap: 1.65rem;
+  }
+
+  .orpheum-footer__brand {
+    gap: 0.85rem;
+    width: 100%;
+  }
+
+  .orpheum-footer__tagline {
+    max-width: none;
+    font-size: 1.15rem;
+  }
+
+  .orpheum-footer__contact {
+    font-size: 0.88rem;
+    gap: 0.28rem;
+  }
+
+  .orpheum-footer__venues {
+    gap: 0.45rem 0.95rem;
+  }
+
+  /* Full-width stacked CTAs — side-by-side split buttons look uneven on narrow phones */
+  .orpheum-footer__ctas {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    margin-top: 0.15rem;
+  }
+
+  .orpheum-footer__ctas .orpheum-arrow-btn {
+    flex: none;
+    width: 100%;
+  }
+
+  .orpheum-footer__cta.orpheum-arrow-btn .orpheum-arrow-btn__label {
+    flex: 1;
+    justify-content: center;
+  }
+
+  /* One clean column of link groups — avoids the empty 2+1 hole */
   .orpheum-footer__nav,
   .orpheum-footer__cols {
     grid-template-columns: 1fr;
+    row-gap: 1.1rem;
   }
 
   .orpheum-footer__col:last-child {
     grid-column: auto;
   }
 
-  .orpheum-footer__ctas {
+  .orpheum-footer__heading {
+    margin-bottom: 0.45rem;
+    font-size: 0.92rem;
+  }
+
+  .orpheum-footer__col ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 0.85rem;
+    row-gap: 0.35rem;
+  }
+
+  .orpheum-footer__col li + li {
+    margin-top: 0;
+  }
+
+  .orpheum-footer__col a {
+    font-size: 0.88rem;
+    line-height: 1.35;
+  }
+
+  .orpheum-footer__divider {
+    margin: 1.35rem 0 1rem;
+  }
+
+  .orpheum-footer__meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
+
+  .orpheum-footer__utility ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.4rem 1rem;
     width: 100%;
   }
 
-  .orpheum-footer__ctas .orpheum-arrow-btn {
-    flex: 1 1 auto;
+  .orpheum-footer__legal {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+    margin-top: 0.85rem;
+  }
+
+  .orpheum-footer__copyright,
+  .orpheum-footer__credit,
+  .orpheum-footer__education-note {
+    font-size: 0.78rem;
+    line-height: 1.4;
   }
 }
 
