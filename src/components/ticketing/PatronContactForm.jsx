@@ -8,7 +8,14 @@ const EMPTY_ADDRESS = {
   postalCode: "",
 };
 
-export function PatronContactForm({ profile, email, onSave, saving = false }) {
+export function PatronContactForm({
+  profile,
+  email,
+  onSave,
+  saving = false,
+  loading = false,
+  showIntro = true,
+}) {
   const [name, setName] = useState(profile?.name ?? "");
   const [phone, setPhone] = useState(profile?.phone ?? "");
   const [address, setAddress] = useState(() => ({
@@ -35,6 +42,10 @@ export function PatronContactForm({ profile, email, onSave, saving = false }) {
     e.preventDefault();
     setMessage("");
     setError("");
+    if (loading) {
+      setError("Still loading your saved details — wait a moment, then save.");
+      return;
+    }
     if (!name.trim()) {
       setError("Full name is required.");
       return;
@@ -52,15 +63,23 @@ export function PatronContactForm({ profile, email, onSave, saving = false }) {
     }
   }
 
+  const fieldsDisabled = saving || loading;
+
   return (
     <form className="sots-patron-contact" onSubmit={handleSubmit} noValidate>
-      <div className="sots-patron-contact__intro">
-        <h2 id="patron-contact-heading">Contact information</h2>
-        <p>
-          Kept on file for box office support and, with your permission, season updates. This information can
-          be synced to our CRM when you opt in.
+      {showIntro ? (
+        <div className="sots-patron-contact__intro">
+          <h2 id="patron-contact-heading">Contact information</h2>
+          <p>
+            Kept on file for box office support and, with your permission, season updates. This information
+            can be synced to our CRM when you opt in.
+          </p>
+        </div>
+      ) : (
+        <p className="sots-patron-contact__intro sots-patron-contact__intro--nested">
+          Kept on file for box office support and, with your permission, season updates.
         </p>
-      </div>
+      )}
 
       <div className="sots-patron-contact__grid">
         <label className="sots-patron-contact__field sots-patron-contact__field--wide">
@@ -77,6 +96,7 @@ export function PatronContactForm({ profile, email, onSave, saving = false }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Jane Smith"
+            disabled={fieldsDisabled}
           />
         </label>
         <label className="sots-patron-contact__field">
@@ -88,6 +108,7 @@ export function PatronContactForm({ profile, email, onSave, saving = false }) {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="(203) 555-0100"
+            disabled={fieldsDisabled}
           />
         </label>
         <label className="sots-patron-contact__field sots-patron-contact__field--wide">
@@ -99,6 +120,7 @@ export function PatronContactForm({ profile, email, onSave, saving = false }) {
             value={address.line1}
             onChange={(e) => setAddress((prev) => ({ ...prev, line1: e.target.value }))}
             placeholder="123 Main Street"
+            disabled={fieldsDisabled}
           />
         </label>
         <label className="sots-patron-contact__field sots-patron-contact__field--wide">
@@ -111,6 +133,7 @@ export function PatronContactForm({ profile, email, onSave, saving = false }) {
             autoComplete="address-line2"
             value={address.line2}
             onChange={(e) => setAddress((prev) => ({ ...prev, line2: e.target.value }))}
+            disabled={fieldsDisabled}
           />
         </label>
         <label className="sots-patron-contact__field">
@@ -121,6 +144,7 @@ export function PatronContactForm({ profile, email, onSave, saving = false }) {
             autoComplete="address-level2"
             value={address.city}
             onChange={(e) => setAddress((prev) => ({ ...prev, city: e.target.value }))}
+            disabled={fieldsDisabled}
           />
         </label>
         <label className="sots-patron-contact__field sots-patron-contact__field--state">
@@ -131,6 +155,7 @@ export function PatronContactForm({ profile, email, onSave, saving = false }) {
             autoComplete="address-level1"
             value={address.state}
             onChange={(e) => setAddress((prev) => ({ ...prev, state: e.target.value }))}
+            disabled={fieldsDisabled}
           />
         </label>
         <label className="sots-patron-contact__field">
@@ -141,6 +166,7 @@ export function PatronContactForm({ profile, email, onSave, saving = false }) {
             autoComplete="postal-code"
             value={address.postalCode}
             onChange={(e) => setAddress((prev) => ({ ...prev, postalCode: e.target.value }))}
+            disabled={fieldsDisabled}
           />
         </label>
       </div>
@@ -150,6 +176,7 @@ export function PatronContactForm({ profile, email, onSave, saving = false }) {
           type="checkbox"
           checked={marketingOptIn}
           onChange={(e) => setMarketingOptIn(e.target.checked)}
+          disabled={fieldsDisabled}
         />
         <span>
           Yes, Shakespeare on the Sound may email me about performances, community programs, and fundraising.
@@ -158,8 +185,8 @@ export function PatronContactForm({ profile, email, onSave, saving = false }) {
       </label>
 
       <div className="sots-patron-contact__actions">
-        <button type="submit" className="orpheum-arrow-btn orpheum-arrow-btn--gold" disabled={saving}>
-          {saving ? "Saving…" : "Save contact information"}
+        <button type="submit" className="orpheum-arrow-btn orpheum-arrow-btn--gold" disabled={fieldsDisabled}>
+          {loading ? "Loading…" : saving ? "Saving…" : "Save contact information"}
         </button>
         {message ? (
           <p className="sots-checkout__hint sots-checkout__hint--success" role="status">

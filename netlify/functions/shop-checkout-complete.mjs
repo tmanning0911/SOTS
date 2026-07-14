@@ -1,7 +1,9 @@
 import { randomBytes } from "node:crypto";
 import { jsonResponse } from "./lib/cors.mjs";
 import { bindBlobs } from "./lib/netlify-blobs.mjs";
+import { syncPatronToCrm } from "./lib/crm-sync.mjs";
 import { getClientIp, rateLimit } from "./lib/rateLimit.mjs";
+import { upsertPatronProfile } from "./lib/patron-profile.mjs";
 import { sendShopOrderConfirmationEmail } from "./lib/shop-order-email.mjs";
 import { createSquarePayment } from "./lib/square.mjs";
 import { commitShopOrder, getShopHold } from "./lib/shop-store.mjs";
@@ -67,6 +69,26 @@ export async function handler(event) {
       emailSent = Boolean(emailResult.sent);
     } catch (err) {
       console.error("shop confirmation email failed:", err);
+    }
+
+    try {
+      const profile = await upsertPatronProfile(
+        order.buyer.email,
+        {
+          name: order.buyer.name,
+          phone: order.buyer.phone,
+          address: order.buyer.address,
+          marketingOptIn: Boolean(order.buyer.marketingOptIn),
+        },
+        { source: "shop-checkout", overwrite: false },
+      );
+      syncPatronToCrm(event, profile, {
+        event: "patron.shop_purchase",
+        source: "shop-checkout",
+        order,
+      }).catch((err) => console.error("shop CRM sync:", err));
+    } catch (err) {
+      console.error("shop patron profile upsert failed:", err);
     }
 
     return jsonResponse(

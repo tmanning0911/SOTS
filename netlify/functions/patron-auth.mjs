@@ -247,6 +247,8 @@ export async function handler(event) {
       }
 
       try {
+        // Merge (not overwrite): empty phone/address fields must not wipe values already
+        // on file if the form hydrated before a profile GET finished.
         const profile = await upsertPatronProfile(
           patron.email,
           {
@@ -255,7 +257,7 @@ export async function handler(event) {
             address: body.address,
             marketingOptIn: Boolean(body.marketingOptIn),
           },
-          { overwrite: true, source: "my-tickets" },
+          { overwrite: false, source: "my-tickets" },
         );
 
         // Fire-and-forget CRM sync — do not block the patron on webhook latency.

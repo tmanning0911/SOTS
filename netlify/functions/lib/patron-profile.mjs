@@ -1,4 +1,4 @@
-import { blobStore } from "./netlify-blobs.mjs";
+import { blobStore, isNetlifyRuntime } from "./netlify-blobs.mjs";
 import { normalizePatronEmail } from "./patron-auth.mjs";
 
 const STORE_NAME = "sots-ticketing";
@@ -92,7 +92,10 @@ export async function getPatronProfile(email) {
 
 /**
  * Create or merge a patron profile. Empty incoming fields do not wipe existing values
- * unless `overwrite` is true (used by My Tickets save).
+ * unless `overwrite` is true.
+ *
+ * My Tickets and checkout use merge mode so a partially hydrated form cannot erase
+ * address/phone already stored in Blobs.
  */
 export async function upsertPatronProfile(email, patch = {}, { overwrite = false, source = "account" } = {}) {
   const normalized = normalizePatronEmail(email);
@@ -148,7 +151,15 @@ export async function upsertPatronProfile(email, patch = {}, { overwrite = false
   }
 
   try {
-    await store().setJSON(profileKey(normalized), profile);
+    const key = profileKey(normalized);
+    await store().setJSON(key, profile);
+    // Same pattern as checkout holds — confirm the blob landed in Netlify runtime.
+    if (isNetlifyRuntime()) {
+      const verified = await store().get(key, { type: "json" });
+      if (!verified?.email) {
+        throw new Error("Profile write could not be verified.");
+      }
+    }
   } catch (err) {
     console.error("patron profile persist failed:", err);
     throw new Error("Could not save your contact information.");

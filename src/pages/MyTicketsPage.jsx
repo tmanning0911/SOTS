@@ -60,7 +60,7 @@ function OrderCard({ order, email }) {
       <div className="sots-order-card__actions">
         <button
           type="button"
-          className="orpheum-arrow-btn orpheum-arrow-btn--gold"
+          className="orpheum-arrow-btn orpheum-arrow-btn--ghost"
           onClick={handleResend}
           disabled={resendState === "loading" || resendState === "sent"}
         >
@@ -99,6 +99,7 @@ export function MyTicketsPage() {
   const [authLoading, setAuthLoading] = useState(false);
   const [verifyingToken, setVerifyingToken] = useState(false);
   const [savingProfile, setSavingProfile] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
 
   useEffect(() => {
     document.title = "My Tickets - Shakespeare on the Sound";
@@ -107,6 +108,11 @@ export function MyTicketsPage() {
   useEffect(() => {
     if (user?.email) setEmail(user.email);
   }, [user?.email]);
+
+  useEffect(() => {
+    if (!isSignedIn || loadingProfile) return;
+    if (!profile?.name?.trim()) setContactOpen(true);
+  }, [isSignedIn, loadingProfile, profile?.name]);
 
   useEffect(() => {
     const token = params.get("token");
@@ -167,22 +173,31 @@ export function MyTicketsPage() {
 
   return (
     <InnerPageShell showVisit={false} showNewsletter={false}>
-      <article className="orpheum-inner-page sots-account-page">
-        <InnerPageHero
-          className="sots-account-page__hero"
-          eyebrow="Patron Account"
-          title="My Tickets"
-          intro="Your official Shakespeare on the Sound account — tickets, QR codes, and contact details for the box office."
-          image={heroImageForHref("/my-tickets/")}
-          actions={
-            <>
-              <ArrowButton href="/tickets/">Buy Tickets</ArrowButton>
+      <article className={`orpheum-inner-page sots-account-page${isSignedIn ? " sots-account-page--signed-in" : ""}`}>
+        {isSignedIn ? (
+          <InnerPageHero
+            className="sots-account-page__hero"
+            compact
+            variant="plain"
+            eyebrow="Patron account"
+            title="My Tickets"
+            intro="Your tickets and QR codes for Shakespeare on the Sound."
+          />
+        ) : (
+          <InnerPageHero
+            className="sots-account-page__hero"
+            compact
+            eyebrow="Patron account"
+            title="My Tickets"
+            intro="Sign in with the email from checkout to view tickets and QR codes."
+            image={heroImageForHref("/my-tickets/")}
+            actions={
               <ArrowButton href="/access-your-tickets/" variant="ghost">
-                Confirmation code lookup
+                Have a confirmation code?
               </ArrowButton>
-            </>
-          }
-        />
+            }
+          />
+        )}
 
         <div className="orpheum-inner-page__body">
           <div className="orpheum-container sots-account-page__body" data-reveal>
@@ -226,12 +241,11 @@ export function MyTicketsPage() {
               <div className="sots-my-tickets-page__signed-in">
                 <header className="sots-account-banner">
                   <div className="sots-account-banner__copy">
-                    <p className="sots-account-banner__eyebrow">Shakespeare on the Sound</p>
                     <h2 className="sots-account-banner__title">
-                      {displayName ? `Welcome, ${displayName.split(" ")[0]}` : "Your patron account"}
+                      {displayName ? `Welcome, ${displayName.split(" ")[0]}` : "Signed in"}
                     </h2>
                     <p className="sots-account-banner__meta">
-                      Signed in as <strong>{user?.email}</strong>
+                      <strong>{user?.email}</strong>
                       {orders.length ? (
                         <>
                           {" "}
@@ -247,7 +261,7 @@ export function MyTicketsPage() {
                       className="orpheum-arrow-btn orpheum-arrow-btn--ghost"
                       onClick={() => refreshOrders()}
                     >
-                      Refresh tickets
+                      Refresh
                     </button>
                     <button type="button" className="orpheum-arrow-btn orpheum-arrow-btn--ghost" onClick={signOut}>
                       Sign out
@@ -257,25 +271,16 @@ export function MyTicketsPage() {
 
                 <div className="sots-account-layout">
                   <section
-                    className="sots-account-panel sots-account-panel--contact"
-                    aria-labelledby="patron-contact-heading"
+                    className="sots-account-panel sots-account-panel--tickets"
+                    aria-labelledby="patron-tickets-heading"
                   >
-                    {loadingProfile && !profile ? (
-                      <p>Loading your contact information…</p>
-                    ) : (
-                      <PatronContactForm
-                        profile={profile}
-                        email={user?.email}
-                        onSave={handleSaveProfile}
-                        saving={savingProfile}
-                      />
-                    )}
-                  </section>
-
-                  <section className="sots-account-panel sots-account-panel--tickets" aria-labelledby="patron-tickets-heading">
                     <div className="sots-patron-contact__intro">
                       <h2 id="patron-tickets-heading">Your tickets</h2>
-                      <p>Present these QR codes at the entrance. You can also resend confirmation emails below.</p>
+                      {orders.length ? (
+                        <p>Present these QR codes at the entrance. You can also resend confirmation emails below.</p>
+                      ) : (
+                        <p>Orders placed with this email will show up here with entry QR codes.</p>
+                      )}
                     </div>
 
                     {loadingOrders ? <p>Loading your tickets…</p> : null}
@@ -287,19 +292,52 @@ export function MyTicketsPage() {
 
                     {!loadingOrders && !orders.length ? (
                       <div className="sots-my-tickets-page__empty">
-                        <p>No ticket orders yet for this email.</p>
+                        <p className="sots-my-tickets-page__empty-title">No tickets yet</p>
+                        <p>When you buy tickets with {user?.email}, they&apos;ll appear here automatically.</p>
                         <Link to="/tickets/" className="orpheum-arrow-btn orpheum-arrow-btn--gold">
-                          Buy tickets
+                          Browse performances
                         </Link>
                       </div>
                     ) : null}
 
-                    <div className="sots-my-tickets-page__orders">
-                      {orders.map((order) => (
-                        <OrderCard key={order.id} order={order} email={user?.email} />
-                      ))}
-                    </div>
+                    {orders.length ? (
+                      <div className="sots-my-tickets-page__orders">
+                        {orders.map((order) => (
+                          <OrderCard key={order.id} order={order} email={user?.email} />
+                        ))}
+                      </div>
+                    ) : null}
                   </section>
+
+                  <details
+                    className="sots-account-panel sots-account-panel--contact sots-account-details"
+                    open={contactOpen}
+                    onToggle={(e) => setContactOpen(e.currentTarget.open)}
+                  >
+                    <summary className="sots-account-details__summary">
+                      <span>
+                        <span className="sots-account-panel__eyebrow">Optional</span>
+                        <span className="sots-account-details__title">Contact information</span>
+                      </span>
+                      <span className="sots-account-details__hint">
+                        {contactOpen ? "Hide" : "Edit for box office"}
+                      </span>
+                    </summary>
+                    <div className="sots-account-details__body">
+                      {loadingProfile && !profile ? (
+                        <p>Loading your contact information…</p>
+                      ) : (
+                        <PatronContactForm
+                          profile={profile}
+                          email={user?.email}
+                          onSave={handleSaveProfile}
+                          saving={savingProfile}
+                          loading={loadingProfile && !profile?.name}
+                          showIntro={false}
+                        />
+                      )}
+                    </div>
+                  </details>
                 </div>
               </div>
             )}

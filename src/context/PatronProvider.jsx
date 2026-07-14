@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   clearPatronSession,
   exchangePatronToken,
@@ -19,6 +19,8 @@ export function PatronProvider({ children }) {
   const [loadingOrders, setLoadingOrders] = useState(false);
   const [loadingProfile, setLoadingProfile] = useState(false);
   const [error, setError] = useState("");
+  /** Bumps when a newer profile write wins so older GET responses cannot stomp it. */
+  const profileEpochRef = useRef(0);
 
   const refreshOrders = useCallback(async () => {
     const current = readPatronSession();
@@ -52,15 +54,21 @@ export function PatronProvider({ children }) {
       setProfile(null);
       return null;
     }
+    const epoch = profileEpochRef.current;
     setLoadingProfile(true);
     try {
       const nextProfile = await fetchPatronContactProfile(current.token);
+      // A save (or newer refresh) completed while this request was in flight — ignore stale GET.
+      if (epoch !== profileEpochRef.current) return nextProfile;
       setProfile(nextProfile);
-      const nextSession = { ...current, profile: nextProfile };
+      const latest = readPatronSession();
+      if (!latest?.token) return nextProfile;
+      const nextSession = { ...latest, profile: nextProfile };
       writePatronSession(nextSession);
       setSession(nextSession);
       return nextProfile;
     } catch (err) {
+      if (epoch !== profileEpochRef.current) return null;
       if (String(err.message).toLowerCase().includes("expired") || String(err.message).includes("Sign in")) {
         clearPatronSession();
         setSession(null);
@@ -68,7 +76,7 @@ export function PatronProvider({ children }) {
       }
       return null;
     } finally {
-      setLoadingProfile(false);
+      if (epoch === profileEpochRef.current) setLoadingProfile(false);
     }
   }, []);
 
@@ -80,6 +88,7 @@ export function PatronProvider({ children }) {
 
   const signInWithToken = useCallback(async (token) => {
     const nextSession = await exchangePatronToken(token);
+    profileEpochRef.current += 1;
     setSession(nextSession);
     setProfile(nextSession.profile ?? null);
     return nextSession;
@@ -88,6 +97,7 @@ export function PatronProvider({ children }) {
   const requestMagicLink = useCallback(async (email) => requestPatronMagicLink(email), []);
 
   const signOut = useCallback(() => {
+    profileEpochRef.current += 1;
     clearPatronSession();
     setSession(null);
     setOrders([]);
@@ -97,7 +107,9 @@ export function PatronProvider({ children }) {
 
   const saveProfile = useCallback(async (next) => {
     const saved = await updatePatronContactProfile(next);
+    profileEpochRef.current += 1;
     setProfile(saved);
+    setLoadingProfile(false);
     const current = readPatronSession();
     if (current?.token) {
       const nextSession = { ...current, profile: saved };
