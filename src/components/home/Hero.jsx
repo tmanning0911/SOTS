@@ -11,8 +11,6 @@ export function Hero() {
           src={MEDIA.heroHome}
           alt=""
           decoding="async"
-          width={1024}
-          height={576}
         />
         <img
           className="orpheum-hero__media-photo"
@@ -20,8 +18,6 @@ export function Hero() {
           alt=""
           fetchPriority="high"
           decoding="async"
-          width={1024}
-          height={576}
         />
       </div>
       <div className="orpheum-hero__veil" aria-hidden="true" />
