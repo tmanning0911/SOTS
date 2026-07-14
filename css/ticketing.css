@@ -1014,6 +1014,65 @@ html.lenis.lenis-smooth .sots-checkout__card-container iframe,
   gap: 1rem;
 }
 
+.sots-my-tickets-page__group {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 0.35rem;
+}
+
+.sots-my-tickets-page__group-title {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1a5090;
+}
+
+.sots-my-tickets-page__empty--inline {
+  border-top: none;
+  padding-top: 0.35rem;
+}
+
+.sots-my-tickets-page__past {
+  margin-top: 0.75rem;
+  border-top: 1px solid rgba(15, 45, 77, 0.08);
+  padding-top: 0.85rem;
+}
+
+.sots-my-tickets-page__past-summary {
+  cursor: pointer;
+  list-style: none;
+  font-weight: 700;
+  color: #0f2d4d;
+  margin-bottom: 0.85rem;
+}
+
+.sots-my-tickets-page__past-summary::-webkit-details-marker {
+  display: none;
+}
+
+.sots-order-card__badge {
+  margin: 0.45rem 0 0;
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6b7580;
+}
+
+.sots-order-card--past {
+  opacity: 0.92;
+  background: #f8fafc;
+}
+
+.sots-order-card__past-summary {
+  margin: 0 0 0.85rem;
+  color: #4a5560;
+  line-height: 1.45;
+}
+
 .sots-my-tickets-page__empty {
   display: grid;
   gap: 0.55rem;
@@ -1049,6 +1108,45 @@ html.lenis.lenis-smooth .sots-checkout__card-container iframe,
   padding: 0.85rem 0;
   border-bottom: 1px solid rgba(15, 45, 77, 0.12);
   background: transparent;
+}
+
+.sots-account-banner__identity {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.sots-account-banner__avatar {
+  flex: 0 0 auto;
+  width: 3rem;
+  height: 3rem;
+  border: 0;
+  padding: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: rgba(33, 101, 180, 0.12);
+  color: #0f2d4d;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.sots-account-banner__avatar:hover,
+.sots-account-banner__avatar:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(33, 101, 180, 0.22);
+  transform: translateY(-1px);
+}
+
+.sots-account-banner__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .sots-account-banner__eyebrow {
@@ -1169,6 +1267,70 @@ html.lenis.lenis-smooth .sots-checkout__card-container iframe,
 .sots-patron-contact {
   display: grid;
   gap: 1.1rem;
+}
+
+.sots-patron-avatar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem 1.15rem;
+  align-items: center;
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(15, 45, 77, 0.1);
+  border-radius: 0.75rem;
+  background: #f8fafc;
+}
+
+.sots-patron-avatar__preview {
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: rgba(15, 45, 77, 0.08);
+  color: #0f2d4d;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.sots-patron-avatar__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sots-patron-avatar__initials {
+  font-size: 1.1rem;
+}
+
+.sots-patron-avatar__label {
+  margin: 0;
+  font-weight: 700;
+  color: #0f2d4d;
+}
+
+.sots-patron-avatar__hint {
+  margin: 0.25rem 0 0.7rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #4a5560;
+}
+
+.sots-patron-avatar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.sots-patron-avatar__actions .orpheum-arrow-btn {
+  font-size: 0.72rem;
+}
+
+@media (max-width: 560px) {
+  .sots-patron-avatar {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
 }
 
 .sots-patron-contact__intro p {
@@ -1298,10 +1460,11 @@ html.lenis.lenis-smooth .sots-checkout__card-container iframe,
 }
 
 .sots-order-card__actions {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.65rem;
+  align-items: center;
   margin-top: 1rem;
-  justify-items: start;
 }
 
 .sots-ticketing-admin__head,

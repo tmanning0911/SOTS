@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { PatronAvatarField } from "./PatronAvatarField.jsx";
 
 const EMPTY_ADDRESS = {
   line1: "",
@@ -11,9 +12,13 @@ const EMPTY_ADDRESS = {
 export function PatronContactForm({
   profile,
   email,
+  avatarUrl,
   onSave,
+  onUploadAvatar,
+  onRemoveAvatar,
   saving = false,
   loading = false,
+  uploadingAvatar = false,
   showIntro = true,
 }) {
   const [name, setName] = useState(profile?.name ?? "");
@@ -80,6 +85,18 @@ export function PatronContactForm({
           Kept on file for box office support and, with your permission, season updates.
         </p>
       )}
+
+      {onUploadAvatar && onRemoveAvatar ? (
+        <PatronAvatarField
+          avatarUrl={avatarUrl}
+          name={name}
+          email={email}
+          onUpload={onUploadAvatar}
+          onRemove={onRemoveAvatar}
+          uploading={uploadingAvatar}
+          disabled={fieldsDisabled}
+        />
+      ) : null}
 
       <div className="sots-patron-contact__grid">
         <label className="sots-patron-contact__field sots-patron-contact__field--wide">

@@ -11,6 +11,13 @@ function profileKey(email) {
   return `patron-profile:${normalizePatronEmail(email)}`;
 }
 
+function avatarKey(email) {
+  return `patron-avatar:${normalizePatronEmail(email)}`;
+}
+
+const ALLOWED_AVATAR_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+const MAX_AVATAR_BYTES = 350_000;
+
 export function emptyPatronAddress() {
   return {
     line1: "",
@@ -74,6 +81,8 @@ export function publicPatronProfile(profile) {
     address: normalizeAddress(profile.address),
     marketingOptIn: Boolean(profile.marketingOptIn),
     marketingOptInAt: profile.marketingOptInAt ?? null,
+    hasAvatar: Boolean(profile.hasAvatar),
+    avatarUpdatedAt: profile.avatarUpdatedAt ?? null,
     updatedAt: profile.updatedAt ?? null,
     createdAt: profile.createdAt ?? null,
     crmSyncStatus: profile.crmSyncStatus ?? "pending",
@@ -131,6 +140,9 @@ export async function upsertPatronProfile(email, patch = {}, { overwrite = false
         : marketingOptIn
           ? existing?.marketingOptInAt ?? now
           : null,
+    hasAvatar: Boolean(existing?.hasAvatar),
+    avatarUpdatedAt: existing?.avatarUpdatedAt ?? null,
+    avatarMime: existing?.avatarMime ?? null,
     source: existing?.source || source,
     lastSource: source,
     createdAt: existing?.createdAt ?? now,
@@ -165,6 +177,116 @@ export async function upsertPatronProfile(email, patch = {}, { overwrite = false
     throw new Error("Could not save your contact information.");
   }
 
+  return profile;
+}
+
+export async function setPatronAvatar(email, { bytes, contentType }) {
+  const normalized = normalizePatronEmail(email);
+  if (!normalized) throw new Error("A valid email is required");
+
+  const mime = String(contentType ?? "").toLowerCase().split(";")[0].trim();
+  if (!ALLOWED_AVATAR_TYPES.has(mime)) {
+    throw new Error("Use a JPEG, PNG, or WebP image.");
+  }
+
+  const buffer = Buffer.isBuffer(bytes) ? bytes : Buffer.from(bytes ?? []);
+  if (!buffer.length) throw new Error("Image file is empty.");
+  if (buffer.length > MAX_AVATAR_BYTES) {
+    throw new Error("Image is too large. Please use a photo under 350 KB.");
+  }
+
+  const existing = (await getPatronProfile(normalized)) ?? {
+    email: normalized,
+    name: "",
+    phone: "",
+    address: emptyPatronAddress(),
+    marketingOptIn: false,
+    createdAt: new Date().toISOString(),
+  };
+
+  const now = new Date().toISOString();
+  try {
+    await store().set(avatarKey(normalized), buffer, {
+      metadata: { contentType: mime },
+    });
+  } catch (err) {
+    console.error("patron avatar persist failed:", err);
+    throw new Error("Could not save your profile photo.");
+  }
+
+  const profile = {
+    ...existing,
+    email: normalized,
+    hasAvatar: true,
+    avatarUpdatedAt: now,
+    avatarMime: mime,
+    updatedAt: now,
+    lastSource: "avatar",
+  };
+
+  try {
+    await store().setJSON(profileKey(normalized), profile);
+  } catch (err) {
+    console.error("patron avatar metadata persist failed:", err);
+    throw new Error("Could not save your profile photo.");
+  }
+
+  return profile;
+}
+
+export async function getPatronAvatar(email) {
+  const normalized = normalizePatronEmail(email);
+  if (!normalized) return null;
+  try {
+    const result = await store().getWithMetadata(avatarKey(normalized), { type: "arrayBuffer" });
+    if (!result?.data) return null;
+    const contentType =
+      result.metadata?.contentType ||
+      result.metadata?.metadata?.contentType ||
+      "image/jpeg";
+    return {
+      bytes: Buffer.from(result.data),
+      contentType: String(contentType),
+    };
+  } catch {
+    return null;
+  }
+}
+
+export async function deletePatronAvatar(email) {
+  const normalized = normalizePatronEmail(email);
+  if (!normalized) throw new Error("A valid email is required");
+
+  const existing = await getPatronProfile(normalized);
+  try {
+    await store().delete(avatarKey(normalized));
+  } catch {
+    /* missing avatar is fine */
+  }
+
+  if (!existing) {
+    return {
+      email: normalized,
+      name: "",
+      phone: "",
+      address: emptyPatronAddress(),
+      marketingOptIn: false,
+      hasAvatar: false,
+      avatarUpdatedAt: null,
+      avatarMime: null,
+    };
+  }
+
+  const now = new Date().toISOString();
+  const profile = {
+    ...existing,
+    hasAvatar: false,
+    avatarUpdatedAt: null,
+    avatarMime: null,
+    updatedAt: now,
+    lastSource: "avatar",
+  };
+  await store().setJSON(profileKey(normalized), profile);
   return profile;
 }
 

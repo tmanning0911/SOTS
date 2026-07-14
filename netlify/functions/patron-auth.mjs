@@ -1,4 +1,4 @@
-import { jsonResponse } from "./lib/cors.mjs";
+import { corsHeaders, jsonResponse } from "./lib/cors.mjs";
 import { bindBlobs } from "./lib/netlify-blobs.mjs";
 import { syncPatronToCrm } from "./lib/crm-sync.mjs";
 import { getClientIp, rateLimit } from "./lib/rateLimit.mjs";
@@ -21,8 +21,11 @@ import {
   verifyPatronSession,
 } from "./lib/patron-auth.mjs";
 import {
+  deletePatronAvatar,
+  getPatronAvatar,
   getPatronProfile,
   publicPatronProfile,
+  setPatronAvatar,
   upsertPatronProfile,
 } from "./lib/patron-profile.mjs";
 import { listPatronOrders, publicOrderView } from "./lib/ticketing-store.mjs";
@@ -99,9 +102,32 @@ async function resolveProfileForPatron(email) {
     address: { line1: "", line2: "", city: "", state: "", postalCode: "" },
     marketingOptIn: false,
     marketingOptInAt: null,
+    hasAvatar: false,
+    avatarUpdatedAt: null,
     updatedAt: null,
     createdAt: null,
     crmSyncStatus: "pending",
+  };
+}
+
+function binaryResponse(statusCode, bodyBuffer, contentType, event, { methods = "GET, OPTIONS" } = {}) {
+  const { headers, allowed, origin } = corsHeaders(event, { methods });
+  if (!allowed && origin) {
+    return {
+      statusCode: 403,
+      headers,
+      body: JSON.stringify({ error: "Origin not allowed" }),
+    };
+  }
+  return {
+    statusCode,
+    headers: {
+      ...headers,
+      "Content-Type": contentType || "application/octet-stream",
+      "Cache-Control": "private, max-age=300",
+    },
+    body: Buffer.from(bodyBuffer).toString("base64"),
+    isBase64Encoded: true,
   };
 }
 
@@ -111,12 +137,19 @@ export async function handler(event) {
   const isSessionRoute = path.includes("/patron/session");
   const isOrdersRoute = path.includes("/patron/orders");
   const isProfileRoute = path.includes("/patron/profile");
+  const isAvatarRoute = path.includes("/patron/avatar");
 
   if (event.httpMethod === "OPTIONS") {
-    return jsonResponse(204, {}, event, { methods: "GET, POST, PUT, OPTIONS" });
+    return jsonResponse(204, {}, event, { methods: "GET, POST, PUT, DELETE, OPTIONS" });
   }
 
-  if (event.httpMethod === "POST" && !isSessionRoute && !isOrdersRoute && !isProfileRoute) {
+  if (
+    event.httpMethod === "POST" &&
+    !isSessionRoute &&
+    !isOrdersRoute &&
+    !isProfileRoute &&
+    !isAvatarRoute
+  ) {
     const ip = getClientIp(event);
     if (!rateLimit(`patron-auth:${ip}`, { max: 8, windowMs: 900_000 })) {
       return jsonResponse(429, { error: "Too many requests. Please try again later." }, event, {
@@ -209,6 +242,102 @@ export async function handler(event) {
       event,
       { methods: "GET, POST, OPTIONS" },
     );
+  }
+
+  if (isAvatarRoute) {
+    const patron = verifyPatronSession(event);
+    if (!patron?.email) {
+      return jsonResponse(401, { error: "Sign in required." }, event, {
+        methods: "GET, PUT, DELETE, OPTIONS",
+      });
+    }
+
+    if (event.httpMethod === "GET") {
+      const avatar = await getPatronAvatar(patron.email);
+      if (!avatar) {
+        return jsonResponse(404, { error: "No profile photo yet." }, event, {
+          methods: "GET, PUT, DELETE, OPTIONS",
+        });
+      }
+      return binaryResponse(200, avatar.bytes, avatar.contentType, event, {
+        methods: "GET, PUT, DELETE, OPTIONS",
+      });
+    }
+
+    if (event.httpMethod === "PUT") {
+      const ip = getClientIp(event);
+      if (!rateLimit(`patron-avatar:${ip}`, { max: 12, windowMs: 900_000 })) {
+        return jsonResponse(429, { error: "Too many photo uploads. Please try again later." }, event, {
+          methods: "GET, PUT, DELETE, OPTIONS",
+        });
+      }
+
+      let body;
+      try {
+        body = JSON.parse(event.body || "{}");
+      } catch {
+        return jsonResponse(400, { error: "Invalid JSON" }, event, {
+          methods: "GET, PUT, DELETE, OPTIONS",
+        });
+      }
+
+      const contentType = String(body.contentType ?? body.mimeType ?? "").trim();
+      const dataUrl = String(body.dataUrl ?? "").trim();
+      const base64 = String(body.imageBase64 ?? "").trim();
+
+      let bytes;
+      let mime = contentType;
+      if (dataUrl.startsWith("data:")) {
+        const match = dataUrl.match(/^data:([^;]+);base64,(.+)$/i);
+        if (!match) {
+          return jsonResponse(400, { error: "Invalid image data." }, event, {
+            methods: "GET, PUT, DELETE, OPTIONS",
+          });
+        }
+        mime = match[1];
+        bytes = Buffer.from(match[2], "base64");
+      } else if (base64) {
+        bytes = Buffer.from(base64, "base64");
+      } else {
+        return jsonResponse(400, { error: "Missing image data." }, event, {
+          methods: "GET, PUT, DELETE, OPTIONS",
+        });
+      }
+
+      try {
+        const profile = await setPatronAvatar(patron.email, { bytes, contentType: mime });
+        return jsonResponse(
+          200,
+          { ok: true, profile: publicPatronProfile(profile) },
+          event,
+          { methods: "GET, PUT, DELETE, OPTIONS" },
+        );
+      } catch (err) {
+        return jsonResponse(400, { error: err.message || "Could not save photo" }, event, {
+          methods: "GET, PUT, DELETE, OPTIONS",
+        });
+      }
+    }
+
+    if (event.httpMethod === "DELETE") {
+      try {
+        const profile = await deletePatronAvatar(patron.email);
+        return jsonResponse(
+          200,
+          { ok: true, profile: publicPatronProfile(profile) },
+          event,
+          { methods: "GET, PUT, DELETE, OPTIONS" },
+        );
+      } catch (err) {
+        return jsonResponse(400, { error: err.message || "Could not remove photo" }, event, {
+          methods: "GET, PUT, DELETE, OPTIONS",
+        });
+      }
+    }
+
+    return jsonResponse(405, { error: "Method not allowed" }, event, {
+      methods: "GET, PUT, DELETE, OPTIONS",
+    });
   }
 
   if (isProfileRoute) {

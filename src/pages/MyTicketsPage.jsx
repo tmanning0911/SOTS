@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { heroImageForHref } from "../../js/page-heroes.js";
+import { downloadOrderCalendar, isUpcomingOrder } from "../../js/ticket-calendar.js";
 import { formatCents, resendOrderEmail } from "../../js/square-payments.js";
 import { formatPerformanceDate } from "../../js/ticketing.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
@@ -10,7 +11,7 @@ import { PatronContactForm } from "../components/ticketing/PatronContactForm.jsx
 import { TicketQr } from "../components/ticketing/TicketQr.jsx";
 import { usePatron } from "../context/PatronContext.jsx";
 
-function OrderCard({ order, email }) {
+function OrderCard({ order, email, past = false }) {
   const [resendState, setResendState] = useState("idle");
   const [resendError, setResendError] = useState("");
 
@@ -27,7 +28,7 @@ function OrderCard({ order, email }) {
   }
 
   return (
-    <article className="sots-order-card">
+    <article className={`sots-order-card${past ? " sots-order-card--past" : ""}`}>
       <header className="sots-order-card__head">
         <div>
           <p className="sots-order-card__code">Confirmation {order.confirmationCode}</p>
@@ -39,25 +40,41 @@ function OrderCard({ order, email }) {
               {order.location ? ` · ${order.location}` : ""}
             </p>
           ) : null}
+          {past ? <p className="sots-order-card__badge">Past performance</p> : null}
         </div>
         <p className="sots-order-card__total">{formatCents(order.totalCents)}</p>
       </header>
 
-      <ul className="sots-order-card__tickets">
-        {order.tickets.map((ticket) => (
-          <li key={ticket.code}>
-            <div className="sots-order-card__ticket">
-              <div>
-                <strong>{ticket.ticketTypeName}</strong>
-                <span>#{ticket.code}</span>
+      {!past ? (
+        <ul className="sots-order-card__tickets">
+          {order.tickets.map((ticket) => (
+            <li key={ticket.code}>
+              <div className="sots-order-card__ticket">
+                <div>
+                  <strong>{ticket.ticketTypeName}</strong>
+                  <span>#{ticket.code}</span>
+                </div>
+                <TicketQr orderId={order.id} ticketCode={ticket.code} />
               </div>
-              <TicketQr orderId={order.id} ticketCode={ticket.code} />
-            </div>
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="sots-order-card__past-summary">
+          {order.tickets?.length ?? 0} ticket{(order.tickets?.length ?? 0) === 1 ? "" : "s"} · kept for your records
+        </p>
+      )}
 
       <div className="sots-order-card__actions">
+        {!past ? (
+          <button
+            type="button"
+            className="orpheum-arrow-btn orpheum-arrow-btn--gold"
+            onClick={() => downloadOrderCalendar(order)}
+          >
+            Add to calendar
+          </button>
+        ) : null}
         <button
           type="button"
           className="orpheum-arrow-btn orpheum-arrow-btn--ghost"
@@ -82,15 +99,19 @@ export function MyTicketsPage() {
     isSignedIn,
     user,
     profile,
+    avatarUrl,
     orders,
     loadingOrders,
     loadingProfile,
+    uploadingAvatar,
     error,
     requestMagicLink,
     signInWithToken,
     signOut,
     refreshOrders,
     saveProfile,
+    uploadAvatar,
+    removeAvatar,
   } = usePatron();
 
   const [email, setEmail] = useState(user?.email ?? "");
@@ -100,6 +121,8 @@ export function MyTicketsPage() {
   const [verifyingToken, setVerifyingToken] = useState(false);
   const [savingProfile, setSavingProfile] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+  const [pastOpen, setPastOpen] = useState(false);
+  const contactDetailsRef = useRef(null);
 
   useEffect(() => {
     document.title = "My Tickets - Shakespeare on the Sound";
@@ -145,7 +168,26 @@ export function MyTicketsPage() {
     [orders],
   );
 
+  const { upcomingOrders, pastOrders } = useMemo(() => {
+    const upcoming = [];
+    const past = [];
+    for (const order of orders) {
+      if (isUpcomingOrder(order)) upcoming.push(order);
+      else past.push(order);
+    }
+    upcoming.sort((a, b) => String(a.performanceStart).localeCompare(String(b.performanceStart)));
+    past.sort((a, b) => String(b.performanceStart).localeCompare(String(a.performanceStart)));
+    return { upcomingOrders: upcoming, pastOrders: past };
+  }, [orders]);
+
   const displayName = profile?.name?.trim() || "";
+
+  function openContact() {
+    setContactOpen(true);
+    requestAnimationFrame(() => {
+      contactDetailsRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+  }
 
   async function handleRequestLink(e) {
     e.preventDefault();
@@ -240,20 +282,42 @@ export function MyTicketsPage() {
             ) : (
               <div className="sots-my-tickets-page__signed-in">
                 <header className="sots-account-banner">
-                  <div className="sots-account-banner__copy">
-                    <h2 className="sots-account-banner__title">
-                      {displayName ? `Welcome, ${displayName.split(" ")[0]}` : "Signed in"}
-                    </h2>
-                    <p className="sots-account-banner__meta">
-                      <strong>{user?.email}</strong>
-                      {orders.length ? (
-                        <>
-                          {" "}
-                          · {orders.length} order{orders.length === 1 ? "" : "s"} · {ticketCount} ticket
-                          {ticketCount === 1 ? "" : "s"}
-                        </>
-                      ) : null}
-                    </p>
+                  <div className="sots-account-banner__identity">
+                    <button
+                      type="button"
+                      className="sots-account-banner__avatar"
+                      onClick={openContact}
+                      aria-label={avatarUrl ? "Edit profile photo and contact information" : "Add profile photo and contact information"}
+                    >
+                      {avatarUrl ? (
+                        <img src={avatarUrl} alt="" />
+                      ) : (
+                        <span>
+                          {(displayName || user?.email || "?")
+                            .split(/\s+|@/)
+                            .filter(Boolean)
+                            .slice(0, 2)
+                            .map((part) => part[0])
+                            .join("")
+                            .toUpperCase() || "?"}
+                        </span>
+                      )}
+                    </button>
+                    <div className="sots-account-banner__copy">
+                      <h2 className="sots-account-banner__title">
+                        {displayName ? `Welcome, ${displayName.split(" ")[0]}` : "Signed in"}
+                      </h2>
+                      <p className="sots-account-banner__meta">
+                        <strong>{user?.email}</strong>
+                        {orders.length ? (
+                          <>
+                            {" "}
+                            · {orders.length} order{orders.length === 1 ? "" : "s"} · {ticketCount} ticket
+                            {ticketCount === 1 ? "" : "s"}
+                          </>
+                        ) : null}
+                      </p>
+                    </div>
                   </div>
                   <div className="sots-account-banner__actions">
                     <button
@@ -277,7 +341,10 @@ export function MyTicketsPage() {
                     <div className="sots-patron-contact__intro">
                       <h2 id="patron-tickets-heading">Your tickets</h2>
                       {orders.length ? (
-                        <p>Present these QR codes at the entrance. You can also resend confirmation emails below.</p>
+                        <p>
+                          Upcoming shows first — present QR codes at the entrance. Add a show to your calendar
+                          so you don’t miss the night.
+                        </p>
                       ) : (
                         <p>Orders placed with this email will show up here with entry QR codes.</p>
                       )}
@@ -300,16 +367,47 @@ export function MyTicketsPage() {
                       </div>
                     ) : null}
 
-                    {orders.length ? (
-                      <div className="sots-my-tickets-page__orders">
-                        {orders.map((order) => (
-                          <OrderCard key={order.id} order={order} email={user?.email} />
-                        ))}
+                    {upcomingOrders.length ? (
+                      <div className="sots-my-tickets-page__group">
+                        <h3 className="sots-my-tickets-page__group-title">Upcoming</h3>
+                        <div className="sots-my-tickets-page__orders">
+                          {upcomingOrders.map((order) => (
+                            <OrderCard key={order.id} order={order} email={user?.email} />
+                          ))}
+                        </div>
                       </div>
+                    ) : null}
+
+                    {!loadingOrders && orders.length && !upcomingOrders.length ? (
+                      <div className="sots-my-tickets-page__empty sots-my-tickets-page__empty--inline">
+                        <p className="sots-my-tickets-page__empty-title">No upcoming shows</p>
+                        <p>Your past orders are below. Ready for another night at Pinkney Park?</p>
+                        <Link to="/tickets/" className="orpheum-arrow-btn orpheum-arrow-btn--gold">
+                          Browse performances
+                        </Link>
+                      </div>
+                    ) : null}
+
+                    {pastOrders.length ? (
+                      <details
+                        className="sots-my-tickets-page__past"
+                        open={pastOpen}
+                        onToggle={(e) => setPastOpen(e.currentTarget.open)}
+                      >
+                        <summary className="sots-my-tickets-page__past-summary">
+                          Past performances ({pastOrders.length})
+                        </summary>
+                        <div className="sots-my-tickets-page__orders">
+                          {pastOrders.map((order) => (
+                            <OrderCard key={order.id} order={order} email={user?.email} past />
+                          ))}
+                        </div>
+                      </details>
                     ) : null}
                   </section>
 
                   <details
+                    ref={contactDetailsRef}
                     className="sots-account-panel sots-account-panel--contact sots-account-details"
                     open={contactOpen}
                     onToggle={(e) => setContactOpen(e.currentTarget.open)}
@@ -330,9 +428,13 @@ export function MyTicketsPage() {
                         <PatronContactForm
                           profile={profile}
                           email={user?.email}
+                          avatarUrl={avatarUrl}
                           onSave={handleSaveProfile}
+                          onUploadAvatar={uploadAvatar}
+                          onRemoveAvatar={removeAvatar}
                           saving={savingProfile}
                           loading={loadingProfile && !profile?.name}
+                          uploadingAvatar={uploadingAvatar}
                           showIntro={false}
                         />
                       )}
