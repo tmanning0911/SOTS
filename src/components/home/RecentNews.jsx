@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { NEWS_FILTERS, newsForFilter } from "../../../js/news-archive.js";
 import { ArrowButton } from "../ArrowButton.jsx";
 
@@ -45,17 +46,25 @@ function NewsMeta({ item }) {
   );
 }
 
-function newsLinkProps(item) {
-  if (!item.external) return {};
-  return { target: "_blank", rel: "noopener noreferrer" };
+function NewsThumb({ item, width, height }) {
+  return (
+    <img
+      src={item.image}
+      alt=""
+      loading="lazy"
+      width={width}
+      height={height}
+      style={{ objectPosition: item.imagePosition || "center center" }}
+    />
+  );
 }
 
 function FeaturedNewsCard({ item }) {
   return (
     <article className="orpheum-news-feed__feature">
-      <a className="orpheum-news-feed__feature-link" href={item.href} {...newsLinkProps(item)}>
+      <Link className="orpheum-news-feed__feature-link" to={item.href}>
         <div className="orpheum-news-feed__feature-media">
-          <img src={item.image} alt="" loading="lazy" width={1200} height={675} />
+          <NewsThumb item={item} width={1200} height={675} />
         </div>
         <div className="orpheum-news-feed__feature-body">
           <div className="orpheum-news-feed__feature-copy">
@@ -65,7 +74,7 @@ function FeaturedNewsCard({ item }) {
           </div>
           <ReadMoreLink />
         </div>
-      </a>
+      </Link>
     </article>
   );
 }
@@ -73,9 +82,9 @@ function FeaturedNewsCard({ item }) {
 function SideNewsCard({ item }) {
   return (
     <article className="orpheum-news-feed__card">
-      <a className="orpheum-news-feed__card-link" href={item.href} {...newsLinkProps(item)}>
+      <Link className="orpheum-news-feed__card-link" to={item.href}>
         <div className="orpheum-news-feed__card-media">
-          <img src={item.image} alt="" loading="lazy" width={320} height={180} />
+          <NewsThumb item={item} width={320} height={180} />
         </div>
         <div className="orpheum-news-feed__card-body">
           <NewsMeta item={item} />
@@ -83,7 +92,7 @@ function SideNewsCard({ item }) {
           <p className="orpheum-news-feed__excerpt">{item.excerpt}</p>
           <ReadMoreLink />
         </div>
-      </a>
+      </Link>
     </article>
   );
 }
@@ -91,16 +100,16 @@ function SideNewsCard({ item }) {
 function ScrollNewsCard({ item }) {
   return (
     <article className="orpheum-news-feed__scroll-card">
-      <a className="orpheum-news-feed__scroll-link" href={item.href} {...newsLinkProps(item)}>
+      <Link className="orpheum-news-feed__scroll-link" to={item.href}>
         <div className="orpheum-news-feed__scroll-media">
-          <img src={item.image} alt="" loading="lazy" width={320} height={180} />
+          <NewsThumb item={item} width={320} height={180} />
         </div>
         <div className="orpheum-news-feed__scroll-body">
           <NewsMeta item={item} />
           <h2>{item.title}</h2>
           <p className="orpheum-news-feed__excerpt">{item.excerpt}</p>
         </div>
-      </a>
+      </Link>
     </article>
   );
 }
@@ -111,7 +120,6 @@ export function RecentNews() {
   const filteredNews = useMemo(() => newsForFilter(filter), [filter]);
   const [featured, ...rest] = filteredNews;
   const sideItems = rest.slice(0, DESKTOP_SIDE_LIMIT);
-  const scrollItems = filteredNews;
 
   return (
     <section className="orpheum-news-feed" id="recent-news" aria-labelledby="news-heading">
@@ -121,7 +129,7 @@ export function RecentNews() {
             <p className="orpheum-news-feed__eyebrow">From 1995 to today</p>
             <h3 id="news-heading">News & History</h3>
           </div>
-          <ArrowButton href="/about/mission-history/">Mission & History</ArrowButton>
+          <ArrowButton href="/news/">View all news</ArrowButton>
         </div>
 
         <div className="orpheum-news-feed__filters" role="tablist" aria-label="Filter news by topic">
@@ -145,15 +153,15 @@ export function RecentNews() {
               <FeaturedNewsCard item={featured} />
               <div className="orpheum-news-feed__stack">
                 {sideItems.map((item) => (
-                  <SideNewsCard key={`${item.dateIso}-${item.title}`} item={item} />
+                  <SideNewsCard key={item.slug} item={item} />
                 ))}
               </div>
             </div>
 
             <div className="orpheum-news-feed__scroll" aria-label="News and history">
               <div className="orpheum-news-feed__scroll-track">
-                {scrollItems.map((item) => (
-                  <ScrollNewsCard key={`scroll-${item.dateIso}-${item.title}`} item={item} />
+                {filteredNews.map((item) => (
+                  <ScrollNewsCard key={`scroll-${item.slug}`} item={item} />
                 ))}
               </div>
             </div>

@@ -47,7 +47,7 @@ export const HERO_HOME = {
 
 export const SEASON_PROMO = {
   eyebrow: "2026 Summer Tickets Are On Sale Now",
-  heading: "Join Us for a Summer of Laughter, Magic, Mystery and More!",
+  heading: "Summer Begins with Shakespeare!",
   ctaLabel: "Tickets",
   ctaHref: SITE.ticketsUrl,
   ctaExternal: false,
@@ -374,6 +374,8 @@ export {
   NEWS_LIST,
   NEWS_FILTERS,
   newsForFilter,
+  getNewsBySlug,
+  relatedNews,
 } from "./news-archive.js";
 
 export const MAIN_NAV = NAV_ITEMS.map((item) => ({

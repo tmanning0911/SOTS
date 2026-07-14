@@ -7,6 +7,7 @@ export function InnerPageHero({
   title,
   intro,
   image,
+  imagePosition = "center center",
   variant,
   compact = false,
   beforeTitle,
@@ -39,7 +40,7 @@ export function InnerPageHero({
         <>
           <div
             className="orpheum-page-hero__bg"
-            style={{ backgroundImage: `url('${image}')` }}
+            style={{ backgroundImage: `url('${image}')`, backgroundPosition: imagePosition }}
             aria-hidden="true"
           />
           <div className="orpheum-page-hero__veil" aria-hidden="true" />

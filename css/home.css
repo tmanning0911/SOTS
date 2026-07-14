@@ -4074,14 +4074,19 @@ a.orpheum-events-grid__card {
 
 .orpheum-newsletter-banner__content {
   position: relative;
-  display: grid;
-  gap: 1rem;
-  align-items: center;
   max-width: 72rem;
   margin: 0 auto;
 }
 
-.orpheum-newsletter-banner__copy h2 {
+/* Shared mailing list signup (News banner + site footer) */
+.sots-mailing-list {
+  display: grid;
+  gap: 1rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.sots-mailing-list__heading {
   font-family: var(--orp-serif);
   font-size: clamp(1.45rem, 2.4vw, 1.85rem);
   font-weight: 500;
@@ -4090,16 +4095,15 @@ a.orpheum-events-grid__card {
   margin: 0 0 0.35rem;
 }
 
-.orpheum-newsletter-banner__lead {
+.sots-mailing-list__lead {
   margin: 0;
   max-width: 28rem;
   font-family: var(--orp-sans);
   font-size: 0.95rem;
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.78);
 }
 
-.orpheum-newsletter-banner__form {
+.sots-mailing-list__form {
   position: relative;
   display: grid;
   gap: 0.55rem;
@@ -4107,13 +4111,13 @@ a.orpheum-events-grid__card {
   min-width: 0;
 }
 
-.orpheum-newsletter-banner__fields {
+.sots-mailing-list__fields {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.55rem;
 }
 
-.orpheum-newsletter-banner__honeypot {
+.sots-mailing-list__honeypot {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -4125,15 +4129,14 @@ a.orpheum-events-grid__card {
   border: 0;
 }
 
-.orpheum-newsletter-banner__consent {
+.sots-mailing-list__consent {
   margin: 0;
   font-family: var(--orp-sans);
   font-size: 0.75rem;
   line-height: 1.35;
-  color: rgba(255, 255, 255, 0.55);
 }
 
-.orpheum-newsletter-banner__error {
+.sots-mailing-list__error {
   margin: 0;
   font-family: var(--orp-sans);
   font-size: 0.85rem;
@@ -4141,7 +4144,7 @@ a.orpheum-events-grid__card {
   color: #fecaca;
 }
 
-.orpheum-newsletter-banner__fields input {
+.sots-mailing-list__fields input {
   width: 100%;
   min-width: 0;
   padding: 0.7rem 0.85rem;
@@ -4155,40 +4158,67 @@ a.orpheum-events-grid__card {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.orpheum-newsletter-banner__fields input::placeholder {
+.sots-mailing-list__fields input::placeholder {
   color: var(--orp-stone-500);
 }
 
-.orpheum-newsletter-banner__fields input:focus {
+.sots-mailing-list__fields input:focus {
   outline: none;
   border-color: var(--orp-gold);
   box-shadow: 0 0 0 2px rgba(var(--brand-gold-rgb), 0.28);
 }
 
-.orpheum-newsletter-banner__form .orpheum-arrow-btn {
+.sots-mailing-list__form .orpheum-arrow-btn {
   width: 100%;
   font-size: 0.72rem;
 }
 
-.orpheum-newsletter-banner__form .orpheum-arrow-btn__label {
+.sots-mailing-list__form .orpheum-arrow-btn__label {
   padding: 0.85rem 1.15rem;
 }
 
-.orpheum-newsletter-banner__success {
+.sots-mailing-list__success {
   margin: 0;
   font-family: var(--orp-sans);
   font-size: 0.98rem;
   line-height: 1.45;
+}
+
+.sots-mailing-list--inline .sots-mailing-list__lead,
+.sots-mailing-list--inline .sots-mailing-list__consent,
+.sots-mailing-list--inline .sots-mailing-list__success {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.sots-mailing-list--inline .sots-mailing-list__consent {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.sots-mailing-list--inline .sots-mailing-list__success {
   color: rgba(255, 255, 255, 0.92);
 }
 
+.sots-mailing-list--inline .sots-mailing-list__heading {
+  color: var(--orp-white);
+}
+
 @media (min-width: 640px) {
-  .orpheum-newsletter-banner__fields {
+  .sots-mailing-list--inline .sots-mailing-list__fields {
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr) auto;
     align-items: stretch;
   }
 
-  .orpheum-newsletter-banner__form .orpheum-arrow-btn {
+  .sots-mailing-list--inline .sots-mailing-list__form .orpheum-arrow-btn {
+    width: auto;
+  }
+
+  .sots-mailing-list--footer .sots-mailing-list__fields {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: stretch;
+    max-width: 28rem;
+  }
+
+  .sots-mailing-list--footer .sots-mailing-list__form .orpheum-arrow-btn {
     width: auto;
   }
 }
@@ -4198,7 +4228,7 @@ a.orpheum-events-grid__card {
     padding: 1.5rem var(--orp-chrome-gutter, 9.25rem);
   }
 
-  .orpheum-newsletter-banner__content {
+  .sots-mailing-list--inline {
     grid-template-columns: minmax(14rem, 0.9fr) minmax(20rem, 1.2fr);
     gap: 1.75rem 2.5rem;
   }
@@ -4212,6 +4242,39 @@ a.orpheum-events-grid__card {
   .orpheum-newsletter-banner__shell {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
+  }
+}
+
+/* Footer mailing list (sitewide, below the fold) */
+.orpheum-footer__mailing {
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
+  padding: 1.25rem 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sots-mailing-list--footer {
+  gap: 0.85rem 2rem;
+}
+
+.sots-mailing-list--footer .sots-mailing-list__heading {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  color: var(--orp-white);
+}
+
+.sots-mailing-list--footer .sots-mailing-list__lead,
+.sots-mailing-list--footer .sots-mailing-list__consent,
+.sots-mailing-list--footer .sots-mailing-list__success {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.sots-mailing-list--footer .sots-mailing-list__consent {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@media (min-width: 900px) {
+  .sots-mailing-list--footer {
+    grid-template-columns: minmax(12rem, 0.85fr) minmax(16rem, 1.15fr);
+    align-items: end;
   }
 }
 
@@ -4352,13 +4415,17 @@ a.orpheum-events-grid__card {
 .orpheum-news-feed__feature-media img {
   display: block;
   width: 100%;
+  height: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+  object-position: center center;
   transition: transform 0.35s;
 }
 
-.orpheum-news-feed__feature-link:hover .orpheum-news-feed__feature-media img {
-  transform: scale(1.03);
+@media (hover: hover) and (pointer: fine) {
+  .orpheum-news-feed__feature-link:hover .orpheum-news-feed__feature-media img {
+    transform: scale(1.03);
+  }
 }
 
 .orpheum-news-feed__feature-body {
@@ -4493,19 +4560,22 @@ a.orpheum-events-grid__card {
   overflow: hidden;
   border-radius: 0.35rem;
   background: var(--orp-stone-200);
+  aspect-ratio: 16 / 10;
 }
 
 .orpheum-news-feed__card-media img {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 5.5rem;
   object-fit: cover;
+  object-position: center center;
   transition: transform 0.35s ease;
 }
 
-.orpheum-news-feed__card:hover .orpheum-news-feed__card-media img {
-  transform: scale(1.04);
+@media (hover: hover) and (pointer: fine) {
+  .orpheum-news-feed__card:hover .orpheum-news-feed__card-media img {
+    transform: scale(1.04);
+  }
 }
 
 .orpheum-news-feed__card-body {
@@ -4567,6 +4637,7 @@ a.orpheum-events-grid__card {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
 }
 
 .orpheum-news-feed__scroll-body {

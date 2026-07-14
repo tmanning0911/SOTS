@@ -13,6 +13,8 @@ import { AccessTicketsPage } from "./pages/AccessTicketsPage.jsx";
 import { MyTicketsPage } from "./pages/MyTicketsPage.jsx";
 import { TicketingAdminPage } from "./pages/TicketingAdminPage.jsx";
 import { NotFoundPage } from "./pages/NotFoundPage.jsx";
+import { NewsArticlePage } from "./pages/NewsArticlePage.jsx";
+import { NewsIndexPage } from "./pages/NewsIndexPage.jsx";
 import { INNER_PAGES, hrefToRoutePath } from "../js/pages-data.js";
 
 function PageTitle({ title }) {
@@ -57,6 +59,8 @@ export default function App() {
           }
           return routePair(path, <InnerPageRoute page={page} />);
         })}
+        {routePair("news/:slug", <NewsArticlePage />)}
+        {routePair("news", <NewsIndexPage />)}
         {routePair("productions/:slug", <ProductionPage />)}
         {routePair("tickets/checkout/:performanceId", <TicketCheckoutPage />)}
         {routePair("tickets", <TicketsPage />)}
