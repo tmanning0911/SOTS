@@ -79,7 +79,7 @@ export const UTILITY_LINKS = [
       { label: "Employment", href: "/about/employment/" },
     ],
   },
-  { label: "News", href: "/#recent-news" },
+  { label: "News", href: "/news/" },
   { label: "Shop", href: SITE.shopUrl },
   { label: "My Tickets", href: SITE.accountUrl },
 ];

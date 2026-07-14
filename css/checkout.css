@@ -692,6 +692,66 @@ html.sots-checkout-scroll iframe {
   gap: 0.5rem;
 }
 
+.sots-co__souvenirs {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.sots-co__souvenir-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.sots-co__souvenir-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.7rem;
+  border: 1px solid rgba(15, 45, 77, 0.1);
+  border-radius: 0.65rem;
+  background: #fff;
+}
+
+.sots-co__souvenir-copy {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.sots-co__souvenir-copy strong {
+  font-size: 0.9rem;
+  color: var(--brand-navy, #0f2d4d);
+}
+
+.sots-co__souvenir-copy > span {
+  font-size: 0.82rem;
+  color: #5a6570;
+}
+
+.sots-co__souvenir-option {
+  display: grid;
+  gap: 0.2rem;
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--brand-navy, #0f2d4d);
+}
+
+.sots-co__souvenir-option select {
+  width: max-content;
+  max-width: 100%;
+  padding: 0.3rem 0.45rem;
+  border: 1px solid rgba(15, 45, 77, 0.16);
+  border-radius: 0.4rem;
+  font: inherit;
+  font-weight: 500;
+  background: #fff;
+}
+
 .sots-co__fields {
   display: grid;
   gap: 0.85rem;
@@ -1039,12 +1099,12 @@ body.page-checkout .orpheum-header__logo img {
   flex: 1;
   max-width: 14rem;
   min-height: 3rem;
-  box-shadow: 0 8px 22px rgba(15, 45, 77, 0.18);
+  box-shadow: none;
 }
 
 .sots-co__sticky-pay-btn.sots-shop-btn--pay,
 .sots-co__sticky-pay-btn.orpheum-arrow-btn {
-  box-shadow: 0 8px 22px rgba(15, 45, 77, 0.18);
+  box-shadow: none;
 }
 
 .sots-co__sticky-pay-btn.orpheum-arrow-btn:not(:has(.orpheum-arrow-btn__label)) {

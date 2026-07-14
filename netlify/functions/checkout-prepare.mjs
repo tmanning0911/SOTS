@@ -33,6 +33,7 @@ export async function handler(event) {
       buyer: body.buyer ?? {},
       promoCode: body.promoCode,
       donationCents: body.donationCents,
+      shopItems: Array.isArray(body.shopItems) ? body.shopItems : [],
     });
 
     return jsonResponse(
@@ -41,10 +42,12 @@ export async function handler(event) {
         holdId: hold.id,
         expiresAt: hold.expiresAt,
         lineItems: hold.lineItems,
+        shopLineItems: hold.shopLineItems ?? [],
         subtotalCents: hold.subtotalCents,
         discountCents: hold.discountCents,
         promoCode: hold.promoCode,
         donationCents: hold.donationCents,
+        shopCents: hold.shopCents ?? 0,
         totalCents: hold.totalCents,
         currency: hold.currency,
         performanceId: hold.performanceId,

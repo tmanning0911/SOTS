@@ -53,7 +53,7 @@
     background: var(--brand-blue-dark, #1a5090);
     border-color: var(--brand-blue-dark, #1a5090);
     color: #fff;
-    box-shadow: 0 8px 22px rgba(15, 45, 77, 0.18);
+    box-shadow: none;
   }
 
   .sots-shop-btn:disabled:hover {
@@ -73,7 +73,7 @@
     background: #f0f4f8;
     border-color: var(--orp-dark, #0f2d4d);
     color: var(--orp-dark, #0f2d4d);
-    box-shadow: 0 4px 14px rgba(15, 45, 77, 0.08);
+    box-shadow: none;
   }
 
   .sots-shop-btn--added:hover {

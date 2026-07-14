@@ -54,7 +54,7 @@ export async function requestPatronMagicLink(email) {
     body: JSON.stringify({ email }),
   });
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || "Could not send sign-in link");
+  if (!res.ok) throw new Error(data.error || "Couldn't send the email. Try again in a moment.");
   return data;
 }
 
@@ -65,7 +65,7 @@ export async function exchangePatronToken(token) {
     body: JSON.stringify({ token }),
   });
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || "Sign-in link expired");
+  if (!res.ok) throw new Error(data.error || "That link expired. Request a new one.");
   const session = {
     signedIn: true,
     user: data.user,
@@ -123,7 +123,7 @@ export async function fetchPatronOrders() {
   const res = await patronFetch("/api/patron/orders");
   const data = await res.json().catch(() => ({}));
   if (res.status === 403 && data.needsPasskey) {
-    const err = new Error(data.error || "Confirm with your passkey to continue.");
+    const err = new Error(data.error || "Confirm with Face ID or your device lock to continue.");
     err.needsPasskey = true;
     throw err;
   }

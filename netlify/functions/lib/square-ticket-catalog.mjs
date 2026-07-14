@@ -304,6 +304,18 @@ export function buildSquareTicketOrderPayload({
     });
   }
 
+  for (const [index, line] of (hold.shopLineItems ?? []).entries()) {
+    const noteParts = ["Park pickup"];
+    if (line.option) noteParts.push(`Size ${line.option}`);
+    lineItems.push({
+      uid: `shop-line-${index}`,
+      name: line.name,
+      quantity: String(line.quantity),
+      base_price_money: { amount: line.unitPrice, currency: hold.currency ?? "USD" },
+      note: noteParts.join(" · "),
+    });
+  }
+
   const discounts = [];
   if (hold.discountCents > 0) {
     discounts.push({

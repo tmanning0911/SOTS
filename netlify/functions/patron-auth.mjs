@@ -61,7 +61,7 @@ async function gatePasskeyIfRequired(event, patron) {
   return patronJson(
     403,
     {
-      error: "Confirm with your passkey to continue.",
+      error: "Confirm with Face ID or your device lock to continue.",
       needsPasskey: true,
     },
     event,
@@ -72,33 +72,32 @@ async function gatePasskeyIfRequired(event, patron) {
 async function sendMagicLinkEmail(email, token) {
   const siteUrl = getSiteUrl();
   const link = `${siteUrl}/my-tickets/?token=${encodeURIComponent(token)}`;
-  const subject = "Sign in to My Tickets — Shakespeare on the Sound";
-  const preheader = "Your secure one-time sign-in link expires in 10 minutes.";
+  const subject = "Your tickets — Shakespeare on the Sound";
+  const preheader = "Here's a link to My Tickets. It expires in 10 minutes.";
 
   const text = [
-    "Open this one-time link, then tap Confirm sign-in on the page:",
+    "Open this link, then tap “Open my tickets” on the page:",
     "",
     link,
     "",
-    "This link works once and expires in 10 minutes. If you did not request it, you can ignore this email.",
+    "This link works once and expires in 10 minutes. If you didn't ask for it, you can ignore this email.",
     "",
     "Shakespeare on the Sound",
   ].join("\n");
 
   const bodyHtml = `
-    ${emailHeading("Sign in to My Tickets")}
+    ${emailHeading("Your tickets")}
     <p style="margin:0 0 18px;">
-      Open the button below, then tap <strong>Confirm sign-in</strong> on the website. This stops email
-      scanners from using your link. It is <strong>one-time use</strong> and expires in
-      <strong>10 minutes</strong>.
+      Tap the button below, then choose <strong>Open my tickets</strong> on the website.
+      The link works once and expires in <strong>10 minutes</strong>.
     </p>
     ${emailButtonsRow([{ href: link, label: "View My Tickets", variant: "primary" }])}
     <p style="margin:0 0 12px;font-size:13px;color:${C.muted};line-height:1.55;">
-      If the button does not work, copy and paste this URL into your browser:<br />
+      If the button doesn't work, copy and paste this into your browser:<br />
       <a href="${escapeHtml(link)}" style="color:${C.blue};word-break:break-all;">${escapeHtml(link)}</a>
     </p>
     <p style="margin:0;font-size:13px;color:${C.muted};">
-      If you did not request this email, you can ignore it. Your tickets remain safe.
+      Didn't ask for this? You can ignore the email.
     </p>
   `;
 
@@ -301,7 +300,7 @@ export async function handler(event) {
     const ip = getClientIp(event);
 
     if (!patronAuthConfigured()) {
-      return patronJson(503, { error: "Patron sign-in is not configured yet." }, event, {
+      return patronJson(503, { error: "My Tickets email isn't available right now. Try Look Up an Order, or contact the box office." }, event, {
         methods: "POST, OPTIONS",
       });
     }
@@ -330,7 +329,7 @@ export async function handler(event) {
 
     const token = issueMagicLinkToken(email);
     if (!token) {
-      return patronJson(503, { error: "Could not create sign-in link." }, event, {
+      return patronJson(503, { error: "Couldn't create a link right now. Try again shortly." }, event, {
         methods: "POST, OPTIONS",
       });
     }
@@ -340,7 +339,7 @@ export async function handler(event) {
         await sendMagicLinkEmail(email, token);
       } catch (err) {
         console.error("patron magic link email failed:", err);
-        return patronJson(502, { error: "Could not send sign-in email. Try again shortly." }, event, {
+        return patronJson(502, { error: "Couldn't send the email. Try again in a moment." }, event, {
           methods: "POST, OPTIONS",
         });
       }
@@ -352,8 +351,8 @@ export async function handler(event) {
         ok: true,
         emailSent: resendConfigured(),
         message: resendConfigured()
-          ? "Check your email for a one-time sign-in link."
-          : "Sign-in email is not configured — use Access Your Tickets with your confirmation code.",
+          ? "Check your email — we sent you a link."
+          : "Email isn't set up yet. Use Look Up an Order with your confirmation code.",
       },
       event,
       { methods: "POST, OPTIONS" },
@@ -370,7 +369,7 @@ export async function handler(event) {
 
     const magic = verifyMagicLinkToken(body.token);
     if (!magic?.email) {
-      return patronJson(401, { error: "This sign-in link is invalid or expired." }, event, {
+      return patronJson(401, { error: "That link expired. Request a new one." }, event, {
         methods: "POST, OPTIONS",
       });
     }
@@ -382,8 +381,8 @@ export async function handler(event) {
         {
           error:
             consumed.reason === "used"
-              ? "This sign-in link was already used. Request a new one."
-              : "Could not verify this sign-in link. Request a new one.",
+              ? "That link was already used. Request a new one."
+              : "That link isn't working. Request a new one.",
         },
         event,
         { methods: "POST, OPTIONS" },
@@ -392,7 +391,7 @@ export async function handler(event) {
 
     const session = issuePatronSession(magic.email, { ip: getClientIp(event) });
     if (!session) {
-      return patronJson(503, { error: "Could not start your session." }, event, {
+      return patronJson(503, { error: "Couldn't start your session. Try again shortly." }, event, {
         methods: "POST, OPTIONS",
       });
     }

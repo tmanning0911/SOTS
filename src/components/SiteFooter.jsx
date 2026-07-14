@@ -10,6 +10,7 @@ import { isTicketCheckoutUrl } from "../../js/ticketing.js";
 import { SocialIcon } from "./SocialIcon.jsx";
 import { ArrowButton } from "./ArrowButton.jsx";
 import { MailLink } from "./MailLink.jsx";
+import { MailingListSignup } from "./MailingListSignup.jsx";
 import { TicketCheckoutLink } from "./ticketing/TicketCheckoutLink.jsx";
 
 const FOOTER_SOCIAL = SOCIAL_LINKS.filter((social) => social.platform !== "x");
@@ -83,6 +84,14 @@ export function SiteFooter() {
               </div>
             ))}
           </nav>
+        </div>
+
+        <div className="orpheum-footer__mailing" data-reveal>
+          <MailingListSignup
+            variant="footer"
+            heading="Mailing List"
+            lead="Season announcements and education news, delivered to your inbox."
+          />
         </div>
 
         <div className="orpheum-footer__divider" aria-hidden="true" />

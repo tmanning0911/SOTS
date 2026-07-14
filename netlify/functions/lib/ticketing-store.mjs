@@ -10,11 +10,14 @@ import { stripTestPerformances, assertProductionPerformanceId } from "../../../j
 import { normalizePatronEmail } from "./patron-auth.mjs";
 import { normalizePhone } from "./patron-profile.mjs";
 import { calculateDiscountCents, validatePromo } from "./promo.mjs";
+import { getProduct, readShopCatalog } from "./shop-store.mjs";
 import { readStaticJsonCatalog } from "./static-catalog.mjs";
 import { squareEnvironment } from "./square.mjs";
 
 const STORE_NAME = "sots-ticketing";
 const HOLD_TTL_MS = 15 * 60 * 1000;
+const SHOP_ADDON_MAX_PER_LINE = 4;
+const SHOP_ADDON_MAX_TOTAL = 8;
 
 function store() {
   return blobStore(STORE_NAME);
@@ -308,7 +311,62 @@ export async function markOrderRefunded(orderId, { squareRefundId, amountCents }
   return order;
 }
 
-export async function createHold({ performanceId, items, buyer, promoCode, donationCents }) {
+async function resolveShopAddonLines(shopItems) {
+  if (!Array.isArray(shopItems) || !shopItems.length) {
+    return { shopLineItems: [], shopCents: 0 };
+  }
+
+  const shopCatalog = await readShopCatalog();
+  const shopLineItems = [];
+  let shopCents = 0;
+  let totalUnits = 0;
+
+  for (const raw of shopItems) {
+    const qty = Number(raw?.quantity);
+    if (!Number.isInteger(qty) || qty < 1 || qty > SHOP_ADDON_MAX_PER_LINE) {
+      throw new Error("Invalid souvenir quantity");
+    }
+    totalUnits += qty;
+    if (totalUnits > SHOP_ADDON_MAX_TOTAL) {
+      throw new Error("Too many souvenirs for one order");
+    }
+
+    const product = getProduct(shopCatalog, raw?.productId);
+    if (!product?.price?.value) throw new Error("Invalid souvenir");
+    if (product.digital || product.category === "gift-certificates") {
+      throw new Error("Gift certificates are available in the gift shop only");
+    }
+    if (product.onSale === false) throw new Error(`${product.name} is not available`);
+
+    const hasOptions = Boolean(product.options?.length);
+    let option;
+    if (hasOptions) {
+      const allowed = product.options[0].values ?? [];
+      option = String(raw?.option ?? "").trim();
+      if (!option || !allowed.includes(option)) {
+        throw new Error(`Select a ${product.options[0].name?.toLowerCase() || "size"} for ${product.name}`);
+      }
+    }
+
+    const lineTotal = product.price.value * qty;
+    shopLineItems.push({
+      productId: product.id,
+      sku: product.sku,
+      name: product.name,
+      quantity: qty,
+      option: option || undefined,
+      unitPrice: product.price.value,
+      unitPriceDisplay: product.price.display,
+      lineTotal,
+      fulfillment: "pickup",
+    });
+    shopCents += lineTotal;
+  }
+
+  return { shopLineItems, shopCents };
+}
+
+export async function createHold({ performanceId, items, buyer, promoCode, donationCents, shopItems }) {
   if (productionCatalogMode()) {
     assertProductionPerformanceId(performanceId);
   }
@@ -365,7 +423,9 @@ export async function createHold({ performanceId, items, buyer, promoCode, donat
   if (donation > 0 && donation < 100) donation = 100;
   if (donation > 500_000) donation = 500_000;
 
-  const totalCents = Math.max(100, subtotalCents - discountCents + donation);
+  const { shopLineItems, shopCents } = await resolveShopAddonLines(shopItems);
+
+  const totalCents = Math.max(100, subtotalCents - discountCents + donation + shopCents);
 
   const holdId = newHoldId();
   const hold = {
@@ -373,11 +433,13 @@ export async function createHold({ performanceId, items, buyer, promoCode, donat
     performanceId,
     performanceLabel: performance.start,
     lineItems,
+    shopLineItems,
     subtotalCents,
     discountCents,
     promoCode: promo?.code ?? null,
     promoDescription: promo?.description ?? null,
     donationCents: donation,
+    shopCents,
     totalCents,
     currency: "USD",
     reserved: true,
@@ -488,10 +550,12 @@ export async function commitOrder({ hold, squarePaymentId, squareOrderId = null 
     location: performance?.location ?? "",
     buyer: hold.buyer,
     lineItems: hold.lineItems,
+    shopLineItems: hold.shopLineItems ?? [],
     subtotalCents: hold.subtotalCents ?? hold.totalCents,
     discountCents: hold.discountCents ?? 0,
     promoCode: hold.promoCode ?? null,
     donationCents: hold.donationCents ?? 0,
+    shopCents: hold.shopCents ?? 0,
     totalCents: hold.totalCents,
     currency: hold.currency,
     squarePaymentId,
@@ -531,10 +595,12 @@ export function publicOrderView(order) {
     location: order.location,
     buyer: order.buyer,
     lineItems: order.lineItems,
+    shopLineItems: order.shopLineItems ?? [],
     subtotalCents: order.subtotalCents,
     discountCents: order.discountCents,
     promoCode: order.promoCode,
     donationCents: order.donationCents,
+    shopCents: order.shopCents ?? 0,
     totalCents: order.totalCents,
     currency: order.currency,
     tickets: order.tickets,

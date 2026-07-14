@@ -65,7 +65,7 @@ export function ProductionPage() {
                   Tickets
                 </ArrowButton>
               ) : null}
-              <ArrowButton href="/about/visit/" variant="ghost">
+              <ArrowButton href="/about/visit/" variant="light">
                 Plan Your Visit
               </ArrowButton>
             </>

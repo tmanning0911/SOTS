@@ -58,7 +58,7 @@ export function PatronAvatarField({
 
       <div className="sots-patron-avatar__copy">
         <p className="sots-patron-avatar__label">Profile photo</p>
-        <p className="sots-patron-avatar__hint">Optional. JPEG, PNG, or WebP — we resize it for you.</p>
+        <p className="sots-patron-avatar__hint">Optional. JPEG, PNG, or WebP.</p>
         <div className="sots-patron-avatar__actions">
           <button
             type="button"

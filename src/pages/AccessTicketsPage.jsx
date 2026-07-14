@@ -38,7 +38,7 @@ export function AccessTicketsPage() {
           <div className="orpheum-container orpheum-container--narrow sots-account-page__body" data-reveal>
             <OrderLookupPanel initialEmail={initialEmail} initialCode={initialCode} />
             <p className="sots-checkout__hint">
-              Want all your orders in one place? <Link to="/my-tickets/">Sign in to My Tickets</Link>
+              Want all your shows in one place? <Link to="/my-tickets/">Open My Tickets</Link>
               {" · "}
               Purchased by phone or in person?{" "}
               <Link to="/about/contact/">Contact the box office</Link>.

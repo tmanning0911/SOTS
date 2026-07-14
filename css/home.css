@@ -500,12 +500,14 @@ body.page-home .site-header.is-scrolled {
   --btn-tracking: 0.08em;
   --btn-gap: 0.75rem;
   --btn-disabled-opacity: 0.55;
+  --btn-divider: rgba(15, 45, 77, 0.14);
+  --btn-divider-on-dark: rgba(255, 255, 255, 0.22);
 }
 
 .orpheum-arrow-btn {
   display: inline-flex;
   align-items: stretch;
-  gap: 1px;
+  gap: 0;
   text-decoration: none;
   border: none;
   background: none;
@@ -517,7 +519,8 @@ body.page-home .site-header.is-scrolled {
   letter-spacing: var(--btn-tracking);
   text-transform: uppercase;
   color: var(--orp-dark);
-  transition: box-shadow 0.2s, color 0.2s, background 0.2s, border-color 0.2s;
+  border-radius: var(--btn-radius);
+  transition: color 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
   min-height: var(--btn-min-height);
   -webkit-tap-highlight-color: transparent;
 }
@@ -535,17 +538,18 @@ body.page-home .site-header.is-scrolled {
   box-sizing: border-box;
   background: var(--orp-gold);
   border-radius: var(--btn-radius) 0 0 var(--btn-radius);
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
 .orpheum-arrow-btn__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 0.35rem;
+  padding: 0 0.45rem;
   background: var(--orp-gold);
   border-radius: 0 var(--btn-radius) var(--btn-radius) 0;
-  transition: background 0.2s, color 0.2s;
+  box-shadow: inset 1px 0 0 var(--btn-divider);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
 .orpheum-arrow-btn__chevron {
@@ -568,27 +572,20 @@ body.page-home .site-header.is-scrolled {
   pointer-events: none;
 }
 
-/* Structured ghost (label + chevron): navy outline instead of a second gold chip */
+/* Ghost: one continuous outline on the parent — not two inset boxes */
 .orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label) {
   color: var(--orp-dark);
-  box-shadow: none;
+  box-shadow: inset 0 0 0 1px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.28);
 }
 
 .orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label) .orpheum-arrow-btn__label,
 .orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label) .orpheum-arrow-btn__icon {
   background: transparent;
-  box-shadow: inset 0 0 0 1px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.22);
-}
-
-.orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label) .orpheum-arrow-btn__label {
-  border-radius: var(--btn-radius) 0 0 var(--btn-radius);
+  box-shadow: none;
 }
 
 .orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label) .orpheum-arrow-btn__icon {
-  border-radius: 0 var(--btn-radius) var(--btn-radius) 0;
-  box-shadow:
-    inset 0 0 0 1px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.22),
-    inset 1px 0 0 rgba(var(--brand-navy-rgb, 15, 45, 77), 0.12);
+  box-shadow: inset 1px 0 0 rgba(var(--brand-navy-rgb, 15, 45, 77), 0.18);
 }
 
 .orpheum-arrow-btn--light {
@@ -607,7 +604,7 @@ body.page-home .site-header.is-scrolled {
 }
 
 .orpheum-arrow-btn--compact .orpheum-arrow-btn__icon {
-  padding: 0 0.25rem;
+  padding: 0 0.35rem;
 }
 
 /* Explicit flat modifier (same skin as bare markup without label/icon) */
@@ -627,7 +624,7 @@ body.page-home .site-header.is-scrolled {
 .orpheum-arrow-btn--ghost.orpheum-arrow-btn--flat,
 .orpheum-arrow-btn--ghost:not(:has(.orpheum-arrow-btn__label)) {
   background: transparent;
-  border: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.22);
+  border: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.28);
   color: var(--orp-dark);
   box-shadow: none;
 }
@@ -638,11 +635,11 @@ body.page-home .site-header.is-scrolled {
   color: var(--orp-dark);
 }
 
-/* Hover polish only when a real mouse can hover — avoids sticky tap styles on mobile */
+/* Hover: color shift only — no floating shadow boxes, no dual outlines */
 @media (hover: hover) and (pointer: fine) {
   .orpheum-arrow-btn:hover {
-    box-shadow: 0 8px 24px rgba(var(--brand-blue-rgb), 0.25);
     color: var(--orp-white);
+    box-shadow: none;
   }
 
   .orpheum-arrow-btn:hover .orpheum-arrow-btn__label,
@@ -650,19 +647,31 @@ body.page-home .site-header.is-scrolled {
     background: var(--brand-blue);
   }
 
+  .orpheum-arrow-btn:hover .orpheum-arrow-btn__icon {
+    box-shadow: inset 1px 0 0 var(--btn-divider-on-dark);
+  }
+
   .orpheum-arrow-btn:hover .orpheum-arrow-btn__chevron {
+    transform: translateX(0);
+  }
+
+  .orpheum-arrow-btn:hover .orpheum-arrow-btn__line {
+    stroke-dashoffset: 0;
     transform: translateX(0);
   }
 
   .orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label):hover {
     color: var(--orp-dark);
-    box-shadow: none;
+    box-shadow: inset 0 0 0 1px var(--brand-navy);
   }
 
   .orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label):hover .orpheum-arrow-btn__label,
   .orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label):hover .orpheum-arrow-btn__icon {
     background: rgba(var(--brand-navy-rgb, 15, 45, 77), 0.06);
-    box-shadow: inset 0 0 0 1px var(--brand-navy);
+  }
+
+  .orpheum-arrow-btn--ghost:has(.orpheum-arrow-btn__label):hover .orpheum-arrow-btn__icon {
+    box-shadow: inset 1px 0 0 rgba(var(--brand-navy-rgb, 15, 45, 77), 0.2);
   }
 
   .orpheum-arrow-btn--flat:hover,
@@ -670,7 +679,7 @@ body.page-home .site-header.is-scrolled {
     background: var(--brand-blue);
     border-color: var(--brand-blue);
     color: var(--orp-white);
-    box-shadow: 0 8px 22px rgba(var(--brand-blue-rgb), 0.28);
+    box-shadow: none;
   }
 
   .orpheum-arrow-btn--ghost.orpheum-arrow-btn--flat:hover,
@@ -2173,37 +2182,28 @@ body.page-home .site-header.is-scrolled {
 
 .orpheum-footer__cta.orpheum-arrow-btn--light {
   color: var(--orp-white);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.42);
 }
 
 .orpheum-footer__cta.orpheum-arrow-btn--light .orpheum-arrow-btn__label,
 .orpheum-footer__cta.orpheum-arrow-btn--light .orpheum-arrow-btn__icon {
   background: transparent;
   color: var(--orp-white);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.42);
-}
-
-.orpheum-footer__cta.orpheum-arrow-btn--light .orpheum-arrow-btn__label {
-  box-shadow:
-    inset 1px 1px 0 0 rgba(255, 255, 255, 0.42),
-    inset 0 -1px 0 0 rgba(255, 255, 255, 0.42),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.42);
+  box-shadow: none;
 }
 
 .orpheum-footer__cta.orpheum-arrow-btn--light .orpheum-arrow-btn__icon {
-  box-shadow:
-    inset -1px 1px 0 0 rgba(255, 255, 255, 0.42),
-    inset 0 -1px 0 0 rgba(255, 255, 255, 0.42),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.42);
+  box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.28);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .orpheum-footer__cta.orpheum-arrow-btn:hover {
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+    box-shadow: none;
   }
 
   .orpheum-footer__cta.orpheum-arrow-btn--light:hover {
     color: var(--brand-navy);
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+    box-shadow: none;
   }
 
   .orpheum-footer__cta.orpheum-arrow-btn--light:hover .orpheum-arrow-btn__label,
@@ -2213,12 +2213,26 @@ body.page-home .site-header.is-scrolled {
     box-shadow: none;
   }
 
+  .orpheum-footer__cta.orpheum-arrow-btn--light:hover .orpheum-arrow-btn__icon {
+    box-shadow: inset 1px 0 0 rgba(var(--brand-navy-rgb, 15, 45, 77), 0.16);
+  }
+
   .orpheum-footer__cta.orpheum-arrow-btn--gold:hover .orpheum-arrow-btn__label,
   .orpheum-footer__cta.orpheum-arrow-btn--gold:hover .orpheum-arrow-btn__icon,
   .orpheum-footer__cta.orpheum-arrow-btn:not(.orpheum-arrow-btn--light):hover .orpheum-arrow-btn__label,
   .orpheum-footer__cta.orpheum-arrow-btn:not(.orpheum-arrow-btn--light):hover .orpheum-arrow-btn__icon {
     background: var(--orp-white);
     color: var(--brand-navy);
+  }
+
+  .orpheum-footer__cta.orpheum-arrow-btn--gold:hover,
+  .orpheum-footer__cta.orpheum-arrow-btn:not(.orpheum-arrow-btn--light):hover {
+    color: var(--brand-navy);
+  }
+
+  .orpheum-footer__cta.orpheum-arrow-btn--gold:hover .orpheum-arrow-btn__icon,
+  .orpheum-footer__cta.orpheum-arrow-btn:not(.orpheum-arrow-btn--light):hover .orpheum-arrow-btn__icon {
+    box-shadow: inset 1px 0 0 rgba(var(--brand-navy-rgb, 15, 45, 77), 0.16);
   }
 }
 
@@ -5584,6 +5598,24 @@ body.search-open {
 
 .orpheum-production-page__hero-inner .orpheum-arrow-btn {
   margin-top: 1.5rem;
+}
+
+.orpheum-production-page__hero-inner .orpheum-inner-page__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 1.5rem;
+}
+
+.orpheum-production-page__hero-inner .orpheum-inner-page__cta .orpheum-arrow-btn {
+  margin-top: 0;
+  flex: 0 0 auto;
+}
+
+.orpheum-production-page__hero-inner .orpheum-arrow-btn--light .orpheum-arrow-btn__label,
+.orpheum-production-page__hero-inner .orpheum-arrow-btn--light .orpheum-arrow-btn__icon {
+  background: #fff;
 }
 
 .orpheum-production-page__content {

@@ -30,6 +30,17 @@ export function merchandiseProducts(catalog = INITIAL_SHOP_CATALOG) {
   return products.filter((product) => product.category !== "gift-certificates");
 }
 
+/** Jul–Apr (incl. holidays): gift certificates first; May–June: merchandise first. */
+export function shopFeatureGiftCertificatesFirst(date = new Date()) {
+  const month = date.getMonth() + 1; // 1–12
+  return month < 5 || month >= 7;
+}
+
+/** Physical souvenirs eligible as ticket-checkout add-ons (no gift certificates). */
+export function ticketAddonMerchandise(catalog = INITIAL_SHOP_CATALOG) {
+  return merchandiseProducts(catalog).filter((product) => product.onSale !== false && !product.digital);
+}
+
 export function merchandiseCategories(catalog = INITIAL_SHOP_CATALOG) {
   const merchandise = merchandiseProducts(catalog);
   const ids = new Set(merchandise.map((product) => product.category));

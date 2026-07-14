@@ -24,7 +24,7 @@ export function ShopMerchTeaser({
           <p className="sots-shop-teaser__eyebrow">Merchandise</p>
           <h2 id={headingId}>Souvenirs &amp; keepsakes</h2>
           <p className="sots-shop-teaser__lead">
-            Tees, totes, pins, and playbills — pick up at the box office or add to your order now.
+            Tees, totes, pins, and playbills — pick up at the park, or add a souvenir during ticket checkout.
           </p>
         </div>
         <ArrowButton href={SHOP_PAGE_PATH}>Browse gift shop</ArrowButton>

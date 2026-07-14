@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { readStoredBuyer, writeStoredBuyer } from "../../../js/buyer-storage.js";
+import { BUNDLED_MERCHANDISE, ticketAddonMerchandise } from "../../../js/shop.js";
 import {
   completeCheckout,
   formatCents,
@@ -26,6 +27,7 @@ import {
   TICKETS_PAGE_PATH,
 } from "../../../js/ticketing.js";
 import { usePatron } from "../../context/PatronContext.jsx";
+import { useShop } from "../../context/ShopContext.jsx";
 import { useTickets } from "../../context/TicketProvider.jsx";
 import {
   CheckoutAlert,
@@ -37,6 +39,11 @@ import {
 import { CheckoutProgress } from "./CheckoutProgress.jsx";
 import { HoldTimer } from "./HoldTimer.jsx";
 import { TicketQr } from "./TicketQr.jsx";
+import {
+  shopItemsFromSelections,
+  shopLinesForSummary,
+  TicketSouvenirAddon,
+} from "./TicketSouvenirAddon.jsx";
 
 const CARD_CONTAINER_ID = "sots-co-card-mount";
 const FORM_ID = "sots-ticket-checkout";
@@ -95,6 +102,7 @@ function OrderSummary({
   showImage,
   selectedItems,
   ticketTypes,
+  shopSummaryLines,
   donationCents,
   discountCents,
   totalCents,
@@ -127,6 +135,14 @@ function OrderSummary({
         ) : (
           <li className="sots-co__lines-empty">No tickets selected</li>
         )}
+        {shopSummaryLines.map((line) => (
+          <li key={line.key}>
+            <span>
+              {line.quantity}× {line.label}
+            </span>
+            <span>{formatCents(line.cents)}</span>
+          </li>
+        ))}
       </ul>
       {donationCents ? (
         <p className="sots-co__line-row">
@@ -186,6 +202,19 @@ function ConfirmationView({ order, emailSent, showTitle, nextGroup, onCheckoutNe
           </li>
         ))}
       </ul>
+      {order.shopLineItems?.length ? (
+        <div className="sots-checkout__confirm-shop">
+          <p className="sots-checkout__confirm-shop-label">Souvenirs · park pickup</p>
+          <ul>
+            {order.shopLineItems.map((line, index) => (
+              <li key={`${line.productId}-${line.option ?? ""}-${index}`}>
+                {line.quantity}× {line.name}
+                {line.option ? ` (${line.option})` : ""}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
       <p className="sots-checkout__total sots-checkout__total--confirm">Total paid: {formatCents(order.totalCents)}</p>
 
       {nextGroup ? (
@@ -265,6 +294,7 @@ export function TicketCheckoutForm({
     saveAndBrowse,
   } = useTickets();
 
+  const { catalog: shopCatalog } = useShop();
   const [name, setName] = useState(patronProfile?.name || storedBuyer.name);
   const [email, setEmail] = useState(patronUser?.email || storedBuyer.email);
   const [phone, setPhone] = useState(patronProfile?.phone || storedBuyer.phone || "");
@@ -282,6 +312,9 @@ export function TicketCheckoutForm({
   const [showPromo, setShowPromo] = useState(false);
   const [donationCents, setDonationCents] = useState(0);
   const [showDonation, setShowDonation] = useState(false);
+  const [showSouvenirs, setShowSouvenirs] = useState(false);
+  const [shopQuantities, setShopQuantities] = useState({});
+  const [shopOptions, setShopOptions] = useState({});
   const [hold, setHold] = useState(null);
   const [order, setOrder] = useState(null);
   const [remainingAfterPay, setRemainingAfterPay] = useState([]);
@@ -347,6 +380,9 @@ export function TicketCheckoutForm({
     setShowPromo(false);
     setDonationCents(0);
     setShowDonation(false);
+    setShowSouvenirs(false);
+    setShopQuantities({});
+    setShopOptions({});
     cardRef.current?.destroy?.();
     cardRef.current = null;
     setCardMountKey((key) => key + 1);
@@ -382,10 +418,30 @@ export function TicketCheckoutForm({
     [selectedItems, ticketTypes],
   );
 
+  const souvenirProducts = useMemo(() => {
+    const list = ticketAddonMerchandise(shopCatalog);
+    return list.length ? list : ticketAddonMerchandise({ products: BUNDLED_MERCHANDISE });
+  }, [shopCatalog]);
+
+  const shopItems = useMemo(
+    () => shopItemsFromSelections(souvenirProducts, shopQuantities, shopOptions),
+    [souvenirProducts, shopQuantities, shopOptions],
+  );
+
+  const shopSummaryLines = useMemo(
+    () => shopLinesForSummary(souvenirProducts, shopQuantities, shopOptions),
+    [souvenirProducts, shopQuantities, shopOptions],
+  );
+
+  const shopCents = useMemo(
+    () => shopSummaryLines.reduce((sum, line) => sum + line.cents, 0),
+    [shopSummaryLines],
+  );
+
   const otherInCart = otherPerformanceCount(cart, performanceId);
   const discountCents = hold?.discountCents ?? promoPreview?.discountCents ?? 0;
   const estimatedTotal = selectedItems.length
-    ? (hold?.totalCents ?? Math.max(100, ticketSubtotal + donationCents - discountCents))
+    ? (hold?.totalCents ?? Math.max(100, ticketSubtotal + donationCents + shopCents - discountCents))
     : 0;
 
   const scrollToCheckoutStep = useCallback((stepId) => {
@@ -531,9 +587,25 @@ export function TicketCheckoutForm({
       buyer,
       promoCode: promoCode.trim() || undefined,
       donationCents,
+      shopItems,
     });
     setHold(prepared);
     return prepared;
+  }
+
+  function setSouvenirQuantity(productId, quantity) {
+    setShopQuantities((prev) => {
+      const next = { ...prev };
+      if (quantity <= 0) delete next[productId];
+      else next[productId] = quantity;
+      return next;
+    });
+    setHold(null);
+  }
+
+  function setSouvenirOption(productId, option) {
+    setShopOptions((prev) => ({ ...prev, [productId]: option }));
+    setHold(null);
   }
 
   async function handlePay(e) {
@@ -633,6 +705,7 @@ export function TicketCheckoutForm({
               showImage={showImage}
               selectedItems={selectedItems}
               ticketTypes={ticketTypes}
+              shopSummaryLines={shopSummaryLines}
               donationCents={donationCents}
               discountCents={discountCents}
               promoLabel={promoPreview?.description ?? hold?.promoCode ?? undefined}
@@ -671,6 +744,14 @@ export function TicketCheckoutForm({
                 ) : (
                   <li className="sots-co__lines-empty">Select tickets below</li>
                 )}
+                {shopSummaryLines.map((line) => (
+                  <li key={line.key}>
+                    <span>
+                      {line.quantity}× {line.label}
+                    </span>
+                    <span>{formatCents(line.cents)}</span>
+                  </li>
+                ))}
               </ul>
               {donationCents ? (
                 <p className="sots-co__line-row">
@@ -786,6 +867,30 @@ export function TicketCheckoutForm({
                         {promoMessage ? (
                           <p className={`sots-checkout__promo-message${promoPreview ? " is-success" : ""}`}>{promoMessage}</p>
                         ) : null}
+                      </div>
+                    ) : null}
+
+                    <button
+                      type="button"
+                      className="sots-co__extras-toggle"
+                      aria-expanded={showSouvenirs}
+                      onClick={() => setShowSouvenirs((v) => !v)}
+                    >
+                      {showSouvenirs
+                        ? "Hide souvenirs"
+                        : shopItems.length
+                          ? `Souvenirs (${shopItems.reduce((n, i) => n + i.quantity, 0)})`
+                          : "Add a souvenir?"}
+                    </button>
+                    {showSouvenirs ? (
+                      <div className="sots-co__extras-panel">
+                        <TicketSouvenirAddon
+                          products={souvenirProducts}
+                          quantities={shopQuantities}
+                          options={shopOptions}
+                          onQuantityChange={setSouvenirQuantity}
+                          onOptionChange={setSouvenirOption}
+                        />
                       </div>
                     ) : null}
 
@@ -925,6 +1030,14 @@ export function TicketCheckoutForm({
                         </li>
                       );
                     })}
+                    {shopSummaryLines.map((line) => (
+                      <li key={line.key}>
+                        <span>
+                          {line.quantity}× {line.label}
+                        </span>
+                        <span>{formatCents(line.cents)}</span>
+                      </li>
+                    ))}
                     {donationCents ? (
                       <li>
                         <span>Donation</span>

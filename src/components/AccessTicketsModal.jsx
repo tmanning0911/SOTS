@@ -13,7 +13,7 @@ export function AccessTicketsModal({ open, onClose }) {
         </button>
         <h2 id="access-tickets-title">Look Up an Order</h2>
         <p className="sots-checkout__hint">
-          Have many orders? <Link to="/my-tickets/" onClick={onClose}>Sign in to My Tickets</Link> instead.
+          Have a few orders? <Link to="/my-tickets/" onClick={onClose}>Open My Tickets</Link> instead.
         </p>
 
         <OrderLookupPanel />

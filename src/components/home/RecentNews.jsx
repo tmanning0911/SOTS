@@ -129,7 +129,7 @@ export function RecentNews() {
             <p className="orpheum-news-feed__eyebrow">From 1995 to today</p>
             <h3 id="news-heading">News & History</h3>
           </div>
-          <ArrowButton href="/news/">View all news</ArrowButton>
+          <ArrowButton to="/news/">View all news</ArrowButton>
         </div>
 
         <div className="orpheum-news-feed__filters" role="tablist" aria-label="Filter news by topic">

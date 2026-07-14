@@ -213,7 +213,7 @@ export function TicketsPage() {
             ) : null}
             <div className="tix-page__hero-actions">
               <ArrowButton href="#dates">See dates</ArrowButton>
-              <ArrowButton href={`/productions/${PRODUCTION_SLUG}/`} variant="ghost">
+              <ArrowButton href={`/productions/${PRODUCTION_SLUG}/`} variant="light">
                 About Much Ado
               </ArrowButton>
             </div>
@@ -426,7 +426,7 @@ export function TicketsPage() {
               </span>
               <div>
                 <strong>Show your QR</strong>
-                <p>Tickets land in your inbox and stay in My Tickets on your phone.</p>
+                <p>Your tickets are emailed to you, and you can always find them in My Tickets.</p>
               </div>
             </li>
           </ol>

@@ -122,7 +122,7 @@ export function OrderLookupPanel({ initialEmail = "", initialCode = "", onBuyTic
     <>
       <p>Look up a single order with the email and confirmation code from checkout.</p>
       <p className="sots-checkout__hint">
-        For all your orders, <Link to="/my-tickets/">sign in to My Tickets</Link>.
+        For all your shows, <Link to="/my-tickets/">open My Tickets</Link>.
       </p>
       <form className="sots-order-lookup" onSubmit={handleLookup}>
         <label>

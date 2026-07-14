@@ -533,6 +533,31 @@ html.lenis.lenis-smooth .sots-checkout__card-container iframe,
   gap: 0.5rem;
 }
 
+.sots-checkout__confirm-shop {
+  margin: 0.85rem 0 0;
+  padding: 0.85rem 0 0;
+  border-top: 1px solid rgba(15, 45, 77, 0.1);
+}
+
+.sots-checkout__confirm-shop-label {
+  margin: 0 0 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brand-navy, #0f2d4d);
+}
+
+.sots-checkout__confirm-shop ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.92rem;
+  color: #3a4550;
+}
+
 .sots-checkout__hint {
   font-size: 0.88rem;
   color: #4a5560;
@@ -1077,6 +1102,31 @@ html.lenis.lenis-smooth .sots-checkout__card-container iframe,
   margin: 0 0 0.85rem;
   color: #4a5560;
   line-height: 1.45;
+}
+
+.sots-order-card__shop {
+  margin: 0 0 0.85rem;
+  padding: 0.75rem 0 0;
+  border-top: 1px solid rgba(15, 45, 77, 0.08);
+}
+
+.sots-order-card__shop-label {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brand-navy, #0f2d4d);
+}
+
+.sots-order-card__shop-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  color: #3a4550;
 }
 
 .sots-my-tickets-page__empty {

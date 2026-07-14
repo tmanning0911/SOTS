@@ -76,13 +76,12 @@ export function PatronContactForm({
         <div className="sots-patron-contact__intro">
           <h2 id="patron-contact-heading">Contact information</h2>
           <p>
-            Kept on file for box office support and, with your permission, season updates. This information
-            can be synced to our CRM when you opt in.
+            Kept on file so the box office can reach you. Season email only if you opt in below.
           </p>
         </div>
       ) : (
         <p className="sots-patron-contact__intro sots-patron-contact__intro--nested">
-          Kept on file for box office support and, with your permission, season updates.
+          Kept on file so the box office can reach you. Season email only if you opt in below.
         </p>
       )}
 

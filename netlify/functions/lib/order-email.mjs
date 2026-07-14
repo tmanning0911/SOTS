@@ -61,9 +61,16 @@ function ticketCardsHtml(order, siteUrl) {
 }
 
 function lineItemsText(order) {
-  return order.lineItems
+  const ticketLines = (order.lineItems ?? [])
     .map((line) => `${line.quantity}× ${line.name} — ${line.unitPriceDisplay ?? formatCents(line.unitPrice)}`)
     .join("\n");
+  const shopLines = (order.shopLineItems ?? [])
+    .map((line) => {
+      const label = line.option ? `${line.name} (${line.option})` : line.name;
+      return `${line.quantity}× ${label} — ${line.unitPriceDisplay ?? formatCents(line.unitPrice)} (park pickup)`;
+    })
+    .join("\n");
+  return [ticketLines, shopLines].filter(Boolean).join("\n");
 }
 
 function ticketsText(order) {
@@ -96,6 +103,16 @@ export function buildOrderConfirmationContent(order, siteUrl = getSiteUrl()) {
     "Tickets:",
     ticketsText(order),
     "",
+    order.shopLineItems?.length
+      ? [
+          "Souvenirs (park pickup):",
+          ...order.shopLineItems.map((line) => {
+            const label = line.option ? `${line.name} (${line.option})` : line.name;
+            return `${line.quantity}× ${label}`;
+          }),
+          "",
+        ].join("\n")
+      : "",
     `Total paid: ${formatCents(order.totalCents)}`,
     "",
     `View your tickets anytime: ${accessUrl}`,
@@ -128,7 +145,21 @@ export function buildOrderConfirmationContent(order, siteUrl = getSiteUrl()) {
     <p style="margin:0 0 12px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:${C.navy};font-weight:bold;">Your tickets</p>
     ${ticketCardsHtml(order, siteUrl)}
 
-    ${order.donationCents ? `<p style="margin:0 0 10px;font-size:14px;color:${C.blue};">Includes a ${escapeHtml(formatCents(order.donationCents))} donation — thank you for supporting free Shakespeare.</p>` : ""}
+    ${order.donationCents ? `<p style="margin:0 0 10px;font-size:14px;color:${C.blue};">Includes a ${escapeHtml(formatCents(order.donationCents))} donation — thank you for supporting accessible Shakespeare.</p>` : ""}
+    ${
+      order.shopLineItems?.length
+        ? `<div style="margin:0 0 16px;">
+      <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:${C.navy};font-weight:bold;">Souvenirs</p>
+      <p style="margin:0 0 8px;font-size:14px;color:${C.muted};">Pick up at the merchandise table or box office on show day.</p>
+      ${order.shopLineItems
+        .map((line) => {
+          const label = line.option ? `${line.name} (${line.option})` : line.name;
+          return `<p style="margin:0 0 4px;font-size:14px;color:${C.ink};">${escapeHtml(String(line.quantity))}× ${escapeHtml(label)} — ${escapeHtml(line.unitPriceDisplay ?? formatCents(line.unitPrice))}</p>`;
+        })
+        .join("")}
+    </div>`
+        : ""
+    }
     ${order.discountCents ? `<p style="margin:0 0 10px;font-size:14px;color:#1f6b3a;">Promo ${escapeHtml(order.promoCode ?? "")} saved you ${escapeHtml(formatCents(order.discountCents))}.</p>` : ""}
 
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 22px;border-top:1px solid ${C.line};">
