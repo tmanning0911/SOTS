@@ -53,7 +53,33 @@ export async function fetchPatronProfile(token = readPatronSession()?.token) {
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || "Session expired");
-  return data.user;
+  return data;
+}
+
+export async function fetchPatronContactProfile(token = readPatronSession()?.token) {
+  if (!token) throw new Error("Not signed in");
+  const res = await fetch("/api/patron/profile", {
+    headers: { Accept: "application/json", Authorization: `Bearer ${token}` },
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || "Could not load your contact information");
+  return data.profile ?? null;
+}
+
+export async function updatePatronContactProfile(profile, token = readPatronSession()?.token) {
+  if (!token) throw new Error("Not signed in");
+  const res = await fetch("/api/patron/profile", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(profile),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || "Could not save your contact information");
+  return data.profile ?? null;
 }
 
 export async function fetchPatronOrders(token = readPatronSession()?.token) {

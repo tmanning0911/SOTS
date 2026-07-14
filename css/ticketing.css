@@ -993,7 +993,7 @@ html.lenis.lenis-smooth .sots-checkout__card-container iframe,
 .sots-my-tickets-page__auth,
 .sots-my-tickets-page__signed-in {
   display: grid;
-  gap: 1rem;
+  gap: 1.25rem;
   margin-top: 1.5rem;
 }
 
@@ -1010,11 +1010,185 @@ html.lenis.lenis-smooth .sots-checkout__card-container iframe,
   gap: 1rem;
 }
 
+.sots-my-tickets-page__empty {
+  display: grid;
+  gap: 0.85rem;
+  justify-items: start;
+  padding: 1rem 0;
+}
+
+.sots-account-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  padding: 1.35rem 1.5rem;
+  border: 1px solid rgba(15, 45, 77, 0.12);
+  border-radius: 1rem;
+  background:
+    linear-gradient(135deg, rgba(33, 101, 180, 0.08), rgba(212, 175, 55, 0.1)),
+    #fff;
+}
+
+.sots-account-banner__eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1a5090;
+}
+
+.sots-account-banner__title {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  color: #0f2d4d;
+  letter-spacing: 0.01em;
+}
+
+.sots-account-banner__meta {
+  margin: 0.4rem 0 0;
+  color: #4a5560;
+  line-height: 1.5;
+}
+
+.sots-account-banner__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.sots-account-layout {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 960px) {
+  .sots-account-layout {
+    grid-template-columns: minmax(18rem, 22rem) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.sots-account-panel {
+  border: 1px solid rgba(15, 45, 77, 0.12);
+  border-radius: 1rem;
+  padding: 1.35rem 1.4rem;
+  background: #fff;
+}
+
+.sots-account-panel__eyebrow {
+  margin: 0 0 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1a5090;
+}
+
+.sots-account-panel h2 {
+  margin: 0 0 0.5rem;
+  color: #0f2d4d;
+  font-size: 1.2rem;
+}
+
+.sots-patron-contact {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.sots-patron-contact__intro p {
+  margin: 0;
+  color: #4a5560;
+  line-height: 1.55;
+  font-size: 0.94rem;
+}
+
+.sots-patron-contact__grid {
+  display: grid;
+  gap: 0.85rem;
+}
+
+@media (min-width: 560px) {
+  .sots-patron-contact__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sots-patron-contact__field--wide {
+    grid-column: 1 / -1;
+  }
+
+  .sots-patron-contact__field--state {
+    max-width: 6rem;
+  }
+}
+
+.sots-patron-contact__field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.sots-patron-contact__field span {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #0f2d4d;
+}
+
+.sots-patron-contact__optional {
+  font-weight: 500;
+  color: #6b7580;
+}
+
+.sots-patron-contact__field input {
+  padding: 0.72rem 0.85rem;
+  border: 1px solid rgba(15, 45, 77, 0.16);
+  border-radius: 0.65rem;
+  font: inherit;
+  background: #fff;
+}
+
+.sots-patron-contact__field input:disabled {
+  background: #f4f7fa;
+  color: #4a5560;
+}
+
+.sots-patron-contact__field input:focus {
+  outline: none;
+  border-color: #2165b4;
+  box-shadow: 0 0 0 3px rgba(33, 101, 180, 0.15);
+}
+
+.sots-patron-contact__consent {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.65rem;
+  align-items: start;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #4a5560;
+}
+
+.sots-patron-contact__consent input {
+  margin-top: 0.2rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  accent-color: #2165b4;
+}
+
+.sots-patron-contact__actions {
+  display: grid;
+  gap: 0.65rem;
+  justify-items: start;
+}
+
 .sots-order-card {
   border: 1px solid rgba(15, 45, 77, 0.12);
   border-radius: 1rem;
   padding: 1.25rem;
-  background: #fff;
+  background:
+    linear-gradient(180deg, #fbfcfe 0%, #fff 42%),
+    #fff;
 }
 
 .sots-order-card__head {
@@ -1022,18 +1196,39 @@ html.lenis.lenis-smooth .sots-checkout__card-container iframe,
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(15, 45, 77, 0.08);
+}
+
+.sots-order-card__head h3 {
+  margin: 0 0 0.25rem;
+  color: #0f2d4d;
 }
 
 .sots-order-card__code {
   margin: 0 0 0.35rem;
-  font-family: monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   color: #1a5090;
   font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 .sots-order-card__venue,
 .sots-order-card__total {
   color: #4a5560;
+}
+
+.sots-order-card__total {
+  font-weight: 700;
+  color: #0f2d4d;
+  white-space: nowrap;
+}
+
+.sots-order-card__actions {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 1rem;
+  justify-items: start;
 }
 
 .sots-ticketing-admin__head,

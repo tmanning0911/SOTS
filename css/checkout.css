@@ -701,6 +701,10 @@ html.sots-checkout-scroll iframe {
   .sots-co__fields {
     grid-template-columns: 1fr 1fr;
   }
+
+  .sots-co__field--wide {
+    grid-column: 1 / -1;
+  }
 }
 
 .sots-co__field {
@@ -744,6 +748,29 @@ html.sots-checkout-scroll iframe {
   background: #f0f6fc;
   font-size: 0.86rem;
   color: #4a5560;
+}
+
+.sots-co__optional {
+  font-weight: 500;
+  color: #6b7580;
+}
+
+.sots-co__consent {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.65rem;
+  align-items: start;
+  margin-top: 0.85rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #4a5560;
+}
+
+.sots-co__consent input {
+  margin-top: 0.2rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  accent-color: var(--brand-blue, #2165b4);
 }
 
 .sots-co__payment-box {
@@ -911,15 +938,6 @@ body.page-checkout .orpheum-header__logo img {
   line-height: 1.6;
   color: #4a5560;
 }
-
-.orpheum-newsletter-banner__lead {
-  max-width: 32rem;
-  margin: 0 0 1.25rem;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.9);
-}
-
 
 .sots-co__terms {
   margin: 0;

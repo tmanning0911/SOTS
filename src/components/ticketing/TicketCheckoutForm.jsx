@@ -254,6 +254,7 @@ export function TicketCheckoutForm({
   const cardRef = useRef(null);
   const patron = usePatron();
   const patronUser = patron?.user;
+  const patronProfile = patron?.profile;
   const storedBuyer = useMemo(() => readStoredBuyer(), []);
   const {
     cart,
@@ -264,8 +265,12 @@ export function TicketCheckoutForm({
     saveAndBrowse,
   } = useTickets();
 
-  const [name, setName] = useState(storedBuyer.name);
+  const [name, setName] = useState(patronProfile?.name || storedBuyer.name);
   const [email, setEmail] = useState(patronUser?.email || storedBuyer.email);
+  const [phone, setPhone] = useState(patronProfile?.phone || storedBuyer.phone || "");
+  const [marketingOptIn, setMarketingOptIn] = useState(
+    Boolean(patronProfile?.marketingOptIn ?? storedBuyer.marketingOptIn),
+  );
   const [quantities, setQuantities] = useState(() =>
     quantitiesFromCartLines(linesForPerformance(performanceId)),
   );
@@ -323,8 +328,10 @@ export function TicketCheckoutForm({
     const fromCart = quantitiesFromCartLines(linesForPerformance(performanceId));
     setQuantities(fromCart);
     setHydratedFor(performanceId);
-    setName(storedBuyer.name);
+    setName(patronProfile?.name || storedBuyer.name);
     setEmail(patronUser?.email || storedBuyer.email);
+    setPhone(patronProfile?.phone || storedBuyer.phone || "");
+    setMarketingOptIn(Boolean(patronProfile?.marketingOptIn ?? storedBuyer.marketingOptIn));
     setHold(null);
     setOrder(null);
     setRemainingAfterPay([]);
@@ -503,11 +510,25 @@ export function TicketCheckoutForm({
   }
 
   async function ensureHold() {
-    if (hold) return hold;
+    const buyer = {
+      name: name.trim(),
+      email: email.trim().toLowerCase(),
+      phone: phone.trim(),
+      marketingOptIn: Boolean(marketingOptIn),
+    };
+    const holdMatchesBuyer =
+      hold &&
+      hold.buyer?.name === buyer.name &&
+      hold.buyer?.email === buyer.email &&
+      (hold.buyer?.phone || "") === buyer.phone &&
+      Boolean(hold.buyer?.marketingOptIn) === buyer.marketingOptIn;
+
+    if (holdMatchesBuyer) return hold;
+
     const prepared = await prepareCheckout({
       performanceId,
       items: selectedItems,
-      buyer: { name, email },
+      buyer,
       promoCode: promoCode.trim() || undefined,
       donationCents,
     });
@@ -536,7 +557,7 @@ export function TicketCheckoutForm({
       return;
     }
 
-    writeStoredBuyer({ name, email });
+    writeStoredBuyer({ name, email, phone, marketingOptIn });
     setPerformanceQuantities(performanceId, quantities);
     setLoading(true);
     try {
@@ -844,7 +865,31 @@ export function TicketCheckoutForm({
                         placeholder="you@example.com"
                       />
                     </label>
+                    <label className="sots-co__field sots-co__field--wide">
+                      <span>
+                        Phone <span className="sots-co__optional">(optional)</span>
+                      </span>
+                      <input
+                        type="tel"
+                        name="phone"
+                        autoComplete="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="(203) 555-0100"
+                      />
+                    </label>
                   </div>
+                  <label className="sots-co__consent">
+                    <input
+                      type="checkbox"
+                      checked={marketingOptIn}
+                      onChange={(e) => setMarketingOptIn(e.target.checked)}
+                    />
+                    <span>
+                      Keep me updated about performances, community programs, and ways to support Shakespeare
+                      on the Sound.
+                    </span>
+                  </label>
                 </div>
               </section>
 

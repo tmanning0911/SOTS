@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { heroImageForHref } from "../../js/page-heroes.js";
 import { formatCents, resendOrderEmail } from "../../js/square-payments.js";
@@ -6,8 +6,9 @@ import { formatPerformanceDate } from "../../js/ticketing.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
-import { usePatron } from "../context/PatronContext.jsx";
+import { PatronContactForm } from "../components/ticketing/PatronContactForm.jsx";
 import { TicketQr } from "../components/ticketing/TicketQr.jsx";
+import { usePatron } from "../context/PatronContext.jsx";
 
 function OrderCard({ order, email }) {
   const [resendState, setResendState] = useState("idle");
@@ -80,13 +81,16 @@ export function MyTicketsPage() {
   const {
     isSignedIn,
     user,
+    profile,
     orders,
     loadingOrders,
+    loadingProfile,
     error,
     requestMagicLink,
     signInWithToken,
     signOut,
     refreshOrders,
+    saveProfile,
   } = usePatron();
 
   const [email, setEmail] = useState(user?.email ?? "");
@@ -94,6 +98,7 @@ export function MyTicketsPage() {
   const [authError, setAuthError] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
   const [verifyingToken, setVerifyingToken] = useState(false);
+  const [savingProfile, setSavingProfile] = useState(false);
 
   useEffect(() => {
     document.title = "My Tickets - Shakespeare on the Sound";
@@ -129,6 +134,13 @@ export function MyTicketsPage() {
     };
   }, [params, setParams, signInWithToken, isSignedIn]);
 
+  const ticketCount = useMemo(
+    () => orders.reduce((sum, order) => sum + (order.tickets?.length ?? 0), 0),
+    [orders],
+  );
+
+  const displayName = profile?.name?.trim() || "";
+
   async function handleRequestLink(e) {
     e.preventDefault();
     setAuthLoading(true);
@@ -144,14 +156,23 @@ export function MyTicketsPage() {
     }
   }
 
+  async function handleSaveProfile(next) {
+    setSavingProfile(true);
+    try {
+      await saveProfile(next);
+    } finally {
+      setSavingProfile(false);
+    }
+  }
+
   return (
     <InnerPageShell showVisit={false} showNewsletter={false}>
       <article className="orpheum-inner-page sots-account-page">
         <InnerPageHero
           className="sots-account-page__hero"
-          eyebrow="Your Tickets"
+          eyebrow="Patron Account"
           title="My Tickets"
-          intro="Sign in with your email to see every order in one place — with QR codes ready for the park."
+          intro="Your official Shakespeare on the Sound account — tickets, QR codes, and contact details for the box office."
           image={heroImageForHref("/my-tickets/")}
           actions={
             <>
@@ -164,12 +185,14 @@ export function MyTicketsPage() {
         />
 
         <div className="orpheum-inner-page__body">
-          <div className="orpheum-container orpheum-container--narrow sots-account-page__body" data-reveal>
+          <div className="orpheum-container sots-account-page__body" data-reveal>
             {!isSignedIn ? (
-              <section className="sots-my-tickets-page__auth" aria-labelledby="my-tickets-sign-in">
-                <h2 id="my-tickets-sign-in">Sign in with email</h2>
+              <section className="sots-my-tickets-page__auth sots-account-panel" aria-labelledby="my-tickets-sign-in">
+                <p className="sots-account-panel__eyebrow">Secure access</p>
+                <h2 id="my-tickets-sign-in">Sign in to your account</h2>
                 <p className="sots-my-tickets-page__lead">
-                  No password needed — we'll email you a secure link.
+                  Enter the email used at checkout. We&apos;ll send a secure one-time link — no password
+                  required.
                 </p>
                 {verifyingToken ? <p>Signing you in…</p> : null}
                 <form className="sots-order-lookup" onSubmit={handleRequestLink}>
@@ -200,42 +223,85 @@ export function MyTicketsPage() {
                 ) : null}
               </section>
             ) : (
-              <section className="sots-my-tickets-page__signed-in">
-                <div className="sots-my-tickets-page__signed-in-head">
-                  <p>
-                    Signed in as <strong>{user?.email}</strong>
-                  </p>
-                  <button type="button" className="orpheum-arrow-btn orpheum-arrow-btn--ghost" onClick={signOut}>
-                    Sign out
-                  </button>
-                </div>
-
-                {loadingOrders ? <p>Loading your tickets…</p> : null}
-                {error ? (
-                  <p className="sots-checkout__error" role="alert">
-                    {error}
-                  </p>
-                ) : null}
-
-                {!loadingOrders && !orders.length ? (
-                  <div className="sots-my-tickets-page__empty">
-                    <p>No ticket orders yet for this email.</p>
-                    <Link to="/tickets/" className="orpheum-arrow-btn orpheum-arrow-btn--gold">
-                      Buy tickets
-                    </Link>
+              <div className="sots-my-tickets-page__signed-in">
+                <header className="sots-account-banner">
+                  <div className="sots-account-banner__copy">
+                    <p className="sots-account-banner__eyebrow">Shakespeare on the Sound</p>
+                    <h2 className="sots-account-banner__title">
+                      {displayName ? `Welcome, ${displayName.split(" ")[0]}` : "Your patron account"}
+                    </h2>
+                    <p className="sots-account-banner__meta">
+                      Signed in as <strong>{user?.email}</strong>
+                      {orders.length ? (
+                        <>
+                          {" "}
+                          · {orders.length} order{orders.length === 1 ? "" : "s"} · {ticketCount} ticket
+                          {ticketCount === 1 ? "" : "s"}
+                        </>
+                      ) : null}
+                    </p>
                   </div>
-                ) : null}
+                  <div className="sots-account-banner__actions">
+                    <button
+                      type="button"
+                      className="orpheum-arrow-btn orpheum-arrow-btn--ghost"
+                      onClick={() => refreshOrders()}
+                    >
+                      Refresh tickets
+                    </button>
+                    <button type="button" className="orpheum-arrow-btn orpheum-arrow-btn--ghost" onClick={signOut}>
+                      Sign out
+                    </button>
+                  </div>
+                </header>
 
-                <div className="sots-my-tickets-page__orders">
-                  {orders.map((order) => (
-                    <OrderCard key={order.id} order={order} email={user?.email} />
-                  ))}
+                <div className="sots-account-layout">
+                  <section
+                    className="sots-account-panel sots-account-panel--contact"
+                    aria-labelledby="patron-contact-heading"
+                  >
+                    {loadingProfile && !profile ? (
+                      <p>Loading your contact information…</p>
+                    ) : (
+                      <PatronContactForm
+                        profile={profile}
+                        email={user?.email}
+                        onSave={handleSaveProfile}
+                        saving={savingProfile}
+                      />
+                    )}
+                  </section>
+
+                  <section className="sots-account-panel sots-account-panel--tickets" aria-labelledby="patron-tickets-heading">
+                    <div className="sots-patron-contact__intro">
+                      <h2 id="patron-tickets-heading">Your tickets</h2>
+                      <p>Present these QR codes at the entrance. You can also resend confirmation emails below.</p>
+                    </div>
+
+                    {loadingOrders ? <p>Loading your tickets…</p> : null}
+                    {error ? (
+                      <p className="sots-checkout__error" role="alert">
+                        {error}
+                      </p>
+                    ) : null}
+
+                    {!loadingOrders && !orders.length ? (
+                      <div className="sots-my-tickets-page__empty">
+                        <p>No ticket orders yet for this email.</p>
+                        <Link to="/tickets/" className="orpheum-arrow-btn orpheum-arrow-btn--gold">
+                          Buy tickets
+                        </Link>
+                      </div>
+                    ) : null}
+
+                    <div className="sots-my-tickets-page__orders">
+                      {orders.map((order) => (
+                        <OrderCard key={order.id} order={order} email={user?.email} />
+                      ))}
+                    </div>
+                  </section>
                 </div>
-
-                <button type="button" className="orpheum-arrow-btn orpheum-arrow-btn--ghost" onClick={() => refreshOrders()}>
-                  Refresh
-                </button>
-              </section>
+              </div>
             )}
           </div>
         </div>

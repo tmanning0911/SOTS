@@ -8,6 +8,7 @@ import { randomBytes } from "node:crypto";
 import { isPastPerformance, normalizeTicketCatalog } from "../../../js/performance-dates.js";
 import { stripTestPerformances, assertProductionPerformanceId } from "../../../js/catalog-production.js";
 import { normalizePatronEmail } from "./patron-auth.mjs";
+import { normalizePhone } from "./patron-profile.mjs";
 import { calculateDiscountCents, validatePromo } from "./promo.mjs";
 import { readStaticJsonCatalog } from "./static-catalog.mjs";
 import { squareEnvironment } from "./square.mjs";
@@ -383,6 +384,8 @@ export async function createHold({ performanceId, items, buyer, promoCode, donat
     buyer: {
       name: String(buyer?.name ?? "").trim().slice(0, 200),
       email: normalizePatronEmail(buyer?.email),
+      phone: normalizePhone(buyer?.phone),
+      marketingOptIn: Boolean(buyer?.marketingOptIn),
     },
     expiresAt: new Date(Date.now() + HOLD_TTL_MS).toISOString(),
     createdAt: new Date().toISOString(),

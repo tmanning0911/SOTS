@@ -100,6 +100,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/patron/profile"
+  to = "/.netlify/functions/patron-auth"
+  status = 200
+
+[[redirects]]
   from = "/api/ticketing/admin"
   to = "/.netlify/functions/ticketing-admin"
   status = 200

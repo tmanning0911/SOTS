@@ -1,4 +1,6 @@
 import { jsonResponse } from "./lib/cors.mjs";
+import { bindBlobs } from "./lib/netlify-blobs.mjs";
+import { syncPatronToCrm } from "./lib/crm-sync.mjs";
 import { getClientIp, rateLimit } from "./lib/rateLimit.mjs";
 import {
   BOX_OFFICE_EMAIL,
@@ -18,6 +20,11 @@ import {
   verifyMagicLinkToken,
   verifyPatronSession,
 } from "./lib/patron-auth.mjs";
+import {
+  getPatronProfile,
+  publicPatronProfile,
+  upsertPatronProfile,
+} from "./lib/patron-profile.mjs";
 import { listPatronOrders, publicOrderView } from "./lib/ticketing-store.mjs";
 
 const C = EMAIL_COLORS;
@@ -64,16 +71,52 @@ async function sendMagicLinkEmail(email, token) {
   return sendEmail({ to: email, subject, html, text, replyTo: BOX_OFFICE_EMAIL });
 }
 
+async function resolveProfileForPatron(email) {
+  let profile = await getPatronProfile(email);
+  if (profile?.name) return publicPatronProfile(profile);
+
+  // Prefill from most recent order when no saved profile yet.
+  const orders = await listPatronOrders(email);
+  const latest = orders[0];
+  if (latest?.buyer) {
+    profile = await upsertPatronProfile(
+      email,
+      {
+        name: latest.buyer.name,
+        phone: latest.buyer.phone,
+        marketingOptIn: Boolean(latest.buyer.marketingOptIn),
+      },
+      { source: "order-prefill", overwrite: false },
+    );
+  }
+
+  return publicPatronProfile(profile) ?? {
+    email,
+    name: "",
+    firstName: "",
+    lastName: "",
+    phone: "",
+    address: { line1: "", line2: "", city: "", state: "", postalCode: "" },
+    marketingOptIn: false,
+    marketingOptInAt: null,
+    updatedAt: null,
+    createdAt: null,
+    crmSyncStatus: "pending",
+  };
+}
+
 export async function handler(event) {
+  bindBlobs(event);
   const path = (event.rawUrl || event.path || "").replace(/\/$/, "");
   const isSessionRoute = path.includes("/patron/session");
   const isOrdersRoute = path.includes("/patron/orders");
+  const isProfileRoute = path.includes("/patron/profile");
 
   if (event.httpMethod === "OPTIONS") {
-    return jsonResponse(204, {}, event, { methods: "GET, POST, OPTIONS" });
+    return jsonResponse(204, {}, event, { methods: "GET, POST, PUT, OPTIONS" });
   }
 
-  if (event.httpMethod === "POST" && !isSessionRoute && !isOrdersRoute) {
+  if (event.httpMethod === "POST" && !isSessionRoute && !isOrdersRoute && !isProfileRoute) {
     const ip = getClientIp(event);
     if (!rateLimit(`patron-auth:${ip}`, { max: 8, windowMs: 900_000 })) {
       return jsonResponse(429, { error: "Too many requests. Please try again later." }, event, {
@@ -149,7 +192,8 @@ export async function handler(event) {
       return jsonResponse(503, { error: "Could not start your session." }, event, { methods: "POST, OPTIONS" });
     }
 
-    return jsonResponse(200, session, event, { methods: "POST, OPTIONS" });
+    const profile = await resolveProfileForPatron(magic.email);
+    return jsonResponse(200, { ...session, profile }, event, { methods: "POST, OPTIONS" });
   }
 
   if (event.httpMethod === "GET" && isOrdersRoute) {
@@ -167,14 +211,86 @@ export async function handler(event) {
     );
   }
 
+  if (isProfileRoute) {
+    const patron = verifyPatronSession(event);
+    if (!patron?.email) {
+      return jsonResponse(401, { error: "Sign in required." }, event, {
+        methods: "GET, PUT, OPTIONS",
+      });
+    }
+
+    if (event.httpMethod === "GET") {
+      const profile = await resolveProfileForPatron(patron.email);
+      return jsonResponse(200, { profile }, event, { methods: "GET, PUT, OPTIONS" });
+    }
+
+    if (event.httpMethod === "PUT") {
+      const ip = getClientIp(event);
+      if (!rateLimit(`patron-profile:${ip}`, { max: 20, windowMs: 900_000 })) {
+        return jsonResponse(429, { error: "Too many requests. Please try again later." }, event, {
+          methods: "GET, PUT, OPTIONS",
+        });
+      }
+
+      let body;
+      try {
+        body = JSON.parse(event.body || "{}");
+      } catch {
+        return jsonResponse(400, { error: "Invalid JSON" }, event, { methods: "GET, PUT, OPTIONS" });
+      }
+
+      const name = String(body.name ?? "").trim();
+      if (!name) {
+        return jsonResponse(400, { error: "Full name is required." }, event, {
+          methods: "GET, PUT, OPTIONS",
+        });
+      }
+
+      try {
+        const profile = await upsertPatronProfile(
+          patron.email,
+          {
+            name,
+            phone: body.phone,
+            address: body.address,
+            marketingOptIn: Boolean(body.marketingOptIn),
+          },
+          { overwrite: true, source: "my-tickets" },
+        );
+
+        // Fire-and-forget CRM sync — do not block the patron on webhook latency.
+        syncPatronToCrm(event, profile, { event: "patron.profile_update", source: "my-tickets" }).catch(
+          (err) => console.error("patron profile CRM sync:", err),
+        );
+
+        return jsonResponse(
+          200,
+          { ok: true, profile: publicPatronProfile(profile) },
+          event,
+          { methods: "GET, PUT, OPTIONS" },
+        );
+      } catch (err) {
+        return jsonResponse(400, { error: err.message || "Could not save profile" }, event, {
+          methods: "GET, PUT, OPTIONS",
+        });
+      }
+    }
+
+    return jsonResponse(405, { error: "Method not allowed" }, event, { methods: "GET, PUT, OPTIONS" });
+  }
+
   if (event.httpMethod === "GET") {
     const patron = verifyPatronSession(event);
     if (!patron?.email) {
       return jsonResponse(401, { error: "Sign in required." }, event, { methods: "GET, POST, OPTIONS" });
     }
-    return jsonResponse(200, { user: { email: patron.email, role: patron.role } }, event, {
-      methods: "GET, POST, OPTIONS",
-    });
+    const profile = await resolveProfileForPatron(patron.email);
+    return jsonResponse(
+      200,
+      { user: { email: patron.email, role: patron.role }, profile },
+      event,
+      { methods: "GET, POST, OPTIONS" },
+    );
   }
 
   return jsonResponse(405, { error: "Method not allowed" }, event, { methods: "GET, POST, OPTIONS" });
