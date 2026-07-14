@@ -63,7 +63,7 @@ export const PILL_NAV = [
 ];
 
 export const UTILITY_LEFT = [
-  { label: "Pinkney Park", href: "/about/visit/" },
+  { label: "Shakespeare in Pinkney Park", href: "/about/visit/" },
   { label: "Education Programs", href: "/education/in-schools/" },
 ];
 
@@ -87,14 +87,14 @@ export const UTILITY_LINKS = [
 export const FEATURED_SPOTLIGHT = [
   {
     title: "Much Ado About Nothing",
-    venue: "Main Stage · Pinkney Park",
+    venue: "Main Stage · Shakespeare in Pinkney Park",
     dates: "June 10–28, 2026",
     image: MEDIA.muchAdoPoster,
     href: "/productions/much-ado-about-nothing/",
   },
   {
     title: "Kids' Show",
-    venue: "Family · Pinkney Park",
+    venue: "Family · Shakespeare in Pinkney Park",
     dates: "Summer 2026",
     image: MEDIA.kidsImage,
     href: "/productions/kids-show/",
@@ -109,7 +109,7 @@ export const NAV_ITEMS = [
         title: "Events By Location",
         links: [
           { label: "All Events", href: "/tickets/" },
-          { label: "Pinkney Park", href: "/about/visit/" },
+          { label: "Shakespeare in Pinkney Park", href: "/about/visit/" },
           { label: "Education Events", href: "/education/events/" },
         ],
       },
@@ -140,7 +140,7 @@ export const NAV_ITEMS = [
     ],
     featured: {
       title: "Much Ado About Nothing",
-      meta: "Main Stage · Pinkney Park",
+      meta: "Main Stage · Shakespeare in Pinkney Park",
       dates: "June 10–28, 2026",
       href: "/productions/much-ado-about-nothing/",
       image: MEDIA.muchAdoPoster,
@@ -162,7 +162,7 @@ export const NAV_ITEMS = [
     ],
     venues: [
       {
-        name: "Pinkney Park",
+        name: "Shakespeare in Pinkney Park",
         address: "Rowayton, CT 06853",
         href: "/about/visit/",
       },
@@ -198,7 +198,7 @@ export const NAV_ITEMS = [
     ],
     featured: {
       title: "Summer Camps",
-      meta: "Education · Pinkney Park",
+      meta: "Education · Shakespeare in Pinkney Park",
       dates: "Summer 2026",
       href: "/education/summer-camps/",
       image: MEDIA.kidsImage,
@@ -225,7 +225,7 @@ export const NAV_ITEMS = [
 export const PRODUCTIONS = [
   {
     title: "Much Ado About Nothing",
-    date: "June 10–28, 2026 · Pinkney Park, Rowayton, CT",
+    date: "June 10–28, 2026 · Shakespeare in Pinkney Park, Rowayton, CT",
     href: "/productions/much-ado-about-nothing/",
     image: MEDIA.muchAdoPoster,
   },
@@ -284,7 +284,7 @@ export const SPONSORS = [
 ];
 
 export const FOOTER_VENUES = [
-  { label: "Pinkney Park", href: "/about/visit/" },
+  { label: "Shakespeare in Pinkney Park", href: "/about/visit/" },
   { label: "Education & Community", href: "/education/in-schools/" },
 ];
 
@@ -350,7 +350,7 @@ export const VISIT_TILES = [
 
 export const VENUE_DUO = [
   {
-    name: "Pinkney Park",
+    name: "Shakespeare in Pinkney Park",
     label: "Main Stage",
     image: MEDIA.heroBanner,
     href: "/about/visit/",
@@ -395,7 +395,7 @@ export const SEASON_SHOWS = [
     title: "Much Ado About Nothing",
     dates: "June 10–28, 2026",
     dateShort: "Jun 10–28, 2026",
-    venue: "Pinkney Park, Rowayton, CT",
+    venue: "Shakespeare in Pinkney Park, Rowayton, CT",
     description:
       "Shakespeare's sparkling comedy of wit, romance, and mistaken identity comes alive under the Connecticut stars. Directed by David Frederick Mold.",
     image: MEDIA.muchAdoPoster,
@@ -409,7 +409,7 @@ export const SEASON_SHOWS = [
     title: "Kids' Show",
     dates: "Summer 2026",
     dateShort: "Summer 2026",
-    venue: "Pinkney Park, Rowayton, CT",
+    venue: "Shakespeare in Pinkney Park, Rowayton, CT",
     description:
       "Our kids' production brings the joy of live Shakespeare to young audiences — perfect for families discovering theatre together in the park.",
     image: MEDIA.kidsImage,
@@ -446,7 +446,7 @@ export const SEASON_SHOWS = [
 ];
 
 export const SEASON_MILESTONES = [
-  { date: "Jun 10", label: "2026 summer season opens with Much Ado About Nothing at Pinkney Park." },
+  { date: "Jun 10", label: "2026 summer season opens with Much Ado About Nothing at Shakespeare in Pinkney Park." },
   { date: "Jun 10–28", label: "Performance run — arrive early, spread a blanket, and settle in for the show." },
   { date: "Summer", label: "Kids' Show and education programs in the park." },
   { date: "Oct 16", label: "Much Ado About Something gala — support the season ahead." },
@@ -459,7 +459,7 @@ export const SEASON_BENEFITS = [
   },
   {
     title: "Under the stars",
-    text: "Pinkney Park, Rowayton — blankets on the grass, fireflies overhead, Long Island Sound nearby.",
+    text: "Shakespeare in Pinkney Park, Rowayton — blankets on the grass, fireflies overhead, Long Island Sound nearby.",
   },
   {
     title: "Reserved options",
@@ -481,7 +481,7 @@ export const SEASON_BENEFITS = [
 
 export const VISIT_ESSENTIALS = [
   { label: "Admission", value: "Free — donations welcome" },
-  { label: "Venue", value: "Pinkney Park, Rowayton, CT" },
+  { label: "Venue", value: "Shakespeare in Pinkney Park, Rowayton, CT" },
   { label: "Seating", value: "Open lawn — bring a blanket or low chair" },
   { label: "Gates", value: "Opens one hour before curtain" },
   { label: "Weather", value: "Performances may delay for rain — check same-day updates" },
@@ -491,7 +491,7 @@ export const FEATURED_SHOW = {
   title: "Much Ado About Nothing",
   tagline: "Shakespeare's sparkling comedy of wit, romance, and mistaken identity",
   dates: "June 10–28, 2026",
-  venue: "Pinkney Park, Rowayton, CT",
+  venue: "Shakespeare in Pinkney Park, Rowayton, CT",
   director: "David Frederick Mold",
   image: MEDIA.muchAdoPoster,
   heroImage: MEDIA.heroBanner,
@@ -502,7 +502,7 @@ export const FEATURED_SHOW = {
 export const HOMEPAGE_STATS = [
   { value: "1996", label: "Serving Fairfield County since" },
   { value: "Free", label: "Outdoor Shakespeare under the stars" },
-  { value: "Pinkney Park", label: "Rowayton, Connecticut" },
+  { value: "Shakespeare in Pinkney Park", label: "Rowayton, Connecticut" },
   { value: "June 10–28", label: "2026 summer season" },
 ];
 
@@ -569,7 +569,7 @@ export const HOMEPAGE_FAQ = [
     a: "General admission is $25 for adults, $15 for students and seniors, and $5 for children 12 and under. VIP reserved seating is $75. Tuesdays are donation-only performances — pay what you can at the door.",
   },
   {
-    q: "What should I bring to Pinkney Park?",
+    q: "What should I bring to Shakespeare in Pinkney Park?",
     a: "Bring a blanket or low beach chair, layers for cool evenings, and mosquito repellent. Picnics are welcome. Please arrive early for the best seating on the lawn.",
   },
   {
@@ -583,7 +583,7 @@ export const HOMEPAGE_FAQ = [
 ];
 
 export const SEASON_SCHEDULE = [
-  { show: "Much Ado About Nothing", dates: "June 10–28, 2026", venue: "Pinkney Park", status: "On Sale", href: "/productions/much-ado-about-nothing/" },
-  { show: "Kids' Show", dates: "Summer 2026", venue: "Pinkney Park", status: "Coming Soon", href: "/productions/kids-show/" },
+  { show: "Much Ado About Nothing", dates: "June 10–28, 2026", venue: "Shakespeare in Pinkney Park", status: "On Sale", href: "/productions/much-ado-about-nothing/" },
+  { show: "Kids' Show", dates: "Summer 2026", venue: "Shakespeare in Pinkney Park", status: "Coming Soon", href: "/productions/kids-show/" },
   { show: "Much Ado About Something Gala", dates: "Oct 16, 2026", venue: "Norwalk, CT", status: "Save the Date", href: "/support/events/" },
 ];

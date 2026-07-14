@@ -69,7 +69,7 @@ function TicketsSpotlight({ data, loading, priceLabel }) {
         timeZone: "America/New_York",
       }).format(new Date(featured.start.slice(0, 10) + "T12:00:00"))
     : FEATURED_SHOW.dates;
-  const venue = featured?.venue ?? "Pinkney Park";
+  const venue = featured?.venue ?? "Shakespeare in Pinkney Park";
   const slug = production?.slug ?? PRODUCTION_SLUG;
 
   return (
@@ -200,7 +200,7 @@ export function TicketsPage() {
           />
           <div className="tix-page__hero-veil" aria-hidden="true" />
           <div className="tix-page__hero-inner" data-reveal>
-            <p className="tix-page__hero-eyebrow">Pinkney Park · Summer 2026</p>
+            <p className="tix-page__hero-eyebrow">Shakespeare in Pinkney Park · Summer 2026</p>
             <h1>Tickets &amp; Dates</h1>
             <p className="tix-page__hero-lead">
               Choose a date, add tickets to your cart, then checkout securely—one performance at a time.
@@ -357,7 +357,7 @@ export function TicketsPage() {
               </span>
               <div>
                 <strong>Pick a date</strong>
-                <p>Choose a performance at Pinkney Park from the calendar above.</p>
+                <p>Choose a performance at Shakespeare in Pinkney Park from the calendar above.</p>
               </div>
             </li>
             <li>

@@ -109,7 +109,7 @@ function PerformanceDateList({ performances, onSelect }) {
                 <div className="sots-date-list__details">
                   <span className="sots-date-list__when">{formatPerformanceListDate(performance.start)}</span>
                   <span className="sots-date-list__meta">
-                    {performance.venue ?? "Pinkney Park"}
+                    {performance.venue ?? "Shakespeare in Pinkney Park"}
                     {performance.minPrice?.display ? ` · ${performance.minPrice.display}` : ""}
                   </span>
                 </div>

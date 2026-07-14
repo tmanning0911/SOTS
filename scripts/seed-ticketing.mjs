@@ -65,7 +65,7 @@ function seasonTestDayOffsets(now = new Date(), count = 17) {
 }
 
 function buildTestPerformances(catalog, now = new Date()) {
-  const venue = "Pinkney Park";
+  const venue = "Shakespeare in Pinkney Park";
   const location = "177 Rowayton Avenue, Norwalk, CT 06853";
   const minPrice = catalog.priceFrom ?? { display: "$25.00", currency: "USD", value: 2500 };
   const rawTitle =

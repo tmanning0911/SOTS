@@ -85,7 +85,7 @@ function ConfirmationView({ order, emailSent, returnHref }) {
         ))}
       </ul>
       <div className="sots-checkout__next-steps">
-        <h3>{order.fulfillment === "pickup" ? "Pickup at Pinkney Park" : "Shipping"}</h3>
+        <h3>{order.fulfillment === "pickup" ? "Pickup at Shakespeare in Pinkney Park" : "Shipping"}</h3>
         <ol>
           {order.fulfillment === "pickup" ? (
             <>
@@ -330,7 +330,7 @@ export function ShopCheckoutForm({ returnHref = "/shop/", cartTotal, featuredIma
                   </div>
                   {fulfillment === "pickup" ? (
                     <p className="sots-shop-checkout__pickup-note">
-                      Pick up at the Pinkney Park booth. Digital gift certificates are emailed immediately.
+                      Pick up at the Shakespeare in Pinkney Park booth. Digital gift certificates are emailed immediately.
                     </p>
                   ) : (
                     <div className="sots-co__fields">

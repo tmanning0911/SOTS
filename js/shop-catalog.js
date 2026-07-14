@@ -23,7 +23,7 @@ export const SHOP_PRODUCTS = [
     id: "sots-tote",
     itemId: "sots-tote",
     name: "Canvas Tote Bag",
-    description: "Sturdy tote for picnics at Pinkney Park — fits a blanket and a bottle of wine.",
+    description: "Sturdy tote for picnics at Shakespeare in Pinkney Park — fits a blanket and a bottle of wine.",
     category: "gifts",
     categoryLabel: "Gifts & Souvenirs",
     price: { value: 2200, display: "$22.00", currency: "USD" },
@@ -111,7 +111,7 @@ export const SHOP_DINE_PARTNERS = [
 ];
 
 export const SHOP_FULFILLMENT = {
-  pickup: "Pick up at the Pinkney Park box office during performances (June–August).",
+  pickup: "Pick up at the Shakespeare in Pinkney Park box office during performances (June–August).",
   shipping: "Select items ship within 5–7 business days. We'll email tracking when your order ships.",
   giftCertificates: "Gift certificates are emailed within one business day of purchase.",
 };

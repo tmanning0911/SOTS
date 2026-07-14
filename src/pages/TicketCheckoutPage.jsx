@@ -37,7 +37,7 @@ export function TicketCheckoutPage() {
 
   const venueLine = useMemo(() => {
     const parts = [performance?.venue, performance?.location].filter(Boolean);
-    return parts.join(" · ") || "Pinkney Park · Rowayton, CT";
+    return parts.join(" · ") || "Shakespeare in Pinkney Park · Rowayton, CT";
   }, [performance]);
 
   useEffect(() => {

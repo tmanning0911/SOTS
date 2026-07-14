@@ -63,7 +63,7 @@ export function ShopPage() {
             <p className="sots-shop-page__hero-eyebrow">Support SOS</p>
             <h1>Gift Shop</h1>
             <p className="sots-shop-page__hero-lead">
-              Take home a piece of Pinkney Park — merchandise, playbills, and gift certificates that support
+              Take home a piece of Shakespeare in Pinkney Park — merchandise, playbills, and gift certificates that support
               free Shakespeare in Fairfield County.
             </p>
           </div>
@@ -136,7 +136,7 @@ export function ShopPage() {
                 <div>
                   <p className="sots-shop-page__section-eyebrow">This summer</p>
                   <h2 id="shop-tickets-heading">Going to the show?</h2>
-                  <p>Pair your gift with tickets to Much Ado About Nothing under the stars at Pinkney Park.</p>
+                  <p>Pair your gift with tickets to Much Ado About Nothing under the stars at Shakespeare in Pinkney Park.</p>
                 </div>
                 <ArrowButton href="/tickets/">Get tickets</ArrowButton>
               </section>

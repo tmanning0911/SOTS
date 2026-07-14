@@ -140,7 +140,7 @@ export const PRODUCTION_DETAILS = {
   "much-ado-about-nothing": {
     title: "Much Ado About Nothing",
     date: "June 10–28, 2026",
-    venue: "Pinkney Park, Rowayton, CT",
+    venue: "Shakespeare in Pinkney Park, Rowayton, CT",
     season: "2026",
     director: "David Frederick Mold",
     image: WIX("2fda61_52a2b5db62ea4c22b8da935de226b8de~mv2.jpg", 450, 712),
@@ -224,7 +224,7 @@ export const PRODUCTION_DETAILS = {
   "kids-show": {
     title: "Kids' Show",
     date: "June 10–28, 2026",
-    venue: "Pinkney Park, Rowayton, CT",
+    venue: "Shakespeare in Pinkney Park, Rowayton, CT",
     season: "2026",
     image: WIX("2fda61_58e853fcce884727a4deba3453b4c1ed~mv2.jpeg", 600, 400),
     heroImage: WIX("2fda61_58e853fcce884727a4deba3453b4c1ed~mv2.jpeg", 1200, 800),
@@ -251,7 +251,7 @@ export const PRODUCTION_DETAILS = {
           { label: "Show", value: "Much Ado About Nothing for Kids" },
           { label: "Dates", value: "June 10–28, 2026 (except Mondays)" },
           { label: "Time", value: "6:30 pm nightly, before the MainStage show" },
-          { label: "Location", value: "Pinkney Park, Rowayton, CT" },
+          { label: "Location", value: "Shakespeare in Pinkney Park, Rowayton, CT" },
           { label: "Admission", value: "Free" },
           { label: "Performed By", value: "Shakespeare on the Sound Apprentice Company" },
         ],
@@ -652,7 +652,7 @@ export const INNER_PAGES = [
     href: "/about/visit/",
     title: "Visit",
     heading: "Plan Your Visit.",
-    eyebrow: "Pinkney Park",
+    eyebrow: "Shakespeare in Pinkney Park",
     intro:
       "There's no better way to spend a summer evening than watching professional Shakespeare in this picturesque waterfront setting on the banks of the Five Mile River in Rowayton, CT.",
     sections: [
@@ -1092,7 +1092,7 @@ export const INNER_PAGES = [
         programs: [
           {
             title: "Much Ado About Nothing for Kids",
-            meta: ["June 10–28, except Mondays", "6:30pm", "Pinkney Park", "Free"],
+            meta: ["June 10–28, except Mondays", "6:30pm", "Shakespeare in Pinkney Park", "Free"],
             paragraphs: [
               "A 30-minute version of Much Ado About Nothing for ages 1–100!",
               "A kid-friendly adaptation by our Apprentice Company that also serves as a refresher for those who need a plot reminder. Show up to the park, find a spot, and enjoy!",
@@ -1106,7 +1106,7 @@ export const INNER_PAGES = [
         programs: [
           {
             title: "SOS Book Club",
-            meta: ["Thursday, June 18", "5:00pm", "Pinkney Park", "$25 with MainStage ticket", "Rain date: June 25"],
+            meta: ["Thursday, June 18", "5:00pm", "Shakespeare in Pinkney Park", "$25 with MainStage ticket", "Rain date: June 25"],
             paragraphs: [
               "Interested in learning more about Much Ado About Nothing before watching it live? Looking for a place to explore and share ideas about the play? Want to meet other Shakespeare fans and scholars? Join us for the first ever SoS Book Club!",
               "Join Director of Education and Outreach Stephanie Eiss and educator and former Board President John Love for a guided discussion about the play.",

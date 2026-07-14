@@ -86,7 +86,7 @@ export function buildTicketCartLine({ performance, ticketType, quantity }) {
     performanceId: String(performance.id),
     performanceStart: performance.start ?? null,
     performanceLabel: formatPerformanceListDate(performance.start) || performance.name || "Performance",
-    venue: performance.venue ?? "Pinkney Park",
+    venue: performance.venue ?? "Shakespeare in Pinkney Park",
     ticketTypeId: String(ticketType.id),
     ticketTypeName: patronDisplayName(ticketType.name) || "Ticket",
     price: ticketType.price

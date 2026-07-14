@@ -85,7 +85,7 @@ function formatEventDates(event) {
 
 function formatEventGenre(event) {
   if (event.genre) return event.genre;
-  const location = event.location?.includes("Pinkney") ? "Pinkney Park" : event.location;
+  const location = event.location?.includes("Pinkney") ? "Shakespeare in Pinkney Park" : event.location;
   return [event.category, location].filter(Boolean).join(" · ");
 }
 
@@ -96,7 +96,7 @@ function fromPlay(play, { featured = false } = {}) {
     id: play.id,
     title: play.title,
     dates: play.dates,
-    genre: play.id.includes("kids") ? "Family · Pinkney Park" : "Main Stage · Pinkney Park",
+    genre: play.id.includes("kids") ? "Family · Shakespeare in Pinkney Park" : "Main Stage · Shakespeare in Pinkney Park",
     image: play.image || MEDIA.heroHome,
     featureImage: play.image || MEDIA.heroBanner,
     href,

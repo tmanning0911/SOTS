@@ -575,7 +575,7 @@ export function MyTicketsPage() {
                     {!loadingOrders && ticketOrders.length && !upcomingOrders.length ? (
                       <div className="sots-my-tickets-page__empty sots-my-tickets-page__empty--inline">
                         <p className="sots-my-tickets-page__empty-title">No upcoming shows</p>
-                        <p>Your past ticket orders are below. Ready for another night at Pinkney Park?</p>
+                        <p>Your past ticket orders are below. Ready for another night at Shakespeare in Pinkney Park?</p>
                         <Link to="/tickets/" className="orpheum-arrow-btn orpheum-arrow-btn--gold">
                           Browse performances
                         </Link>

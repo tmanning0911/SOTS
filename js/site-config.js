@@ -59,7 +59,7 @@ export function buildFeaturedEventJsonLd() {
     eventStatus: "https://schema.org/EventScheduled",
     location: {
       "@type": "Place",
-      name: "Pinkney Park",
+      name: "Shakespeare in Pinkney Park",
       address: {
         "@type": "PostalAddress",
         addressLocality: "Rowayton",

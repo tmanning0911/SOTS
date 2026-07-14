@@ -49,7 +49,7 @@ export function buildOrderCalendarIcs(order) {
     `Confirmation ${order.confirmationCode || ""}`.trim(),
     ticketCount ? `${ticketCount} ticket${ticketCount === 1 ? "" : "s"}` : "",
     "Gates open at 4pm; box office at 5pm on show days.",
-    "Shakespeare on the Sound — Pinkney Park, Rowayton, CT",
+    "Shakespeare on the Sound — Shakespeare in Pinkney Park, Rowayton, CT",
   ]
     .filter(Boolean)
     .join("\\n");

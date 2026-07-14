@@ -148,7 +148,7 @@ export function TicketPickerSheet({
           <div>
             <p className="tix-picker__eyebrow">Choose tickets</p>
             <h2 id={titleId}>{formatPerformanceListDate(performance.start) || formatPerformanceDate(performance.start)}</h2>
-            <p className="tix-picker__meta">{performance.venue ?? "Pinkney Park"}</p>
+            <p className="tix-picker__meta">{performance.venue ?? "Shakespeare in Pinkney Park"}</p>
           </div>
           <button type="button" className="tix-picker__close" onClick={onClose} aria-label="Close">
             ×
