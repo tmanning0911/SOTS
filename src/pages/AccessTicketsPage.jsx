@@ -20,6 +20,11 @@ export function AccessTicketsPage() {
 
         <div className="orpheum-inner-page__body">
           <div className="orpheum-container orpheum-container--narrow sots-account-page__body" data-reveal>
+            <p className="sots-account-page__lede">
+              Online Square purchases use your <strong>Square email receipt</strong> at the gate —
+              they are not looked up here. Use this form only if you have a site confirmation code
+              from an account-flow order or box-office purchase.
+            </p>
             <OrderLookupPanel initialEmail={initialEmail} initialCode={initialCode} />
             <p className="sots-checkout__hint">
               Want all your shows in one place? <Link to="/my-tickets/">Open My Tickets</Link>

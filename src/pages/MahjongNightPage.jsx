@@ -68,18 +68,20 @@ export function MahjongNightPage() {
 
   return (
     <InnerPageShell className="sots-mahjong-page" showSupport>
-      <article className="orpheum-inner-page sots-mahjong">
+      <article
+        className={`orpheum-inner-page sots-mahjong${totalQty > 0 ? " sots-mahjong--checkout-open" : ""}`}
+      >
         <InnerPageHero title={event.title} />
 
         <div className="orpheum-inner-page__body">
           {thanks ? (
             <p className="sots-mahjong__thanks" role="status" data-reveal>
-              Thank you — your payment was received. A receipt from Square should arrive by email
-              shortly.
+              Thank you — if you completed payment, Square will email your receipt. Save that receipt
+              for check-in at the event.
             </p>
           ) : null}
 
-          {error ? (
+          {error && totalQty === 0 ? (
             <p className="sots-mahjong__error" role="alert">
               {error}
             </p>
@@ -168,22 +170,6 @@ export function MahjongNightPage() {
             </p>
           </section>
 
-          {totalQty > 0 ? (
-            <div className="sots-mahjong__sticky-checkout" role="region" aria-label="Checkout">
-              <p className="sots-mahjong__checkout-total">
-                {totalQty} item{totalQty === 1 ? "" : "s"} · {formatMahjongCents(totalCents)}
-              </p>
-              <ArrowButton type="button" onClick={checkout} disabled={busy}>
-                {busy ? "Starting…" : "Checkout with Square"}
-              </ArrowButton>
-              {error ? (
-                <p className="sots-mahjong__error sots-mahjong__error--sticky" role="alert">
-                  {error}
-                </p>
-              ) : null}
-            </div>
-          ) : null}
-
           <section className="sots-mahjong__section" aria-labelledby="mahjong-faq-heading" data-reveal>
             <p className="orpheum-eyebrow">Good to know</p>
             <h2 id="mahjong-faq-heading" className="orpheum-underline-heading">
@@ -206,6 +192,22 @@ export function MahjongNightPage() {
             </div>
           </section>
         </div>
+
+        {totalQty > 0 ? (
+          <div className="sots-mahjong__sticky-checkout" role="region" aria-label="Checkout">
+            <p className="sots-mahjong__checkout-total">
+              {totalQty} item{totalQty === 1 ? "" : "s"} · {formatMahjongCents(totalCents)}
+            </p>
+            <ArrowButton type="button" onClick={checkout} disabled={busy}>
+              {busy ? "Starting…" : "Checkout with Square"}
+            </ArrowButton>
+            {error ? (
+              <p className="sots-mahjong__error sots-mahjong__error--sticky" role="alert">
+                {error}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
       </article>
     </InnerPageShell>
   );

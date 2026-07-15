@@ -2381,6 +2381,19 @@ html.lenis.lenis-smooth .sots-checkout__card-container iframe,
   padding-bottom: 2rem;
 }
 
+.sots-account-page__lede {
+  margin: 0 0 1.25rem;
+  max-width: 36rem;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--orp-stone-700, #3d5470);
+}
+
+.sots-account-page__lede strong {
+  color: var(--orp-dark, #0f2d4d);
+  font-weight: 700;
+}
+
 .orpheum-container {
   width: min(100% - 2 * var(--orp-chrome-gutter, 1.25rem), 72rem);
   margin-inline: auto;

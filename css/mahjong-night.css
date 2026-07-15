@@ -138,19 +138,26 @@
 }
 
 .sots-mahjong__sticky-checkout {
-  position: sticky;
-  bottom: calc(var(--bottom-chrome-height, 0px) + env(safe-area-inset-bottom, 0px));
-  z-index: 40;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: var(--bottom-chrome-height, 0px);
+  z-index: 1200;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 0.75rem 1.25rem;
-  margin: 0 calc(-1 * var(--orp-chrome-gutter, 9.25rem));
+  margin: 0;
   padding: 0.85rem var(--orp-chrome-gutter, 9.25rem);
   background: var(--orp-dark, #0f2d4d);
   color: #fff;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+}
+
+.sots-mahjong--checkout-open .orpheum-inner-page__body {
+  padding-bottom: calc(5.75rem + var(--bottom-chrome-height, 0px));
 }
 
 .sots-mahjong__sticky-checkout .sots-mahjong__checkout-total {
@@ -161,12 +168,14 @@
   flex: 1 1 100%;
   margin: 0;
   text-align: center;
+  background: transparent;
+  border: 0;
+  color: #ffb4a8;
+  padding: 0;
 }
 
 @media (max-width: 640px) {
   .sots-mahjong__sticky-checkout {
-    margin-left: calc(-1 * var(--orp-chrome-gutter-mobile, 1.25rem));
-    margin-right: calc(-1 * var(--orp-chrome-gutter-mobile, 1.25rem));
     padding-left: var(--orp-chrome-gutter-mobile, 1.25rem);
     padding-right: var(--orp-chrome-gutter-mobile, 1.25rem);
   }
