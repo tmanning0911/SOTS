@@ -18,6 +18,7 @@ import "../css/ticketing.css";
 import "../css/tickets-page.css";
 import "../css/checkout.css";
 import "../css/shop.css";
+import "../css/mahjong-night.css";
 import "../css/news.css";
 import "../css/a11y.css";
 import "./tailwind.css";

@@ -126,7 +126,7 @@ export function OrpheumNav({ open, onToggle }) {
                 aria-expanded={isOpen}
                 aria-haspopup="true"
                 onClick={(e) => {
-                  if (!window.matchMedia("(min-width: 992px)").matches) return;
+                  if (!window.matchMedia("(min-width: 1100px)").matches) return;
                   e.preventDefault();
                   e.stopPropagation();
                   onToggle(item.label);

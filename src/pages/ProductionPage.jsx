@@ -35,29 +35,22 @@ export function ProductionPage() {
   return (
     <InnerPageShell className="orpheum-page-shell--production">
       <article className="orpheum-inner-page orpheum-production-page">
-        <InnerPageHero
-          className="orpheum-production-page__hero"
-          innerClassName="orpheum-production-page__hero-inner"
-          eyebrow={data.eyebrow}
-          title={`${data.title}.`}
-          intro={data.intro}
-          image={data.heroImage ?? data.image}
-          beforeTitle={<p className="orpheum-production-page__meta">{data.date}</p>}
-          afterTitle={
-            <>
-              {data.director ? (
-                <p className="orpheum-production-page__credit">Directed by {data.director}</p>
-              ) : null}
-              {showTicketing && eventbrite?.featuredTicket ? (
-                <div className="orpheum-production-page__ticket-meta">
-                  <TicketStatusBadge status={eventbrite.featuredTicket} marketingOnly />
-                  {priceLabel ? <span className="orpheum-production-page__price-from">{priceLabel}</span> : null}
-                </div>
-              ) : null}
-            </>
-          }
-          actions={
-            <>
+        <InnerPageHero title={data.title} />
+
+        <div className="orpheum-inner-page__body">
+          <div className="orpheum-production-page__summary" data-reveal>
+            {data.date ? <p className="orpheum-production-page__meta">{data.date}</p> : null}
+            {data.director ? (
+              <p className="orpheum-production-page__credit">Directed by {data.director}</p>
+            ) : null}
+            {data.intro ? <p className="orpheum-inner-page__intro">{data.intro}</p> : null}
+            {showTicketing && eventbrite?.featuredTicket ? (
+              <div className="orpheum-production-page__ticket-meta">
+                <TicketStatusBadge status={eventbrite.featuredTicket} marketingOnly />
+                {priceLabel ? <span className="orpheum-production-page__price-from">{priceLabel}</span> : null}
+              </div>
+            ) : null}
+            <div className="orpheum-page-hero__actions">
               {showTicketing ? (
                 <ArrowButton href="/tickets/#dates">Tickets</ArrowButton>
               ) : data.tickets ? (
@@ -65,14 +58,12 @@ export function ProductionPage() {
                   Tickets
                 </ArrowButton>
               ) : null}
-              <ArrowButton href="/about/visit/" variant="light">
+              <ArrowButton href="/about/visit/" variant="ghost">
                 Plan Your Visit
               </ArrowButton>
-            </>
-          }
-        />
+            </div>
+          </div>
 
-        <div className="orpheum-inner-page__body">
           {showTicketing && !ticketsLoading && eventbrite ? (
             <div className="orpheum-production-page__ticketing orpheum-production-page__ticketing-hub" id="ticketing" data-reveal>
               <div className="orpheum-production-page__ticketing-hub-card">

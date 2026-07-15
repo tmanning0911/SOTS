@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { getNewsBySlug, relatedNews } from "../../js/news-archive.js";
-import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { NewsShare } from "../components/news/NewsShare.jsx";
@@ -20,30 +19,15 @@ export function NewsArticlePage() {
   return (
     <InnerPageShell className="orpheum-page-shell--news">
       <article className="orpheum-inner-page sots-news-article">
-        <InnerPageHero
-          className="sots-news-article__hero"
-          compact
-          eyebrow={article.category}
-          title={article.title}
-          intro={article.excerpt}
-          image={article.image}
-          imagePosition={article.imagePosition || "center center"}
-          beforeTitle={
-            <p className="sots-news-article__meta">
-              <time dateTime={article.dateIso}>{article.date}</time>
-            </p>
-          }
-          actions={
-            <>
-              <ArrowButton href="/news/" variant="ghost">
-                All news
-              </ArrowButton>
-              <ArrowButton href="/tickets/">Tickets</ArrowButton>
-            </>
-          }
-        />
+        <InnerPageHero title={article.title} />
 
         <div className="orpheum-inner-page__body sots-news-article__body">
+          <p className="sots-news-article__meta">
+            <span>{article.category}</span>
+            {" · "}
+            <time dateTime={article.dateIso}>{article.date}</time>
+          </p>
+          {article.excerpt ? <p className="orpheum-inner-page__intro">{article.excerpt}</p> : null}
           <figure className="sots-news-article__figure">
             <img
               src={article.image}

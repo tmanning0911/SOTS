@@ -93,6 +93,7 @@ const SQUARE_CARD_STYLE = {
     color: "#0f2d4d",
     fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
     fontSize: "16px",
+    fontWeight: "400",
   },
   "input::placeholder": {
     color: "#8a97a3",
@@ -100,15 +101,22 @@ const SQUARE_CARD_STYLE = {
   "input.is-focus": {
     color: "#0f2d4d",
   },
+  "input.is-error": {
+    color: "#0f2d4d",
+  },
   ".input-container": {
     borderColor: "rgba(15, 45, 77, 0.22)",
-    borderRadius: "8px",
+    borderRadius: "10px",
+    borderWidth: "2px",
   },
   ".input-container.is-focus": {
-    borderColor: "#2165b4",
+    borderColor: "#1a5090",
   },
   ".input-container.is-error": {
     borderColor: "#8a2f2f",
+  },
+  ".message-text": {
+    color: "#525252",
   },
   ".message-text.is-error": {
     color: "#8a2f2f",

@@ -1,6 +1,6 @@
 {
   "provider": "square",
-  "syncedAt": "2026-07-14T21:03:21.212Z",
+  "syncedAt": "2026-07-15T17:38:30.128Z",
   "organization": {
     "id": "2093560299743",
     "name": "Shakespeare on the Sound"
@@ -15,8 +15,8 @@
     "id": "test-perf-001",
     "name": "Shakespeare on the Sound's Much Ado About Nothing",
     "status": "on_sale",
-    "start": "2026-07-18T19:30:00",
-    "end": "2026-08-06T22:00:00",
+    "start": "2026-07-19T19:30:00",
+    "end": "2026-08-07T22:00:00",
     "timezone": "America/New_York",
     "venue": "Shakespeare in Pinkney Park",
     "location": "177 Rowayton Avenue, Norwalk, CT 06853",
@@ -149,24 +149,6 @@
       "id": "test-perf-001",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
-      "start": "2026-07-18T19:30:00",
-      "end": "2026-07-18T22:00:00",
-      "timezone": "America/New_York",
-      "venue": "Shakespeare in Pinkney Park",
-      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
-      "isSoldOut": false,
-      "ticketsAvailable": true,
-      "minPrice": {
-        "display": "$25.00",
-        "currency": "USD",
-        "value": 2500
-      },
-      "isTest": true
-    },
-    {
-      "id": "test-perf-002",
-      "name": "Shakespeare on the Sound's Much Ado About Nothing",
-      "status": "on_sale",
       "start": "2026-07-19T19:30:00",
       "end": "2026-07-19T22:00:00",
       "timezone": "America/New_York",
@@ -182,7 +164,7 @@
       "isTest": true
     },
     {
-      "id": "test-perf-003",
+      "id": "test-perf-002",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-21T19:30:00",
@@ -200,7 +182,7 @@
       "isTest": true
     },
     {
-      "id": "test-perf-004",
+      "id": "test-perf-003",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-22T19:30:00",
@@ -218,7 +200,7 @@
       "isTest": true
     },
     {
-      "id": "test-perf-005",
+      "id": "test-perf-004",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-23T19:30:00",
@@ -236,7 +218,7 @@
       "isTest": true
     },
     {
-      "id": "test-perf-006",
+      "id": "test-perf-005",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-24T19:30:00",
@@ -254,7 +236,7 @@
       "isTest": true
     },
     {
-      "id": "test-perf-007",
+      "id": "test-perf-006",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-25T19:30:00",
@@ -272,7 +254,7 @@
       "isTest": true
     },
     {
-      "id": "test-perf-008",
+      "id": "test-perf-007",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-26T19:30:00",
@@ -290,7 +272,7 @@
       "isTest": true
     },
     {
-      "id": "test-perf-009",
+      "id": "test-perf-008",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-28T19:30:00",
@@ -308,7 +290,7 @@
       "isTest": true
     },
     {
-      "id": "test-perf-010",
+      "id": "test-perf-009",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-29T19:30:00",
@@ -326,7 +308,7 @@
       "isTest": true
     },
     {
-      "id": "test-perf-011",
+      "id": "test-perf-010",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-30T19:30:00",
@@ -344,7 +326,7 @@
       "isTest": true
     },
     {
-      "id": "test-perf-012",
+      "id": "test-perf-011",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-31T19:30:00",
@@ -362,7 +344,7 @@
       "isTest": true
     },
     {
-      "id": "test-perf-013",
+      "id": "test-perf-012",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-08-01T19:30:00",
@@ -380,7 +362,7 @@
       "isTest": true
     },
     {
-      "id": "test-perf-014",
+      "id": "test-perf-013",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-08-02T19:30:00",
@@ -398,7 +380,7 @@
       "isTest": true
     },
     {
-      "id": "test-perf-015",
+      "id": "test-perf-014",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-08-04T19:30:00",
@@ -416,7 +398,7 @@
       "isTest": true
     },
     {
-      "id": "test-perf-016",
+      "id": "test-perf-015",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-08-05T19:30:00",
@@ -434,11 +416,29 @@
       "isTest": true
     },
     {
-      "id": "test-perf-017",
+      "id": "test-perf-016",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-08-06T19:30:00",
       "end": "2026-08-06T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Shakespeare in Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isSoldOut": false,
+      "ticketsAvailable": true,
+      "minPrice": {
+        "display": "$25.00",
+        "currency": "USD",
+        "value": 2500
+      },
+      "isTest": true
+    },
+    {
+      "id": "test-perf-017",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "on_sale",
+      "start": "2026-08-07T19:30:00",
+      "end": "2026-08-07T22:00:00",
       "timezone": "America/New_York",
       "venue": "Shakespeare in Pinkney Park",
       "location": "177 Rowayton Avenue, Norwalk, CT 06853",
@@ -742,26 +742,8 @@
     }
   ],
   "performanceByDate": {
-    "2026-07-18": {
-      "id": "test-perf-001",
-      "name": "Shakespeare on the Sound's Much Ado About Nothing",
-      "status": "on_sale",
-      "start": "2026-07-18T19:30:00",
-      "end": "2026-07-18T22:00:00",
-      "timezone": "America/New_York",
-      "venue": "Shakespeare in Pinkney Park",
-      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
-      "isSoldOut": false,
-      "ticketsAvailable": true,
-      "minPrice": {
-        "display": "$25.00",
-        "currency": "USD",
-        "value": 2500
-      },
-      "isTest": true
-    },
     "2026-07-19": {
-      "id": "test-perf-002",
+      "id": "test-perf-001",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-19T19:30:00",
@@ -779,7 +761,7 @@
       "isTest": true
     },
     "2026-07-21": {
-      "id": "test-perf-003",
+      "id": "test-perf-002",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-21T19:30:00",
@@ -797,7 +779,7 @@
       "isTest": true
     },
     "2026-07-22": {
-      "id": "test-perf-004",
+      "id": "test-perf-003",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-22T19:30:00",
@@ -815,7 +797,7 @@
       "isTest": true
     },
     "2026-07-23": {
-      "id": "test-perf-005",
+      "id": "test-perf-004",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-23T19:30:00",
@@ -833,7 +815,7 @@
       "isTest": true
     },
     "2026-07-24": {
-      "id": "test-perf-006",
+      "id": "test-perf-005",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-24T19:30:00",
@@ -851,7 +833,7 @@
       "isTest": true
     },
     "2026-07-25": {
-      "id": "test-perf-007",
+      "id": "test-perf-006",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-25T19:30:00",
@@ -869,7 +851,7 @@
       "isTest": true
     },
     "2026-07-26": {
-      "id": "test-perf-008",
+      "id": "test-perf-007",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-26T19:30:00",
@@ -887,7 +869,7 @@
       "isTest": true
     },
     "2026-07-28": {
-      "id": "test-perf-009",
+      "id": "test-perf-008",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-28T19:30:00",
@@ -905,7 +887,7 @@
       "isTest": true
     },
     "2026-07-29": {
-      "id": "test-perf-010",
+      "id": "test-perf-009",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-29T19:30:00",
@@ -923,7 +905,7 @@
       "isTest": true
     },
     "2026-07-30": {
-      "id": "test-perf-011",
+      "id": "test-perf-010",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-30T19:30:00",
@@ -941,7 +923,7 @@
       "isTest": true
     },
     "2026-07-31": {
-      "id": "test-perf-012",
+      "id": "test-perf-011",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-07-31T19:30:00",
@@ -959,7 +941,7 @@
       "isTest": true
     },
     "2026-08-01": {
-      "id": "test-perf-013",
+      "id": "test-perf-012",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-08-01T19:30:00",
@@ -977,7 +959,7 @@
       "isTest": true
     },
     "2026-08-02": {
-      "id": "test-perf-014",
+      "id": "test-perf-013",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-08-02T19:30:00",
@@ -995,7 +977,7 @@
       "isTest": true
     },
     "2026-08-04": {
-      "id": "test-perf-015",
+      "id": "test-perf-014",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-08-04T19:30:00",
@@ -1013,7 +995,7 @@
       "isTest": true
     },
     "2026-08-05": {
-      "id": "test-perf-016",
+      "id": "test-perf-015",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-08-05T19:30:00",
@@ -1031,11 +1013,29 @@
       "isTest": true
     },
     "2026-08-06": {
-      "id": "test-perf-017",
+      "id": "test-perf-016",
       "name": "Shakespeare on the Sound's Much Ado About Nothing",
       "status": "on_sale",
       "start": "2026-08-06T19:30:00",
       "end": "2026-08-06T22:00:00",
+      "timezone": "America/New_York",
+      "venue": "Shakespeare in Pinkney Park",
+      "location": "177 Rowayton Avenue, Norwalk, CT 06853",
+      "isSoldOut": false,
+      "ticketsAvailable": true,
+      "minPrice": {
+        "display": "$25.00",
+        "currency": "USD",
+        "value": 2500
+      },
+      "isTest": true
+    },
+    "2026-08-07": {
+      "id": "test-perf-017",
+      "name": "Shakespeare on the Sound's Much Ado About Nothing",
+      "status": "on_sale",
+      "start": "2026-08-07T19:30:00",
+      "end": "2026-08-07T22:00:00",
       "timezone": "America/New_York",
       "venue": "Shakespeare in Pinkney Park",
       "location": "177 Rowayton Avenue, Norwalk, CT 06853",

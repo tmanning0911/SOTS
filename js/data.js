@@ -23,7 +23,7 @@ function wixFit(file, w, h) {
 }
 
 export const MEDIA = {
-  logo: wixFit("2fda61_2e65ecb094584570823c5e5c30d11c49~mv2.jpg", 720, 240),
+  logo: "/images/sots-logo-lockup.png",
   heroHome: "/images/hero-much-ado.jpg",
   heroBanner: wix("2fda61_ed5498c346784fa7a58d686004f62ad1~mv2.jpg", 1970, 667),
   muchAdoPoster: wix("2fda61_52a2b5db62ea4c22b8da935de226b8de~mv2.jpg", 450, 712),

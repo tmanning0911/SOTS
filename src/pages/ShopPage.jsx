@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import { heroImageForHref } from "../../js/page-heroes.js";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   formatCents,
   BUNDLED_MERCHANDISE,
@@ -11,6 +10,7 @@ import {
   shopFeatureGiftCertificatesFirst,
 } from "../../js/shop.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
+import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { ShopCartAside } from "../components/shop/ShopCartAside.jsx";
 import { ShopCartDrawer } from "../components/shop/ShopCartDrawer.jsx";
@@ -24,19 +24,23 @@ export function ShopPage() {
     cart,
     cartCount,
     cartTotal,
-    addToCart,
-    buyNow,
     updateQuantity,
     removeFromCart,
-    openCheckout,
+    clearCart,
   } = useShop();
   const [category, setCategory] = useState("all");
   const [cartOpen, setCartOpen] = useState(false);
+  const [params] = useSearchParams();
+  const thanks = params.get("thanks") === "1";
 
   useEffect(() => {
     document.title = "Gift Shop - Shakespeare on the Sound";
     prefetchShopProductImages(catalog);
   }, [catalog]);
+
+  useEffect(() => {
+    if (thanks) clearCart();
+  }, [thanks, clearCart]);
 
   const giftCertificates = useMemo(() => giftCertificateProducts(catalog), [catalog]);
 
@@ -53,11 +57,10 @@ export function ShopPage() {
   }, [catalog]);
 
   const giftCertificatesFirst = shopFeatureGiftCertificatesFirst();
-  const heroImage = heroImageForHref("/shop/");
 
   const giftCertSection = (
     <div id="gift-certificates" key="gift-certificates">
-      <ShopGiftCertSpotlight products={giftCertificates} onAdd={addToCart} onBuyNow={buyNow} />
+      <ShopGiftCertSpotlight products={giftCertificates} />
     </div>
   );
 
@@ -70,12 +73,15 @@ export function ShopPage() {
     >
       <div className="sots-shop-page__catalog-head">
         <div>
-          <p className="sots-shop-page__section-eyebrow">Merchandise</p>
-          <h2 id="shop-merch-heading">Souvenirs &amp; keepsakes</h2>
+          <p className="orpheum-eyebrow">Merchandise</p>
+          <h2 id="shop-merch-heading" className="orpheum-underline-heading">
+            Souvenirs &amp; keepsakes
+          </h2>
         </div>
-        {catalog?.fulfillment ? (
-          <p className="sots-shop-page__catalog-note">{catalog.fulfillment.pickup}</p>
-        ) : null}
+        <p className="sots-shop-page__catalog-note">
+          Choose quantities, mix items in your cart, then checkout once with Square. Pickup at
+          Shakespeare in Pinkney Park during performances unless noted.
+        </p>
       </div>
 
       <div className="sots-shop-page__layout sots-shop-page__layout--instant">
@@ -98,13 +104,7 @@ export function ShopPage() {
           {merchandise.length ? (
             <div className="sots-shop-page__grid">
               {merchandise.map((product, index) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onAdd={addToCart}
-                  onBuyNow={buyNow}
-                  priorityImage={index < 4}
-                />
+                <ProductCard key={product.id} product={product} priorityImage={index < 4} />
               ))}
             </div>
           ) : (
@@ -113,9 +113,14 @@ export function ShopPage() {
 
           <section className="sots-shop-page__cross-sell" aria-labelledby="shop-tickets-heading">
             <div>
-              <p className="sots-shop-page__section-eyebrow">This summer</p>
-              <h2 id="shop-tickets-heading">Going to the show?</h2>
-              <p>Pair your gift with tickets to Much Ado About Nothing under the stars at Shakespeare in Pinkney Park.</p>
+              <p className="orpheum-eyebrow">This summer</p>
+              <h2 id="shop-tickets-heading" className="orpheum-underline-heading">
+                Going to the show?
+              </h2>
+              <p>
+                Pair your gift with tickets to Much Ado About Nothing under the stars at Shakespeare in
+                Pinkney Park.
+              </p>
             </div>
             <ArrowButton href="/tickets/">Get tickets</ArrowButton>
           </section>
@@ -124,8 +129,8 @@ export function ShopPage() {
             <div>
               <h2 id="shop-picnic-heading">Picnic before the show</h2>
               <p>
-                A pre-show picnic is a cherished SOS tradition. See our visit guide for parking, accessibility,
-                and local dining favorites in Rowayton.
+                A pre-show picnic is a cherished SOS tradition. See our visit guide for parking,
+                accessibility, and local dining favorites in Rowayton.
               </p>
             </div>
             <ArrowButton href="/about/visit/" variant="light">
@@ -140,7 +145,6 @@ export function ShopPage() {
           cartTotal={cartTotal}
           onUpdate={updateQuantity}
           onRemove={removeFromCart}
-          onCheckout={openCheckout}
           className="sots-shop-cart-aside--desktop"
         />
       </div>
@@ -150,43 +154,44 @@ export function ShopPage() {
   return (
     <InnerPageShell showVisit showNewsletter>
       <article className="sots-shop-page">
-        <header className="sots-shop-page__hero">
-          <div className="sots-shop-page__hero-bg" style={{ backgroundImage: `url('${heroImage}')` }} aria-hidden="true" />
-          <div className="sots-shop-page__hero-veil" aria-hidden="true" />
-          <div className="sots-shop-page__hero-inner" data-reveal>
-            <p className="sots-shop-page__hero-eyebrow">Support SOS</p>
-            <h1>Gift Shop</h1>
-            <p className="sots-shop-page__hero-lead">
-              Take home a piece of Shakespeare in Pinkney Park — merchandise, playbills, and gift certificates that support
-              accessible Shakespeare in Fairfield County.
-            </p>
-          </div>
-        </header>
+        <InnerPageHero title="Gift Shop" />
 
-        <nav className="sots-shop-page__quick" aria-label="Gift shop shortcuts">
+        {thanks ? (
+          <div className="sots-shop-page__thanks" role="status">
+            <p>
+              Thank you — your payment was received. Square will email your receipt shortly. Sized items
+              list the size on the Square order.
+            </p>
+            <a href="#merchandise" className="sots-shop-text-link">
+              Keep shopping
+            </a>
+          </div>
+        ) : null}
+
+        <nav className="orpheum-page-quick" aria-label="Gift shop shortcuts">
           {giftCertificatesFirst ? (
             <>
-              <a href="#gift-certificates" className="sots-shop-page__quick-link">
+              <a href="#gift-certificates" className="orpheum-page-quick__link">
                 Gift certificates
               </a>
-              <a href="#merchandise" className="sots-shop-page__quick-link">
+              <a href="#merchandise" className="orpheum-page-quick__link">
                 Merchandise
               </a>
             </>
           ) : (
             <>
-              <a href="#merchandise" className="sots-shop-page__quick-link">
+              <a href="#merchandise" className="orpheum-page-quick__link">
                 Merchandise
               </a>
-              <a href="#gift-certificates" className="sots-shop-page__quick-link">
+              <a href="#gift-certificates" className="orpheum-page-quick__link">
                 Gift certificates
               </a>
             </>
           )}
-          <Link to="/tickets/" className="sots-shop-page__quick-link">
+          <Link to="/tickets/" className="orpheum-page-quick__link">
             Get tickets
           </Link>
-          <Link to="/about/visit/" className="sots-shop-page__quick-link">
+          <Link to="/about/visit/" className="orpheum-page-quick__link">
             Plan your visit
           </Link>
         </nav>
@@ -227,7 +232,7 @@ export function ShopPage() {
         cartTotal={cartTotal}
         onUpdate={updateQuantity}
         onRemove={removeFromCart}
-        onCheckout={openCheckout}
+        onCheckout={() => setCartOpen(false)}
       />
     </InnerPageShell>
   );

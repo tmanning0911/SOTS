@@ -18,6 +18,7 @@ const routes = [
     changefreq: "monthly",
   })),
   { loc: "/tickets", priority: "0.95", changefreq: "weekly" },
+  { loc: "/events/mahjong-night", priority: "0.9", changefreq: "weekly" },
   { loc: "/shop", priority: "0.85", changefreq: "weekly" },
   { loc: "/productions/much-ado-about-nothing", priority: "0.9", changefreq: "weekly" },
   { loc: "/access-your-tickets", priority: "0.7", changefreq: "monthly" },

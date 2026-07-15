@@ -21,9 +21,9 @@ export function ShopCartDrawer({
         cartTotal={cartTotal}
         onUpdate={onUpdate}
         onRemove={onRemove}
-        onCheckout={() => {
+        onCheckoutStarted={() => {
           onClose();
-          onCheckout();
+          onCheckout?.();
         }}
         className="sots-shop-cart-aside--drawer"
         showTitle={false}

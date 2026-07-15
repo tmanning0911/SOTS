@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { NEWS_ARCHIVE, NEWS_FILTERS, newsForFilter } from "../../js/news-archive.js";
-import { ArrowButton } from "../components/ArrowButton.jsx";
+import { NEWS_FILTERS, newsForFilter } from "../../js/news-archive.js";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 
@@ -16,21 +15,7 @@ export function NewsIndexPage() {
   return (
     <InnerPageShell className="orpheum-page-shell--news">
       <div className="orpheum-inner-page sots-news-index">
-        <InnerPageHero
-          compact
-          eyebrow="From 1995 to today"
-          title="News & History"
-          intro="Season updates, education milestones, and the story of Shakespeare on the Sound — from a Rowayton kitchen table to thirty summers in Pinkney Park."
-          image={NEWS_ARCHIVE[0]?.image}
-          actions={
-            <>
-              <ArrowButton href="/about/mission-history/" variant="ghost">
-                Mission & History
-              </ArrowButton>
-              <ArrowButton href="/productions/past-productions/">Past Productions</ArrowButton>
-            </>
-          }
-        />
+        <InnerPageHero title="News & History" />
 
         <div className="orpheum-inner-page__body sots-news-index__body">
           <div className="orpheum-news-feed__filters" role="tablist" aria-label="Filter news by topic">

@@ -17,6 +17,7 @@ export const SHOP_PRODUCTS = [
     image: "/images/hero-much-ado.jpg",
     sku: "SOTS-TEE",
     onSale: true,
+    paymentLink: "https://square.link/u/w53STfar",
     options: [{ name: "Size", values: ["S", "M", "L", "XL"] }],
   },
   {
@@ -30,6 +31,7 @@ export const SHOP_PRODUCTS = [
     image: "/images/news/kids-kings.jpg",
     sku: "SOTS-TOTE",
     onSale: true,
+    paymentLink: "https://square.link/u/FZ0WaCZ9",
   },
   {
     id: "sots-pin",
@@ -42,6 +44,7 @@ export const SHOP_PRODUCTS = [
     image: "/images/decor/shakespeare-portrait.png",
     sku: "SOTS-PIN",
     onSale: true,
+    paymentLink: "https://square.link/u/iIuOz2DR",
   },
   {
     id: "sots-gift-50",
@@ -55,6 +58,7 @@ export const SHOP_PRODUCTS = [
     sku: "GIFT-50",
     onSale: true,
     digital: true,
+    paymentLink: "https://square.link/u/qQEmcIz6",
   },
   {
     id: "sots-gift-100",
@@ -68,6 +72,7 @@ export const SHOP_PRODUCTS = [
     sku: "GIFT-100",
     onSale: true,
     digital: true,
+    paymentLink: "https://square.link/u/q07bmQLz",
   },
   {
     id: "sots-playbill",
@@ -80,6 +85,7 @@ export const SHOP_PRODUCTS = [
     image: "/images/news/season-maan-banner.jpg",
     sku: "PLAYBILL-2026",
     onSale: true,
+    paymentLink: "https://square.link/u/Bkvywvk2",
   },
 ];
 
@@ -162,6 +168,7 @@ export function mergeSeedWithSquareProducts(squareProducts = []) {
       price: square.price ?? seed.price,
       image: square.image || seed.image,
       onSale: square.onSale !== false,
+      paymentLink: seed.paymentLink || square.paymentLink || "",
     };
   });
 
@@ -223,6 +230,7 @@ export function enrichShopProducts(products = [], seedProducts = SHOP_PRODUCTS) 
       options: seed?.options,
       digital: seed?.digital ?? product.digital,
       description: product.description || seed?.description || "",
+      paymentLink: seed?.paymentLink || product.paymentLink || "",
     };
   });
 }

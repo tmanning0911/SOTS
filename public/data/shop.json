@@ -1,7 +1,7 @@
 {
   "provider": "square",
   "source": "seed",
-  "syncedAt": "2026-07-14T21:03:27.191Z",
+  "syncedAt": "2026-07-15T17:38:35.882Z",
   "categories": [
     {
       "id": "apparel",
@@ -40,6 +40,7 @@
       "image": "/images/hero-much-ado.jpg",
       "sku": "SOTS-TEE",
       "onSale": true,
+      "paymentLink": "https://square.link/u/w53STfar",
       "options": [
         {
           "name": "Size",
@@ -66,7 +67,8 @@
       },
       "image": "/images/news/kids-kings.jpg",
       "sku": "SOTS-TOTE",
-      "onSale": true
+      "onSale": true,
+      "paymentLink": "https://square.link/u/FZ0WaCZ9"
     },
     {
       "id": "sots-pin",
@@ -82,7 +84,8 @@
       },
       "image": "/images/decor/shakespeare-portrait.png",
       "sku": "SOTS-PIN",
-      "onSale": true
+      "onSale": true,
+      "paymentLink": "https://square.link/u/iIuOz2DR"
     },
     {
       "id": "sots-gift-50",
@@ -99,7 +102,8 @@
       "image": "/images/backgrounds/park-audience-nyt.jpg",
       "sku": "GIFT-50",
       "onSale": true,
-      "digital": true
+      "digital": true,
+      "paymentLink": "https://square.link/u/qQEmcIz6"
     },
     {
       "id": "sots-gift-100",
@@ -116,7 +120,8 @@
       "image": "/images/backgrounds/park-audience-nyt.jpg",
       "sku": "GIFT-100",
       "onSale": true,
-      "digital": true
+      "digital": true,
+      "paymentLink": "https://square.link/u/q07bmQLz"
     },
     {
       "id": "sots-playbill",
@@ -132,7 +137,8 @@
       },
       "image": "/images/news/season-maan-banner.jpg",
       "sku": "PLAYBILL-2026",
-      "onSale": true
+      "onSale": true,
+      "paymentLink": "https://square.link/u/Bkvywvk2"
     }
   ],
   "shopAndDine": [

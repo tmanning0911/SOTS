@@ -10,9 +10,15 @@ export const TICKETS_CTA_LABEL = "Tickets";
 export const TICKETS_PAGE_PATH = "/tickets/";
 export const TICKET_CHECKOUT_PATH = "/tickets/checkout";
 
+/** Deep-link to tickets calendar (on-site checkout retired — Square Payment Links). */
 export function getTicketCheckoutPath(performanceId) {
-  if (!performanceId) return TICKETS_PAGE_PATH;
-  return `${TICKET_CHECKOUT_PATH}/${encodeURIComponent(String(performanceId))}/`;
+  if (!performanceId) return `${TICKETS_PAGE_PATH}#dates`;
+  return `${TICKETS_PAGE_PATH}?perf=${encodeURIComponent(String(performanceId))}#dates`;
+}
+
+export function getTicketPaymentLink(performance, ticketTypeId) {
+  const url = performance?.paymentLinks?.[String(ticketTypeId)]?.trim();
+  return url || null;
 }
 
 /** Strip internal QA prefixes from catalog titles shown to patrons. */
@@ -107,6 +113,18 @@ export async function loadTicketData({ fresh = false } = {}) {
 
   const sources = ["/api/tickets", "/data/ticketing.json", "/data/eventbrite.json"];
   let lastError = null;
+  let linksByPerformance = {};
+
+  try {
+    const linksRes = await fetch("/data/ticket-payment-links.json", {
+      headers: { Accept: "application/json" },
+    });
+    if (linksRes.ok) {
+      linksByPerformance = (await linksRes.json()) || {};
+    }
+  } catch {
+    /* optional overlay */
+  }
 
   for (const source of sources) {
     try {
@@ -114,7 +132,16 @@ export async function loadTicketData({ fresh = false } = {}) {
       if (!res.ok) continue;
       const data = await res.json();
       if (data?.error) continue;
-      cache = normalizeTicketCatalog(data);
+      const normalized = normalizeTicketCatalog(data);
+      if (normalized?.performances?.length && linksByPerformance) {
+        for (const performance of normalized.performances) {
+          const links = linksByPerformance[performance.id];
+          if (links && typeof links === "object") {
+            performance.paymentLinks = { ...(performance.paymentLinks || {}), ...links };
+          }
+        }
+      }
+      cache = normalized;
       cacheAt = Date.now();
       return cache;
     } catch (err) {

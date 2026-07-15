@@ -8,8 +8,10 @@ import { TicketCheckoutButton } from "./ticketing/TicketCheckoutButton.jsx";
 
 function IconMenu() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M5 5h14v1.5H5V5zm0 6.3h14v-1.5H5v1.5zm0 6.2h14V16H5v1.5z" />
+    <svg className="orpheum-header__menu-icon" width="24" height="18" viewBox="0 0 24 18" fill="none" aria-hidden="true">
+      <path d="M2 2.5h20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M2 9h20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M2 15.5h20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }
@@ -42,7 +44,7 @@ export function SiteHeader() {
   }, [openNav]);
 
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 991px)");
+    const mq = window.matchMedia("(max-width: 1099px)");
     function onViewportChange() {
       if (mq.matches) setOpenNav(null);
     }
@@ -63,8 +65,8 @@ export function SiteHeader() {
           <img
             src={MEDIA.logo}
             alt={SITE.name}
-          width={300}
-          height={80}
+            width={188}
+            height={58}
             fetchPriority="high"
             decoding="async"
           />

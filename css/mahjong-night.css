@@ -1,0 +1,237 @@
+/* Mahjong Midsummer Classic — Orpheum-aligned landing */
+
+.sots-mahjong .orpheum-underline-heading {
+  margin-top: 0.35rem;
+  margin-bottom: 1rem;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+}
+
+.sots-mahjong .orpheum-underline-heading::after {
+  margin: 0.85rem 0 1rem;
+}
+
+.sots-mahjong__lede {
+  margin: 0 0 1.25rem;
+  max-width: 40rem;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--orp-muted, var(--orp-stone-700, #3d5470));
+}
+
+.sots-mahjong__thanks,
+.sots-mahjong__error {
+  margin: 0 0 1.5rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--orp-line, #e4e9ef);
+  background: var(--orp-stone-100, #f4f7fa);
+  color: var(--orp-dark, #0f2d4d);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.sots-mahjong__error {
+  background: #fdeceb;
+  border-color: #b42318;
+  color: #7a1c14;
+}
+
+.sots-mahjong__details {
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.sots-mahjong__section {
+  margin: clamp(2rem, 4vw, 3.25rem) 0;
+}
+
+.sots-mahjong__section--band {
+  background: var(--orp-stone-100, #f4f7fa);
+  margin-left: calc(-1 * var(--orp-chrome-gutter, 9.25rem));
+  margin-right: calc(-1 * var(--orp-chrome-gutter, 9.25rem));
+  padding: clamp(2rem, 4vw, 3rem) var(--orp-chrome-gutter, 9.25rem);
+}
+
+.sots-mahjong__offers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--orp-line, #e4e9ef);
+}
+
+.sots-mahjong__offer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--orp-line, #e4e9ef);
+  background: transparent;
+}
+
+.sots-mahjong__offer.is-selected {
+  background: rgba(var(--brand-gold-rgb, 249, 197, 52), 0.08);
+  margin: 0 -0.75rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  border-color: rgba(var(--brand-gold-rgb, 249, 197, 52), 0.45);
+}
+
+.sots-mahjong__offer-badge {
+  margin: 0 0 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--orp-gold-dark, #dfaf28);
+}
+
+.sots-mahjong__offer-copy {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+
+.sots-mahjong__offer-copy h3 {
+  margin: 0 0 0.2rem;
+  font-family: var(--orp-serif, "Marcellus", Georgia, serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--orp-dark, #0f2d4d);
+}
+
+.sots-mahjong__offer-copy p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--orp-muted, var(--orp-stone-700, #3d5470));
+  line-height: 1.45;
+}
+
+.sots-mahjong__offer-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.sots-mahjong__offer-price {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--orp-dark, #0f2d4d);
+  white-space: nowrap;
+}
+
+.sots-mahjong__fineprint {
+  margin: 1.25rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--orp-muted, var(--orp-stone-700, #3d5470));
+}
+
+.sots-mahjong__cta-band {
+  text-align: center;
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--orp-line, #e4e9ef);
+  border-bottom: 1px solid var(--orp-line, #e4e9ef);
+  background: var(--orp-white, #fff);
+}
+
+.sots-mahjong__sticky-checkout {
+  position: sticky;
+  bottom: calc(var(--bottom-chrome-height, 0px) + env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1.25rem;
+  margin: 0 calc(-1 * var(--orp-chrome-gutter, 9.25rem));
+  padding: 0.85rem var(--orp-chrome-gutter, 9.25rem);
+  background: var(--orp-dark, #0f2d4d);
+  color: #fff;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.sots-mahjong__sticky-checkout .sots-mahjong__checkout-total {
+  color: #fff;
+}
+
+.sots-mahjong__error--sticky {
+  flex: 1 1 100%;
+  margin: 0;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .sots-mahjong__sticky-checkout {
+    margin-left: calc(-1 * var(--orp-chrome-gutter-mobile, 1.25rem));
+    margin-right: calc(-1 * var(--orp-chrome-gutter-mobile, 1.25rem));
+    padding-left: var(--orp-chrome-gutter-mobile, 1.25rem);
+    padding-right: var(--orp-chrome-gutter-mobile, 1.25rem);
+  }
+}
+
+.sots-mahjong__checkout-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.5rem;
+}
+
+.sots-mahjong__checkout-total {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--orp-dark, #0f2d4d);
+}
+
+.sots-mahjong__donate {
+  margin: 1.25rem 0 0;
+  color: var(--orp-muted, var(--orp-stone-700, #3d5470));
+}
+
+.sots-mahjong__donate a {
+  color: var(--orp-blue, #2165b4);
+  font-weight: 700;
+}
+
+.sots-mahjong__faqs {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.sots-mahjong__faq h3 {
+  margin: 0 0 0.35rem;
+  font-family: var(--orp-serif, "Marcellus", Georgia, serif);
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--orp-dark, #0f2d4d);
+}
+
+.sots-mahjong__faq p {
+  margin: 0;
+  color: var(--orp-muted, var(--orp-stone-700, #3d5470));
+  line-height: 1.55;
+}
+
+.sots-mahjong__faq a {
+  color: var(--orp-blue, #2165b4);
+}
+
+@media (max-width: 640px) {
+  .sots-mahjong__offer-action {
+    width: 100%;
+    align-items: flex-start;
+    margin-left: 0;
+  }
+
+  .sots-mahjong__section--band {
+    margin-left: calc(-1 * var(--orp-chrome-gutter-mobile, 1.25rem));
+    margin-right: calc(-1 * var(--orp-chrome-gutter-mobile, 1.25rem));
+    padding-left: var(--orp-chrome-gutter-mobile, 1.25rem);
+    padding-right: var(--orp-chrome-gutter-mobile, 1.25rem);
+  }
+}

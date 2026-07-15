@@ -22,12 +22,13 @@ function isTimelineSection(section) {
   return paragraphs.every((p) => /^\d{4}/.test(String(p).trim()));
 }
 
-export function PageSection({ section }) {
+export function PageSection({ section, band = false }) {
   const heading = section.heading ? ensurePeriod(section.heading) : null;
+  const bandClass = band ? " orpheum-inner-page__section--band" : "";
 
   if (section.type !== "people" && isTimelineSection(section)) {
     return (
-      <section className="orpheum-inner-page__section orpheum-inner-page__section--timeline">
+      <section className={`orpheum-inner-page__section orpheum-inner-page__section--timeline${bandClass}`}>
         {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
         <ol className="orpheum-timeline">
           {(section.paragraphs ?? []).map((paragraph) => {
@@ -48,7 +49,7 @@ export function PageSection({ section }) {
     const variant = section.layout === "history" ? "history" : "lead";
 
     return (
-      <section className="orpheum-inner-page__section orpheum-inner-page__section--team">
+      <section className={`orpheum-inner-page__section orpheum-inner-page__section--team${bandClass}`}>
         {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
         <div className={`orpheum-roster orpheum-roster--team orpheum-roster--${variant}`}>
           {section.people.map((person) => (
@@ -61,7 +62,7 @@ export function PageSection({ section }) {
 
   if (section.type === "board") {
     return (
-      <section className="orpheum-inner-page__section orpheum-inner-page__section--board">
+      <section className={`orpheum-inner-page__section orpheum-inner-page__section--board${bandClass}`}>
         {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
 
         <div className="orpheum-roster orpheum-roster--board">
@@ -100,7 +101,7 @@ export function PageSection({ section }) {
 
   if (section.type === "groups") {
     return (
-      <section className="orpheum-inner-page__section">
+      <section className={`orpheum-inner-page__section${bandClass}`}>
         {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
         <div className="orpheum-inner-page__groups">
           {section.groups.map((group) => (
@@ -120,7 +121,7 @@ export function PageSection({ section }) {
 
   if (section.type === "programs") {
     return (
-      <section className="orpheum-inner-page__section">
+      <section className={`orpheum-inner-page__section${bandClass}`}>
         {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
         <div className="orpheum-inner-page__programs">
           {section.programs.map((program) => (
@@ -138,6 +139,11 @@ export function PageSection({ section }) {
                   <TextWithMailLinks text={paragraph} />
                 </p>
               ))}
+              {program.cta?.href ? (
+                <p className="orpheum-inner-page__program-cta">
+                  <a href={program.cta.href}>{program.cta.label || "Learn more"}</a>
+                </p>
+              ) : null}
             </article>
           ))}
         </div>
@@ -147,7 +153,7 @@ export function PageSection({ section }) {
 
   if (section.type === "tiers") {
     return (
-      <section className="orpheum-inner-page__section">
+      <section className={`orpheum-inner-page__section${bandClass}`}>
         {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
         <div className="orpheum-inner-page__tiers">
           {section.tiers.map((tier) => (
@@ -167,7 +173,7 @@ export function PageSection({ section }) {
 
   if (section.type === "details") {
     return (
-      <section className="orpheum-inner-page__section">
+      <section className={`orpheum-inner-page__section${bandClass}`}>
         {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
         <dl className="orpheum-inner-page__details">
           {section.rows.map((row) => (
@@ -189,7 +195,7 @@ export function PageSection({ section }) {
 
   if (section.type === "links") {
     return (
-      <section className="orpheum-inner-page__section orpheum-inner-page__section--links">
+      <section className={`orpheum-inner-page__section orpheum-inner-page__section--links${bandClass}`}>
         {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
         <ul className="orpheum-inner-page__links">
           {section.links.map((link) => (
@@ -213,7 +219,7 @@ export function PageSection({ section }) {
   }
 
   return (
-    <section className="orpheum-inner-page__section">
+    <section className={`orpheum-inner-page__section${bandClass}`}>
       {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
       {(section.paragraphs ?? []).map((paragraph) => (
         <p key={paragraph.slice(0, 40)}>

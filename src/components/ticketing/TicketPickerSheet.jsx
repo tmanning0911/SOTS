@@ -1,6 +1,6 @@
 import { useEffect, useId, useMemo, useState } from "react";
 import { formatCents } from "../../../js/shop.js";
-import { maxQtyForTicket } from "../../../js/ticket-cart.js";
+import { openPaymentLinkCheckout } from "../../../js/payment-link-checkout.js";
 import {
   formatPerformanceDate,
   formatPerformanceListDate,
@@ -8,13 +8,10 @@ import {
   sortTicketTypesForDisplay,
   ticketTypeHint,
 } from "../../../js/ticketing.js";
+import { QtyStepper, useBuyBusy } from "../checkout/QtyStepper.jsx";
 
-function PickerTicketRow({ ticketType, quantity, max, highlight, onChange }) {
+function PaymentLinkRow({ ticketType, quantity, onChange, highlight }) {
   const hint = ticketTypeHint(ticketType);
-  const unavailable = max <= 0;
-  const lowStock = !unavailable && max <= 5;
-
-  if (unavailable) return null;
 
   return (
     <article
@@ -26,46 +23,23 @@ function PickerTicketRow({ ticketType, quantity, max, highlight, onChange }) {
           {highlight ? <span className="sots-co__ticket-badge">Most popular</span> : null}
         </div>
         {hint ? <p className="sots-co__ticket-hint">{hint}</p> : null}
-        {lowStock ? <p className="sots-co__ticket-scarcity">Only {max} left</p> : null}
         <p className="sots-co__ticket-price">{ticketType.price?.display}</p>
       </div>
-      <div className="sots-co__qty" aria-label={`Quantity for ${ticketType.name}`}>
-        <button
-          type="button"
-          className="sots-co__qty-btn"
-          onClick={() => onChange(Math.max(0, quantity - 1))}
-          disabled={quantity <= 0}
-          aria-label={`Decrease ${ticketType.name}`}
-        >
-          −
-        </button>
-        <span className="sots-co__qty-value" aria-live="polite">
-          {quantity}
-        </span>
-        <button
-          type="button"
-          className="sots-co__qty-btn"
-          onClick={() => onChange(Math.min(max, quantity + 1))}
-          disabled={quantity >= max}
-          aria-label={`Increase ${ticketType.name}`}
-        >
-          +
-        </button>
-      </div>
+      <QtyStepper
+        value={quantity}
+        min={0}
+        max={10}
+        label={`Quantity for ${ticketType.name}`}
+        onChange={onChange}
+      />
     </article>
   );
 }
 
-export function TicketPickerSheet({
-  open,
-  onClose,
-  data,
-  performanceId,
-  onAddToCart,
-  onBuyNow,
-}) {
+export function TicketPickerSheet({ open, onClose, data, performanceId }) {
   const titleId = useId();
   const [quantities, setQuantities] = useState({});
+  const { busy, error, runBuy } = useBuyBusy();
 
   const performance = useMemo(
     () => data?.performances?.find((p) => String(p.id) === String(performanceId)) ?? null,
@@ -83,9 +57,26 @@ export function TicketPickerSheet({
   const gaTicketId = useMemo(() => {
     const ga =
       ticketTypes.find((t) => t.slug === "general-admission") ??
-      ticketTypes.find((t) => /general admission/i.test(t.name ?? "") && !/child|kid|vip/i.test(t.name ?? ""));
+      ticketTypes.find(
+        (t) => /general admission/i.test(t.name ?? "") && !/child|kid|vip/i.test(t.name ?? ""),
+      );
     return ga?.id ?? null;
   }, [ticketTypes]);
+
+  const selected = useMemo(
+    () =>
+      ticketTypes
+        .map((tt) => ({
+          ticketTypeId: tt.id,
+          quantity: quantities[tt.id] ?? 0,
+          unit: tt.price?.value ?? 0,
+        }))
+        .filter((row) => row.quantity > 0),
+    [ticketTypes, quantities],
+  );
+
+  const totalCents = selected.reduce((sum, row) => sum + row.unit * row.quantity, 0);
+  const totalQty = selected.reduce((sum, row) => sum + row.quantity, 0);
 
   useEffect(() => {
     if (!open) return;
@@ -107,37 +98,21 @@ export function TicketPickerSheet({
     };
   }, [open, onClose]);
 
-  const selectedItems = useMemo(
-    () =>
-      ticketTypes
-        .map((t) => ({ ticketTypeId: t.id, quantity: quantities[t.id] ?? 0 }))
-        .filter((item) => item.quantity > 0),
-    [ticketTypes, quantities],
-  );
-
-  const subtotal = useMemo(
-    () =>
-      selectedItems.reduce((sum, item) => {
-        const tt = ticketTypes.find((t) => t.id === item.ticketTypeId);
-        return sum + (tt?.price?.value ?? 0) * item.quantity;
-      }, 0),
-    [selectedItems, ticketTypes],
-  );
-
-  const ticketCount = selectedItems.reduce((sum, item) => sum + item.quantity, 0);
-
   if (!open || !performance) return null;
 
-  function handleAdd() {
-    if (!selectedItems.length) return;
-    onAddToCart?.(performance.id, selectedItems);
-    onClose();
-  }
-
-  function handleBuyNow() {
-    if (!selectedItems.length) return;
-    onBuyNow?.(performance.id, selectedItems);
-    onClose();
+  function handleBuy() {
+    if (!selected.length) return;
+    runBuy(async () => {
+      await openPaymentLinkCheckout({
+        kind: "ticket",
+        items: selected.map((row) => ({
+          performanceId: performance.id,
+          ticketTypeId: row.ticketTypeId,
+          quantity: row.quantity,
+        })),
+      });
+      onClose();
+    });
   }
 
   return (
@@ -146,8 +121,10 @@ export function TicketPickerSheet({
       <div className="tix-picker__panel" role="dialog" aria-modal="true" aria-labelledby={titleId}>
         <div className="tix-picker__head">
           <div>
-            <p className="tix-picker__eyebrow">Choose tickets</p>
-            <h2 id={titleId}>{formatPerformanceListDate(performance.start) || formatPerformanceDate(performance.start)}</h2>
+            <p className="tix-picker__eyebrow">Buy tickets</p>
+            <h2 id={titleId}>
+              {formatPerformanceListDate(performance.start) || formatPerformanceDate(performance.start)}
+            </h2>
             <p className="tix-picker__meta">{performance.venue ?? "Shakespeare in Pinkney Park"}</p>
           </div>
           <button type="button" className="tix-picker__close" onClick={onClose} aria-label="Close">
@@ -156,43 +133,39 @@ export function TicketPickerSheet({
         </div>
 
         <div className="tix-picker__body">
+          <p className="tix-picker__note">
+            Choose quantities for each ticket type, then checkout securely with Square for this night.
+          </p>
           <div className="tix-picker__tickets">
             {ticketTypes.map((tt) => (
-              <PickerTicketRow
+              <PaymentLinkRow
                 key={tt.id}
                 ticketType={tt}
                 quantity={quantities[tt.id] ?? 0}
-                max={maxQtyForTicket(performance, tt)}
                 highlight={tt.id === gaTicketId}
                 onChange={(qty) => setQuantities((prev) => ({ ...prev, [tt.id]: qty }))}
               />
             ))}
           </div>
+          {error ? <p className="tix-picker__error">{error}</p> : null}
         </div>
 
         <div className="tix-picker__foot">
           <div className="tix-picker__total">
-            <span>{ticketCount ? `${ticketCount} ticket${ticketCount === 1 ? "" : "s"}` : "Select tickets"}</span>
-            <strong>{ticketCount ? formatCents(subtotal) : "—"}</strong>
+            <span>{totalQty ? `${totalQty} ticket${totalQty === 1 ? "" : "s"}` : "Select tickets"}</span>
+            <strong>{totalQty ? formatCents(totalCents) : "—"}</strong>
           </div>
-          <div className="tix-picker__actions">
-            <button
-              type="button"
-              className="orpheum-arrow-btn orpheum-arrow-btn--ghost"
-              disabled={!selectedItems.length}
-              onClick={handleAdd}
-            >
-              Add to cart
-            </button>
-            <button
-              type="button"
-              className="orpheum-arrow-btn orpheum-arrow-btn--gold"
-              disabled={!selectedItems.length}
-              onClick={handleBuyNow}
-            >
-              Buy now
-            </button>
-          </div>
+          <button
+            type="button"
+            className="orpheum-arrow-btn orpheum-arrow-btn--gold tix-picker__checkout"
+            disabled={!selected.length || busy}
+            onClick={handleBuy}
+          >
+            <span className="orpheum-arrow-btn__label">{busy ? "Starting…" : "Checkout with Square"}</span>
+            <span className="orpheum-arrow-btn__icon" aria-hidden="true">
+              →
+            </span>
+          </button>
         </div>
       </div>
     </div>

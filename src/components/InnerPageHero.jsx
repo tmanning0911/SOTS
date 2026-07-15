@@ -1,6 +1,7 @@
 /**
- * Shared inner-page hero — cinematic (photo + veil) or plain band.
- * Matches homepage / production page visual language.
+ * Shared inner-page hero.
+ * Default: Orpheum “listing” title band (no photo) — matches /events style.
+ * Optional cinematic when an image is explicitly passed.
  */
 export function InnerPageHero({
   eyebrow,
@@ -35,7 +36,7 @@ export function InnerPageHero({
     .join(" ");
 
   return (
-    <header className={headerClass}>
+    <header className={headerClass} aria-label="Page title">
       {cinematic ? (
         <>
           <div
@@ -47,13 +48,15 @@ export function InnerPageHero({
         </>
       ) : null}
       <div className={innerClass} data-reveal>
-        {eyebrow ? <p className="orpheum-inner-page__eyebrow">{eyebrow}</p> : null}
-        {beforeTitle}
-        {title ? <h1>{title}</h1> : null}
-        {afterTitle}
-        {intro ? <p className={introClassName}>{intro}</p> : null}
-        {belowIntro}
-        {actions ? <div className="orpheum-page-hero__actions">{actions}</div> : null}
+        <div className="orpheum-page-hero__rail">
+          {eyebrow ? <p className="orpheum-inner-page__eyebrow">{eyebrow}</p> : null}
+          {beforeTitle}
+          {title ? <h1>{title}</h1> : null}
+          {afterTitle}
+          {intro ? <p className={introClassName}>{intro}</p> : null}
+          {belowIntro}
+          {actions ? <div className="orpheum-page-hero__actions">{actions}</div> : null}
+        </div>
       </div>
     </header>
   );

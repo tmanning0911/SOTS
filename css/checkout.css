@@ -649,7 +649,7 @@ html.sots-checkout-scroll iframe {
 }
 
 .sots-co__qty-btn:focus-visible {
-  outline: 2px solid var(--orp-gold, #c9a227);
+  outline: 2px solid var(--orp-gold, #f9c534);
   outline-offset: 2px;
 }
 

@@ -4,7 +4,7 @@
   margin: 0 0 0.35rem;
   font-size: 0.82rem;
   letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.78);
+  color: var(--orp-stone-700, #3d5470);
 }
 
 .sots-news-article__body {

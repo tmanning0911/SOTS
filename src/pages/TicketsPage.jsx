@@ -1,22 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, Navigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { MEDIA, SEASON_SHOWS } from "../../js/data.js";
-import { heroImageForHref } from "../../js/page-heroes.js";
 import { HOME_UPCOMING_EVENTS } from "../../js/home-upcoming-events.js";
-import { formatCents, BUNDLED_MERCHANDISE, merchandiseProducts } from "../../js/shop.js";
-import { consumeOpenTicketCartFlag } from "../../js/ticket-cart.js";
-import {
-  getPriceFromLabel,
-  getTicketCheckoutPath,
-  getTicketingState,
-  patronDisplayName,
-} from "../../js/ticketing.js";
+import { BUNDLED_MERCHANDISE, merchandiseProducts } from "../../js/shop.js";
+import { getPriceFromLabel, getTicketingState, patronDisplayName } from "../../js/ticketing.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
+import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { PerformanceCalendar } from "../components/ticketing/PerformanceCalendar.jsx";
 import { ShopMerchTeaser } from "../components/shop/ShopMerchTeaser.jsx";
-import { TicketCartAside } from "../components/ticketing/TicketCartAside.jsx";
-import { TicketCartDrawer } from "../components/ticketing/TicketCartDrawer.jsx";
 import { TicketCheckoutButton } from "../components/ticketing/TicketCheckoutButton.jsx";
 import { TicketPickerSheet } from "../components/ticketing/TicketPickerSheet.jsx";
 import { TicketPricing } from "../components/ticketing/TicketPricing.jsx";
@@ -39,17 +31,17 @@ function TicketsPageSkeleton() {
 
 function TicketsQuickBar() {
   return (
-    <nav className="tix-page__quick" aria-label="Ticket shortcuts">
-      <Link to="/my-tickets/" className="tix-page__quick-link">
+    <nav className="orpheum-page-quick" aria-label="Ticket shortcuts">
+      <Link to="/my-tickets/" className="orpheum-page-quick__link">
         My Tickets
       </Link>
-      <Link to="/access-your-tickets/" className="tix-page__quick-link">
+      <Link to="/access-your-tickets/" className="orpheum-page-quick__link">
         Confirmation lookup
       </Link>
-      <a href="tel:+12039571006" className="tix-page__quick-link">
+      <a href="tel:+12039571006" className="orpheum-page-quick__link">
         Box office (203) 957-1006
       </a>
-      <Link to="/about/visit/" className="tix-page__quick-link">
+      <Link to="/about/visit/" className="orpheum-page-quick__link">
         Plan your visit
       </Link>
     </nav>
@@ -139,101 +131,75 @@ function TicketsTierGuide() {
 }
 
 export function TicketsPage() {
-  const {
-    data,
-    loading,
-    error,
-    refresh,
-    ticketingState,
-    cartCount,
-    cartTotal,
-    cartGroups,
-    cartNotice,
-    dismissCartNotice,
-    cartDrawerOpen,
-    openCartDrawer,
-    closeCartDrawer,
-    updateQuantity,
-    removeFromCart,
-    openCartCheckout,
-    addToCart: addTicketsToCart,
-    buyNow: buyTicketsNow,
-    clearCart,
-    clearPerformance,
-  } = useTickets();
-  const { catalog, addToCart, buyNow } = useShop();
+  const { data, loading, error, refresh, ticketingState } = useTickets();
+  const { catalog } = useShop();
   const [searchParams] = useSearchParams();
+  const thanks = searchParams.get("thanks") === "1";
   const [pickerPerformanceId, setPickerPerformanceId] = useState(null);
-  const priceLabel = getPriceFromLabel(data);
-  const relatedEvents = HOME_UPCOMING_EVENTS.filter(
-    (event) => event.href !== `/productions/${PRODUCTION_SLUG}/`,
-  ).slice(0, 6);
-  const heroImage = heroImageForHref("/tickets/");
+
   const shopMerchandise = useMemo(() => {
     const list = merchandiseProducts(catalog);
     return list.length ? list : BUNDLED_MERCHANDISE;
   }, [catalog]);
 
+  const priceLabel = useMemo(() => {
+    if (!data) return null;
+    return getPriceFromLabel(data);
+  }, [data]);
+
+  const relatedEvents = useMemo(
+    () => HOME_UPCOMING_EVENTS.filter((event) => !/much.?ado/i.test(event.title ?? "")).slice(0, 3),
+    [],
+  );
+
   useEffect(() => {
-    document.title = "Tickets - Shakespeare on the Sound";
+    document.title = "Tickets & Dates - Shakespeare on the Sound";
   }, []);
 
   useEffect(() => {
-    if (consumeOpenTicketCartFlag() || searchParams.get("cart") === "1") {
-      openCartDrawer();
+    const perf = searchParams.get("perf");
+    if (perf && data?.performances?.some((p) => String(p.id) === String(perf))) {
+      setPickerPerformanceId(perf);
     }
-  }, [searchParams, openCartDrawer]);
-
-  const performanceId = searchParams.get("performance");
-  if (performanceId && !loading && data) {
-    return <Navigate to={getTicketCheckoutPath(performanceId)} replace />;
-  }
+  }, [searchParams, data]);
 
   return (
-    <InnerPageShell showVisit={false} showNewsletter={false}>
+    <InnerPageShell showVisit showNewsletter>
       <article className="tix-page">
-        <header className="tix-page__hero">
-          <div
-            className="tix-page__hero-bg"
-            style={{ backgroundImage: `url('${heroImage}')` }}
-            aria-hidden="true"
-          />
-          <div className="tix-page__hero-veil" aria-hidden="true" />
-          <div className="tix-page__hero-inner" data-reveal>
-            <p className="tix-page__hero-eyebrow">Shakespeare in Pinkney Park · Summer 2026</p>
-            <h1>Tickets &amp; Dates</h1>
-            <p className="tix-page__hero-lead">
-              Choose a date, add tickets to your cart, then checkout securely—one performance at a time.
+        <InnerPageHero title="Tickets" />
+
+        <TicketsQuickBar />
+
+        {thanks ? (
+          <div className="tix-page__thanks" role="status">
+            <p>
+              Thank you — your payment was received. Square will email your receipt; bring that
+              confirmation to the gate (online Square purchases are not added to My Tickets yet).
             </p>
-            {!loading && ticketingState.statusLabel ? (
-              <div className="tix-page__hero-meta">
-                <TicketStatusBadge status={ticketingState.statusLabel} marketingOnly />
-                {priceLabel ? <span>{priceLabel}</span> : null}
-              </div>
-            ) : null}
-            <div className="tix-page__hero-actions">
-              <ArrowButton href="#dates">See dates</ArrowButton>
-              <ArrowButton href={`/productions/${PRODUCTION_SLUG}/`} variant="light">
-                About Much Ado
+            <div className="tix-page__thanks-actions">
+              <ArrowButton href="/access-your-tickets/" variant="light">
+                Confirmation lookup
+              </ArrowButton>
+              <ArrowButton href="#dates" variant="ghost">
+                Buy another night
               </ArrowButton>
             </div>
           </div>
-        </header>
-
-        <TicketsQuickBar />
+        ) : null}
 
         <TicketsSpotlight data={data} loading={loading} priceLabel={priceLabel} />
 
         <section className="tix-page__book" id="dates" aria-labelledby="tix-dates-heading">
           <div className="tix-page__book-head" data-reveal>
             <div>
-              <p className="tix-page__section-eyebrow">Reserve your seats</p>
-              <h2 id="tix-dates-heading">Choose a performance</h2>
+              <p className="orpheum-eyebrow">Reserve your seats</p>
+              <h2 id="tix-dates-heading" className="orpheum-underline-heading">
+                Choose a performance
+              </h2>
             </div>
             <p className="tix-page__book-note">
-              Select a date to choose ticket types and add them to your cart. Checkout is one night at a
-              time. Questions?{" "}
-              <a href="tel:+12039571006">(203) 957-1006</a> ·{" "}
+              Select a date, choose quantities in the ticket sheet, then checkout once with Square.
+              Questions? <a href="tel:+12039571006">(203) 957-1006</a> ·{" "}
               <Link to="/about/faq/">Ticket FAQ</Link>
             </p>
           </div>
@@ -262,21 +228,6 @@ export function TicketsPage() {
             </div>
 
             <aside className="tix-page__aside">
-              <TicketCartAside
-                groups={cartGroups}
-                cartCount={cartCount}
-                cartTotal={cartTotal}
-                data={data}
-                cartNotice={cartNotice}
-                onDismissNotice={dismissCartNotice}
-                onUpdate={updateQuantity}
-                onRemove={removeFromCart}
-                onCheckout={openCartCheckout}
-                onClearPerformance={clearPerformance}
-                onClearCart={clearCart}
-                showImage={MEDIA.muchAdoPoster}
-                className="tix-cart-aside--desktop"
-              />
               {data ? (
                 <TicketPricing
                   ticketClasses={data.ticketTypes ?? data.ticketClasses}
@@ -302,16 +253,16 @@ export function TicketsPage() {
           className="tix-page__shop-teaser"
           headingId="tix-shop-teaser-heading"
           products={shopMerchandise}
-          onAdd={addToCart}
-          onBuyNow={buyNow}
         />
 
         {relatedEvents.length ? (
           <section className="tix-page__more" aria-labelledby="tix-more-heading" data-reveal>
             <div className="tix-page__more-head">
               <div>
-                <p className="tix-page__section-eyebrow">This season</p>
-                <h2 id="tix-more-heading">More events</h2>
+                <p className="orpheum-eyebrow">This season</p>
+                <h2 id="tix-more-heading" className="orpheum-underline-heading">
+                  More events
+                </h2>
               </div>
               <ArrowButton href="/#upcoming-events">View all events</ArrowButton>
             </div>
@@ -347,12 +298,6 @@ export function TicketsPage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                  <path
-                    d="M9 13h.01M12 13h.01M15 13h.01M9 16h.01M12 16h.01"
-                    stroke="currentColor"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                  />
                 </svg>
               </span>
               <div>
@@ -373,105 +318,42 @@ export function TicketsPage() {
                     strokeWidth="1.6"
                   />
                   <path d="M3.5 10.5h17" stroke="currentColor" strokeWidth="1.6" />
-                  <path
-                    d="M7 15h3.5"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                  />
                 </svg>
               </span>
               <div>
-                <strong>Build your cart</strong>
-                <p>Choose ticket types, add more nights if you like, then pay one show at a time.</p>
+                <strong>Choose quantities</strong>
+                <p>Pick how many of each ticket type you need, then Checkout with Square for that night.</p>
               </div>
             </li>
             <li>
               <span className="tix-page__steps-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none">
-                  <rect
-                    x="4.5"
-                    y="4.5"
-                    width="6.5"
-                    height="6.5"
-                    rx="1"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                  />
-                  <rect
-                    x="13"
-                    y="4.5"
-                    width="6.5"
-                    height="6.5"
-                    rx="1"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                  />
-                  <rect
-                    x="4.5"
-                    y="13"
-                    width="6.5"
-                    height="6.5"
-                    rx="1"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                  />
                   <path
-                    d="M13 13h2.25v2.25H13V13Zm4.25 0H19.5v2.25h-2.25V13ZM13 17.25h2.25V19.5H13v-2.25Zm2.25 0H17.5V19.5h1.75v-2.25"
+                    d="M4 12.5 9 17.5 20 6.5"
                     stroke="currentColor"
                     strokeWidth="1.6"
+                    strokeLinecap="round"
                     strokeLinejoin="round"
                   />
                 </svg>
               </span>
               <div>
-                <strong>Show your QR</strong>
-                <p>Your tickets are emailed to you, and you can always find them in My Tickets.</p>
+                <strong>Bring your Square receipt</strong>
+                <p>
+                  Square emails your confirmation—show it at the gate. Online Square purchases are not
+                  listed in My Tickets yet.
+                </p>
               </div>
             </li>
           </ol>
         </section>
       </article>
 
-      {cartCount > 0 ? (
-        <button
-          type="button"
-          className="sots-shop-page__cart-fab tix-page__cart-fab"
-          onClick={openCartDrawer}
-          aria-label={`Open ticket cart, ${cartCount} tickets`}
-        >
-          <span className="sots-shop-page__cart-fab-count">{cartCount}</span>
-          <span className="sots-shop-page__cart-fab-copy">
-            <strong>View cart</strong>
-            <span>{formatCents(cartTotal)}</span>
-          </span>
-        </button>
-      ) : null}
-
-      <TicketCartDrawer
-        open={cartDrawerOpen}
-        onClose={closeCartDrawer}
-        groups={cartGroups}
-        cartCount={cartCount}
-        cartTotal={cartTotal}
-        data={data}
-        cartNotice={cartNotice}
-        onDismissNotice={dismissCartNotice}
-        onUpdate={updateQuantity}
-        onRemove={removeFromCart}
-        onCheckout={openCartCheckout}
-        onClearPerformance={clearPerformance}
-        onClearCart={clearCart}
-        showImage={MEDIA.muchAdoPoster}
-      />
-
       <TicketPickerSheet
         open={Boolean(pickerPerformanceId)}
         onClose={() => setPickerPerformanceId(null)}
         data={data}
         performanceId={pickerPerformanceId}
-        onAddToCart={addTicketsToCart}
-        onBuyNow={buyTicketsNow}
       />
     </InnerPageShell>
   );

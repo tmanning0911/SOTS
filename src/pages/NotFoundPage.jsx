@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { heroImageForHref } from "../../js/page-heroes.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
@@ -12,12 +11,7 @@ export function NotFoundPage() {
   return (
     <InnerPageShell showVisit={false} showNewsletter={false}>
       <article className="orpheum-inner-page orpheum-not-found-page">
-        <InnerPageHero
-          eyebrow="404"
-          title="Page Not Found."
-          intro="The page you requested doesn't exist. Head back to the homepage or explore events and tickets."
-          image={heroImageForHref("/about/")}
-        />
+        <InnerPageHero title="Page Not Found" />
 
         <div className="orpheum-inner-page__body">
           <div className="orpheum-inner-page__content" data-reveal>

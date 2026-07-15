@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import {
   cartItemCount,
   cartTotalCents,
-  getShopCheckoutPath,
   INITIAL_SHOP_CATALOG,
   loadShopCatalog,
   remapCartLines,
   prefetchShopProductImages,
+  SHOP_PAGE_PATH,
 } from "../../js/shop.js";
 import { ShopContext } from "./ShopContext.jsx";
 
@@ -101,7 +101,7 @@ export function ShopProvider({ children }) {
       flushSync(() => {
         addToCart(product, { quantity, option });
       });
-      navigate(getShopCheckoutPath());
+      navigate(SHOP_PAGE_PATH);
     },
     [addToCart, navigate],
   );
@@ -125,7 +125,7 @@ export function ShopProvider({ children }) {
   const clearCart = useCallback(() => setCart([]), []);
 
   const openCheckout = useCallback(() => {
-    navigate(getShopCheckoutPath());
+    navigate(SHOP_PAGE_PATH);
   }, [navigate]);
 
   const value = useMemo(

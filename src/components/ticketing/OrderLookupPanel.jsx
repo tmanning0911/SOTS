@@ -1,26 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { formatCents, lookupOrder, resendOrderEmail } from "../../../js/square-payments.js";
+import { formatCents, lookupOrder } from "../../../js/square-payments.js";
 import { formatPerformanceDate } from "../../../js/ticketing.js";
 import { ArrowButton } from "../ArrowButton.jsx";
+import { OrderResendButton } from "./OrderResendButton.jsx";
 import { TicketQr } from "./TicketQr.jsx";
 
 function OrderDetails({ order, email }) {
-  const [resendState, setResendState] = useState("idle");
-  const [resendError, setResendError] = useState("");
-
-  async function handleResend() {
-    setResendState("loading");
-    setResendError("");
-    try {
-      await resendOrderEmail(email, order.confirmationCode);
-      setResendState("sent");
-    } catch (err) {
-      setResendError(err.message || "Could not resend email");
-      setResendState("idle");
-    }
-  }
-
   return (
     <div className="sots-order-lookup__result">
       <p>
@@ -48,25 +34,11 @@ function OrderDetails({ order, email }) {
       </ul>
       <p>Total: {formatCents(order.totalCents)}</p>
       <div className="sots-order-lookup__actions">
-        <ArrowButton
-          type="button"
-          onClick={handleResend}
-          disabled={resendState === "loading" || resendState === "sent"}
-        >
-          {resendState === "loading"
-            ? "Sending…"
-            : resendState === "sent"
-              ? "Email sent"
-              : "Resend confirmation email"}
-        </ArrowButton>
-        {resendError ? (
-          <p className="sots-checkout__error" role="alert">
-            {resendError}
-          </p>
-        ) : null}
-        {resendState === "sent" ? (
-          <p className="sots-checkout__hint">Check your inbox for your tickets and confirmation code.</p>
-        ) : null}
+        <OrderResendButton
+          email={email}
+          confirmationCode={order.confirmationCode}
+          label="Resend confirmation email"
+        />
       </div>
     </div>
   );

@@ -6,8 +6,6 @@ import { ProductCard } from "./ShopProductCard.jsx";
 export function ShopMerchTeaser({
   products = BUNDLED_MERCHANDISE,
   limit = 4,
-  onAdd,
-  onBuyNow,
   className = "",
   headingId = "shop-teaser-heading",
 }) {
@@ -21,23 +19,20 @@ export function ShopMerchTeaser({
     >
       <div className="sots-shop-teaser__head">
         <div>
-          <p className="sots-shop-teaser__eyebrow">Merchandise</p>
-          <h2 id={headingId}>Souvenirs &amp; keepsakes</h2>
+          <p className="orpheum-eyebrow">Merchandise</p>
+          <h2 id={headingId} className="orpheum-underline-heading">
+            Souvenirs &amp; keepsakes
+          </h2>
           <p className="sots-shop-teaser__lead">
-            Tees, totes, pins, and playbills — pick up at the park, or add a souvenir during ticket checkout.
+            Choose a quantity or add several items to your cart — checkout securely with Square,
+            pick up at the park.
           </p>
         </div>
         <ArrowButton href={SHOP_PAGE_PATH}>Browse gift shop</ArrowButton>
       </div>
       <div className="sots-shop-teaser__grid">
         {items.map((product, index) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            onAdd={onAdd}
-            onBuyNow={onBuyNow}
-            priorityImage={index < 4}
-          />
+          <ProductCard key={product.id} product={product} priorityImage={index < 4} />
         ))}
       </div>
       <p className="sots-shop-teaser__foot">

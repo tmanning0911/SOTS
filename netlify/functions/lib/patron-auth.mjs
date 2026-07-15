@@ -84,6 +84,24 @@ export function issueMagicLinkToken(email) {
   });
 }
 
+/** One-time password reset / set link (same TTL and single-use store as magic links). */
+export function issuePasswordResetToken(email) {
+  const normalized = normalizePatronEmail(email);
+  if (!isValidPatronEmail(normalized)) return null;
+  return signPatronToken({
+    email: normalized,
+    type: "password-reset",
+    jti: newJti(),
+    exp: Date.now() + MAGIC_LINK_TTL_MS,
+  });
+}
+
+export function verifyPasswordResetToken(token) {
+  const payload = verifyPatronToken(token);
+  if (!payload || payload.type !== "password-reset" || !payload.email || !payload.jti) return null;
+  return payload;
+}
+
 export function issuePatronSession(email, { ip = "" } = {}) {
   const normalized = normalizePatronEmail(email);
   if (!isValidPatronEmail(normalized)) return null;
@@ -388,6 +406,15 @@ export async function rateLimitPatronMagic({ ip, email }) {
   const ipOk = await durableRateLimit(`patron-magic-ip:${ip || "unknown"}`, { max: 5, windowMs: 900_000 });
   const emailOk = await durableRateLimit(`patron-magic-email:${normalizePatronEmail(email)}`, {
     max: 3,
+    windowMs: 900_000,
+  });
+  return ipOk && emailOk;
+}
+
+export async function rateLimitPatronPassword({ ip, email }) {
+  const ipOk = await durableRateLimit(`patron-password-ip:${ip || "unknown"}`, { max: 20, windowMs: 900_000 });
+  const emailOk = await durableRateLimit(`patron-password-email:${normalizePatronEmail(email) || "unknown"}`, {
+    max: 8,
     windowMs: 900_000,
   });
   return ipOk && emailOk;

@@ -1,5 +1,4 @@
 import { ArrowButton } from "../ArrowButton.jsx";
-import { useTickets } from "../../context/TicketProvider.jsx";
 import { TICKETS_CTA_LABEL, TICKETS_PAGE_PATH } from "../../../js/ticketing.js";
 
 export function TicketCheckoutButton({
@@ -7,45 +6,23 @@ export function TicketCheckoutButton({
   className = "",
   variant = "gold",
   eventId,
-  checkout = false,
   onClick,
   disabled,
   children,
 }) {
-  const { loading, openCheckout } = useTickets();
-  const openModal = checkout || Boolean(eventId);
-
-  if (!openModal) {
-    return (
-      <ArrowButton
-        href={TICKETS_PAGE_PATH}
-        variant={variant}
-        className={className}
-        onClick={onClick}
-        disabled={disabled}
-        aria-busy={loading || undefined}
-      >
-        {loading ? "Loading…" : (children ?? label)}
-      </ArrowButton>
-    );
-  }
-
-  const handleClick = (e) => {
-    onClick?.(e);
-    if (e.defaultPrevented) return;
-    openCheckout(eventId);
-  };
+  const href = eventId
+    ? `${TICKETS_PAGE_PATH}?perf=${encodeURIComponent(String(eventId))}#dates`
+    : `${TICKETS_PAGE_PATH}#dates`;
 
   return (
     <ArrowButton
-      type="button"
+      href={href}
       variant={variant}
       className={className}
-      onClick={handleClick}
-      disabled={disabled || loading}
-      aria-busy={loading || undefined}
+      onClick={onClick}
+      disabled={disabled}
     >
-      {loading ? "Loading…" : (children ?? label)}
+      {children ?? label}
     </ArrowButton>
   );
 }

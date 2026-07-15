@@ -1,4 +1,3 @@
-import { heroImageForHref } from "../../js/page-heroes.js";
 import { isContactMailto } from "../../js/contact-recipients.js";
 import { isTicketCheckoutUrl, TICKETS_PAGE_PATH } from "../../js/ticketing.js";
 import { ArrowButton } from "./ArrowButton.jsx";
@@ -44,27 +43,45 @@ export function OrpheumInnerPage({ page }) {
       ? [{ type: "prose", paragraphs: page.paragraphs ?? (page.body ? [page.body] : []) }]
       : []);
 
+  const isDonate = page.href === "/support/donate/" || page.href === "/support/individual-giving/";
+
   return (
     <InnerPageShell
       showVisit={page.showVisit !== false}
       showSupport={Boolean(page.showSupport)}
       showNewsletter={page.showNewsletter !== false}
     >
-      <article className="orpheum-inner-page">
-        <InnerPageHero
-          eyebrow={page.eyebrow}
-          title={page.heading}
-          intro={page.intro}
-          image={page.heroImage ?? heroImageForHref(page.href)}
-        />
+      <article className={`orpheum-inner-page${isDonate ? " orpheum-inner-page--support" : ""}`}>
+        <InnerPageHero title={String(page.heading || page.title || "").replace(/\.$/, "")} />
+
+        {isDonate ? (
+          <aside className="orpheum-support-band" aria-label="Support Shakespeare on the Sound">
+            <div className="orpheum-support-band__inner">
+              <p className="orpheum-eyebrow orpheum-eyebrow--light">Your gift matters</p>
+              <h2 className="orpheum-underline-heading orpheum-underline-heading--light">
+                Help keep Shakespeare in the park accessible
+              </h2>
+              <p>
+                Contributions power productions, education programs, and free and low-cost seating for
+                neighbors across Fairfield County.
+              </p>
+              {page.cta ? (
+                <div className="orpheum-support-band__actions">
+                  <PageCta cta={page.cta} />
+                </div>
+              ) : null}
+            </div>
+          </aside>
+        ) : null}
 
         <div className="orpheum-inner-page__body">
           <div className="orpheum-inner-page__content" data-reveal>
+            {page.intro ? <p className="orpheum-inner-page__intro">{page.intro}</p> : null}
             {sections.map((section, index) => (
               <PageSection key={`${section.heading ?? "section"}-${index}`} section={section} />
             ))}
 
-            {(page.cta || page.secondaryCta) ? (
+            {page.cta || page.secondaryCta ? (
               <div className="orpheum-inner-page__cta">
                 <PageCta cta={page.cta} />
                 <PageCta cta={page.secondaryCta} variant="ghost" />

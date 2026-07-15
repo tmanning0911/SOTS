@@ -4,6 +4,7 @@ import { MEDIA } from "./data.js";
 const HERO_BY_PREFIX = [
   ["/education/", MEDIA.educationBanner],
   ["/support/donate/", MEDIA.donateImage],
+  ["/events/", MEDIA.donateImage],
   ["/support/", MEDIA.donateImage],
   ["/news/", MEDIA.heroBanner],
   ["/shop/", MEDIA.galaImage],

@@ -4,7 +4,7 @@
   background: var(--orp-white, #fff);
 }
 
-/* ── Shop buttons (solid CTAs — not text-only links) ── */
+/* ── Shop buttons (Orpheum transactional — gold → blue) ── */
 .sots-shop-btn {
   display: inline-flex;
   align-items: center;
@@ -13,13 +13,13 @@
   min-height: 2.75rem;
   padding: 0.65rem 1.25rem;
   border: 2px solid transparent;
-  border-radius: 8px;
-  background: var(--orp-gold, #c9a227);
+  border-radius: var(--btn-radius, 4px);
+  background: var(--orp-gold, #f9c534);
   color: var(--orp-dark, #0f2d4d);
   font-family: var(--orp-sans, "Source Sans 3", sans-serif);
-  font-size: 0.82rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   text-decoration: none;
   line-height: 1.2;
@@ -33,7 +33,7 @@
 }
 
 .sots-shop-btn:focus-visible {
-  outline: 2px solid var(--orp-gold, #c9a227);
+  outline: 2px solid var(--orp-gold, #f9c534);
   outline-offset: 3px;
 }
 
@@ -57,7 +57,7 @@
   }
 
   .sots-shop-btn:disabled:hover {
-    background: var(--orp-gold, #c9a227);
+    background: var(--orp-gold, #f9c534);
     border-color: transparent;
     color: var(--orp-dark, #0f2d4d);
   }
@@ -119,9 +119,52 @@
   color: #fff;
 }
 
+.sots-shop-btn--disabled,
+.sots-shop-btn[aria-disabled="true"] {
+  opacity: 0.55;
+  pointer-events: none;
+  cursor: default;
+}
+
+.sots-shop-card__option-note {
+  margin: 0 0 0.75rem;
+  font-size: 0.82rem;
+  color: var(--orp-muted, #525252);
+}
+
+.sots-shop-card__error,
+.tix-picker__error {
+  margin: 0.5rem 0 0;
+  font-size: 0.82rem;
+  color: #b42318;
+  line-height: 1.4;
+}
+
+.sots-shop-card__footer .sots-co__qty {
+  margin: 0.35rem 0;
+}
+
+.sots-shop-page__thanks {
+  margin: 1rem clamp(1.25rem, 4vw, 2.5rem) 0;
+  padding: 1rem 1.15rem;
+  background: #eef6f0;
+  border-left: 3px solid #2d5c4f;
+  color: #1e3530;
+  line-height: 1.5;
+}
+
+.sots-shop-page__thanks p {
+  margin: 0 0 0.65rem;
+}
+
+.sots-shop-page__main--full {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
 .sots-shop-btn--on-dark {
-  background: var(--orp-gold, #c9a227);
-  border-color: var(--orp-gold, #c9a227);
+  background: var(--orp-gold, #f9c534);
+  border-color: var(--orp-gold, #f9c534);
   color: var(--orp-dark, #0f2d4d);
 }
 
@@ -195,7 +238,7 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--orp-gold, #c9a227);
+  color: var(--orp-gold, #f9c534);
 }
 
 .sots-shop-page__hero h1 {
@@ -241,12 +284,12 @@
 }
 
 .sots-shop-page__quick-link:hover {
-  color: var(--orp-gold, #c9a227);
+  color: var(--orp-gold, #f9c534);
   background: rgba(255, 255, 255, 0.08);
 }
 
 .sots-shop-page__quick-link:focus-visible {
-  outline: 2px solid var(--orp-gold, #c9a227);
+  outline: 2px solid var(--orp-gold, #f9c534);
   outline-offset: 2px;
 }
 
@@ -262,11 +305,10 @@
   display: grid;
   max-width: 72rem;
   margin: 0 auto;
-  border-radius: 14px;
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow:
-    0 4px 10px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.08),
-    0 20px 44px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.14);
+  border: 1px solid var(--orp-line, #e4e9ef);
+  box-shadow: none;
 }
 
 @media (min-width: 768px) {
@@ -309,7 +351,7 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--orp-gold, #c9a227);
+  color: var(--orp-gold, #f9c534);
 }
 
 .sots-shop-spotlight__copy h2,
@@ -327,7 +369,7 @@
 .sots-shop-spotlight__lead {
   margin: 0;
   max-width: 42rem;
-  color: #4a5560;
+  color: var(--orp-muted, var(--orp-stone-700, #3d5470));
   line-height: 1.6;
 }
 
@@ -382,8 +424,13 @@
 /* ── Catalog section ── */
 .sots-shop-page__catalog {
   padding: clamp(2rem, 4vw, 3rem) var(--orp-chrome-gutter, 9.25rem) clamp(3rem, 6vw, 4.5rem);
-  background: #f7f9fb;
-  border-top: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.06);
+  background: var(--orp-stone-100, #f4f7fa);
+  border-top: 1px solid var(--orp-line, #e4e9ef);
+}
+
+.sots-shop-page .orpheum-underline-heading,
+.sots-shop-teaser .orpheum-underline-heading {
+  font-size: clamp(1.5rem, 3vw, 2rem);
 }
 
 /* ── Merch teaser (tickets + inner pages) ── */
@@ -409,7 +456,7 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--orp-gold, #c9a227);
+  color: var(--orp-gold, #f9c534);
 }
 
 .sots-shop-teaser__head h2 {
@@ -496,12 +543,14 @@
 .sots-shop-page__filter {
   min-height: var(--touch-min, 48px);
   padding: 0.55rem 1rem;
-  border-radius: 999px;
-  border: 1px solid rgba(15, 45, 77, 0.2);
+  border-radius: var(--btn-radius, 4px);
+  border: 1px solid var(--orp-line, #e4e9ef);
   background: #fff;
-  font: inherit;
-  font-size: 0.88rem;
-  font-weight: 600;
+  font-family: var(--orp-sans, "Source Sans 3", sans-serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--orp-dark, #0f2d4d);
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
@@ -513,7 +562,7 @@
 }
 
 .sots-shop-page__filter:focus-visible {
-  outline: 2px solid var(--orp-gold, #c9a227);
+  outline: 2px solid var(--orp-gold, #f9c534);
   outline-offset: 2px;
 }
 
@@ -544,23 +593,24 @@
 .sots-shop-card {
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(15, 45, 77, 0.1);
-  border-radius: 14px;
+  border: 1px solid var(--orp-line, #e4e9ef);
+  border-radius: 4px;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 10px 28px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: none;
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .sots-shop-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 34px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.08);
+  transform: translateY(-1px);
+  border-color: rgba(var(--brand-navy-rgb, 15, 45, 77), 0.28);
+  box-shadow: none;
 }
 
 @media (hover: none) {
   .sots-shop-card:hover {
     transform: none;
-    box-shadow: 0 10px 28px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.05);
+    box-shadow: none;
   }
 }
 
@@ -708,7 +758,7 @@
   height: 1.5rem;
   padding: 0 0.35rem;
   border-radius: 999px;
-  background: #c9a227;
+  background: #f9c534;
   color: #0f2d4d;
   font-family: var(--orp-sans, "Source Sans 3", sans-serif);
   font-size: 0.8rem;
@@ -796,7 +846,7 @@
 }
 
 .sots-shop-cart-aside__qty button:focus-visible {
-  outline: 2px solid var(--orp-gold, #c9a227);
+  outline: 2px solid var(--orp-gold, #f9c534);
   outline-offset: 2px;
 }
 
@@ -910,7 +960,7 @@
 }
 
 .sots-shop-page__cross-sell .sots-shop-page__section-eyebrow {
-  color: var(--orp-gold, #c9a227);
+  color: var(--orp-gold, #f9c534);
 }
 
 /* ── Mobile cart FAB + drawer ── */
@@ -938,7 +988,7 @@
 }
 
 .sots-shop-page__cart-fab:focus-visible {
-  outline: 2px solid var(--orp-gold, #c9a227);
+  outline: 2px solid var(--orp-gold, #f9c534);
   outline-offset: 3px;
 }
 
@@ -949,7 +999,7 @@
   min-width: 2rem;
   height: 2rem;
   border-radius: 999px;
-  background: var(--orp-gold, #c9a227);
+  background: var(--orp-gold, #f9c534);
   color: var(--orp-dark, #0f2d4d);
   font-weight: 700;
 }
@@ -1041,7 +1091,7 @@
 }
 
 .sots-shop-drawer__close:focus-visible {
-  outline: 2px solid var(--orp-gold, #c9a227);
+  outline: 2px solid var(--orp-gold, #f9c534);
   outline-offset: 2px;
 }
 

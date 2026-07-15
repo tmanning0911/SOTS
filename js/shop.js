@@ -68,7 +68,7 @@ export function prefetchShopProductImages(catalog = INITIAL_SHOP_CATALOG, limit 
 }
 
 export function getShopCheckoutPath() {
-  return `${SHOP_CHECKOUT_PATH}/`;
+  return SHOP_PAGE_PATH;
 }
 
 export function formatCents(cents) {

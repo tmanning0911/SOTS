@@ -6,12 +6,18 @@ import {
 } from "../../js/patron-avatar.js";
 import {
   clearPatronSession,
+  changePatronPassword,
   exchangePatronToken,
   fetchPatronContactProfile,
   fetchPatronOrders,
+  fetchPatronPasswordStatus,
   fetchPatronProfile,
+  loginPatronWithPassword,
   readPatronSession,
+  registerPatronAccount,
   requestPatronMagicLink,
+  requestPatronPasswordReset,
+  resetPatronPassword,
   signOutPatron,
   signOutPatronEverywhere,
   updatePatronContactProfile,
@@ -45,6 +51,7 @@ export function PatronProvider({ children }) {
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [bootstrapping, setBootstrapping] = useState(true);
   const [needsPasskey, setNeedsPasskey] = useState(false);
+  const [hasPassword, setHasPassword] = useState(Boolean(readPatronSession()?.hasPassword));
   const [error, setError] = useState("");
   const profileEpochRef = useRef(0);
   const avatarUrlRef = useRef(null);
@@ -61,6 +68,7 @@ export function PatronProvider({ children }) {
     setProfile(null);
     setOrders([]);
     setNeedsPasskey(false);
+    setHasPassword(false);
     replaceAvatarUrl(null);
   }, [replaceAvatarUrl]);
 
@@ -160,10 +168,12 @@ export function PatronProvider({ children }) {
           signedIn: true,
           user: data.user,
           profile: data.profile ?? null,
+          hasPassword: Boolean(data.hasPassword),
         };
         writePatronSession(nextSession);
         setSession(nextSession);
         setProfile(nextSession.profile);
+        setHasPassword(Boolean(data.hasPassword));
         setNeedsPasskey(Boolean(data.needsPasskey));
         if (!data.needsPasskey) {
           try {
@@ -205,8 +215,65 @@ export function PatronProvider({ children }) {
     setSession(nextSession);
     setProfile(nextSession.profile ?? null);
     setNeedsPasskey(Boolean(nextSession.needsPasskey));
+    setHasPassword(Boolean(nextSession.hasPassword));
     setBootstrapping(false);
     return nextSession;
+  }, []);
+
+  const signInWithPassword = useCallback(async (email, password) => {
+    const nextSession = await loginPatronWithPassword(email, password);
+    profileEpochRef.current += 1;
+    setSession(nextSession);
+    setProfile(nextSession.profile ?? null);
+    setNeedsPasskey(Boolean(nextSession.needsPasskey));
+    setHasPassword(Boolean(nextSession.hasPassword));
+    setBootstrapping(false);
+    return nextSession;
+  }, []);
+
+  const registerAccount = useCallback(async ({ email, password, name }) => {
+    const nextSession = await registerPatronAccount({ email, password, name });
+    profileEpochRef.current += 1;
+    setSession(nextSession);
+    setProfile(nextSession.profile ?? null);
+    setNeedsPasskey(false);
+    setHasPassword(true);
+    setBootstrapping(false);
+    return nextSession;
+  }, []);
+
+  const requestPasswordReset = useCallback(async (email) => requestPatronPasswordReset(email), []);
+
+  const completePasswordReset = useCallback(async (token, password) => {
+    const nextSession = await resetPatronPassword(token, password);
+    profileEpochRef.current += 1;
+    setSession(nextSession);
+    setProfile(nextSession.profile ?? null);
+    setNeedsPasskey(false);
+    setHasPassword(true);
+    setBootstrapping(false);
+    return nextSession;
+  }, []);
+
+  const updatePassword = useCallback(async ({ currentPassword, newPassword }) => {
+    const result = await changePatronPassword({ currentPassword, newPassword });
+    setHasPassword(true);
+    const current = readPatronSession();
+    if (current?.user?.email) {
+      writePatronSession({ ...current, hasPassword: true });
+      setSession({ ...current, hasPassword: true });
+    }
+    return result;
+  }, []);
+
+  const refreshPasswordStatus = useCallback(async () => {
+    try {
+      const status = await fetchPatronPasswordStatus();
+      setHasPassword(Boolean(status.hasPassword));
+      return status;
+    } catch {
+      return { hasPassword: false };
+    }
   }, []);
 
   const requestMagicLink = useCallback(async (email) => requestPatronMagicLink(email), []);
@@ -222,6 +289,7 @@ export function PatronProvider({ children }) {
     setOrders([]);
     setProfile(null);
     setNeedsPasskey(false);
+    setHasPassword(false);
     replaceAvatarUrl(null);
     setError("");
   }, [replaceAvatarUrl]);
@@ -233,6 +301,7 @@ export function PatronProvider({ children }) {
     setOrders([]);
     setProfile(null);
     setNeedsPasskey(false);
+    setHasPassword(false);
     replaceAvatarUrl(null);
     setError("");
   }, [replaceAvatarUrl]);
@@ -304,6 +373,7 @@ export function PatronProvider({ children }) {
       uploadingAvatar,
       bootstrapping,
       needsPasskey,
+      hasPassword,
       error,
       isSignedIn: Boolean(session?.user?.email),
       refreshOrders,
@@ -314,6 +384,12 @@ export function PatronProvider({ children }) {
       removeAvatar,
       requestMagicLink,
       signInWithToken,
+      signInWithPassword,
+      registerAccount,
+      requestPasswordReset,
+      completePasswordReset,
+      updatePassword,
+      refreshPasswordStatus,
       signOut,
       signOutEverywhere,
       markPasskeyVerified,
@@ -322,6 +398,7 @@ export function PatronProvider({ children }) {
         writePatronSession(next);
         setSession(next);
         setProfile(next?.profile ?? null);
+        if (typeof next?.hasPassword === "boolean") setHasPassword(next.hasPassword);
       },
     }),
     [
@@ -334,6 +411,7 @@ export function PatronProvider({ children }) {
       uploadingAvatar,
       bootstrapping,
       needsPasskey,
+      hasPassword,
       error,
       refreshOrders,
       refreshProfile,
@@ -343,6 +421,12 @@ export function PatronProvider({ children }) {
       removeAvatar,
       requestMagicLink,
       signInWithToken,
+      signInWithPassword,
+      registerAccount,
+      requestPasswordReset,
+      completePasswordReset,
+      updatePassword,
+      refreshPasswordStatus,
       signOut,
       signOutEverywhere,
       markPasskeyVerified,

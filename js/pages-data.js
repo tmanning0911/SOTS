@@ -1389,6 +1389,18 @@ export const INNER_PAGES = [
         heading: "Upcoming",
         programs: [
           {
+            title: "Mahjong Midsummer Classic",
+            meta: [
+              "Saturday, September 19, 2026",
+              "11 AM–2 PM",
+              "United Church of Rowayton Community Center",
+            ],
+            paragraphs: [
+              "Benefiting Shakespeare on the Sound’s Year-End Giving Campaign—social play, beginners welcome.",
+            ],
+            cta: { label: "Get tickets & sponsorships", href: "/events/mahjong-night/" },
+          },
+          {
             title: "Much Ado About Something",
             meta: ["Friday, October 16, 2026", "6–10pm", "The House Up on the Hill, 26 Seir Hill Rd., Norwalk, CT"],
             paragraphs: [

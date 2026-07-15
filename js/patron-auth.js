@@ -25,6 +25,7 @@ export function writePatronSession(session) {
       user: safe.user,
       profile: safe.profile ?? null,
       signedIn: true,
+      hasPassword: Boolean(safe.hasPassword),
     }),
   );
 }
@@ -58,6 +59,90 @@ export async function requestPatronMagicLink(email) {
   return data;
 }
 
+function storeSessionFromAuth(data) {
+  const session = {
+    signedIn: true,
+    user: data.user,
+    profile: data.profile ?? null,
+    needsPasskey: Boolean(data.needsPasskey),
+    hasPassword: Boolean(data.hasPassword),
+  };
+  writePatronSession(session);
+  return session;
+}
+
+export async function registerPatronAccount({ email, password, name = "" } = {}) {
+  const res = await patronFetch("/api/patron/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password, name }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    if (res.status === 404) {
+      throw new Error("Account signup isn’t live on the server yet. Try again in a minute, or use Email me a link.");
+    }
+    throw new Error(data.error || "Couldn't create your account.");
+  }
+  return storeSessionFromAuth(data);
+}
+
+export async function loginPatronWithPassword(email, password) {
+  const res = await patronFetch("/api/patron/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    if (res.status === 404) {
+      throw new Error("Password sign-in isn’t live on the server yet. Try again in a minute, or use Email me a link.");
+    }
+    throw new Error(data.error || "Incorrect email or password.");
+  }
+  return storeSessionFromAuth(data);
+}
+
+export async function requestPatronPasswordReset(email) {
+  const res = await patronFetch("/api/patron/password/forgot", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || "Couldn't send the email. Try again in a moment.");
+  return data;
+}
+
+export async function resetPatronPassword(token, password) {
+  const res = await patronFetch("/api/patron/password/reset", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token, password }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || "That link expired. Request a new one.");
+  return storeSessionFromAuth(data);
+}
+
+export async function changePatronPassword({ currentPassword = "", newPassword } = {}) {
+  const res = await patronFetch("/api/patron/password", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ currentPassword, newPassword }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || "Couldn't update your password.");
+  return data;
+}
+
+export async function fetchPatronPasswordStatus() {
+  const res = await patronFetch("/api/patron/password");
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || "Could not check password status");
+  return data;
+}
+
 export async function exchangePatronToken(token) {
   const res = await patronFetch("/api/patron/session", {
     method: "POST",
@@ -66,14 +151,7 @@ export async function exchangePatronToken(token) {
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || "That link expired. Request a new one.");
-  const session = {
-    signedIn: true,
-    user: data.user,
-    profile: data.profile ?? null,
-    needsPasskey: Boolean(data.needsPasskey),
-  };
-  writePatronSession(session);
-  return session;
+  return storeSessionFromAuth(data);
 }
 
 export async function signOutPatron() {

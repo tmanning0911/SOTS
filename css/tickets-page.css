@@ -45,7 +45,7 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--orp-gold, #c9a227);
+  color: var(--orp-gold, #f9c534);
 }
 
 .tix-page__hero h1 {
@@ -72,7 +72,7 @@
   gap: 0.75rem 1rem;
   margin-top: 1.15rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--orp-stone-700, #3d5470);
 }
 
 .tix-page__hero-actions {
@@ -126,6 +126,26 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.tix-page__thanks {
+  margin: 1rem var(--orp-chrome-gutter, 9.25rem) 0;
+  padding: 1rem 1.15rem;
+  background: #eef6f0;
+  border-left: 3px solid #2d5c4f;
+  color: #1e3530;
+  line-height: 1.5;
+}
+
+.tix-page__thanks p {
+  margin: 0;
+}
+
+.tix-page__thanks-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.85rem;
+}
+
 .tix-page__quick-link {
   display: inline-flex;
   align-items: center;
@@ -143,12 +163,12 @@
 }
 
 .tix-page__quick-link:hover {
-  color: var(--orp-gold, #c9a227);
+  color: var(--orp-gold, #f9c534);
   background: rgba(255, 255, 255, 0.08);
 }
 
 .tix-page__quick-link:focus-visible {
-  outline: 2px solid var(--orp-gold, #c9a227);
+  outline: 2px solid var(--orp-gold, #f9c534);
   outline-offset: 3px;
 }
 
@@ -212,7 +232,7 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--orp-gold, #c9a227);
+  color: var(--orp-gold, #f9c534);
 }
 
 .tix-page__spotlight-copy h2 {
@@ -262,10 +282,18 @@
 }
 
 /* ── Book section ── */
+.tix-page .orpheum-underline-heading {
+  font-size: clamp(1.75rem, 3.5vw, 2.35rem);
+}
+
+.tix-page .orpheum-underline-heading::after {
+  margin: 0.85rem 0 0;
+}
+
 .tix-page__book {
   padding: clamp(2rem, 4vw, 3rem) var(--orp-chrome-gutter, 9.25rem) clamp(3rem, 6vw, 4.5rem);
-  background: #f7f9fb;
-  border-top: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.06);
+  background: var(--orp-stone-100, #f4f7fa);
+  border-top: 1px solid var(--orp-line, #e4e9ef);
 }
 
 .tix-page__section-eyebrow {
@@ -274,7 +302,7 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--orp-gold, #c9a227);
+  color: var(--orp-gold, #f9c534);
 }
 
 .tix-page__book-head {
@@ -287,7 +315,8 @@
   margin: 0 auto 1.75rem;
 }
 
-.tix-page__book-head h2 {
+.tix-page__book-head h2,
+.tix-page__book-head .orpheum-underline-heading {
   margin: 0;
   font-family: var(--font-heading, "Marcellus", Georgia, serif);
   font-size: clamp(1.75rem, 3.5vw, 2.35rem);
@@ -298,7 +327,7 @@
 .tix-page__book-note {
   margin: 0;
   font-size: 0.92rem;
-  color: #4a5560;
+  color: var(--orp-muted, var(--orp-stone-700, #3d5470));
 }
 
 .tix-page__book-note a {
@@ -332,9 +361,9 @@
 .tix-page__dates-panel {
   padding: clamp(1.25rem, 2.5vw, 1.75rem);
   background: #fff;
-  border: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.08);
-  border-radius: 14px;
-  box-shadow: 0 12px 36px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.06);
+  border: 1px solid var(--orp-line, #e4e9ef);
+  border-radius: 4px;
+  box-shadow: none;
 }
 
 .tix-page__aside {
@@ -345,9 +374,9 @@
 .tix-page__aside .sots-ticket-pricing {
   padding: 1.25rem;
   background: #fff;
-  border: 1px solid rgba(var(--brand-navy-rgb, 15, 45, 77), 0.08);
-  border-radius: 14px;
-  box-shadow: 0 8px 24px rgba(var(--brand-navy-rgb, 15, 45, 77), 0.05);
+  border: 1px solid var(--orp-line, #e4e9ef);
+  border-radius: 4px;
+  box-shadow: none;
 }
 
 .tix-page__aside .sots-ticket-pricing__title {
@@ -406,7 +435,7 @@
 .tix-page__help-card {
   padding: 1.25rem;
   background: linear-gradient(145deg, #0f2d4d 0%, #1a5090 100%);
-  border-radius: 14px;
+  border-radius: 4px;
   color: rgba(255, 255, 255, 0.92);
 }
 
@@ -425,7 +454,7 @@
 }
 
 .tix-page__help-card a {
-  color: var(--orp-gold, #c9a227);
+  color: var(--orp-gold, #f9c534);
   font-weight: 600;
 }
 
@@ -440,7 +469,7 @@
 
 .tix-page__help-card .orpheum-arrow-btn:hover .orpheum-arrow-btn__label,
 .tix-page__help-card .orpheum-arrow-btn:hover .orpheum-arrow-btn__icon {
-  background: var(--orp-gold, #c9a227);
+  background: var(--orp-gold, #f9c534);
 }
 
 .tix-page__error {
@@ -472,7 +501,7 @@
 }
 
 .tix-page__calendar .sots-date-picker__toggle-btn:focus-visible {
-  outline: 2px solid var(--orp-gold, #c9a227);
+  outline: 2px solid var(--orp-gold, #f9c534);
   outline-offset: 2px;
 }
 
@@ -487,12 +516,12 @@
 
 .tix-page__calendar .sots-date-list__cta:hover,
 .tix-page__calendar .sots-date-list__cta:focus-visible {
-  background: var(--orp-gold, #c9a227);
+  background: var(--orp-gold, #f9c534);
   color: #fff;
 }
 
 .tix-page__calendar .sots-performance-calendar__day.is-available:focus-visible {
-  outline: 2px solid var(--orp-gold, #c9a227);
+  outline: 2px solid var(--orp-gold, #f9c534);
   outline-offset: 2px;
 }
 
@@ -567,7 +596,7 @@
 }
 
 .tix-page__more-card:focus-visible {
-  outline: 2px solid var(--orp-gold, #c9a227);
+  outline: 2px solid var(--orp-gold, #f9c534);
   outline-offset: 2px;
 }
 
@@ -588,7 +617,7 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--orp-gold, #c9a227);
+  color: var(--orp-gold, #f9c534);
 }
 
 .tix-page__more-card strong {
@@ -637,7 +666,7 @@
   height: 2.75rem;
   flex-shrink: 0;
   border-radius: 999px;
-  background: var(--orp-gold, #c9a227);
+  background: var(--orp-gold, #f9c534);
   color: var(--orp-dark, #0f2d4d);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
@@ -932,9 +961,26 @@
   flex: 1;
 }
 
+.tix-picker__note {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--orp-muted, #525252);
+}
+
 .tix-picker__tickets {
   display: grid;
   gap: 0.75rem;
+}
+
+.tix-picker__buy-wrap {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.tix-picker__buy {
+  white-space: nowrap;
 }
 
 .tix-picker__foot {
@@ -958,6 +1004,17 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.65rem;
+}
+
+.tix-picker__checkout {
+  width: 100%;
+  justify-content: center;
+}
+
+.tix-picker__error {
+  margin: 1rem 0 0;
+  font-size: 0.9rem;
+  color: #b42318;
 }
 
 .tix-picker__actions .orpheum-arrow-btn {

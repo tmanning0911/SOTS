@@ -1,17 +1,22 @@
 import { useState } from "react";
+import { openPaymentLinkCheckout } from "../../../js/payment-link-checkout.js";
+import { QtyStepper, useBuyBusy } from "../checkout/QtyStepper.jsx";
+import { useShop } from "../../context/ShopContext.jsx";
 
-export function ProductCard({ product, onAdd, onBuyNow, priorityImage = false }) {
-  const [option, setOption] = useState(product.options?.[0]?.values?.[0] ?? "");
+export function ProductCard({ product, priorityImage = false }) {
+  const { addToCart } = useShop();
+  const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const { busy, error, runBuy } = useBuyBusy();
   const hasOptions = Boolean(product.options?.length);
+  const [option, setOption] = useState(product.options?.[0]?.values?.[0] ?? "");
+  const canBuy = Boolean(product.id || product.sku);
 
-  const selection = { option: hasOptions ? option : undefined };
-
-  const handleAdd = () => {
-    onAdd(product, selection);
+  function handleAdd() {
+    addToCart(product, { quantity, option: hasOptions ? option : undefined });
     setAdded(true);
-    window.setTimeout(() => setAdded(false), 1800);
-  };
+    window.setTimeout(() => setAdded(false), 1600);
+  }
 
   return (
     <article className="sots-shop-card">
@@ -19,7 +24,7 @@ export function ProductCard({ product, onAdd, onBuyNow, priorityImage = false })
         {product.image ? (
           <img
             src={product.image}
-            alt=""
+            alt={`${product.name} product photo`}
             loading={priorityImage ? "eager" : "lazy"}
             fetchPriority={priorityImage ? "high" : undefined}
             width={400}
@@ -48,21 +53,55 @@ export function ProductCard({ product, onAdd, onBuyNow, priorityImage = false })
         ) : null}
         <div className="sots-shop-card__footer">
           <strong className="sots-shop-card__price">{product.price?.display}</strong>
-          <button
-            type="button"
-            className={`sots-shop-btn sots-shop-btn--block${added ? " sots-shop-btn--added" : ""}`}
-            onClick={handleAdd}
-            aria-live="polite"
-          >
-            {added ? "Added to cart" : "Add to cart"}
-          </button>
-          <button
-            type="button"
-            className="sots-shop-btn sots-shop-btn--outline sots-shop-btn--block"
-            onClick={() => onBuyNow(product, selection)}
-          >
-            Buy now
-          </button>
+          <QtyStepper
+            value={quantity}
+            min={1}
+            max={10}
+            label={`Quantity for ${product.name}`}
+            onChange={setQuantity}
+          />
+          {canBuy ? (
+            <>
+              <button
+                type="button"
+                className={`sots-shop-btn sots-shop-btn--block${added ? " sots-shop-btn--added" : ""}`}
+                onClick={handleAdd}
+              >
+                {added ? "Added to cart" : "Add to cart"}
+              </button>
+              <button
+                type="button"
+                className="sots-shop-btn sots-shop-btn--outline sots-shop-btn--block"
+                disabled={busy}
+                onClick={() =>
+                  runBuy(() =>
+                    openPaymentLinkCheckout({
+                      kind: "shop",
+                      items: [
+                        {
+                          itemId: product.id,
+                          sku: product.sku,
+                          quantity,
+                          option: hasOptions ? option : undefined,
+                        },
+                      ],
+                    }),
+                  )
+                }
+              >
+                {busy ? "Starting…" : quantity > 1 ? `Buy ${quantity} now` : "Buy now"}
+              </button>
+            </>
+          ) : (
+            <span className="sots-shop-btn sots-shop-btn--block sots-shop-btn--disabled" aria-disabled="true">
+              Coming soon
+            </span>
+          )}
+          {error ? (
+            <p className="sots-shop-card__error" role="alert">
+              {error}
+            </p>
+          ) : null}
         </div>
       </div>
     </article>

@@ -75,6 +75,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/checkout/payment-link"
+  to = "/.netlify/functions/create-payment-link"
+  status = 200
+
+[[redirects]]
   from = "/api/orders/lookup"
   to = "/.netlify/functions/orders-lookup"
   status = 200
@@ -86,6 +91,26 @@
 
 [[redirects]]
   from = "/api/patron/auth"
+  to = "/.netlify/functions/patron-auth"
+  status = 200
+
+[[redirects]]
+  from = "/api/patron/login"
+  to = "/.netlify/functions/patron-auth"
+  status = 200
+
+[[redirects]]
+  from = "/api/patron/register"
+  to = "/.netlify/functions/patron-auth"
+  status = 200
+
+[[redirects]]
+  from = "/api/patron/password"
+  to = "/.netlify/functions/patron-auth"
+  status = 200
+
+[[redirects]]
+  from = "/api/patron/password/*"
   to = "/.netlify/functions/patron-auth"
   status = 200
 

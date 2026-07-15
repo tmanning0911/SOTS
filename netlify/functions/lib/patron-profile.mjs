@@ -166,8 +166,14 @@ export async function upsertPatronProfile(email, patch = {}, { overwrite = false
     const key = profileKey(normalized);
     await store().setJSON(key, profile);
     // Same pattern as checkout holds — confirm the blob landed in Netlify runtime.
+    // Blobs can lag briefly; retry before treating the write as failed.
     if (isNetlifyRuntime()) {
-      const verified = await store().get(key, { type: "json" });
+      let verified = null;
+      for (let attempt = 0; attempt < 8; attempt++) {
+        verified = await store().get(key, { type: "json" });
+        if (verified?.email) break;
+        await new Promise((resolve) => setTimeout(resolve, 40 * (attempt + 1)));
+      }
       if (!verified?.email) {
         throw new Error("Profile write could not be verified.");
       }

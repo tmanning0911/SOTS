@@ -15,6 +15,7 @@ import { TicketingAdminPage } from "./pages/TicketingAdminPage.jsx";
 import { NotFoundPage } from "./pages/NotFoundPage.jsx";
 import { NewsArticlePage } from "./pages/NewsArticlePage.jsx";
 import { NewsIndexPage } from "./pages/NewsIndexPage.jsx";
+import { MahjongNightPage } from "./pages/MahjongNightPage.jsx";
 import { INNER_PAGES, hrefToRoutePath } from "../js/pages-data.js";
 
 function PageTitle({ title }) {
@@ -64,6 +65,7 @@ export default function App() {
         {routePair("productions/:slug", <ProductionPage />)}
         {routePair("tickets/checkout/:performanceId", <TicketCheckoutPage />)}
         {routePair("tickets", <TicketsPage />)}
+        {routePair("events/mahjong-night", <MahjongNightPage />)}
         {routePair("shop/checkout", <ShopCheckoutPage />)}
         {routePair("shop", <ShopPage />)}
         {routePair("access-your-tickets", <AccessTicketsPage />)}

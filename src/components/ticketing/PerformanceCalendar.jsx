@@ -114,7 +114,7 @@ function PerformanceDateList({ performances, onSelect }) {
                   </span>
                 </div>
                 <button type="button" className="sots-date-list__cta" onClick={() => onSelect(performance.id)}>
-                  Get tickets
+                  Select tickets
                 </button>
               </div>
             ) : (

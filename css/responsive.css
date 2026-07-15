@@ -575,8 +575,8 @@ body:has(.announcement) .production-hero {
   }
 }
 
-/* Tablet (768px–991px): hamburger in header; no bottom dock (phone-only) */
-@media (min-width: 48rem) and (max-width: 61.9375rem) {
+/* Tablet–laptop (768px–1099px): hamburger + Tickets/Donate; no bottom dock */
+@media (min-width: 48rem) and (max-width: 68.6875rem) {
   :root {
     --mobile-dock-height: 0px;
   }
