@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { formatMahjongCents, formatMahjongPrice, MAHJONG_NIGHT } from "../../js/mahjong-night.js";
+import { eventMapUrls } from "../../js/event-maps.js";
 import { openPaymentLinkCheckout } from "../../js/payment-link-checkout.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
 import { QtyStepper, useBuyBusy } from "../components/checkout/QtyStepper.jsx";
@@ -33,6 +34,10 @@ function OfferRow({ item, quantity, onQty }) {
 
 export function MahjongNightPage() {
   const event = MAHJONG_NIGHT;
+  const venueMap = eventMapUrls({
+    title: event.title,
+    location: event.venueAddress || `${event.venueName}, ${event.venueCity}`,
+  });
   const [params] = useSearchParams();
   const thanks = params.get("thanks") === "1";
   const [qty, setQty] = useState({});
@@ -137,6 +142,24 @@ export function MahjongNightPage() {
                 </dd>
               </div>
             </dl>
+            {venueMap?.embedUrl ? (
+              <div className="sots-event-venue-map">
+                <div className="sots-event-venue-map__frame">
+                  <iframe
+                    title={`Map for ${event.title}`}
+                    src={venueMap.embedUrl}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    allowFullScreen
+                  />
+                </div>
+                {venueMap.linkUrl ? (
+                  <a className="sots-event-venue-map__link" href={venueMap.linkUrl} target="_blank" rel="noreferrer">
+                    Open in Google Maps
+                  </a>
+                ) : null}
+              </div>
+            ) : null}
           </section>
 
           <section id="tickets" className="sots-mahjong__section" aria-labelledby="mahjong-tickets-heading" data-reveal>

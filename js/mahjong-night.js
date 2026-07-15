@@ -14,6 +14,7 @@ export const MAHJONG_NIGHT = {
   timeLabel: "11:00 AM–2:00 PM",
   venueName: "United Church of Rowayton Community Center",
   venueCity: "Rowayton, CT",
+  venueAddress: "United Church of Rowayton Community Center, Rowayton, CT",
   bannerImage: "/images/mahjong-midsummer-classic-banner.png",
   contactPhone: "(203) 957-1006",
   contactPhoneHref: "tel:+12039571006",

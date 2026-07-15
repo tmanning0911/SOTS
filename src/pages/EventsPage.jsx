@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { MEDIA, SEASON_SHOWS } from "../../js/data.js";
+import { eventMapUrls } from "../../js/event-maps.js";
 import { MAHJONG_NIGHT_PATH } from "../../js/mahjong-night.js";
 import { enrichEventWithTickets, loadTicketData, TICKETS_PAGE_PATH } from "../../js/ticketing.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
@@ -69,6 +70,31 @@ function isPrimaryCta(event, label, href) {
   return false;
 }
 
+function EventVenueMap({ event }) {
+  const map = eventMapUrls(event);
+  if (!map?.embedUrl) return null;
+
+  return (
+    <div className="sots-events-page__card-map">
+      <p className="sots-events-page__card-map-label">Location</p>
+      <div className="sots-events-page__card-map-frame">
+        <iframe
+          title={`Map for ${event.title}`}
+          src={map.embedUrl}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          allowFullScreen
+        />
+      </div>
+      {map.linkUrl ? (
+        <a className="sots-events-page__card-map-link" href={map.linkUrl} target="_blank" rel="noreferrer">
+          Open in Google Maps
+        </a>
+      ) : null}
+    </div>
+  );
+}
+
 function EventCard({ event, past = false, featured = false }) {
   const meta = [event.date, event.time, event.location].filter(Boolean);
   const href = event.ctaUrl || null;
@@ -83,6 +109,7 @@ function EventCard({ event, past = false, featured = false }) {
   const showPrimary = href && label && !hidePastTickets;
   const showSecondary = secondaryHref && secondaryLabel && !past;
   const showMedia = featured && Boolean(event.image);
+  const hasMap = Boolean(eventMapUrls(event)?.embedUrl);
 
   return (
     <article
@@ -90,6 +117,7 @@ function EventCard({ event, past = false, featured = false }) {
         "sots-events-page__card",
         featured ? "sots-events-page__card--feature" : "",
         past ? "sots-events-page__card--past" : "",
+        hasMap ? "sots-events-page__card--map" : "",
       ]
         .filter(Boolean)
         .join(" ")}
@@ -97,7 +125,7 @@ function EventCard({ event, past = false, featured = false }) {
     >
       {showMedia ? (
         <div className="sots-events-page__card-media" aria-hidden="true">
-          <img src={event.image} alt="" width={640} height={400} loading="lazy" />
+          <img src={event.image} alt="" width={640} height={960} loading="lazy" />
         </div>
       ) : null}
 
@@ -127,6 +155,8 @@ function EventCard({ event, past = false, featured = false }) {
           </div>
         ) : null}
       </div>
+
+      <EventVenueMap event={event} />
     </article>
   );
 }
@@ -161,12 +191,12 @@ function EventListSection({
           <p className="sots-events-page__loading">Loading events…</p>
         ) : events.length ? (
           <div className={`sots-events-page__stack${past ? " sots-events-page__stack--past" : ""}`}>
-            {events.map((event, index) => (
+            {events.map((event) => (
               <EventCard
                 key={event.id}
                 event={event}
                 past={past}
-                featured={featureFirst && index === 0 && Boolean(event.image)}
+                featured={featureFirst && Boolean(event.image)}
               />
             ))}
           </div>

@@ -6,6 +6,7 @@
     "date": "Saturday, September 19, 2026",
     "time": "11 AM–2 PM",
     "location": "United Church of Rowayton Community Center, Rowayton, CT",
+    "mapQuery": "United Church of Rowayton Community Center, Rowayton, CT",
     "description": "Benefiting Shakespeare on the Sound’s Year-End Giving Campaign—social play, beginners welcome. Tickets and sponsorships available.",
     "image": "/images/mahjong-midsummer-classic-poster.jpg",
     "featured": true,
@@ -31,6 +32,8 @@
     "description": "Join us for a beautiful night of cocktails, delicious bites, dancing, and live and silent auctions in support of Shakespeare on the Sound. Love to party? Join the gala committee and help shape the evening.",
     "featured": true,
     "image": "/images/much-ado-about-something-gala-poster.jpg",
+    "mapEmbedUrl": "https://www.google.com/maps?q=26+Seir+Hill+Road,+Norwalk,+CT+06850&output=embed",
+    "mapLinkUrl": "https://www.google.com/maps/search/?api=1&query=26+Seir+Hill+Road,+Norwalk,+CT+06850",
     "ctaLabel": "Get involved",
     "ctaUrl": "/about/contact/?topic=sponsorship",
     "secondaryCtaLabel": "Donate",
@@ -41,7 +44,8 @@
       "start": "2026-10-16T18:00:00",
       "end": "2026-10-16T22:00:00",
       "timezone": "America/New_York"
-    }
+    },
+    "mapQuery": "The House Up on the Hill, 26 Seir Hill Rd., Norwalk, CT"
   },
   {
     "id": "opening-night",
@@ -50,6 +54,7 @@
     "date": "Saturday, June 13, 2026",
     "time": "6–7:30pm",
     "location": "Pinkney Park, Rowayton, CT",
+    "mapQuery": "Pinkney Park, 177 Rowayton Avenue, Rowayton, CT",
     "description": "Kick off the 30th summer season with a pre-show reception before Much Ado About Nothing. Light bites, beer, wine, and soda included.",
     "featured": false,
     "priceNote": "$50 with Main Stage ticket",
@@ -82,7 +87,8 @@
       "end": "2026-06-14T18:45:00",
       "timezone": "America/New_York"
     },
-    "eventbriteId": "1986844605700"
+    "eventbriteId": "1986844605700",
+    "mapQuery": "Pinkney Park, 177 Rowayton Avenue, Rowayton, CT"
   },
   {
     "id": "book-club",
@@ -103,7 +109,8 @@
       "end": "2026-06-18T19:30:00",
       "timezone": "America/New_York"
     },
-    "eventbriteId": "1986844608709"
+    "eventbriteId": "1986844608709",
+    "mapQuery": "Pinkney Park, 177 Rowayton Avenue, Rowayton, CT"
   },
   {
     "id": "alumni-night",
@@ -124,7 +131,8 @@
       "end": "2026-06-20T19:30:00",
       "timezone": "America/New_York"
     },
-    "eventbriteId": "1986844610715"
+    "eventbriteId": "1986844610715",
+    "mapQuery": "Pinkney Park, 177 Rowayton Avenue, Rowayton, CT"
   },
   {
     "id": "pay-what-you-will",
@@ -152,7 +160,8 @@
         }
       ]
     },
-    "eventbriteId": "1986844606703"
+    "eventbriteId": "1986844606703",
+    "mapQuery": "Pinkney Park, 177 Rowayton Avenue, Rowayton, CT"
   },
   {
     "id": "apprentice-matinee",
@@ -172,6 +181,7 @@
       "end": "2026-06-20T14:30:00",
       "timezone": "America/New_York"
     },
-    "eventbriteId": "1986844610715"
+    "eventbriteId": "1986844610715",
+    "mapQuery": "Pinkney Park, 177 Rowayton Avenue, Rowayton, CT"
   }
 ]

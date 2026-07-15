@@ -287,6 +287,10 @@
   color: var(--orp-dark, #102033);
 }
 
+.sots-edu-cal__card-copy .sots-event-venue-map {
+  margin-top: 0.85rem;
+}
+
 .sots-edu-cal__empty {
   margin: 0;
   color: var(--orp-muted, #3d5470);

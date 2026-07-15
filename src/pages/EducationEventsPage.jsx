@@ -9,6 +9,7 @@ import {
   itemsByDayKey,
   monthLabel,
 } from "../../js/education-events-calendar.js";
+import { eventMapUrls } from "../../js/event-maps.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
@@ -30,6 +31,16 @@ function todayKey() {
 }
 
 function EventCard({ item }) {
+  const map = eventMapUrls({
+    title: item.title,
+    location: item.location,
+    mapQuery: item.mapQuery,
+  });
+  const showMap =
+    Boolean(map?.embedUrl) &&
+    item.location &&
+    !/fairfield county|connecticut &|schools &/i.test(item.location);
+
   return (
     <article className="sots-edu-cal__card" id={item.id}>
       <div className="sots-edu-cal__card-copy">
@@ -38,6 +49,24 @@ function EventCard({ item }) {
         <p className="sots-edu-cal__meta">{item.dateLabel}</p>
         {item.location ? <p className="sots-edu-cal__meta">{item.location}</p> : null}
         {item.description ? <p className="sots-edu-cal__desc">{item.description}</p> : null}
+        {showMap ? (
+          <div className="sots-event-venue-map">
+            <div className="sots-event-venue-map__frame">
+              <iframe
+                title={`Map for ${item.title}`}
+                src={map.embedUrl}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </div>
+            {map.linkUrl ? (
+              <a className="sots-event-venue-map__link" href={map.linkUrl} target="_blank" rel="noreferrer">
+                Open in Google Maps
+              </a>
+            ) : null}
+          </div>
+        ) : null}
       </div>
       <div className="sots-edu-cal__card-actions">
         <ArrowButton href={item.href}>{item.ctaLabel || "Learn more"}</ArrowButton>
