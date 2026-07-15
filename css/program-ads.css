@@ -213,6 +213,17 @@
     --pad-x: 1.15rem;
   }
 
+  .sots-program-ads .orpheum-page-hero--plain {
+    padding-left: var(--pad-x);
+    padding-right: var(--pad-x);
+  }
+
+  .sots-program-ads .orpheum-page-hero--plain h1 {
+    font-size: clamp(1.85rem, 8.2vw, 2.35rem);
+    line-height: 1.1;
+    max-width: 12ch;
+  }
+
   .sots-program-ads .orpheum-page-quick {
     display: grid;
     grid-template-columns: 1fr 1fr;
