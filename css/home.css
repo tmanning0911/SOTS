@@ -2886,6 +2886,10 @@ body.page-home .site-header.is-scrolled {
   transform: scale(1.05);
 }
 
+.orpheum-season-promo__visual-bg--gala {
+  background-position: center 18%;
+}
+
 .orpheum-season-promo__visual-veil {
   position: absolute;
   inset: 0;

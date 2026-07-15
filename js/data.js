@@ -25,7 +25,7 @@ export const MEDIA = {
   heroHome: "/images/hero-much-ado.jpg",
   heroBanner: wix("2fda61_ed5498c346784fa7a58d686004f62ad1~mv2.jpg", 1970, 667),
   muchAdoPoster: wix("2fda61_52a2b5db62ea4c22b8da935de226b8de~mv2.jpg", 450, 712),
-  galaImage: wix("2fda61_62cb4626d7df4887b266915e2f9c3acf~mv2.png", 400, 300),
+  galaImage: "/images/much-ado-about-something-gala-poster.jpg",
   donateImage: wix("2fda61_82dcc57bf05740e9a011b352af16d186~mv2.png", 600, 400),
   kidsImage: wix("2fda61_58e853fcce884727a4deba3453b4c1ed~mv2.jpeg", 600, 400),
   educationImage: wix("2fda61_7c217d43df9449748f30515a8625d28f~mv2.jpg", 800, 500),

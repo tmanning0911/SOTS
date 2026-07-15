@@ -15,8 +15,12 @@ export function SeasonPromo() {
       <div className="orpheum-season-promo__ticket" data-reveal>
         <div className="orpheum-season-promo__visual">
           <div
-            className="orpheum-season-promo__visual-bg"
-            style={{ backgroundImage: `url(${MEDIA.galaImage || MEDIA.heroHome})` }}
+            className={
+              featuredShow.id === "gala"
+                ? "orpheum-season-promo__visual-bg orpheum-season-promo__visual-bg--gala"
+                : "orpheum-season-promo__visual-bg"
+            }
+            style={{ backgroundImage: `url(${featuredShow.image || MEDIA.galaImage || MEDIA.heroHome})` }}
           />
           <div className="orpheum-season-promo__visual-veil" aria-hidden="true" />
         </div>

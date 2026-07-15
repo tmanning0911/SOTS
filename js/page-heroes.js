@@ -7,7 +7,7 @@ const HERO_BY_PREFIX = [
   ["/events/", MEDIA.donateImage],
   ["/support/", MEDIA.donateImage],
   ["/news/", MEDIA.heroBanner],
-  ["/shop/", MEDIA.galaImage],
+  ["/shop/", MEDIA.heroBanner],
   ["/tickets/", MEDIA.heroHome],
   ["/my-tickets/", MEDIA.heroHome],
   ["/access-your-tickets/", MEDIA.heroHome],
