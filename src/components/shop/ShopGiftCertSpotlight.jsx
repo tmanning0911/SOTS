@@ -72,8 +72,7 @@ export function ShopGiftCertSpotlight({ products }) {
           Gift certificates
         </h2>
         <p className="sots-shop-spotlight__lead">
-          Add certificates to your cart with other gifts, or buy now — checkout is hosted securely by
-          Square.
+          Add certificates to your cart with other gifts, or buy now for a single amount.
         </p>
         <ul className="sots-shop-spotlight__options">
           {products.map((product) => (

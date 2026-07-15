@@ -76,7 +76,7 @@ export function MahjongNightPage() {
         <div className="orpheum-inner-page__body">
           {thanks ? (
             <p className="sots-mahjong__thanks" role="status" data-reveal>
-              Thank you — if you completed payment, Square will email your receipt. Save that receipt
+              Thank you — if you completed payment, check your email for a receipt. Save that receipt
               for check-in at the event.
             </p>
           ) : null}
@@ -118,7 +118,7 @@ export function MahjongNightPage() {
               Tickets
             </h2>
             <p className="sots-mahjong__lede">
-              Choose quantities for any combination of seats, then checkout once with Square.
+              Choose quantities for any combination of seats, then checkout once.
             </p>
             <ul className="sots-mahjong__offers">
               {event.tickets.map((item) => (
@@ -199,7 +199,7 @@ export function MahjongNightPage() {
               {totalQty} item{totalQty === 1 ? "" : "s"} · {formatMahjongCents(totalCents)}
             </p>
             <ArrowButton type="button" onClick={checkout} disabled={busy}>
-              {busy ? "Starting…" : "Checkout with Square"}
+              {busy ? "Starting…" : "Checkout"}
             </ArrowButton>
             {error ? (
               <p className="sots-mahjong__error sots-mahjong__error--sticky" role="alert">

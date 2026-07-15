@@ -94,8 +94,8 @@ export function OrderLookupPanel({ initialEmail = "", initialCode = "", onBuyTic
     <>
       <p>
         Look up a single order with the email and confirmation code from an account-flow or
-        box-office purchase. Square Payment Link orders are not available here — use your Square email
-        receipt at the gate.
+        box-office purchase. Online payment-link orders are not available here — bring your email
+        receipt to the gate.
       </p>
       <p className="sots-checkout__hint">
         For all your shows, <Link to="/my-tickets/">open My Tickets</Link>.

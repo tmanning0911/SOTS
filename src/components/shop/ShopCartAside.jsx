@@ -112,7 +112,7 @@ export function ShopCartAside({
               disabled={busy}
               onClick={checkout}
             >
-              {busy ? "Starting…" : "Checkout with Square"}
+              {busy ? "Starting…" : "Checkout"}
             </button>
           </>
         )}

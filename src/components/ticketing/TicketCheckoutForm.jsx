@@ -1007,7 +1007,7 @@ export function TicketCheckoutForm({
                   step={3}
                   headingId="co-payment-heading"
                   title="Review & pay"
-                  description="Confirm this performance, then pay securely with Square. Ticket holds last 15 minutes."
+                  description="Confirm this performance, then pay. Ticket holds last 15 minutes."
                 />
 
                 <div className="sots-co__review">

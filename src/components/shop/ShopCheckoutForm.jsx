@@ -417,7 +417,7 @@ export function ShopCheckoutForm({ returnHref = "/shop/", cartTotal, featuredIma
                   step={3}
                   headingId="shop-co-payment-heading"
                   title="Payment"
-                  description="All major cards accepted. Charged securely by Square."
+                  description="All major cards accepted."
                 />
                 <div className="sots-co__section-body">
                   <CheckoutPaymentPanel

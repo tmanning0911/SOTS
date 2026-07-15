@@ -134,7 +134,7 @@ export function TicketPickerSheet({ open, onClose, data, performanceId }) {
 
         <div className="tix-picker__body">
           <p className="tix-picker__note">
-            Choose quantities for each ticket type, then checkout securely with Square for this night.
+            Choose quantities for each ticket type, then checkout for this night.
           </p>
           <div className="tix-picker__tickets">
             {ticketTypes.map((tt) => (
@@ -161,7 +161,7 @@ export function TicketPickerSheet({ open, onClose, data, performanceId }) {
             disabled={!selected.length || busy}
             onClick={handleBuy}
           >
-            <span className="orpheum-arrow-btn__label">{busy ? "Starting…" : "Checkout with Square"}</span>
+            <span className="orpheum-arrow-btn__label">{busy ? "Starting…" : "Checkout"}</span>
             <span className="orpheum-arrow-btn__icon" aria-hidden="true">
               →
             </span>

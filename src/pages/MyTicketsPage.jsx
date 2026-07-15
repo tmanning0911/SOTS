@@ -956,9 +956,8 @@ export function MyTicketsPage() {
                         <div className="sots-my-tickets-page__empty">
                           <p className="sots-my-tickets-page__empty-title">No tickets yet</p>
                           <p>
-                            Tickets bought through Square Payment Links show as an email receipt from
-                            Square—bring that to the gate. My Tickets lists orders placed with the same
-                            email through our account flow.
+                            Tickets bought online show as an email receipt—bring that to the gate. My
+                            Tickets lists orders placed with the same email through our account flow.
                           </p>
                           <div className="sots-my-tickets-page__empty-actions">
                             <ArrowButton to="/tickets/">Browse performances</ArrowButton>

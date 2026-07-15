@@ -82,7 +82,7 @@ export function CheckoutPaymentPanel({
       <div className="sots-co__payment-trust">
         <span className="sots-co__payment-lock">
           <LockIcon />
-          Secured by Square
+          Secured checkout
         </span>
         <div className="sots-co__card-icons" aria-label="Accepted cards">
           <span className="sots-co__card-icon">Visa</span>

@@ -24,8 +24,7 @@ export function ShopMerchTeaser({
             Souvenirs &amp; keepsakes
           </h2>
           <p className="sots-shop-teaser__lead">
-            Choose a quantity or add several items to your cart — checkout securely with Square,
-            pick up at the park.
+            Choose a quantity or add several items to your cart, then pick up at the park.
           </p>
         </div>
         <ArrowButton href={SHOP_PAGE_PATH}>Browse gift shop</ArrowButton>

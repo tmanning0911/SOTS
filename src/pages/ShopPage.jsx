@@ -74,8 +74,8 @@ export function ShopPage() {
         {thanks ? (
           <div className="sots-shop-page__thanks" role="status">
             <p>
-              Thank you — if you completed payment, Square will email your receipt shortly. Sized
-              items list the size on the Square order.
+              Thank you — if you completed payment, check your email for a receipt. Sized items list
+              the size on the order.
             </p>
             <a href="#merchandise" className="sots-shop-text-link">
               Keep shopping
@@ -96,8 +96,8 @@ export function ShopPage() {
               </h2>
             </div>
             <p className="sots-shop-page__catalog-note">
-              Choose quantities, mix items in your cart, then checkout once with Square. Pickup at
-              Shakespeare in Pinkney Park during performances unless noted.
+              Choose quantities, mix items in your cart, then checkout once. Pickup at Shakespeare in
+              Pinkney Park during performances unless noted.
             </p>
           </div>
 

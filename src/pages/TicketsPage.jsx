@@ -73,8 +73,8 @@ function TicketsSpotlight({ data, loading, priceLabel }) {
           ) : null}
           {priceLabel ? <p className="tix-page__spotlight-price">{priceLabel}</p> : null}
           <p className="tix-page__spotlight-lead">
-            Open-air Shakespeare under the stars. Choose a night below to pick quantities and checkout
-            with Square.
+            Open-air Shakespeare under the stars. Choose a night below to pick quantities and
+            checkout.
           </p>
           <p className="tix-page__spotlight-about">
             <Link to={`/productions/${slug}/`}>About the show</Link>
@@ -156,8 +156,8 @@ export function TicketsPage() {
         {thanks ? (
           <div className="tix-page__thanks" role="status">
             <p>
-              Thank you — if you completed payment, Square will email your receipt. Bring that
-              confirmation to the gate (online Square purchases are not added to My Tickets yet).
+              Thank you — if you completed payment, check your email for a receipt. Bring that
+              confirmation to the gate (online purchases are not added to My Tickets yet).
             </p>
             <div className="tix-page__thanks-actions">
               <ArrowButton href="/about/visit/">Plan your visit</ArrowButton>
@@ -179,7 +179,7 @@ export function TicketsPage() {
               </h2>
             </div>
             <p className="tix-page__book-note">
-              Pick a night, choose quantities, then checkout once with Square. Questions?{" "}
+              Pick a night, choose quantities, then checkout once. Questions?{" "}
               <a href="tel:+12039571006">(203) 957-1006</a> · <Link to="/about/faq/">Ticket FAQ</Link>
             </p>
           </div>

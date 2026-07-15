@@ -69,8 +69,8 @@ export function ProductionPage() {
               <div className="orpheum-production-page__ticketing-hub-card">
                 <h2 className="orpheum-inner-page__section-title">Get tickets.</h2>
                 <p>
-                  Choose your performance date, select ticket types, and checkout securely on our
-                  tickets page — with instant email confirmation and QR codes for the gate.
+                  Choose your performance date, select ticket types, and checkout on our tickets page —
+                  with email confirmation for the gate.
                 </p>
                 <div className="orpheum-inner-page__cta">
                   <ArrowButton href="/tickets/#dates">See dates &amp; buy tickets</ArrowButton>
