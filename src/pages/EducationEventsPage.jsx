@@ -166,7 +166,7 @@ export function EducationEventsPage() {
         <InnerPageHero
           eyebrow="Education & Community"
           title="Education Events"
-          intro="Workshops, touring shows, summer camps, main-stage specials, and community programs — everything we do on one calendar."
+          intro="Workshops, touring shows, summer camps, apprentice training, and in-the-park programs — the education calendar for Shakespeare on the Sound."
         />
 
         <section className="sots-edu-cal__section" aria-labelledby="edu-cal-heading">
@@ -246,7 +246,7 @@ export function EducationEventsPage() {
           <div className="sots-edu-cal__inner">
             <header className="sots-edu-cal__section-head">
               <h2 id="edu-upcoming-heading">Upcoming</h2>
-              <p>Chronological list of everything still on the calendar.</p>
+              <p>Upcoming education programs and events.</p>
             </header>
             <div className="sots-edu-cal__stack">
               {filtered.upcoming.length ? (

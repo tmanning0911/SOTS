@@ -75,7 +75,32 @@ export const EDUCATION_PROGRAM_SEEDS = [
   },
 ];
 
-const FILTER_CATEGORIES = ["Education", "Performance", "Fundraiser", "Community"];
+const FILTER_CATEGORIES = ["Programs", "Camps", "Tours", "In the Park"];
+
+/** Catalog events that belong on the Education calendar (not galas/fundraisers/main stage). */
+const EDUCATION_EVENT_IDS = new Set(["book-club", "apprentice-matinee"]);
+
+/** Productions that are education programming. */
+const EDUCATION_PLAY_IDS = new Set(["kids-show-2026"]);
+
+function educationBucket({ id = "", title = "", category = "" } = {}) {
+  const hay = `${id} ${title} ${category}`.toLowerCase();
+  if (/camp|globe/.test(hay)) return "Camps";
+  if (/tour/.test(hay)) return "Tours";
+  if (/park|kids-show|kids show|in-the-park|book-club|folio|matinee/.test(hay)) return "In the Park";
+  return "Programs";
+}
+
+function isEducationCatalogEvent(event) {
+  if (!event?.id) return false;
+  if (EDUCATION_EVENT_IDS.has(event.id)) return true;
+  return String(event.category || "").toLowerCase() === "education";
+}
+
+function isEducationPlay(play) {
+  if (!play?.id) return false;
+  return EDUCATION_PLAY_IDS.has(play.id);
+}
 
 function dayKeyFromIso(iso) {
   if (!iso || typeof iso !== "string") return "";
@@ -160,7 +185,7 @@ function normalizeItem({
   return {
     id,
     title,
-    category: mapCategory(category),
+    category: educationBucket({ id, title, category }),
     start,
     end: end || start,
     startMs,
@@ -251,8 +276,13 @@ export function buildEducationEventsCalendar(
   plays = [],
   seeds = EDUCATION_PROGRAM_SEEDS,
 ) {
-  const fromEvents = (Array.isArray(events) ? events : []).flatMap(expandEventOccurrences);
-  const fromPlays = (Array.isArray(plays) ? plays : []).map(fromPlay).filter(Boolean);
+  const fromEvents = (Array.isArray(events) ? events : [])
+    .filter(isEducationCatalogEvent)
+    .flatMap(expandEventOccurrences);
+  const fromPlays = (Array.isArray(plays) ? plays : [])
+    .filter(isEducationPlay)
+    .map(fromPlay)
+    .filter(Boolean);
   const fromSeeds = (Array.isArray(seeds) ? seeds : []).map((seed) =>
     normalizeItem({ ...seed, source: "seed" }),
   );
@@ -260,7 +290,6 @@ export function buildEducationEventsCalendar(
   const seen = new Set();
   const items = [...fromSeeds, ...fromPlays, ...fromEvents].filter((item) => {
     if (!item?.id || seen.has(item.id)) return false;
-    // Prefer events.json for ids that collide with play range summaries (kids show vs in-park seed: keep both unless same id)
     seen.add(item.id);
     return true;
   });
