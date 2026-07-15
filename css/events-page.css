@@ -278,6 +278,10 @@
   text-underline-offset: 0.15em;
 }
 
+.sots-events-page__card .sots-share {
+  grid-column: 1 / -1;
+}
+
 /* Shared venue map (Events hub, Mahjong, Education calendar) */
 .sots-event-venue-map {
   display: grid;

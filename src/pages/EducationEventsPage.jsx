@@ -13,6 +13,7 @@ import { eventMapUrls } from "../../js/event-maps.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
+import { ShareBar, eventSharePath } from "../components/ShareBar.jsx";
 
 const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
 
@@ -67,6 +68,13 @@ function EventCard({ item }) {
             ) : null}
           </div>
         ) : null}
+        <ShareBar
+          compact
+          path={eventSharePath({ id: item.id, href: item.href, ctaUrl: item.href, title: item.title })}
+          title={item.title}
+          label="Share this event"
+          text={[item.title, item.dateLabel, item.location].filter(Boolean).join(" · ")}
+        />
       </div>
       <div className="sots-edu-cal__card-actions">
         <ArrowButton href={item.href}>{item.ctaLabel || "Learn more"}</ArrowButton>

@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { formatMahjongCents, formatMahjongPrice, MAHJONG_NIGHT } from "../../js/mahjong-night.js";
+import { formatMahjongCents, formatMahjongPrice, MAHJONG_NIGHT, MAHJONG_NIGHT_PATH } from "../../js/mahjong-night.js";
 import { eventMapUrls } from "../../js/event-maps.js";
 import { openPaymentLinkCheckout } from "../../js/payment-link-checkout.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
 import { QtyStepper, useBuyBusy } from "../components/checkout/QtyStepper.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
+import { ShareBar } from "../components/ShareBar.jsx";
 
 function OfferRow({ item, quantity, onQty }) {
   const max = item.limited ? 4 : 10;
@@ -160,6 +161,12 @@ export function MahjongNightPage() {
                 ) : null}
               </div>
             ) : null}
+            <ShareBar
+              path={MAHJONG_NIGHT_PATH}
+              title={event.title}
+              label="Share this event"
+              text={`${event.title} — ${event.dateLabel} at ${event.venueName}`}
+            />
           </section>
 
           <section id="tickets" className="sots-mahjong__section" aria-labelledby="mahjong-tickets-heading" data-reveal>

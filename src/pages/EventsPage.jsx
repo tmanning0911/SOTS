@@ -8,6 +8,7 @@ import { enrichEventWithTickets, loadTicketData, TICKETS_PAGE_PATH } from "../..
 import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
+import { ShareBar, eventSharePath } from "../components/ShareBar.jsx";
 
 const FEATURED_SHOW = SEASON_SHOWS.find((s) => s.id === "much-ado") ?? SEASON_SHOWS[0];
 const FUNDRAISER_CATEGORIES = new Set(["fundraiser", "gala"]);
@@ -158,6 +159,14 @@ function EventCard({ event, past = false, featured = false }) {
       </div>
 
       <EventVenueMap event={event} />
+
+      <ShareBar
+        compact
+        path={eventSharePath(event)}
+        title={event.title}
+        label="Share this event"
+        text={[event.title, event.date, event.location].filter(Boolean).join(" · ")}
+      />
     </article>
   );
 }

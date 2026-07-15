@@ -71,6 +71,10 @@
   text-underline-offset: 0.15em;
 }
 
+.sots-mahjong__details .sots-share {
+  margin-top: 1.15rem;
+}
+
 .sots-mahjong__section {
   margin: clamp(2rem, 4vw, 3.25rem) 0;
 }

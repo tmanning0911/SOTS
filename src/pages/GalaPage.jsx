@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { eventMapUrls } from "../../js/event-maps.js";
-import { formatGalaCents, formatGalaPrice, GALA_EVENT } from "../../js/gala-event.js";
+import { formatGalaCents, formatGalaPrice, GALA_EVENT, GALA_PATH } from "../../js/gala-event.js";
 import { openPaymentLinkCheckout } from "../../js/payment-link-checkout.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
 import { QtyStepper, useBuyBusy } from "../components/checkout/QtyStepper.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
+import { ShareBar } from "../components/ShareBar.jsx";
 
 function OfferRow({ item, quantity, onQty }) {
   return (
@@ -145,6 +146,12 @@ export function GalaPage() {
                 ) : null}
               </div>
             ) : null}
+            <ShareBar
+              path={GALA_PATH}
+              title={event.title}
+              label="Share this event"
+              text={`${event.title} — ${event.dateLabel} at ${event.venueName}`}
+            />
           </section>
 
           <section id="tickets" className="sots-mahjong__section" aria-labelledby="gala-tickets-heading" data-reveal>

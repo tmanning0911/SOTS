@@ -291,6 +291,10 @@
   margin-top: 0.85rem;
 }
 
+.sots-edu-cal__card-copy .sots-share {
+  margin-top: 0.75rem;
+}
+
 .sots-edu-cal__empty {
   margin: 0;
   color: var(--orp-muted, #3d5470);
