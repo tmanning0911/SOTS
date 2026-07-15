@@ -588,5 +588,5 @@ export const SEASON_SCHEDULE = [
   { show: "Much Ado About Nothing", dates: "June 10–28, 2026", venue: "Shakespeare in Pinkney Park", status: "Ended", href: "/productions/much-ado-about-nothing/" },
   { show: "Kids' Show", dates: "Summer 2026", venue: "Shakespeare in Pinkney Park", status: "Ended", href: "/productions/kids-show/" },
   { show: "Mahjong Midsummer Classic", dates: "Sept 19, 2026", venue: "Rowayton, CT", status: "On Sale", href: "/events/mahjong-night/" },
-  { show: "Much Ado About Something Gala", dates: "Oct 16, 2026", venue: "Norwalk, CT", status: "Save the Date", href: "/support/events/" },
+  { show: "Much Ado About Something Gala", dates: "Oct 16, 2026", venue: "Norwalk, CT", status: "Tickets", href: "/events/much-ado-about-something/#tickets" },
 ];
