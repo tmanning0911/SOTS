@@ -2,17 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { MEDIA, SEASON_SHOWS } from "../../js/data.js";
 import { MAHJONG_NIGHT_PATH } from "../../js/mahjong-night.js";
-import {
-  enrichEventWithTickets,
-  loadTicketData,
-  TICKETS_PAGE_PATH,
-} from "../../js/ticketing.js";
+import { enrichEventWithTickets, loadTicketData, TICKETS_PAGE_PATH } from "../../js/ticketing.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 
 const FEATURED_SHOW = SEASON_SHOWS.find((s) => s.id === "much-ado") ?? SEASON_SHOWS[0];
-
 const FUNDRAISER_CATEGORIES = new Set(["fundraiser", "gala"]);
 
 function isFundraiser(event) {
@@ -47,13 +42,13 @@ function EventCta({ href, label, primary }) {
   if (primary) return <ArrowButton href={href}>{label}</ArrowButton>;
   if (/^(https?:|mailto:)/i.test(href)) {
     return (
-      <a href={href} className="sots-shop-text-link">
+      <a href={href} className="sots-events-page__text-link">
         {label}
       </a>
     );
   }
   return (
-    <Link to={href} className="sots-shop-text-link">
+    <Link to={href} className="sots-events-page__text-link">
       {label}
     </Link>
   );
@@ -67,7 +62,7 @@ function isPrimaryCta(event, label, href) {
   return false;
 }
 
-function EventRow({ event, past = false, featured = false }) {
+function EventCard({ event, past = false, featured = false }) {
   const meta = [event.date, event.time, event.location].filter(Boolean);
   const href = event.ctaUrl || null;
   const label = event.ctaLabel || (href ? "Learn more" : null);
@@ -80,35 +75,44 @@ function EventRow({ event, past = false, featured = false }) {
     !isFundraiser(event);
   const showPrimary = href && label && !hidePastTickets;
   const showSecondary = secondaryHref && secondaryLabel && !past;
+  const showMedia = featured && Boolean(event.image);
 
   return (
     <article
-      className={`sots-events-page__row${featured ? " sots-events-page__row--feature" : ""}`}
+      className={[
+        "sots-events-page__card",
+        featured ? "sots-events-page__card--feature" : "",
+        past ? "sots-events-page__card--past" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
       id={event.id}
     >
-      {featured && event.image ? (
-        <div className="sots-events-page__row-media" aria-hidden="true">
-          <img src={event.image} alt="" width={480} height={320} loading="lazy" />
+      {showMedia ? (
+        <div className="sots-events-page__card-media" aria-hidden="true">
+          <img src={event.image} alt="" width={640} height={400} loading="lazy" />
         </div>
       ) : null}
-      <div className="sots-events-page__row-main">
-        <div className="sots-events-page__row-copy">
-          {event.category ? <p className="sots-events-page__row-cat">{event.category}</p> : null}
+
+      <div className="sots-events-page__card-body">
+        <div className="sots-events-page__card-copy">
+          {event.category ? <p className="sots-events-page__card-cat">{event.category}</p> : null}
           <h3>{event.title}</h3>
           {meta.length ? (
-            <ul className="sots-events-page__row-meta">
+            <ul className="sots-events-page__card-meta">
               {meta.map((line) => (
                 <li key={line}>{line}</li>
               ))}
             </ul>
           ) : null}
-          {event.description ? <p className="sots-events-page__row-desc">{event.description}</p> : null}
+          {event.description ? <p className="sots-events-page__card-desc">{event.description}</p> : null}
           {event.priceNote && !past ? (
-            <p className="sots-events-page__row-price">{event.priceNote}</p>
+            <p className="sots-events-page__card-price">{event.priceNote}</p>
           ) : null}
         </div>
+
         {showPrimary || showSecondary ? (
-          <div className="sots-events-page__row-actions">
+          <div className="sots-events-page__card-actions">
             {showPrimary ? <EventCta href={href} label={label} primary={primary} /> : null}
             {showSecondary ? (
               <EventCta href={secondaryHref} label={secondaryLabel} primary={false} />
@@ -133,34 +137,36 @@ function EventListSection({
 }) {
   return (
     <section
-      className={`sots-events-page__list-section${past ? " sots-events-page__list-section--past" : ""}`}
+      className={`sots-events-page__section${past ? " sots-events-page__section--past" : ""}`}
       id={id}
       aria-labelledby={`${id}-heading`}
     >
-      <div className="sots-events-page__list-head">
-        <p className="orpheum-eyebrow">{eyebrow}</p>
-        <h2 id={`${id}-heading`} className="orpheum-underline-heading">
-          {heading}
-        </h2>
-        {note ? <p className="sots-events-page__list-note">{note}</p> : null}
-      </div>
-
-      {loading ? (
-        <p className="sots-events-page__loading">Loading events…</p>
-      ) : events.length ? (
-        <div className="sots-events-page__list">
-          {events.map((event, index) => (
-            <EventRow
-              key={event.id}
-              event={event}
-              past={past}
-              featured={featureFirst && index === 0 && Boolean(event.image)}
-            />
-          ))}
+      <div className="sots-events-page__inner">
+        <div className="sots-events-page__section-head">
+          <p className="orpheum-eyebrow">{eyebrow}</p>
+          <h2 id={`${id}-heading`} className="orpheum-underline-heading">
+            {heading}
+          </h2>
+          {note ? <p className="sots-events-page__section-note">{note}</p> : null}
         </div>
-      ) : (
-        empty || null
-      )}
+
+        {loading ? (
+          <p className="sots-events-page__loading">Loading events…</p>
+        ) : events.length ? (
+          <div className={`sots-events-page__stack${past ? " sots-events-page__stack--past" : ""}`}>
+            {events.map((event, index) => (
+              <EventCard
+                key={event.id}
+                event={event}
+                past={past}
+                featured={featureFirst && index === 0 && Boolean(event.image)}
+              />
+            ))}
+          </div>
+        ) : (
+          empty || null
+        )}
+      </div>
     </section>
   );
 }
@@ -215,9 +221,9 @@ export function EventsPage() {
   return (
     <InnerPageShell showVisit={false} showNewsletter showSupport>
       <article className="sots-events-page">
-        <InnerPageHero title="Events" />
+        <InnerPageHero title="Events" compact />
 
-        <nav className="orpheum-page-quick" aria-label="Events shortcuts">
+        <nav className="orpheum-page-quick sots-events-page__quick" aria-label="Events shortcuts">
           <a href="#fundraisers" className="orpheum-page-quick__link">
             Fundraisers
           </a>
@@ -232,38 +238,11 @@ export function EventsPage() {
           </Link>
         </nav>
 
-        <section className="sots-events-page__tickets" id="tickets" aria-labelledby="events-tickets-heading">
-          <div className="sots-events-page__tickets-inner">
-            <div className="sots-events-page__tickets-copy">
-              <p className="orpheum-eyebrow">2026 Main Stage · Complete</p>
-              <h2 id="events-tickets-heading" className="orpheum-underline-heading">
-                {FEATURED_SHOW?.title ?? "Much Ado About Nothing"}
-              </h2>
-              <p className="sots-events-page__tickets-meta">
-                {FEATURED_SHOW?.dates ?? "June 10–28, 2026"} · Shakespeare in Pinkney Park
-              </p>
-              <p className="sots-events-page__tickets-lead">
-                Thank you for a landmark 30th summer season. Tickets for this run are closed —
-                explore fall fundraisers below, or revisit the production page.
-              </p>
-              <div className="sots-events-page__tickets-actions">
-                <ArrowButton href="/productions/much-ado-about-nothing/">About the show</ArrowButton>
-                <ArrowButton href="/support/events/#fundraisers" variant="ghost">
-                  Upcoming events
-                </ArrowButton>
-              </div>
-            </div>
-            <div className="sots-events-page__tickets-visual" aria-hidden="true">
-              <img src={MEDIA.muchAdoPoster} alt="" width={360} height={569} loading="lazy" />
-            </div>
-          </div>
-        </section>
-
         <EventListSection
           id="fundraisers"
-          eyebrow="Join & Give"
+          eyebrow="Coming up"
           heading="Fundraisers & galas"
-          note="Benefit nights that support the season, education programs, and Year-End Giving. Buy tickets or get involved where open."
+          note="Benefit nights supporting productions, education, and Year-End Giving."
           events={fundraisers}
           loading={loading}
           featureFirst
@@ -278,13 +257,37 @@ export function EventsPage() {
         {seasonSpecials.length || loading ? (
           <EventListSection
             id="season"
-            eyebrow="In the park"
+            eyebrow="More dates"
             heading="Season specials"
-            note="Receptions, talks, and community nights tied to Main Stage performances."
+            note="Receptions, talks, and community nights."
             events={seasonSpecials}
             loading={loading}
           />
         ) : null}
+
+        <section className="sots-events-page__season-note" id="tickets" aria-labelledby="season-complete-heading">
+          <div className="sots-events-page__inner sots-events-page__season-note-inner">
+            <div className="sots-events-page__season-note-copy">
+              <p className="orpheum-eyebrow">2026 Main Stage</p>
+              <h2 id="season-complete-heading">{FEATURED_SHOW?.title ?? "Much Ado About Nothing"}</h2>
+              <p>
+                {FEATURED_SHOW?.dates ?? "June 10–28, 2026"} · season complete. Thank you for a
+                landmark summer in Pinkney Park.
+              </p>
+              <div className="sots-events-page__season-note-actions">
+                <ArrowButton href="/productions/much-ado-about-nothing/" className="orpheum-arrow-btn--compact">
+                  About the show
+                </ArrowButton>
+                <Link to="/support/donate/" className="sots-events-page__text-link">
+                  Support what’s next
+                </Link>
+              </div>
+            </div>
+            <div className="sots-events-page__season-note-media" aria-hidden="true">
+              <img src={MEDIA.muchAdoPoster} alt="" width={240} height={380} loading="lazy" />
+            </div>
+          </div>
+        </section>
 
         {earlier.length ? (
           <EventListSection
@@ -297,17 +300,16 @@ export function EventsPage() {
           />
         ) : null}
 
-        <section className="sots-events-page__past-fund" aria-labelledby="past-fundraisers-heading">
-          <div className="sots-events-page__list-head">
-            <p className="orpheum-eyebrow">Community</p>
-            <h2 id="past-fundraisers-heading" className="orpheum-underline-heading">
-              Past fundraisers
+        <section className="sots-events-page__footer-cta" aria-labelledby="support-heading">
+          <div className="sots-events-page__inner">
+            <p className="orpheum-eyebrow">Keep the work going</p>
+            <h2 id="support-heading" className="orpheum-underline-heading">
+              Support the Sound
             </h2>
-            <p className="sots-events-page__list-note">
-              ShakesBeer and earlier galas helped fund productions and education outreach across
-              Fairfield County. Watch this page for the next celebration.
+            <p className="sots-events-page__section-note">
+              Donations and sponsorships make outdoor Shakespeare possible for Fairfield County.
             </p>
-            <div className="sots-events-page__tickets-actions">
+            <div className="sots-events-page__footer-actions">
               <ArrowButton href="/support/donate/">Donate</ArrowButton>
               <ArrowButton href="/support/program-ads-sponsorships/" variant="ghost">
                 Sponsorships

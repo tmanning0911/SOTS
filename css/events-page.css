@@ -1,224 +1,324 @@
 /* ═══ Events hub (/support/events/) ═══ */
 
 .sots-events-page {
+  --events-pad-x: var(--orp-chrome-gutter, 9.25rem);
   background: var(--orp-white, #fff);
 }
 
-.sots-events-page__tickets {
-  padding: clamp(2rem, 4vw, 3rem) var(--orp-chrome-gutter, 9.25rem);
-  background: var(--orp-stone-100, #f4f7fa);
-  border-top: 1px solid var(--orp-line, #e4e9ef);
-}
-
-.sots-events-page__tickets-inner {
-  display: grid;
-  gap: 1.75rem 2.5rem;
-  max-width: 72rem;
+.sots-events-page__inner {
+  max-width: 56rem;
   margin: 0 auto;
-  align-items: center;
 }
 
-@media (min-width: 860px) {
-  .sots-events-page__tickets-inner {
-    grid-template-columns: minmax(0, 1fr) minmax(10rem, 14rem);
-  }
-}
-
-.sots-events-page__tickets-meta {
-  margin: 0.35rem 0 0;
-  color: var(--orp-muted, #3d5470);
-  font-size: 0.95rem;
-}
-
-.sots-events-page__tickets-lead {
-  margin: 0.85rem 0 0;
-  max-width: 38rem;
-  line-height: 1.6;
-  color: var(--orp-muted, #3d5470);
-}
-
-.sots-events-page__tickets-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem 0.85rem;
-  margin-top: 1.25rem;
-}
-
-.sots-events-page__tickets-visual {
-  justify-self: center;
-  width: min(100%, 14rem);
-}
-
-.sots-events-page__tickets-visual img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 2px;
-}
-
-.sots-events-page__list-section {
-  padding: clamp(2rem, 4vw, 3rem) var(--orp-chrome-gutter, 9.25rem) clamp(2.5rem, 5vw, 3.5rem);
+.sots-events-page__section {
+  padding: clamp(1.75rem, 4vw, 2.75rem) var(--events-pad-x);
   border-top: 1px solid var(--orp-line, #e4e9ef);
 }
 
-.sots-events-page__list-section--past {
+.sots-events-page__section--past {
   background: #fafbfc;
 }
 
-.sots-events-page__list-head {
-  max-width: 72rem;
-  margin: 0 auto 1.25rem;
+.sots-events-page__section-head {
+  margin-bottom: 1.15rem;
 }
 
-.sots-events-page__list-note {
-  margin: 0.65rem 0 0;
-  max-width: 40rem;
+.sots-events-page__section-note {
+  margin: 0.55rem 0 0;
+  max-width: 36rem;
+  font-size: 0.98rem;
   line-height: 1.55;
-  color: #4a5560;
+  color: var(--orp-muted, #3d5470);
 }
 
-.sots-events-page__list {
-  max-width: 72rem;
-  margin: 0 auto;
+.sots-events-page__stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.sots-events-page__stack--past {
+  gap: 0;
+}
+
+.sots-events-page__card {
+  display: grid;
+  gap: 1rem;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid var(--orp-line, #e4e9ef);
+  scroll-margin-top: 5.5rem;
+  background: transparent;
+}
+
+.sots-events-page__stack > .sots-events-page__card:first-child {
   border-top: 1px solid var(--orp-line, #e4e9ef);
 }
 
-.sots-events-page__row {
-  display: block;
-  padding: 1.25rem 0;
-  border-bottom: 1px solid var(--orp-line, #e4e9ef);
-  scroll-margin-top: 5.5rem;
+.sots-events-page__card--feature {
+  gap: 1.15rem 1.5rem;
+  padding: 1.35rem;
+  border: 1px solid var(--orp-line, #e4e9ef);
+  border-radius: 4px;
+  background: var(--orp-stone-100, #f4f7fa);
 }
 
-.sots-events-page__row-copy {
-  flex: 1 1 18rem;
+.sots-events-page__card--feature + .sots-events-page__card {
+  border-top: 0;
+}
+
+.sots-events-page__card--past {
+  padding: 0.95rem 0;
+  opacity: 0.92;
+}
+
+.sots-events-page__card-media {
+  width: 100%;
+  max-width: 22rem;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #e8eef4;
+}
+
+.sots-events-page__card-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.sots-events-page__card-body {
+  display: grid;
+  gap: 1rem;
   min-width: 0;
 }
 
-.sots-events-page__row-cat {
-  margin: 0 0 0.35rem;
+.sots-events-page__card-copy {
+  min-width: 0;
+}
+
+.sots-events-page__card-cat {
+  margin: 0 0 0.3rem;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--orp-gold-dark, #b8860b);
+  color: var(--brand-blue, #2165b4);
 }
 
-.sots-events-page__row h3 {
+.sots-events-page__card h3 {
   margin: 0;
-  font-family: var(--font-heading, "Marcellus", Georgia, serif);
-  font-size: clamp(1.25rem, 2.4vw, 1.55rem);
+  font-family: var(--orp-serif, "Marcellus", Georgia, serif);
+  font-size: clamp(1.2rem, 2.4vw, 1.55rem);
   font-weight: 400;
+  line-height: 1.2;
   color: var(--orp-dark, #0f2d4d);
 }
 
-.sots-events-page__row-meta {
+.sots-events-page__card-meta {
   list-style: none;
   margin: 0.45rem 0 0;
   padding: 0;
+  display: grid;
+  gap: 0.15rem;
   color: #4a5560;
   font-size: 0.92rem;
-  line-height: 1.45;
+  line-height: 1.4;
 }
 
-.sots-events-page__row-meta li + li {
-  margin-top: 0.15rem;
-}
-
-.sots-events-page__row-desc {
+.sots-events-page__card-desc {
   margin: 0.65rem 0 0;
-  max-width: 40rem;
+  max-width: 38rem;
+  font-size: 0.95rem;
   line-height: 1.55;
   color: var(--orp-muted, #3d5470);
 }
 
-.sots-events-page__row-price {
-  margin: 0.45rem 0 0;
+.sots-events-page__card-price {
+  margin: 0.5rem 0 0;
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--orp-dark, #0f2d4d);
 }
 
-.sots-events-page__row-actions {
-  flex: 0 0 auto;
+.sots-events-page__card-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.35rem 0.5rem;
-  padding-top: 0.15rem;
+  gap: 0.55rem 0.75rem;
 }
 
-.sots-events-page__row--feature {
+.sots-events-page__text-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--orp-dark, #0f2d4d);
+}
+
+.sots-events-page__text-link:hover {
+  color: var(--brand-blue, #2165b4);
+}
+
+.sots-events-page__season-note {
+  padding: clamp(1.5rem, 3.5vw, 2.25rem) var(--events-pad-x);
+  border-top: 1px solid var(--orp-line, #e4e9ef);
+  background: #f7f8fa;
+}
+
+.sots-events-page__season-note-inner {
   display: grid;
-  gap: 1rem 1.5rem;
-  padding: 1.5rem 0;
+  gap: 1.15rem 1.5rem;
+  align-items: center;
 }
 
-@media (min-width: 760px) {
-  .sots-events-page__row--feature {
-    grid-template-columns: minmax(10rem, 16rem) minmax(0, 1fr);
-    align-items: center;
-  }
+.sots-events-page__season-note-copy h2 {
+  margin: 0.25rem 0 0.4rem;
+  font-family: var(--orp-serif, "Marcellus", Georgia, serif);
+  font-size: clamp(1.25rem, 2.4vw, 1.55rem);
+  font-weight: 400;
+  color: var(--orp-dark, #0f2d4d);
 }
 
-.sots-events-page__row-media {
-  width: 100%;
-  max-width: 16rem;
-  border-radius: 2px;
-  overflow: hidden;
-  background: #e8eef4;
+.sots-events-page__season-note-copy p {
+  margin: 0;
+  max-width: 34rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--orp-muted, #3d5470);
 }
 
-.sots-events-page__row-media img {
+.sots-events-page__season-note-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 1rem;
+  margin-top: 0.9rem;
+}
+
+.sots-events-page__season-note-media {
+  width: min(100%, 7.5rem);
+  justify-self: start;
+}
+
+.sots-events-page__season-note-media img {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 3 / 2;
-  object-fit: cover;
+  border-radius: 2px;
 }
 
-.sots-events-page__row-main {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem 1.5rem;
-  min-width: 0;
-}
-
-.sots-events-page__past-fund {
-  padding: clamp(2rem, 4vw, 3rem) var(--orp-chrome-gutter, 9.25rem) clamp(2.5rem, 5vw, 3.5rem);
+.sots-events-page__footer-cta {
+  padding: clamp(2rem, 4vw, 3rem) var(--events-pad-x);
   border-top: 1px solid var(--orp-line, #e4e9ef);
   background: var(--orp-stone-100, #f4f7fa);
 }
 
-.sots-events-page__past-fund .sots-events-page__list-head {
-  margin-bottom: 0;
-}
-
-.sots-events-page__past-fund .sots-events-page__tickets-actions {
+.sots-events-page__footer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 0.85rem;
   margin-top: 1.1rem;
 }
 
 .sots-events-page__loading,
 .sots-events-page__empty {
-  max-width: 72rem;
-  margin: 0 auto;
+  margin: 0;
   color: #4a5560;
+  line-height: 1.5;
 }
 
 #tickets,
 #fundraisers,
 #season,
-#past {
+#earlier {
   scroll-margin-top: 5.5rem;
 }
 
+@media (min-width: 760px) {
+  .sots-events-page__card--feature {
+    grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .sots-events-page__card-media {
+    max-width: none;
+    height: 100%;
+  }
+
+  .sots-events-page__card-media img {
+    height: 100%;
+    min-height: 11rem;
+  }
+
+  .sots-events-page__card-body {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 1rem 1.25rem;
+  }
+
+  .sots-events-page__card-actions {
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding-top: 0.15rem;
+  }
+
+  .sots-events-page__season-note-inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .sots-events-page__season-note-media {
+    justify-self: end;
+  }
+}
+
 @media (max-width: 767px) {
-  .sots-events-page__tickets,
-  .sots-events-page__list-section,
-  .sots-events-page__past-fund {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+  .sots-events-page {
+    --events-pad-x: 1.15rem;
+  }
+
+  .sots-events-page__quick {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+    padding: 0.75rem var(--events-pad-x);
+  }
+
+  .sots-events-page__quick .orpheum-page-quick__link {
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.45rem 0.5rem;
+    border: 1px solid var(--orp-line, #e4e9ef);
+    border-radius: 4px;
+    background: #fff;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+
+  .sots-events-page__card--feature {
+    padding: 1rem;
+  }
+
+  .sots-events-page__card-actions {
+    width: 100%;
+  }
+
+  .sots-events-page__card-actions .orpheum-arrow-btn {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .sots-events-page__card-actions .orpheum-arrow-btn__label {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .sots-events-page__season-note-media {
+    width: 6.25rem;
   }
 }
