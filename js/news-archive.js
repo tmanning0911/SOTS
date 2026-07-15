@@ -8,7 +8,7 @@ const IMG = {
   macbeth: "/images/news/season-banner-2026.jpg",
   muchAdo: "/images/news/much-ado-production.jpg",
   muchAdoHero: "/images/hero-much-ado.jpg",
-  gala: "/images/news/gala-2026.jpg",
+  gala: "/images/much-ado-about-something-gala-poster.jpg",
   park: "/images/news/pinkney-park-audience.jpg",
   kids: "/images/news/shakespeare-for-kids.jpg",
   education: "/images/news/education-banner.jpg",

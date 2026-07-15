@@ -41,7 +41,7 @@ const SEED_EVENTS = [
     time: "6–10pm",
     location: "Norwalk, CT",
     featured: true,
-    image: "/images/news/gala-2026.jpg",
+    image: "/images/much-ado-about-something-gala-poster.jpg",
     ctaLabel: "Join the Committee",
     ctaUrl: "/contact?topic=sponsorship",
     external: false,
