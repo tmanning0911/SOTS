@@ -19,10 +19,6 @@ export const CONTACT_RECIPIENTS = {
     label: "Stephanie Eiss, Director of Education and Outreach",
     form: "education",
   },
-  "nick@shakespeareonthesound.org": {
-    label: "Nick Urda, Director of Educational Programming",
-    form: "education",
-  },
   "marketing@shakespeareonthesound.org": {
     label: "Marketing",
     form: "sponsorship",

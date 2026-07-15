@@ -13,7 +13,6 @@ const ALLOWED_RECIPIENTS = new Set([
   "contactus@shakespeareonthesound.org",
   "aaron@shakespeareonthesound.org",
   "stephanie@shakespeareonthesound.org",
-  "nick@shakespeareonthesound.org",
   "marketing@shakespeareonthesound.org",
 ]);
 

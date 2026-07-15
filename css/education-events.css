@@ -1,0 +1,360 @@
+/* ═══ Education Events calendar (/education/events/) ═══ */
+
+.sots-edu-cal {
+  --edu-pad-x: var(--orp-chrome-gutter, 9.25rem);
+  background: var(--orp-white, #fff);
+}
+
+.sots-edu-cal__inner {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+.sots-edu-cal__section {
+  padding: clamp(1.75rem, 4vw, 2.85rem) var(--edu-pad-x);
+  border-top: 1px solid var(--orp-line, #e4e9ef);
+}
+
+.sots-edu-cal__section--muted {
+  background: #fafbfc;
+}
+
+.sots-edu-cal__section-head {
+  margin-bottom: 1.15rem;
+}
+
+.sots-edu-cal__section-head h2 {
+  margin: 0;
+  font-family: var(--orp-serif, Georgia, serif);
+  font-size: clamp(1.55rem, 3vw, 2.1rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--orp-dark, #102033);
+}
+
+.sots-edu-cal__section-head p {
+  margin: 0.45rem 0 0;
+  max-width: 34rem;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--orp-muted, #3d5470);
+}
+
+.sots-edu-cal__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.sots-edu-cal__month-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.sots-edu-cal__month-nav h2 {
+  margin: 0;
+  min-width: 11rem;
+  text-align: center;
+  font-family: var(--orp-serif, Georgia, serif);
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-weight: 400;
+  color: var(--orp-dark, #102033);
+}
+
+.sots-edu-cal__nav-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--orp-line, #e4e9ef);
+  border-radius: 9999px;
+  background: var(--orp-white, #fff);
+  color: var(--orp-dark, #102033);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.sots-edu-cal__nav-btn:hover {
+  border-color: var(--brand-blue, #1a4a6b);
+}
+
+.sots-edu-cal__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.sots-edu-cal__filter {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--orp-line, #e4e9ef);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--orp-muted, #3d5470);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.sots-edu-cal__filter.is-active,
+.sots-edu-cal__filter:hover {
+  border-color: var(--brand-blue, #1a4a6b);
+  color: var(--brand-blue, #1a4a6b);
+  background: rgba(26, 74, 107, 0.06);
+}
+
+.sots-edu-cal__layout {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 900px) {
+  .sots-edu-cal__layout {
+    grid-template-columns: minmax(0, 1.35fr) minmax(14rem, 0.9fr);
+    align-items: start;
+    gap: 1.5rem;
+  }
+}
+
+.sots-edu-cal__weekdays,
+.sots-edu-cal__grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.sots-edu-cal__weekdays {
+  margin-bottom: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--orp-muted, #3d5470);
+  text-align: center;
+}
+
+.sots-edu-cal__pad,
+.sots-edu-cal__day {
+  min-height: 3.25rem;
+}
+
+.sots-edu-cal__day {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.2rem;
+  padding: 0.4rem 0.45rem;
+  border: 1px solid var(--orp-line, #e4e9ef);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--orp-dark, #102033);
+  text-align: left;
+  cursor: pointer;
+}
+
+.sots-edu-cal__day.is-empty {
+  opacity: 0.72;
+}
+
+.sots-edu-cal__day.has-events {
+  border-color: rgba(26, 74, 107, 0.35);
+  background: rgba(26, 74, 107, 0.04);
+}
+
+.sots-edu-cal__day.is-today {
+  box-shadow: inset 0 0 0 1px var(--brand-blue, #1a4a6b);
+}
+
+.sots-edu-cal__day.is-selected,
+.sots-edu-cal__day:hover {
+  border-color: var(--brand-blue, #1a4a6b);
+  background: rgba(26, 74, 107, 0.1);
+}
+
+.sots-edu-cal__day-num {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.sots-edu-cal__day-count {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--brand-blue, #1a4a6b);
+}
+
+.sots-edu-cal__day-panel {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--orp-line, #e4e9ef);
+  border-radius: 4px;
+  background: #fff;
+  min-height: 12rem;
+}
+
+.sots-edu-cal__panel-title {
+  margin: 0 0 0.85rem;
+  font-family: var(--orp-serif, Georgia, serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--orp-dark, #102033);
+}
+
+.sots-edu-cal__day-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.sots-edu-cal__day-list li {
+  display: grid;
+  gap: 0.2rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--orp-line, #e4e9ef);
+}
+
+.sots-edu-cal__day-list li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.sots-edu-cal__day-list a {
+  width: fit-content;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--brand-blue, #1a4a6b);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.sots-edu-cal__chip {
+  display: inline-block;
+  width: fit-content;
+  padding: 0.15rem 0.45rem;
+  border-radius: 2px;
+  background: rgba(26, 74, 107, 0.1);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brand-blue, #1a4a6b);
+}
+
+.sots-edu-cal__stack {
+  display: grid;
+  gap: 0;
+}
+
+.sots-edu-cal__card {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid var(--orp-line, #e4e9ef);
+  scroll-margin-top: 5.5rem;
+}
+
+.sots-edu-cal__stack > .sots-edu-cal__card:first-child {
+  border-top: 1px solid var(--orp-line, #e4e9ef);
+}
+
+.sots-edu-cal__card h3 {
+  margin: 0.35rem 0 0;
+  font-family: var(--orp-serif, Georgia, serif);
+  font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--orp-dark, #102033);
+}
+
+.sots-edu-cal__meta {
+  margin: 0.2rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.4;
+  color: var(--orp-muted, #3d5470);
+}
+
+.sots-edu-cal__desc {
+  margin: 0.55rem 0 0;
+  max-width: 40rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--orp-dark, #102033);
+}
+
+.sots-edu-cal__empty {
+  margin: 0;
+  color: var(--orp-muted, #3d5470);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.sots-edu-cal__programs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+@media (min-width: 640px) {
+  .sots-edu-cal__programs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sots-edu-cal__card {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+  }
+}
+
+.sots-edu-cal__programs a {
+  display: block;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--orp-line, #e4e9ef);
+  color: var(--orp-dark, #102033);
+  font-family: var(--orp-serif, Georgia, serif);
+  font-size: 1.15rem;
+  text-decoration: none;
+}
+
+.sots-edu-cal__programs a:hover {
+  color: var(--brand-blue, #1a4a6b);
+}
+
+.sots-edu-cal__contact {
+  margin: 1.35rem 0 0;
+  max-width: 36rem;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--orp-muted, #3d5470);
+}
+
+.sots-edu-cal__contact a {
+  color: var(--brand-blue, #1a4a6b);
+  font-weight: 600;
+}
+
+@media (max-width: 639px) {
+  .sots-edu-cal__day {
+    min-height: 2.75rem;
+    padding: 0.3rem 0.28rem;
+  }
+
+  .sots-edu-cal__day-num {
+    font-size: 0.8rem;
+  }
+
+  .sots-edu-cal__day-count {
+    font-size: 0.62rem;
+  }
+
+  .sots-edu-cal__month-nav h2 {
+    min-width: 9rem;
+  }
+}

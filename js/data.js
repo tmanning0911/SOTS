@@ -5,8 +5,6 @@ export const SITE = {
   boxOffice: "(203) 957-1006",
   address: "PO Box 15, Norwalk, CT, 06853",
   educationContact: "stephanie@shakespeareonthesound.org",
-  educationOutreachContact: "nick@shakespeareonthesound.org",
-  educationOutreachName: "Nick Urda, Director of Educational Programming",
   educationDirectorName: "Stephanie Eiss, Director of Education and Outreach",
   ticketsUrl: "/tickets/",
   donateUrl: "/support/donate/",

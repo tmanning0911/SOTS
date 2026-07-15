@@ -561,10 +561,6 @@ export const INNER_PAGES = [
             label: "Stephanie Eiss, Director of Education and Outreach",
             value: "stephanie@shakespeareonthesound.org",
           },
-          {
-            label: "Nick Urda, Director of Educational Programming",
-            value: "nick@shakespeareonthesound.org",
-          },
           { label: "Mailing Address", value: "P.O. Box 15, Norwalk, CT 06853" },
           { label: "Box Office (June)", value: "(203) 957-1006" },
         ],
@@ -963,7 +959,7 @@ export const INNER_PAGES = [
       {
         type: "prose",
         paragraphs: [
-          "For information on pricing, booking and more, contact Director of Education Outreach Nick Urda at nick@shakespeareonthesound.org or call our office at (203) 957-1006.",
+          "For information on pricing, booking and more, contact Stephanie Eiss, Director of Education and Outreach at stephanie@shakespeareonthesound.org or call our office at (203) 957-1006.",
         ],
       },
     ],
@@ -1000,7 +996,7 @@ export const INNER_PAGES = [
       {
         type: "prose",
         paragraphs: [
-          "For questions or to book a performance contact Nick Urda at nick@shakespeareonthesound.org or call (203) 957-1006.",
+          "For questions or to book a performance contact Stephanie Eiss, Director of Education and Outreach at stephanie@shakespeareonthesound.org or call (203) 957-1006.",
         ],
       },
     ],
@@ -1265,7 +1261,7 @@ export const INNER_PAGES = [
       {
         type: "prose",
         paragraphs: [
-          "Reach out with any questions to our Director of Educational Programming, Nick Urda at nick@shakespeareonthesound.org, or Stephanie Eiss, Director of Education and Outreach at stephanie@shakespeareonthesound.org.",
+          "Reach out with any questions to Stephanie Eiss, Director of Education and Outreach at stephanie@shakespeareonthesound.org.",
         ],
       },
     ],
