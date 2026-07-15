@@ -47,36 +47,12 @@ function EventCta({ event, compact = false }) {
 }
 
 function EventCard({ event }) {
-  const isFeature = event.variant === "feature";
-  const cardClass = `orpheum-events-grid__card orpheum-events-grid__card--${isFeature ? "feature" : "photo"}`;
-  const image = event.featureImage ?? event.image;
-
-  if (isFeature) {
-    return (
-      <article className={cardClass}>
-        <img src={image} alt="" loading="lazy" width={960} height={540} />
-        <div className="orpheum-events-grid__feature-cap" aria-hidden="true">
-          <span className="orpheum-events-grid__tag">{event.genre}</span>
-          <span>{event.dates}</span>
-        </div>
-        <div className="orpheum-events-grid__overlay">
-          <div className="orpheum-events-grid__overlay-copy">
-            <h4>{event.title}</h4>
-            <p>{event.dates}</p>
-          </div>
-          <div className="orpheum-events-grid__overlay-actions">
-            <EventCta event={event} />
-            <LearnMoreLink href={event.href} />
-          </div>
-        </div>
-      </article>
-    );
-  }
+  const image = event.image ?? event.featureImage;
 
   return (
-    <article className={cardClass}>
+    <article className="orpheum-events-grid__card orpheum-events-grid__card--photo">
       <a href={event.href} className="orpheum-events-grid__photo-link" aria-label={`${event.title}, ${event.dates}`}>
-        <img src={event.image} alt="" loading="lazy" width={640} height={360} />
+        <img src={image} alt="" loading="lazy" width={640} height={853} />
       </a>
       <div className="orpheum-events-grid__photo-cap">
         <span className="orpheum-events-grid__tag">{event.genre}</span>
