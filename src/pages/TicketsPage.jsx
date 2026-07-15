@@ -88,16 +88,16 @@ function TicketsSpotlight({ data, loading, priceLabel }) {
 function TicketsTierGuide() {
   const tiers = [
     {
+      name: "VIP Reserved",
+      detail: "Reserved chair seating near the stage — low-back or high-back options.",
+    },
+    {
       name: "General Admission",
       detail: "Open lawn seating — bring a blanket or low chair.",
     },
     {
       name: "Child (12 & under)",
       detail: "Same great view from the lawn at a reduced price.",
-    },
-    {
-      name: "VIP Reserved",
-      detail: "Low-back chair in a reserved section near the stage.",
     },
   ];
 

@@ -16,7 +16,10 @@ import { NotFoundPage } from "./pages/NotFoundPage.jsx";
 import { NewsArticlePage } from "./pages/NewsArticlePage.jsx";
 import { NewsIndexPage } from "./pages/NewsIndexPage.jsx";
 import { MahjongNightPage } from "./pages/MahjongNightPage.jsx";
+import { EventsPage } from "./pages/EventsPage.jsx";
 import { INNER_PAGES, hrefToRoutePath } from "../js/pages-data.js";
+
+const CUSTOM_INNER_HREFS = new Set(["/support/events/"]);
 
 function PageTitle({ title }) {
   const location = useLocation();
@@ -47,7 +50,7 @@ export default function App() {
     <Routes>
       <Route element={<AppLayout />}>
         <Route index element={<HomePage />} />
-        {INNER_PAGES.flatMap((page) => {
+        {INNER_PAGES.filter((page) => !CUSTOM_INNER_HREFS.has(page.href)).flatMap((page) => {
           const path = hrefToRoutePath(page.href);
           if (page.faq) {
             return routePair(
@@ -66,6 +69,7 @@ export default function App() {
         {routePair("tickets/checkout/:performanceId", <TicketCheckoutPage />)}
         {routePair("tickets", <TicketsPage />)}
         {routePair("events/mahjong-night", <MahjongNightPage />)}
+        {routePair("support/events", <EventsPage />)}
         {routePair("shop/checkout", <ShopCheckoutPage />)}
         {routePair("shop", <ShopPage />)}
         {routePair("access-your-tickets", <AccessTicketsPage />)}

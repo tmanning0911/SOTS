@@ -1382,44 +1382,8 @@ export const INNER_PAGES = [
     heading: "Events.",
     eyebrow: "Join & Give",
     showSupport: false,
-    intro: "Save the date for our annual gala celebration and community fundraisers.",
-    sections: [
-      {
-        type: "programs",
-        heading: "Upcoming",
-        programs: [
-          {
-            title: "Mahjong Midsummer Classic",
-            meta: [
-              "Saturday, September 19, 2026",
-              "11 AM–2 PM",
-              "United Church of Rowayton Community Center",
-            ],
-            paragraphs: [
-              "Benefiting Shakespeare on the Sound’s Year-End Giving Campaign—social play, beginners welcome.",
-            ],
-            cta: { label: "Get tickets & sponsorships", href: "/events/mahjong-night/" },
-          },
-          {
-            title: "Much Ado About Something",
-            meta: ["Friday, October 16, 2026", "6–10pm", "The House Up on the Hill, 26 Seir Hill Rd., Norwalk, CT"],
-            paragraphs: [
-              "Join us for a beautiful night of cocktails, delicious bites, dancing, and live and silent auctions in support of Shakespeare on the Sound.",
-              "If you really love to party, why not join the committee for our fundraiser? Email contactus@shakespeareonthesound.org.",
-            ],
-          },
-        ],
-      },
-      {
-        type: "prose",
-        heading: "Past Events",
-        paragraphs: [
-          "ShakesBeer — Join us to celebrate Shakespeare on the Sound and raise funds for our productions and educational programs. Dance along to live music, enjoy beer, wine, food trucks, and more!",
-          "Shakespeare on the Sound has partnered with The Carver Center in Norwalk and Family Centers in Greenwich to bring our programs to underserved schools.",
-          "80s Prom Cocktail Party — March 4, 2023 at the Country Club of Darien.",
-        ],
-      },
-    ],
+    intro: "Main stage tickets, fundraisers, and special events.",
+    sections: [],
   },
   {
     href: "/support/donors/",

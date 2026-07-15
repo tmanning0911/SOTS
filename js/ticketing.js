@@ -28,16 +28,27 @@ export function patronDisplayName(name) {
 }
 
 const TICKET_TIER = [
-  { test: (t) => t.slug === "general-admission" || /general admission/i.test(t.name ?? "") && !/child|kid|vip/i.test(t.name ?? ""), tier: 0 },
-  { test: (t) => /child|kid|under/i.test(t.name ?? "") || /child|kid/i.test(t.slug ?? ""), tier: 1 },
-  { test: (t) => /vip|reserved/i.test(t.name ?? "") || /vip/i.test(t.slug ?? ""), tier: 2 },
+  { test: (t) => /vip|reserved/i.test(t.name ?? "") || /vip/i.test(t.slug ?? ""), tier: 0 },
+  { test: (t) => t.slug === "general-admission" || (/general admission/i.test(t.name ?? "") && !/child|kid|vip/i.test(t.name ?? "")), tier: 1 },
+  { test: (t) => /child|kid|under/i.test(t.name ?? "") || /child|kid/i.test(t.slug ?? ""), tier: 2 },
 ];
+
+function vipRank(ticketType) {
+  const name = ticketType?.name ?? "";
+  if (/high\s*back/i.test(name)) return 0;
+  if (/low\s*back/i.test(name)) return 1;
+  return 2;
+}
 
 export function sortTicketTypesForDisplay(ticketTypes) {
   return [...(ticketTypes ?? [])].sort((a, b) => {
     const tier = (t) => TICKET_TIER.find((rule) => rule.test(t))?.tier ?? 3;
     const diff = tier(a) - tier(b);
     if (diff !== 0) return diff;
+    if (tier(a) === 0) {
+      const vipDiff = vipRank(a) - vipRank(b);
+      if (vipDiff !== 0) return vipDiff;
+    }
     return (a.sortOrder ?? 0) - (b.sortOrder ?? 0);
   });
 }
@@ -305,12 +316,16 @@ export function enrichEventWithTickets(event, data) {
   const calendarStart = event.calendar?.start ?? event.calendar?.occurrences?.[0]?.start;
   const matched = performanceForDate(data, calendarStart);
   const state = getTicketingState(data);
+  const keepOwnCta =
+    /^\/events\//i.test(event.ctaUrl ?? "") ||
+    /^mailto:/i.test(event.ctaUrl ?? "") ||
+    /^https?:/i.test(event.ctaUrl ?? "");
   const isTicketEvent =
-    event.external ||
-    /eventbrite/i.test(event.ctaUrl ?? "") ||
-    /ticket/i.test(event.ctaLabel ?? "");
+    !keepOwnCta &&
+    (event.external ||
+      /eventbrite/i.test(event.ctaUrl ?? "") ||
+      /ticket/i.test(event.ctaLabel ?? ""));
   const ctaUrl = isTicketEvent ? TICKETS_PAGE_PATH : event.ctaUrl;
-  const matchedPurchasable = matched && isPurchasablePerformance(matched);
 
   return {
     ...event,

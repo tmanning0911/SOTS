@@ -20,7 +20,7 @@ function PaymentLinkRow({ ticketType, quantity, onChange, highlight }) {
       <div>
         <div className="sots-co__ticket-head">
           <strong>{patronDisplayName(ticketType.name)}</strong>
-          {highlight ? <span className="sots-co__ticket-badge">Most popular</span> : null}
+          {highlight ? <span className="sots-co__ticket-badge">Recommended</span> : null}
         </div>
         {hint ? <p className="sots-co__ticket-hint">{hint}</p> : null}
         <p className="sots-co__ticket-price">{ticketType.price?.display}</p>
@@ -54,13 +54,11 @@ export function TicketPickerSheet({ open, onClose, data, performanceId }) {
     [data],
   );
 
-  const gaTicketId = useMemo(() => {
-    const ga =
-      ticketTypes.find((t) => t.slug === "general-admission") ??
-      ticketTypes.find(
-        (t) => /general admission/i.test(t.name ?? "") && !/child|kid|vip/i.test(t.name ?? ""),
-      );
-    return ga?.id ?? null;
+  const vipTicketId = useMemo(() => {
+    const vip =
+      ticketTypes.find((t) => /high\s*back/i.test(t.name ?? "")) ??
+      ticketTypes.find((t) => /vip|reserved/i.test(t.name ?? "") || /vip/i.test(t.slug ?? ""));
+    return vip?.id ?? null;
   }, [ticketTypes]);
 
   const selected = useMemo(
@@ -142,7 +140,7 @@ export function TicketPickerSheet({ open, onClose, data, performanceId }) {
                 key={tt.id}
                 ticketType={tt}
                 quantity={quantities[tt.id] ?? 0}
-                highlight={tt.id === gaTicketId}
+                highlight={tt.id === vipTicketId}
                 onChange={(qty) => setQuantities((prev) => ({ ...prev, [tt.id]: qty }))}
               />
             ))}

@@ -1,8 +1,9 @@
-import { patronDisplayName } from "../../../js/ticketing.js";
+import { patronDisplayName, sortTicketTypesForDisplay } from "../../../js/ticketing.js";
 
 export function TicketPricing({ ticketClasses, priceFrom }) {
-  const classes = (ticketClasses ?? []).filter((tc) => !tc.hidden && tc.onSale);
-
+  const classes = sortTicketTypesForDisplay(
+    (ticketClasses ?? []).filter((tc) => !tc.hidden && tc.onSale),
+  );
   if (!classes.length && !priceFrom) return null;
 
   return (
