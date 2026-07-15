@@ -16,6 +16,7 @@ import { NotFoundPage } from "./pages/NotFoundPage.jsx";
 import { NewsArticlePage } from "./pages/NewsArticlePage.jsx";
 import { NewsIndexPage } from "./pages/NewsIndexPage.jsx";
 import { MahjongNightPage } from "./pages/MahjongNightPage.jsx";
+import { GalaPage } from "./pages/GalaPage.jsx";
 import { EventsPage } from "./pages/EventsPage.jsx";
 import { EducationEventsPage } from "./pages/EducationEventsPage.jsx";
 import { DonatePage } from "./pages/DonatePage.jsx";
@@ -77,6 +78,7 @@ export default function App() {
         {routePair("tickets/checkout/:performanceId", <TicketCheckoutPage />)}
         {routePair("tickets", <TicketsPage />)}
         {routePair("events/mahjong-night", <MahjongNightPage />)}
+        {routePair("events/much-ado-about-something", <GalaPage />)}
         {routePair("support/events", <EventsPage />)}
         {routePair("education/events", <EducationEventsPage />)}
         {routePair("support/donate", <DonatePage />)}

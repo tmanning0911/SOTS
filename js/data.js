@@ -46,8 +46,8 @@ export const HERO_HOME = {
 export const SEASON_PROMO = {
   eyebrow: "After a Landmark Summer",
   heading: "Join Us for What’s Next",
-  ctaLabel: "See Events",
-  ctaHref: "/support/events/",
+  ctaLabel: "Gala tickets",
+  ctaHref: "/events/much-ado-about-something/#tickets",
   ctaExternal: false,
   showId: "gala",
 };
@@ -237,7 +237,7 @@ export const PRODUCTIONS = [
   {
     title: "Much Ado About Something Gala",
     date: "Friday, October 16, 2026",
-    href: "/support/events/",
+    href: "/events/much-ado-about-something/",
     image: MEDIA.galaImage,
   },
   {
@@ -428,7 +428,7 @@ export const SEASON_SHOWS = [
       "Cocktails, dancing, and auctions to support next summer's season. Save the date for our annual gala celebration.",
     image: MEDIA.galaImage,
     heroImage: MEDIA.galaImage,
-    href: "/support/events/",
+    href: "/events/much-ado-about-something/",
     badge: "Gala",
   },
   {

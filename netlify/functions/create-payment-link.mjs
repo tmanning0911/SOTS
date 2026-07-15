@@ -1,5 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { MAHJONG_NIGHT } from "../../js/mahjong-night.js";
+import { GALA_EVENT } from "../../js/gala-event.js";
 import { PROGRAM_ADS } from "../../js/program-ads-sponsorships.js";
 import { SHOP_PRODUCTS } from "../../js/shop-catalog.js";
 import { jsonResponse } from "./lib/cors.mjs";
@@ -45,6 +46,23 @@ function resolveMahjongItems(items) {
       name: `Mahjong Midsummer Classic — ${tier.name}`,
       quantity: String(qty),
       base_price_money: { amount: Math.round(Number(tier.price) * 100), currency: "USD" },
+      note: tier.id,
+    };
+  });
+}
+
+function resolveGalaItems(items) {
+  const byId = Object.fromEntries(GALA_EVENT.tickets.map((t) => [t.id, t]));
+  return items.map(({ itemId, quantity }) => {
+    const tier = byId[itemId];
+    if (!tier) throw new Error("Unknown gala ticket");
+    const price = Number(tier.price);
+    if (!(price > 100)) throw new Error("Invalid gala ticket price");
+    const qty = clampQty(quantity, MAX_QTY);
+    return {
+      name: `Much Ado About Something — ${tier.name}`,
+      quantity: String(qty),
+      base_price_money: { amount: Math.round(price * 100), currency: "USD" },
       note: tier.id,
     };
   });
@@ -139,6 +157,7 @@ async function resolveTicketItems(items) {
 function redirectFor(kind) {
   if (kind === "shop") return `${siteUrl}/shop/?thanks=1`;
   if (kind === "mahjong") return `${siteUrl}/events/mahjong-night/?thanks=1`;
+  if (kind === "gala") return `${siteUrl}/events/much-ado-about-something/?thanks=1`;
   if (kind === "donate") return `${siteUrl}/support/donate/?thanks=1`;
   if (kind === "sponsorship") return `${siteUrl}/support/program-ads-sponsorships/?thanks=1`;
   return `${siteUrl}/tickets/?thanks=1`;
@@ -208,6 +227,7 @@ export async function handler(event) {
   try {
     let lineItems;
     if (kind === "mahjong") lineItems = resolveMahjongItems(items);
+    else if (kind === "gala") lineItems = resolveGalaItems(items);
     else if (kind === "shop") lineItems = resolveShopItems(items);
     else if (kind === "ticket") lineItems = await resolveTicketItems(items);
     else if (kind === "donate") lineItems = resolveDonateItems(items);

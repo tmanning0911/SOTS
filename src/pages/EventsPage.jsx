@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { MEDIA, SEASON_SHOWS } from "../../js/data.js";
 import { eventMapUrls } from "../../js/event-maps.js";
+import { GALA_PATH } from "../../js/gala-event.js";
 import { MAHJONG_NIGHT_PATH } from "../../js/mahjong-night.js";
 import { enrichEventWithTickets, loadTicketData, TICKETS_PAGE_PATH } from "../../js/ticketing.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
@@ -64,8 +65,8 @@ function EventCta({ href, label, primary }) {
 
 function isPrimaryCta(event, label, href) {
   if (/ticket|sponsor|buy|reserve|get involved/i.test(label ?? "")) return true;
-  if (href === TICKETS_PAGE_PATH || href === MAHJONG_NIGHT_PATH) return true;
-  if (/mahjong-night/i.test(href ?? "")) return true;
+  if (href === TICKETS_PAGE_PATH || href === MAHJONG_NIGHT_PATH || href === GALA_PATH) return true;
+  if (/mahjong-night|much-ado-about-something/i.test(href ?? "")) return true;
   if (isFundraiser(event) && href) return true;
   return false;
 }
