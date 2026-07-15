@@ -1,10 +1,12 @@
-import { MEDIA, SITE } from "./data.js";
+import { MEDIA } from "./data.js";
 import { TICKETS_PAGE_PATH } from "./ticketing.js";
 
 const PLAY_ROUTES = {
   "much-ado-2026": "/productions/much-ado-about-nothing/",
   "kids-show-2026": "/productions/kids-show/",
 };
+
+const PAST_PLAY_STATUSES = new Set(["Archived", "Ended", "Past", "Closed"]);
 
 const SEED_PLAYS = [
   {
@@ -13,9 +15,10 @@ const SEED_PLAYS = [
     dates: "June 10–28, 2026 · 7:30pm (Wed–Sun evenings; no Mondays)",
     image: "/images/hero-much-ado.jpg",
     featured: true,
-    status: "On Sale",
+    status: "Ended",
     ticketUrl: TICKETS_PAGE_PATH,
     sort_order: 1,
+    calendar: { end: "2026-06-28T22:00:00" },
   },
   {
     id: "kids-show-2026",
@@ -25,6 +28,7 @@ const SEED_PLAYS = [
     status: "Accessible",
     ticketUrl: "/productions/kids-show/",
     sort_order: 2,
+    calendar: { end: "2026-06-28T19:00:00" },
   },
 ];
 
@@ -42,30 +46,22 @@ const SEED_EVENTS = [
     ctaUrl: "/contact?topic=sponsorship",
     external: false,
     sort_order: 1,
+    calendar: { start: "2026-10-16T18:00:00", end: "2026-10-16T22:00:00" },
   },
   {
-    id: "opening-night",
-    title: "Opening Night Pre-show Reception",
-    category: "Reception",
-    date: "Saturday, June 13, 2026",
-    time: "6–7:30pm",
-    image: "/images/hero-much-ado.jpg",
+    id: "mahjong-night-2026",
+    title: "Mahjong Midsummer Classic",
+    category: "Fundraiser",
+    date: "Saturday, September 19, 2026",
+    time: "11:00 AM–2:00 PM",
+    location: "Rowayton, CT",
+    featured: false,
+    image: "/images/mahjong-midsummer-classic-banner.png",
     ctaLabel: "Get Tickets",
-    ctaUrl: TICKETS_PAGE_PATH,
+    ctaUrl: "/events/mahjong-night/",
     external: false,
     sort_order: 2,
-  },
-  {
-    id: "directors-discuss",
-    title: "Directors' Discuss Much Ado",
-    category: "Talk",
-    date: "Sunday, June 14, 2026",
-    time: "6–6:45pm",
-    image: "/images/hero-much-ado.jpg",
-    ctaLabel: "Get Tickets",
-    ctaUrl: TICKETS_PAGE_PATH,
-    external: false,
-    sort_order: 3,
+    calendar: { start: "2026-09-19T11:00:00", end: "2026-09-19T14:00:00" },
   },
 ];
 
@@ -89,9 +85,39 @@ function formatEventGenre(event) {
   return [event.category, location].filter(Boolean).join(" · ");
 }
 
+function endMs(item) {
+  const end =
+    item?.calendar?.end ??
+    item?.calendar?.occurrences?.at?.(-1)?.end ??
+    item?.calendar?.occurrences?.at?.(-1)?.start ??
+    item?.calendar?.start ??
+    null;
+  if (end) {
+    const ms = Date.parse(end);
+    if (Number.isFinite(ms)) return ms;
+  }
+  // Soft parse common "Month D, YYYY" date strings when catalog omits calendar.end
+  if (typeof item?.date === "string") {
+    const ms = Date.parse(item.date);
+    if (Number.isFinite(ms)) return ms;
+  }
+  return null;
+}
+
+function isPastItem(item, now = Date.now()) {
+  if (PAST_PLAY_STATUSES.has(String(item?.status || ""))) return true;
+  const end = endMs(item);
+  if (end == null) return false;
+  return end < now - 12 * 60 * 60 * 1000;
+}
+
 function fromPlay(play, { featured = false } = {}) {
   const href = playHref(play);
-  const isTicketed = play.status !== "Accessible" && play.status !== "Archived";
+  const isTicketed =
+    play.status !== "Accessible" &&
+    play.status !== "Archived" &&
+    play.status !== "Ended" &&
+    !isPastItem(play);
   return {
     id: play.id,
     title: play.title,
@@ -101,16 +127,16 @@ function fromPlay(play, { featured = false } = {}) {
     featureImage: play.image || MEDIA.heroBanner,
     href,
     tickets: isTicketed ? TICKETS_PAGE_PATH : null,
-    ctaLabel: play.status === "Accessible" ? "In the Park" : "Tickets",
+    ctaLabel: isTicketed ? "Tickets" : "Learn More",
     ctaHref: isTicketed ? TICKETS_PAGE_PATH : href,
     ctaExternal: false,
     variant: featured ? "feature" : "photo",
   };
 }
 
-function fromEvent(event) {
+function fromEvent(event, { featured = false } = {}) {
   const isTicket = /ticket/i.test(event.ctaLabel ?? "");
-  const ticketHref = isTicket ? TICKETS_PAGE_PATH : event.ctaUrl || null;
+  const ticketHref = isTicket ? event.ctaUrl || TICKETS_PAGE_PATH : event.ctaUrl || null;
   return {
     id: event.id,
     title: event.title,
@@ -119,41 +145,46 @@ function fromEvent(event) {
     image: event.image || event.poster || MEDIA.galaImage,
     featureImage: event.image || MEDIA.galaImage,
     href: eventHref(event),
-    tickets: isTicket ? TICKETS_PAGE_PATH : null,
+    tickets: isTicket ? ticketHref : null,
     ctaLabel: event.ctaLabel || (isTicket ? "Tickets" : "Learn More"),
     ctaHref: ticketHref || eventHref(event),
     ctaExternal: false,
-    variant: "photo",
+    variant: featured ? "feature" : "photo",
   };
 }
 
 /**
- * Curated homepage lineup: main production, kids show, gala, plus season highlights.
+ * Homepage lineup — only future / current items (past summer productions are sunset).
  */
-export function buildHomeUpcomingEvents(plays = SEED_PLAYS, events = SEED_EVENTS) {
+export function buildHomeUpcomingEvents(plays = SEED_PLAYS, events = SEED_EVENTS, now = Date.now()) {
   const activePlays = [...plays]
-    .filter((p) => p.status !== "Archived")
+    .filter((p) => !isPastItem(p, now))
     .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
 
-  const sortedEvents = [...events].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
-  const mainPlay = activePlays.find((p) => p.featured) || activePlays[0];
-  const kidsPlay = activePlays.find((p) => p.id?.includes("kids") || /kids/i.test(p.title || ""));
-  const gala = sortedEvents.find((e) => e.featured) || sortedEvents.find((e) => e.id === "gala-2026");
-  const seasonHighlights = sortedEvents
-    .filter((e) => !e.featured)
-    .slice(0, 2);
+  const upcomingEvents = [...events]
+    .filter((e) => !isPastItem(e, now))
+    .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
 
+  const featuredEvent = upcomingEvents.find((e) => e.featured) || upcomingEvents[0];
   const lineup = [];
-  if (mainPlay) lineup.push(fromPlay(mainPlay, { featured: true }));
-  if (kidsPlay && kidsPlay.id !== mainPlay?.id) lineup.push(fromPlay(kidsPlay));
-  if (gala) lineup.push(fromEvent(gala));
-  seasonHighlights.forEach((event) => {
+
+  if (featuredEvent) {
+    lineup.push(fromEvent(featuredEvent, { featured: true }));
+  }
+
+  activePlays.forEach((play) => {
+    if (!lineup.some((item) => item.id === play.id)) {
+      lineup.push(fromPlay(play, { featured: lineup.length === 0 }));
+    }
+  });
+
+  upcomingEvents.forEach((event) => {
     if (!lineup.some((item) => item.id === event.id)) {
       lineup.push(fromEvent(event));
     }
   });
 
-  return lineup;
+  return lineup.slice(0, 4);
 }
 
 /** Static export for search + fallbacks */

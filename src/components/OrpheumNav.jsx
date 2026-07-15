@@ -52,9 +52,17 @@ export function OrpheumNavPanel({ item, isOpen }) {
     >
       <div className="orpheum-nav__panel-shell">
         <a href={primaryHref} className="orpheum-nav__panel-heading">
-          {item.label}
+          <span className="orpheum-nav__panel-heading-text">{item.label}</span>
           <span className="orpheum-nav__panel-heading-arrow" aria-hidden="true">
-            &gt;
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M5 12h12.5M13 6.5 18.5 12 13 17.5"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </span>
         </a>
 

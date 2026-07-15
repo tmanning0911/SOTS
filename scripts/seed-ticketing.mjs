@@ -22,9 +22,7 @@ export function testModeEnabled() {
   if (process.env.TICKETING_TEST_MODE === "true" || process.argv.includes("--test")) {
     return true;
   }
-  const deployUrl = process.env.URL || process.env.DEPLOY_PRIME_URL || "";
-  // Netlify preview site — keep purchasable test dates for QA until the custom domain is live.
-  if (deployUrl.includes("ubiquitous-maamoul")) return true;
+  // Off by default so ended seasons do not stay purchasable on Netlify.
   return false;
 }
 
@@ -129,20 +127,12 @@ function applyTestPerformances(catalog, now = new Date()) {
   };
 }
 
-function shouldIncludeTestPerformances(catalog) {
-  // Explicit opt-in (deploy previews / local seed:test).
+function shouldIncludeTestPerformances() {
+  // Explicit opt-in only — ended seasons stay ended unless QA asks for test dates.
   if (process.env.TICKETING_TEST_MODE === "true" || process.argv.includes("--test")) {
     return true;
   }
-  // Netlify preview app stays in QA mode until the custom domain cutover.
-  if (testModeEnabled()) return true;
-  // Hard off for production custom-domain builds.
-  if (process.env.TICKETING_TEST_MODE === "false") return false;
-  if ((process.env.CONTEXT || "").toLowerCase() === "production") return false;
-  const onSale = catalog.performances.filter((p) =>
-    ["on_sale", "live", "started", "draft"].includes(p.status),
-  ).length;
-  return onSale === 0;
+  return false;
 }
 
 function buildCatalog(eb) {
@@ -237,9 +227,18 @@ function main() {
   }
   const eb = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
   let catalog = buildCatalog(eb);
-  if (shouldIncludeTestPerformances(catalog)) {
+  if (shouldIncludeTestPerformances()) {
     catalog = applyTestPerformances(catalog);
     console.log(`  + ${catalog.meta.testPerformanceCount} TEST performance(s) added`);
+  } else {
+    catalog = {
+      ...catalog,
+      meta: {
+        ...catalog.meta,
+        testMode: false,
+        testPerformanceCount: 0,
+      },
+    };
   }
   fs.writeFileSync(outPath, `${JSON.stringify(catalog, null, 2)}\n`);
   const onSale = catalog.performances.filter((p) =>

@@ -10,13 +10,13 @@
     "featured": true,
     "sort_order": 1,
     "ticketUrl": "/productions/much-ado-about-nothing/",
-    "tag": "Get Tickets",
+    "tag": "Season Complete",
     "image": "/images/hero-much-ado.jpg",
     "calendar": {
       "start": "2026-06-10T19:30:00",
-      "end": "2026-06-10T22:00:00",
+      "end": "2026-06-28T22:00:00",
       "timezone": "America/New_York",
-      "recurrenceNote": "Runs Wed–Sun evenings through June 28, 2026 (no Mondays). Book your preferred night at shakespeareonthesound.org/plays."
+      "recurrenceNote": "Ran Wed–Sun evenings through June 28, 2026 (no Mondays)."
     },
     "ticketDetails": [
       "General admission: $25 adults, $5 children 12 and under (Wed–Sun evenings)",
@@ -45,11 +45,16 @@
     "description": "A 30-minute version of Much Ado About Nothing for ages 1–100! A kid-friendly adaptation by our Apprentice Company that also serves as a refresher for those who need a plot reminder.\n\n6:30pm in the park, every night before the MainStage show. Kids' Shows are accessible to all — show up, find a spot, and enjoy! To book at your library or school, visit our Learning page.",
     "dates": "Summer 2026 · 6:30pm before evening performances",
     "location": "Shakespeare in Pinkney Park, Rowayton, CT",
-    "status": "Accessible",
+    "status": "Ended",
     "featured": false,
     "sort_order": 2,
-    "ticketUrl": "/learning",
-    "tag": "Accessible in the Park",
-    "image": "/images/news/shakespeare-for-kids.jpg"
+    "ticketUrl": "/productions/kids-show/",
+    "tag": "Season Complete",
+    "image": "/images/news/shakespeare-for-kids.jpg",
+    "calendar": {
+      "start": "2026-06-10T18:30:00",
+      "end": "2026-06-28T19:00:00",
+      "timezone": "America/New_York"
+    }
   }
 ]

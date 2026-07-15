@@ -205,15 +205,10 @@ export function EventsPage() {
     const upcoming = sorted.filter((event) => eventEndMs(event) >= now - 12 * 60 * 60 * 1000);
     const past = sorted.filter((event) => eventEndMs(event) < now - 12 * 60 * 60 * 1000).reverse();
 
-    const fundraisersList = upcoming.filter(isFundraiser);
-    // Keep fundraisers visible even if the calendar date already passed this season
-    const pastFundraisers = past.filter(isFundraiser);
-    const allFundraisers = [...fundraisersList, ...pastFundraisers.filter((e) => !fundraisersList.some((u) => u.id === e.id))];
-
     return {
-      fundraisers: allFundraisers.length ? allFundraisers : fundraisersList,
+      fundraisers: upcoming.filter(isFundraiser),
       seasonSpecials: upcoming.filter((event) => !isFundraiser(event)),
-      earlier: past.filter((event) => !isFundraiser(event)),
+      earlier: past,
     };
   }, [events]);
 
@@ -223,24 +218,24 @@ export function EventsPage() {
         <InnerPageHero title="Events" />
 
         <nav className="orpheum-page-quick" aria-label="Events shortcuts">
-          <a href="#tickets" className="orpheum-page-quick__link">
-            Main stage tickets
-          </a>
           <a href="#fundraisers" className="orpheum-page-quick__link">
             Fundraisers
           </a>
           <Link to={MAHJONG_NIGHT_PATH} className="orpheum-page-quick__link">
             Mahjong night
           </Link>
-          <Link to={TICKETS_PAGE_PATH} className="orpheum-page-quick__link">
-            Buy tickets
+          <a href="#earlier" className="orpheum-page-quick__link">
+            Past events
+          </a>
+          <Link to="/support/donate/" className="orpheum-page-quick__link">
+            Donate
           </Link>
         </nav>
 
         <section className="sots-events-page__tickets" id="tickets" aria-labelledby="events-tickets-heading">
           <div className="sots-events-page__tickets-inner">
             <div className="sots-events-page__tickets-copy">
-              <p className="orpheum-eyebrow">2026 Main Stage</p>
+              <p className="orpheum-eyebrow">2026 Main Stage · Complete</p>
               <h2 id="events-tickets-heading" className="orpheum-underline-heading">
                 {FEATURED_SHOW?.title ?? "Much Ado About Nothing"}
               </h2>
@@ -248,13 +243,13 @@ export function EventsPage() {
                 {FEATURED_SHOW?.dates ?? "June 10–28, 2026"} · Shakespeare in Pinkney Park
               </p>
               <p className="sots-events-page__tickets-lead">
-                Choose a performance night, pick quantities, and checkout. Fundraisers and park
-                specials are listed below.
+                Thank you for a landmark 30th summer season. Tickets for this run are closed —
+                explore fall fundraisers below, or revisit the production page.
               </p>
               <div className="sots-events-page__tickets-actions">
-                <ArrowButton href={TICKETS_PAGE_PATH}>Get tickets</ArrowButton>
-                <ArrowButton href="/productions/much-ado-about-nothing/" variant="ghost">
-                  About the show
+                <ArrowButton href="/productions/much-ado-about-nothing/">About the show</ArrowButton>
+                <ArrowButton href="/support/events/#fundraisers" variant="ghost">
+                  Upcoming events
                 </ArrowButton>
               </div>
             </div>
@@ -293,7 +288,7 @@ export function EventsPage() {
 
         {earlier.length ? (
           <EventListSection
-            id="past"
+            id="earlier"
             eyebrow="This season"
             heading="Earlier events"
             events={earlier}

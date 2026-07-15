@@ -46,12 +46,12 @@ export const HERO_HOME = {
 };
 
 export const SEASON_PROMO = {
-  eyebrow: "2026 Summer Tickets Are On Sale Now",
-  heading: "Summer Begins with Shakespeare!",
-  ctaLabel: "Tickets",
-  ctaHref: SITE.ticketsUrl,
+  eyebrow: "After a Landmark Summer",
+  heading: "Join Us for What’s Next",
+  ctaLabel: "See Events",
+  ctaHref: "/support/events/",
   ctaExternal: false,
-  showId: "much-ado",
+  showId: "gala",
 };
 
 export const PILL_NAV = [
@@ -206,13 +206,14 @@ export const NAV_ITEMS = [
   },
   {
     label: "Support Our Mission",
+    href: "/support/donate/",
     columns: [
       {
-        title: "Support Our Mission",
+        title: "Ways to Give",
         links: [
+          { label: "Donate", href: "/support/donate/" },
           { label: "Individual Giving", href: "/support/individual-giving/" },
           { label: "Program Ads & Sponsorships", href: "/support/program-ads-sponsorships/" },
-          { label: "Donate", href: "/support/donate/" },
           { label: "Gift Shop", href: SITE.shopUrl },
           { label: "Events", href: "/support/events/" },
           { label: "Thank You", href: "/support/donors/" },
@@ -586,7 +587,8 @@ export const HOMEPAGE_FAQ = [
 ];
 
 export const SEASON_SCHEDULE = [
-  { show: "Much Ado About Nothing", dates: "June 10–28, 2026", venue: "Shakespeare in Pinkney Park", status: "On Sale", href: "/productions/much-ado-about-nothing/" },
-  { show: "Kids' Show", dates: "Summer 2026", venue: "Shakespeare in Pinkney Park", status: "Coming Soon", href: "/productions/kids-show/" },
+  { show: "Much Ado About Nothing", dates: "June 10–28, 2026", venue: "Shakespeare in Pinkney Park", status: "Ended", href: "/productions/much-ado-about-nothing/" },
+  { show: "Kids' Show", dates: "Summer 2026", venue: "Shakespeare in Pinkney Park", status: "Ended", href: "/productions/kids-show/" },
+  { show: "Mahjong Midsummer Classic", dates: "Sept 19, 2026", venue: "Rowayton, CT", status: "On Sale", href: "/events/mahjong-night/" },
   { show: "Much Ado About Something Gala", dates: "Oct 16, 2026", venue: "Norwalk, CT", status: "Save the Date", href: "/support/events/" },
 ];

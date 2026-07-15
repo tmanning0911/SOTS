@@ -16,10 +16,10 @@ export const PROGRAM_ADS = {
   eyebrow: "Join & Give",
   intro: "Get your business noticed and support Shakespeare on the Sound.",
   seasonNote: [
-    "Our 30th Anniversary season — Much Ado About Nothing",
-    "17 performances: June 10–28 in Pinkney Park",
-    "Playbills distributed to thousands of audience members",
-    "Professional Broadway-style program read and kept by patrons as a show souvenir",
+    "Celebrating our 30th Anniversary season — Much Ado About Nothing",
+    "Playbills reach thousands of patrons across our Pinkney Park audiences",
+    "Professional Broadway-style program kept by guests as a show souvenir",
+    "Packages remain available for fall events and next summer’s season recognition",
   ],
   ads: [
     {

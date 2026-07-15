@@ -911,26 +911,49 @@ body.page-home .site-header.is-scrolled {
 
 .orpheum-nav__panel-heading {
   display: inline-flex;
-  align-items: baseline;
-  gap: 0.35rem;
-  font-family: var(--orp-sans);
-  font-size: clamp(2rem, 2.65vw, 2.65rem);
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  align-items: center;
+  gap: 0.65rem;
+  max-width: 100%;
+  margin: 0 0 1.65rem;
+  padding: 0 0 0.85rem;
+  border-bottom: 2px solid var(--orp-gold, #f9c534);
+  font-family: var(--orp-serif, "Marcellus", Georgia, serif);
+  font-size: clamp(1.85rem, 2.4vw, 2.55rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
   color: var(--orp-dark);
   text-decoration: none;
-  margin-bottom: 2.15rem;
+  transition: color 0.2s ease;
 }
 
-.orpheum-nav__panel-heading:hover {
-  color: var(--orp-dark);
+.orpheum-nav__panel-heading-text {
+  min-width: 0;
+}
+
+.orpheum-nav__panel-heading:hover,
+.orpheum-nav__panel-heading:focus-visible {
+  color: var(--brand-blue);
+}
+
+.orpheum-nav__panel-heading:focus-visible {
+  outline: 2px solid var(--orp-gold, #f9c534);
+  outline-offset: 4px;
 }
 
 .orpheum-nav__panel-heading-arrow {
-  font-family: var(--orp-sans);
-  font-weight: 700;
-  font-size: 0.92em;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-blue);
+  transform: translateX(0);
+  transition: transform 0.2s ease;
+}
+
+.orpheum-nav__panel-heading:hover .orpheum-nav__panel-heading-arrow,
+.orpheum-nav__panel-heading:focus-visible .orpheum-nav__panel-heading-arrow {
+  transform: translateX(4px);
 }
 
 .orpheum-nav__panel-inner {
@@ -1242,7 +1265,10 @@ body.page-home .site-header.is-scrolled {
   }
 
   .orpheum-nav__panel-heading {
-    font-size: clamp(1.75rem, 2.2vw, 2.15rem);
+    font-size: clamp(1.55rem, 2vw, 1.95rem);
+    margin-bottom: 1.35rem;
+    padding-bottom: 0.7rem;
+    gap: 0.5rem;
   }
 
   .orpheum-header__logo {
