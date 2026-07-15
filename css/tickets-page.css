@@ -1081,16 +1081,26 @@
   }
 }
 
+@media (max-width: 767px) {
+  .tix-picker__actions {
+    grid-template-columns: 1fr;
+  }
+
+  .tix-picker__foot {
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .tix-picker__checkout {
+    min-height: 48px;
+  }
+}
+
 @media (max-width: 420px) {
   .tix-picker__head,
   .tix-picker__body,
   .tix-picker__foot {
     padding-left: 1rem;
     padding-right: 1rem;
-  }
-
-  .tix-picker__actions {
-    grid-template-columns: 1fr;
   }
 
   .tix-cart-aside__group-head {

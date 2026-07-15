@@ -106,7 +106,7 @@
   border-radius: 4px;
   background: #fff;
   font: inherit;
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: 400;
   color: var(--orp-dark, #0f2d4d);
 }

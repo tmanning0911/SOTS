@@ -56,7 +56,7 @@ const SEED_EVENTS = [
     time: "11:00 AM–2:00 PM",
     location: "Rowayton, CT",
     featured: false,
-    image: "/images/mahjong-midsummer-classic-banner.png",
+    image: "/images/mahjong-midsummer-classic-poster.jpg",
     ctaLabel: "Get Tickets",
     ctaUrl: "/events/mahjong-night/",
     external: false,

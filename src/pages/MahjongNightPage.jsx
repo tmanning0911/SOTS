@@ -59,10 +59,26 @@ export function MahjongNightPage() {
     if (thanks) setQty({});
   }, [thanks]);
 
+  useEffect(() => {
+    const id = window.location.hash.replace(/^#/, "");
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    const t = window.setTimeout(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+    return () => window.clearTimeout(t);
+  }, []);
+
   function checkout() {
     if (!selected.length) return;
     if (hasSponsor && !businessName.trim()) {
       setError("Enter a business or organization name for sponsorship checkout.");
+      document.getElementById("mahjong-business-field")?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+      document.querySelector("#mahjong-business-field input")?.focus?.();
       return;
     }
     runBuy(async () => {
@@ -205,10 +221,14 @@ export function MahjongNightPage() {
         </div>
 
         {totalQty > 0 ? (
-          <div className="sots-mahjong__sticky-checkout" role="region" aria-label="Checkout">
+          <div
+            className={`sots-mahjong__sticky-checkout${hasSponsor ? " sots-mahjong__sticky-checkout--sponsor" : ""}`}
+            role="region"
+            aria-label="Checkout"
+          >
             <div className="sots-mahjong__checkout-fields">
               {hasSponsor ? (
-                <label className="sots-mahjong__field">
+                <label className="sots-mahjong__field" id="mahjong-business-field">
                   <span>
                     Business / organization name <em>*</em>
                   </span>
@@ -216,31 +236,46 @@ export function MahjongNightPage() {
                     type="text"
                     name="businessName"
                     autoComplete="organization"
+                    enterKeyHint="next"
                     maxLength={100}
                     value={businessName}
-                    onChange={(e) => setBusinessName(e.target.value)}
+                    onChange={(e) => {
+                      setBusinessName(e.target.value);
+                      if (error) setError("");
+                    }}
                     placeholder="Acme Partners LLC"
+                    aria-required="true"
                   />
                 </label>
               ) : null}
               <label className="sots-mahjong__field">
-                <span>Note (optional)</span>
+                <span>Note {hasSponsor ? "(optional)" : "for your order (optional)"}</span>
                 <input
                   type="text"
                   name="note"
+                  enterKeyHint="done"
                   maxLength={400}
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
-                  placeholder="Table mates, accessibility needs, how to list your name…"
+                  placeholder={
+                    hasSponsor
+                      ? "How to list your name, contact person…"
+                      : "Table mates, accessibility needs…"
+                  }
                 />
               </label>
             </div>
-            <p className="sots-mahjong__checkout-total">
-              {totalQty} item{totalQty === 1 ? "" : "s"} · {formatMahjongCents(totalCents)}
-            </p>
-            <ArrowButton type="button" onClick={checkout} disabled={busy}>
-              {busy ? "Starting…" : "Checkout"}
-            </ArrowButton>
+            <div className="sots-mahjong__checkout-bar">
+              <p className="sots-mahjong__checkout-total">
+                <span className="sots-mahjong__checkout-count">
+                  {totalQty} item{totalQty === 1 ? "" : "s"}
+                </span>
+                <strong>{formatMahjongCents(totalCents)}</strong>
+              </p>
+              <ArrowButton type="button" onClick={checkout} disabled={busy}>
+                {busy ? "Starting…" : "Checkout"}
+              </ArrowButton>
+            </div>
             {error ? (
               <p className="sots-mahjong__error sots-mahjong__error--sticky" role="alert">
                 {error}

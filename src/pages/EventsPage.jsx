@@ -40,6 +40,13 @@ function sortByStart(a, b) {
 function EventCta({ href, label, primary }) {
   if (!href || !label) return null;
   if (primary) return <ArrowButton href={href}>{label}</ArrowButton>;
+  if (/sponsor/i.test(label)) {
+    return (
+      <ArrowButton href={href} variant="ghost">
+        {label}
+      </ArrowButton>
+    );
+  }
   if (/^(https?:|mailto:)/i.test(href)) {
     return (
       <a href={href} className="sots-events-page__text-link">
