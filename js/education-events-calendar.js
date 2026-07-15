@@ -113,17 +113,6 @@ function parseMs(iso) {
   return Number.isFinite(ms) ? ms : null;
 }
 
-function mapCategory(raw) {
-  const value = String(raw || "").toLowerCase();
-  if (value.includes("fundrais") || value.includes("gala") || value.includes("reception")) return "Fundraiser";
-  if (value.includes("educat") || value.includes("camp") || value.includes("tour") || value.includes("apprentice")) {
-    return "Education";
-  }
-  if (value.includes("perform") || value.includes("stage") || value.includes("show")) return "Performance";
-  if (value.includes("talk") || value.includes("community") || value.includes("book")) return "Community";
-  return "Community";
-}
-
 function eachDayKey(startIso, endIso) {
   const startKey = dayKeyFromIso(startIso);
   const endKey = dayKeyFromIso(endIso || startIso);
