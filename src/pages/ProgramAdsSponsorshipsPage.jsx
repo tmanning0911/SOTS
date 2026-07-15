@@ -72,7 +72,7 @@ export function ProgramAdsSponsorshipsPage() {
   return (
     <InnerPageShell showVisit={false} showNewsletter showSupport={false}>
       <article className="sots-program-ads">
-        <InnerPageHero title={page.heading.replace(/\.$/, "")} />
+        <InnerPageHero title={page.heading.replace(/\.$/, "")} compact />
 
         <nav className="orpheum-page-quick" aria-label="Page shortcuts">
           <a href="#checkout-details" className="orpheum-page-quick__link">

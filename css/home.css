@@ -6194,18 +6194,41 @@ body.page-inner {
   }
 
   .orpheum-events-grid__rail > * {
-    flex: 0 0 min(86vw, 22rem);
+    flex: 0 0 min(78vw, 18.5rem);
     scroll-snap-align: start;
-    min-height: 22rem;
+    min-height: 18.5rem;
   }
 
   .orpheum-events-grid__head {
-    align-items: flex-start;
+    align-items: stretch;
     flex-direction: column;
+    gap: 0.85rem;
   }
 
   .orpheum-events-grid__head h2 {
-    font-size: clamp(2.15rem, 9vw, 3.1rem);
+    font-size: clamp(1.85rem, 8vw, 2.55rem);
+    line-height: 1;
+  }
+
+  .orpheum-events-grid__head-actions {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .orpheum-events-grid__head-actions .orpheum-arrow-btn {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .orpheum-events-grid__rail .orpheum-events-grid__overlay-actions,
+  .orpheum-events-grid__rail .orpheum-events-grid__photo-actions {
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .orpheum-events-grid__rail .orpheum-events-grid__overlay-copy h4 {
+    font-size: clamp(1.25rem, 6vw, 1.7rem);
   }
 
   .orpheum-events-grid__head-actions .orpheum-events-scroll__controls {
