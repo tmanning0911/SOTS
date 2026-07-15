@@ -661,8 +661,57 @@ export const INNER_PAGES = [
         type: "prose",
         heading: "Before You Arrive",
         paragraphs: [
-          "Shakespeare on the Sound performs in Pinkney Park on the banks of the Five Mile River in Rowayton, CT. Whether this is your first time with Shakespeare on the Sound or your twenty-sixth, this guide will help you make the most of your time with us.",
+          "Whether this is your first time with Shakespeare on the Sound or your twenty-sixth, this guide will help you make the most of your evening.",
           "Need to get in touch? Contact our office at (203) 957-1006 or contactus@shakespeareonthesound.org.",
+        ],
+      },
+      {
+        type: "map",
+        heading: "Find us",
+        title: "Pinkney Park",
+        address: "177 Rowayton Avenue, Rowayton, CT 06853",
+        embedQuery: "Pinkney Park 177 Rowayton Avenue Rowayton CT 06853",
+        directionsUrl:
+          "https://www.google.com/maps/dir/?api=1&destination=177%20Rowayton%20Avenue%2C%20Rowayton%2C%20CT%2006853",
+      },
+      {
+        type: "parking",
+        heading: "Best parking",
+        note: "Arrive early on popular nights — the closest lot fills first. Accessible spaces in the park by advance request.",
+        places: [
+          {
+            rank: "Best",
+            name: "Old School Field",
+            address: "Witch Lane & Rowayton Avenue, Rowayton, CT",
+            detail: "Closest lot to Pinkney Park. Space is limited — arrive early.",
+            mapsUrl:
+              "https://www.google.com/maps/dir/?api=1&destination=Old%20School%20Field%20Witch%20Lane%20Rowayton%20CT",
+          },
+          {
+            rank: "Overflow",
+            name: "United Church of Rowayton",
+            address: "210 Rowayton Avenue, Rowayton, CT 06853",
+            detail: "Overflow parking when Old School Field is full.",
+            mapsUrl:
+              "https://www.google.com/maps/dir/?api=1&destination=210%20Rowayton%20Avenue%2C%20Rowayton%2C%20CT%2006853",
+          },
+          {
+            rank: "Also",
+            name: "Municipal lot & on-street",
+            address: "Rowayton Avenue, Rowayton, CT",
+            detail: "Municipal parking in Rowayton plus on-street spots along Rowayton Avenue.",
+            mapsUrl:
+              "https://www.google.com/maps/search/?api=1&query=municipal%20parking%20Rowayton%20Avenue%20Rowayton%20CT",
+          },
+          {
+            rank: "Accessible",
+            name: "Pinkney Park accessible parking",
+            address: "177 Rowayton Avenue, Rowayton, CT 06853",
+            detail: "Limited accessible spaces in the park. Call (203) 957-1006 ahead to reserve.",
+            phone: "+12039571006",
+            mapsUrl:
+              "https://www.google.com/maps/dir/?api=1&destination=177%20Rowayton%20Avenue%2C%20Rowayton%2C%20CT%2006853",
+          },
         ],
       },
       {
@@ -718,7 +767,7 @@ export const INNER_PAGES = [
       },
     ],
     cta: { label: "Getting Here", href: "/about/getting-here/" },
-    secondaryCta: { label: "Get Tickets", href: "/productions/much-ado-about-nothing/" },
+    secondaryCta: { label: "Get Tickets", href: "/tickets/" },
   },
   {
     href: "/about/getting-here/",
@@ -728,21 +777,60 @@ export const INNER_PAGES = [
     intro: "Pinkney Park is located at 177 Rowayton Avenue in Rowayton, CT.",
     sections: [
       {
+        type: "map",
+        heading: "Find us",
+        title: "Pinkney Park",
+        address: "177 Rowayton Avenue, Rowayton, CT 06853",
+        embedQuery: "Pinkney Park 177 Rowayton Avenue Rowayton CT 06853",
+        directionsUrl:
+          "https://www.google.com/maps/dir/?api=1&destination=177%20Rowayton%20Avenue%2C%20Rowayton%2C%20CT%2006853",
+      },
+      {
+        type: "parking",
+        heading: "Best parking",
+        note: "Arrive early on popular nights — the closest lot fills first. Accessible spaces in the park by advance request.",
+        places: [
+          {
+            rank: "Best",
+            name: "Old School Field",
+            address: "Witch Lane & Rowayton Avenue, Rowayton, CT",
+            detail: "Closest lot to Pinkney Park. Space is limited — arrive early.",
+            mapsUrl:
+              "https://www.google.com/maps/dir/?api=1&destination=Old%20School%20Field%20Witch%20Lane%20Rowayton%20CT",
+          },
+          {
+            rank: "Overflow",
+            name: "United Church of Rowayton",
+            address: "210 Rowayton Avenue, Rowayton, CT 06853",
+            detail: "Overflow parking when Old School Field is full.",
+            mapsUrl:
+              "https://www.google.com/maps/dir/?api=1&destination=210%20Rowayton%20Avenue%2C%20Rowayton%2C%20CT%2006853",
+          },
+          {
+            rank: "Also",
+            name: "Municipal lot & on-street",
+            address: "Rowayton Avenue, Rowayton, CT",
+            detail: "Municipal parking in Rowayton plus on-street spots along Rowayton Avenue.",
+            mapsUrl:
+              "https://www.google.com/maps/search/?api=1&query=municipal%20parking%20Rowayton%20Avenue%20Rowayton%20CT",
+          },
+          {
+            rank: "Accessible",
+            name: "Pinkney Park accessible parking",
+            address: "177 Rowayton Avenue, Rowayton, CT 06853",
+            detail: "Limited accessible spaces in the park. Call (203) 957-1006 ahead to reserve.",
+            phone: "+12039571006",
+            mapsUrl:
+              "https://www.google.com/maps/dir/?api=1&destination=177%20Rowayton%20Avenue%2C%20Rowayton%2C%20CT%2006853",
+          },
+        ],
+      },
+      {
         type: "prose",
         heading: "Arrival",
         paragraphs: [
           "The park is open to Shakespeare on the Sound audience members starting three hours before showtime, at 4pm.",
           "When you enter the park, please make your way to the Box Office located near the entrance of the park.",
-        ],
-      },
-      {
-        type: "prose",
-        heading: "Parking",
-        paragraphs: [
-          "The Old School Field on Witch Ln is the closest and best parking option and is located down the street from Pinkney Park — however, space is limited, so be sure to arrive early!",
-          "Overflow parking is available at the United Church of Rowayton.",
-          "There is a municipal parking lot in Rowayton and on-street parking down Rowayton Avenue.",
-          "There is handicap parking available in Pinkney Park. Please contact our office at (203) 957-1006 to secure an accessible parking space.",
         ],
       },
       {

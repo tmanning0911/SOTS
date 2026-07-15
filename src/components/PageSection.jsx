@@ -4,10 +4,16 @@ import { isTicketCheckoutUrl, TICKETS_PAGE_PATH } from "../../js/ticketing.js";
 import { looksLikeEmail, extractMailtoAddress } from "../../js/contact-recipients.js";
 import { MailLink } from "./MailLink.jsx";
 import { TextWithMailLinks } from "./TextWithMailLinks.jsx";
+import { ArrowButton } from "./ArrowButton.jsx";
 
 function ensurePeriod(text) {
   if (!text) return text;
   return text.endsWith(".") ? text : `${text}.`;
+}
+
+function mapEmbedSrc(query) {
+  const q = encodeURIComponent(String(query || "").trim());
+  return `https://maps.google.com/maps?q=${q}&z=15&output=embed`;
 }
 
 function parseTimelineEntry(paragraph) {
@@ -25,6 +31,75 @@ function isTimelineSection(section) {
 export function PageSection({ section, band = false }) {
   const heading = section.heading ? ensurePeriod(section.heading) : null;
   const bandClass = band ? " orpheum-inner-page__section--band" : "";
+
+  if (section.type === "map") {
+    const embedSrc = mapEmbedSrc(section.embedQuery || section.address || section.title);
+    const iframeTitle = `Map of ${section.title || section.address || "location"}`;
+
+    return (
+      <section className={`orpheum-inner-page__section orpheum-page-map${bandClass}`}>
+        {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
+        <div className="orpheum-page-map__frame">
+          <iframe
+            title={iframeTitle}
+            src={embedSrc}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            allowFullScreen
+          />
+        </div>
+        <div className="orpheum-page-map__meta">
+          {section.title ? <p className="orpheum-page-map__title">{section.title}</p> : null}
+          {section.address ? <p className="orpheum-page-map__address">{section.address}</p> : null}
+          {section.directionsUrl ? (
+            <p className="orpheum-page-map__actions">
+              <ArrowButton href={section.directionsUrl} target="_blank" rel="noopener noreferrer">
+                Get directions
+              </ArrowButton>
+            </p>
+          ) : null}
+        </div>
+      </section>
+    );
+  }
+
+  if (section.type === "parking") {
+    return (
+      <section className={`orpheum-inner-page__section orpheum-page-parking${bandClass}`}>
+        {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
+        {section.note ? <p className="orpheum-page-parking__note">{section.note}</p> : null}
+        <ol className="orpheum-page-parking__list">
+          {(section.places ?? []).map((place) => (
+            <li key={place.name} className="orpheum-page-parking__row">
+              <div className="orpheum-page-parking__copy">
+                {place.rank ? <p className="orpheum-page-parking__rank">{place.rank}</p> : null}
+                <h3>{place.name}</h3>
+                {place.address ? <p className="orpheum-page-parking__address">{place.address}</p> : null}
+                {place.detail ? <p className="orpheum-page-parking__detail">{place.detail}</p> : null}
+              </div>
+              <div className="orpheum-page-parking__actions">
+                {place.mapsUrl ? (
+                  <a
+                    href={place.mapsUrl}
+                    className="sots-shop-text-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Open in Maps
+                  </a>
+                ) : null}
+                {place.phone ? (
+                  <a href={`tel:${place.phone}`} className="sots-shop-text-link">
+                    Call to reserve
+                  </a>
+                ) : null}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+    );
+  }
 
   if (section.type !== "people" && isTimelineSection(section)) {
     return (
