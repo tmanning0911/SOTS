@@ -7,6 +7,8 @@ import { resolveLocationId, squareRequest } from "./lib/square.mjs";
 import { readStaticJsonCatalog } from "./lib/static-catalog.mjs";
 
 const MAX_QTY = 10;
+const DONATE_MIN_CENTS = 500; // $5
+const DONATE_MAX_CENTS = 500_000; // $5,000 (Square donation link cap territory)
 const siteUrl = (
   process.env.VITE_SITE_URL ||
   process.env.URL ||
@@ -96,7 +98,38 @@ async function resolveTicketItems(items) {
 function redirectFor(kind) {
   if (kind === "shop") return `${siteUrl}/shop/?thanks=1`;
   if (kind === "mahjong") return `${siteUrl}/events/mahjong-night/?thanks=1`;
+  if (kind === "donate") return `${siteUrl}/support/donate/?thanks=1`;
   return `${siteUrl}/tickets/?thanks=1`;
+}
+
+function resolveDonateItems(items) {
+  const row = items[0] || {};
+  const amountCents = Math.round(Number(row.amountCents ?? row.amount ?? 0));
+  if (!Number.isInteger(amountCents) || amountCents < DONATE_MIN_CENTS) {
+    throw new Error("Enter a gift of at least $5");
+  }
+  if (amountCents > DONATE_MAX_CENTS) {
+    throw new Error("For gifts over $5,000, please contact Aaron Simms");
+  }
+  const coverFees = Boolean(row.coverFees);
+  const frequency = String(row.frequency || "once").toLowerCase() === "monthly" ? "monthly" : "once";
+  const label =
+    frequency === "monthly"
+      ? coverFees
+        ? "Monthly gift (incl. processing)"
+        : "Monthly gift to Shakespeare on the Sound"
+      : coverFees
+        ? "Gift (incl. processing)"
+        : "Gift to Shakespeare on the Sound";
+
+  return [
+    {
+      name: label.slice(0, 120),
+      quantity: "1",
+      base_price_money: { amount: amountCents, currency: "USD" },
+      note: `donate:${frequency}:${coverFees ? "fees" : "net"}`.slice(0, 60),
+    },
+  ];
 }
 
 export async function handler(event) {
@@ -135,6 +168,7 @@ export async function handler(event) {
     if (kind === "mahjong") lineItems = resolveMahjongItems(items);
     else if (kind === "shop") lineItems = resolveShopItems(items);
     else if (kind === "ticket") lineItems = await resolveTicketItems(items);
+    else if (kind === "donate") lineItems = resolveDonateItems(items);
     else throw new Error("Unknown checkout kind");
 
     const locationId = await resolveLocationId();
@@ -153,7 +187,7 @@ export async function handler(event) {
         },
         checkout_options: {
           redirect_url: redirectFor(kind),
-          merchant_support_email: "contactus@shakespeareonthesound.org",
+          merchant_support_email: "aaron@shakespeareonthesound.org",
           ask_for_shipping_address: kind === "shop",
         },
       },

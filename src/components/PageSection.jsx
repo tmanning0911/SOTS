@@ -216,7 +216,14 @@ export function PageSection({ section, band = false }) {
               ))}
               {program.cta?.href ? (
                 <p className="orpheum-inner-page__program-cta">
-                  <a href={program.cta.href}>{program.cta.label || "Learn more"}</a>
+                  <a
+                    href={program.cta.href}
+                    {...(program.cta.external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                  >
+                    {program.cta.label || "Learn more"}
+                  </a>
                 </p>
               ) : null}
             </article>

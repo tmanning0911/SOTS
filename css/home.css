@@ -3060,15 +3060,20 @@ body.page-home .site-header.is-scrolled {
   color: var(--orp-white);
 }
 
-.orpheum-events-grid__layout {
+.orpheum-events-grid__rail {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  grid-auto-rows: minmax(11rem, 1fr);
   gap: 12px;
   align-items: stretch;
 }
 
-.orpheum-events-grid__layout > * {
+.orpheum-events-grid__rail > * {
   min-width: 0;
+}
+
+.orpheum-events-grid__rail > .orpheum-events-grid__card--feature {
+  grid-row: 1 / span 2;
 }
 
 .orpheum-events-grid__card {
@@ -3165,7 +3170,7 @@ a.orpheum-events-grid__card {
   container-type: inline-size;
 }
 
-.orpheum-events-grid__stack .orpheum-events-grid__card--photo {
+.orpheum-events-grid__rail > .orpheum-events-grid__card--photo {
   height: 100%;
   min-height: 0;
 }
@@ -4479,9 +4484,49 @@ a.orpheum-events-grid__card {
   color: var(--orp-gold-dark);
 }
 
-.orpheum-news-feed__grid {
+.orpheum-news-feed__rail {
   display: grid;
-  gap: 0.5rem;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.orpheum-news-feed__rail > .orpheum-news-feed__feature {
+  grid-row: 1 / span 3;
+}
+
+.orpheum-news-feed__rail > .orpheum-news-feed__card {
+  min-width: 0;
+}
+
+.orpheum-news-feed__head-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.orpheum-news-feed__scroll-controls {
+  display: none;
+  gap: 0.35rem;
+}
+
+.orpheum-news-feed__scroll-controls button {
+  width: 2.5rem;
+  height: 2.5rem;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--orp-line);
+  border-radius: 9999px;
+  background: var(--orp-white);
+  color: var(--orp-dark);
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.orpheum-news-feed__scroll {
+  display: none;
 }
 
 .orpheum-news-feed__feature-link {
@@ -4730,23 +4775,7 @@ a.orpheum-events-grid__card {
 }
 
 @media (min-width: 1024px) {
-  .orpheum-news-feed__grid--desktop {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
-    align-items: start;
-  }
-
-  .orpheum-news-feed__feature {
-    grid-column: span 2;
-  }
-
-  .orpheum-news-feed__stack {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-  }
-
-  .orpheum-news-feed__scroll {
+  .orpheum-news-feed__scroll-controls {
     display: none;
   }
 }
@@ -4757,37 +4786,36 @@ a.orpheum-events-grid__card {
     padding-right: 1.25rem;
   }
 
-  .orpheum-news-feed__grid--desktop {
-    display: none;
+  .orpheum-news-feed__scroll-controls {
+    display: flex;
   }
 
-  .orpheum-news-feed__scroll {
-    display: block;
-    margin-inline: -1.25rem;
-    padding-inline: 1.25rem;
-    padding-right: 2rem;
+  .orpheum-news-feed__rail {
+    display: flex;
+    gap: 0.85rem;
     overflow-x: auto;
-    overscroll-behavior-x: contain;
+    overflow-y: hidden;
     scroll-snap-type: x mandatory;
-    scroll-padding-inline: 1.25rem;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    scroll-padding-inline: 0.25rem;
+    padding-bottom: 0.35rem;
+    scrollbar-width: thin;
   }
 
-  .orpheum-news-feed__scroll::-webkit-scrollbar {
-    display: none;
+  .orpheum-news-feed__rail > .orpheum-news-feed__feature {
+    grid-row: auto;
+    flex: 0 0 min(86vw, 20rem);
+    scroll-snap-align: start;
   }
 
-  .orpheum-news-feed__scroll-card {
+  .orpheum-news-feed__rail > .orpheum-news-feed__card {
+    flex: 0 0 min(78vw, 18rem);
     scroll-snap-align: start;
   }
 }
 
 @media (min-width: 992px) and (max-width: 1024px) {
-  .orpheum-events-grid__stack {
-    grid-template-columns: 1fr;
-  }
-
   .orpheum-nav__panel-shell {
     padding-inline: clamp(1.5rem, 4vw, 3rem);
   }
@@ -6147,12 +6175,25 @@ body.page-inner {
     padding-right: var(--orp-chrome-gutter);
   }
 
-  .orpheum-events-grid__layout--desktop {
-    display: none;
+  .orpheum-events-grid__rail {
+    display: flex;
+    gap: 0.85rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.35rem;
+    scrollbar-width: thin;
   }
 
-  .orpheum-events-scroll-wrap {
-    position: relative;
+  .orpheum-events-grid__rail > .orpheum-events-grid__card--feature {
+    grid-row: auto;
+  }
+
+  .orpheum-events-grid__rail > * {
+    flex: 0 0 min(82vw, 20rem);
+    scroll-snap-align: start;
+    min-height: 16rem;
   }
 
   .orpheum-events-grid__head-actions .orpheum-events-scroll__controls {
@@ -6175,116 +6216,30 @@ body.page-inner {
     cursor: pointer;
   }
 
-  .orpheum-events-scroll {
-    display: block;
+  .orpheum-events-grid__rail {
     margin-inline: calc(-1 * var(--orp-chrome-gutter));
     padding-inline: var(--orp-chrome-gutter);
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
     scroll-padding-inline: var(--orp-chrome-gutter);
-    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
 
-  .orpheum-events-scroll::-webkit-scrollbar {
+  .orpheum-events-grid__rail::-webkit-scrollbar {
     display: none;
   }
 
-  .orpheum-events-scroll__track {
-    display: flex;
-    gap: 0.85rem;
-    width: max-content;
-    padding-bottom: 0.35rem;
+  .orpheum-events-grid__rail .orpheum-events-grid__card--feature .orpheum-events-grid__feature-cap {
+    display: none;
   }
 
-  .orpheum-events-scroll__card {
-    flex: 0 0 min(86vw, 20rem);
-    scroll-snap-align: start;
-    background: var(--orp-white);
-    border: 1px solid var(--orp-line);
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+  .orpheum-events-grid__rail .orpheum-events-grid__overlay {
+    opacity: 1;
+    transform: none;
   }
 
-  .orpheum-events-scroll__media {
-    display: block;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    background: var(--orp-stone-200);
-  }
-
-  .orpheum-events-scroll__media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .orpheum-events-scroll__body {
-    padding: 1rem 1rem 1.1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    flex: 1;
-  }
-
-  .orpheum-events-scroll__meta {
-    margin: 0;
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--orp-gold-dark);
-  }
-
-  .orpheum-events-scroll__body h4 {
-    margin: 0;
-    font-family: var(--orp-sans);
-    font-size: 1.15rem;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-
-  .orpheum-events-scroll__body h4 a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .orpheum-events-scroll__dates {
-    margin: 0;
-    font-size: 0.92rem;
-    color: var(--orp-stone-500);
-  }
-
-  .orpheum-events-scroll__actions {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    gap: 0.55rem 0.75rem;
-    margin-top: auto;
-    padding-top: 0.65rem;
-  }
-
-  .orpheum-events-scroll__actions .orpheum-events-grid__learn-more {
-    color: var(--orp-dark);
-    flex: 0 0 auto;
-    white-space: nowrap;
-  }
-
-  .orpheum-events-scroll__actions .orpheum-events-grid__learn-more:hover {
-    color: var(--brand-blue);
-  }
-
-  .orpheum-events-scroll__actions .orpheum-arrow-btn {
-    flex: 0 0 auto;
-  }
-
-  .orpheum-events-scroll__actions .orpheum-arrow-btn__label {
-    padding: 0.7rem 0.9rem;
-    font-size: 0.72rem;
+  .orpheum-events-grid__rail .orpheum-events-grid__photo-cap,
+  .orpheum-events-grid__rail .orpheum-events-grid__photo-actions {
+    opacity: 1;
+    transform: none;
   }
 
   .orpheum-visit-bar__inner {
@@ -7143,19 +7098,11 @@ body.page-inner {
 }
 
 @media (min-width: 992px) {
-  .orpheum-events-scroll-wrap {
-    display: none;
-  }
-
   .orpheum-events-scroll__controls {
     display: none;
   }
 
-  .orpheum-events-scroll {
-    display: none;
-  }
-
-  .orpheum-events-grid__layout--desktop {
+  .orpheum-events-grid__rail {
     display: grid;
   }
 }

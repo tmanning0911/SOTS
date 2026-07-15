@@ -40,16 +40,13 @@ function EventCta({ event, compact = false }) {
   }
 
   return (
-    <ArrowButton
-      href={href}
-      className={compact ? "orpheum-arrow-btn--compact" : ""}
-    >
+    <ArrowButton href={href} className={compact ? "orpheum-arrow-btn--compact" : ""}>
       {label}
     </ArrowButton>
   );
 }
 
-function EventGridCard({ event }) {
+function EventCard({ event }) {
   const isFeature = event.variant === "feature";
   const cardClass = `orpheum-events-grid__card orpheum-events-grid__card--${isFeature ? "feature" : "photo"}`;
   const image = event.featureImage ?? event.image;
@@ -96,29 +93,6 @@ function EventGridCard({ event }) {
   );
 }
 
-function EventScrollCard({ event }) {
-  return (
-    <article className="orpheum-events-scroll__card">
-      <a className="orpheum-events-scroll__media" href={event.href}>
-        <img src={event.image} alt="" loading="lazy" width={320} height={180} />
-      </a>
-      <div className="orpheum-events-scroll__body">
-        <p className="orpheum-events-scroll__meta">{event.genre}</p>
-        <h4>
-          <a href={event.href}>{event.title}</a>
-        </h4>
-        <p className="orpheum-events-scroll__dates">{event.dates}</p>
-        {event.ticketStatus ? <TicketStatusBadge status={event.ticketStatus} marketingOnly /> : null}
-        {event.priceLabel ? <p className="orpheum-events-scroll__price">{event.priceLabel}</p> : null}
-        <div className="orpheum-events-scroll__actions">
-          <EventCta event={event} compact />
-          <LearnMoreLink href={event.href} />
-        </div>
-      </div>
-    </article>
-  );
-}
-
 function ScrollControls({ scrollRef }) {
   const scrollBy = (dir) => {
     const el = scrollRef.current;
@@ -127,7 +101,7 @@ function ScrollControls({ scrollRef }) {
   };
 
   return (
-    <div className="orpheum-events-scroll__controls" aria-hidden="false">
+    <div className="orpheum-events-scroll__controls">
       <button type="button" className="orpheum-events-scroll__btn" onClick={() => scrollBy(-1)} aria-label="Scroll previous events">
         ‹
       </button>
@@ -179,10 +153,6 @@ export function UpcomingEvents() {
       .catch(() => {});
   }, [eventbrite, loading]);
 
-  const [featured, ...rest] = events;
-  const sideA = rest[0];
-  const sideB = rest[1];
-
   return (
     <section className="orpheum-events-grid" id="upcoming-events" aria-labelledby="events-heading">
       <div className="orpheum-events-grid__head" data-reveal>
@@ -198,22 +168,15 @@ export function UpcomingEvents() {
         </div>
       </div>
 
-      <div className="orpheum-events-grid__layout orpheum-events-grid__layout--desktop" data-reveal>
-        {featured ? <EventGridCard event={featured} /> : null}
-        <div className="orpheum-events-grid__stack">
-          {sideA ? <EventGridCard event={sideA} /> : null}
-          {sideB ? <EventGridCard event={sideB} /> : null}
-        </div>
-      </div>
-
-      <div className="orpheum-events-scroll-wrap">
-        <div className="orpheum-events-scroll" ref={scrollRef} aria-label="Upcoming events">
-          <div className="orpheum-events-scroll__track">
-            {events.map((event) => (
-              <EventScrollCard key={event.id} event={event} />
-            ))}
-          </div>
-        </div>
+      <div
+        className="orpheum-events-grid__rail"
+        ref={scrollRef}
+        data-reveal
+        aria-label="Upcoming events"
+      >
+        {events.map((event) => (
+          <EventCard key={event.id} event={event} />
+        ))}
       </div>
     </section>
   );

@@ -1277,20 +1277,8 @@ export const INNER_PAGES = [
     heading: "Support Our Mission.",
     eyebrow: "Join & Give",
     showSupport: false,
-    intro: "Your gift keeps affordable, professional Shakespeare alive for every generation.",
-    sections: [
-      {
-        type: "prose",
-        paragraphs: [
-          "Your charitable contributions help defray the cost of new year-round productions, our 16 summer performances in Pinkney Park, Rowayton, as well as our year-round education programs.",
-          "Our ticket prices do not cover the total expense of our productions. Each year we must raise at least $115,000 from supporters like you to maintain our low ticket prices.",
-          "In order to provide educational programming to those who do not have access to Shakespeare or theatre education, we rely on your generosity.",
-          "Please help us continue our mission of providing affordable, professional Shakespeare productions to our community. Your tax-deductible gift of any amount will be most appreciated.",
-          "It costs $67 per patron to present our summer shows in Pinkney Park. We charge just $25 per patron and offer pay-what-you-will donation only nights. Your support helps bridge that gap!",
-        ],
-      },
-    ],
-    cta: { label: "Donate Now", href: "https://www.paypal.com/donate/?hosted_button_id=5FTZQ4CXESHXY", external: true },
+    intro: "Give online with Square — one-time or monthly — plus stocks, DAFs, and other gift options.",
+    sections: [],
   },
   {
     href: "/support/individual-giving/",
@@ -1306,7 +1294,7 @@ export const INNER_PAGES = [
           "Your charitable contributions help defray the cost of our 16 summer performances in Pinkney Park, Rowayton, as well as our year-round education program.",
           "Our ticket prices do not cover the total expense of our summer productions. Each year we must raise at least $115,000 from supporters like you to maintain our low ticket prices.",
           "Please help us to continue our mission of providing affordable, professional Shakespeare productions to our community. Your tax-deductible gift of any amount will be most appreciated.",
-          "Please contact our Executive Director, Aaron Simms, with questions: contactus@shakespeareonthesound.org.",
+          "Prefer to give stock, recommend a donor-advised fund grant, or explore other gift types? See Ways to Give on our Donate page, or contact Executive Director Aaron Simms at aaron@shakespeareonthesound.org.",
           "If you prefer to donate via check, mail your tax-deductible contribution to Shakespeare on the Sound, Inc., P.O. Box 15, Norwalk, CT 06853.",
           "Shakespeare on the Sound is a tax-exempt 501(c)(3) non-profit corporation. Tax ID: 06-1437037. All donations are fully tax deductible provided that no goods or services were provided in exchange for the donation.",
         ],
@@ -1371,7 +1359,8 @@ export const INNER_PAGES = [
         ],
       },
     ],
-    cta: { label: "Donate Now", href: "https://www.paypal.com/donate/?hosted_button_id=5FTZQ4CXESHXY", external: true },
+    cta: { label: "Donate Now", href: "/support/donate/" },
+    secondaryCta: { label: "Ways to give", href: "/support/donate/#other-ways" },
   },
   {
     href: "/support/program-ads-sponsorships/",

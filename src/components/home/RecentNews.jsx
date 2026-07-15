@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { NEWS_FILTERS, newsForFilter } from "../../../js/news-archive.js";
 import { ArrowButton } from "../ArrowButton.jsx";
@@ -39,9 +39,7 @@ function NewsMeta({ item }) {
   return (
     <p className="orpheum-news-feed__meta">
       <span className="orpheum-news-feed__tag">{item.category}</span>
-      {item.date ? (
-        <time dateTime={item.dateIso || undefined}>{item.date}</time>
-      ) : null}
+      {item.date ? <time dateTime={item.dateIso || undefined}>{item.date}</time> : null}
     </p>
   );
 }
@@ -94,22 +92,28 @@ function SideNewsCard({ item }) {
   );
 }
 
-function ScrollNewsCard({ item }) {
+function NewsScrollControls({ scrollRef }) {
+  const scrollBy = (dir) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * el.clientWidth * 0.85, behavior: "smooth" });
+  };
+
   return (
-    <article className="orpheum-news-feed__scroll-card">
-      <Link className="orpheum-news-feed__scroll-link" to={item.href}>
-        <div className="orpheum-news-feed__scroll-body">
-          <NewsMeta item={item} />
-          <h2>{item.title}</h2>
-          <p className="orpheum-news-feed__excerpt">{item.excerpt}</p>
-        </div>
-      </Link>
-    </article>
+    <div className="orpheum-news-feed__scroll-controls">
+      <button type="button" onClick={() => scrollBy(-1)} aria-label="Previous news">
+        ‹
+      </button>
+      <button type="button" onClick={() => scrollBy(1)} aria-label="Next news">
+        ›
+      </button>
+    </div>
   );
 }
 
 export function RecentNews() {
   const [filter, setFilter] = useState("All");
+  const scrollRef = useRef(null);
 
   const filteredNews = useMemo(() => newsForFilter(filter), [filter]);
   const [featured, ...rest] = filteredNews;
@@ -123,16 +127,18 @@ export function RecentNews() {
             <p className="orpheum-news-feed__eyebrow">From 1995 to today</p>
             <h3 id="news-heading">News & History</h3>
           </div>
-          <ArrowButton to="/news/">View all news</ArrowButton>
+          <div className="orpheum-news-feed__head-actions">
+            <NewsScrollControls scrollRef={scrollRef} />
+            <ArrowButton to="/news/">View all news</ArrowButton>
+          </div>
         </div>
 
-        <div className="orpheum-news-feed__filters" role="tablist" aria-label="Filter news by topic">
+        <div className="orpheum-news-feed__filters" role="group" aria-label="Filter news by topic">
           {NEWS_FILTERS.map((category) => (
             <button
               key={category}
               type="button"
-              role="tab"
-              aria-selected={filter === category}
+              aria-pressed={filter === category}
               className={`orpheum-news-feed__filter${filter === category ? " is-active" : ""}`}
               onClick={() => setFilter(category)}
             >
@@ -142,24 +148,12 @@ export function RecentNews() {
         </div>
 
         {featured ? (
-          <>
-            <div className="orpheum-news-feed__grid orpheum-news-feed__grid--desktop">
-              <FeaturedNewsCard item={featured} />
-              <div className="orpheum-news-feed__stack">
-                {sideItems.map((item) => (
-                  <SideNewsCard key={item.slug} item={item} />
-                ))}
-              </div>
-            </div>
-
-            <div className="orpheum-news-feed__scroll" aria-label="News and history">
-              <div className="orpheum-news-feed__scroll-track">
-                {filteredNews.map((item) => (
-                  <ScrollNewsCard key={`scroll-${item.slug}`} item={item} />
-                ))}
-              </div>
-            </div>
-          </>
+          <div className="orpheum-news-feed__rail" ref={scrollRef} aria-label="News and history">
+            <FeaturedNewsCard item={featured} />
+            {sideItems.map((item) => (
+              <SideNewsCard key={item.slug} item={item} />
+            ))}
+          </div>
         ) : (
           <p className="orpheum-news-feed__empty">No updates in this category yet. Check back soon.</p>
         )}

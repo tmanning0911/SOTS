@@ -20,6 +20,7 @@ import "../css/events-page.css";
 import "../css/checkout.css";
 import "../css/shop.css";
 import "../css/mahjong-night.css";
+import "../css/donate.css";
 import "../css/news.css";
 import "../css/a11y.css";
 import "./tailwind.css";

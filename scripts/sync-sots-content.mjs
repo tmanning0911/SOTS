@@ -39,12 +39,14 @@ data = data.replace(
 if (!data.includes("donateUrl:")) {
   data = data.replace(
     /ticketsUrl: "[^"]+",/,
-    `ticketsUrl: "${ticketsUrl}",\n  donateUrl: "https://www.paypal.com/donate/?hosted_button_id=5FTZQ4CXESHXY",`,
+    `ticketsUrl: "${ticketsUrl}",\n  donateUrl: "/support/donate/",`,
+
   );
 } else {
   data = data.replace(
     /donateUrl: "[^"]+"/,
-    `donateUrl: "https://www.paypal.com/donate/?hosted_button_id=5FTZQ4CXESHXY"`,
+    `donateUrl: "/support/donate/"`,
+
   );
 }
 
