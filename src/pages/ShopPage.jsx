@@ -7,9 +7,7 @@ import {
   merchandiseCategories,
   merchandiseProducts,
   prefetchShopProductImages,
-  shopFeatureGiftCertificatesFirst,
 } from "../../js/shop.js";
-import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { ShopCartAside } from "../components/shop/ShopCartAside.jsx";
@@ -56,111 +54,28 @@ export function ShopPage() {
     return derived.length > 1 ? derived : merchandiseCategories();
   }, [catalog]);
 
-  const giftCertificatesFirst = shopFeatureGiftCertificatesFirst();
-
-  const giftCertSection = (
-    <div id="gift-certificates" key="gift-certificates">
-      <ShopGiftCertSpotlight products={giftCertificates} />
-    </div>
-  );
-
-  const merchandiseSection = (
-    <section
-      className="sots-shop-page__catalog"
-      id="merchandise"
-      key="merchandise"
-      aria-labelledby="shop-merch-heading"
-    >
-      <div className="sots-shop-page__catalog-head">
-        <div>
-          <p className="orpheum-eyebrow">Merchandise</p>
-          <h2 id="shop-merch-heading" className="orpheum-underline-heading">
-            Souvenirs &amp; keepsakes
-          </h2>
-        </div>
-        <p className="sots-shop-page__catalog-note">
-          Choose quantities, mix items in your cart, then checkout once with Square. Pickup at
-          Shakespeare in Pinkney Park during performances unless noted.
-        </p>
-      </div>
-
-      <div className="sots-shop-page__layout sots-shop-page__layout--instant">
-        <div className="sots-shop-page__main">
-          <div className="sots-shop-page__filters" role="tablist" aria-label="Product categories">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                type="button"
-                role="tab"
-                aria-selected={category === cat.id}
-                className={`sots-shop-page__filter${category === cat.id ? " is-active" : ""}`}
-                onClick={() => setCategory(cat.id)}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-
-          {merchandise.length ? (
-            <div className="sots-shop-page__grid">
-              {merchandise.map((product, index) => (
-                <ProductCard key={product.id} product={product} priorityImage={index < 4} />
-              ))}
-            </div>
-          ) : (
-            <p className="sots-shop-page__empty">No products in this category right now. Check back soon!</p>
-          )}
-
-          <section className="sots-shop-page__cross-sell" aria-labelledby="shop-tickets-heading">
-            <div>
-              <p className="orpheum-eyebrow">This summer</p>
-              <h2 id="shop-tickets-heading" className="orpheum-underline-heading">
-                Going to the show?
-              </h2>
-              <p>
-                Pair your gift with tickets to Much Ado About Nothing under the stars at Shakespeare in
-                Pinkney Park.
-              </p>
-            </div>
-            <ArrowButton href="/tickets/">Get tickets</ArrowButton>
-          </section>
-
-          <aside className="sots-shop-page__picnic" aria-labelledby="shop-picnic-heading">
-            <div>
-              <h2 id="shop-picnic-heading">Picnic before the show</h2>
-              <p>
-                A pre-show picnic is a cherished SOS tradition. See our visit guide for parking,
-                accessibility, and local dining favorites in Rowayton.
-              </p>
-            </div>
-            <ArrowButton href="/about/visit/" variant="light">
-              Plan your visit
-            </ArrowButton>
-          </aside>
-        </div>
-
-        <ShopCartAside
-          cart={cart}
-          cartCount={cartCount}
-          cartTotal={cartTotal}
-          onUpdate={updateQuantity}
-          onRemove={removeFromCart}
-          className="sots-shop-cart-aside--desktop"
-        />
-      </div>
-    </section>
-  );
-
   return (
-    <InnerPageShell showVisit showNewsletter>
+    <InnerPageShell showVisit={false} showNewsletter>
       <article className="sots-shop-page">
         <InnerPageHero title="Gift Shop" />
+
+        <nav className="orpheum-page-quick" aria-label="Gift shop shortcuts">
+          <a href="#merchandise" className="orpheum-page-quick__link">
+            Merchandise
+          </a>
+          <a href="#gift-certificates" className="orpheum-page-quick__link">
+            Gift certificates
+          </a>
+          <Link to="/tickets/" className="orpheum-page-quick__link">
+            Get tickets
+          </Link>
+        </nav>
 
         {thanks ? (
           <div className="sots-shop-page__thanks" role="status">
             <p>
-              Thank you — your payment was received. Square will email your receipt shortly. Sized items
-              list the size on the Square order.
+              Thank you — if you completed payment, Square will email your receipt shortly. Sized
+              items list the size on the Square order.
             </p>
             <a href="#merchandise" className="sots-shop-text-link">
               Keep shopping
@@ -168,45 +83,67 @@ export function ShopPage() {
           </div>
         ) : null}
 
-        <nav className="orpheum-page-quick" aria-label="Gift shop shortcuts">
-          {giftCertificatesFirst ? (
-            <>
-              <a href="#gift-certificates" className="orpheum-page-quick__link">
-                Gift certificates
-              </a>
-              <a href="#merchandise" className="orpheum-page-quick__link">
-                Merchandise
-              </a>
-            </>
-          ) : (
-            <>
-              <a href="#merchandise" className="orpheum-page-quick__link">
-                Merchandise
-              </a>
-              <a href="#gift-certificates" className="orpheum-page-quick__link">
-                Gift certificates
-              </a>
-            </>
-          )}
-          <Link to="/tickets/" className="orpheum-page-quick__link">
-            Get tickets
-          </Link>
-          <Link to="/about/visit/" className="orpheum-page-quick__link">
-            Plan your visit
-          </Link>
-        </nav>
+        <section
+          className="sots-shop-page__catalog"
+          id="merchandise"
+          aria-labelledby="shop-merch-heading"
+        >
+          <div className="sots-shop-page__catalog-head">
+            <div>
+              <p className="orpheum-eyebrow">Merchandise</p>
+              <h2 id="shop-merch-heading" className="orpheum-underline-heading">
+                Souvenirs &amp; keepsakes
+              </h2>
+            </div>
+            <p className="sots-shop-page__catalog-note">
+              Choose quantities, mix items in your cart, then checkout once with Square. Pickup at
+              Shakespeare in Pinkney Park during performances unless noted.
+            </p>
+          </div>
 
-        {giftCertificatesFirst ? (
-          <>
-            {giftCertSection}
-            {merchandiseSection}
-          </>
-        ) : (
-          <>
-            {merchandiseSection}
-            {giftCertSection}
-          </>
-        )}
+          <div className="sots-shop-page__layout sots-shop-page__layout--instant">
+            <div className="sots-shop-page__main">
+              <div className="sots-shop-page__filters" role="group" aria-label="Product categories">
+                {categories.map((cat) => (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    aria-pressed={category === cat.id}
+                    className={`sots-shop-page__filter${category === cat.id ? " is-active" : ""}`}
+                    onClick={() => setCategory(cat.id)}
+                  >
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
+
+              {merchandise.length ? (
+                <div className="sots-shop-page__grid">
+                  {merchandise.map((product, index) => (
+                    <ProductCard key={product.id} product={product} priorityImage={index < 4} />
+                  ))}
+                </div>
+              ) : (
+                <p className="sots-shop-page__empty">
+                  No products in this category right now. Check back soon!
+                </p>
+              )}
+            </div>
+
+            <ShopCartAside
+              cart={cart}
+              cartCount={cartCount}
+              cartTotal={cartTotal}
+              onUpdate={updateQuantity}
+              onRemove={removeFromCart}
+              className="sots-shop-cart-aside--desktop"
+            />
+          </div>
+        </section>
+
+        <div id="gift-certificates">
+          <ShopGiftCertSpotlight products={giftCertificates} />
+        </div>
       </article>
 
       {cartCount > 0 ? (

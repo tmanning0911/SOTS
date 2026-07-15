@@ -18,6 +18,22 @@ export function ProductCard({ product, priorityImage = false }) {
     window.setTimeout(() => setAdded(false), 1600);
   }
 
+  function handleBuyNow() {
+    runBuy(() =>
+      openPaymentLinkCheckout({
+        kind: "shop",
+        items: [
+          {
+            itemId: product.id,
+            sku: product.sku,
+            quantity,
+            option: hasOptions ? option : undefined,
+          },
+        ],
+      }),
+    );
+  }
+
   return (
     <article className="sots-shop-card">
       <div className="sots-shop-card__media">
@@ -71,23 +87,9 @@ export function ProductCard({ product, priorityImage = false }) {
               </button>
               <button
                 type="button"
-                className="sots-shop-btn sots-shop-btn--outline sots-shop-btn--block"
+                className="sots-shop-text-link sots-shop-card__buy-now"
                 disabled={busy}
-                onClick={() =>
-                  runBuy(() =>
-                    openPaymentLinkCheckout({
-                      kind: "shop",
-                      items: [
-                        {
-                          itemId: product.id,
-                          sku: product.sku,
-                          quantity,
-                          option: hasOptions ? option : undefined,
-                        },
-                      ],
-                    }),
-                  )
-                }
+                onClick={handleBuyNow}
               >
                 {busy ? "Starting…" : quantity > 1 ? `Buy ${quantity} now` : "Buy now"}
               </button>
