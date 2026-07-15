@@ -160,7 +160,6 @@ function OrderSummary({
         <span>Total{ticketCount ? ` · ${ticketCount} ticket${ticketCount === 1 ? "" : "s"}` : ""}</span>
         <strong>{formatCents(totalCents)}</strong>
       </p>
-      <p className="sots-co__trust">Secure checkout · Instant email confirmation</p>
     </div>
   );
 }

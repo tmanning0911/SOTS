@@ -2997,7 +2997,7 @@ body.page-home .site-header.is-scrolled {
 
 /* ═══ EVENTS GRID (Orpheum asymmetric) ═══ */
 .orpheum-events-grid {
-  padding: clamp(1.5rem, 3vw, 2.25rem) var(--orp-chrome-gutter, 9.25rem);
+  padding: clamp(2.75rem, 6vw, 5rem) var(--orp-chrome-gutter, 9.25rem);
   background: var(--orp-white);
   max-width: none;
   margin: 0;
@@ -3005,10 +3005,10 @@ body.page-home .site-header.is-scrolled {
 
 .orpheum-events-grid__head {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: 0.75rem 1rem;
-  margin-bottom: 0.85rem;
+  gap: 1rem 1.5rem;
+  margin-bottom: clamp(1.25rem, 3vw, 2rem);
 }
 
 .orpheum-events-grid__head-copy {
@@ -3020,28 +3020,30 @@ body.page-home .site-header.is-scrolled {
   flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.5rem;
+  gap: 0.65rem;
   flex: 0 0 auto;
+  padding-bottom: 0.2rem;
 }
 
 .orpheum-events-grid__head-actions .orpheum-events-scroll__controls {
   display: none;
 }
 
-.orpheum-events-grid__head h3 {
-  font-family: var(--orp-sans);
-  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
-  font-weight: 700;
-  letter-spacing: -0.015em;
+.orpheum-events-grid__head h2 {
+  font-family: var(--orp-serif);
+  font-size: clamp(2.35rem, 5.5vw, 4rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
   margin: 0;
   color: var(--orp-dark);
 }
 
 .orpheum-events-grid__eyebrow {
-  margin: 0 0 0.2rem;
-  font-size: 0.75rem;
+  margin: 0 0 0.55rem;
+  font-size: clamp(0.82rem, 1.2vw, 0.95rem);
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--brand-blue);
 }
@@ -3063,8 +3065,9 @@ body.page-home .site-header.is-scrolled {
 .orpheum-events-grid__rail {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-  grid-auto-rows: minmax(11rem, 1fr);
-  gap: 12px;
+  grid-auto-rows: minmax(14rem, 1fr);
+  min-height: clamp(28rem, 58vh, 40rem);
+  gap: 14px;
   align-items: stretch;
 }
 
@@ -3214,12 +3217,12 @@ a.orpheum-events-grid__card {
 
 .orpheum-events-grid__photo-cap strong {
   display: block;
-  font-family: var(--orp-sans);
-  font-size: clamp(0.82rem, 4.8cqw, 1.05rem);
-  font-weight: 700;
+  font-family: var(--orp-serif);
+  font-size: clamp(1.15rem, 2.2cqw, 1.55rem);
+  font-weight: 400;
   line-height: 1.15;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  text-transform: none;
   color: var(--orp-white);
 }
 
@@ -3288,18 +3291,18 @@ a.orpheum-events-grid__card {
 
 .orpheum-events-grid__overlay-copy h4 {
   margin: 0;
-  font-family: var(--orp-sans);
-  font-size: clamp(1rem, 4.5cqw, 1.65rem);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
+  font-family: var(--orp-serif);
+  font-size: clamp(1.45rem, 5.5cqw, 2.65rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-transform: none;
 }
 
 .orpheum-events-grid__overlay-copy p {
-  margin: 0.35rem 0 0;
+  margin: 0.5rem 0 0;
   font-family: var(--orp-sans);
-  font-size: clamp(0.82rem, 2.8cqw, 1.05rem);
+  font-size: clamp(0.95rem, 3cqw, 1.2rem);
   font-weight: 500;
   line-height: 1.3;
 }
@@ -6191,9 +6194,18 @@ body.page-inner {
   }
 
   .orpheum-events-grid__rail > * {
-    flex: 0 0 min(82vw, 20rem);
+    flex: 0 0 min(86vw, 22rem);
     scroll-snap-align: start;
-    min-height: 16rem;
+    min-height: 22rem;
+  }
+
+  .orpheum-events-grid__head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .orpheum-events-grid__head h2 {
+    font-size: clamp(2.15rem, 9vw, 3.1rem);
   }
 
   .orpheum-events-grid__head-actions .orpheum-events-scroll__controls {

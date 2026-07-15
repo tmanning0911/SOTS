@@ -18,9 +18,14 @@ import { NewsIndexPage } from "./pages/NewsIndexPage.jsx";
 import { MahjongNightPage } from "./pages/MahjongNightPage.jsx";
 import { EventsPage } from "./pages/EventsPage.jsx";
 import { DonatePage } from "./pages/DonatePage.jsx";
+import { ProgramAdsSponsorshipsPage } from "./pages/ProgramAdsSponsorshipsPage.jsx";
 import { INNER_PAGES, hrefToRoutePath } from "../js/pages-data.js";
 
-const CUSTOM_INNER_HREFS = new Set(["/support/events/", "/support/donate/"]);
+const CUSTOM_INNER_HREFS = new Set([
+  "/support/events/",
+  "/support/donate/",
+  "/support/program-ads-sponsorships/",
+]);
 
 function PageTitle({ title }) {
   const location = useLocation();
@@ -72,6 +77,7 @@ export default function App() {
         {routePair("events/mahjong-night", <MahjongNightPage />)}
         {routePair("support/events", <EventsPage />)}
         {routePair("support/donate", <DonatePage />)}
+        {routePair("support/program-ads-sponsorships", <ProgramAdsSponsorshipsPage />)}
         {routePair("shop/checkout", <ShopCheckoutPage />)}
         {routePair("shop", <ShopPage />)}
         {routePair("access-your-tickets", <AccessTicketsPage />)}

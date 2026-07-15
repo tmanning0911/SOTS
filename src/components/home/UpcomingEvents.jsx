@@ -158,13 +158,11 @@ export function UpcomingEvents() {
       <div className="orpheum-events-grid__head" data-reveal>
         <div className="orpheum-events-grid__head-copy">
           <p className="orpheum-events-grid__eyebrow">2026 Season</p>
-          <h3 id="events-heading">Upcoming Events</h3>
+          <h2 id="events-heading">Upcoming Events</h2>
         </div>
         <div className="orpheum-events-grid__head-actions">
           <ScrollControls scrollRef={scrollRef} />
-          <ArrowButton href="/support/events/" className="orpheum-arrow-btn--compact">
-            View All Events
-          </ArrowButton>
+          <ArrowButton href="/support/events/">View All Events</ArrowButton>
         </div>
       </div>
 

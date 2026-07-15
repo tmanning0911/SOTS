@@ -93,7 +93,6 @@ export function DonatePage() {
 
         <section className="sots-donate-page__give" id="give" aria-labelledby="donate-give-heading">
           <div className="sots-donate-page__give-inner">
-            <p className="orpheum-eyebrow">Secure checkout</p>
             <h2 id="donate-give-heading" className="orpheum-underline-heading">
               Give online
             </h2>

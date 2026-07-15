@@ -1,5 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { MAHJONG_NIGHT } from "../../js/mahjong-night.js";
+import { PROGRAM_ADS } from "../../js/program-ads-sponsorships.js";
 import { SHOP_PRODUCTS } from "../../js/shop-catalog.js";
 import { jsonResponse } from "./lib/cors.mjs";
 import { getClientIp, rateLimit } from "./lib/rateLimit.mjs";
@@ -47,6 +48,46 @@ function resolveMahjongItems(items) {
       note: tier.id,
     };
   });
+}
+
+function resolveSponsorshipItems(items) {
+  const catalog = [...PROGRAM_ADS.ads, ...PROGRAM_ADS.sponsorships];
+  const byId = Object.fromEntries(catalog.map((t) => [t.id, t]));
+  return items.map(({ itemId, quantity, businessName }) => {
+    const tier = byId[itemId];
+    if (!tier) throw new Error("Unknown ad or sponsorship package");
+    const qty = clampQty(quantity, 1);
+    const kindLabel = PROGRAM_ADS.ads.some((a) => a.id === tier.id) ? "Program ad" : "Sponsorship";
+    const biz = String(businessName || "").trim();
+    const noteParts = [tier.id];
+    if (biz) noteParts.push(biz.slice(0, 40));
+    return {
+      name: `${kindLabel} — ${tier.name}`.slice(0, 120),
+      quantity: String(qty),
+      base_price_money: { amount: Math.round(Number(tier.price) * 100), currency: "USD" },
+      note: noteParts.join(":").slice(0, 60),
+    };
+  });
+}
+
+function sanitizeBuyer(body) {
+  const buyer = body?.buyer && typeof body.buyer === "object" ? body.buyer : {};
+  return {
+    businessName: String(buyer.businessName || buyer.business || "").trim().slice(0, 100),
+    contactName: String(buyer.contactName || buyer.name || "").trim().slice(0, 100),
+    note: String(buyer.note || "").trim().slice(0, 400),
+  };
+}
+
+function buildPaymentNote(kind, lineItems, buyer) {
+  const parts = [
+    `SOTS ${kind}`,
+    lineItems.map((l) => `${l.quantity}× ${l.name}`).join("; "),
+  ];
+  if (buyer.businessName) parts.push(`Business: ${buyer.businessName}`);
+  if (buyer.contactName) parts.push(`Contact: ${buyer.contactName}`);
+  if (buyer.note) parts.push(`Note: ${buyer.note}`);
+  return parts.join(" · ").slice(0, 500);
 }
 
 function resolveShopItems(items) {
@@ -99,6 +140,7 @@ function redirectFor(kind) {
   if (kind === "shop") return `${siteUrl}/shop/?thanks=1`;
   if (kind === "mahjong") return `${siteUrl}/events/mahjong-night/?thanks=1`;
   if (kind === "donate") return `${siteUrl}/support/donate/?thanks=1`;
+  if (kind === "sponsorship") return `${siteUrl}/support/program-ads-sponsorships/?thanks=1`;
   return `${siteUrl}/tickets/?thanks=1`;
 }
 
@@ -169,7 +211,18 @@ export async function handler(event) {
     else if (kind === "shop") lineItems = resolveShopItems(items);
     else if (kind === "ticket") lineItems = await resolveTicketItems(items);
     else if (kind === "donate") lineItems = resolveDonateItems(items);
+    else if (kind === "sponsorship") lineItems = resolveSponsorshipItems(items);
     else throw new Error("Unknown checkout kind");
+
+    const buyer = sanitizeBuyer(body);
+    if (kind === "sponsorship" && !buyer.businessName) {
+      throw new Error("Enter your business or organization name before checkout");
+    }
+
+    const supportEmail =
+      kind === "sponsorship"
+        ? "marketing@shakespeareonthesound.org"
+        : "aaron@shakespeareonthesound.org";
 
     const locationId = await resolveLocationId();
     const data = await squareRequest("/v2/online-checkout/payment-links", {
@@ -177,17 +230,14 @@ export async function handler(event) {
       body: {
         idempotency_key: randomBytes(16).toString("hex"),
         description: `SOTS ${kind} checkout`,
-        payment_note: `SOTS ${kind} · ${lineItems.map((l) => `${l.quantity}× ${l.name}`).join("; ")}`.slice(
-          0,
-          500,
-        ),
+        payment_note: buildPaymentNote(kind, lineItems, buyer),
         order: {
           location_id: locationId,
           line_items: lineItems,
         },
         checkout_options: {
           redirect_url: redirectFor(kind),
-          merchant_support_email: "aaron@shakespeareonthesound.org",
+          merchant_support_email: supportEmail,
           ask_for_shipping_address: kind === "shop",
         },
       },

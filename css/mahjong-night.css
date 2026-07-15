@@ -145,7 +145,7 @@
   z-index: 1200;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   gap: 0.75rem 1.25rem;
   margin: 0;
@@ -156,8 +156,50 @@
   box-shadow: none;
 }
 
+.sots-mahjong__checkout-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.75rem;
+  flex: 1 1 18rem;
+  max-width: 36rem;
+}
+
+.sots-mahjong__field {
+  display: grid;
+  gap: 0.2rem;
+  flex: 1 1 10rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.sots-mahjong__field em {
+  font-style: normal;
+  color: #ffb4a8;
+}
+
+.sots-mahjong__field input {
+  min-height: 44px;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.sots-mahjong__field input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
 .sots-mahjong--checkout-open .orpheum-inner-page__body {
-  padding-bottom: calc(5.75rem + var(--bottom-chrome-height, 0px));
+  padding-bottom: calc(9.5rem + var(--bottom-chrome-height, 0px));
 }
 
 .sots-mahjong__sticky-checkout .sots-mahjong__checkout-total {

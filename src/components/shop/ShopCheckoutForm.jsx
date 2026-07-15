@@ -50,7 +50,6 @@ function CartSummary({ cart, totalCents, featuredImage }) {
         <span>Total{itemCount ? ` · ${itemCount} item${itemCount === 1 ? "" : "s"}` : ""}</span>
         <strong>{formatCents(totalCents)}</strong>
       </p>
-      <p className="sots-co__trust">Secure checkout · Instant email confirmation</p>
     </div>
   );
 }

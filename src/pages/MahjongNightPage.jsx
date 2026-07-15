@@ -36,7 +36,9 @@ export function MahjongNightPage() {
   const [params] = useSearchParams();
   const thanks = params.get("thanks") === "1";
   const [qty, setQty] = useState({});
-  const { busy, error, runBuy } = useBuyBusy();
+  const [businessName, setBusinessName] = useState("");
+  const [note, setNote] = useState("");
+  const { busy, error, setError, runBuy } = useBuyBusy();
 
   const allItems = [...event.tickets, ...event.sponsors];
   const selected = allItems
@@ -47,6 +49,7 @@ export function MahjongNightPage() {
     (sum, row) => sum + Math.round(row.item.price * 100) * row.quantity,
     0,
   );
+  const hasSponsor = selected.some((row) => event.sponsors.some((s) => s.id === row.item.id));
 
   useEffect(() => {
     document.title = `${event.title} - Shakespeare on the Sound`;
@@ -58,10 +61,18 @@ export function MahjongNightPage() {
 
   function checkout() {
     if (!selected.length) return;
+    if (hasSponsor && !businessName.trim()) {
+      setError("Enter a business or organization name for sponsorship checkout.");
+      return;
+    }
     runBuy(async () => {
       await openPaymentLinkCheckout({
         kind: "mahjong",
         items: selected.map(({ item, quantity }) => ({ itemId: item.id, quantity })),
+        buyer: {
+          businessName: businessName.trim(),
+          note: note.trim(),
+        },
       });
     });
   }
@@ -195,6 +206,35 @@ export function MahjongNightPage() {
 
         {totalQty > 0 ? (
           <div className="sots-mahjong__sticky-checkout" role="region" aria-label="Checkout">
+            <div className="sots-mahjong__checkout-fields">
+              {hasSponsor ? (
+                <label className="sots-mahjong__field">
+                  <span>
+                    Business / organization name <em>*</em>
+                  </span>
+                  <input
+                    type="text"
+                    name="businessName"
+                    autoComplete="organization"
+                    maxLength={100}
+                    value={businessName}
+                    onChange={(e) => setBusinessName(e.target.value)}
+                    placeholder="Acme Partners LLC"
+                  />
+                </label>
+              ) : null}
+              <label className="sots-mahjong__field">
+                <span>Note (optional)</span>
+                <input
+                  type="text"
+                  name="note"
+                  maxLength={400}
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  placeholder="Table mates, accessibility needs, how to list your name…"
+                />
+              </label>
+            </div>
             <p className="sots-mahjong__checkout-total">
               {totalQty} item{totalQty === 1 ? "" : "s"} · {formatMahjongCents(totalCents)}
             </p>
