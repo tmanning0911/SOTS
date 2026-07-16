@@ -70,6 +70,11 @@ function formatUnitPrice(cents) {
   return formatCents(cents);
 }
 
+function isShopLineNote(note) {
+  const n = String(note || "");
+  return /^(SOTS-|GIFT-)/i.test(n);
+}
+
 async function fulfillTicket({ pending, payment, squareOrder, buyer }) {
   const catalog = await readCatalog();
   const typeById = Object.fromEntries(
@@ -83,6 +88,7 @@ async function fulfillTicket({ pending, payment, squareOrder, buyer }) {
     lineItems = [];
     for (const row of squareOrder?.line_items ?? []) {
       const note = String(row.note || "");
+      if (isShopLineNote(note)) continue;
       const [perfId, typeId] = note.split(":");
       if (!perfId || !typeId) continue;
       performanceId = performanceId || perfId;
@@ -104,8 +110,45 @@ async function fulfillTicket({ pending, payment, squareOrder, buyer }) {
     throw new Error("Could not resolve ticket line items from payment link");
   }
 
+  let shopLineItems =
+    pending?.shop?.lineItems?.map((line) => ({
+      ...line,
+      unitPriceDisplay: line.unitPriceDisplay || formatUnitPrice(line.unitPrice),
+    })) || [];
+
+  if (!shopLineItems.length && squareOrder?.line_items?.length) {
+    const { SHOP_PRODUCTS } = await import("../../../js/shop-catalog.js");
+    const bySku = Object.fromEntries(SHOP_PRODUCTS.map((p) => [p.sku, p]));
+    shopLineItems = squareOrder.line_items
+      .filter((row) => isShopLineNote(row.note))
+      .map((row) => {
+        const note = String(row.note || "");
+        const [sku, option] = note.split(":");
+        const product = bySku[sku];
+        const unit = Number(row.base_price_money?.amount ?? product?.price?.value ?? 0);
+        return {
+          id: product?.id,
+          sku: product?.sku || sku,
+          name: product?.name || row.name || "Item",
+          option: option || undefined,
+          category: product?.category,
+          quantity: Number(row.quantity) || 1,
+          unitPrice: unit,
+          unitPriceDisplay: formatUnitPrice(unit),
+        };
+      });
+  }
+
+  const shopCents = shopLineItems.reduce(
+    (sum, line) => sum + (Number(line.unitPrice) || 0) * (Number(line.quantity) || 1),
+    0,
+  );
+  const ticketSubtotal = lineItems.reduce(
+    (sum, line) => sum + (Number(line.unitPrice) || 0) * (Number(line.quantity) || 1),
+    0,
+  );
+  const totalCents = Number(payment.amount_money?.amount ?? ticketSubtotal + shopCents);
   const performance = getPerformance(catalog, performanceId);
-  const totalCents = Number(payment.amount_money?.amount ?? 0);
   const hold = {
     id: newHoldId(),
     performanceId,
@@ -117,12 +160,12 @@ async function fulfillTicket({ pending, payment, squareOrder, buyer }) {
       marketingOptIn: buyer.marketingOptIn,
     },
     lineItems,
-    shopLineItems: [],
-    subtotalCents: totalCents,
+    shopLineItems,
+    subtotalCents: ticketSubtotal,
     discountCents: 0,
     promoCode: null,
     donationCents: 0,
-    shopCents: 0,
+    shopCents,
     totalCents,
     currency: payment.amount_money?.currency || "USD",
     reserved: false,

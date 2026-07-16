@@ -173,7 +173,7 @@ async function resolveTicketItems(items) {
   });
 }
 
-async function buildPendingSnapshot(kind, items, buyer, lineItems) {
+async function buildPendingSnapshot(kind, items, buyer, lineItems, shopItems = []) {
   const base = {
     id: newPendingId(),
     kind,
@@ -193,6 +193,31 @@ async function buildPendingSnapshot(kind, items, buyer, lineItems) {
     );
     const first = items[0] || {};
     const performanceId = String(first.performanceId || "");
+    const shopSnapshot = shopItems.length
+      ? {
+          fulfillment: "pickup",
+          lineItems: (() => {
+            const byId = Object.fromEntries(SHOP_PRODUCTS.map((p) => [p.id, p]));
+            const bySku = Object.fromEntries(SHOP_PRODUCTS.map((p) => [p.sku, p]));
+            return shopItems.map(({ itemId, sku, quantity, option }) => {
+              const product = byId[itemId] || bySku[sku];
+              const qty = Number(quantity) || 1;
+              const unit = Number(product?.price?.value ?? 0);
+              const optionLabel = typeof option === "string" ? option.trim() : "";
+              return {
+                id: product?.id,
+                sku: product?.sku,
+                name: product?.name || "Item",
+                option: optionLabel || undefined,
+                category: product?.category,
+                quantity: qty,
+                unitPrice: unit,
+                unitPriceDisplay: formatCents(unit),
+              };
+            });
+          })(),
+        }
+      : null;
     return {
       ...base,
       title: catalog?.production?.title || "Much Ado About Nothing",
@@ -212,6 +237,7 @@ async function buildPendingSnapshot(kind, items, buyer, lineItems) {
           };
         }),
       },
+      ...(shopSnapshot ? { shop: shopSnapshot } : {}),
     };
   }
 
@@ -331,10 +357,11 @@ export async function handler(event) {
 
   const kind = String(body.kind || "").trim();
   const items = Array.isArray(body.items) ? body.items : [];
+  const shopItems = Array.isArray(body.shopItems) ? body.shopItems : [];
   if (!items.length) {
     return jsonResponse(400, { error: "Select at least one item" }, event, { methods: "POST, OPTIONS" });
   }
-  if (items.length > 12) {
+  if (items.length + shopItems.length > 16) {
     return jsonResponse(400, { error: "Too many line items" }, event, { methods: "POST, OPTIONS" });
   }
 
@@ -344,8 +371,12 @@ export async function handler(event) {
     else if (kind === "gala") lineItems = resolveGalaItems(items);
     else if (kind === "event-sponsor") lineItems = resolveEventSponsorItems(items);
     else if (kind === "shop") lineItems = resolveShopItems(items);
-    else if (kind === "ticket") lineItems = await resolveTicketItems(items);
-    else if (kind === "donate") lineItems = resolveDonateItems(items);
+    else if (kind === "ticket") {
+      lineItems = await resolveTicketItems(items);
+      if (shopItems.length) {
+        lineItems = [...lineItems, ...resolveShopItems(shopItems)];
+      }
+    } else if (kind === "donate") lineItems = resolveDonateItems(items);
     else if (kind === "sponsorship") lineItems = resolveSponsorshipItems(items);
     else throw new Error("Unknown checkout kind");
 
@@ -359,7 +390,7 @@ export async function handler(event) {
         ? "marketing@shakespeareonthesound.org"
         : "aaron@shakespeareonthesound.org";
 
-    const pending = await buildPendingSnapshot(kind, items, buyer, lineItems);
+    const pending = await buildPendingSnapshot(kind, items, buyer, lineItems, shopItems);
     const locationId = await resolveLocationId();
     const data = await squareRequest("/v2/online-checkout/payment-links", {
       method: "POST",

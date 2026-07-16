@@ -981,6 +981,38 @@
   gap: 0.75rem;
 }
 
+.tix-picker__addons {
+  margin-top: 1.15rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(15, 45, 77, 0.08);
+  display: grid;
+  gap: 0.75rem;
+}
+
+.tix-picker__addon-toggle {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--orp-dark, #0f2d4d);
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.tix-picker__addon-toggle:hover {
+  color: var(--orp-gold-deep, #8a6a1a);
+}
+
+.tix-picker__addons .sots-co__souvenirs {
+  margin-top: 0.15rem;
+}
+
 .tix-picker__buy-wrap {
   display: flex;
   align-items: center;

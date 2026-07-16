@@ -1,5 +1,5 @@
 import { useEffect, useId, useMemo, useState } from "react";
-import { formatCents } from "../../../js/shop.js";
+import { BUNDLED_MERCHANDISE, formatCents, ticketAddonMerchandise } from "../../../js/shop.js";
 import { openPaymentLinkCheckout } from "../../../js/payment-link-checkout.js";
 import {
   formatPerformanceDate,
@@ -8,7 +8,13 @@ import {
   sortTicketTypesForDisplay,
   ticketTypeHint,
 } from "../../../js/ticketing.js";
+import { useShop } from "../../context/ShopContext.jsx";
 import { QtyStepper, useBuyBusy } from "../checkout/QtyStepper.jsx";
+import {
+  shopItemsFromSelections,
+  shopLinesForSummary,
+  TicketSouvenirAddon,
+} from "./TicketSouvenirAddon.jsx";
 
 function PaymentLinkRow({ ticketType, quantity, onChange, highlight }) {
   const hint = ticketTypeHint(ticketType);
@@ -39,7 +45,11 @@ function PaymentLinkRow({ ticketType, quantity, onChange, highlight }) {
 export function TicketPickerSheet({ open, onClose, data, performanceId }) {
   const titleId = useId();
   const [quantities, setQuantities] = useState({});
+  const [shopQuantities, setShopQuantities] = useState({});
+  const [shopOptions, setShopOptions] = useState({});
+  const [showSouvenirs, setShowSouvenirs] = useState(false);
   const { busy, error, runBuy } = useBuyBusy();
+  const { catalog: shopCatalog } = useShop();
 
   const performance = useMemo(
     () => data?.performances?.find((p) => String(p.id) === String(performanceId)) ?? null,
@@ -53,6 +63,11 @@ export function TicketPickerSheet({ open, onClose, data, performanceId }) {
       ),
     [data],
   );
+
+  const souvenirProducts = useMemo(() => {
+    const list = ticketAddonMerchandise(shopCatalog);
+    return list.length ? list : ticketAddonMerchandise({ products: BUNDLED_MERCHANDISE });
+  }, [shopCatalog]);
 
   const vipTicketId = useMemo(() => {
     const vip =
@@ -73,12 +88,28 @@ export function TicketPickerSheet({ open, onClose, data, performanceId }) {
     [ticketTypes, quantities],
   );
 
-  const totalCents = selected.reduce((sum, row) => sum + row.unit * row.quantity, 0);
+  const shopItems = useMemo(
+    () => shopItemsFromSelections(souvenirProducts, shopQuantities, shopOptions),
+    [souvenirProducts, shopQuantities, shopOptions],
+  );
+
+  const shopSummaryLines = useMemo(
+    () => shopLinesForSummary(souvenirProducts, shopQuantities, shopOptions),
+    [souvenirProducts, shopQuantities, shopOptions],
+  );
+
+  const shopCents = shopSummaryLines.reduce((sum, line) => sum + line.cents, 0);
+  const ticketCents = selected.reduce((sum, row) => sum + row.unit * row.quantity, 0);
+  const totalCents = ticketCents + shopCents;
   const totalQty = selected.reduce((sum, row) => sum + row.quantity, 0);
+  const shopQty = shopItems.reduce((sum, item) => sum + item.quantity, 0);
 
   useEffect(() => {
     if (!open) return;
     setQuantities({});
+    setShopQuantities({});
+    setShopOptions({});
+    setShowSouvenirs(false);
   }, [open, performanceId]);
 
   useEffect(() => {
@@ -98,6 +129,19 @@ export function TicketPickerSheet({ open, onClose, data, performanceId }) {
 
   if (!open || !performance) return null;
 
+  function setSouvenirQuantity(productId, quantity) {
+    setShopQuantities((prev) => {
+      const next = { ...prev };
+      if (quantity <= 0) delete next[productId];
+      else next[productId] = quantity;
+      return next;
+    });
+  }
+
+  function setSouvenirOption(productId, value) {
+    setShopOptions((prev) => ({ ...prev, [productId]: value }));
+  }
+
   function handleBuy() {
     if (!selected.length) return;
     runBuy(async () => {
@@ -108,6 +152,15 @@ export function TicketPickerSheet({ open, onClose, data, performanceId }) {
           ticketTypeId: row.ticketTypeId,
           quantity: row.quantity,
         })),
+        shopItems: shopItems.map((item) => {
+          const product = souvenirProducts.find((p) => p.id === item.productId);
+          return {
+            itemId: item.productId,
+            sku: product?.sku,
+            quantity: item.quantity,
+            option: item.option,
+          };
+        }),
       });
       onClose();
     });
@@ -145,12 +198,43 @@ export function TicketPickerSheet({ open, onClose, data, performanceId }) {
               />
             ))}
           </div>
+
+          {souvenirProducts.length && selected.length ? (
+            <div className="tix-picker__addons">
+              <button
+                type="button"
+                className="tix-picker__addon-toggle"
+                onClick={() => setShowSouvenirs((v) => !v)}
+                aria-expanded={showSouvenirs}
+              >
+                {showSouvenirs
+                  ? "Hide merch"
+                  : shopQty
+                    ? `Merch add-on (${shopQty})`
+                    : "Add merch?"}
+              </button>
+              {showSouvenirs ? (
+                <TicketSouvenirAddon
+                  products={souvenirProducts}
+                  quantities={shopQuantities}
+                  options={shopOptions}
+                  onQuantityChange={setSouvenirQuantity}
+                  onOptionChange={setSouvenirOption}
+                />
+              ) : null}
+            </div>
+          ) : null}
+
           {error ? <p className="tix-picker__error">{error}</p> : null}
         </div>
 
         <div className="tix-picker__foot">
           <div className="tix-picker__total">
-            <span>{totalQty ? `${totalQty} ticket${totalQty === 1 ? "" : "s"}` : "Select tickets"}</span>
+            <span>
+              {totalQty
+                ? `${totalQty} ticket${totalQty === 1 ? "" : "s"}${shopQty ? ` + ${shopQty} merch` : ""}`
+                : "Select tickets"}
+            </span>
             <strong>{totalQty ? formatCents(totalCents) : "—"}</strong>
           </div>
           <button
