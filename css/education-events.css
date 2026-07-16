@@ -431,6 +431,35 @@
   .sots-apprentice-form__grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  .sots-apprentice-form__span-2 {
+    grid-column: 1 / -1;
+  }
+}
+
+.sots-apprentice-form__lead,
+.sots-apprentice-form__hint {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #4a5560;
+}
+
+.sots-apprentice-form__tracks,
+.sots-apprentice-form__mode {
+  display: grid;
+  gap: 0.45rem;
+}
+
+@media (min-width: 640px) {
+  .sots-apprentice-form__tracks {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sots-apprentice-form__mode {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
 }
 
 .sots-apprentice-form label {

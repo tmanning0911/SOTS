@@ -26,12 +26,13 @@ const ALLOWED_RECIPIENTS = new Set([
 
 const DEFAULT_RECIPIENT = "contactus@shakespeareonthesound.org";
 const APPRENTICE_TRACKS = new Set([
-  "Acting — SOS Players",
+  "Acting",
   "Directing",
   "Education",
   "Playwriting",
   "Costuming",
   "Production",
+  "Acting — SOS Players",
   "Other",
 ]);
 
@@ -99,16 +100,37 @@ function validatePayload(form, fields) {
   }
 
   if (form === "apprentice") {
-    const track = sanitize(fields.track, 80);
-    if (!APPRENTICE_TRACKS.has(track)) {
-      return { error: "Please choose an apprenticeship track." };
+    const tracksRaw = Array.isArray(fields.tracks)
+      ? fields.tracks
+      : String(fields.track || "")
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean);
+    const tracks = tracksRaw.map((t) => sanitize(t, 80)).filter((t) => APPRENTICE_TRACKS.has(t));
+    const trackOther = sanitize(fields.trackOther, 200);
+    if (!tracks.length && !trackOther) {
+      return { error: "Please choose at least one apprenticeship track." };
     }
+
+    const statementMode = sanitize(fields.statementMode, 20) === "upload" ? "upload" : "typed";
     const statementDrew = sanitize(fields.statementDrew, 4000);
     const statementArtist = sanitize(fields.statementArtist, 4000);
     const statementInterest = sanitize(fields.statementInterest, 4000);
-    if (statementDrew.length < 40 || statementArtist.length < 40 || statementInterest.length < 40) {
-      return { error: "Please answer each personal-statement question (at least a short paragraph)." };
+    if (statementMode === "typed") {
+      if (statementDrew.length < 40 || statementArtist.length < 40 || statementInterest.length < 40) {
+        return { error: "Please answer each personal-statement question (at least a short paragraph)." };
+      }
     }
+
+    const age = sanitize(fields.age, 20);
+    const phone = sanitize(fields.phone, 40);
+    const address = sanitize(fields.address, 400);
+    if (!age) return { error: "Age is required." };
+    if (!phone) return { error: "Phone is required." };
+    if (!address) return { error: "Address is required." };
+    const conflicts = sanitize(fields.conflicts, 2000);
+    if (!conflicts) return { error: "Please list conflicts between May 4–July 5 (or write None)." };
+
     const ref1Name = sanitize(fields.ref1Name, 200);
     const ref1Email = sanitize(fields.ref1Email, 254).toLowerCase();
     const ref2Name = sanitize(fields.ref2Name, 200);
@@ -119,22 +141,38 @@ function validatePayload(form, fields) {
     if (!ref2Name || !ref2Email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ref2Email)) {
       return { error: "Personal reference name and email are required." };
     }
+
     const resumeCheck = validateResumeAttachment(fields.resume);
     if (resumeCheck.error) return { error: resumeCheck.error };
     if (!resumeCheck.attachment && !fields.resumeWillEmail) {
       return { error: "Attach a resume (PDF/Word) or check that you will email it separately." };
     }
 
+    const statementFileCheck = validateResumeAttachment(fields.personalStatementFile);
+    if (statementFileCheck.error) return { error: statementFileCheck.error };
+    if (statementMode === "upload" && !statementFileCheck.attachment && !fields.statementWillEmail) {
+      return {
+        error: "Upload a personal statement (PDF/Word) or check that you will email it separately.",
+      };
+    }
+
+    const trackLabel = [...tracks, trackOther ? `Custom — ${trackOther}` : null].filter(Boolean).join(", ");
+
     return {
       data: {
-        ...fields,
         name,
         email,
-        phone: sanitize(fields.phone, 40),
-        location: sanitize(fields.location, 200),
-        track,
-        trackOther: sanitize(fields.trackOther, 200),
+        age,
+        phone,
+        address,
+        school: sanitize(fields.school, 200),
+        semesterEnd: sanitize(fields.semesterEnd, 120),
+        conflicts,
+        tracks,
+        track: trackLabel,
+        trackOther,
         availableConfirm: Boolean(fields.availableConfirm),
+        statementMode,
         statementDrew,
         statementArtist,
         statementInterest,
@@ -147,7 +185,10 @@ function validatePayload(form, fields) {
         ref2Phone: sanitize(fields.ref2Phone, 40),
         ref2Relation: sanitize(fields.ref2Relation, 200),
         resumeWillEmail: Boolean(fields.resumeWillEmail),
+        statementWillEmail: Boolean(fields.statementWillEmail),
         resume: resumeCheck.attachment,
+        personalStatementFile: statementFileCheck.attachment,
+        pageUrl: sanitize(fields.pageUrl, 500),
         recipient: APPRENTICE_RECIPIENT,
         recipientLabel: "Stephanie Eiss, Director of Education and Outreach",
         submittedAt: new Date().toISOString(),
@@ -269,12 +310,18 @@ async function deliverStaffMessage(form, data) {
 
 async function deliverApprenticeApplication(data) {
   const trackLabel =
-    data.track === "Other" && data.trackOther ? `Other — ${data.trackOther}` : data.track;
+    data.track ||
+    (data.trackOther ? `Other — ${data.trackOther}` : (data.tracks || []).join(", ")) ||
+    "Unspecified";
   const rows = [
     ["Applicant", `${data.name} <${data.email}>`],
+    data.age ? ["Age", data.age] : null,
     data.phone ? ["Phone", data.phone] : null,
-    data.location ? ["City / State", data.location] : null,
-    ["Track", trackLabel],
+    data.address ? ["Address", data.address] : null,
+    data.school ? ["School", data.school] : null,
+    data.semesterEnd ? ["Last day of semester", data.semesterEnd] : null,
+    data.conflicts ? ["Conflicts May 4–July 5", data.conflicts] : null,
+    ["Track(s)", trackLabel],
     ["Available May 4, 2026", data.availableConfirm ? "Yes" : "Not confirmed"],
     [
       "Reference 1 (professional/educational)",
@@ -285,12 +332,31 @@ async function deliverApprenticeApplication(data) {
       `${data.ref2Name} <${data.ref2Email}>${data.ref2Phone ? ` · ${data.ref2Phone}` : ""}${data.ref2Relation ? ` · ${data.ref2Relation}` : ""}`,
     ],
     data.resume ? ["Resume", data.resume.filename] : ["Resume", "Will email separately"],
+    data.personalStatementFile
+      ? ["Personal statement file", data.personalStatementFile.filename]
+      : data.statementMode === "upload"
+        ? ["Personal statement file", "Will email separately"]
+        : ["Personal statement", "Typed in form"],
     data.pageUrl ? ["Page", data.pageUrl] : null,
   ].filter(Boolean);
 
+  const statementBlocks =
+    data.statementMode === "typed"
+      ? `
+    <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#5a6570;">What drew you to theater?</p>
+    <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#2b2b2b;white-space:pre-wrap;">${escapeHtml(data.statementDrew || "")}</p>
+    <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#5a6570;">Who are you as an artist?</p>
+    <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#2b2b2b;white-space:pre-wrap;">${escapeHtml(data.statementArtist || "")}</p>
+    <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#5a6570;">Why Shakespeare on the Sound?</p>
+    <p style="margin:0;font-size:15px;line-height:1.6;color:#2b2b2b;white-space:pre-wrap;">${escapeHtml(data.statementInterest || "")}</p>`
+      : `
+    <p style="margin:0;font-size:15px;line-height:1.55;color:#2b2b2b;">
+      Personal statement was uploaded as an attachment${data.statementWillEmail ? " (or will be emailed separately)" : ""}.
+    </p>`;
+
   const bodyHtml = `
     <p style="margin:0 0 16px;font-size:15px;line-height:1.55;color:#2b2b2b;">
-      A new <strong>2026 Apprentice Company</strong> application was submitted on the website.
+      A new <strong>Apprentice Company</strong> application was submitted on the website.
     </p>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 18px;border:1px solid #e5e9ed;">
       ${rows
@@ -303,12 +369,7 @@ async function deliverApprenticeApplication(data) {
         )
         .join("")}
     </table>
-    <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#5a6570;">What drew you to theater?</p>
-    <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#2b2b2b;white-space:pre-wrap;">${escapeHtml(data.statementDrew)}</p>
-    <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#5a6570;">Who are you as an artist?</p>
-    <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#2b2b2b;white-space:pre-wrap;">${escapeHtml(data.statementArtist)}</p>
-    <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#5a6570;">Why Shakespeare on the Sound?</p>
-    <p style="margin:0;font-size:15px;line-height:1.6;color:#2b2b2b;white-space:pre-wrap;">${escapeHtml(data.statementInterest)}</p>
+    ${statementBlocks}
   `;
 
   const html = renderSotsEmail({
@@ -319,30 +380,40 @@ async function deliverApprenticeApplication(data) {
     eyebrow: "Apprentice application",
   });
 
-  const text = [
+  const textParts = [
     `Apprentice application from ${data.name}`,
     "",
     ...rows.map(([label, value]) => `${label}: ${value}`),
-    "",
-    "What drew you to theater?",
-    data.statementDrew,
-    "",
-    "Who are you as an artist?",
-    data.statementArtist,
-    "",
-    "Why Shakespeare on the Sound?",
-    data.statementInterest,
-  ].join("\n");
+  ];
+  if (data.statementMode === "typed") {
+    textParts.push(
+      "",
+      "What drew you to theater?",
+      data.statementDrew,
+      "",
+      "Who are you as an artist?",
+      data.statementArtist,
+      "",
+      "Why Shakespeare on the Sound?",
+      data.statementInterest,
+    );
+  }
 
-  const attachments = data.resume
-    ? [
-        {
-          filename: data.resume.filename,
-          content: data.resume.content,
-          contentType: data.resume.contentType,
-        },
-      ]
-    : undefined;
+  const attachments = [];
+  if (data.resume) {
+    attachments.push({
+      filename: data.resume.filename,
+      content: data.resume.content,
+      contentType: data.resume.contentType,
+    });
+  }
+  if (data.personalStatementFile) {
+    attachments.push({
+      filename: data.personalStatementFile.filename,
+      content: data.personalStatementFile.content,
+      contentType: data.personalStatementFile.contentType,
+    });
+  }
 
   return sendEmail({
     from: getResendNotificationsFromAddress(),
@@ -350,8 +421,8 @@ async function deliverApprenticeApplication(data) {
     replyTo: data.email,
     subject: `Apprentice application: ${data.name} — ${trackLabel}`,
     html,
-    text,
-    attachments,
+    text: textParts.join("\n"),
+    attachments: attachments.length ? attachments : undefined,
   });
 }
 
@@ -463,19 +534,24 @@ function confirmationCopy(form, data) {
   }
 
   if (form === "apprentice") {
-    const trackLabel =
-      data.track === "Other" && data.trackOther ? `Other — ${data.trackOther}` : data.track;
+    const trackLabel = String(data.track || (data.tracks || []).join(", ") || "your").trim();
     return {
       subject: "We received your apprentice application — Shakespeare on the Sound",
       eyebrow: "Application confirmation",
       title: "Thanks for applying",
-      preheader: "Your 2026 Apprentice Company application was received.",
+      preheader: "Your Apprentice Company application was received.",
       bodyHtml: `
         <p style="margin:0 0 14px;font-size:15px;line-height:1.55;color:#2b2b2b;">Hi ${escapeHtml(greetName)},</p>
         <p style="margin:0 0 14px;font-size:15px;line-height:1.55;color:#2b2b2b;">
           Thank you for applying to the Shakespeare on the Sound Apprentice Company.
           We received your <strong>${escapeHtml(trackLabel)}</strong> application and will be in touch
           about next steps.
+        </p>
+        <p style="margin:0 0 14px;font-size:15px;line-height:1.55;color:#2b2b2b;">
+          If your track requires supplemental materials (monologues preparation notes, lesson plans,
+          treatments, writing samples, or costume sketches), please email them to
+          <a href="mailto:stephanie@shakespeareonthesound.org" style="color:#1a5090;">stephanie@shakespeareonthesound.org</a>
+          if you have not already.
         </p>
         <p style="margin:0;font-size:15px;line-height:1.55;color:#2b2b2b;">
           Questions? Email Stephanie Eiss at
@@ -487,6 +563,8 @@ function confirmationCopy(form, data) {
         "",
         "Thank you for applying to the Shakespeare on the Sound Apprentice Company.",
         `We received your ${trackLabel} application and will be in touch about next steps.`,
+        "",
+        "Email supplemental materials to stephanie@shakespeareonthesound.org if needed.",
         "",
         "Questions? stephanie@shakespeareonthesound.org",
         "",
