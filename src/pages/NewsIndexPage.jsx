@@ -7,6 +7,7 @@ import { InnerPageShell } from "../components/InnerPageShell.jsx";
 export function NewsIndexPage() {
   const [filter, setFilter] = useState("All");
   const items = useMemo(() => newsForFilter(filter), [filter]);
+  const [featured, ...rest] = items;
 
   useEffect(() => {
     document.title = "News & History - Shakespeare on the Sound";
@@ -15,17 +16,25 @@ export function NewsIndexPage() {
   return (
     <InnerPageShell className="orpheum-page-shell--news">
       <div className="orpheum-inner-page sots-news-index">
-        <InnerPageHero title="News & History" />
+        <InnerPageHero
+          className="sots-news-hero sots-news-hero--index"
+          title="News & History"
+          compact
+        />
 
         <div className="orpheum-inner-page__body sots-news-index__body">
-          <div className="orpheum-news-feed__filters" role="tablist" aria-label="Filter news by topic">
+          <p className="sots-news-index__lede">
+            Season announcements, education programs, and thirty years of Shakespeare on the Sound — from Pinkney Park to today.
+          </p>
+
+          <div className="sots-news-index__filters" role="tablist" aria-label="Filter news by topic">
             {NEWS_FILTERS.map((category) => (
               <button
                 key={category}
                 type="button"
                 role="tab"
                 aria-selected={filter === category}
-                className={`orpheum-news-feed__filter${filter === category ? " is-active" : ""}`}
+                className={`sots-news-index__filter${filter === category ? " is-active" : ""}`}
                 onClick={() => setFilter(category)}
               >
                 {category}
@@ -33,32 +42,60 @@ export function NewsIndexPage() {
             ))}
           </div>
 
-          <ul className="sots-news-index__grid">
-            {items.map((item) => (
-              <li key={item.slug}>
-                <Link to={item.href} className="sots-news-index__card">
-                  <div className="sots-news-index__media">
-                    <img
-                      src={item.image}
-                      alt=""
-                      loading="lazy"
-                      width={640}
-                      height={360}
-                      style={{ objectPosition: item.imagePosition || "center center" }}
-                    />
-                  </div>
-                  <div className="sots-news-index__copy">
-                    <p className="orpheum-news-feed__meta">
-                      <span className="orpheum-news-feed__tag">{item.category}</span>
-                      <time dateTime={item.dateIso}>{item.date}</time>
-                    </p>
-                    <h2>{item.title}</h2>
-                    <p>{item.excerpt}</p>
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {featured ? (
+            <Link to={featured.href} className="sots-news-index__feature">
+              <div className="sots-news-index__feature-media">
+                <img
+                  src={featured.image}
+                  alt=""
+                  loading="eager"
+                  width={1200}
+                  height={675}
+                  style={{ objectPosition: featured.imagePosition || "center center" }}
+                />
+              </div>
+              <div className="sots-news-index__feature-copy">
+                <p className="sots-news-index__meta">
+                  <span>{featured.category}</span>
+                  <time dateTime={featured.dateIso}>{featured.date}</time>
+                </p>
+                <h2>{featured.title}</h2>
+                <p>{featured.excerpt}</p>
+                <span className="sots-news-index__read">Read story</span>
+              </div>
+            </Link>
+          ) : (
+            <p className="sots-news-index__empty">No updates in this category yet. Check back soon.</p>
+          )}
+
+          {rest.length ? (
+            <ul className="sots-news-index__grid">
+              {rest.map((item) => (
+                <li key={item.slug}>
+                  <Link to={item.href} className="sots-news-index__card">
+                    <div className="sots-news-index__media">
+                      <img
+                        src={item.image}
+                        alt=""
+                        loading="lazy"
+                        width={640}
+                        height={360}
+                        style={{ objectPosition: item.imagePosition || "center center" }}
+                      />
+                    </div>
+                    <div className="sots-news-index__copy">
+                      <p className="sots-news-index__meta">
+                        <span>{item.category}</span>
+                        <time dateTime={item.dateIso}>{item.date}</time>
+                      </p>
+                      <h2>{item.title}</h2>
+                      <p>{item.excerpt}</p>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
       </div>
     </InnerPageShell>

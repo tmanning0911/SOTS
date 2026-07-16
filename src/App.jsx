@@ -79,6 +79,7 @@ export default function App() {
         {routePair("tickets", <TicketsPage />)}
         {routePair("events/mahjong-night", <MahjongNightPage />)}
         {routePair("events/much-ado-about-something", <GalaPage />)}
+        {routePair("events", <EventsPage />)}
         {routePair("support/events", <EventsPage />)}
         {routePair("education/events", <EducationEventsPage />)}
         {routePair("support/donate", <DonatePage />)}

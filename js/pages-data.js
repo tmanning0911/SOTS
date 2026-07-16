@@ -552,7 +552,6 @@ export const INNER_PAGES = [
         type: "details",
         rows: [
           { label: "General Inquiries", value: "contactus@shakespeareonthesound.org" },
-          { label: "Phone", value: "(203) 957-1006" },
           {
             label: "Aaron Simms, Executive Director",
             value: "aaron@shakespeareonthesound.org",
@@ -894,7 +893,6 @@ export const INNER_PAGES = [
         paragraphs: [
           "Our workshops are fun, interactive, and inspiring. Utilizing a variety of theater activities, group ensemble work, and performance techniques, our professional teaching artists guide students in bringing Shakespeare's texts to life while challenging them to think outside the box and delve into the deeper meaning of the plays.",
           "Choose from one of our established programs or SOS teaching artists will work in partnership with you to create a workshop that is specifically tailored to meet your educational goals.",
-          "Current workshops ready for booking: Romeo & Juliet, Twelfth Night, A Midsummer Night's Dream, Macbeth, Hamlet, and Othello.",
         ],
       },
       {
@@ -959,7 +957,7 @@ export const INNER_PAGES = [
       {
         type: "prose",
         paragraphs: [
-          "For information on pricing, booking and more, contact Stephanie Eiss, Director of Education and Outreach at stephanie@shakespeareonthesound.org or call our office at (203) 957-1006.",
+          "For information on pricing, booking and more, contact Stephanie Eiss, Director of Education and Outreach at stephanie@shakespeareonthesound.org.",
         ],
       },
     ],
@@ -996,7 +994,7 @@ export const INNER_PAGES = [
       {
         type: "prose",
         paragraphs: [
-          "For questions or to book a performance contact Stephanie Eiss, Director of Education and Outreach at stephanie@shakespeareonthesound.org or call (203) 957-1006.",
+          "For questions or to book a performance, contact Stephanie Eiss, Director of Education and Outreach at stephanie@shakespeareonthesound.org.",
         ],
       },
     ],

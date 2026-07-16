@@ -161,6 +161,11 @@ export async function getSquarePayment(paymentId) {
   return data.payment;
 }
 
+export async function getSquareOrder(orderId) {
+  const data = await squareRequest(`/v2/orders/${orderId}`);
+  return data.order;
+}
+
 export function publicSquareConfig() {
   const { applicationId } = getSquareCredentials();
   return {

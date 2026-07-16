@@ -2,11 +2,11 @@
  * Create a Square-hosted checkout for one or more line items (with quantities).
  * Used when static Payment Links can't express qty > 1.
  */
-export async function createPaymentLinkCheckout({ kind, items, buyer }) {
+export async function createPaymentLinkCheckout({ kind, items, buyer, returnPath }) {
   const res = await fetch("/api/checkout/payment-link", {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify({ kind, items, buyer }),
+    body: JSON.stringify({ kind, items, buyer, returnPath }),
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || "Could not start checkout");

@@ -2,6 +2,8 @@
  * Mahjong Midsummer Classic — event content + Square Payment Links.
  */
 
+import { buildEventSponsors } from "./event-sponsorships.js";
+
 export const MAHJONG_NIGHT_PATH = "/events/mahjong-night/";
 
 export const MAHJONG_NIGHT = {
@@ -61,43 +63,29 @@ export const MAHJONG_NIGHT = {
       paymentLink: "https://square.link/u/2vhHywYJ",
     },
   ],
-  sponsors: [
-    {
-      id: "presenting",
-      name: "Presenting sponsor",
+  /** Standard ladder — Mahjong seat benefits noted in descriptions. */
+  sponsors: buildEventSponsors({
+    presenting: {
       description: "Top billing, logo, verbal recognition, two tables (8 seats)",
-      price: 2500,
       paymentLink: "https://square.link/u/ZrS2MBBJ",
     },
-    {
-      id: "community",
-      name: "Community sponsor",
+    community: {
       description: "Logo, event recognition, one table (4 seats)",
-      price: 1000,
       paymentLink: "https://square.link/u/x7NnTN1M",
     },
-    {
-      id: "table-sponsor",
-      name: "Table sponsor",
+    "table-sponsor": {
       description: "Table sign, recognition, one table (4 seats)",
-      price: 500,
       paymentLink: "https://square.link/u/rZoYhlng",
     },
-    {
-      id: "tile",
+    supporting: {
       name: "Tile sponsor",
       description: "Listed online and at the event",
-      price: 250,
       paymentLink: "https://square.link/u/KEKvfqDh",
     },
-    {
-      id: "friend",
-      name: "Friend of SOTS",
-      description: "Supporter recognition",
-      price: 100,
+    friend: {
       paymentLink: "https://square.link/u/yqmPAOPL",
     },
-  ],
+  }),
 };
 
 export function formatMahjongPrice(dollars) {
@@ -110,9 +98,4 @@ export function formatMahjongPrice(dollars) {
 
 export function formatMahjongCents(cents) {
   return formatMahjongPrice((Number(cents) || 0) / 100);
-}
-
-export function mahjongPaymentHref(item) {
-  const url = item?.paymentLink?.trim();
-  return url || null;
 }

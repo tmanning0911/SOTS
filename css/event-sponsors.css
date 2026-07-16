@@ -1,0 +1,100 @@
+/* Standard event sponsorship packages */
+
+.sots-event-sponsors {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1.15rem;
+  padding: 1.15rem 0.85rem 0.35rem;
+  border-top: 1px solid rgba(var(--brand-blue-rgb, 33, 101, 180), 0.16);
+  background: linear-gradient(180deg, rgba(var(--brand-gold-rgb, 249, 197, 52), 0.08), transparent 8rem);
+}
+
+.sots-event-sponsors--compact {
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+}
+
+.sots-event-sponsors__title {
+  margin: 0;
+  font-family: var(--orp-serif, "Marcellus", Georgia, serif);
+  font-size: clamp(1.25rem, 2.2vw, 1.55rem);
+  font-weight: 400;
+  color: var(--orp-dark, #0f2d4d);
+}
+
+.sots-event-sponsors .orpheum-eyebrow {
+  color: var(--brand-blue, #2165b4);
+}
+
+.sots-event-sponsors__lede {
+  margin: 0;
+  max-width: 40rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--orp-muted, #3d5470);
+}
+
+.sots-event-sponsors__offers {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.sots-event-sponsors__offer {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.85rem 0.65rem;
+  border-bottom: 1px solid rgba(var(--brand-blue-rgb, 33, 101, 180), 0.12);
+}
+
+.sots-event-sponsors__offer.is-selected {
+  background: rgba(var(--brand-blue-rgb, 33, 101, 180), 0.08);
+  margin-inline: -0.35rem;
+  padding-inline: 0.65rem;
+  border-radius: 4px;
+  border-left: 3px solid var(--brand-gold, #f9c534);
+}
+
+.sots-event-sponsors__copy h4 {
+  margin: 0 0 0.25rem;
+  font-family: var(--orp-sans, "Source Sans 3", sans-serif);
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--orp-dark, #0f2d4d);
+}
+
+.sots-event-sponsors__copy p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--orp-muted, #3d5470);
+}
+
+.sots-event-sponsors__action {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.sots-event-sponsors__price {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--brand-blue, #2165b4);
+}
+
+@media (min-width: 640px) {
+  .sots-event-sponsors__offer {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .sots-event-sponsors__action {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}

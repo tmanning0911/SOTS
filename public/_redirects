@@ -2,6 +2,7 @@
 /api/content           /.netlify/functions/content           200
 /api/content-admin     /.netlify/functions/content-admin     200
 /api/admin-auth        /.netlify/functions/admin-auth        200
+/api/tickets/qr        /.netlify/functions/ticket-qr         200
 /api/tickets           /.netlify/functions/tickets           200
 /api/checkout/config   /.netlify/functions/checkout-config   200
 /api/checkout/prepare  /.netlify/functions/checkout-prepare  200
@@ -25,7 +26,6 @@
 /api/ticketing/admin   /.netlify/functions/ticketing-admin   200
 /api/ticketing/admin/export /.netlify/functions/ticketing-admin 200
 /api/ticketing/admin/refund /.netlify/functions/ticketing-admin 200
-/api/tickets/qr        /.netlify/functions/ticket-qr         200
 /api/shop              /.netlify/functions/shop              200
 /api/shop/checkout/prepare  /.netlify/functions/shop-checkout-prepare  200
 /api/shop/checkout/complete /.netlify/functions/shop-checkout-complete 200

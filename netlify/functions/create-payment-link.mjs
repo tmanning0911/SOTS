@@ -1,12 +1,16 @@
 import { randomBytes } from "node:crypto";
 import { MAHJONG_NIGHT } from "../../js/mahjong-night.js";
 import { GALA_EVENT } from "../../js/gala-event.js";
+import { getStandardSponsor } from "../../js/event-sponsorships.js";
 import { PROGRAM_ADS } from "../../js/program-ads-sponsorships.js";
 import { SHOP_PRODUCTS } from "../../js/shop-catalog.js";
 import { jsonResponse } from "./lib/cors.mjs";
+import { bindBlobs } from "./lib/netlify-blobs.mjs";
+import { newPendingId, savePaymentLinkPending } from "./lib/payment-link-pending.mjs";
 import { getClientIp, rateLimit } from "./lib/rateLimit.mjs";
 import { resolveLocationId, squareRequest } from "./lib/square.mjs";
 import { readStaticJsonCatalog } from "./lib/static-catalog.mjs";
+import { formatCents } from "./lib/email-layout.mjs";
 
 const MAX_QTY = 10;
 const DONATE_MIN_CENTS = 500; // $5
@@ -64,6 +68,21 @@ function resolveGalaItems(items) {
       quantity: String(qty),
       base_price_money: { amount: Math.round(price * 100), currency: "USD" },
       note: tier.id,
+    };
+  });
+}
+
+function resolveEventSponsorItems(items) {
+  return items.map(({ itemId, quantity, eventId, eventTitle }) => {
+    const tier = getStandardSponsor(itemId);
+    if (!tier) throw new Error("Unknown event sponsor package");
+    const qty = clampQty(quantity, 4);
+    const label = String(eventTitle || eventId || "Event").trim().slice(0, 48);
+    return {
+      name: `${label} — ${tier.name}`.slice(0, 120),
+      quantity: String(qty),
+      base_price_money: { amount: Math.round(Number(tier.price) * 100), currency: "USD" },
+      note: `${String(eventId || "event").slice(0, 24)}:${tier.id}`.slice(0, 60),
     };
   });
 }
@@ -154,10 +173,104 @@ async function resolveTicketItems(items) {
   });
 }
 
-function redirectFor(kind) {
+async function buildPendingSnapshot(kind, items, buyer, lineItems) {
+  const base = {
+    id: newPendingId(),
+    kind,
+    buyer,
+    lineItems: lineItems.map((l) => ({
+      name: l.name,
+      quantity: Number(l.quantity) || 1,
+      unitPrice: Number(l.base_price_money?.amount ?? 0),
+      unitPriceDisplay: formatCents(Number(l.base_price_money?.amount ?? 0)),
+    })),
+  };
+
+  if (kind === "ticket") {
+    const catalog = await loadTicketing();
+    const typeById = Object.fromEntries(
+      (catalog.ticketTypes ?? catalog.ticketClasses ?? []).map((t) => [String(t.id), t]),
+    );
+    const first = items[0] || {};
+    const performanceId = String(first.performanceId || "");
+    return {
+      ...base,
+      title: catalog?.production?.title || "Much Ado About Nothing",
+      ticket: {
+        performanceId,
+        lineItems: items.map(({ performanceId: perfId, ticketTypeId, quantity }) => {
+          const ticketType = typeById[String(ticketTypeId)];
+          const qty = Number(quantity) || 1;
+          const unit = Number(ticketType?.price?.value ?? 0);
+          return {
+            performanceId: String(perfId || performanceId),
+            ticketTypeId: String(ticketTypeId),
+            name: ticketType?.name || "Ticket",
+            quantity: qty,
+            unitPrice: unit,
+            unitPriceDisplay: formatCents(unit),
+          };
+        }),
+      },
+    };
+  }
+
+  if (kind === "shop") {
+    const byId = Object.fromEntries(SHOP_PRODUCTS.map((p) => [p.id, p]));
+    const bySku = Object.fromEntries(SHOP_PRODUCTS.map((p) => [p.sku, p]));
+    return {
+      ...base,
+      title: "Gift shop",
+      shop: {
+        fulfillment: "pickup",
+        lineItems: items.map(({ itemId, sku, quantity, option }) => {
+          const product = byId[itemId] || bySku[sku];
+          const qty = Number(quantity) || 1;
+          const unit = Number(product?.price?.value ?? 0);
+          const optionLabel = typeof option === "string" ? option.trim() : "";
+          return {
+            id: product?.id,
+            sku: product?.sku,
+            name: product?.name || "Item",
+            option: optionLabel || undefined,
+            category: product?.category,
+            quantity: qty,
+            unitPrice: unit,
+            unitPriceDisplay: formatCents(unit),
+          };
+        }),
+      },
+    };
+  }
+
+  if (kind === "event-sponsor") {
+    const first = items[0] || {};
+    return {
+      ...base,
+      title: String(first.eventTitle || "Event sponsorship").slice(0, 80),
+      eventTitle: String(first.eventTitle || "").slice(0, 80),
+      eventId: String(first.eventId || "").slice(0, 40),
+    };
+  }
+
+  if (kind === "mahjong") return { ...base, title: "Mahjong Midsummer Classic" };
+  if (kind === "gala") return { ...base, title: "Much Ado About Something" };
+  if (kind === "donate") return { ...base, title: "Gift to Shakespeare on the Sound" };
+  if (kind === "sponsorship") return { ...base, title: "Program ads & sponsorship" };
+  return base;
+}
+
+function redirectFor(kind, returnPath) {
+  if (typeof returnPath === "string") {
+    const path = returnPath.trim();
+    if (path.startsWith("/") && !path.startsWith("//")) {
+      return `${siteUrl}${path}`;
+    }
+  }
   if (kind === "shop") return `${siteUrl}/shop/?thanks=1`;
   if (kind === "mahjong") return `${siteUrl}/events/mahjong-night/?thanks=1`;
   if (kind === "gala") return `${siteUrl}/events/much-ado-about-something/?thanks=1`;
+  if (kind === "event-sponsor") return `${siteUrl}/support/events/?thanks=1`;
   if (kind === "donate") return `${siteUrl}/support/donate/?thanks=1`;
   if (kind === "sponsorship") return `${siteUrl}/support/program-ads-sponsorships/?thanks=1`;
   return `${siteUrl}/tickets/?thanks=1`;
@@ -194,6 +307,7 @@ function resolveDonateItems(items) {
 }
 
 export async function handler(event) {
+  bindBlobs(event);
   if (event.httpMethod === "OPTIONS") {
     return jsonResponse(204, {}, event, { methods: "POST, OPTIONS" });
   }
@@ -228,6 +342,7 @@ export async function handler(event) {
     let lineItems;
     if (kind === "mahjong") lineItems = resolveMahjongItems(items);
     else if (kind === "gala") lineItems = resolveGalaItems(items);
+    else if (kind === "event-sponsor") lineItems = resolveEventSponsorItems(items);
     else if (kind === "shop") lineItems = resolveShopItems(items);
     else if (kind === "ticket") lineItems = await resolveTicketItems(items);
     else if (kind === "donate") lineItems = resolveDonateItems(items);
@@ -235,28 +350,34 @@ export async function handler(event) {
     else throw new Error("Unknown checkout kind");
 
     const buyer = sanitizeBuyer(body);
-    if (kind === "sponsorship" && !buyer.businessName) {
+    if ((kind === "sponsorship" || kind === "event-sponsor") && !buyer.businessName) {
       throw new Error("Enter your business or organization name before checkout");
     }
 
     const supportEmail =
-      kind === "sponsorship"
+      kind === "sponsorship" || kind === "event-sponsor"
         ? "marketing@shakespeareonthesound.org"
         : "aaron@shakespeareonthesound.org";
 
+    const pending = await buildPendingSnapshot(kind, items, buyer, lineItems);
     const locationId = await resolveLocationId();
     const data = await squareRequest("/v2/online-checkout/payment-links", {
       method: "POST",
       body: {
         idempotency_key: randomBytes(16).toString("hex"),
         description: `SOTS ${kind} checkout`,
-        payment_note: buildPaymentNote(kind, lineItems, buyer),
+        payment_note: `${buildPaymentNote(kind, lineItems, buyer)} · ${pending.id}`.slice(0, 500),
         order: {
           location_id: locationId,
+          reference_id: pending.id,
+          metadata: {
+            sots_kind: kind,
+            sots_pending: pending.id,
+          },
           line_items: lineItems,
         },
         checkout_options: {
-          redirect_url: redirectFor(kind),
+          redirect_url: redirectFor(kind, body.returnPath),
           merchant_support_email: supportEmail,
           ask_for_shipping_address: kind === "shop",
         },
@@ -267,7 +388,21 @@ export async function handler(event) {
     const url = link?.url || link?.long_url;
     if (!url) throw new Error("Square did not return a checkout URL");
 
-    return jsonResponse(200, { url, paymentLinkId: link.id }, event, { methods: "POST, OPTIONS" });
+    pending.paymentLinkId = link.id;
+    pending.squareOrderId = link.order_id || data.related_resources?.orders?.[0]?.id || null;
+    try {
+      await savePaymentLinkPending(pending, event);
+    } catch (err) {
+      console.error("payment-link pending save failed:", err);
+      // Still return checkout URL — webhook can rebuild from Square line notes when possible.
+    }
+
+    return jsonResponse(
+      200,
+      { url, paymentLinkId: link.id, pendingId: pending.id },
+      event,
+      { methods: "POST, OPTIONS" },
+    );
   } catch (err) {
     console.error("create-payment-link:", err);
     return jsonResponse(400, { error: err.message || "Could not start checkout" }, event, {

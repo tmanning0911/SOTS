@@ -9,7 +9,6 @@ export const GALA_EVENT = {
   eyebrow: "Annual Gala",
   intro:
     "Join us for cocktails, delicious bites, dancing, and live and silent auctions in support of Shakespeare on the Sound — a beautiful evening for the season ahead.",
-  note: "Tickets include evening admission, passed bites and cocktails, dancing, and auction access.",
   dateLabel: "Friday, October 16, 2026",
   timeLabel: "6:00–10:00 PM",
   venueName: "The House Up on the Hill",
@@ -23,16 +22,12 @@ export const GALA_EVENT = {
   committeeHref: "/about/contact/?topic=sponsorship",
   faqs: [
     {
-      q: "What is included with a ticket?",
-      a: "Evening admission, cocktails and passed bites, dancing, and access to the live and silent auctions. Formal-festive attire suggested.",
-    },
-    {
       q: "Can I buy a table?",
       a: "Yes — table packages hold eight seats together and are ideal for friends, families, and corporate hosts.",
     },
     {
       q: "Want to help plan the night?",
-      a: "Join the gala committee — use Get involved on this page or our sponsorship contact form.",
+      a: "Join the gala committee through the contact form linked on this page.",
     },
   ],
   /** All ticket prices must stay above $100 for this fundraiser. */

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { eventMapUrls } from "../../js/event-maps.js";
 import { formatGalaCents, formatGalaPrice, GALA_EVENT, GALA_PATH } from "../../js/gala-event.js";
 import { openPaymentLinkCheckout } from "../../js/payment-link-checkout.js";
-import { ArrowButton } from "../components/ArrowButton.jsx";
+import { EventCheckoutPanel } from "../components/checkout/EventCheckoutPanel.jsx";
 import { QtyStepper, useBuyBusy } from "../components/checkout/QtyStepper.jsx";
+import { EventSponsorSection } from "../components/EventSponsorSection.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { ShareBar } from "../components/ShareBar.jsx";
@@ -40,14 +41,19 @@ export function GalaPage() {
   const thanks = params.get("thanks") === "1";
   const [qty, setQty] = useState(() => Object.fromEntries(event.tickets.map((t) => [t.id, 0])));
   const [note, setNote] = useState("");
-  const [error, setError] = useState("");
-  const { busy, runBuy } = useBuyBusy();
+  const { busy, error, runBuy } = useBuyBusy();
 
   const selected = event.tickets
     .map((item) => ({ item, quantity: qty[item.id] ?? 0 }))
     .filter((row) => row.quantity > 0);
   const totalQty = selected.reduce((sum, row) => sum + row.quantity, 0);
   const totalCents = selected.reduce((sum, row) => sum + row.item.price * 100 * row.quantity, 0);
+  const lines = selected.map(({ item, quantity }) => ({
+    id: item.id,
+    name: item.name,
+    quantity,
+    priceLabel: formatGalaPrice(item.price * quantity),
+  }));
 
   useEffect(() => {
     document.title = `${event.title} - Shakespeare on the Sound`;
@@ -109,7 +115,6 @@ export function GalaPage() {
             <h2 id="gala-details-heading" className="orpheum-underline-heading">
               Event details
             </h2>
-            <p className="sots-mahjong__lede">{event.note}</p>
             <dl className="orpheum-inner-page__details">
               <div className="orpheum-inner-page__detail">
                 <dt>Date</dt>
@@ -159,9 +164,6 @@ export function GalaPage() {
             <h2 id="gala-tickets-heading" className="orpheum-underline-heading">
               Tickets
             </h2>
-            <p className="sots-mahjong__lede">
-              Choose individual seats, a pair, a patron ticket, or a full table — then checkout once.
-            </p>
             <ul className="sots-mahjong__offers">
               {event.tickets.map((item) => (
                 <OfferRow
@@ -172,17 +174,23 @@ export function GalaPage() {
                 />
               ))}
             </ul>
-            <p className="sots-mahjong__fineprint">
-              Ticket purchases support Shakespeare on the Sound. Processing fees may apply at checkout.
-            </p>
           </section>
+
+          <div data-reveal>
+            <EventSponsorSection
+              eventId="gala-2026"
+              sectionId="sponsorship"
+              eventTitle={event.title}
+              returnPath={`${GALA_PATH}?thanks=1`}
+              heading="Sponsorships"
+              eyebrow="Partner with us"
+              lede=""
+            />
+          </div>
 
           <section className="sots-mahjong__section sots-mahjong__cta-band" data-reveal>
             <p className="sots-mahjong__donate">
-              Love to party?{" "}
-              <a href={event.committeeHref}>Join the gala committee</a>
-              {" · "}
-              Can&apos;t attend? <Link to={event.donateHref}>Donate online</Link>.
+              Love to party? <a href={event.committeeHref}>Join the gala committee</a>
             </p>
           </section>
 
@@ -210,38 +218,18 @@ export function GalaPage() {
         </div>
 
         {totalQty > 0 ? (
-          <div className="sots-mahjong__sticky-checkout" role="region" aria-label="Checkout">
-            <div className="sots-mahjong__checkout-fields">
-              <label className="sots-mahjong__field">
-                <span>Note for your order (optional)</span>
-                <input
-                  type="text"
-                  name="note"
-                  enterKeyHint="done"
-                  maxLength={400}
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
-                  placeholder="Table mates, accessibility needs…"
-                />
-              </label>
-            </div>
-            <div className="sots-mahjong__checkout-bar">
-              <p className="sots-mahjong__checkout-total">
-                <span className="sots-mahjong__checkout-count">
-                  {totalQty} item{totalQty === 1 ? "" : "s"}
-                </span>
-                <strong>{formatGalaCents(totalCents)}</strong>
-              </p>
-              <ArrowButton type="button" onClick={checkout} disabled={busy}>
-                {busy ? "Starting…" : "Checkout"}
-              </ArrowButton>
-            </div>
-            {error ? (
-              <p className="sots-mahjong__error sots-mahjong__error--sticky" role="alert">
-                {error}
-              </p>
-            ) : null}
-          </div>
+          <EventCheckoutPanel
+            sticky
+            lines={lines}
+            totalQty={totalQty}
+            totalLabel={formatGalaCents(totalCents)}
+            busy={busy}
+            error={error}
+            note={note}
+            onNote={setNote}
+            notePlaceholder="Table mates, accessibility needs, dietary notes…"
+            onCheckout={checkout}
+          />
         ) : null}
       </article>
     </InnerPageShell>

@@ -17,6 +17,8 @@ import "../css/inner-pages.css";
 import "../css/ticketing.css";
 import "../css/tickets-page.css";
 import "../css/events-page.css";
+import "../css/event-sponsors.css";
+import "../css/event-checkout.css";
 import "../css/education-events.css";
 import "../css/checkout.css";
 import "../css/shop.css";

@@ -42,9 +42,16 @@ function sortByStart(a, b) {
 
 function EventCta({ href, label, primary }) {
   if (!href || !label) return null;
-  if (primary) return <ArrowButton href={href}>{label}</ArrowButton>;
+  const internal = href.startsWith("/") && !href.startsWith("//");
+  if (primary) {
+    return internal ? <ArrowButton to={href}>{label}</ArrowButton> : <ArrowButton href={href}>{label}</ArrowButton>;
+  }
   if (/sponsor/i.test(label)) {
-    return (
+    return internal ? (
+      <ArrowButton to={href} variant="ghost">
+        {label}
+      </ArrowButton>
+    ) : (
       <ArrowButton href={href} variant="ghost">
         {label}
       </ArrowButton>
@@ -78,7 +85,6 @@ function EventVenueMap({ event }) {
 
   return (
     <div className="sots-events-page__card-map">
-      <p className="sots-events-page__card-map-label">Location</p>
       <div className="sots-events-page__card-map-frame">
         <iframe
           title={`Map for ${event.title}`}
@@ -109,7 +115,7 @@ function EventCard({ event, past = false, featured = false }) {
     (/ticket/i.test(label ?? "") || href === TICKETS_PAGE_PATH) &&
     !isFundraiser(event);
   const showPrimary = href && label && !hidePastTickets;
-  const showSecondary = secondaryHref && secondaryLabel && !past;
+  const showSecondary = Boolean(secondaryHref && secondaryLabel && !past);
   const showMedia = featured && Boolean(event.image);
   const hasMap = Boolean(eventMapUrls(event)?.embedUrl);
 
@@ -227,6 +233,15 @@ export function EventsPage() {
   }, []);
 
   useEffect(() => {
+    const id = window.location.hash.replace(/^#/, "");
+    if (!id) return;
+    const t = window.setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+    return () => window.clearTimeout(t);
+  }, [loading]);
+
+  useEffect(() => {
     let cancelled = false;
 
     async function load() {
@@ -266,7 +281,7 @@ export function EventsPage() {
   }, [events]);
 
   return (
-    <InnerPageShell showVisit={false} showNewsletter showSupport>
+    <InnerPageShell showVisit={false} showNewsletter showSupport={false}>
       <article className="sots-events-page">
         <InnerPageHero title="Events" compact />
 
@@ -276,6 +291,9 @@ export function EventsPage() {
           </a>
           <Link to={MAHJONG_NIGHT_PATH} className="orpheum-page-quick__link">
             Mahjong night
+          </Link>
+          <Link to={`${GALA_PATH}#sponsorship`} className="orpheum-page-quick__link">
+            Sponsor
           </Link>
           <a href="#earlier" className="orpheum-page-quick__link">
             Past events
@@ -289,7 +307,6 @@ export function EventsPage() {
           id="fundraisers"
           eyebrow="Coming up"
           heading="Fundraisers & galas"
-          note="Benefit nights supporting productions, education, and Year-End Giving."
           events={fundraisers}
           loading={loading}
           featureFirst
@@ -306,7 +323,6 @@ export function EventsPage() {
             id="season"
             eyebrow="More dates"
             heading="Season specials"
-            note="Receptions, talks, and community nights."
             events={seasonSpecials}
             loading={loading}
           />
@@ -346,24 +362,6 @@ export function EventsPage() {
             past
           />
         ) : null}
-
-        <section className="sots-events-page__footer-cta" aria-labelledby="support-heading">
-          <div className="sots-events-page__inner">
-            <p className="orpheum-eyebrow">Keep the work going</p>
-            <h2 id="support-heading" className="orpheum-underline-heading">
-              Support the Sound
-            </h2>
-            <p className="sots-events-page__section-note">
-              Donations and sponsorships make outdoor Shakespeare possible for Fairfield County.
-            </p>
-            <div className="sots-events-page__footer-actions">
-              <ArrowButton href="/support/donate/">Donate</ArrowButton>
-              <ArrowButton href="/support/program-ads-sponsorships/" variant="ghost">
-                Sponsorships
-              </ArrowButton>
-            </div>
-          </div>
-        </section>
       </article>
     </InnerPageShell>
   );

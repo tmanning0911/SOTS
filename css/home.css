@@ -4470,10 +4470,10 @@ a.orpheum-events-grid__card {
 }
 
 .orpheum-news-feed__filter {
-  border: 1px solid var(--orp-line);
-  border-radius: 9999px;
+  border: 1px solid rgba(var(--brand-blue-rgb, 33, 101, 180), 0.22);
+  border-radius: 4px;
   background: var(--orp-white);
-  color: var(--orp-stone-700);
+  color: var(--brand-blue-dark, #1a5090);
   font-family: var(--orp-sans);
   font-size: 0.75rem;
   font-weight: 600;
@@ -4485,19 +4485,26 @@ a.orpheum-events-grid__card {
   transition:
     background 0.2s ease,
     border-color 0.2s ease,
-    color 0.2s ease;
+    color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .orpheum-news-feed__filter.is-active {
-  background: var(--orp-dark);
-  border-color: var(--orp-dark);
+  background: var(--brand-blue, #2165b4);
+  border-color: var(--brand-blue, #2165b4);
   color: var(--orp-white);
+  box-shadow: 0 2px 0 var(--brand-gold, #f9c534);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .orpheum-news-feed__filter:hover {
-    background: var(--orp-dark);
-    border-color: var(--orp-dark);
+    background: rgba(var(--brand-blue-rgb, 33, 101, 180), 0.08);
+    border-color: var(--brand-blue, #2165b4);
+    color: var(--brand-blue, #2165b4);
+  }
+
+  .orpheum-news-feed__filter.is-active:hover {
+    background: var(--brand-blue-dark, #1a5090);
     color: var(--orp-white);
   }
 }
@@ -4640,6 +4647,7 @@ a.orpheum-events-grid__card {
   padding: 0.18rem 0.45rem;
   border-radius: 2px;
   background: rgba(var(--brand-blue-rgb), 0.1);
+  border: 1px solid rgba(var(--brand-gold-rgb, 249, 197, 52), 0.55);
   font-family: var(--orp-sans);
   font-size: 0.75rem;
   font-weight: 700;

@@ -30,9 +30,18 @@ export function getSiteUrl() {
 }
 
 /**
- * @param {{ to: string | string[], subject: string, html: string, text?: string, bcc?: string | string[], replyTo?: string, from?: string }} payload
+ * @param {{
+ *   to: string | string[],
+ *   subject: string,
+ *   html: string,
+ *   text?: string,
+ *   bcc?: string | string[],
+ *   replyTo?: string,
+ *   from?: string,
+ *   attachments?: Array<{ filename: string, content: string, contentId?: string, contentType?: string }>,
+ * }} payload
  */
-export async function sendEmail({ to, subject, html, text, bcc, replyTo, from }) {
+export async function sendEmail({ to, subject, html, text, bcc, replyTo, from, attachments }) {
   const apiKey = process.env.RESEND_API_KEY?.trim();
   if (!apiKey) {
     console.warn("RESEND_API_KEY not set — skipping email");
@@ -48,6 +57,18 @@ export async function sendEmail({ to, subject, html, text, bcc, replyTo, from })
   if (text) body.text = text;
   if (bcc) body.bcc = Array.isArray(bcc) ? bcc : [bcc];
   if (replyTo) body.reply_to = replyTo;
+  if (attachments?.length) {
+    body.attachments = attachments.map((file) => {
+      const item = {
+        filename: file.filename,
+        content: file.content,
+      };
+      if (file.contentType) item.content_type = file.contentType;
+      // Inline images referenced as cid:... in HTML
+      if (file.contentId) item.content_id = file.contentId;
+      return item;
+    });
+  }
 
   const res = await fetch(RESEND_API, {
     method: "POST",

@@ -295,6 +295,25 @@
   margin-top: 0.75rem;
 }
 
+.sots-edu-cal__card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.sots-edu-cal__card-actions .orpheum-arrow-btn {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .sots-edu-cal__card-actions {
+    flex-direction: column;
+    align-items: stretch;
+    min-width: 10.5rem;
+  }
+}
+
 .sots-edu-cal__empty {
   margin: 0;
   color: var(--orp-muted, #3d5470);

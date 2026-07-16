@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { formatMahjongCents, formatMahjongPrice, MAHJONG_NIGHT, MAHJONG_NIGHT_PATH } from "../../js/mahjong-night.js";
 import { eventMapUrls } from "../../js/event-maps.js";
 import { openPaymentLinkCheckout } from "../../js/payment-link-checkout.js";
-import { ArrowButton } from "../components/ArrowButton.jsx";
+import { EventCheckoutPanel } from "../components/checkout/EventCheckoutPanel.jsx";
 import { QtyStepper, useBuyBusy } from "../components/checkout/QtyStepper.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
@@ -56,13 +56,23 @@ export function MahjongNightPage() {
     0,
   );
   const hasSponsor = selected.some((row) => event.sponsors.some((s) => s.id === row.item.id));
+  const lines = selected.map(({ item, quantity }) => ({
+    id: item.id,
+    name: item.name,
+    quantity,
+    priceLabel: formatMahjongPrice(item.price * quantity),
+  }));
 
   useEffect(() => {
     document.title = `${event.title} - Shakespeare on the Sound`;
   }, [event.title]);
 
   useEffect(() => {
-    if (thanks) setQty({});
+    if (thanks) {
+      setQty({});
+      setBusinessName("");
+      setNote("");
+    }
   }, [thanks]);
 
   useEffect(() => {
@@ -79,7 +89,7 @@ export function MahjongNightPage() {
   function checkout() {
     if (!selected.length) return;
     if (hasSponsor && !businessName.trim()) {
-      setError("Enter a business or organization name for sponsorship checkout.");
+      setError("Enter a business or organization name before payment.");
       document.getElementById("mahjong-business-field")?.scrollIntoView({
         behavior: "smooth",
         block: "center",
@@ -174,9 +184,6 @@ export function MahjongNightPage() {
             <h2 id="mahjong-tickets-heading" className="orpheum-underline-heading">
               Tickets
             </h2>
-            <p className="sots-mahjong__lede">
-              Choose quantities for any combination of seats, then checkout once.
-            </p>
             <ul className="sots-mahjong__offers">
               {event.tickets.map((item) => (
                 <OfferRow
@@ -199,10 +206,6 @@ export function MahjongNightPage() {
             <h2 id="mahjong-sponsors-heading" className="orpheum-underline-heading">
               Sponsorships
             </h2>
-            <p className="sots-mahjong__lede">
-              Add sponsorships to the same order if you like — recognition and seats included at higher
-              tiers.
-            </p>
             <ul className="sots-mahjong__offers">
               {event.sponsors.map((item) => (
                 <OfferRow
@@ -213,18 +216,6 @@ export function MahjongNightPage() {
                 />
               ))}
             </ul>
-            <p className="sots-mahjong__fineprint">
-              Ticket purchases and sponsorships support Shakespeare on the Sound, subject to how
-              checkout is processed (including any applicable fees).
-            </p>
-          </section>
-
-          <section className="sots-mahjong__section sots-mahjong__cta-band" data-reveal>
-            <p className="sots-mahjong__donate">
-              Can&apos;t attend?{" "}
-              <Link to={event.donateHref}>Donate online</Link> and note “Mahjong Midsummer Classic”
-              in the comments if you’d like.
-            </p>
           </section>
 
           <section className="sots-mahjong__section" aria-labelledby="mahjong-faq-heading" data-reveal>
@@ -251,67 +242,29 @@ export function MahjongNightPage() {
         </div>
 
         {totalQty > 0 ? (
-          <div
-            className={`sots-mahjong__sticky-checkout${hasSponsor ? " sots-mahjong__sticky-checkout--sponsor" : ""}`}
-            role="region"
-            aria-label="Checkout"
-          >
-            <div className="sots-mahjong__checkout-fields">
-              {hasSponsor ? (
-                <label className="sots-mahjong__field" id="mahjong-business-field">
-                  <span>
-                    Business / organization name <em>*</em>
-                  </span>
-                  <input
-                    type="text"
-                    name="businessName"
-                    autoComplete="organization"
-                    enterKeyHint="next"
-                    maxLength={100}
-                    value={businessName}
-                    onChange={(e) => {
-                      setBusinessName(e.target.value);
-                      if (error) setError("");
-                    }}
-                    placeholder="Acme Partners LLC"
-                    aria-required="true"
-                  />
-                </label>
-              ) : null}
-              <label className="sots-mahjong__field">
-                <span>Note {hasSponsor ? "(optional)" : "for your order (optional)"}</span>
-                <input
-                  type="text"
-                  name="note"
-                  enterKeyHint="done"
-                  maxLength={400}
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
-                  placeholder={
-                    hasSponsor
-                      ? "How to list your name, contact person…"
-                      : "Table mates, accessibility needs…"
-                  }
-                />
-              </label>
-            </div>
-            <div className="sots-mahjong__checkout-bar">
-              <p className="sots-mahjong__checkout-total">
-                <span className="sots-mahjong__checkout-count">
-                  {totalQty} item{totalQty === 1 ? "" : "s"}
-                </span>
-                <strong>{formatMahjongCents(totalCents)}</strong>
-              </p>
-              <ArrowButton type="button" onClick={checkout} disabled={busy}>
-                {busy ? "Starting…" : "Checkout"}
-              </ArrowButton>
-            </div>
-            {error ? (
-              <p className="sots-mahjong__error sots-mahjong__error--sticky" role="alert">
-                {error}
-              </p>
-            ) : null}
-          </div>
+          <EventCheckoutPanel
+            sticky
+            lines={lines}
+            totalQty={totalQty}
+            totalLabel={formatMahjongCents(totalCents)}
+            busy={busy}
+            error={error}
+            requireBusiness={hasSponsor}
+            businessName={businessName}
+            onBusinessName={(value) => {
+              setBusinessName(value);
+              if (error) setError("");
+            }}
+            businessFieldId="mahjong-business-field"
+            note={note}
+            onNote={setNote}
+            notePlaceholder={
+              hasSponsor
+                ? "How to list your name, contact person, seating notes…"
+                : "Table mates, accessibility needs, dietary notes…"
+            }
+            onCheckout={checkout}
+          />
         ) : null}
       </article>
     </InnerPageShell>

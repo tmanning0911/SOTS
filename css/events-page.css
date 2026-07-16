@@ -282,6 +282,10 @@
   grid-column: 1 / -1;
 }
 
+.sots-events-page__card .sots-event-sponsors {
+  grid-column: 1 / -1;
+}
+
 /* Shared venue map (Events hub, Mahjong, Education calendar) */
 .sots-event-venue-map {
   display: grid;
@@ -318,8 +322,21 @@
 #tickets,
 #fundraisers,
 #season,
-#earlier {
+#earlier,
+#sponsorship {
   scroll-margin-top: 5.5rem;
+}
+
+.sots-events-page__section--sponsors {
+  border-top: 1px solid rgba(var(--brand-blue-rgb, 33, 101, 180), 0.14);
+  background: linear-gradient(180deg, rgba(var(--brand-gold-rgb, 249, 197, 52), 0.08), transparent 12rem);
+}
+
+.sots-events-page__section--sponsors .sots-event-sponsors {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+  background: transparent;
 }
 
 @media (min-width: 760px) {

@@ -1,5 +1,6 @@
 import { getStore } from "@netlify/blobs";
 import { sendEmail, getSiteUrl, resendConfigured } from "./resend.mjs";
+import { qrPngBuffer, ticketQrPayload } from "./qr.mjs";
 import {
   BOX_OFFICE_EMAIL,
   BOX_OFFICE_PHONE,
@@ -34,15 +35,24 @@ function formatPerformanceDate(isoLocal) {
   }).format(date);
 }
 
-function ticketQrUrl(siteUrl, ticketCode, orderId) {
-  const data = `SOTS:${orderId}:${ticketCode}`;
-  return `${siteUrl}/api/tickets/qr?data=${encodeURIComponent(data)}`;
-}
+/** Inline CID QR PNGs so the email does not depend on the live site domain. */
+async function buildTicketQrParts(order) {
+  const tickets = order.tickets ?? [];
+  const attachments = [];
+  const cardsHtml = [];
 
-function ticketCardsHtml(order, siteUrl) {
-  return order.tickets
-    .map(
-      (ticket) => `
+  for (let i = 0; i < tickets.length; i += 1) {
+    const ticket = tickets[i];
+    const cid = `ticket-qr-${i + 1}`;
+    const payload = ticketQrPayload(order.id, ticket.code);
+    const png = await qrPngBuffer(payload, { width: 296, margin: 2 });
+    attachments.push({
+      filename: `${ticket.code}.png`,
+      content: png.toString("base64"),
+      contentId: cid,
+      contentType: "image/png",
+    });
+    cardsHtml.push(`
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 14px;border:1px solid ${C.line};">
         <tr>
           <td style="padding:16px 16px 8px;font-family:Arial,Helvetica,sans-serif;">
@@ -52,12 +62,13 @@ function ticketCardsHtml(order, siteUrl) {
         </tr>
         <tr>
           <td align="center" style="padding:8px 16px 16px;">
-            <img src="${escapeHtml(ticketQrUrl(siteUrl, ticket.code, order.id))}" width="148" height="148" alt="QR for ticket ${escapeHtml(ticket.code)}" style="display:block;margin:0 auto;border:1px solid ${C.line};border-radius:4px;" />
+            <img src="cid:${cid}" width="148" height="148" alt="QR for ticket ${escapeHtml(ticket.code)}" style="display:block;margin:0 auto;border:1px solid ${C.line};border-radius:4px;" />
           </td>
         </tr>
-      </table>`,
-    )
-    .join("");
+      </table>`);
+  }
+
+  return { cardsHtml: cardsHtml.join(""), attachments };
 }
 
 function lineItemsText(order) {
@@ -67,7 +78,9 @@ function lineItemsText(order) {
   const shopLines = (order.shopLineItems ?? [])
     .map((line) => {
       const label = line.option ? `${line.name} (${line.option})` : line.name;
-      return `${line.quantity}× ${label} — ${line.unitPriceDisplay ?? formatCents(line.unitPrice)} (park pickup)`;
+      const isGiftCert = /gift\s*cert/i.test(String(line.name || "")) || line.category === "gift-certificates";
+      const note = isGiftCert ? "digital — emailed separately" : "park pickup";
+      return `${line.quantity}× ${label} — ${line.unitPriceDisplay ?? formatCents(line.unitPrice)} (${note})`;
     })
     .join("\n");
   return [ticketLines, shopLines].filter(Boolean).join("\n");
@@ -77,15 +90,19 @@ function ticketsText(order) {
   return order.tickets.map((t) => `${t.ticketTypeName}: ${t.code}`).join("\n");
 }
 
-export function buildOrderConfirmationContent(order, siteUrl = getSiteUrl()) {
+export async function buildOrderConfirmationContent(order, siteUrl = getSiteUrl()) {
   const performanceWhen = formatPerformanceDate(order.performanceStart);
   const accessUrl = `${siteUrl}/access-your-tickets/?email=${encodeURIComponent(order.buyer.email)}&code=${encodeURIComponent(order.confirmationCode)}`;
   const myTicketsUrl = `${siteUrl}/my-tickets/`;
   const productionTitle = order.productionTitle || "Shakespeare on the Sound";
   const venueLine = [order.venue, order.location].filter(Boolean).join(" · ");
   const firstName = String(order.buyer.name || "").trim().split(/\s+/)[0] || order.buyer.name;
+  const { cardsHtml, attachments } = await buildTicketQrParts(order);
 
-  const subject = `Your tickets — ${order.confirmationCode}`;
+  // Confirmation code keeps each purchase unique without a raw order id in the subject.
+  const subject = performanceWhen
+    ? `${productionTitle} tickets · ${order.confirmationCode}`
+    : `Your tickets · ${order.confirmationCode}`;
   const preheader = performanceWhen
     ? `${productionTitle} · ${performanceWhen}`
     : `Confirmation ${order.confirmationCode} — see you under the stars`;
@@ -143,18 +160,23 @@ export function buildOrderConfirmationContent(order, siteUrl = getSiteUrl()) {
     `)}
 
     <p style="margin:0 0 12px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:${C.navy};font-weight:bold;">Your tickets</p>
-    ${ticketCardsHtml(order, siteUrl)}
+    ${cardsHtml}
 
     ${order.donationCents ? `<p style="margin:0 0 10px;font-size:14px;color:${C.blue};">Includes a ${escapeHtml(formatCents(order.donationCents))} donation — thank you for supporting accessible Shakespeare.</p>` : ""}
     ${
       order.shopLineItems?.length
         ? `<div style="margin:0 0 16px;">
-      <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:${C.navy};font-weight:bold;">Souvenirs</p>
-      <p style="margin:0 0 8px;font-size:14px;color:${C.muted};">Pick up at the merchandise table or box office on show day.</p>
+      <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:${C.navy};font-weight:bold;">Also in this order</p>
       ${order.shopLineItems
         .map((line) => {
           const label = line.option ? `${line.name} (${line.option})` : line.name;
-          return `<p style="margin:0 0 4px;font-size:14px;color:${C.ink};">${escapeHtml(String(line.quantity))}× ${escapeHtml(label)} — ${escapeHtml(line.unitPriceDisplay ?? formatCents(line.unitPrice))}</p>`;
+          const isGiftCert =
+            /gift\s*cert/i.test(String(line.name || "")) || line.category === "gift-certificates";
+          const fulfillment = isGiftCert
+            ? "Digital gift certificate — emailed within one business day"
+            : "Park pickup — merchandise table or box office on show day";
+          return `<p style="margin:0 0 2px;font-size:14px;color:${C.ink};">${escapeHtml(String(line.quantity))}× ${escapeHtml(label)} — ${escapeHtml(line.unitPriceDisplay ?? formatCents(line.unitPrice))}</p>
+          <p style="margin:0 0 10px;font-size:13px;color:${C.muted};">${escapeHtml(fulfillment)}</p>`;
         })
         .join("")}
     </div>`
@@ -207,7 +229,7 @@ export function buildOrderConfirmationContent(order, siteUrl = getSiteUrl()) {
     .filter(Boolean)
     .join("\n");
 
-  return { subject, text, html, staffSubject, staffText };
+  return { subject, text, html, staffSubject, staffText, attachments };
 }
 
 export async function markOrderEmailSent(orderId) {
@@ -227,7 +249,10 @@ export async function sendOrderConfirmationEmail(order) {
   }
 
   const siteUrl = getSiteUrl();
-  const { subject, text, html, staffSubject, staffText } = buildOrderConfirmationContent(order, siteUrl);
+  const { subject, text, html, staffSubject, staffText, attachments } = await buildOrderConfirmationContent(
+    order,
+    siteUrl,
+  );
   const notifyEmail = process.env.TICKETING_NOTIFY_EMAIL?.trim();
 
   const buyerResult = await sendEmail({
@@ -236,6 +261,7 @@ export async function sendOrderConfirmationEmail(order) {
     html,
     text,
     replyTo: BOX_OFFICE_EMAIL,
+    attachments,
   });
 
   if (notifyEmail && notifyEmail !== order.buyer.email) {

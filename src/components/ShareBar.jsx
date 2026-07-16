@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { SITE } from "../../../js/data.js";
+import { SITE } from "../../js/data.js";
 
 function absoluteUrl(path) {
   if (typeof window !== "undefined" && window.location?.origin) {

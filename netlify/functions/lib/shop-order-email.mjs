@@ -29,7 +29,7 @@ function addressBlock(order) {
 }
 
 export function buildShopOrderEmail(order, siteUrl = getSiteUrl()) {
-  const subject = `Your order — ${order.confirmationCode}`;
+  const subject = `Gift shop order · ${order.confirmationCode}`;
   const firstName = String(order.buyer.name || "").trim().split(/\s+/)[0] || order.buyer.name;
   const preheader = `Gift shop confirmation ${order.confirmationCode} · ${formatCents(order.totalCents)}`;
 

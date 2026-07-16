@@ -45,6 +45,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/tickets/qr"
+  to = "/.netlify/functions/ticket-qr"
+  status = 200
+
+[[redirects]]
   from = "/api/tickets"
   to = "/.netlify/functions/tickets"
   status = 200
@@ -162,11 +167,6 @@
 [[redirects]]
   from = "/api/ticketing/admin/refund"
   to = "/.netlify/functions/ticketing-admin"
-  status = 200
-
-[[redirects]]
-  from = "/api/tickets/qr"
-  to = "/.netlify/functions/ticket-qr"
   status = 200
 
 [[redirects]]
