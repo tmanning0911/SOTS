@@ -705,7 +705,7 @@
   gap: 0.5rem;
   margin: 0 0 1rem;
   font-family: var(--font-heading, "Marcellus", Georgia, serif);
-  font-size: 1.35rem;
+  font-size: 1.65rem;
   font-weight: 400;
   color: var(--orp-dark, #0f2d4d);
 }
@@ -714,25 +714,26 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 1.5rem;
-  height: 1.5rem;
-  padding: 0 0.35rem;
+  min-width: 1.75rem;
+  height: 1.75rem;
+  padding: 0 0.4rem;
   border-radius: 999px;
   background: #f9c534;
   color: #0f2d4d;
   font-family: var(--orp-sans, "Source Sans 3", sans-serif);
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   font-weight: 700;
 }
 
 .sots-shop-cart-aside__empty p {
   margin: 0;
+  font-size: 1.1rem;
   color: #4a5560;
 }
 
 .sots-shop-cart-aside__empty-hint {
   margin-top: 0.35rem !important;
-  font-size: 0.88rem;
+  font-size: 1rem;
   line-height: 1.45;
 }
 
@@ -768,34 +769,40 @@
 
 .sots-shop-cart-aside__item-copy {
   display: grid;
-  gap: 0.2rem;
-  font-size: 0.88rem;
+  gap: 0.25rem;
+  font-size: 1.05rem;
+  line-height: 1.35;
 }
 
 .sots-shop-cart-aside__item-copy strong {
+  font-size: 1.12rem;
   color: var(--orp-dark, #0f2d4d);
 }
 
 .sots-shop-cart-aside__option,
 .sots-shop-cart-aside__unit {
   color: #4a5560;
-  font-size: 0.82rem;
+  font-size: 1rem;
 }
 
 .sots-shop-cart-aside__qty {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  margin-top: 0.15rem;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .sots-shop-cart-aside__qty button {
-  width: 1.65rem;
-  height: 1.65rem;
+  width: 2.15rem;
+  height: 2.15rem;
   border: 1px solid rgba(15, 45, 77, 0.2);
-  border-radius: 0.35rem;
+  border-radius: 0.4rem;
   background: #fff;
   font: inherit;
+  font-size: 1.2rem;
+  line-height: 1;
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
@@ -812,12 +819,13 @@
 
 .sots-shop-cart-aside__remove {
   justify-self: start;
-  margin-top: 0.15rem;
+  margin-top: 0.2rem;
+  font-size: 1rem;
 }
 
 .sots-shop-cart-aside__line-total {
   align-self: start;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   color: var(--orp-dark, #0f2d4d);
 }
 
@@ -827,23 +835,25 @@
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 0.35rem;
-  font-size: 0.95rem;
+  font-size: 1.15rem;
 }
 
 .sots-shop-cart-aside__total strong {
-  font-size: 1.1rem;
+  font-size: 1.35rem;
   color: var(--orp-dark, #0f2d4d);
 }
 
 .sots-shop-cart-aside__note,
 .sots-shop-cart-aside__help {
   margin: 0.5rem 0 0;
-  font-size: 0.85rem;
+  font-size: 1rem;
+  line-height: 1.45;
   color: #4a5560;
 }
 
 .sots-shop-cart-aside__checkout {
   margin-top: 0.85rem;
+  font-size: 1.05rem;
 }
 
 .sots-shop-cart-aside__help a {
@@ -931,10 +941,10 @@
   z-index: 45;
   display: flex;
   align-items: center;
-  gap: 0.85rem;
-  min-width: min(22rem, calc(100vw - 2rem));
+  gap: 0.9rem;
+  min-width: min(24rem, calc(100vw - 2rem));
   max-width: calc(100vw - 2rem);
-  padding: 0.7rem 0.85rem 0.7rem 0.7rem;
+  padding: 0.85rem 1rem 0.85rem 0.85rem;
   border: 0;
   border-radius: 999px;
   background: var(--orp-dark, #0f2d4d);
@@ -959,34 +969,39 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 2rem;
-  height: 2rem;
+  min-width: 2.35rem;
+  height: 2.35rem;
   border-radius: 999px;
   background: var(--orp-gold, #f9c534);
   color: var(--orp-dark, #0f2d4d);
+  font-size: 1.1rem;
   font-weight: 700;
 }
 
 .sots-shop-page__cart-bar-copy {
   display: grid;
   flex: 1;
+  gap: 0.1rem;
   text-align: left;
-  line-height: 1.2;
+  line-height: 1.25;
+  font-size: 1.15rem;
+  font-weight: 700;
 }
 
 .sots-shop-page__cart-bar-copy span {
-  font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.82);
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .sots-shop-page__cart-bar-cta {
   flex-shrink: 0;
-  padding: 0.45rem 0.85rem;
+  padding: 0.55rem 1rem;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.12);
-  font-size: 0.72rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -1023,23 +1038,27 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 2rem;
-  height: 2rem;
+  min-width: 2.35rem;
+  height: 2.35rem;
   border-radius: 999px;
   background: var(--orp-gold, #f9c534);
   color: var(--orp-dark, #0f2d4d);
+  font-size: 1.1rem;
   font-weight: 700;
 }
 
 .sots-shop-page__cart-fab-copy {
   display: grid;
   text-align: left;
-  line-height: 1.2;
+  line-height: 1.25;
+  font-size: 1.15rem;
+  font-weight: 700;
 }
 
 .sots-shop-page__cart-fab-copy span {
-  font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.82);
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .sots-shop-drawer {
@@ -1095,7 +1114,7 @@
 .sots-shop-drawer__head h2 {
   margin: 0;
   font-family: var(--font-heading, "Marcellus", Georgia, serif);
-  font-size: 1.35rem;
+  font-size: 1.65rem;
   font-weight: 400;
 }
 
