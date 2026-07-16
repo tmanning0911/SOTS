@@ -10,6 +10,7 @@ import { OrderResendButton } from "../components/ticketing/OrderResendButton.jsx
 import { PatronContactForm } from "../components/ticketing/PatronContactForm.jsx";
 import { TicketQr } from "../components/ticketing/TicketQr.jsx";
 import { usePatron } from "../context/PatronContext.jsx";
+import { usePageMeta } from "../hooks/usePageMeta.js";
 import {
   fetchPasskeyStatus,
   registerPatronPasskey,
@@ -282,9 +283,7 @@ export function MyTicketsPage() {
   const [passwordMessage, setPasswordMessage] = useState("");
   const accountDetailsRef = useRef(null);
 
-  useEffect(() => {
-    document.title = "My Tickets - Shakespeare on the Sound";
-  }, []);
+  usePageMeta("/my-tickets/");
 
   useEffect(() => {
     if (user?.email) setEmail(user.email);
@@ -956,11 +955,12 @@ export function MyTicketsPage() {
                         <div className="sots-my-tickets-page__empty">
                           <p className="sots-my-tickets-page__empty-title">No tickets yet</p>
                           <p>
-                            Tickets bought online show as an email receipt—bring that to the gate. My
-                            Tickets lists orders placed with the same email through our account flow.
+                            After you buy online, your confirmation email includes QR codes and a
+                            confirmation code. Sign in with the same email here to see your orders,
+                            or use Confirmation lookup with that code.
                           </p>
                           <div className="sots-my-tickets-page__empty-actions">
-                            <ArrowButton to="/tickets/">Browse performances</ArrowButton>
+                            <ArrowButton to="/events/">Upcoming events</ArrowButton>
                             <ArrowButton to="/access-your-tickets/" variant="ghost">
                               Confirmation lookup
                             </ArrowButton>

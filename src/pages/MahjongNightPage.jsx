@@ -8,6 +8,7 @@ import { QtyStepper, useBuyBusy } from "../components/checkout/QtyStepper.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { ShareBar } from "../components/ShareBar.jsx";
+import { usePageMeta } from "../hooks/usePageMeta.js";
 
 function OfferRow({ item, quantity, onQty }) {
   const max = item.limited ? 4 : 10;
@@ -63,9 +64,7 @@ export function MahjongNightPage() {
     priceLabel: formatMahjongPrice(item.price * quantity),
   }));
 
-  useEffect(() => {
-    document.title = `${event.title} - Shakespeare on the Sound`;
-  }, [event.title]);
+  usePageMeta(MAHJONG_NIGHT_PATH);
 
   useEffect(() => {
     if (thanks) {

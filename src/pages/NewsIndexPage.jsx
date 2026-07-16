@@ -1,17 +1,16 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { NEWS_FILTERS, newsForFilter } from "../../js/news-archive.js";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
+import { usePageMeta } from "../hooks/usePageMeta.js";
 
 export function NewsIndexPage() {
   const [filter, setFilter] = useState("All");
   const items = useMemo(() => newsForFilter(filter), [filter]);
   const [featured, ...rest] = items;
 
-  useEffect(() => {
-    document.title = "News & History - Shakespeare on the Sound";
-  }, []);
+  usePageMeta("/news/");
 
   return (
     <InnerPageShell className="orpheum-page-shell--news">

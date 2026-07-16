@@ -5,6 +5,7 @@ import {
   refundTicketingOrder,
 } from "../../js/square-payments.js";
 import { formatPerformanceDate } from "../../js/ticketing.js";
+import { usePageMeta } from "../hooks/usePageMeta.js";
 
 const ADMIN_TOKEN_KEY = "sots-admin-token";
 
@@ -35,9 +36,7 @@ export function TicketingAdminPage() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    document.title = "Ticketing Admin - Shakespeare on the Sound";
-  }, []);
+  usePageMeta("/admin/ticketing/");
 
   useEffect(() => {
     if (!token) return;

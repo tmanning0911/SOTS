@@ -11,7 +11,7 @@ export const FAQ_SECTIONS = [
       },
       {
         q: "Where do I park?",
-        a: "Parking for our summer production is located at Old School Field on Witch Lane, down the road from Pinkney Park. Overflow parking is available at the United Church of Rowayton. There is a municipal parking lot in Rowayton and on-street parking on Rowayton Avenue. Handicap parking is available in Pinkney Park — contact our office at (203) 957-1006 in advance to secure an accessible space.",
+        a: "Parking for our summer production is located at Old School Field on Witch Lane, down the road from Pinkney Park. Overflow parking is available at the United Church of Rowayton. There is a municipal parking lot in Rowayton and on-street parking on Rowayton Avenue. Handicap parking is available in Pinkney Park — call (203) 957-1006 in advance to secure an accessible space.",
       },
       {
         q: "What time does the park open?",
@@ -85,11 +85,11 @@ export const FAQ_SECTIONS = [
     items: [
       {
         q: "How much are tickets?",
-        a: "General Admission (no reserved seating) tickets are $25, $15 for students and seniors, $5 for children 12 & under. VIP (reserved seating) tickets are $75 for low or high-back chairs. On all Tuesdays, tickets are donation only. You can arrive and donate at the door what you're able to pay.",
+        a: "General Admission (open lawn) is $25 for adults and $5 for children 12 & under. VIP reserved seating is $75. Students and seniors (65+) may buy $15 rush tickets in person at the park box office on the day of the show only. Pay-What-You-Will nights are Tuesdays (June 16 and 23 in 2026) — suggested donation $25 adults, $5 children.",
       },
       {
         q: "How do I purchase tickets?",
-        a: "Tickets are available for purchase in advance on our website or over the phone from noon–5pm during the run of the play at (203) 957-1006.",
+        a: "Buy online at shakespeareonthesound.org/tickets, or call (203) 957-1006. During the summer run, the park box office also sells tickets in person from 5pm on show days.",
       },
       {
         q: "Do I need to purchase tickets ahead of time?",
@@ -97,23 +97,23 @@ export const FAQ_SECTIONS = [
       },
       {
         q: "What are the box office hours?",
-        a: "The in-person box office is open from 5–7:30pm, Tuesday–Sunday in the park.",
+        a: "During the summer run, the in-person park box office is open from 5–7:30pm, Tuesday–Sunday. Off-season, reach us by email or at (203) 957-1006.",
       },
       {
         q: "Is there a student/senior rate?",
-        a: "Students and seniors (65+) are $15 for general admission tickets.",
+        a: "Yes — $15 rush for seniors 65+ and current students, sold in person only at the park box office on the day of the show.",
       },
       {
         q: "Do kids need a ticket for the Kids' Show?",
-        a: "Children (12 & under) general admission tickets are $5.",
+        a: "No ticket is required for the Kids' Show. It is accessible and begins at 6:30pm near the house in Pinkney Park every Main Stage evening.",
       },
       {
         q: "Can I transfer my tickets to another performance?",
-        a: "Yes. You do not need to contact the Box Office and can do so on your own through your Eventbrite account.",
+        a: "Yes. Email contactus@shakespeareonthesound.org or call (203) 957-1006 and we will help move your tickets to another available performance when possible.",
       },
       {
         q: "What is your refund/exchange policy?",
-        a: "All ticket sales are final, no refunds will be issued with the exception of inclement weather. If you cannot attend on the night you purchased tickets for, exchanges can be made by contacting the box office. See our Cancellation Policy for more information.",
+        a: "All ticket sales are final, no refunds will be issued with the exception of inclement weather. If you cannot attend on the night you purchased tickets for, exchanges can be made by contacting us at (203) 957-1006 or contactus@shakespeareonthesound.org. See our Cancellation Policy for more information.",
       },
     ],
   },
@@ -126,7 +126,7 @@ export const FAQ_SECTIONS = [
       },
       {
         q: "Do you have summer camps?",
-        a: "We do! We offer summer performance and training camps for ages 7–15.",
+        a: "We do! We offer summer performance and training camps for ages 8–15.",
       },
       {
         q: "What else do you do for kids?",
@@ -213,9 +213,9 @@ export const PRODUCTION_DETAILS = {
         type: "links",
         heading: "Plan Your Visit",
         links: [
-          { label: "Get Tickets", href: "/productions/much-ado-about-nothing/" },
+          { label: "About the Show", href: "/productions/much-ado-about-nothing/" },
           { label: "Plan Your Visit", href: "/about/visit/" },
-          { label: "Reserved VIP Seating", href: "/about/visit/" },
+          { label: "Upcoming Events", href: "/events/" },
           { label: "Kids' Show in the Park", href: "/productions/kids-show/" },
         ],
       },
@@ -339,7 +339,7 @@ export const PRODUCTION_DETAILS = {
         links: [
           { label: "Much Ado About Nothing 2026", href: "/productions/much-ado-about-nothing/" },
           { label: "Kids' Show", href: "/productions/kids-show/" },
-          { label: "Get Tickets", href: "/productions/much-ado-about-nothing/" },
+          { label: "Upcoming Events", href: "/events/" },
         ],
       },
     ],
@@ -555,7 +555,7 @@ export const INNER_PAGES = [
         eyebrow: "Pinkney Park",
         title: "Reach the people who bring the season to life",
         paragraphs: [
-          "General questions go to our shared inbox. Education bookings go straight to Stephanie. Box office phones are staffed in June during the run.",
+          "General questions go to our shared inbox. Education bookings go straight to Stephanie. During the summer run, the park box office is staffed on show nights.",
         ],
       },
       {
@@ -571,7 +571,7 @@ export const INNER_PAGES = [
             value: "stephanie@shakespeareonthesound.org",
           },
           { label: "Mailing Address", value: "P.O. Box 15, Norwalk, CT 06853" },
-          { label: "Box Office (June)", value: "(203) 957-1006" },
+          { label: "Main Phone", value: "(203) 957-1006" },
         ],
       },
       {
@@ -600,51 +600,13 @@ export const INNER_PAGES = [
     title: "Employment",
     heading: "Employment.",
     eyebrow: "Join Our Team",
-    intro: "Interested in joining Shakespeare on the Sound? Explore current openings and volunteer opportunities.",
+    intro: "Interested in joining Shakespeare on the Sound? Check back for openings, or volunteer with us.",
     sections: [
       {
         type: "prose",
         paragraphs: [
-          "To apply for open positions, please email our Managing and Producing Director, Aaron Simms at aaron@shakespeareonthesound.org with your cover letter and resume.",
-          "Volunteer in the park and receive complimentary admission! Help out at the box office, with seating, or the merch/ice cream tent.",
-        ],
-      },
-      {
-        type: "programs",
-        heading: "Current Openings",
-        programs: [
-          {
-            title: "Company Manager",
-            meta: ["May 12 – July 2, 2026", "$25/hr, up to 40 hours/week"],
-            paragraphs: [
-              "The Company Manager is a principal member of the production staff and reports directly to the Managing & Producing Director. Responsibilities include managing company email, social media, files, correspondence, petty cash, front of house operations, volunteer coordination, payroll documentation, travel arrangements, and supporting the production team throughout the run.",
-              "Submit cover letter and resume to aaron@shakespeareonthesound.org.",
-            ],
-          },
-          {
-            title: "Box Office Manager",
-            meta: ["June 9–28, 2026", "$1,800 fee", "Part-time, ~20 hours/week"],
-            paragraphs: [
-              "Leader of front-of-house activities, providing a positive customer experience and ensuring a safe and pleasant patron environment. Process ticket sales and donations, oversee box office phone, coordinate with production and stage management, and liaise with House Manager for volunteer ushers.",
-              "Please email a cover letter and resume to aaron@shakespeareonthesound.org.",
-            ],
-          },
-          {
-            title: "House Manager",
-            meta: ["June 9–28, 2026", "$1,800 stipend, pro-rated"],
-            paragraphs: [
-              "Oversee all aspects of seating within Pinkney Park including creation of seating charts for VIP reserved seating, setup of roping and chairs, patron compliance during the show, and post-show cleanup and storage.",
-              "Schedule: Tuesday through Sunday, 3pm to end of performance (~9:30/10pm).",
-            ],
-          },
-          {
-            title: "Merch Tent Manager",
-            meta: ["Summer 2026 season"],
-            paragraphs: [
-              "Organize and run the merch tent for the run of the show.",
-              "Contact aaron@shakespeareonthesound.org for details.",
-            ],
-          },
+          "We do not have open paid positions at this time. Summer 2026 park roles are filled. When new opportunities are posted, apply by emailing Executive Director Aaron Simms at aaron@shakespeareonthesound.org with your cover letter and resume.",
+          "Volunteer in the park and receive complimentary admission! Help out at the box office, with seating, or the merch/ice cream tent — email contactus@shakespeareonthesound.org to sign up.",
         ],
       },
       {
@@ -685,7 +647,7 @@ export const INNER_PAGES = [
         heading: "Before You Arrive",
         paragraphs: [
           "Whether this is your first time with Shakespeare on the Sound or your twenty-sixth, this guide will help you make the most of your evening.",
-          "Need to get in touch? Contact our office at (203) 957-1006 or contactus@shakespeareonthesound.org.",
+          "Need to get in touch? Call (203) 957-1006 or email contactus@shakespeareonthesound.org.",
         ],
       },
       {
@@ -768,24 +730,28 @@ export const INNER_PAGES = [
         heading: "Accessibility",
         paragraphs: [
           "Yes, there are spaces reserved for those with wheelchairs. Please contact us in advance so we can accommodate your full party.",
-          "There is handicap parking available in Pinkney Park. Contact our office at (203) 957-1006 to secure an accessible parking space.",
+          "There is handicap parking available in Pinkney Park. Call (203) 957-1006 to secure an accessible parking space.",
           "There are porta-potties located in the park, as well as a wheelchair-accessible bathroom.",
         ],
       },
       {
         type: "details",
-        heading: "Much Ado About Nothing — June 10–28",
+        heading: "Much Ado About Nothing — season complete (June 10–28, 2026)",
         rows: [
           {
             label: "Pay What You Will",
-            value: "June 16–23 and all Tuesdays at 7:30pm. Suggested donation: $25 adults, $15 seniors/students, $5 children 12 and under.",
+            value: "Tuesdays June 16 and 23 at 7:30pm. Suggested donation: $25 adults, $5 children 12 and under.",
           },
           {
             label: "General Admission",
-            value: "Wednesdays through Sundays, June 10–28 at 7:30pm. $25 adults, $15 rush for seniors/students, $5 children 12 and under.",
+            value: "Wednesdays through Sundays at 7:30pm. $25 adults, $5 children 12 and under.",
           },
-          { label: "Reserved Seating", value: "$75 any day of the week. See Reserved VIP Seating for details." },
-          { label: "Park Opens", value: "4pm (three hours before showtime). Box office and blanket placement from 5pm." },
+          {
+            label: "Student & Senior Rush",
+            value: "$15 for seniors 65+ and current students — in person at the park box office day-of only.",
+          },
+          { label: "Reserved Seating", value: "$75 any day of the week." },
+          { label: "Park Opens", value: "4pm. Box office and blanket placement from 5pm. Curtain at 7:30pm." },
         ],
       },
       {
@@ -795,12 +761,12 @@ export const INNER_PAGES = [
           "General admission tickets do not include a seat — bring your own blanket or low-back chair.",
           "VIP reserved seats are assigned upon arrival.",
           "Pictures and videos of the production are prohibited.",
-          "All devices must be silenced or turned off before the show begins at 7pm.",
+          "All devices must be silenced or turned off before the show begins at 7:30pm.",
         ],
       },
     ],
     cta: { label: "Getting Here", href: "/about/getting-here/" },
-    secondaryCta: { label: "Get Tickets", href: "/tickets/" },
+    secondaryCta: { label: "Upcoming Events", href: "/events/" },
   },
   {
     href: "/about/getting-here/",
@@ -895,13 +861,13 @@ export const INNER_PAGES = [
         paragraphs: [
           "All sales are final.",
           "In the event of a weather cancellation, we will try to move your tickets to another night or a refund will be given.",
-          "To find out if a show is cancelled, please take a look at our homepage for up-to-date announcements, call the box office at (203) 957-1006, or check any of our social media platforms.",
+          "To find out if a show is cancelled, please take a look at our homepage for up-to-date announcements, call (203) 957-1006, or check any of our social media platforms.",
           "In the case of expected thunder, lightning, extreme rain, flooding, or high winds for the time of the performance, we may cancel up to two hours before the start of the show.",
           "We do not cancel shows if we expect the weather to clear by show time — for example, if rain is scheduled to stop by mid-afternoon.",
           "We consult weather.com and Weather Underground (www.wunderground.com) throughout the day to make a judgment.",
           "It is our desire to complete every performance once we start. However, in the event of inclement weather, we may delay the start of the show (or even hold in the middle!) in the hope that the weather will clear. Announcements will be made to inform audience members of holds. We may also pause to take precautions to ensure the safety and health of the performers and crew. The show will usually restart after a brief hold for weather, and this is not considered a cancellation.",
           "Weather-related ticket refunds or exchanges will only be processed for officially cancelled performances at the request of the ticket holder. Refunds will not be granted if the performance is cancelled after the show has begun.",
-          "If you have tickets to a cancelled performance, please contact the box office at (203) 957-1006 or email us at contactus@shakespeareonthesound.org to reschedule your performance.",
+          "If you have tickets to a cancelled performance, please call (203) 957-1006 or email us at contactus@shakespeareonthesound.org to reschedule your performance.",
         ],
       },
     ],
@@ -1112,7 +1078,7 @@ export const INNER_PAGES = [
         programs: [
           {
             title: "The Globe Company",
-            meta: ["June 16–27, 2025", "Ages 8–15", "Rowayton Community Center", "Tuition: $1,100"],
+            meta: ["June 16–27, 2026", "Ages 8–15", "Rowayton Community Center", "Tuition: $1,100"],
             paragraphs: [
               "June 16–20: 11am–3pm. June 23–27: 11am–3pm. Performance: June 28 at 1:30pm.",
               "The Globe Company will present Scenes from Macbeth and is designed for 8 to 15-year-olds who are both serious about acting and new to it.",
@@ -1122,7 +1088,7 @@ export const INNER_PAGES = [
           },
           {
             title: "The Globe Company Moves to Ridgefield",
-            meta: ["August 4–8, 2025", "Ages 10–15", "Ridgefield Academy", "Tuition: $600"],
+            meta: ["August 4–8, 2026", "Ages 10–15", "Ridgefield Academy", "Tuition: $600"],
             paragraphs: [
               "August 4–8: 11am–3pm.",
               "A Week of Shakespeare — The Globe Company presents scenes from Shakespeare! Join us in this dynamic program designed for students ages 10 to 15, whether they are new to acting or passionate performers.",
@@ -1140,7 +1106,7 @@ export const INNER_PAGES = [
     title: "Apprentice Application",
     heading: "Professional Training.",
     eyebrow: "Education & Community",
-    intro: "Thinking of applying for the 2026 Apprentice Company? Here is information you will find helpful.",
+    intro: "The 2026 Apprentice Company application period has closed. Details below are for reference; check back for the next season.",
     sections: [
       {
         type: "figure",
@@ -1148,6 +1114,14 @@ export const INNER_PAGES = [
         alt: "Apprentice company artists in training",
         caption: "Apprentices work side-by-side with the professional company — onstage, backstage, and in the park.",
         ratio: "wide",
+      },
+      {
+        type: "prose",
+        heading: "Applications Closed",
+        paragraphs: [
+          "The 2026 Apprentice Company deadline was Sunday, March 8, 2026. We are not accepting new applications for this season.",
+          "Questions about future seasons? Email Stephanie Eiss, Director of Education and Outreach, at stephanie@shakespeareonthesound.org.",
+        ],
       },
       {
         type: "prose",
@@ -1239,22 +1213,14 @@ export const INNER_PAGES = [
         type: "prose",
         heading: "Application Process",
         paragraphs: [
-          "Application Deadline — All Candidates: Sunday, March 8, 2026.",
-          "Complete the online application below. Attach your resume (PDF or Word), or note that you will email it separately to Stephanie Eiss.",
-          "All applicants provide: contact information for two references (one professional/educational and one personal), a professional resume, and a written personal statement answering: What drew you to theater? Who are you as an artist and where are you in your artistic journey? What interests you in apprenticing at Shakespeare on the Sound and what do you hope to gain from the apprenticeship?",
-          "Successful applicants will be invited to interview in person or via Zoom (approximately 30–45 minutes).",
+          "Applications for 2026 closed Sunday, March 8, 2026.",
+          "When applications reopen, candidates provide contact information for two references (one professional/educational and one personal), a professional resume, and a written personal statement answering: What drew you to theater? Who are you as an artist and where are you in your artistic journey? What interests you in apprenticing at Shakespeare on the Sound and what do you hope to gain from the apprenticeship?",
+          "Successful applicants are invited to interview in person or via Zoom (approximately 30–45 minutes).",
           "All apprentices are expected to actively participate in all master classes. During load-in and tech all apprentices will be assigned jobs that they will perform throughout the run of the show.",
         ],
       },
-      {
-        type: "apprentice-form",
-        heading: "Apply Online",
-        paragraphs: [
-          "Applications are reviewed by Stephanie Eiss, Director of Education and Outreach. You will receive a confirmation email after you submit.",
-        ],
-      },
     ],
-    cta: { label: "Apply Online", href: "#apply" },
+    cta: { label: "Email Stephanie", href: "mailto:stephanie@shakespeareonthesound.org" },
   },
   {
     href: "/education/adult-enrichment/",
@@ -1508,7 +1474,7 @@ export const INNER_PAGES = [
     showSupport: false,
     intro: "Get your business noticed and support Shakespeare on the Sound.",
     sections: [],
-    cta: { label: "Contact Marketing", href: "mailto:marketing@ShakespeareOnTheSound.org" },
+    cta: { label: "Contact Marketing", href: "mailto:marketing@shakespeareonthesound.org" },
   },
   {
     href: "/support/events/",

@@ -21,18 +21,18 @@ export function AccessTicketsModal({ open, onClose }) {
         <ul className="orpheum-modal__options">
           <li>
             <Link
-              to="/tickets/"
+              to="/events/"
               className="sots-ticket-checkout-link sots-ticket-checkout-link--modal"
               onClick={onClose}
             >
-              <strong>Buy Tickets</strong>
-              <span>General admission and reserved seating — checkout on this site</span>
+              <strong>Upcoming Events</strong>
+              <span>Mahjong, gala, and more — tickets on this site</span>
             </Link>
           </li>
           <li>
             <a href="/about/contact/">
-              <strong>Box Office</strong>
-              <span>Purchased by phone or in person</span>
+              <strong>Contact</strong>
+              <span>Purchased by phone or need help with an order</span>
             </a>
           </li>
         </ul>

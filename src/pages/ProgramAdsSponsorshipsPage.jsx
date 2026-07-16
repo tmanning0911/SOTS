@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   formatProgramAdsPrice,
   PROGRAM_ADS,
   PROGRAM_ADS_CONTACT,
+  PROGRAM_ADS_PATH,
 } from "../../js/program-ads-sponsorships.js";
 import { openPaymentLinkCheckout } from "../../js/payment-link-checkout.js";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
+import { usePageMeta } from "../hooks/usePageMeta.js";
 
 function PayButton({ itemId, busyItemId, onPay }) {
   const busy = busyItemId === itemId;
@@ -38,9 +40,7 @@ export function ProgramAdsSponsorshipsPage() {
   const [note, setNote] = useState("");
   const page = PROGRAM_ADS;
 
-  useEffect(() => {
-    document.title = `${page.title} - Shakespeare on the Sound`;
-  }, [page.title]);
+  usePageMeta(PROGRAM_ADS_PATH);
 
   async function pay(itemId) {
     if (busyItemId) return;

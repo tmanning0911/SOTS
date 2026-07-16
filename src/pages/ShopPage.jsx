@@ -10,11 +10,11 @@ import {
 } from "../../js/shop.js";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
-import { ShopCartAside } from "../components/shop/ShopCartAside.jsx";
 import { ShopCartDrawer } from "../components/shop/ShopCartDrawer.jsx";
 import { ShopGiftCertSpotlight } from "../components/shop/ShopGiftCertSpotlight.jsx";
 import { ProductCard } from "../components/shop/ShopProductCard.jsx";
 import { useShop } from "../context/ShopContext.jsx";
+import { usePageMeta } from "../hooks/usePageMeta.js";
 
 export function ShopPage() {
   const {
@@ -31,8 +31,9 @@ export function ShopPage() {
   const [params] = useSearchParams();
   const thanks = params.get("thanks") === "1";
 
+  usePageMeta("/shop/");
+
   useEffect(() => {
-    document.title = "Gift Shop - Shakespeare on the Sound";
     prefetchShopProductImages(catalog);
   }, [catalog]);
 
@@ -92,52 +93,40 @@ export function ShopPage() {
             <div>
               <p className="orpheum-eyebrow">Merchandise</p>
               <h2 id="shop-merch-heading" className="orpheum-underline-heading">
-                Souvenirs &amp; keepsakes
+                Take home the season
               </h2>
             </div>
             <p className="sots-shop-page__catalog-note">
-              Choose quantities, mix items in your cart, then checkout once. Pickup at Shakespeare in
-              Pinkney Park during performances unless noted.
+              Mix items in one cart. Pickup at Pinkney Park during performances unless noted.
             </p>
           </div>
 
-          <div className="sots-shop-page__layout sots-shop-page__layout--instant">
-            <div className="sots-shop-page__main">
-              <div className="sots-shop-page__filters" role="group" aria-label="Product categories">
-                {categories.map((cat) => (
-                  <button
-                    key={cat.id}
-                    type="button"
-                    aria-pressed={category === cat.id}
-                    className={`sots-shop-page__filter${category === cat.id ? " is-active" : ""}`}
-                    onClick={() => setCategory(cat.id)}
-                  >
-                    {cat.label}
-                  </button>
-                ))}
-              </div>
-
-              {merchandise.length ? (
-                <div className="sots-shop-page__grid">
-                  {merchandise.map((product, index) => (
-                    <ProductCard key={product.id} product={product} priorityImage={index < 4} />
-                  ))}
-                </div>
-              ) : (
-                <p className="sots-shop-page__empty">
-                  No products in this category right now. Check back soon!
-                </p>
-              )}
+          <div className="sots-shop-page__main sots-shop-page__main--full">
+            <div className="sots-shop-page__filters" role="group" aria-label="Product categories">
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  type="button"
+                  aria-pressed={category === cat.id}
+                  className={`sots-shop-page__filter${category === cat.id ? " is-active" : ""}`}
+                  onClick={() => setCategory(cat.id)}
+                >
+                  {cat.label}
+                </button>
+              ))}
             </div>
 
-            <ShopCartAside
-              cart={cart}
-              cartCount={cartCount}
-              cartTotal={cartTotal}
-              onUpdate={updateQuantity}
-              onRemove={removeFromCart}
-              className="sots-shop-cart-aside--desktop"
-            />
+            {merchandise.length ? (
+              <div className="sots-shop-page__grid">
+                {merchandise.map((product, index) => (
+                  <ProductCard key={product.id} product={product} priorityImage={index < 4} />
+                ))}
+              </div>
+            ) : (
+              <p className="sots-shop-page__empty">
+                No products in this category right now. Check back soon!
+              </p>
+            )}
           </div>
         </section>
 
@@ -149,15 +138,16 @@ export function ShopPage() {
       {cartCount > 0 ? (
         <button
           type="button"
-          className="sots-shop-page__cart-fab"
+          className="sots-shop-page__cart-bar"
           onClick={() => setCartOpen(true)}
           aria-label={`Open cart, ${cartCount} items`}
         >
-          <span className="sots-shop-page__cart-fab-count">{cartCount}</span>
-          <span className="sots-shop-page__cart-fab-copy">
+          <span className="sots-shop-page__cart-bar-count">{cartCount}</span>
+          <span className="sots-shop-page__cart-bar-copy">
             <strong>View cart</strong>
             <span>{formatCents(cartTotal)}</span>
           </span>
+          <span className="sots-shop-page__cart-bar-cta">Checkout</span>
         </button>
       ) : null}
 

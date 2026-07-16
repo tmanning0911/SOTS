@@ -12,6 +12,7 @@ const TRACKS = [
 ];
 
 const MAX_RESUME_BYTES = 1_500_000;
+const APPLICATIONS_OPEN = false;
 
 function readFileAsBase64(file) {
   return new Promise((resolve, reject) => {
@@ -32,6 +33,19 @@ export function ApprenticeApplicationForm() {
   const [error, setError] = useState("");
   const [track, setTrack] = useState("");
   const [resumeWillEmail, setResumeWillEmail] = useState(false);
+
+  if (!APPLICATIONS_OPEN) {
+    return (
+      <div className="sots-apprentice-form sots-apprentice-form--closed" id="apply">
+        <p className="sots-apprentice-form__closed-title">Applications closed</p>
+        <p>
+          The 2026 Apprentice Company application period ended March 8, 2026. For questions about
+          future seasons, email{" "}
+          <a href="mailto:stephanie@shakespeareonthesound.org">stephanie@shakespeareonthesound.org</a>.
+        </p>
+      </div>
+    );
+  }
 
   async function handleSubmit(event) {
     event.preventDefault();

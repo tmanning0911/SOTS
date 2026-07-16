@@ -1,13 +1,9 @@
 import { useState } from "react";
-import { openPaymentLinkCheckout } from "../../../js/payment-link-checkout.js";
-import { QtyStepper, useBuyBusy } from "../checkout/QtyStepper.jsx";
 import { useShop } from "../../context/ShopContext.jsx";
 
 function GiftCertRow({ product }) {
   const { addToCart } = useShop();
-  const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
-  const { busy, error, runBuy } = useBuyBusy();
 
   return (
     <li className="sots-shop-spotlight__row">
@@ -17,44 +13,17 @@ function GiftCertRow({ product }) {
           <span>{product.description || product.name}</span>
         </div>
         <div className="sots-shop-spotlight__option-actions">
-          <QtyStepper
-            value={quantity}
-            min={1}
-            max={10}
-            label={`Quantity for ${product.name}`}
-            onChange={setQuantity}
-          />
           <button
             type="button"
             className={`sots-shop-btn${added ? " sots-shop-btn--added" : ""}`}
             onClick={() => {
-              addToCart(product, { quantity });
+              addToCart(product, { quantity: 1 });
               setAdded(true);
               window.setTimeout(() => setAdded(false), 1600);
             }}
           >
             {added ? "Added" : "Add to cart"}
           </button>
-          <button
-            type="button"
-            className="sots-shop-text-link"
-            disabled={busy}
-            onClick={() =>
-              runBuy(() =>
-                openPaymentLinkCheckout({
-                  kind: "shop",
-                  items: [{ itemId: product.id, sku: product.sku, quantity }],
-                }),
-              )
-            }
-          >
-            {busy ? "Starting…" : quantity > 1 ? `Buy ${quantity} now` : "Buy now"}
-          </button>
-          {error ? (
-            <p className="sots-shop-card__error" role="alert">
-              {error}
-            </p>
-          ) : null}
         </div>
       </div>
     </li>
@@ -72,7 +41,7 @@ export function ShopGiftCertSpotlight({ products }) {
           Gift certificates
         </h2>
         <p className="sots-shop-spotlight__lead">
-          Add certificates to your cart with other gifts, or buy now for a single amount.
+          Add any amount to your cart with merchandise. Certificates are emailed after checkout.
         </p>
         <ul className="sots-shop-spotlight__options">
           {products.map((product) => (

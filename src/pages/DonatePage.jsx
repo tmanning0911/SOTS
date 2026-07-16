@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
   centsToDollarsLabel,
@@ -14,6 +14,7 @@ import { openPaymentLinkCheckout } from "../../js/payment-link-checkout.js";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { useBuyBusy } from "../components/checkout/QtyStepper.jsx";
+import { usePageMeta } from "../hooks/usePageMeta.js";
 
 export function DonatePage() {
   const [params] = useSearchParams();
@@ -24,9 +25,7 @@ export function DonatePage() {
   const [coverFees, setCoverFees] = useState(true);
   const { busy, error, runBuy } = useBuyBusy();
 
-  useEffect(() => {
-    document.title = "Donate - Shakespeare on the Sound";
-  }, []);
+  usePageMeta(DONATE_PATH);
 
   const baseCents = useMemo(() => {
     if (custom.trim()) return dollarsToCents(custom);

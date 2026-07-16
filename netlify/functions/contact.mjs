@@ -585,7 +585,7 @@ export async function handler(event) {
     return jsonResponse(
       503,
       {
-        error: "Messaging is being set up. Please call the box office at (203) 957-1006 for now.",
+        error: "Messaging is being set up. Please call (203) 957-1006 for now.",
       },
       event,
       { methods: "POST, OPTIONS" },

@@ -2,9 +2,20 @@
 User-agent: *
 Allow: /
 
+# Private / transactional
 Disallow: /admin
 Disallow: /admin/
+Disallow: /my-tickets
+Disallow: /my-tickets/
+Disallow: /tickets/checkout
+Disallow: /tickets/checkout/
+Disallow: /shop/checkout
+Disallow: /shop/checkout/
+
+# Admin APIs
 Disallow: /api/content-admin
 Disallow: /api/admin-auth
+Disallow: /api/patron
+Disallow: /api/ticketing/admin
 
 Sitemap: https://www.shakespeareonthesound.org/sitemap.xml

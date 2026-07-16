@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { AppLayout } from "./layout/AppLayout.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import { InnerPage } from "./pages/InnerPage.jsx";
@@ -21,27 +20,20 @@ import { EventsPage } from "./pages/EventsPage.jsx";
 import { EducationEventsPage } from "./pages/EducationEventsPage.jsx";
 import { DonatePage } from "./pages/DonatePage.jsx";
 import { ProgramAdsSponsorshipsPage } from "./pages/ProgramAdsSponsorshipsPage.jsx";
+import { PageMeta } from "./hooks/usePageMeta.js";
 import { INNER_PAGES, hrefToRoutePath } from "../js/pages-data.js";
 
 const CUSTOM_INNER_HREFS = new Set([
-  "/support/events/",
   "/support/donate/",
   "/support/program-ads-sponsorships/",
   "/education/events/",
+  "/support/events/",
 ]);
-
-function PageTitle({ title }) {
-  const location = useLocation();
-  useEffect(() => {
-    if (title) document.title = `${title} - Shakespeare on the Sound`;
-  }, [title, location.pathname]);
-  return null;
-}
 
 function InnerPageRoute({ page }) {
   return (
     <>
-      <PageTitle title={page.title} />
+      <PageMeta path={page.href} />
       <InnerPage page={page} />
     </>
   );
@@ -65,7 +57,7 @@ export default function App() {
             return routePair(
               path,
               <>
-                <PageTitle title={page.title} />
+                <PageMeta path={page.href} />
                 <FaqPage />
               </>
             );
@@ -80,7 +72,6 @@ export default function App() {
         {routePair("events/mahjong-night", <MahjongNightPage />)}
         {routePair("events/much-ado-about-something", <GalaPage />)}
         {routePair("events", <EventsPage />)}
-        {routePair("support/events", <EventsPage />)}
         {routePair("education/events", <EducationEventsPage />)}
         {routePair("support/donate", <DonatePage />)}
         {routePair("support/program-ads-sponsorships", <ProgramAdsSponsorshipsPage />)}

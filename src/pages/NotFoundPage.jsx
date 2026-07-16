@@ -1,12 +1,10 @@
-import { useEffect } from "react";
 import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
+import { usePageMeta } from "../hooks/usePageMeta.js";
 
 export function NotFoundPage() {
-  useEffect(() => {
-    document.title = "Page Not Found - Shakespeare on the Sound";
-  }, []);
+  usePageMeta({ path: "/404/", noindex: true });
 
   return (
     <InnerPageShell showVisit={false} showNewsletter={false}>

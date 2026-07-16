@@ -38,8 +38,8 @@ export const HERO_HOME = {
   titleLines: ["Experience", "the Magic of", "Shakespeare"],
   titleLastLine: "Under the",
   titleHighlight: "Stars",
-  ctaLabel: "Tickets",
-  ctaHref: SITE.ticketsUrl,
+  ctaLabel: "What's Next",
+  ctaHref: "/events/",
   ctaExternal: false,
 };
 
@@ -84,18 +84,18 @@ export const UTILITY_LINKS = [
 
 export const FEATURED_SPOTLIGHT = [
   {
-    title: "Much Ado About Nothing",
-    venue: "Main Stage · Shakespeare in Pinkney Park",
-    dates: "June 10–28, 2026",
-    image: MEDIA.muchAdoPoster,
-    href: "/productions/much-ado-about-nothing/",
+    title: "Mahjong Midsummer Classic",
+    venue: "Fundraiser · Rowayton, CT",
+    dates: "Saturday, September 19, 2026",
+    image: "/images/mahjong-midsummer-classic-poster.jpg",
+    href: "/events/mahjong-night/",
   },
   {
-    title: "Kids' Show",
-    venue: "Family · Shakespeare in Pinkney Park",
-    dates: "Summer 2026",
-    image: MEDIA.kidsImage,
-    href: "/productions/kids-show/",
+    title: "Much Ado About Something",
+    venue: "Annual Gala · Norwalk, CT",
+    dates: "Friday, October 16, 2026",
+    image: MEDIA.galaImage,
+    href: "/events/much-ado-about-something/",
   },
 ];
 
@@ -106,7 +106,7 @@ export const NAV_ITEMS = [
       {
         title: "Events By Location",
         links: [
-          { label: "All Events", href: "/tickets/" },
+          { label: "All Events", href: "/events/" },
           { label: "Shakespeare in Pinkney Park", href: "/about/visit/" },
           { label: "Education Events", href: "/education/events/" },
         ],
@@ -115,20 +115,20 @@ export const NAV_ITEMS = [
         title: "Events By Genre",
         twoColumn: true,
         links: [
-          { label: "Main Stage", href: "/tickets/" },
+          { label: "Main Stage", href: "/productions/much-ado-about-nothing/" },
           { label: "Family", href: "/productions/kids-show/" },
-          { label: "Gala", href: "/support/events/" },
+          { label: "Gala", href: "/events/much-ado-about-something/" },
           { label: "Education", href: "/education/in-schools/" },
           { label: "Comedy", href: "/productions/much-ado-about-nothing/" },
           { label: "Past Productions", href: "/productions/past-productions/" },
-          { label: "Special Event", href: "/support/events/" },
+          { label: "Special Event", href: "/events/mahjong-night/" },
           { label: "Youth Programs", href: "/education/summer-camps/" },
         ],
       },
       {
         title: "Ticket Information",
         links: [
-          { label: "Box Office", href: "/about/contact/" },
+          { label: "Contact", href: "/about/contact/" },
           { label: "Tickets", href: SITE.ticketsUrl },
           { label: "VIP & Ticket Types", href: `${SITE.ticketsUrl}#ticket-pricing` },
           { label: "FAQ", href: "/about/faq/" },
@@ -137,11 +137,11 @@ export const NAV_ITEMS = [
       },
     ],
     featured: {
-      title: "Much Ado About Nothing",
-      meta: "Main Stage · Shakespeare in Pinkney Park",
-      dates: "June 10–28, 2026",
-      href: "/productions/much-ado-about-nothing/",
-      image: MEDIA.muchAdoPoster,
+      title: "Much Ado About Something",
+      meta: "Annual Gala · Norwalk, CT",
+      dates: "October 16, 2026",
+      href: "/events/much-ado-about-something/",
+      image: MEDIA.galaImage,
     },
   },
   {
@@ -213,7 +213,7 @@ export const NAV_ITEMS = [
           { label: "Individual Giving", href: "/support/individual-giving/" },
           { label: "Program Ads & Sponsorships", href: "/support/program-ads-sponsorships/" },
           { label: "Gift Shop", href: SITE.shopUrl },
-          { label: "Events", href: "/support/events/" },
+          { label: "Events", href: "/events/" },
           { label: "Thank You", href: "/support/donors/" },
         ],
       },
@@ -293,7 +293,7 @@ export const FOOTER_MAIN = {
       title: "Visit",
       links: [
         { label: "Tickets", href: SITE.ticketsUrl },
-        { label: "Events", href: "/tickets/" },
+        { label: "Events", href: "/events/" },
         { label: "Plan a Visit", href: "/about/visit/" },
         { label: "Parking & Directions", href: "/about/getting-here/" },
         { label: "Gift Shop", href: SITE.shopUrl },
@@ -303,7 +303,7 @@ export const FOOTER_MAIN = {
     {
       title: "Experience",
       links: [
-        { label: "This Season", href: "/productions/much-ado-about-nothing/" },
+        { label: "This Season", href: "/events/" },
         { label: "Kids Show", href: "/productions/kids-show/" },
         { label: "Summer Camps", href: "/education/summer-camps/" },
         { label: "Education in Schools", href: "/education/in-schools/" },
@@ -386,7 +386,7 @@ export const MAIN_NAV = NAV_ITEMS.map((item) => ({
 export const QUICK_BAR_LINKS = [
   { label: "Parking", href: "/about/getting-here/" },
   { label: "Seating", href: "/about/visit/" },
-  { label: "Buy Tickets", href: "/tickets/" },
+  { label: "Events", href: "/events/" },
   { label: "My Tickets", href: "/my-tickets/" },
 ];
 
@@ -447,16 +447,15 @@ export const SEASON_SHOWS = [
 ];
 
 export const SEASON_MILESTONES = [
-  { date: "Jun 10", label: "2026 summer season opens with Much Ado About Nothing at Shakespeare in Pinkney Park." },
-  { date: "Jun 10–28", label: "Performance run — arrive early, spread a blanket, and settle in for the show." },
-  { date: "Summer", label: "Kids' Show and education programs in the park." },
+  { date: "Jun 10–28", label: "Much Ado About Nothing — thank you for a landmark summer in Pinkney Park." },
+  { date: "Sep 19", label: "Mahjong Midsummer Classic — join us in Rowayton." },
   { date: "Oct 16", label: "Much Ado About Something gala — support the season ahead." },
 ];
 
 export const SEASON_BENEFITS = [
   {
     title: "Accessible admission",
-    text: "Professional outdoor Shakespeare at no charge. Open lawn seating for everyone.",
+    text: "Professional outdoor Shakespeare with open lawn seating for everyone.",
   },
   {
     title: "Under the stars",
@@ -464,7 +463,7 @@ export const SEASON_BENEFITS = [
   },
   {
     title: "Reserved options",
-    text: "Limited reserved seating and special packages available through Eventbrite for select performances.",
+    text: "VIP reserved seating and special packages available online for select performances.",
   },
   {
     title: "Plan your picnic",
@@ -484,27 +483,27 @@ export const VISIT_ESSENTIALS = [
   { label: "Admission", value: "Accessible — donations welcome" },
   { label: "Venue", value: "Shakespeare in Pinkney Park, Rowayton, CT" },
   { label: "Seating", value: "Open lawn — bring a blanket or low chair" },
-  { label: "Gates", value: "Opens one hour before curtain" },
+  { label: "Gates", value: "Park opens at 4pm · box office at 5pm · curtain 7:30pm" },
   { label: "Weather", value: "Performances may delay for rain — check same-day updates" },
 ];
 
 export const FEATURED_SHOW = {
-  title: "Much Ado About Nothing",
-  tagline: "Shakespeare's sparkling comedy of wit, romance, and mistaken identity",
-  dates: "June 10–28, 2026",
-  venue: "Shakespeare in Pinkney Park, Rowayton, CT",
-  director: "David Frederick Mold",
-  image: MEDIA.muchAdoPoster,
-  heroImage: MEDIA.heroBanner,
-  href: "/productions/much-ado-about-nothing/",
-  tickets: SITE.ticketsUrl,
+  title: "Much Ado About Something",
+  tagline: "Our annual gala — cocktails, dancing, and auctions for the season ahead",
+  dates: "Friday, October 16, 2026",
+  venue: "The House Up on the Hill, Norwalk, CT",
+  director: "",
+  image: MEDIA.galaImage,
+  heroImage: MEDIA.galaImage,
+  href: "/events/much-ado-about-something/",
+  tickets: "/events/much-ado-about-something/#tickets",
 };
 
 export const HOMEPAGE_STATS = [
   { value: "1996", label: "Serving Fairfield County since" },
   { value: "Accessible", label: "Outdoor Shakespeare under the stars" },
   { value: "Shakespeare in Pinkney Park", label: "Rowayton, Connecticut" },
-  { value: "June 10–28", label: "2026 summer season" },
+  { value: "Oct 16", label: "2026 gala — what's next" },
 ];
 
 export const SUPPORT_MISSION = {
@@ -526,14 +525,14 @@ export const SUPPORT_MISSION = {
     { label: "Individual Giving", href: "/support/individual-giving/" },
     { label: "Stocks & DAFs", href: "/support/donate/" },
     { label: "Sponsorships", href: "/support/program-ads-sponsorships/" },
-    { label: "Gala & Events", href: "/support/events/" },
+    { label: "Gala & Events", href: "/events/" },
   ],
 };
 
 export const HOMEPAGE_PATHWAYS = [
   {
     title: "Productions",
-    desc: "Browse the season, explore past shows, and reserve your seats.",
+    desc: "Relive this summer's Much Ado, explore past shows, and look ahead to what's next.",
     href: "/productions/much-ado-about-nothing/",
     image: MEDIA.muchAdoPoster,
     accent: "forest",
@@ -568,7 +567,7 @@ export const HOMEPAGE_PATHWAYS = [
 export const HOMEPAGE_FAQ = [
   {
     q: "How much are tickets?",
-    a: "General admission is $25 for adults, $15 for students and seniors, and $5 for children 12 and under. VIP reserved seating is $75. Tuesdays are donation-only performances — pay what you can at the door.",
+    a: "General admission is $25 for adults and $5 for children 12 and under. VIP reserved seating is $75. Students and seniors (65+) may buy $15 rush tickets in person at the park box office day-of only. Pay-What-You-Will nights are Tuesdays — suggested donation $25 adults, $5 children.",
   },
   {
     q: "What should I bring to Shakespeare in Pinkney Park?",
@@ -580,7 +579,7 @@ export const HOMEPAGE_FAQ = [
   },
   {
     q: "How do I get reserved seating?",
-    a: "VIP tickets include a reserved high-back or low-back chair and can be purchased through Eventbrite. General admission is open lawn seating — bring your own blanket or low-back chair.",
+    a: "VIP tickets include a reserved high-back or low-back chair and can be purchased online. General admission is open lawn seating — bring your own blanket or low-back chair.",
   },
 ];
 

@@ -13,6 +13,7 @@ import { TicketPricing } from "../components/ticketing/TicketPricing.jsx";
 import { TicketStatusBadge } from "../components/ticketing/TicketStatusBadge.jsx";
 import { useTickets } from "../context/TicketProvider.jsx";
 import { useShop } from "../context/ShopContext.jsx";
+import { usePageMeta } from "../hooks/usePageMeta.js";
 
 const PRODUCTION_SLUG = "much-ado-about-nothing";
 const FEATURED_SHOW = SEASON_SHOWS.find((s) => s.id === "much-ado") ?? SEASON_SHOWS[0];
@@ -37,7 +38,7 @@ function TicketsQuickBar() {
         Confirmation lookup
       </Link>
       <a href="tel:+12039571006" className="orpheum-page-quick__link">
-        Box office (203) 957-1006
+        (203) 957-1006
       </a>
       <Link to="/about/visit/" className="orpheum-page-quick__link">
         Plan your visit
@@ -50,7 +51,10 @@ function TicketsSpotlight({ data, loading, priceLabel }) {
   const ticketingState = data ? getTicketingState(data) : null;
   const production = data?.production;
   const featured = data?.featuredTicket;
-  const title = patronDisplayName(production?.title ?? featured?.name ?? FEATURED_SHOW.title);
+  const seasonEnded = !loading && Boolean(ticketingState && !ticketingState.canPurchase);
+  const title = seasonEnded
+    ? "Summer season complete"
+    : patronDisplayName(production?.title ?? featured?.name ?? FEATURED_SHOW.title);
   const dates = FEATURED_SHOW.dates;
   const venue = featured?.venue ?? "Shakespeare in Pinkney Park";
   const slug = production?.slug ?? PRODUCTION_SLUG;
@@ -59,26 +63,53 @@ function TicketsSpotlight({ data, loading, priceLabel }) {
     <section className="tix-page__spotlight" aria-labelledby="tix-spotlight-heading" data-reveal>
       <div className="tix-page__spotlight-ticket">
         <div className="tix-page__spotlight-visual">
-          <img src={MEDIA.muchAdoPoster} alt="" loading="eager" width={450} height={712} />
+          <img
+            src={seasonEnded ? MEDIA.galaImage : MEDIA.muchAdoPoster}
+            alt=""
+            loading="eager"
+            width={450}
+            height={712}
+          />
         </div>
         <div className="tix-page__spotlight-copy">
-          <p className="tix-page__spotlight-eyebrow">2026 Main Stage</p>
+          <p className="tix-page__spotlight-eyebrow">{seasonEnded ? "What's next" : "2026 Main Stage"}</p>
           <h2 id="tix-spotlight-heading">{title}</h2>
-          <p className="tix-page__spotlight-meta">
-            <span>{dates}</span>
-            <span>{venue} · Rowayton, CT</span>
-          </p>
-          {!loading && ticketingState?.statusLabel ? (
-            <TicketStatusBadge status={ticketingState.statusLabel} className="tix-page__spotlight-badge" marketingOnly />
-          ) : null}
-          {priceLabel ? <p className="tix-page__spotlight-price">{priceLabel}</p> : null}
-          <p className="tix-page__spotlight-lead">
-            Open-air Shakespeare under the stars. Choose a night below to pick quantities and
-            checkout.
-          </p>
-          <p className="tix-page__spotlight-about">
-            <Link to={`/productions/${slug}/`}>About the show</Link>
-          </p>
+          {seasonEnded ? (
+            <>
+              <p className="tix-page__spotlight-meta">
+                <span>Much Ado About Nothing · June 10–28, 2026</span>
+                <span>Thank you for a landmark summer in Pinkney Park</span>
+              </p>
+              <p className="tix-page__spotlight-lead">
+                Main Stage tickets are no longer on sale. Join us next for the Mahjong Midsummer
+                Classic and our annual gala.
+              </p>
+              <div className="tix-page__spotlight-about" style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+                <ArrowButton href="/events/mahjong-night/">Mahjong tickets</ArrowButton>
+                <ArrowButton href="/events/much-ado-about-something/#tickets" variant="ghost">
+                  Gala tickets
+                </ArrowButton>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="tix-page__spotlight-meta">
+                <span>{dates}</span>
+                <span>{venue} · Rowayton, CT</span>
+              </p>
+              {!loading && ticketingState?.statusLabel ? (
+                <TicketStatusBadge status={ticketingState.statusLabel} className="tix-page__spotlight-badge" marketingOnly />
+              ) : null}
+              {priceLabel ? <p className="tix-page__spotlight-price">{priceLabel}</p> : null}
+              <p className="tix-page__spotlight-lead">
+                Open-air Shakespeare under the stars. Choose a night below to pick quantities and
+                checkout.
+              </p>
+              <p className="tix-page__spotlight-about">
+                <Link to={`/productions/${slug}/`}>About the show</Link>
+              </p>
+            </>
+          )}
         </div>
       </div>
     </section>
@@ -135,9 +166,9 @@ export function TicketsPage() {
     return getPriceFromLabel(data);
   }, [data]);
 
-  useEffect(() => {
-    document.title = "Tickets & Dates - Shakespeare on the Sound";
-  }, []);
+  const seasonEnded = Boolean(data && !getTicketingState(data).canPurchase);
+
+  usePageMeta("/tickets/");
 
   useEffect(() => {
     const perf = searchParams.get("perf");
@@ -156,13 +187,13 @@ export function TicketsPage() {
         {thanks ? (
           <div className="tix-page__thanks" role="status">
             <p>
-              Thank you — if you completed payment, check your email for a receipt. Bring that
-              confirmation to the gate (online purchases are not added to My Tickets yet).
+              Thank you — check your email for a branded receipt with your confirmation and QR
+              codes. You can also open My Tickets with the same email to view your orders.
             </p>
             <div className="tix-page__thanks-actions">
-              <ArrowButton href="/about/visit/">Plan your visit</ArrowButton>
-              <ArrowButton href="#dates" variant="ghost">
-                Buy another night
+              <ArrowButton href="/my-tickets/">My Tickets</ArrowButton>
+              <ArrowButton href="/about/visit/" variant="ghost">
+                Plan your visit
               </ArrowButton>
             </div>
           </div>
@@ -173,17 +204,46 @@ export function TicketsPage() {
         <section className="tix-page__book" id="dates" aria-labelledby="tix-dates-heading">
           <div className="tix-page__book-head" data-reveal>
             <div>
-              <p className="orpheum-eyebrow">Reserve your seats</p>
+              <p className="orpheum-eyebrow">{seasonEnded ? "Coming up" : "Reserve your seats"}</p>
               <h2 id="tix-dates-heading" className="orpheum-underline-heading">
-                Choose a performance
+                {seasonEnded ? "Upcoming events" : "Choose a performance"}
               </h2>
             </div>
             <p className="tix-page__book-note">
-              Pick a night, choose quantities, then checkout once. Questions?{" "}
-              <a href="tel:+12039571006">(203) 957-1006</a> · <Link to="/about/faq/">Ticket FAQ</Link>
+              {seasonEnded ? (
+                <>
+                  Main Stage nights have ended. Get tickets for Mahjong or the gala, or{" "}
+                  <Link to="/events/">browse all events</Link>. Questions?{" "}
+                  <a href="tel:+12039571006">(203) 957-1006</a>
+                </>
+              ) : (
+                <>
+                  Pick a night, choose quantities, then checkout once. Questions?{" "}
+                  <a href="tel:+12039571006">(203) 957-1006</a> · <Link to="/about/faq/">Ticket FAQ</Link>
+                </>
+              )}
             </p>
           </div>
 
+          {seasonEnded ? (
+            <div className="tix-page__book-grid" data-reveal>
+              <div className="tix-page__dates-panel">
+                <p>
+                  <ArrowButton href="/events/mahjong-night/">Mahjong Midsummer Classic — Sept 19</ArrowButton>
+                </p>
+                <p style={{ marginTop: "0.75rem" }}>
+                  <ArrowButton href="/events/much-ado-about-something/#tickets" variant="ghost">
+                    Much Ado About Something Gala — Oct 16
+                  </ArrowButton>
+                </p>
+                <p className="tix-page__book-note" style={{ marginTop: "1.25rem" }}>
+                  <Link to="/productions/much-ado-about-nothing/">About this summer&apos;s Much Ado</Link>
+                  {" · "}
+                  <Link to="/my-tickets/">Look up past ticket orders</Link>
+                </p>
+              </div>
+            </div>
+          ) : (
           <div className="tix-page__book-grid" data-reveal>
             <div className="tix-page__dates-panel">
               {loading ? (
@@ -221,6 +281,7 @@ export function TicketsPage() {
               </p>
             </aside>
           </div>
+          )}
         </section>
 
         <ShopMerchTeaser

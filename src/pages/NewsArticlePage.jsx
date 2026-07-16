@@ -1,9 +1,9 @@
-import { useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { getNewsBySlug, relatedNews } from "../../js/news-archive.js";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { NewsShare } from "../components/news/NewsShare.jsx";
+import { usePageMeta } from "../hooks/usePageMeta.js";
 
 function normalizeCopy(value) {
   return String(value || "")
@@ -29,9 +29,11 @@ export function NewsArticlePage() {
     (paragraph) => !isDuplicateCopy(article?.excerpt, paragraph),
   );
 
-  useEffect(() => {
-    if (article) document.title = `${article.title} - Shakespeare on the Sound`;
-  }, [article]);
+  usePageMeta(
+    article
+      ? article.href || `/news/${slug}/`
+      : { path: `/news/${slug}/`, noindex: true, title: "News" },
+  );
 
   if (!article) return <Navigate to="/news/" replace />;
 

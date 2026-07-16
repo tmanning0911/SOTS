@@ -94,7 +94,7 @@ export function NewsShare({ path, title }) {
 
 /** Build a stable public path for sharing an event card. */
 export function eventSharePath(event) {
-  if (!event) return "/support/events/";
+  if (!event) return "/events/";
   const href = String(event.ctaUrl || event.href || "").trim();
   if (/^https?:\/\//i.test(href)) {
     try {
@@ -115,7 +115,7 @@ export function eventSharePath(event) {
     if (String(event.source || "").includes("seed") || String(event.category || "").match(/Camp|Tour|Program|Park/i)) {
       return `/education/events/#${event.id}`;
     }
-    return `/support/events/#${event.id}`;
+    return `/events/#${event.id}`;
   }
-  return "/support/events/";
+  return "/events/";
 }

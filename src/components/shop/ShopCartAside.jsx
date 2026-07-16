@@ -27,7 +27,6 @@ export function ShopCartAside({
           option: line.option || undefined,
         })),
       });
-      // Keep cart until Square redirects back (?thanks=1); only close drawers etc.
       onCheckoutStarted?.();
     });
   }
@@ -48,9 +47,7 @@ export function ShopCartAside({
         {!cart.length ? (
           <div className="sots-shop-cart-aside__empty">
             <p>Your cart is empty.</p>
-            <p className="sots-shop-cart-aside__empty-hint">
-              Add merchandise or gift certificates with any quantities, then checkout once.
-            </p>
+            <p className="sots-shop-cart-aside__empty-hint">Add items from the shop, then checkout once.</p>
           </div>
         ) : (
           <>
@@ -105,6 +102,7 @@ export function ShopCartAside({
               <span>Subtotal</span>
               <strong>{formatCents(cartTotal)}</strong>
             </div>
+            <p className="sots-shop-cart-aside__note">Pickup at Pinkney Park unless noted. Gift certificates email after payment.</p>
             {error ? <p className="sots-shop-card__error">{error}</p> : null}
             <button
               type="button"

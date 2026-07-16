@@ -14,6 +14,7 @@ import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { ShareBar, eventSharePath } from "../components/ShareBar.jsx";
+import { usePageMeta } from "../hooks/usePageMeta.js";
 
 const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
 
@@ -141,9 +142,7 @@ export function EducationEventsPage() {
   const [cursor, setCursor] = useState(() => ({ year: now.getFullYear(), month: now.getMonth() }));
   const [selectedKey, setSelectedKey] = useState(() => todayKey());
 
-  useEffect(() => {
-    document.title = "Education Events - Shakespeare on the Sound";
-  }, []);
+  usePageMeta("/education/events/");
 
   useEffect(() => {
     Promise.all([

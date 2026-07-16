@@ -36,7 +36,7 @@ function renderFooter() {
             <h2>Contact</h2>
             <p>${SITE.address}</p>
             <p><a href="mailto:${SITE.email}">${SITE.email}</a></p>
-            <p>Box Office for June: ${SITE.boxOffice}</p>
+            <p>Main phone: ${SITE.boxOffice}</p>
           </div>
         </div>
       </div>

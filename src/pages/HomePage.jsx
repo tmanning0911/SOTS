@@ -9,12 +9,11 @@ import { SupportMission } from "../components/home/SupportMission.jsx";
 import { RecentNews } from "../components/home/RecentNews.jsx";
 import { Sponsors } from "../components/home/Sponsors.jsx";
 import { Newsletter } from "../components/home/Newsletter.jsx";
+import { usePageMeta } from "../hooks/usePageMeta.js";
 import { refreshScroll, initHomePageMotion, resetHomePageMotion } from "../polish.js";
 
 export function HomePage() {
-  useEffect(() => {
-    document.title = "Shakespeare on the Sound | Affordable Outdoor Shakespeare in Rowayton, CT";
-  }, []);
+  usePageMeta("/");
 
   useEffect(() => {
     resetHomePageMotion();

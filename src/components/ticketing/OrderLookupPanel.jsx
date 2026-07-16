@@ -93,9 +93,8 @@ export function OrderLookupPanel({ initialEmail = "", initialCode = "", onBuyTic
   return (
     <>
       <p>
-        Look up a single order with the email and confirmation code from an account-flow or
-        box-office purchase. Online payment-link orders are not available here — bring your email
-        receipt to the gate.
+        Look up a single order with the email and confirmation code from your receipt. Ticket
+        purchases completed online include both in the confirmation email.
       </p>
       <p className="sots-checkout__hint">
         For all your shows, <Link to="/my-tickets/">open My Tickets</Link>.

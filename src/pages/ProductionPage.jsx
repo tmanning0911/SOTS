@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { PRODUCTION_DETAILS } from "../../js/pages-data.js";
 import { HOME_UPCOMING_EVENTS } from "../../js/home-upcoming-events.js";
@@ -10,6 +9,7 @@ import { PageSection } from "../components/PageSection.jsx";
 import { TicketPricing } from "../components/ticketing/TicketPricing.jsx";
 import { TicketStatusBadge } from "../components/ticketing/TicketStatusBadge.jsx";
 import { useTickets } from "../context/TicketProvider.jsx";
+import { usePageMeta } from "../hooks/usePageMeta.js";
 
 const TICKETED_SLUGS = new Set(["much-ado-about-nothing"]);
 
@@ -26,9 +26,11 @@ export function ProductionPage() {
   const showTicketing = TICKETED_SLUGS.has(slug);
   const priceLabel = getPriceFromLabel(eventbrite);
 
-  useEffect(() => {
-    if (data) document.title = `${data.title} - Shakespeare on the Sound`;
-  }, [data]);
+  usePageMeta(
+    data
+      ? `/productions/${slug}/`
+      : { path: `/productions/${slug}/`, noindex: true, title: "Production" },
+  );
 
   if (!data) return <Navigate to="/404" replace />;
 

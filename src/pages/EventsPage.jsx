@@ -9,6 +9,7 @@ import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { ShareBar, eventSharePath } from "../components/ShareBar.jsx";
+import { usePageMeta } from "../hooks/usePageMeta.js";
 
 const FEATURED_SHOW = SEASON_SHOWS.find((s) => s.id === "much-ado") ?? SEASON_SHOWS[0];
 const FUNDRAISER_CATEGORIES = new Set(["fundraiser", "gala"]);
@@ -228,9 +229,7 @@ export function EventsPage() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    document.title = "Events - Shakespeare on the Sound";
-  }, []);
+  usePageMeta("/events/");
 
   useEffect(() => {
     const id = window.location.hash.replace(/^#/, "");

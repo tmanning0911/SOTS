@@ -9,6 +9,7 @@ import { EventSponsorSection } from "../components/EventSponsorSection.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
 import { ShareBar } from "../components/ShareBar.jsx";
+import { usePageMeta } from "../hooks/usePageMeta.js";
 
 function OfferRow({ item, quantity, onQty }) {
   return (
@@ -55,9 +56,7 @@ export function GalaPage() {
     priceLabel: formatGalaPrice(item.price * quantity),
   }));
 
-  useEffect(() => {
-    document.title = `${event.title} - Shakespeare on the Sound`;
-  }, [event.title]);
+  usePageMeta(GALA_PATH);
 
   useEffect(() => {
     const id = window.location.hash.replace(/^#/, "");

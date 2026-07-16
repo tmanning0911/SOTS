@@ -21,7 +21,7 @@ export function OurStorySection() {
             open sky.
           </p>
           <ArrowButton href="/about/mission-history/" variant="light">
-            Learn More
+            About our mission
           </ArrowButton>
         </div>
 

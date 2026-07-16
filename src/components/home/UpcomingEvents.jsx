@@ -5,10 +5,10 @@ import { ArrowButton } from "../ArrowButton.jsx";
 import { useTickets } from "../../context/TicketProvider.jsx";
 import { TicketStatusBadge } from "../ticketing/TicketStatusBadge.jsx";
 
-function LearnMoreLink({ href }) {
+function LearnMoreLink({ href, label }) {
   return (
     <a className="orpheum-events-grid__learn-more" href={href}>
-      Learn More
+      {label}
       <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
         <path d="M9.141 12.914L14.141 7.914L9.141 2.914" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M13.625 8L1.715 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -17,16 +17,21 @@ function LearnMoreLink({ href }) {
   );
 }
 
+function eventDetailsLabel(event) {
+  const title = String(event?.title || "event").trim();
+  if (/mahjong/i.test(title)) return "Mahjong Night details";
+  if (/gala|much ado about something/i.test(title)) return "Gala details";
+  if (/kids|shakespeare for kids/i.test(title)) return "Kids show details";
+  if (/much ado/i.test(title)) return "Much Ado details";
+  return `${title} details`;
+}
+
 function EventCta({ event, compact = false }) {
-  const label = event.ctaLabel || "Learn More";
+  const label = event.ctaLabel || eventDetailsLabel(event);
   const href = event.ctaHref || event.href;
   const isTicket =
-    /ticket/i.test(label) &&
+    /ticket/i.test(String(event.ctaLabel || label)) &&
     (href === TICKETS_PAGE_PATH || href?.startsWith("/tickets") || Boolean(event.eventbriteId));
-
-  if (label === "Learn More") {
-    return <LearnMoreLink href={href} />;
-  }
 
   if (isTicket) {
     const ticketsHref = event.eventbriteId
@@ -39,15 +44,23 @@ function EventCta({ event, compact = false }) {
     );
   }
 
-  return (
-    <ArrowButton href={href} className={compact ? "orpheum-arrow-btn--compact" : ""}>
-      {label}
-    </ArrowButton>
-  );
+  if (event.ctaLabel && !/^learn more$/i.test(String(event.ctaLabel).trim())) {
+    return (
+      <ArrowButton href={href} className={compact ? "orpheum-arrow-btn--compact" : ""}>
+        {label}
+      </ArrowButton>
+    );
+  }
+
+  return <LearnMoreLink href={href} label={eventDetailsLabel(event)} />;
 }
 
 function EventCard({ event }) {
   const image = event.image ?? event.featureImage;
+  const href = event.ctaHref || event.href;
+  const hasTicketCta =
+    /ticket/i.test(String(event.ctaLabel || "")) &&
+    (href === TICKETS_PAGE_PATH || href?.startsWith("/tickets") || Boolean(event.eventbriteId));
 
   return (
     <article className="orpheum-events-grid__card orpheum-events-grid__card--photo">
@@ -63,7 +76,7 @@ function EventCard({ event }) {
       </div>
       <div className="orpheum-events-grid__photo-actions">
         <EventCta event={event} compact />
-        <LearnMoreLink href={event.href} />
+        {hasTicketCta ? <LearnMoreLink href={event.href} label={eventDetailsLabel(event)} /> : null}
       </div>
     </article>
   );
@@ -138,7 +151,7 @@ export function UpcomingEvents() {
         </div>
         <div className="orpheum-events-grid__head-actions">
           <ScrollControls scrollRef={scrollRef} />
-          <ArrowButton href="/support/events/">View All Events</ArrowButton>
+          <ArrowButton href="/events/">View All Events</ArrowButton>
         </div>
       </div>
 

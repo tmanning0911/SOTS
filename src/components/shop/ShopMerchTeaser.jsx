@@ -21,10 +21,10 @@ export function ShopMerchTeaser({
         <div>
           <p className="orpheum-eyebrow">Merchandise</p>
           <h2 id={headingId} className="orpheum-underline-heading">
-            Souvenirs &amp; keepsakes
+            Take home the season
           </h2>
           <p className="sots-shop-teaser__lead">
-            Choose a quantity or add several items to your cart, then pick up at the park.
+            Totes, pins, and keepsakes — pay online, pick up at Pinkney Park.
           </p>
         </div>
         <ArrowButton href={SHOP_PAGE_PATH}>Browse gift shop</ArrowButton>

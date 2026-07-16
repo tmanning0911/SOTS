@@ -19,7 +19,7 @@ export const GALA_EVENT = {
   contactPhoneHref: "tel:+12039571006",
   contactEmail: "aaron@shakespeareonthesound.org",
   donateHref: "/support/donate/",
-  committeeHref: "/about/contact/?topic=sponsorship",
+  committeeHref: "/about/contact/",
   faqs: [
     {
       q: "Can I buy a table?",

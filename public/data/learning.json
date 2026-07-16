@@ -3,8 +3,8 @@
     "icon": "GraduationCap",
     "description": "We offer workshops on any of Shakespeare's plays or any classical play your class is studying.",
     "title": "In Schools",
-    "ctaText": "Contact for Pricing",
-    "ctaLink": "/contact?topic=education",
+    "ctaText": "Learn More",
+    "ctaLink": "/education/in-schools/",
     "image": "/images/learning/in-schools.jpg",
     "sort_order": 1,
     "id": "69f3fb305885aa36a182ab9b"
@@ -15,7 +15,7 @@
     "description": "Bring a touring Shakespeare performance or workshop to your school, library, or community venue across Fairfield County.",
     "icon": "Mic",
     "ctaText": "Book a Tour",
-    "ctaLink": "/contact?topic=education",
+    "ctaLink": "/education/tours/",
     "image": "/images/learning/tours.jpg",
     "sort_order": 2
   },
@@ -24,7 +24,7 @@
     "description": "Two teaching artists bring Shakespeare's language to life using games and theatre exercises. Students explore content, language, and relationships — and discover how themes connect to their everyday life. Grades K–12, $700 for up to 4 workshops.",
     "title": "Trippingly on the Tongue",
     "ctaText": "Book This Workshop",
-    "ctaLink": "/contact?topic=education",
+    "ctaLink": "mailto:stephanie@shakespeareonthesound.org",
     "image": "/images/learning/trippingly-on-the-tongue.jpg",
     "sort_order": 3,
     "id": "69f3fb305885aa36a182ab9c"
@@ -34,7 +34,7 @@
     "description": "Two actors perform excerpts from the play, then teaching artists guide students through language and meaning. Grades 7–12, $1,200 for up to 4 workshops in one day.",
     "title": "All the World's a Stage",
     "ctaText": "Book This Workshop",
-    "ctaLink": "/contact?topic=education",
+    "ctaLink": "mailto:stephanie@shakespeareonthesound.org",
     "image": "/images/learning/all-the-worlds-a-stage.jpg",
     "sort_order": 4,
     "id": "69f3fb305885aa36a182ab9d"
@@ -44,7 +44,7 @@
     "description": "A 45-minute AP English enrichment presentation followed by a 15-minute Q&A. Examines the Q1, Q2 and F versions of Hamlet. Unlimited attendees, Grades 9–12, $400.",
     "title": "Page to Stage: Hamlet",
     "ctaText": "Book This Workshop",
-    "ctaLink": "/contact?topic=education",
+    "ctaLink": "mailto:stephanie@shakespeareonthesound.org",
     "image": "/images/learning/page-to-stage-hamlet.jpg",
     "sort_order": 5,
     "id": "69f3fb305885aa36a182ab9e"
@@ -54,7 +54,7 @@
     "description": "For educators of all grades — our teaching artists instruct teachers on educational theater pedagogy using Forum Theater, Image Theater, and Teacher-in-Role techniques.",
     "title": "Teacher's Workshop",
     "ctaText": "Learn More",
-    "ctaLink": "/contact?topic=education",
+    "ctaLink": "mailto:stephanie@shakespeareonthesound.org",
     "image": "/images/learning/teachers-workshop.jpg",
     "sort_order": 6,
     "id": "69f3fb305885aa36a182ab9f"
@@ -64,7 +64,7 @@
     "description": "Visit our education tent in Pinkney Park, Rowayton before the show. Watch Shakespeare in 30 Minutes — a half-hour version of our MainStage production — 30 minutes before showtime.",
     "title": "In the Park",
     "ctaText": "Plan Your Visit",
-    "ctaLink": "/about#visit",
+    "ctaLink": "/about/visit/",
     "image": "/images/learning/in-the-park.jpg",
     "sort_order": 7,
     "id": "69f3fb305885aa36a182aba0"
@@ -74,7 +74,7 @@
     "description": "Summer camps for children ages 8–15. The Globe Company presents Scenes from Shakespeare — designed for the budding actor. No Shakespeare or acting experience necessary.",
     "title": "Summer Camps",
     "ctaText": "View Summer Camps",
-    "ctaLink": "/contact?topic=education",
+    "ctaLink": "/education/summer-camps/",
     "image": "/images/learning/summer-camps.jpg",
     "sort_order": 8,
     "id": "69f3fb305885aa36a182aba1"
@@ -83,8 +83,8 @@
     "icon": "Users",
     "description": "Apprenticeships run mid-May through early July. Apprentices perform the Pre-Show, attend master classes in NYC, and create their own shows through Budding Bards. Internships available in various disciplines.",
     "title": "Professional Training",
-    "ctaText": "Apply Now",
-    "ctaLink": "/contact?topic=education",
+    "ctaText": "Learn More",
+    "ctaLink": "/education/apprentice-application/",
     "image": "/images/learning/professional-training.jpg",
     "sort_order": 9,
     "id": "69f3fb305885aa36a182aba2"

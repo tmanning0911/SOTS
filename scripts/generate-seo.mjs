@@ -1,48 +1,77 @@
 /**
- * Post-build sitemap for Netlify deploy.
+ * Post-build SEO: sitemap.xml + per-route HTML shells with unique <head>.
+ * Netlify serves these static files before the SPA fallback, so crawlers
+ * get correct title/description/canonical without executing JS.
  */
-import { writeFileSync, mkdirSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { INNER_PAGES, hrefToRoutePath } from "../js/pages-data.js";
+import {
+  listSeoRoutes,
+  listSitemapRoutes,
+  patchHtmlHead,
+  SITE_URL,
+  toCanonicalPath,
+} from "../js/seo.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const siteUrl = (process.env.VITE_SITE_URL || "https://www.shakespeareonthesound.org").replace(/\/$/, "");
+const distDir = path.join(root, "dist");
 const lastmod = new Date().toISOString().slice(0, 10);
 
-const routes = [
-  { loc: "/", priority: "1.0", changefreq: "weekly" },
-  ...INNER_PAGES.map((page) => ({
-    loc: hrefToRoutePath(page.href),
-    priority: page.href.includes("/productions/") ? "0.9" : "0.8",
-    changefreq: "monthly",
-  })),
-  { loc: "/tickets", priority: "0.95", changefreq: "weekly" },
-  { loc: "/events/mahjong-night", priority: "0.9", changefreq: "weekly" },
-  { loc: "/shop", priority: "0.85", changefreq: "weekly" },
-  { loc: "/productions/much-ado-about-nothing", priority: "0.9", changefreq: "weekly" },
-  { loc: "/access-your-tickets", priority: "0.7", changefreq: "monthly" },
-  { loc: "/productions/kids-show", priority: "0.85", changefreq: "monthly" },
-  { loc: "/productions/past-productions", priority: "0.75", changefreq: "yearly" },
-];
-
-const unique = [...new Map(routes.map((r) => [r.loc, r])).values()];
-
-const xml = `<?xml version="1.0" encoding="UTF-8"?>
+function writeSitemap(routes) {
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${unique
-  .map(
-    (route) => `  <url>
-    <loc>${siteUrl}${route.loc.startsWith("/") ? route.loc : `/${route.loc}`}</loc>
+${routes
+  .map((route) => {
+    const loc = route.path === "/" ? `${SITE_URL}/` : `${SITE_URL}${route.path}`;
+    return `  <url>
+    <loc>${loc}</loc>
     <lastmod>${lastmod}</lastmod>
-    <changefreq>${route.changefreq}</changefreq>
-    <priority>${route.priority}</priority>
-  </url>`,
-  )
+    <changefreq>${route.changefreq || "monthly"}</changefreq>
+    <priority>${route.priority || "0.8"}</priority>
+  </url>`;
+  })
   .join("\n")}
 </urlset>
 `;
 
-mkdirSync(path.join(root, "dist"), { recursive: true });
-writeFileSync(path.join(root, "dist/sitemap.xml"), xml);
-console.log(`Wrote dist/sitemap.xml (${unique.length} URLs)`);
+  writeFileSync(path.join(distDir, "sitemap.xml"), xml);
+  writeFileSync(path.join(root, "public", "sitemap.xml"), xml);
+  console.log(`Wrote sitemap.xml (${routes.length} URLs)`);
+}
+
+function prerenderHeads(shellHtml, routes) {
+  let written = 0;
+  for (const route of routes) {
+    const html = patchHtmlHead(shellHtml, route);
+    if (route.path === "/") {
+      writeFileSync(path.join(distDir, "index.html"), html);
+      written += 1;
+      continue;
+    }
+
+    const segments = toCanonicalPath(route.path).replace(/^\/|\/$/g, "").split("/");
+    const dir = path.join(distDir, ...segments);
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(path.join(dir, "index.html"), html);
+    written += 1;
+  }
+  console.log(`Prerendered ${written} HTML shells with unique <head>`);
+}
+
+const shellPath = path.join(distDir, "index.html");
+let shellHtml;
+try {
+  shellHtml = readFileSync(shellPath, "utf8");
+} catch {
+  console.error("dist/index.html missing — run vite build first");
+  process.exit(1);
+}
+
+const allRoutes = listSeoRoutes();
+const sitemapRoutes = listSitemapRoutes();
+
+writeSitemap(sitemapRoutes);
+prerenderHeads(shellHtml, allRoutes);
+
+console.log(`SEO complete · site ${SITE_URL}`);
