@@ -96,23 +96,22 @@ export function OrpheumInnerPage({ page }) {
           <div className="orpheum-inner-page__content" data-reveal>
             {page.intro ? <p className="orpheum-inner-page__intro">{page.intro}</p> : null}
             {isApprentice ? (
-              <nav className="orpheum-page-quick sots-apprentice-jump" aria-label="Apprentice page shortcuts">
-                <a href="#apprenticeships" className="orpheum-page-quick__link">
-                  Tracks
-                </a>
-                <a href="#additional-materials" className="orpheum-page-quick__link">
-                  Supplemental materials
-                </a>
-                <a href="#apply" className="orpheum-page-quick__link">
-                  Apply
-                </a>
+              <nav className="sots-apprentice-jump" aria-label="Apprentice page shortcuts">
+                <a href="#at-a-glance">Overview</a>
+                <a href="#apprenticeships">Tracks</a>
+                <a href="#additional-materials">Materials</a>
+                <a href="#apply">Apply</a>
               </nav>
             ) : null}
             {sections.map((section, index) => (
               <PageSection
                 key={`${section.heading ?? "section"}-${index}`}
                 section={section}
-                band={index % 2 === 1 && section.type !== "apprentice-form"}
+                band={
+                  isApprentice
+                    ? false
+                    : index % 2 === 1 && section.type !== "apprentice-form"
+                }
               />
             ))}
 

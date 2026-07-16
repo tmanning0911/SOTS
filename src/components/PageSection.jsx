@@ -261,16 +261,23 @@ export function PageSection({ section, band = false }) {
 
   if (section.type === "programs") {
     const columnsClass = section.columns === 2 ? " orpheum-inner-page__programs--2up" : "";
+    const variantClass =
+      section.variant === "editorial" ? " orpheum-inner-page__programs--editorial" : "";
     return (
       <section
         className={`orpheum-inner-page__section${bandClass}`}
         id={section.anchor || undefined}
       >
         {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
-        <div className={`orpheum-inner-page__programs${columnsClass}`}>
+        {(section.paragraphs ?? []).map((paragraph) => (
+          <p key={paragraph.slice(0, 48)}>
+            <TextWithMailLinks text={paragraph} />
+          </p>
+        ))}
+        <div className={`orpheum-inner-page__programs${columnsClass}${variantClass}`}>
           {section.programs.map((program) => (
             <article key={program.title} className="orpheum-inner-page__program">
-              <h3>{ensurePeriod(program.title)}</h3>
+              <h3>{program.title}</h3>
               {program.meta?.length ? (
                 <ul className="orpheum-inner-page__program-meta">
                   {program.meta.map((line) => (
@@ -324,7 +331,10 @@ export function PageSection({ section, band = false }) {
 
   if (section.type === "details") {
     return (
-      <section className={`orpheum-inner-page__section${bandClass}`}>
+      <section
+        className={`orpheum-inner-page__section${bandClass}`}
+        id={section.anchor || undefined}
+      >
         {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
         <dl className="orpheum-inner-page__details">
           {section.rows.map((row) => (

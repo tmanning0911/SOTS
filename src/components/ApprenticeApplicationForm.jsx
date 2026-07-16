@@ -153,7 +153,7 @@ export function ApprenticeApplicationForm() {
   }
 
   return (
-    <div className="sots-apprentice-form" id="apply">
+    <div className="sots-apprentice-form">
       {status === "success" ? (
         <div className="sots-apprentice-form__success" role="status">
           <h3>Application sent</h3>
@@ -187,7 +187,7 @@ export function ApprenticeApplicationForm() {
           </p>
 
           <fieldset>
-            <legend>Your information</legend>
+            <legend><span className="sots-apprentice-form__step">1</span> Your information</legend>
             <div className="sots-apprentice-form__grid">
               <label htmlFor={`${formId}-name`}>
                 Name
@@ -238,7 +238,7 @@ export function ApprenticeApplicationForm() {
           </fieldset>
 
           <fieldset>
-            <legend>Which apprenticeship are you applying for?</legend>
+            <legend><span className="sots-apprentice-form__step">2</span> Which apprenticeship?</legend>
             <p className="sots-apprentice-form__hint">You can choose more than one.</p>
             <div className="sots-apprentice-form__tracks" role="group" aria-label="Apprenticeship tracks">
               {TRACKS.map((track) => (
@@ -269,7 +269,7 @@ export function ApprenticeApplicationForm() {
           </fieldset>
 
           <fieldset>
-            <legend>Reference 1 — professional / educational</legend>
+            <legend><span className="sots-apprentice-form__step">3</span> Reference 1 — professional / educational</legend>
             <div className="sots-apprentice-form__grid">
               <label htmlFor={`${formId}-ref1Name`}>
                 Name
@@ -296,7 +296,7 @@ export function ApprenticeApplicationForm() {
           </fieldset>
 
           <fieldset>
-            <legend>Reference 2 — personal</legend>
+            <legend><span className="sots-apprentice-form__step">4</span> Reference 2 — personal</legend>
             <div className="sots-apprentice-form__grid">
               <label htmlFor={`${formId}-ref2Name`}>
                 Name
@@ -318,7 +318,7 @@ export function ApprenticeApplicationForm() {
           </fieldset>
 
           <fieldset>
-            <legend>Upload resume</legend>
+            <legend><span className="sots-apprentice-form__step">5</span> Resume</legend>
             <label htmlFor={`${formId}-resume`}>
               Resume (PDF or Word, max 1.5 MB)
               <input
@@ -344,7 +344,7 @@ export function ApprenticeApplicationForm() {
           </fieldset>
 
           <fieldset>
-            <legend>Personal statement</legend>
+            <legend><span className="sots-apprentice-form__step">6</span> Personal statement</legend>
             <p className="sots-apprentice-form__hint">
               Answer the three questions below, or upload a personal statement file (as on the previous
               site). Your personal statement is the most important part of the application.

@@ -1107,7 +1107,7 @@ export const INNER_PAGES = [
     heading: "Apprentice Company.",
     eyebrow: "Education & Community",
     intro:
-      "Thinking of applying for the Apprentice Company? Here is the information you will find helpful. Opportunities exist in acting, directing, playwriting, education, costuming, and production — and we are open to specific tracks proposed by applicants, subject to approval.",
+      "Thinking of applying? Opportunities exist in acting, directing, playwriting, education, costuming, and production — and we welcome specific tracks proposed by applicants, subject to approval.",
     sections: [
       {
         type: "figure",
@@ -1117,22 +1117,32 @@ export const INNER_PAGES = [
         ratio: "wide",
       },
       {
+        type: "details",
+        heading: "At a glance",
+        anchor: "at-a-glance",
+        rows: [
+          { label: "Dates", value: "May 4 – June 29, 2026 (possible extension to July 5)" },
+          { label: "Start", value: "Must be available Monday, May 4, 2026" },
+          { label: "Stipend", value: "$1,000 travel stipend · unpaid apprenticeship · housing not available" },
+          { label: "Deadline", value: "Sunday, March 8, 2026" },
+          { label: "Apply", value: "Complete the form below, then email track-specific materials to stephanie@shakespeareonthesound.org" },
+        ],
+      },
+      {
         type: "prose",
         heading: "Requirements",
         paragraphs: [
-          "Applicants must be over 18 and have completed at least one year of college or have extensive theater experience in the desired discipline. Unfortunately we can no longer accommodate high school students in any artistic disciplines. High school students interested in theater administration can apply through their high school internship program.",
-          "Successful candidates will be self-motivated, dedicated, inquisitive, collaborative, enthusiastic, and capable of working in a fast-paced, challenging, multi-faceted environment.",
+          "Applicants must be over 18 and have completed at least one year of college or have extensive theater experience in the desired discipline. We can no longer accommodate high school students in artistic disciplines. High school students interested in theater administration can apply through their high school internship program.",
+          "Successful candidates are self-motivated, dedicated, inquisitive, collaborative, enthusiastic, and capable of working in a fast-paced, multi-faceted environment.",
         ],
       },
       {
         type: "prose",
         heading: "Program Details",
         paragraphs: [
-          "May 4 – June 29, 2026 (possible extension to July 5). The position is unpaid. A travel stipend of $1,000 for the duration of the apprenticeship will be provided. Housing is not available. Applicants must be available to start Monday, May 4, 2026.",
-          "Apprentices function as an integral part of Shakespeare on the Sound and work directly with the professional artists creating the mainstage production. Shakespeare on the Sound is committed to equity, diversity, inclusion, and accessibility. We strongly encourage all interested artists to apply.",
-          "All apprentices collaborate to produce a 30-minute version of Much Ado About Nothing performed at local libraries and schools, as well as prior to each Main Stage performance in Rowayton, CT.",
-          "Apprentices also support the technical, backstage, and artistic teams on the mainstage production. Acting apprentices serve as understudies and participate in an Understudy Run during the residency in the park.",
-          "Members of the Apprentice Company receive multi-disciplinary master classes taught by professional theater makers, academics, and artists — in person in Connecticut and New York City, or over Zoom if necessary.",
+          "Apprentices work directly with the professional artists creating the mainstage production. Shakespeare on the Sound is committed to equity, diversity, inclusion, and accessibility — we strongly encourage all interested artists to apply.",
+          "All apprentices collaborate on a 30-minute version of Much Ado About Nothing for local libraries, schools, and nightly pre-shows in Rowayton. They also support technical, backstage, and artistic teams on the mainstage. Acting apprentices understudy and join an Understudy Run in the park.",
+          "Training includes multi-disciplinary master classes with professional theater makers, academics, and artists — in Connecticut, New York City, or over Zoom when needed.",
         ],
       },
       {
@@ -1150,153 +1160,114 @@ export const INNER_PAGES = [
         type: "programs",
         heading: "Apprenticeships Offered",
         anchor: "apprenticeships",
-        columns: 2,
+        variant: "editorial",
+        paragraphs: [
+          "All apprentices participate in master classes. During load-in and tech, every apprentice is assigned jobs that continue through the run.",
+        ],
         programs: [
           {
             title: "Acting — SOS Players",
-            meta: ["Minimum 6 actors", "Start May 4, 2026"],
+            meta: ["Minimum 6 actors"],
             paragraphs: [
-              "We look for a minimum of six actors for the company. The SOS Players collaborate with the playwriting and directing apprentices to devise a 30-minute version of Much Ado About Nothing appropriate for a young audience, performed nightly for families in the park.",
-              "Acting apprentices observe specific mainstage rehearsals, participate in an Understudy Run of the mainstage production, and attend all master classes. Applicants must be strong actors who are creative, collaborative, and fond of ensemble work.",
+              "Devise a 30-minute Much Ado for young audiences with playwriting and directing apprentices; perform nightly in the park. Observe mainstage rehearsals, join an Understudy Run, and attend all master classes. Strong actors who thrive on ensemble work.",
             ],
           },
           {
             title: "Directing",
-            meta: ["Start May 4, 2026", "Meet with director prior to May 1"],
+            meta: ["Meet director before May 1"],
             paragraphs: [
-              "First, the directing apprentice collaborates with the education director and the acting and playwriting apprentices to devise Much Ado About Nothing for kids — a 30-minute version for young audiences performed nightly prior to the mainstage show.",
-              "Second, the directing apprentice assists the director on Much Ado About Nothing. Applicants should be highly collaborative, with a working knowledge of Shakespeare and the ability to work with a wide range of personalities; self-motivated, hard-working, able to multitask, and reliable. Availability to meet with the Main Stage director prior to May 1 (in person or via Zoom) is required.",
+              "Collaborate on Much Ado for kids, then assist the Main Stage director. Collaborative Shakespeare sense, multitasking, and reliability required — including a pre-May 1 meeting (in person or Zoom).",
             ],
           },
           {
             title: "Education",
-            meta: ["Start May 4, 2026"],
             paragraphs: [
-              "Responsibilities include creating Much Ado About Nothing study guides; creating, implementing, and running activities at the First Folio Kids Corner during the run; and planning curriculum for Shakespeare on the Sound summer camps.",
-              "The education apprentice also serves as a Teaching Artist for spring workshops in Fairfield County schools. Applicants should be self-motivated, independent, creative, and flexible thinkers who feel confident teaching Shakespeare to children. Familiarity with Augusto Boal is a plus. An SOS Player apprentice may double as an education apprentice.",
+              "Study guides, First Folio Kids Corner, summer-camp curriculum, and spring Teaching Artist workshops across Fairfield County. Self-motivated teachers of Shakespeare to children; Augusto Boal familiarity a plus. May combine with SOS Players.",
             ],
           },
           {
             title: "Playwriting",
-            meta: ["Start May 4, 2026"],
             paragraphs: [
-              "The playwriting apprentice writes the script for a 30-minute version of Much Ado About Nothing for young audiences, devised in collaboration with the directing and acting apprentices.",
-              "The language mixes colloquial English and Shakespeare's text. The play is performed nightly prior to the mainstage production and at schools and libraries in Fairfield County during May and June.",
+              "Write the kids' Much Ado script with directing and acting apprentices — colloquial English woven with Shakespeare's text — for nightly park performances and May–June school/library tours.",
             ],
           },
           {
             title: "Costuming",
-            meta: ["Start May 4, 2026"],
             paragraphs: [
-              "The costume apprentice works directly with the costume designer and wardrobe supervisor: pulling costumes, assisting fittings and alterations, supporting wardrobe during the run, and laundering costumes nightly.",
-              "Additionally, the costume apprentice designs costumes for Much Ado About Nothing for kids — working with the director on a design and providing sketches. Sewing skills and the ability to work with a wide range of personalities are essential. Due to budget restraints, costume designs may not be fully realized, but efforts are made to create a portion of the design.",
+              "Assist designer and wardrobe supervisor on pulls, fittings, alterations, run support, and nightly laundry. Design costumes for the kids' show with sketches. Sewing skills essential; designs may be only partially realized.",
             ],
           },
           {
             title: "Production",
-            meta: ["Start May 4, 2026"],
             paragraphs: [
-              "First, the production apprentice stage-manages the development and tour of Much Ado About Nothing for kids.",
-              "Second, the production apprentice assists the TD and ATD during load-in week and works with the technical crew preparing the park for tech. Exact duties depend on the apprentice's technical skills and interest.",
-              "Third, beginning tech through the run, the production apprentice assists the stage management team and producer. Applicants with a strong interest in props, lighting, sound, or set design can focus on that area during tech week. Candidates should be self-motivated, collaborative, eager to learn, professional, responsible, and able to work efficiently in a fast-paced environment.",
+              "Stage-manage the kids' show tour; assist TD/ATD through load-in and tech; support stage management and the producer through the run. Props, lighting, sound, or set focus welcome during tech.",
             ],
           },
-        ],
-      },
-      {
-        type: "prose",
-        heading: "All Apprentices",
-        paragraphs: [
-          "All apprentices are expected to actively participate in every master class. During load-in and tech, every apprentice is assigned jobs that continue throughout the run of the show.",
-        ],
-      },
-      {
-        type: "prose",
-        heading: "Application Deadline",
-        paragraphs: [
-          "All candidates — Sunday, March 8, 2026.",
-          "To apply: complete the form below and email the appropriate track-specific supplemental materials to stephanie@shakespeareonthesound.org.",
         ],
       },
       {
         type: "prose",
         heading: "Application Process",
         paragraphs: [
-          "Once we have received your completed application, we will contact you to schedule your interview. Interviews are conducted in person or via Zoom and last approximately 30–45 minutes.",
+          "Complete the online form and email track-specific supplemental materials to stephanie@shakespeareonthesound.org. Once we receive your application, we schedule an interview (in person or Zoom, about 30–45 minutes).",
         ],
       },
       {
         type: "prose",
         heading: "What All Applicants Provide",
         paragraphs: [
-          "Contact information for two references — one professional/educational and one personal (entered on the form below).",
-          "A professional resume detailing educational and professional work experience in your chosen field. The resume helps us understand what you have been up to and who you are at this point in your life. We do not want you to feel pressure to craft a resume based on what you think we are looking for. We review each application individually and seek a diverse group of candidates with varying levels of experience.",
-          "A written personal statement answering: What drew you to theater? Who are you as an artist, and where are you in your artistic journey? What interests you in apprenticing at Shakespeare on the Sound, and what do you hope to gain from the apprenticeship? Your personal statement is the most important part of the application.",
+          "Two references — one professional/educational and one personal — entered on the form.",
+          "A resume of educational and professional work in your field. Use it to show who you are now; do not invent what you think we want. We seek a diverse range of experience.",
+          "A personal statement answering: What drew you to theater? Who are you as an artist, and where are you in your journey? Why Shakespeare on the Sound, and what do you hope to gain? This is the most important part of the application.",
         ],
       },
       {
         type: "programs",
-        heading: "Additional Materials — by Apprenticeship",
+        heading: "Additional Materials by Track",
         anchor: "additional-materials",
-        columns: 2,
+        variant: "editorial",
+        paragraphs: [
+          "Email these materials to stephanie@shakespeareonthesound.org with your application. Play choices for directing, playwriting, and costuming: As You Like It, Twelfth Night, The Tempest, Macbeth, Hamlet, Othello.",
+        ],
         programs: [
           {
             title: "Acting (SOS Players)",
             paragraphs: [
-              "Successful candidates should prepare two monologues (one contemporary and one Shakespeare). Each monologue should be approximately one to two minutes in length.",
-              "In addition to your monologues, please prepare 16 bars of your favorite song to be sung a cappella or accompanied by yourself on a musical instrument.",
-              "Please note: Refrain from using monologues from Much Ado About Nothing or the sonnets as audition pieces.",
+              "Two monologues (one contemporary, one Shakespeare), each 1–2 minutes, plus 16 bars of a favorite song a cappella or self-accompanied. Do not use Much Ado or the sonnets.",
             ],
           },
           {
             title: "Education",
             paragraphs: [
-              "Imagine you are teaching Much Ado About Nothing to children 11–14 years of age in a summer camp setting. Write a lesson plan that explores the theme of DECEPTION.",
-              "Your lesson plan should reflect a 1.5-hour time period and include: introduction to the topic, warm-ups, games, a scaffolded approach to the main activity rooted in a scene from the play, and wrap-up. Please provide a detailed timeline for your 1.5-hour class.",
+              "A 1.5-hour summer-camp lesson plan on DECEPTION for ages 11–14, with introduction, warm-ups, games, a scaffolded scene-based activity, wrap-up, and a detailed timeline.",
             ],
           },
           {
             title: "Directing",
             paragraphs: [
-              "Choose one of the Shakespeare plays listed below and write a treatment detailing your concept for directing the play.",
-              "Your treatment should include: your approach to the play in general; theme(s) you plan to explore; concept for the production; set, costume, and lighting design; sound/music, if any; casting (based on the assumption that your production has the budget for 5 Equity contracts, 5 non-Equity contracts, and two apprentices).",
-              "Your treatment should be no longer than 2 pages in length.",
+              "A treatment (max 2 pages) for one play from the list: approach, themes, concept, design (set/costume/lighting/sound), and casting for 5 Equity, 5 non-Equity, and two apprentices.",
             ],
           },
           {
             title: "Playwriting",
             paragraphs: [
-              "Submit two contrasting samples of your work as a playwright (one-acts are acceptable) that you have written within the last two years.",
-              "Choose one of the Shakespeare plays listed below and write a 5-minute version of Act 1 (approximately 5 pages) that would be appropriate for an audience of children ages 5–12. Your Act 1 should be a mixture of colloquial English and Shakespeare's text from the play. Additionally, you should include one instance of audience interaction. You may set your Act 1 in a frame. You have a cast of 6 actors. Even if you chose a tragedy you may use humor to tell your story.",
-              "Keep in mind that children are smart; please do not “dumb down” your version of Act 1.",
+              "Two contrasting samples from the last two years, plus a ~5-page Act 1 (5 minutes) for ages 5–12 mixing colloquial English and Shakespeare, with one audience interaction moment. Cast of 6; humor welcome even in tragedy — do not dumb it down.",
             ],
           },
           {
             title: "Costuming",
             paragraphs: [
-              "Choose one of the Shakespeare plays listed below and submit a treatment detailing your concept of the costumes. Your treatment should include: your design concept; how and why your design supports the play; and time period.",
-              "Additionally, please pick one of the main characters in the play and design his/her costumes throughout the play. Provide sketches as well as a detailed design concept for each sketch.",
+              "A costume treatment (concept, how it serves the play, period) for one listed play, plus sketches and concepts for one main character throughout the play.",
             ],
           },
         ],
       },
       {
-        type: "prose",
-        heading: "Play Choices for Directing, Playwriting & Costuming Candidates",
-        bullets: [
-          "As You Like It",
-          "Twelfth Night",
-          "The Tempest",
-          "Macbeth",
-          "Hamlet",
-          "Othello",
-        ],
-      },
-      {
         type: "apprentice-form",
-        heading: "Apprentice Application",
+        heading: "Apply",
+        anchor: "apply",
         paragraphs: [
-          "Complete the form below. Email track-specific supplemental materials to stephanie@shakespeareonthesound.org. Questions should be directed to Stephanie Eiss, Director of Education.",
+          "Questions go to Stephanie Eiss, Director of Education and Outreach — stephanie@shakespeareonthesound.org.",
         ],
       },
     ],

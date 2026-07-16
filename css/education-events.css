@@ -390,145 +390,204 @@
   }
 }
 
-/* —— Apprentice application page —— */
+/* —— Apprentice application page (editorial) —— */
 .orpheum-inner-page--apprentice .orpheum-inner-page__content {
-  max-width: min(58rem, 100%);
+  max-width: min(46rem, 100%);
 }
 
 .orpheum-inner-page--apprentice .orpheum-inner-page__intro {
-  max-width: 42rem;
-  font-size: clamp(1.08rem, 1.4vw, 1.2rem);
-  line-height: 1.65;
+  max-width: 38rem;
+  margin-bottom: 1.25rem;
+  font-size: clamp(1.1rem, 1.5vw, 1.22rem);
+  line-height: 1.6;
+  color: var(--orp-stone-700, #4a5560);
 }
 
 .sots-apprentice-jump {
-  margin: 0 0 clamp(1.5rem, 3vw, 2rem);
-}
-
-.orpheum-inner-page--apprentice .orpheum-inner-page__programs--2up {
-  gap: 1rem;
-}
-
-@media (min-width: 768px) {
-  .orpheum-inner-page--apprentice .orpheum-inner-page__programs--2up {
-    grid-template-columns: 1fr 1fr;
-    gap: 1.15rem;
-  }
-}
-
-.orpheum-inner-page--apprentice .orpheum-inner-page__program {
-  display: grid;
-  align-content: start;
-  gap: 0.55rem;
-  height: 100%;
-  padding: 1.25rem 1.25rem 1.35rem;
-  border-radius: 10px;
-  border: 1px solid rgba(15, 45, 77, 0.1);
-  border-left: 4px solid var(--brand-gold, #f9c534);
-  background: #fff;
-  box-shadow: 0 8px 24px rgba(15, 45, 77, 0.04);
-}
-
-.orpheum-inner-page--apprentice .orpheum-inner-page__program h3 {
-  margin: 0;
-  font-size: 1.12rem;
-  line-height: 1.25;
-}
-
-.orpheum-inner-page--apprentice .orpheum-inner-page__program-meta {
-  margin: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.35rem 1.35rem;
+  margin: 0 0 clamp(2rem, 4vw, 2.75rem);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(15, 45, 77, 0.12);
+  font-family: var(--orp-sans, "Source Sans 3", sans-serif);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-.orpheum-inner-page--apprentice .orpheum-inner-page__program-meta li {
-  margin: 0;
-  padding: 0.2rem 0.55rem;
-  border-radius: 999px;
-  background: rgba(26, 80, 144, 0.08);
+.sots-apprentice-jump a {
+  color: var(--brand-navy, #0f2d4d);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 0.15rem;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.sots-apprentice-jump a:hover,
+.sots-apprentice-jump a:focus-visible {
   color: var(--brand-blue-dark, #1a5090);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  border-bottom-color: var(--brand-gold, #f9c534);
+  outline: none;
 }
 
-.orpheum-inner-page--apprentice .orpheum-inner-page__program-meta li + li {
-  margin-top: 0;
+.orpheum-inner-page--apprentice .orpheum-inner-page__section + .orpheum-inner-page__section {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
 }
 
-.orpheum-inner-page--apprentice .orpheum-inner-page__program p {
-  margin: 0;
-  font-size: 0.98rem;
-  line-height: 1.55;
+.orpheum-inner-page--apprentice .orpheum-inner-page__details {
+  border: 0;
+  background: transparent;
+  overflow: visible;
 }
 
-.orpheum-inner-page--apprentice .orpheum-inner-page__program p + p {
-  margin-top: 0.55rem;
-}
-
-.orpheum-inner-page--apprentice .orpheum-inner-page__bullets {
+.orpheum-inner-page--apprentice .orpheum-inner-page__detail {
   display: grid;
-  gap: 0.55rem;
-  margin: 0.85rem 0 0;
-  padding: 0;
-  list-style: none;
+  gap: 0.35rem 1.5rem;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(15, 45, 77, 0.12);
+  background: transparent;
 }
 
 @media (min-width: 640px) {
-  .orpheum-inner-page--apprentice .orpheum-inner-page__bullets {
-    grid-template-columns: 1fr 1fr;
+  .orpheum-inner-page--apprentice .orpheum-inner-page__detail {
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    align-items: baseline;
   }
 }
 
-.orpheum-inner-page--apprentice .orpheum-inner-page__bullets li {
+.orpheum-inner-page--apprentice .orpheum-inner-page__detail:first-child {
+  border-top: 0;
+  padding-top: 0.15rem;
+}
+
+.orpheum-inner-page--apprentice .orpheum-inner-page__detail:nth-child(even) {
+  background: transparent;
+}
+
+.orpheum-inner-page--apprentice .orpheum-inner-page__detail dt {
   margin: 0;
-  padding: 0.75rem 0.95rem;
-  border: 1px solid rgba(15, 45, 77, 0.1);
-  border-radius: 8px;
-  background: #fff;
-  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  color: var(--brand-gold-deep, #b8860b);
+}
+
+.orpheum-inner-page--apprentice .orpheum-inner-page__detail dd {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.55;
   color: var(--brand-navy, #0f2d4d);
 }
 
-.orpheum-inner-page--apprentice .orpheum-inner-page__bullets li + li {
-  margin-top: 0;
+/* Editorial track / materials list — typography, not cards */
+.orpheum-inner-page--apprentice .orpheum-inner-page__programs--editorial {
+  gap: 0;
 }
 
-/* —— Apprentice application form —— */
+.orpheum-inner-page--apprentice .orpheum-inner-page__programs--editorial .orpheum-inner-page__program {
+  height: auto;
+  padding: 1.35rem 0 1.45rem;
+  border: 0;
+  border-top: 1px solid rgba(15, 45, 77, 0.12);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  gap: 0.45rem;
+}
+
+.orpheum-inner-page--apprentice .orpheum-inner-page__programs--editorial .orpheum-inner-page__program:first-child {
+  border-top: 0;
+  padding-top: 0.25rem;
+}
+
+.orpheum-inner-page--apprentice .orpheum-inner-page__programs--editorial h3 {
+  margin: 0;
+  font-family: var(--orp-serif, "Marcellus", Georgia, serif);
+  font-size: clamp(1.25rem, 2vw, 1.45rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: var(--brand-navy, #0f2d4d);
+}
+
+.orpheum-inner-page--apprentice .orpheum-inner-page__programs--editorial .orpheum-inner-page__program-meta {
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--brand-blue-dark, #1a5090);
+}
+
+.orpheum-inner-page--apprentice .orpheum-inner-page__programs--editorial .orpheum-inner-page__program-meta li {
+  display: inline;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.orpheum-inner-page--apprentice .orpheum-inner-page__programs--editorial .orpheum-inner-page__program-meta li + li::before {
+  content: " · ";
+  font-weight: 500;
+  color: rgba(15, 45, 77, 0.35);
+}
+
+.orpheum-inner-page--apprentice .orpheum-inner-page__programs--editorial p {
+  margin: 0;
+  max-width: 40rem;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--orp-stone-700, #4a5560);
+}
+
+.orpheum-inner-page--apprentice .orpheum-inner-page__programs--editorial p + p {
+  margin-top: 0.55rem;
+}
+
+/* —— Application form —— */
 .sots-apprentice-form {
-  margin-top: 0.35rem;
-  padding: clamp(1.15rem, 2.5vw, 1.65rem);
-  border: 1px solid rgba(15, 45, 77, 0.1);
-  border-radius: 14px;
-  background:
-    linear-gradient(180deg, rgba(249, 197, 52, 0.12) 0%, rgba(249, 197, 52, 0) 7rem),
-    #f7f9fc;
-  box-shadow: 0 14px 36px rgba(15, 45, 77, 0.06);
+  margin-top: 1rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .sots-apprentice-form__form {
   display: grid;
-  gap: 1rem;
+  gap: 0;
 }
 
 .sots-apprentice-form fieldset {
   margin: 0;
-  padding: 1.1rem 1.15rem 1.2rem;
-  border: 1px solid rgba(15, 45, 77, 0.1);
-  border-radius: 12px;
-  background: #fff;
+  padding: 1.65rem 0 1.75rem;
+  border: 0;
+  border-top: 1px solid rgba(15, 45, 77, 0.12);
+  border-radius: 0;
+  background: transparent;
   display: grid;
-  gap: 0.9rem;
+  gap: 1rem;
+}
+
+.sots-apprentice-form fieldset:first-of-type {
+  border-top: 0;
+  padding-top: 0.5rem;
 }
 
 .sots-apprentice-form legend {
   float: left;
   width: 100%;
-  margin: 0 0 0.15rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin: 0 0 0.35rem;
   padding: 0;
   font-family: var(--orp-serif, "Marcellus", Georgia, serif);
-  font-size: 1.2rem;
+  font-size: clamp(1.25rem, 2vw, 1.4rem);
   font-weight: 400;
   color: var(--brand-navy, #0f2d4d);
 }
@@ -537,14 +596,33 @@
   clear: both;
 }
 
+.sots-apprentice-form__step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.65rem;
+  height: 1.65rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: var(--brand-navy, #0f2d4d);
+  color: #fff;
+  font-family: var(--orp-sans, "Source Sans 3", sans-serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
 .sots-apprentice-form__grid {
   display: grid;
-  gap: 0.9rem;
+  gap: 1rem;
 }
 
 @media (min-width: 640px) {
   .sots-apprentice-form__grid {
     grid-template-columns: 1fr 1fr;
+    gap: 1rem 1.15rem;
   }
 
   .sots-apprentice-form__span-2 {
@@ -555,39 +633,40 @@
 .sots-apprentice-form__lead,
 .sots-apprentice-form__hint {
   margin: 0;
-  font-size: 0.98rem;
-  line-height: 1.55;
-  color: #4a5560;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--orp-stone-700, #4a5560);
 }
 
 .sots-apprentice-form__lead {
-  padding: 0.85rem 1rem;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(15, 45, 77, 0.08);
+  padding: 0 0 1.25rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .sots-apprentice-form__tracks,
 .sots-apprentice-form__mode {
   display: grid;
-  gap: 0.55rem;
+  gap: 0.35rem;
 }
 
 @media (min-width: 640px) {
   .sots-apprentice-form__tracks {
     grid-template-columns: 1fr 1fr;
+    gap: 0.35rem 1.25rem;
   }
 
   .sots-apprentice-form__mode {
     grid-template-columns: 1fr 1fr;
-    gap: 0.65rem;
+    gap: 0.65rem 1rem;
   }
 }
 
 .sots-apprentice-form label {
   display: grid;
   gap: 0.4rem;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 600;
   color: var(--brand-navy, #0f2d4d);
 }
@@ -596,28 +675,35 @@
 .sots-apprentice-form select,
 .sots-apprentice-form textarea {
   width: 100%;
-  min-height: 2.85rem;
-  padding: 0.75rem 0.9rem;
-  border: 1px solid rgba(15, 45, 77, 0.16);
-  border-radius: 8px;
+  min-height: 3rem;
+  padding: 0.8rem 0;
+  border: 0;
+  border-bottom: 1.5px solid rgba(15, 45, 77, 0.22);
+  border-radius: 0;
   font: inherit;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 400;
   color: var(--brand-navy, #0f2d4d);
-  background: #fff;
+  background: transparent;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .sots-apprentice-form textarea {
   resize: vertical;
-  min-height: 7rem;
+  min-height: 7.5rem;
+  padding-top: 0.65rem;
+  border: 1.5px solid rgba(15, 45, 77, 0.18);
+  border-radius: 2px;
+  padding-left: 0.85rem;
+  padding-right: 0.85rem;
+  background: rgba(15, 45, 77, 0.02);
 }
 
 .sots-apprentice-form input[type="file"] {
   min-height: 0;
-  padding: 0.55rem 0;
+  padding: 0.65rem 0;
   border: 0;
-  border-radius: 0;
+  border-bottom: 1.5px dashed rgba(15, 45, 77, 0.25);
   background: transparent;
 }
 
@@ -625,58 +711,68 @@
 .sots-apprentice-form select:focus,
 .sots-apprentice-form textarea:focus {
   outline: none;
-  border-color: var(--brand-blue-dark, #1a5090);
-  box-shadow: 0 0 0 3px rgba(26, 80, 144, 0.16);
+  border-color: var(--brand-navy, #0f2d4d);
+  box-shadow: none;
+}
+
+.sots-apprentice-form textarea:focus {
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(249, 197, 52, 0.28);
 }
 
 .sots-apprentice-form__optional {
   font-weight: 500;
-  color: #5a6570;
+  color: #6b7280;
 }
 
 .sots-apprentice-form__check {
   display: flex !important;
   align-items: flex-start;
-  gap: 0.7rem;
+  gap: 0.75rem;
   font-weight: 500 !important;
   grid-template-columns: none !important;
-  line-height: 1.4;
+  line-height: 1.45;
+  padding: 0.45rem 0;
 }
 
 .sots-apprentice-form__tracks .sots-apprentice-form__check,
 .sots-apprentice-form__mode .sots-apprentice-form__check {
-  min-height: 3rem;
-  padding: 0.8rem 0.9rem;
-  border: 1px solid rgba(15, 45, 77, 0.14);
-  border-radius: 10px;
-  background: #f7f9fc;
+  min-height: 0;
+  padding: 0.55rem 0 0.55rem 0.75rem;
+  border: 0;
+  border-left: 3px solid transparent;
+  border-radius: 0;
+  background: transparent;
   cursor: pointer;
-  transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease;
 }
 
 .sots-apprentice-form__tracks .sots-apprentice-form__check:hover,
 .sots-apprentice-form__mode .sots-apprentice-form__check:hover {
-  border-color: rgba(26, 80, 144, 0.35);
-  background: #fff;
+  border-left-color: rgba(249, 197, 52, 0.65);
+  background: transparent;
 }
 
 .sots-apprentice-form__tracks .sots-apprentice-form__check:has(input:checked),
 .sots-apprentice-form__mode .sots-apprentice-form__check:has(input:checked) {
-  border-color: var(--brand-navy, #0f2d4d);
-  background: rgba(249, 197, 52, 0.16);
-  box-shadow: inset 0 0 0 1px rgba(15, 45, 77, 0.08);
+  border-left-color: var(--brand-gold, #f9c534);
+  background: transparent;
+  box-shadow: none;
+  font-weight: 700 !important;
+  color: var(--brand-navy, #0f2d4d);
 }
 
 .sots-apprentice-form__check input {
   width: auto;
   min-height: 0;
-  margin-top: 0.15rem;
+  margin-top: 0.2rem;
   flex-shrink: 0;
   accent-color: var(--brand-navy, #0f2d4d);
+  border: 0;
 }
 
 .sots-apprentice-form__check a {
-  color: var(--brand-blue, #1a5090);
+  color: var(--brand-blue-dark, #1a5090);
 }
 
 .sots-apprentice-form__honeypot {
@@ -691,16 +787,18 @@
 .sots-apprentice-form__actions {
   display: grid;
   gap: 0.85rem;
-  padding: 1.1rem 1.15rem;
-  border-radius: 12px;
-  background: #fff;
-  border: 1px solid rgba(15, 45, 77, 0.1);
+  margin-top: 0.5rem;
+  padding: 1.75rem 0 0.25rem;
+  border-top: 1px solid rgba(15, 45, 77, 0.12);
+  border-radius: 0;
+  background: transparent;
 }
 
 .sots-apprentice-form__note {
   margin: 0 !important;
-  font-size: 0.92rem !important;
-  line-height: 1.5 !important;
+  max-width: 36rem;
+  font-size: 0.95rem !important;
+  line-height: 1.55 !important;
   color: #5a6570 !important;
 }
 
@@ -710,47 +808,47 @@
 }
 
 .sots-apprentice-form__error {
-  margin: 0;
-  padding: 0.85rem 1rem;
-  border-radius: 10px;
-  background: #fdecec;
-  border: 1px solid #e8b4b4;
+  margin: 1rem 0 0;
+  padding: 0.85rem 0;
+  border-radius: 0;
+  border: 0;
+  border-top: 2px solid #b42318;
+  background: transparent;
   color: #8a1f1f;
-  font-size: 0.95rem;
+  font-size: 0.98rem;
 }
 
 .sots-apprentice-form__success {
   display: grid;
-  gap: 0.95rem;
-  padding: 0.35rem 0.15rem;
+  gap: 1rem;
+  padding: 0.5rem 0 1rem;
 }
 
 .sots-apprentice-form__success h3 {
   margin: 0;
   font-family: var(--orp-serif, "Marcellus", Georgia, serif);
-  font-size: 1.45rem;
+  font-size: clamp(1.5rem, 2.5vw, 1.85rem);
   font-weight: 400;
   color: var(--brand-navy, #0f2d4d);
 }
 
 .sots-apprentice-form__success p {
   margin: 0 !important;
-  font-size: 1.02rem !important;
-  line-height: 1.6 !important;
+  max-width: 38rem;
+  font-size: 1.05rem !important;
+  line-height: 1.65 !important;
 }
 
 @media (max-width: 639px) {
-  .sots-apprentice-form {
-    padding: 1rem;
-    border-radius: 12px;
+  .sots-apprentice-jump {
+    gap: 0.65rem 1rem;
   }
 
-  .sots-apprentice-form fieldset,
-  .sots-apprentice-form__actions {
-    padding: 1rem;
+  .sots-apprentice-form fieldset {
+    padding: 1.35rem 0 1.45rem;
   }
 
   .sots-apprentice-form legend {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
 }
