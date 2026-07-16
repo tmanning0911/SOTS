@@ -1129,14 +1129,21 @@ export const INNER_PAGES = [
         heading: "Application Process",
         paragraphs: [
           "Application Deadline — All Candidates: Sunday, March 8, 2026.",
-          "To Apply: Complete the application form and send the appropriate supplementary materials to stephanie@shakespeareonthesound.org.",
+          "Complete the online application below. Attach your resume (PDF or Word), or note that you will email it separately to Stephanie Eiss.",
           "All applicants provide: contact information for two references (one professional/educational and one personal), a professional resume, and a written personal statement answering: What drew you to theater? Who are you as an artist and where are you in your artistic journey? What interests you in apprenticing at Shakespeare on the Sound and what do you hope to gain from the apprenticeship?",
           "Successful applicants will be invited to interview in person or via Zoom (approximately 30–45 minutes).",
           "All apprentices are expected to actively participate in all master classes. During load-in and tech all apprentices will be assigned jobs that they will perform throughout the run of the show.",
         ],
       },
+      {
+        type: "apprentice-form",
+        heading: "Apply Online",
+        paragraphs: [
+          "Applications are reviewed by Stephanie Eiss, Director of Education and Outreach. You will receive a confirmation email after you submit.",
+        ],
+      },
     ],
-    cta: { label: "Contact Stephanie", href: "mailto:stephanie@shakespeareonthesound.org" },
+    cta: { label: "Apply Online", href: "#apply" },
   },
   {
     href: "/education/adult-enrichment/",

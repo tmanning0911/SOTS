@@ -385,3 +385,144 @@
     min-width: 9rem;
   }
 }
+
+/* —— Apprentice application form —— */
+.sots-apprentice-form {
+  margin-top: 0.5rem;
+  padding: 1.35rem 1.25rem 1.5rem;
+  border: 1px solid rgba(15, 45, 77, 0.12);
+  background: #f7f9fc;
+}
+
+.sots-apprentice-form__form {
+  display: grid;
+  gap: 1.35rem;
+}
+
+.sots-apprentice-form fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.sots-apprentice-form legend {
+  margin: 0 0 0.35rem;
+  padding: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.15rem;
+  color: var(--brand-navy, #0f2d4d);
+}
+
+.sots-apprentice-form__grid {
+  display: grid;
+  gap: 0.85rem;
+}
+
+@media (min-width: 640px) {
+  .sots-apprentice-form__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.sots-apprentice-form label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--brand-navy, #0f2d4d);
+}
+
+.sots-apprentice-form input,
+.sots-apprentice-form select,
+.sots-apprentice-form textarea {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid rgba(15, 45, 77, 0.18);
+  border-radius: 6px;
+  font: inherit;
+  font-weight: 400;
+  color: var(--brand-navy, #0f2d4d);
+  background: #fff;
+}
+
+.sots-apprentice-form textarea {
+  resize: vertical;
+  min-height: 6rem;
+}
+
+.sots-apprentice-form input:focus,
+.sots-apprentice-form select:focus,
+.sots-apprentice-form textarea:focus {
+  outline: 2px solid rgba(26, 80, 144, 0.35);
+  outline-offset: 1px;
+}
+
+.sots-apprentice-form__optional {
+  font-weight: 500;
+  color: #5a6570;
+}
+
+.sots-apprentice-form__check {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-weight: 500 !important;
+  grid-template-columns: none !important;
+}
+
+.sots-apprentice-form__check input {
+  width: auto;
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+.sots-apprentice-form__check a {
+  color: var(--brand-blue, #1a5090);
+}
+
+.sots-apprentice-form__honeypot {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  pointer-events: none;
+}
+
+.sots-apprentice-form__actions {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.sots-apprentice-form__note {
+  margin: 0 !important;
+  font-size: 0.9rem !important;
+  color: #5a6570 !important;
+}
+
+.sots-apprentice-form__error {
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  background: #fdecec;
+  border: 1px solid #e8b4b4;
+  color: #8a1f1f;
+  font-size: 0.92rem;
+}
+
+.sots-apprentice-form__success {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.sots-apprentice-form__success h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.35rem;
+  color: var(--brand-navy, #0f2d4d);
+}
+
+.sots-apprentice-form__success p {
+  margin: 0 !important;
+}
