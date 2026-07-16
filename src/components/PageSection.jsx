@@ -6,6 +6,7 @@ import { MailLink } from "./MailLink.jsx";
 import { TextWithMailLinks } from "./TextWithMailLinks.jsx";
 import { ArrowButton } from "./ArrowButton.jsx";
 import { ApprenticeApplicationForm } from "./ApprenticeApplicationForm.jsx";
+import { BoardApplicationForm } from "./BoardApplicationForm.jsx";
 
 function ensurePeriod(text) {
   if (!text) return text;
@@ -350,6 +351,20 @@ export function PageSection({ section, band = false }) {
           </p>
         ))}
         <ApprenticeApplicationForm />
+      </section>
+    );
+  }
+
+  if (section.type === "board-form") {
+    return (
+      <section className={`orpheum-inner-page__section${bandClass}`} id={section.anchor || "apply"}>
+        {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
+        {(section.paragraphs ?? []).map((paragraph) => (
+          <p key={paragraph.slice(0, 40)}>
+            <TextWithMailLinks text={paragraph} />
+          </p>
+        ))}
+        <BoardApplicationForm />
       </section>
     );
   }

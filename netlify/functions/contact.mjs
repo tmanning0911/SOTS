@@ -6,9 +6,10 @@ import { bindBlobs } from "./lib/netlify-blobs.mjs";
 import { getClientIp, rateLimit } from "./lib/rateLimit.mjs";
 import { getSiteUrl, getResendNotificationsFromAddress, resendConfigured, sendEmail } from "./lib/resend.mjs";
 
-const FORMS = new Set(["contact", "education", "newsletter", "sponsorship", "apprentice"]);
+const FORMS = new Set(["contact", "education", "newsletter", "sponsorship", "apprentice", "board"]);
 const STORE_NAME = "sots-form-submissions";
 const APPRENTICE_RECIPIENT = "stephanie@shakespeareonthesound.org";
+const BOARD_RECIPIENT = "aaron@shakespeareonthesound.org";
 const MAX_RESUME_BYTES = 1_800_000; // ~1.8MB raw → stays under Netlify/Resend limits once base64'd
 const RESUME_TYPES = new Set([
   "application/pdf",
@@ -149,6 +150,31 @@ function validatePayload(form, fields) {
         resume: resumeCheck.attachment,
         recipient: APPRENTICE_RECIPIENT,
         recipientLabel: "Stephanie Eiss, Director of Education and Outreach",
+        submittedAt: new Date().toISOString(),
+      },
+    };
+  }
+
+  if (form === "board") {
+    const interest = sanitize(fields.interest, 4000);
+    if (interest.length < 40) {
+      return { error: "Please tell us why you're interested (at least a short paragraph)." };
+    }
+    const resumeCheck = validateResumeAttachment(fields.resume);
+    if (resumeCheck.error) return { error: resumeCheck.error };
+
+    return {
+      data: {
+        name,
+        email,
+        phone: sanitize(fields.phone, 40),
+        location: sanitize(fields.location, 200),
+        interest,
+        background: sanitize(fields.background, 4000),
+        resume: resumeCheck.attachment,
+        pageUrl: sanitize(fields.pageUrl, 500),
+        recipient: BOARD_RECIPIENT,
+        recipientLabel: "Aaron Simms, Executive Director",
         submittedAt: new Date().toISOString(),
       },
     };
@@ -329,6 +355,82 @@ async function deliverApprenticeApplication(data) {
   });
 }
 
+async function deliverBoardApplication(data) {
+  const rows = [
+    ["Applicant", `${data.name} <${data.email}>`],
+    data.phone ? ["Phone", data.phone] : null,
+    data.location ? ["City / Town", data.location] : null,
+    data.resume ? ["Attachment", data.resume.filename] : ["Attachment", "None"],
+    data.pageUrl ? ["Page", data.pageUrl] : null,
+  ].filter(Boolean);
+
+  const bodyHtml = `
+    <p style="margin:0 0 16px;font-size:15px;line-height:1.55;color:#2b2b2b;">
+      A new <strong>Board of Directors</strong> interest application was submitted on the website.
+    </p>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 18px;border:1px solid #e5e9ed;">
+      ${rows
+        .map(
+          ([label, value]) => `
+        <tr>
+          <td style="padding:10px 12px;width:34%;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:#5a6570;border-bottom:1px solid #e5e9ed;background:#f7f9fc;">${escapeHtml(label)}</td>
+          <td style="padding:10px 12px;font-size:14px;color:#2b2b2b;border-bottom:1px solid #e5e9ed;">${escapeHtml(value)}</td>
+        </tr>`,
+        )
+        .join("")}
+    </table>
+    <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#5a6570;">Why interested in the board?</p>
+    <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#2b2b2b;white-space:pre-wrap;">${escapeHtml(data.interest)}</p>
+    ${
+      data.background
+        ? `
+    <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#5a6570;">Background / experience</p>
+    <p style="margin:0;font-size:15px;line-height:1.6;color:#2b2b2b;white-space:pre-wrap;">${escapeHtml(data.background)}</p>`
+        : ""
+    }
+  `;
+
+  const html = renderSotsEmail({
+    title: `Board application — ${data.name}`,
+    preheader: `Board interest · ${data.name}`,
+    siteUrl: getSiteUrl(),
+    bodyHtml,
+    eyebrow: "Board application",
+  });
+
+  const text = [
+    `Board application from ${data.name}`,
+    "",
+    ...rows.map(([label, value]) => `${label}: ${value}`),
+    "",
+    "Why interested in the board?",
+    data.interest,
+    data.background ? `\nBackground / experience\n${data.background}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  const attachments = data.resume
+    ? [
+        {
+          filename: data.resume.filename,
+          content: data.resume.content,
+          contentType: data.resume.contentType,
+        },
+      ]
+    : undefined;
+
+  return sendEmail({
+    from: getResendNotificationsFromAddress(),
+    to: BOARD_RECIPIENT,
+    replyTo: data.email,
+    subject: `Board application: ${data.name}`,
+    html,
+    text,
+    attachments,
+  });
+}
+
 function confirmationCopy(form, data) {
   const greetName = splitName(data.name).firstName || "there";
   const siteUrl = getSiteUrl();
@@ -387,6 +489,36 @@ function confirmationCopy(form, data) {
         `We received your ${trackLabel} application and will be in touch about next steps.`,
         "",
         "Questions? stephanie@shakespeareonthesound.org",
+        "",
+        siteUrl,
+      ].join("\n"),
+    };
+  }
+
+  if (form === "board") {
+    return {
+      subject: "We received your board application — Shakespeare on the Sound",
+      eyebrow: "Application confirmation",
+      title: "Thanks for applying",
+      preheader: "Your Board of Directors interest form was received.",
+      bodyHtml: `
+        <p style="margin:0 0 14px;font-size:15px;line-height:1.55;color:#2b2b2b;">Hi ${escapeHtml(greetName)},</p>
+        <p style="margin:0 0 14px;font-size:15px;line-height:1.55;color:#2b2b2b;">
+          Thank you for your interest in joining the Shakespeare on the Sound Board of Directors.
+          We received your application and Aaron Simms will be in touch about next steps.
+        </p>
+        <p style="margin:0;font-size:15px;line-height:1.55;color:#2b2b2b;">
+          Questions? Email Aaron at
+          <a href="mailto:aaron@shakespeareonthesound.org" style="color:#1a5090;">aaron@shakespeareonthesound.org</a>.
+        </p>
+      `,
+      text: [
+        `Hi ${greetName},`,
+        "",
+        "Thank you for your interest in joining the Shakespeare on the Sound Board of Directors.",
+        "We received your application and Aaron Simms will be in touch about next steps.",
+        "",
+        "Questions? aaron@shakespeareonthesound.org",
         "",
         siteUrl,
       ].join("\n"),
@@ -596,7 +728,9 @@ export async function handler(event) {
     const delivery =
       form === "apprentice"
         ? await deliverApprenticeApplication(validation.data)
-        : await deliverStaffMessage(form, validation.data);
+        : form === "board"
+          ? await deliverBoardApplication(validation.data)
+          : await deliverStaffMessage(form, validation.data);
     const confirmation = await sendConfirmationBestEffort(form, validation.data);
     await appendSubmission(event, form, {
       form,

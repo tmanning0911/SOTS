@@ -84,7 +84,7 @@ export function OrpheumInnerPage({ page }) {
               <PageSection
                 key={`${section.heading ?? "section"}-${index}`}
                 section={section}
-                band={index % 2 === 1 && section.type !== "apprentice-form"}
+                band={index % 2 === 1 && section.type !== "apprentice-form" && section.type !== "board-form"}
               />
             ))}
 
