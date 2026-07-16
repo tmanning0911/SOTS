@@ -54,6 +54,7 @@ export function OrpheumInnerPage({ page }) {
       : []);
 
   const isDonate = page.href === "/support/donate/" || page.href === "/support/individual-giving/";
+  const isApprentice = page.href === "/education/apprentice-application/";
 
   return (
     <InnerPageShell
@@ -61,7 +62,11 @@ export function OrpheumInnerPage({ page }) {
       showSupport={Boolean(page.showSupport)}
       showNewsletter={page.showNewsletter !== false}
     >
-      <article className={`orpheum-inner-page${isDonate ? " orpheum-inner-page--support" : ""}`}>
+      <article
+        className={`orpheum-inner-page${isDonate ? " orpheum-inner-page--support" : ""}${
+          isApprentice ? " orpheum-inner-page--apprentice" : ""
+        }`}
+      >
         <InnerPageHero
           title={String(page.heading || page.title || "").replace(/\.$/, "")}
           eyebrow={page.eyebrow}
@@ -90,6 +95,19 @@ export function OrpheumInnerPage({ page }) {
         <div className="orpheum-inner-page__body">
           <div className="orpheum-inner-page__content" data-reveal>
             {page.intro ? <p className="orpheum-inner-page__intro">{page.intro}</p> : null}
+            {isApprentice ? (
+              <nav className="orpheum-page-quick sots-apprentice-jump" aria-label="Apprentice page shortcuts">
+                <a href="#apprenticeships" className="orpheum-page-quick__link">
+                  Tracks
+                </a>
+                <a href="#additional-materials" className="orpheum-page-quick__link">
+                  Supplemental materials
+                </a>
+                <a href="#apply" className="orpheum-page-quick__link">
+                  Apply
+                </a>
+              </nav>
+            ) : null}
             {sections.map((section, index) => (
               <PageSection
                 key={`${section.heading ?? "section"}-${index}`}

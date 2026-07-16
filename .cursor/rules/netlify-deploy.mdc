@@ -1,0 +1,27 @@
+---
+description: Always push and deploy SOTS to the correct Netlify preview site
+alwaysApply: true
+---
+
+# Netlify deploy (SOTS)
+
+When the user says **push** (or wants changes live):
+
+1. Commit relevant source files only (not `dist/`, `node_modules/`, `.tmp-*`, SEO HTML noise).
+2. Push to **both** remotes on `main`:
+   - `origin` → `https://github.com/tmanning0911/SOTS.git` (primary working repo)
+   - `netlify` → `https://github.com/tmanning0911/ubiquitous-maamoul-8b9b7f.git` (**this** is what Netlify builds from)
+3. Always run a production CLI deploy afterward (do not rely on GitHub auto-build alone):
+
+```bash
+git push origin HEAD && git push netlify HEAD:main
+npx netlify deploy --prod --build
+```
+
+4. Confirm the linked Netlify project is **`ubiquitous-maamoul-8b9b7f`**  
+   Live URL: https://ubiquitous-maamoul-8b9b7f.netlify.app  
+   Admin: https://app.netlify.com/projects/ubiquitous-maamoul-8b9b7f
+
+5. Do **not** assume `www.shakespeareonthesound.org` shows new work — that domain may still be on Wix until DNS cutover.
+
+6. After deploy, confirm the production URL is live with the new commit when relevant.

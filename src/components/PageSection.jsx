@@ -260,10 +260,14 @@ export function PageSection({ section, band = false }) {
   }
 
   if (section.type === "programs") {
+    const columnsClass = section.columns === 2 ? " orpheum-inner-page__programs--2up" : "";
     return (
-      <section className={`orpheum-inner-page__section${bandClass}`}>
+      <section
+        className={`orpheum-inner-page__section${bandClass}`}
+        id={section.anchor || undefined}
+      >
         {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
-        <div className="orpheum-inner-page__programs">
+        <div className={`orpheum-inner-page__programs${columnsClass}`}>
           {section.programs.map((program) => (
             <article key={program.title} className="orpheum-inner-page__program">
               <h3>{ensurePeriod(program.title)}</h3>

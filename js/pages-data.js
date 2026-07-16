@@ -1149,6 +1149,8 @@ export const INNER_PAGES = [
       {
         type: "programs",
         heading: "Apprenticeships Offered",
+        anchor: "apprenticeships",
+        columns: 2,
         programs: [
           {
             title: "Acting — SOS Players",
@@ -1235,6 +1237,8 @@ export const INNER_PAGES = [
       {
         type: "programs",
         heading: "Additional Materials — by Apprenticeship",
+        anchor: "additional-materials",
+        columns: 2,
         programs: [
           {
             title: "Acting (SOS Players)",
