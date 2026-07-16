@@ -52,7 +52,10 @@ export function OrpheumInnerPage({ page }) {
       showNewsletter={page.showNewsletter !== false}
     >
       <article className={`orpheum-inner-page${isDonate ? " orpheum-inner-page--support" : ""}`}>
-        <InnerPageHero title={String(page.heading || page.title || "").replace(/\.$/, "")} />
+        <InnerPageHero
+          title={String(page.heading || page.title || "").replace(/\.$/, "")}
+          eyebrow={page.eyebrow}
+        />
 
         {isDonate ? (
           <aside className="orpheum-support-band" aria-label="Support Shakespeare on the Sound">
@@ -78,7 +81,11 @@ export function OrpheumInnerPage({ page }) {
           <div className="orpheum-inner-page__content" data-reveal>
             {page.intro ? <p className="orpheum-inner-page__intro">{page.intro}</p> : null}
             {sections.map((section, index) => (
-              <PageSection key={`${section.heading ?? "section"}-${index}`} section={section} />
+              <PageSection
+                key={`${section.heading ?? "section"}-${index}`}
+                section={section}
+                band={index % 2 === 1 && section.type !== "apprentice-form"}
+              />
             ))}
 
             {page.cta || page.secondaryCta ? (

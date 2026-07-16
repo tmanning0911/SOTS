@@ -549,6 +549,16 @@ export const INNER_PAGES = [
     intro: "We're here to help with tickets, visits, education programs, and support.",
     sections: [
       {
+        type: "spotlight",
+        image: "/images/backgrounds/outdoor-audience.jpg",
+        alt: "Audience gathered for Shakespeare in Pinkney Park",
+        eyebrow: "Pinkney Park",
+        title: "Reach the people who bring the season to life",
+        paragraphs: [
+          "General questions go to our shared inbox. Education bookings go straight to Stephanie. Box office phones are staffed in June during the run.",
+        ],
+      },
+      {
         type: "details",
         rows: [
           { label: "General Inquiries", value: "contactus@shakespeareonthesound.org" },
@@ -565,10 +575,21 @@ export const INNER_PAGES = [
         ],
       },
       {
+        type: "spotlight",
+        flip: true,
+        image: "/images/team/stephanie-eiss.jpg",
+        alt: "Stephanie Eiss, Director of Education and Outreach",
+        eyebrow: "Education",
+        title: "Stephanie Eiss",
+        paragraphs: [
+          "Questions about workshops, tours, camps, or the Apprentice Company? Email Stephanie directly — she leads Education and Outreach for Shakespeare on the Sound.",
+        ],
+        cta: { label: "Email Stephanie", href: "mailto:stephanie@shakespeareonthesound.org" },
+      },
+      {
         type: "prose",
         paragraphs: [
           "Shakespeare on the Sound is a proud member of the Shakespeare Theatre Association.",
-          "Questions about education programs should be directed to Stephanie Eiss, Director of Education and Outreach.",
         ],
       },
     ],
@@ -653,6 +674,13 @@ export const INNER_PAGES = [
       "There's no better way to spend a summer evening than watching professional Shakespeare in this picturesque waterfront setting on the banks of the Five Mile River in Rowayton, CT.",
     sections: [
       {
+        type: "figure",
+        image: "/images/backgrounds/outdoor-audience.jpg",
+        alt: "Audience at Shakespeare in Pinkney Park",
+        caption: "Gates open early — picnic, settle in, and watch the light change over the river.",
+        ratio: "wide",
+      },
+      {
         type: "prose",
         heading: "Before You Arrive",
         paragraphs: [
@@ -707,6 +735,16 @@ export const INNER_PAGES = [
             mapsUrl:
               "https://www.google.com/maps/dir/?api=1&destination=177%20Rowayton%20Avenue%2C%20Rowayton%2C%20CT%2006853",
           },
+        ],
+      },
+      {
+        type: "spotlight",
+        image: "/images/backgrounds/much-ado-cast.jpg",
+        alt: "Cast preparing for an outdoor performance",
+        eyebrow: "Park traditions",
+        title: "Picnic under the trees",
+        paragraphs: [
+          "Bring food and drink — picnicking before the show is a time-honored SOS tradition. Kindly take everything you brought out with you at the end of the night.",
         ],
       },
       {
@@ -771,6 +809,13 @@ export const INNER_PAGES = [
     eyebrow: "Plan Your Visit",
     intro: "Pinkney Park is located at 177 Rowayton Avenue in Rowayton, CT.",
     sections: [
+      {
+        type: "figure",
+        image: "/images/backgrounds/outdoor-audience.jpg",
+        alt: "Pinkney Park on a performance evening",
+        caption: "177 Rowayton Avenue — on the banks of the Five Mile River.",
+        ratio: "landscape",
+      },
       {
         type: "map",
         heading: "Find us",
@@ -889,10 +934,27 @@ export const INNER_PAGES = [
       "Shakespeare on the Sound's educational programs teach Shakespeare in a manner which dispels the fear and mysticism associated with Shakespeare; we nurture a comfort with, and ownership of, his language.",
     sections: [
       {
+        type: "figure",
+        image: "/images/learning/kids-classroom.jpeg",
+        alt: "Students in a Shakespeare on the Sound classroom workshop",
+        caption: "Teaching artists bring Shakespeare to life in Fairfield County classrooms.",
+        ratio: "landscape",
+      },
+      {
         type: "prose",
         paragraphs: [
           "Our workshops are fun, interactive, and inspiring. Utilizing a variety of theater activities, group ensemble work, and performance techniques, our professional teaching artists guide students in bringing Shakespeare's texts to life while challenging them to think outside the box and delve into the deeper meaning of the plays.",
           "Choose from one of our established programs or SOS teaching artists will work in partnership with you to create a workshop that is specifically tailored to meet your educational goals.",
+        ],
+      },
+      {
+        type: "spotlight",
+        image: "/images/learning/trippingly-on-the-tongue.jpg",
+        alt: "Students exploring Shakespeare through games and ensemble work",
+        eyebrow: "In the classroom",
+        title: "Language students can own",
+        paragraphs: [
+          "From Kindergarten through AP English, our workshops replace intimidation with play — games, ensemble work, and performance that make the text feel like theirs.",
         ],
       },
       {
@@ -924,6 +986,13 @@ export const INNER_PAGES = [
             ],
           },
         ],
+      },
+      {
+        type: "figure",
+        image: "/images/backgrounds/education-workshop.jpg",
+        alt: "Teaching artists leading an education workshop",
+        caption: "Teacher workshops and corporate sessions use the same interactive approach.",
+        ratio: "wide",
       },
       {
         type: "programs",
@@ -971,6 +1040,13 @@ export const INNER_PAGES = [
     intro: "Shakespeare on the Sound tours schools throughout Fairfield County every spring.",
     sections: [
       {
+        type: "figure",
+        image: "/images/learning/tours.jpg",
+        alt: "Shakespeare on the Sound touring performance for students",
+        caption: "Spring tours bring a full performance — and a talk-back — into schools and libraries.",
+        ratio: "landscape",
+      },
+      {
         type: "programs",
         programs: [
           {
@@ -1007,11 +1083,28 @@ export const INNER_PAGES = [
     intro: "We offer summer camps for children ages 8–15.",
     sections: [
       {
+        type: "spotlight",
+        image: "/images/backgrounds/kids-performance.jpg",
+        alt: "Young performers in a Shakespeare on the Sound summer camp",
+        eyebrow: "Ages 8–15",
+        title: "Process first — then the sharing",
+        paragraphs: [
+          "Camps focus on collaboration and ensemble creation. The experience of making the work matters as much as the final sharing for family and friends.",
+        ],
+      },
+      {
         type: "prose",
         paragraphs: [
           "Our mission is to teach Shakespeare in a manner which dispels the fear and mysticism associated with Shakespeare; we nurture a comfort with, and ownership of, his language. Our work with the campers is process based with a focus on collaboration, ensemble work, and a shared responsibility in the creation of the production. The process, the experience in creating, is most important.",
           "We believe Shakespeare is for everyone regardless of age, race, gender, and socio-economic background. Our programs illuminate Shakespeare's relevance in our lives today. Our camps seek to encourage imaginative play, creative expression, collaborative input, and ignite the imagination.",
         ],
+      },
+      {
+        type: "figure",
+        image: "/images/learning/summer-camps.jpg",
+        alt: "Summer camp students rehearsing outdoors",
+        caption: "Days filled with games, rehearsal, and ensemble play.",
+        ratio: "landscape",
       },
       {
         type: "programs",
@@ -1050,6 +1143,13 @@ export const INNER_PAGES = [
     intro: "Thinking of applying for the 2026 Apprentice Company? Here is information you will find helpful.",
     sections: [
       {
+        type: "figure",
+        image: "/images/learning/professional-training.jpg",
+        alt: "Apprentice company artists in training",
+        caption: "Apprentices work side-by-side with the professional company — onstage, backstage, and in the park.",
+        ratio: "wide",
+      },
+      {
         type: "prose",
         heading: "Program Overview",
         paragraphs: [
@@ -1059,6 +1159,17 @@ export const INNER_PAGES = [
           "All apprentices will collaborate to produce a 30-minute version of Much Ado About Nothing to be performed at local libraries and schools, as well as prior to each performance of Much Ado About Nothing during its run in Rowayton, CT.",
           "Apprentices will also participate in the mainstage production of Much Ado About Nothing by supporting the technical, backstage, and artistic teams. Acting apprentices will serve as understudies and participate in an Understudy Run of the show during the residency in the park.",
           "Members of our Apprentice Company will receive training across the theatrical spectrum in the form of multi-disciplinary master classes taught by professional theater makers, academics, and artists. Master Classes will be held in person in Connecticut and New York City (Classes will be offered over Zoom if necessary).",
+        ],
+      },
+      {
+        type: "spotlight",
+        flip: true,
+        image: "/images/backgrounds/performance-spotlight.jpg",
+        alt: "Performance under the lights at Pinkney Park",
+        eyebrow: "2026 season",
+        title: "Under the stars — and understudy ready",
+        paragraphs: [
+          "Acting apprentices understudy the mainstage company. Every apprentice supports tech, load-in, and the kids' show that opens each evening in the park.",
         ],
       },
       {
@@ -1153,6 +1264,13 @@ export const INNER_PAGES = [
     intro: "Programs for lifelong learners and theatre lovers.",
     sections: [
       {
+        type: "figure",
+        image: "/images/news/education-banner.jpg",
+        alt: "Adult learners discussing Shakespeare",
+        caption: "Page to Stage and enrichment evenings for curious adults.",
+        ratio: "landscape",
+      },
+      {
         type: "programs",
         programs: [
           {
@@ -1176,6 +1294,25 @@ export const INNER_PAGES = [
     eyebrow: "Education & Community",
     intro: "Educational programming in Pinkney Park before every MainStage performance.",
     sections: [
+      {
+        type: "figure",
+        image: "/images/learning/in-the-park.jpg",
+        alt: "Education tent and kids activities in Pinkney Park",
+        caption: "Visit the education tent and catch Shakespeare in 30 Minutes before the evening show.",
+        ratio: "landscape",
+      },
+      {
+        type: "spotlight",
+        flip: true,
+        image: "/images/backgrounds/park-audience-nyt.jpg",
+        alt: "Families gathered in Pinkney Park before a performance",
+        eyebrow: "Show nights",
+        title: "First Folio Kids Corner",
+        paragraphs: [
+          "Hands-on activities for young patrons, plus a 30-minute version of the season play performed before each mainstage curtain.",
+        ],
+        cta: { label: "Plan Your Visit", href: "/about/visit/" },
+      },
       {
         type: "programs",
         heading: "Kids' Show",

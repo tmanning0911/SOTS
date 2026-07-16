@@ -5332,43 +5332,52 @@ body.search-open {
 }
 
 .orpheum-inner-page__intro {
-  max-width: 42rem;
-  margin: 1.25rem 0 0;
+  max-width: 40rem;
+  margin: 0 0 clamp(1.35rem, 2.8vw, 1.85rem);
+  padding: 0 0 1.15rem;
+  border-bottom: 1px solid rgba(var(--brand-blue-rgb, 33, 101, 180), 0.14);
   font-family: var(--orp-sans);
-  font-size: clamp(1.12rem, 1.4vw, 1.22rem);
-  line-height: 1.65;
-  color: var(--orp-stone-700);
+  font-size: clamp(1.12rem, 1.45vw, 1.28rem);
+  line-height: 1.55;
+  color: var(--brand-navy, #0f2d4d);
 }
 
 .orpheum-inner-page__body {
-  padding: clamp(2.5rem, 5vw, 4rem) var(--orp-chrome-gutter, 9.25rem) clamp(4rem, 7vw, 5rem);
+  padding: clamp(1.35rem, 2.8vw, 2rem) var(--orp-chrome-gutter, 9.25rem) clamp(3.5rem, 6vw, 5rem);
+  background:
+    linear-gradient(180deg, #e8f0f8 0%, #fff 5.5rem),
+    #fff;
 }
 
 .orpheum-inner-page__content {
   max-width: 52rem;
 }
 
+.orpheum-inner-page__intro + .orpheum-inner-page__section {
+  margin-top: 0;
+}
+
 .orpheum-inner-page__section + .orpheum-inner-page__section {
-  margin-top: clamp(2rem, 4vw, 3rem);
+  margin-top: clamp(2.25rem, 4.5vw, 3.25rem);
 }
 
 .orpheum-inner-page__section-title {
-  margin: 0 0 1rem;
+  margin: 0 0 0.85rem;
   font-family: var(--orp-serif, "Marcellus", Georgia, serif);
   font-size: clamp(1.5rem, 2.5vw, 2rem);
   font-weight: 400;
   line-height: 1.1;
   letter-spacing: 0.01em;
-  color: var(--orp-dark);
+  color: var(--brand-navy, #0f2d4d);
 }
 
 .orpheum-inner-page__section-title::after {
   content: "";
   display: block;
   width: 25%;
-  height: 2px;
-  margin: 0.85rem 0 0;
-  background: var(--orp-gold);
+  height: 3px;
+  margin: 0.75rem 0 0;
+  background: linear-gradient(90deg, var(--brand-gold, #f9c534), rgba(var(--brand-gold-rgb, 249, 197, 52), 0.15));
 }
 
 .orpheum-inner-page__section p {
@@ -5584,13 +5593,17 @@ body.search-open {
 .orpheum-inner-page__programs,
 .orpheum-inner-page__tiers {
   display: grid;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .orpheum-inner-page__program,
 .orpheum-inner-page__tier {
-  padding: 1.25rem 0;
-  border-top: 1px solid var(--orp-line);
+  padding: 1.15rem 1.2rem 1.25rem;
+  border: 1px solid rgba(var(--brand-blue-rgb, 33, 101, 180), 0.14);
+  border-left: 4px solid var(--brand-gold, #f9c534);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(238, 244, 251, 0.9) 100%);
+  border-radius: 2px;
 }
 
 .orpheum-inner-page__program h3,
@@ -5599,7 +5612,7 @@ body.search-open {
   font-family: var(--orp-sans);
   font-size: 1.2rem;
   font-weight: 700;
-  color: var(--orp-dark);
+  color: var(--brand-navy, #0f2d4d);
 }
 
 .orpheum-inner-page__program-meta {
@@ -5607,7 +5620,7 @@ body.search-open {
   padding: 0;
   list-style: none;
   font-size: 0.88rem;
-  color: var(--orp-stone-500);
+  color: var(--brand-blue-dark, #1a5090);
 }
 
 .orpheum-inner-page__program-meta li + li {
@@ -5622,11 +5635,22 @@ body.search-open {
 
 .orpheum-inner-page__details {
   margin: 0;
+  border: 1px solid rgba(var(--brand-blue-rgb, 33, 101, 180), 0.14);
+  background: linear-gradient(180deg, #f7fafd 0%, #fff 100%);
+  overflow: hidden;
 }
 
 .orpheum-inner-page__detail {
-  padding: 1rem 0;
-  border-top: 1px solid var(--orp-line);
+  padding: 1rem 1.15rem;
+  border-top: 1px solid rgba(var(--brand-blue-rgb, 33, 101, 180), 0.1);
+}
+
+.orpheum-inner-page__detail:first-child {
+  border-top: 0;
+}
+
+.orpheum-inner-page__detail:nth-child(even) {
+  background: rgba(var(--brand-blue-rgb, 33, 101, 180), 0.04);
 }
 
 .orpheum-inner-page__detail dt {
@@ -5636,7 +5660,7 @@ body.search-open {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--orp-gold-dark);
+  color: var(--brand-gold-deep, #c9971f);
 }
 
 .orpheum-inner-page__detail dd {
@@ -5644,7 +5668,11 @@ body.search-open {
   font-family: var(--orp-sans);
   font-size: 1rem;
   line-height: 1.6;
-  color: var(--orp-stone-700);
+  color: var(--brand-navy, #0f2d4d);
+}
+
+.orpheum-inner-page__detail dd a {
+  color: var(--brand-blue, #2165b4);
 }
 
 .orpheum-inner-page__cta {
@@ -6385,7 +6413,7 @@ body.page-inner {
   }
 
   .orpheum-inner-page__body {
-    padding-top: clamp(1.75rem, 4vw, 2.5rem);
+    padding-top: clamp(1.15rem, 3vw, 1.65rem);
     padding-bottom: clamp(2rem, 5vw, 3rem);
   }
 

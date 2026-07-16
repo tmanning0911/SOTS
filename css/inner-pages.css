@@ -67,33 +67,54 @@
   margin-top: 1.5rem;
 }
 
-/* Plain band — Orpheum Events / News listing style (title only, no photo) */
+/* Plain band — brand-tinted title (education, contact, about, tickets, …) */
 .orpheum-page-hero--plain {
-  padding: clamp(1.35rem, 3vw, 2rem) var(--orp-chrome-gutter, 9.25rem);
-  background: var(--orp-stone-100, #f4f7fa);
-  border-bottom: 1px solid var(--orp-line, #e4e9ef);
-  color: var(--orp-dark, #0f2d4d);
+  position: relative;
+  padding: clamp(1.6rem, 3.5vw, 2.4rem) var(--orp-chrome-gutter, 9.25rem);
+  background:
+    linear-gradient(
+      125deg,
+      rgba(var(--brand-navy-rgb, 15, 45, 77), 0.94) 0%,
+      rgba(var(--brand-blue-rgb, 33, 101, 180), 0.88) 52%,
+      rgba(var(--brand-navy-rgb, 15, 45, 77), 0.9) 100%
+    ),
+    #0f2d4d;
+  border-bottom: 4px solid var(--brand-gold, #f9c534);
+  color: #fff;
+  overflow: hidden;
+}
+
+.orpheum-page-hero--plain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 90% at 100% 0%, rgba(var(--brand-gold-rgb, 249, 197, 52), 0.22), transparent 55%),
+    radial-gradient(ellipse 50% 70% at 0% 100%, rgba(255, 255, 255, 0.08), transparent 50%);
+  pointer-events: none;
 }
 
 .orpheum-page-hero--plain.orpheum-page-hero--compact {
   min-height: 0;
-  padding: clamp(1.15rem, 2.5vw, 1.65rem) var(--orp-chrome-gutter, 9.25rem);
+  padding: clamp(1.25rem, 2.8vw, 1.85rem) var(--orp-chrome-gutter, 9.25rem);
 }
 
 .orpheum-page-hero--plain .orpheum-page-hero__inner {
-  max-width: 40rem;
+  position: relative;
+  z-index: 1;
+  max-width: 44rem;
   padding: 0;
 }
 
 .orpheum-page-hero--plain .orpheum-page-hero__rail {
-  max-width: 40rem;
+  max-width: 44rem;
   padding: 0.15rem 0;
 }
 
 @media (min-width: 768px) {
   .orpheum-page-hero--plain .orpheum-page-hero__rail {
-    border-left: 4px solid var(--orp-gold, #f9c534);
-    padding-left: 1rem;
+    border-left: 4px solid var(--brand-gold, #f9c534);
+    padding-left: 1.1rem;
   }
 }
 
@@ -104,13 +125,32 @@
   font-weight: 400;
   line-height: 1.05;
   letter-spacing: 0.01em;
-  color: var(--orp-dark, #0f2d4d);
+  color: #fff;
 }
 
-.orpheum-page-hero--plain .orpheum-inner-page__eyebrow,
-.orpheum-page-hero--plain .orpheum-inner-page__intro,
+.orpheum-page-hero--plain .orpheum-inner-page__eyebrow {
+  display: block;
+  margin: 0 0 0.85rem;
+  font-family: var(--orp-sans, "Source Sans 3", sans-serif);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brand-gold, #f9c534);
+}
+
+.orpheum-page-hero--plain .orpheum-inner-page__intro {
+  display: block;
+  max-width: 38rem;
+  margin: 1rem 0 0;
+  font-family: var(--orp-sans, "Source Sans 3", sans-serif);
+  font-size: clamp(1.05rem, 1.4vw, 1.15rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.88);
+}
+
 .orpheum-page-hero--plain .orpheum-page-hero__actions {
-  display: none;
+  display: flex;
 }
 
 .orpheum-production-page__summary {
@@ -311,10 +351,14 @@
 
 /* Alternating inner-page section bands */
 .orpheum-inner-page__section--band {
-  background: var(--orp-stone-100, #f4f7fa);
+  background:
+    linear-gradient(180deg, rgba(var(--brand-blue-rgb, 33, 101, 180), 0.07) 0%, rgba(var(--brand-gold-rgb, 249, 197, 52), 0.08) 100%),
+    #f3f7fb;
   margin-left: calc(-1 * var(--orp-chrome-gutter, 9.25rem));
   margin-right: calc(-1 * var(--orp-chrome-gutter, 9.25rem));
   padding: clamp(1.75rem, 3vw, 2.5rem) var(--orp-chrome-gutter, 9.25rem);
+  border-top: 1px solid rgba(var(--brand-blue-rgb, 33, 101, 180), 0.1);
+  border-bottom: 1px solid rgba(var(--brand-blue-rgb, 33, 101, 180), 0.1);
 }
 
 .orpheum-support-band {
@@ -508,5 +552,130 @@
   align-items: center;
   gap: 0.25rem 0.35rem;
   flex: 0 0 auto;
+}
+
+/* Editorial image frame — fills empty white with real place/program photography */
+.orpheum-page-figure__frame {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: #0f2d4d;
+  border-bottom: 4px solid var(--brand-gold, #f9c534);
+}
+
+.orpheum-page-figure__frame--landscape {
+  aspect-ratio: 16 / 9;
+}
+
+.orpheum-page-figure__frame--wide {
+  aspect-ratio: 21 / 9;
+}
+
+.orpheum-page-figure__frame--portrait {
+  aspect-ratio: 4 / 5;
+  max-width: 28rem;
+}
+
+.orpheum-page-figure__frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.orpheum-page-figure__caption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.35rem 1rem;
+  margin: 0;
+  padding: 0.75rem 0.15rem 0;
+  font-family: var(--orp-sans, "Source Sans 3", sans-serif);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--brand-navy, #0f2d4d);
+}
+
+.orpheum-page-figure__credit {
+  color: #5a6570;
+  font-size: 0.8rem;
+}
+
+/* Split spotlight — image + story beside it */
+.orpheum-page-spotlight__grid {
+  display: grid;
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+@media (min-width: 768px) {
+  .orpheum-page-spotlight__grid {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.95fr);
+    gap: 1.75rem;
+  }
+
+  .orpheum-page-spotlight__grid--flip {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
+  }
+
+  .orpheum-page-spotlight__grid--flip .orpheum-page-spotlight__media {
+    order: 2;
+  }
+
+  .orpheum-page-spotlight__grid--flip .orpheum-page-spotlight__copy {
+    order: 1;
+  }
+}
+
+.orpheum-page-spotlight__media {
+  position: relative;
+  min-height: 16rem;
+  overflow: hidden;
+  background: #0f2d4d;
+  border-bottom: 4px solid var(--brand-gold, #f9c534);
+}
+
+.orpheum-page-spotlight__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 16rem;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.orpheum-page-spotlight__copy {
+  display: grid;
+  align-content: center;
+  gap: 0.75rem;
+  padding: 0.25rem 0;
+}
+
+.orpheum-page-spotlight__eyebrow {
+  margin: 0;
+  font-family: var(--orp-sans, "Source Sans 3", sans-serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-gold-deep, #c9971f);
+}
+
+.orpheum-page-spotlight__title {
+  margin: 0;
+  font-family: var(--orp-serif, "Marcellus", Georgia, serif);
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--brand-navy, #0f2d4d);
+}
+
+.orpheum-page-spotlight__copy p {
+  margin: 0;
+}
+
+.orpheum-page-spotlight__cta {
+  margin-top: 0.35rem !important;
 }
 

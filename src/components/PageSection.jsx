@@ -12,6 +12,62 @@ function ensurePeriod(text) {
   return text.endsWith(".") ? text : `${text}.`;
 }
 
+function PageFigure({ section, bandClass }) {
+  const heading = section.heading ? ensurePeriod(section.heading) : null;
+  const ratio = section.ratio || "landscape";
+  return (
+    <section className={`orpheum-inner-page__section orpheum-page-figure${bandClass}`}>
+      {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
+      {(section.paragraphs ?? []).map((paragraph) => (
+        <p key={paragraph.slice(0, 40)}>
+          <TextWithMailLinks text={paragraph} />
+        </p>
+      ))}
+      <figure className={`orpheum-page-figure__frame orpheum-page-figure__frame--${ratio}`}>
+        <img src={section.image} alt={section.alt || ""} loading="lazy" />
+        {section.caption || section.credit ? (
+          <figcaption className="orpheum-page-figure__caption">
+            {section.caption ? <span className="orpheum-page-figure__caption-text">{section.caption}</span> : null}
+            {section.credit ? <span className="orpheum-page-figure__credit">{section.credit}</span> : null}
+          </figcaption>
+        ) : null}
+      </figure>
+    </section>
+  );
+}
+
+function PageSpotlight({ section, bandClass }) {
+  const heading = section.heading ? ensurePeriod(section.heading) : null;
+  return (
+    <section className={`orpheum-inner-page__section orpheum-page-spotlight${bandClass}`}>
+      {heading ? <h2 className="orpheum-inner-page__section-title">{heading}</h2> : null}
+      <div className={`orpheum-page-spotlight__grid${section.flip ? " orpheum-page-spotlight__grid--flip" : ""}`}>
+        <div className="orpheum-page-spotlight__media">
+          <img src={section.image} alt={section.alt || ""} loading="lazy" />
+        </div>
+        <div className="orpheum-page-spotlight__copy">
+          {section.eyebrow ? <p className="orpheum-page-spotlight__eyebrow">{section.eyebrow}</p> : null}
+          {section.title ? <h3 className="orpheum-page-spotlight__title">{section.title}</h3> : null}
+          {(section.paragraphs ?? []).map((paragraph) => (
+            <p key={paragraph.slice(0, 40)}>
+              <TextWithMailLinks text={paragraph} />
+            </p>
+          ))}
+          {section.cta?.href ? (
+            <p className="orpheum-page-spotlight__cta">
+              {/^mailto:/i.test(section.cta.href) ? (
+                <MailLink email={extractMailtoAddress(section.cta.href)}>{section.cta.label}</MailLink>
+              ) : (
+                <ArrowButton href={section.cta.href}>{section.cta.label}</ArrowButton>
+              )}
+            </p>
+          ) : null}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function mapEmbedSrc(query) {
   const q = encodeURIComponent(String(query || "").trim());
   return `https://maps.google.com/maps?q=${q}&z=15&output=embed`;
@@ -32,6 +88,14 @@ function isTimelineSection(section) {
 export function PageSection({ section, band = false }) {
   const heading = section.heading ? ensurePeriod(section.heading) : null;
   const bandClass = band ? " orpheum-inner-page__section--band" : "";
+
+  if (section.type === "figure") {
+    return <PageFigure section={section} bandClass={bandClass} />;
+  }
+
+  if (section.type === "spotlight") {
+    return <PageSpotlight section={section} bandClass={bandClass} />;
+  }
 
   if (section.type === "map") {
     const embedSrc = mapEmbedSrc(section.embedQuery || section.address || section.title);
