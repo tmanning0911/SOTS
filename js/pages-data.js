@@ -537,15 +537,8 @@ export const INNER_PAGES = [
           { name: "Patrick & Sarah Wayland" },
         ],
       },
-      {
-        type: "board-form",
-        heading: "Apply to the Board",
-        paragraphs: [
-          "Interested in joining our volunteer Board of Directors? Share a short note about your interest and background. Applications are reviewed by Executive Director Aaron Simms.",
-        ],
-      },
     ],
-    cta: { label: "Apply to the Board", href: "#apply" },
+    cta: { label: "Apply to the Board", action: "board-apply" },
     secondaryCta: { label: "Support Our Mission", href: "/support/donate/" },
   },
   {

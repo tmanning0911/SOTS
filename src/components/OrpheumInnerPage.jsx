@@ -1,5 +1,6 @@
 import { isContactMailto } from "../../js/contact-recipients.js";
 import { isTicketCheckoutUrl, TICKETS_PAGE_PATH } from "../../js/ticketing.js";
+import { useUI } from "../context/UIContext.jsx";
 import { ArrowButton } from "./ArrowButton.jsx";
 import { ContactCtaButton } from "./ContactCtaButton.jsx";
 import { InnerPageHero } from "./InnerPageHero.jsx";
@@ -8,7 +9,16 @@ import { PageSection } from "./PageSection.jsx";
 import { TicketArrowButton } from "./ticketing/TicketArrowButton.jsx";
 
 function PageCta({ cta, variant = "gold" }) {
+  const { openBoardApplication } = useUI();
   if (!cta) return null;
+
+  if (cta.action === "board-apply") {
+    return (
+      <ArrowButton type="button" variant={variant} flat={variant === "ghost"} onClick={openBoardApplication}>
+        {cta.label}
+      </ArrowButton>
+    );
+  }
 
   if (isContactMailto(cta.href)) {
     return (
@@ -84,7 +94,7 @@ export function OrpheumInnerPage({ page }) {
               <PageSection
                 key={`${section.heading ?? "section"}-${index}`}
                 section={section}
-                band={index % 2 === 1 && section.type !== "apprentice-form" && section.type !== "board-form"}
+                band={index % 2 === 1 && section.type !== "apprentice-form"}
               />
             ))}
 

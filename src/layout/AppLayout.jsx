@@ -6,6 +6,7 @@ import { SiteFooter } from "../components/SiteFooter.jsx";
 import { MobileDock } from "../components/MobileDock.jsx";
 import { HomeQuickBar } from "../components/HomeQuickBar.jsx";
 import { AccessTicketsModal } from "../components/AccessTicketsModal.jsx";
+import { BoardApplicationModal } from "../components/BoardApplicationModal.jsx";
 import { ContactFormModal } from "../components/ContactFormModal.jsx";
 import { SiteSearch } from "../components/SiteSearch.jsx";
 import { useUI } from "../context/UIContext.jsx";
@@ -25,6 +26,8 @@ export function AppLayout() {
     contactFormOpen,
     contactFormTarget,
     closeContactForm,
+    boardApplicationOpen,
+    closeBoardApplication,
   } = useUI();
 
   useEffect(() => {
@@ -75,6 +78,7 @@ export function AppLayout() {
       {isHome ? <HomeQuickBar /> : isCheckout ? null : <MobileDock />}
       <AccessTicketsModal open={accessTicketsOpen} onClose={closeAccessTickets} />
       <ContactFormModal open={contactFormOpen} target={contactFormTarget} onClose={closeContactForm} />
+      <BoardApplicationModal open={boardApplicationOpen} onClose={closeBoardApplication} />
       <SiteSearch />
     </>
   );

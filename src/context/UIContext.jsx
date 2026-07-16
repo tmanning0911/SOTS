@@ -7,11 +7,14 @@ export function UIProvider({ children }) {
   const [accessTicketsOpen, setAccessTicketsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [contactForm, setContactForm] = useState({ open: false, target: null });
+  const [boardApplicationOpen, setBoardApplicationOpen] = useState(false);
 
   const openAccessTickets = useCallback(() => setAccessTicketsOpen(true), []);
   const closeAccessTickets = useCallback(() => setAccessTicketsOpen(false), []);
   const openSearch = useCallback(() => setSearchOpen(true), []);
   const closeSearch = useCallback(() => setSearchOpen(false), []);
+  const openBoardApplication = useCallback(() => setBoardApplicationOpen(true), []);
+  const closeBoardApplication = useCallback(() => setBoardApplicationOpen(false), []);
 
   const openContactForm = useCallback((target = {}) => {
     const recipient = resolveContactRecipient(target.to || target.email || "");
@@ -70,6 +73,9 @@ export function UIProvider({ children }) {
       contactFormTarget: contactForm.target,
       openContactForm,
       closeContactForm,
+      boardApplicationOpen,
+      openBoardApplication,
+      closeBoardApplication,
     }),
     [
       accessTicketsOpen,
@@ -82,6 +88,9 @@ export function UIProvider({ children }) {
       contactForm.target,
       openContactForm,
       closeContactForm,
+      boardApplicationOpen,
+      openBoardApplication,
+      closeBoardApplication,
     ],
   );
 
