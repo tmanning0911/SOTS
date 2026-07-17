@@ -7,6 +7,13 @@ import { SHOP_PRODUCTS } from "../../js/shop-catalog.js";
 import { jsonResponse } from "./lib/cors.mjs";
 import { bindBlobs } from "./lib/netlify-blobs.mjs";
 import { newPendingId, savePaymentLinkPending } from "./lib/payment-link-pending.mjs";
+import { fulfillCompTicketFromPending } from "./lib/payment-link-fulfill.mjs";
+import {
+  calculateDiscountCents,
+  promoAllowsZeroTotal,
+  ticketChargeCents,
+  validatePromo,
+} from "./lib/promo.mjs";
 import { getClientIp, rateLimit } from "./lib/rateLimit.mjs";
 import { resolveLocationId, squareRequest } from "./lib/square.mjs";
 import { readStaticJsonCatalog } from "./lib/static-catalog.mjs";
@@ -112,8 +119,19 @@ function sanitizeBuyer(body) {
   return {
     businessName: String(buyer.businessName || buyer.business || "").trim().slice(0, 100),
     contactName: String(buyer.contactName || buyer.name || "").trim().slice(0, 100),
+    name: String(buyer.name || buyer.contactName || "").trim().slice(0, 100),
+    email: String(buyer.email || "").trim().toLowerCase().slice(0, 200),
+    phone: String(buyer.phone || "").trim().slice(0, 40),
     note: String(buyer.note || "").trim().slice(0, 400),
+    marketingOptIn: Boolean(buyer.marketingOptIn),
   };
+}
+
+function ticketSubtotalFromLines(ticketLineItems) {
+  return ticketLineItems.reduce(
+    (sum, line) => sum + Number(line.base_price_money?.amount ?? 0) * (Number(line.quantity) || 1),
+    0,
+  );
 }
 
 function buildPaymentNote(kind, lineItems, buyer) {
@@ -366,16 +384,17 @@ export async function handler(event) {
   }
 
   try {
+    let ticketLineItems = [];
+    let shopLineItems = [];
     let lineItems;
     if (kind === "mahjong") lineItems = resolveMahjongItems(items);
     else if (kind === "gala") lineItems = resolveGalaItems(items);
     else if (kind === "event-sponsor") lineItems = resolveEventSponsorItems(items);
     else if (kind === "shop") lineItems = resolveShopItems(items);
     else if (kind === "ticket") {
-      lineItems = await resolveTicketItems(items);
-      if (shopItems.length) {
-        lineItems = [...lineItems, ...resolveShopItems(shopItems)];
-      }
+      ticketLineItems = await resolveTicketItems(items);
+      shopLineItems = shopItems.length ? resolveShopItems(shopItems) : [];
+      lineItems = [...ticketLineItems, ...shopLineItems];
     } else if (kind === "donate") lineItems = resolveDonateItems(items);
     else if (kind === "sponsorship") lineItems = resolveSponsorshipItems(items);
     else throw new Error("Unknown checkout kind");
@@ -385,28 +404,100 @@ export async function handler(event) {
       throw new Error("Enter your business or organization name before checkout");
     }
 
+    let promo = null;
+    let discountCents = 0;
+    let orderDiscounts = undefined;
+    if (kind === "ticket" && body.promoCode) {
+      promo = await validatePromo(body.promoCode);
+      if (!promo) throw new Error("Promo code is not valid");
+      const ticketSubtotal = ticketSubtotalFromLines(ticketLineItems);
+      discountCents = calculateDiscountCents(ticketSubtotal, promo);
+      if (discountCents > 0) {
+        orderDiscounts = [
+          {
+            uid: "sots-promo",
+            name: `Promo ${promo.code}`.slice(0, 50),
+            type: "FIXED_AMOUNT",
+            amount_money: { amount: discountCents, currency: "USD" },
+            scope: "ORDER",
+          },
+        ];
+      }
+    }
+
+    const ticketSubtotal = kind === "ticket" ? ticketSubtotalFromLines(ticketLineItems) : 0;
+    const shopCents = shopLineItems.reduce(
+      (sum, line) => sum + Number(line.base_price_money?.amount ?? 0) * (Number(line.quantity) || 1),
+      0,
+    );
+    const ticketCents =
+      kind === "ticket" ? ticketChargeCents(ticketSubtotal, discountCents, promo) : null;
+    const chargeCents = kind === "ticket" ? ticketCents + shopCents : null;
+
     const supportEmail =
       kind === "sponsorship" || kind === "event-sponsor"
         ? "marketing@shakespeareonthesound.org"
         : "aaron@shakespeareonthesound.org";
 
     const pending = await buildPendingSnapshot(kind, items, buyer, lineItems, shopItems);
+    if (kind === "ticket" && promo) {
+      pending.promoCode = promo.code;
+      pending.discountCents = discountCents;
+      pending.promoDescription = promo.description ?? null;
+    }
+
+    // True $0 tester/comp checkout — issue tickets without Square Payment Link.
+    if (kind === "ticket" && chargeCents === 0) {
+      if (!promoAllowsZeroTotal(promo)) {
+        throw new Error("This order still requires payment");
+      }
+      if (!rateLimit(`payment-link-comp:${ip}`, { max: 8, windowMs: 900_000 })) {
+        return jsonResponse(429, { error: "Too many free checkouts. Please wait and try again." }, event, {
+          methods: "POST, OPTIONS",
+        });
+      }
+      try {
+        await savePaymentLinkPending(pending, event);
+      } catch (err) {
+        console.error("payment-link pending save failed (comp):", err);
+      }
+      const result = await fulfillCompTicketFromPending({ pending, buyer, event });
+      const redirectBase = redirectFor(kind, body.returnPath);
+      const redirectUrl = `${redirectBase}${redirectBase.includes("?") ? "&" : "?"}code=${encodeURIComponent(result.confirmationCode || "")}`;
+      return jsonResponse(
+        200,
+        {
+          free: true,
+          pendingId: pending.id,
+          confirmationCode: result.confirmationCode,
+          emailSent: Boolean(result.emailSent),
+          redirectUrl,
+        },
+        event,
+        { methods: "POST, OPTIONS" },
+      );
+    }
+
     const locationId = await resolveLocationId();
+    const orderBody = {
+      location_id: locationId,
+      reference_id: pending.id,
+      metadata: {
+        sots_kind: kind,
+        sots_pending: pending.id,
+        ...(promo?.code ? { sots_promo: promo.code } : {}),
+      },
+      line_items: lineItems,
+    };
+    if (orderDiscounts?.length) orderBody.discounts = orderDiscounts;
+
     const data = await squareRequest("/v2/online-checkout/payment-links", {
       method: "POST",
       body: {
         idempotency_key: randomBytes(16).toString("hex"),
         description: `SOTS ${kind} checkout`,
         payment_note: `${buildPaymentNote(kind, lineItems, buyer)} · ${pending.id}`.slice(0, 500),
-        order: {
-          location_id: locationId,
-          reference_id: pending.id,
-          metadata: {
-            sots_kind: kind,
-            sots_pending: pending.id,
-          },
-          line_items: lineItems,
-        },
+        order: orderBody,
         checkout_options: {
           redirect_url: redirectFor(kind, body.returnPath),
           merchant_support_email: supportEmail,
@@ -430,7 +521,13 @@ export async function handler(event) {
 
     return jsonResponse(
       200,
-      { url, paymentLinkId: link.id, pendingId: pending.id },
+      {
+        url,
+        paymentLinkId: link.id,
+        pendingId: pending.id,
+        discountCents,
+        promoCode: promo?.code ?? null,
+      },
       event,
       { methods: "POST, OPTIONS" },
     );

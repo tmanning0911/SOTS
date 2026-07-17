@@ -45,7 +45,7 @@ export async function handler(event) {
 
   const holdId = String(body.holdId ?? "").trim();
   const sourceId = String(body.sourceId ?? "").trim();
-  if (!holdId || !sourceId) {
+  if (!holdId) {
     return jsonResponse(400, { error: "Missing payment details" }, event, { methods: "POST, OPTIONS" });
   }
 
@@ -56,6 +56,11 @@ export async function handler(event) {
     });
   }
 
+  const isComp = Number(hold.totalCents) === 0;
+  if (!isComp && !sourceId) {
+    return jsonResponse(400, { error: "Missing payment details" }, event, { methods: "POST, OPTIONS" });
+  }
+
   try {
     const catalog = await readCatalog();
     const performance = getPerformance(catalog, hold.performanceId);
@@ -63,49 +68,57 @@ export async function handler(event) {
     const performanceStart = performance?.start ?? hold.performanceLabel;
     const note = `SOTS tickets — ${productionTitle} — ${performanceStart}`;
 
-    const squareCatalog = await readStaticJsonCatalog(SQUARE_TICKET_CATALOG_FILENAME);
-    let payment;
+    let payment = null;
     let squareOrderId = null;
 
-    if (canBuildSquareTicketOrder(hold, squareCatalog)) {
-      const locationId = await resolveLocationId();
-      const orderPayload = buildSquareTicketOrderPayload({
-        hold,
-        catalogMapping: squareCatalog,
-        productionTitle,
-        performanceStart,
-        locationId,
-      });
-      const keys = randomBytes(16);
-      const result = await createSquareOrderAndPay({
-        sourceId,
-        order: orderPayload,
-        amountCents: hold.totalCents,
-        currency: hold.currency,
-        orderIdempotencyKey: `${keys.toString("hex")}-order`,
-        paymentIdempotencyKey: randomBytes(16).toString("hex"),
-        referenceId: holdId,
-        note,
-        buyerEmail: hold.buyer.email,
-      });
-      payment = result.payment;
-      squareOrderId = result.order?.id ?? null;
+    if (isComp) {
+      payment = {
+        id: `comp:${hold.promoCode || "FREE"}:${holdId}`,
+        status: "COMPLETED",
+      };
     } else {
-      payment = await createSquarePayment({
-        sourceId,
-        amountCents: hold.totalCents,
-        currency: hold.currency,
-        idempotencyKey: randomBytes(16).toString("hex"),
-        referenceId: holdId,
-        note,
-        buyerEmail: hold.buyer.email,
-      });
-    }
+      const squareCatalog = await readStaticJsonCatalog(SQUARE_TICKET_CATALOG_FILENAME);
 
-    if (payment.status !== "COMPLETED" && payment.status !== "APPROVED") {
-      return jsonResponse(402, { error: "Payment was not completed. Please try again." }, event, {
-        methods: "POST, OPTIONS",
-      });
+      if (canBuildSquareTicketOrder(hold, squareCatalog)) {
+        const locationId = await resolveLocationId();
+        const orderPayload = buildSquareTicketOrderPayload({
+          hold,
+          catalogMapping: squareCatalog,
+          productionTitle,
+          performanceStart,
+          locationId,
+        });
+        const keys = randomBytes(16);
+        const result = await createSquareOrderAndPay({
+          sourceId,
+          order: orderPayload,
+          amountCents: hold.totalCents,
+          currency: hold.currency,
+          orderIdempotencyKey: `${keys.toString("hex")}-order`,
+          paymentIdempotencyKey: randomBytes(16).toString("hex"),
+          referenceId: holdId,
+          note,
+          buyerEmail: hold.buyer.email,
+        });
+        payment = result.payment;
+        squareOrderId = result.order?.id ?? null;
+      } else {
+        payment = await createSquarePayment({
+          sourceId,
+          amountCents: hold.totalCents,
+          currency: hold.currency,
+          idempotencyKey: randomBytes(16).toString("hex"),
+          referenceId: holdId,
+          note,
+          buyerEmail: hold.buyer.email,
+        });
+      }
+
+      if (payment.status !== "COMPLETED" && payment.status !== "APPROVED") {
+        return jsonResponse(402, { error: "Payment was not completed. Please try again." }, event, {
+          methods: "POST, OPTIONS",
+        });
+      }
     }
 
     const order = await commitOrder({ hold, squarePaymentId: payment.id, squareOrderId });

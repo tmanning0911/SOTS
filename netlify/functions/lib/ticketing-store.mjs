@@ -9,7 +9,7 @@ import { isPastPerformance, normalizeTicketCatalog } from "../../../js/performan
 import { stripTestPerformances, assertProductionPerformanceId } from "../../../js/catalog-production.js";
 import { normalizePatronEmail } from "./patron-auth.mjs";
 import { normalizePhone } from "./patron-profile.mjs";
-import { calculateDiscountCents, validatePromo } from "./promo.mjs";
+import { calculateDiscountCents, ticketChargeCents, validatePromo } from "./promo.mjs";
 import { getProduct, readShopCatalog } from "./shop-store.mjs";
 import { readStaticJsonCatalog } from "./static-catalog.mjs";
 import { squareEnvironment } from "./square.mjs";
@@ -425,7 +425,8 @@ export async function createHold({ performanceId, items, buyer, promoCode, donat
 
   const { shopLineItems, shopCents } = await resolveShopAddonLines(shopItems);
 
-  const totalCents = Math.max(100, subtotalCents - discountCents + donation + shopCents);
+  const ticketCents = ticketChargeCents(subtotalCents, discountCents, promo);
+  const totalCents = ticketCents + donation + shopCents;
 
   const holdId = newHoldId();
   const hold = {

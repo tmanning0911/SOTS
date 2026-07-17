@@ -35,3 +35,18 @@ export function calculateDiscountCents(subtotalCents, promo) {
 
   return Math.min(subtotalCents, Math.round((subtotalCents * value) / 100));
 }
+
+/** True when a promo is allowed to produce a $0 ticket total (comps / testers). */
+export function promoAllowsZeroTotal(promo) {
+  return Boolean(promo?.allowZero || promo?.tester);
+}
+
+/**
+ * Ticket charge after promo. Shop/donation are added by the caller.
+ * Partial promos still floor at $1 unless the promo allows a true $0 total.
+ */
+export function ticketChargeCents(subtotalCents, discountCents, promo) {
+  const raw = Math.max(0, Number(subtotalCents) - Number(discountCents || 0));
+  if (raw === 0 && promoAllowsZeroTotal(promo)) return 0;
+  return Math.max(100, raw);
+}

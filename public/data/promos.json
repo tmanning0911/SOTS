@@ -6,6 +6,15 @@
       "value": 10,
       "active": true,
       "description": "10% off tickets"
+    },
+    {
+      "code": "TESTCOMP",
+      "type": "percent",
+      "value": 100,
+      "active": true,
+      "allowZero": true,
+      "tester": true,
+      "description": "Tester comp — free tickets (staff only)"
     }
   ]
 }

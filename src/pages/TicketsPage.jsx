@@ -154,6 +154,7 @@ export function TicketsPage() {
   const { catalog } = useShop();
   const [searchParams] = useSearchParams();
   const thanks = searchParams.get("thanks") === "1";
+  const thanksCode = String(searchParams.get("code") || "").trim().toUpperCase();
   const [pickerPerformanceId, setPickerPerformanceId] = useState(null);
 
   const shopMerchandise = useMemo(() => {
@@ -189,6 +190,12 @@ export function TicketsPage() {
             <p>
               Thank you — check your email for a branded receipt with your confirmation and QR
               codes. You can also open My Tickets with the same email to view your orders.
+              {thanksCode ? (
+                <>
+                  {" "}
+                  Confirmation code: <strong>{thanksCode}</strong>.
+                </>
+              ) : null}
             </p>
             <div className="tix-page__thanks-actions">
               <ArrowButton href="/my-tickets/">My Tickets</ArrowButton>

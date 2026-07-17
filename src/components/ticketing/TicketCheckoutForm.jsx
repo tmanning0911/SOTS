@@ -440,7 +440,12 @@ export function TicketCheckoutForm({
   const otherInCart = otherPerformanceCount(cart, performanceId);
   const discountCents = hold?.discountCents ?? promoPreview?.discountCents ?? 0;
   const estimatedTotal = selectedItems.length
-    ? (hold?.totalCents ?? Math.max(100, ticketSubtotal + donationCents + shopCents - discountCents))
+    ? (hold?.totalCents ??
+        (() => {
+          const raw = Math.max(0, ticketSubtotal - discountCents) + donationCents + shopCents;
+          if (raw === 0 && discountCents >= ticketSubtotal && ticketSubtotal > 0) return 0;
+          return Math.max(100, raw);
+        })())
     : 0;
 
   const scrollToCheckoutStep = useCallback((stepId) => {
@@ -622,25 +627,32 @@ export function TicketCheckoutForm({
       document.getElementById("co-section-details")?.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
-    if (!cardRef.current) {
-      setError("Payment form is not ready yet.");
-      document.getElementById("co-section-payment")?.scrollIntoView({ behavior: "smooth", block: "start" });
-      return;
-    }
 
     writeStoredBuyer({ name, email, phone, marketingOptIn });
     setPerformanceQuantities(performanceId, quantities);
     setLoading(true);
     try {
       const prepared = await ensureHold();
-      const tokenResult = await cardRef.current.tokenize();
-      if (tokenResult.status !== "OK") {
-        throw new Error(tokenResult.errors?.[0]?.message || "Card could not be verified");
+      const isComp = Number(prepared.totalCents) === 0;
+      if (!isComp && !cardRef.current) {
+        setError("Payment form is not ready yet.");
+        document.getElementById("co-section-payment")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        setLoading(false);
+        return;
+      }
+
+      let sourceId = "comp";
+      if (!isComp) {
+        const tokenResult = await cardRef.current.tokenize();
+        if (tokenResult.status !== "OK") {
+          throw new Error(tokenResult.errors?.[0]?.message || "Card could not be verified");
+        }
+        sourceId = tokenResult.token;
       }
 
       const { order: completedOrder, emailSent: sent } = await completeCheckout({
         holdId: prepared.holdId,
-        sourceId: tokenResult.token,
+        sourceId,
       });
       const remaining = cart.filter((line) => line.performanceId !== String(performanceId));
       setRemainingAfterPay(remaining);

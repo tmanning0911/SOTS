@@ -1057,6 +1057,64 @@
   color: #b42318;
 }
 
+.tix-picker__promo,
+.tix-picker__buyer {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.tix-picker__promo-fields {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.tix-picker__promo-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.tix-picker__input {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid rgba(15, 45, 77, 0.18);
+  border-radius: 2px;
+  background: #fff;
+  color: var(--orp-dark, #0f2d4d);
+  font: inherit;
+}
+
+.tix-picker__field {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  color: var(--orp-dark, #0f2d4d);
+}
+
+.tix-picker__promo-apply {
+  min-width: 6.5rem;
+  justify-content: center;
+}
+
+.tix-picker__promo-message {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #b42318;
+}
+
+.tix-picker__promo-message.is-success {
+  color: #1f6b3a;
+}
+
+.tix-picker__promo-savings {
+  margin: -0.35rem 0 0;
+  font-size: 0.85rem;
+  color: #1f6b3a;
+}
+
 .tix-picker__actions .orpheum-arrow-btn {
   justify-content: center;
   width: 100%;

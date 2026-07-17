@@ -147,7 +147,12 @@ async function fulfillTicket({ pending, payment, squareOrder, buyer }) {
     (sum, line) => sum + (Number(line.unitPrice) || 0) * (Number(line.quantity) || 1),
     0,
   );
-  const totalCents = Number(payment.amount_money?.amount ?? ticketSubtotal + shopCents);
+  const discountCents = Math.max(0, Number(pending?.discountCents ?? 0));
+  const promoCode = pending?.promoCode ? String(pending.promoCode) : null;
+  const expectedTotal = Math.max(0, ticketSubtotal - discountCents + shopCents);
+  const totalCents = Number(
+    payment.amount_money?.amount != null ? payment.amount_money.amount : expectedTotal,
+  );
   const performance = getPerformance(catalog, performanceId);
   const hold = {
     id: newHoldId(),
@@ -162,8 +167,9 @@ async function fulfillTicket({ pending, payment, squareOrder, buyer }) {
     lineItems,
     shopLineItems,
     subtotalCents: ticketSubtotal,
-    discountCents: 0,
-    promoCode: null,
+    discountCents,
+    promoCode,
+    promoDescription: pending?.promoDescription ?? null,
     donationCents: 0,
     shopCents,
     totalCents,
@@ -332,6 +338,44 @@ async function fulfillGeneric({ kind, pending, payment, squareOrder, buyer }) {
   }
 
   return { kind, orderId: order.id, confirmationCode: order.confirmationCode, emailSent };
+}
+
+/**
+ * Issue tickets for a $0 promo/comp checkout without a Square payment.
+ * Used by create-payment-link when a tester/comp code zeros the ticket total.
+ */
+export async function fulfillCompTicketFromPending({ pending, buyer, event }) {
+  if (!pending?.id || pending.kind !== "ticket") {
+    throw new Error("Invalid complimentary ticket checkout");
+  }
+  const email = String(buyer?.email || "").trim().toLowerCase();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    throw new Error("A valid email is required for free tickets");
+  }
+  const name = String(buyer?.name || buyer?.contactName || "Tester").trim().slice(0, 100);
+  const payment = {
+    id: `comp:${pending.promoCode || "FREE"}:${pending.id}`,
+    amount_money: { amount: 0, currency: "USD" },
+    order_id: null,
+  };
+  const result = await fulfillTicket({
+    pending,
+    payment,
+    squareOrder: null,
+    buyer: {
+      email,
+      name,
+      phone: String(buyer?.phone || "").trim(),
+      marketingOptIn: Boolean(buyer?.marketingOptIn),
+      businessName: String(buyer?.businessName || "").trim(),
+      note: String(buyer?.note || "").trim(),
+    },
+  });
+  await markPaymentLinkFulfilled(
+    { pendingId: pending.id, squarePaymentId: payment.id, result },
+    event,
+  );
+  return result;
 }
 
 /**
