@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { SUPPORT_MISSION } from "../../js/data.js";
 import {
   centsToDollarsLabel,
   chargeCentsWithFeesCovered,
@@ -66,9 +67,16 @@ export function DonatePage() {
   return (
     <InnerPageShell showVisit={false} showNewsletter showSupport={false}>
       <article className="sots-donate-page">
-        <InnerPageHero title="Support Our Mission" />
+        <InnerPageHero
+          eyebrow={SUPPORT_MISSION.eyebrow}
+          title={SUPPORT_MISSION.title}
+          intro="Ticket sales alone never cover a full season. Your gift keeps Shakespeare in Pinkney Park accessible — and fuels our impact in classrooms and communities across Fairfield County."
+        />
 
         <nav className="orpheum-page-quick" aria-label="Donate shortcuts">
+          <a href="#why" className="orpheum-page-quick__link">
+            Why give
+          </a>
           <a href="#give" className="orpheum-page-quick__link">
             Give online
           </a>
@@ -90,14 +98,55 @@ export function DonatePage() {
           </div>
         ) : null}
 
+        <section className="sots-donate-page__why" id="why" aria-labelledby="donate-why-heading">
+          <div className="sots-donate-page__why-inner">
+            <div className="sots-donate-page__why-copy">
+              <h2 id="donate-why-heading" className="orpheum-underline-heading">
+                What your gift means
+              </h2>
+              <p className="sots-donate-page__lead">{SUPPORT_MISSION.body}</p>
+              <ul className="sots-donate-page__stats" aria-label="Support highlights">
+                {SUPPORT_MISSION.stats.map((stat) => (
+                  <li key={stat.label}>
+                    <strong>{stat.value}</strong>
+                    <span>{stat.label}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="sots-donate-page__meaning">
+                It costs about $67 per patron to present our summer shows. A gift of any size helps
+                keep general admission affordable, classrooms connected to the park stage, and more
+                than 10,000 neighbors each year reached through performances and educational outreach
+                across Fairfield County.
+              </p>
+            </div>
+
+            <div className="sots-donate-page__why-media">
+              <div className="orpheum-impact-frame">
+                <span className="orpheum-impact-frame__accent" aria-hidden="true" />
+                <div className="orpheum-impact-frame__photo">
+                  <img
+                    className="orpheum-impact-frame__image"
+                    src={SUPPORT_MISSION.image}
+                    alt="Audience gathered for Shakespeare on the Sound in Pinkney Park"
+                    loading="lazy"
+                    width={600}
+                    height={600}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="sots-donate-page__give" id="give" aria-labelledby="donate-give-heading">
           <div className="sots-donate-page__give-inner">
             <h2 id="donate-give-heading" className="orpheum-underline-heading">
               Give online
             </h2>
             <p className="sots-donate-page__lead">
-              Ticket sales alone do not cover the season. It costs about $67 per patron to present
-              our summer shows — your gift keeps Shakespeare in Pinkney Park accessible.
+              Choose one-time or monthly. Suggested amounts start at the cost of a single patron —
+              or enter any amount that works for you.
             </p>
 
             <div className="sots-donate-page__freq" role="group" aria-label="Gift frequency">

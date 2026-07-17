@@ -1430,10 +1430,11 @@ export const INNER_PAGES = [
   {
     href: "/support/donate/",
     title: "Donate",
-    heading: "Support Our Mission.",
-    eyebrow: "Join & Give",
+    heading: "Your Gift Powers the Season.",
+    eyebrow: "Support the Arts",
     showSupport: false,
-    intro: "Give online with Square — one-time or monthly — plus stocks, DAFs, and other gift options.",
+    intro:
+      "Ticket sales alone never cover a full season. Give online — one-time or monthly — to keep Shakespeare in Pinkney Park accessible and fund education across Fairfield County.",
     sections: [],
   },
   {

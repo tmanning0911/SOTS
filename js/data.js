@@ -510,14 +510,14 @@ export const SUPPORT_MISSION = {
   eyebrow: "Support the Arts",
   title: "Your Gift Powers the Season",
   body:
-    "Ticket sales alone do not cover the full cost of our productions. Each year we raise more than $115,000 from donors, sponsors, and volunteers to sustain performances, education in schools, and community programs across Fairfield County.",
+    "Ticket sales alone do not cover the full cost of our productions. Each year we raise more than $115,000 from donors, sponsors, and volunteers — sustaining outdoor performances in Pinkney Park, education in schools, and community programs that reach more than 10,000 people across Fairfield County.",
   donateLabel: "Donate Now",
   donateHref: "/support/donate/",
   secondaryLabel: "Stocks, DAFs & more",
   secondaryHref: "/support/donate/#other-ways",
   image: "/images/backgrounds/park-audience-nyt.jpg",
   stats: [
-    { value: "30 seasons", label: "of Shakespeare in the park" },
+    { value: "10,000+", label: "people reached each year" },
     { value: "$115K+", label: "annual fundraising goal" },
     { value: "From $5", label: "general admission for children" },
   ],
