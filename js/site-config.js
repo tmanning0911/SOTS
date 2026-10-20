@@ -8,7 +8,7 @@ export const SITE_META = {
   name: "Shakespeare on the Sound",
   tagline: "Where Shakespeare Lives Now!",
   locale: "en_US",
-  themeColor: "#0a3d30",
+  themeColor: "#0f2d4d",
   twitter: "@shakesonsound",
   ogImage:
     "https://static.wixstatic.com/media/2fda61_ed5498c346784fa7a58d686004f62ad1~mv2.jpg/v1/fill/w_1200,h_630,al_c,q_85,usm_0.66_1.00_0.01/2fda61_ed5498c346784fa7a58d686004f62ad1~mv2.jpg",
@@ -73,7 +73,7 @@ export function buildFeaturedEventJsonLd() {
       url: "https://www.shakespeareonthesound.org/productions/much-ado-about-nothing/",
       price: "0",
       priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
+      availability: "https://schema.org/SoldOut",
     },
     image: SITE_META.ogImage,
   };

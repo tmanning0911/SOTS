@@ -113,8 +113,9 @@ function EventCard({ event, past = false, featured = false }) {
   const primary = isPrimaryCta(event, label, href);
   const hidePastTickets =
     past &&
-    (/ticket/i.test(label ?? "") || href === TICKETS_PAGE_PATH) &&
-    !isFundraiser(event);
+    (/ticket|sponsor|buy|reserve/i.test(`${label ?? ""} ${secondaryLabel ?? ""}`) ||
+      href === TICKETS_PAGE_PATH ||
+      /#tickets|#sponsorship/i.test(`${href ?? ""} ${secondaryHref ?? ""}`));
   const showPrimary = href && label && !hidePastTickets;
   const showSecondary = Boolean(secondaryHref && secondaryLabel && !past);
   const showMedia = featured && Boolean(event.image);
@@ -291,8 +292,8 @@ export function EventsPage() {
           <Link to={MAHJONG_NIGHT_PATH} className="orpheum-page-quick__link">
             Mahjong night
           </Link>
-          <Link to={`${GALA_PATH}#sponsorship`} className="orpheum-page-quick__link">
-            Sponsor
+          <Link to={GALA_PATH} className="orpheum-page-quick__link">
+            Gala thank-you
           </Link>
           <a href="#earlier" className="orpheum-page-quick__link">
             Past events

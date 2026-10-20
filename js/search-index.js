@@ -168,8 +168,8 @@ export function buildSearchIndex() {
   });
 
   pushItem(items, seen, {
-    title: "Get Tickets",
-    excerpt: "Purchase general admission and reserved seating on our site.",
+    title: "Tickets",
+    excerpt: "The 2026 season has ended. Look up a past order or give to what comes next.",
     href: SITE.ticketsUrl,
     type: "Tickets",
     keywords: ["buy", "reserved", "seating", "tickets"],

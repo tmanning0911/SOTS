@@ -106,8 +106,8 @@ function ConfirmationView({ order, emailSent, returnHref }) {
         <Link to={returnHref} className="orpheum-arrow-btn orpheum-arrow-btn--gold">
           Continue shopping
         </Link>
-        <Link to="/tickets/" className="orpheum-arrow-btn orpheum-arrow-btn--ghost">
-          Get tickets
+        <Link to="/support/donate/" className="orpheum-arrow-btn orpheum-arrow-btn--ghost">
+          Give now
         </Link>
       </div>
     </div>

@@ -61,11 +61,11 @@ export function SiteFooter() {
             </div>
 
             <div className="orpheum-footer__ctas">
-              <ArrowButton href={SITE.ticketsUrl} className="orpheum-footer__cta">
-                Tickets
+              <ArrowButton href="/support/donate/" className="orpheum-footer__cta">
+                Give now
               </ArrowButton>
-              <ArrowButton href="/support/donate/" variant="light" className="orpheum-footer__cta">
-                Donate
+              <ArrowButton href="/events/" variant="light" className="orpheum-footer__cta">
+                Past events
               </ArrowButton>
             </div>
           </div>

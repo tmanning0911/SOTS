@@ -101,6 +101,8 @@ function applyUrlsToSource(source, urlById) {
 }
 
 async function main() {
+  console.error("Mahjong Midsummer Classic (September 19, 2026) has ended and is not for sale.");
+  process.exit(1);
   await loadDotEnv();
   const checkOnly = process.argv.includes("--check");
 

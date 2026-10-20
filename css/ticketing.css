@@ -2852,12 +2852,12 @@ html.lenis.lenis-smooth .sots-checkout__card-container iframe,
 
 .sots-date-list__cta:hover,
 .sots-date-list__cta:focus-visible {
-  background: #f9c534;
-  color: #fff;
+  background: var(--brand-gold, #c9a227);
+  color: #0f2d4d;
 }
 
 .sots-date-list__cta:focus-visible {
-  outline: 2px solid #f9c534;
+  outline: 2px solid var(--brand-gold, #c9a227);
   outline-offset: 2px;
 }
 

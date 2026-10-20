@@ -1,7 +1,7 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import { PRODUCTION_DETAILS } from "../../js/pages-data.js";
 import { HOME_UPCOMING_EVENTS } from "../../js/home-upcoming-events.js";
-import { getPriceFromLabel } from "../../js/ticketing.js";
+import { getPriceFromLabel, getTicketingState } from "../../js/ticketing.js";
 import { ArrowButton } from "../components/ArrowButton.jsx";
 import { InnerPageHero } from "../components/InnerPageHero.jsx";
 import { InnerPageShell } from "../components/InnerPageShell.jsx";
@@ -24,7 +24,8 @@ export function ProductionPage() {
       ? [{ type: "prose", heading: "About the Show", paragraphs: [data.description] }]
       : []);
   const showTicketing = TICKETED_SLUGS.has(slug);
-  const priceLabel = getPriceFromLabel(eventbrite);
+  const canPurchase = Boolean(eventbrite && getTicketingState(eventbrite).canPurchase);
+  const priceLabel = canPurchase ? getPriceFromLabel(eventbrite) : null;
 
   usePageMeta(
     data
@@ -46,15 +47,17 @@ export function ProductionPage() {
               <p className="orpheum-production-page__credit">Directed by {data.director}</p>
             ) : null}
             {data.intro ? <p className="orpheum-inner-page__intro">{data.intro}</p> : null}
-            {showTicketing && eventbrite?.featuredTicket ? (
+            {canPurchase && eventbrite?.featuredTicket ? (
               <div className="orpheum-production-page__ticket-meta">
                 <TicketStatusBadge status={eventbrite.featuredTicket} marketingOnly />
                 {priceLabel ? <span className="orpheum-production-page__price-from">{priceLabel}</span> : null}
               </div>
             ) : null}
             <div className="orpheum-page-hero__actions">
-              {showTicketing ? (
+              {canPurchase ? (
                 <ArrowButton href="/tickets/#dates">Tickets</ArrowButton>
+              ) : showTicketing ? (
+                <ArrowButton href="/support/donate/">Give now</ArrowButton>
               ) : data.tickets ? (
                 <ArrowButton href={data.tickets} target="_blank" rel="noopener">
                   Tickets
@@ -66,7 +69,7 @@ export function ProductionPage() {
             </div>
           </div>
 
-          {showTicketing && !ticketsLoading && eventbrite ? (
+          {canPurchase && !ticketsLoading && eventbrite ? (
             <div className="orpheum-production-page__ticketing orpheum-production-page__ticketing-hub" id="ticketing" data-reveal>
               <div className="orpheum-production-page__ticketing-hub-card">
                 <h2 className="orpheum-inner-page__section-title">Get tickets.</h2>
@@ -76,6 +79,22 @@ export function ProductionPage() {
                 </p>
                 <div className="orpheum-inner-page__cta">
                   <ArrowButton href="/tickets/#dates">See dates &amp; buy tickets</ArrowButton>
+                  <ArrowButton href="/my-tickets/" variant="ghost">
+                    My Tickets
+                  </ArrowButton>
+                </div>
+              </div>
+            </div>
+          ) : showTicketing && !ticketsLoading ? (
+            <div className="orpheum-production-page__ticketing orpheum-production-page__ticketing-hub" id="ticketing" data-reveal>
+              <div className="orpheum-production-page__ticketing-hub-card">
+                <h2 className="orpheum-inner-page__section-title">This season has ended.</h2>
+                <p>
+                  Much Ado About Nothing, June 10–28, 2026, is no longer on sale. Thank you for a
+                  landmark summer in Pinkney Park.
+                </p>
+                <div className="orpheum-inner-page__cta">
+                  <ArrowButton href="/support/donate/">Give now</ArrowButton>
                   <ArrowButton href="/my-tickets/" variant="ghost">
                     My Tickets
                   </ArrowButton>
@@ -96,7 +115,7 @@ export function ProductionPage() {
             </div>
 
             <aside className="orpheum-production-page__sidebar">
-              {showTicketing && eventbrite ? (
+              {canPurchase && eventbrite ? (
                 <TicketPricing
                   ticketClasses={eventbrite.ticketClasses}
                   priceFrom={eventbrite.priceFrom}
@@ -138,17 +157,21 @@ export function ProductionPage() {
               </h2>
               <ArrowButton href="/productions/past-productions/">View All Events</ArrowButton>
             </div>
-            <div className="orpheum-production-page__related-grid">
-              {relatedEvents.map((event) => (
-                <a key={event.href} className="orpheum-production-page__related-card" href={event.href}>
-                  <img src={event.image} alt="" loading="lazy" width={320} height={200} />
-                  <div>
-                    <strong>{event.title}</strong>
-                    <span>{event.dates}</span>
-                  </div>
-                </a>
-              ))}
-            </div>
+            {relatedEvents.length ? (
+              <div className="orpheum-production-page__related-grid">
+                {relatedEvents.map((event) => (
+                  <a key={event.href} className="orpheum-production-page__related-card" href={event.href}>
+                    <img src={event.image} alt="" loading="lazy" width={320} height={200} />
+                    <div>
+                      <strong>{event.title}</strong>
+                      <span>{event.dates}</span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            ) : (
+              <p className="orpheum-production-page__related-empty">No upcoming events right now.</p>
+            )}
           </section>
         </div>
       </article>

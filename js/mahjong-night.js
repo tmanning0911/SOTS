@@ -1,5 +1,5 @@
 /**
- * Mahjong Midsummer Classic — event content + Square Payment Links.
+ * Mahjong Midsummer Classic — September 19, 2026. The afternoon is over.
  */
 
 import { buildEventSponsors } from "./event-sponsorships.js";
@@ -10,7 +10,7 @@ export const MAHJONG_NIGHT = {
   title: "Mahjong Midsummer Classic",
   eyebrow: "Year-End Giving",
   intro:
-    "Join us for the Mahjong Midsummer Classic, benefiting Shakespeare on the Sound’s Year-End Giving Campaign. Come play—experienced or brand new—and help support our mission.",
+    "Thank you for an afternoon of play that benefited Shakespeare on the Sound’s Year-End Giving Campaign.",
   note: "This is a social afternoon of play, not a tournament. Pull up a chair.",
   dateLabel: "Saturday, September 19, 2026",
   timeLabel: "11:00 AM–2:00 PM",
@@ -38,21 +38,18 @@ export const MAHJONG_NIGHT = {
       name: "Individual player",
       description: "One seat",
       price: 100,
-      paymentLink: "https://square.link/u/sYXElfNO",
     },
     {
       id: "table",
       name: "Reserved table of four",
       description: "Hold a table for your group",
       price: 400,
-      paymentLink: "https://square.link/u/D6CaPCTz",
     },
     {
       id: "patron",
       name: "Patron player",
       description: "Seat plus additional support for SOTS",
       price: 150,
-      paymentLink: "https://square.link/u/vUHXO6wj",
     },
     {
       id: "beginner",
@@ -60,31 +57,24 @@ export const MAHJONG_NIGHT = {
       description: "Guided play if you’re new to the game",
       price: 125,
       limited: true,
-      paymentLink: "https://square.link/u/2vhHywYJ",
     },
   ],
   /** Standard ladder — Mahjong seat benefits noted in descriptions. */
   sponsors: buildEventSponsors({
     presenting: {
       description: "Top billing, logo, verbal recognition, two tables (8 seats)",
-      paymentLink: "https://square.link/u/ZrS2MBBJ",
     },
     community: {
       description: "Logo, event recognition, one table (4 seats)",
-      paymentLink: "https://square.link/u/x7NnTN1M",
     },
     "table-sponsor": {
       description: "Table sign, recognition, one table (4 seats)",
-      paymentLink: "https://square.link/u/rZoYhlng",
     },
     supporting: {
       name: "Tile sponsor",
       description: "Listed online and at the event",
-      paymentLink: "https://square.link/u/KEKvfqDh",
     },
-    friend: {
-      paymentLink: "https://square.link/u/yqmPAOPL",
-    },
+    friend: {},
   }),
 };
 

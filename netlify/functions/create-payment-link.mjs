@@ -376,6 +376,19 @@ export async function handler(event) {
   const kind = String(body.kind || "").trim();
   const items = Array.isArray(body.items) ? body.items : [];
   const shopItems = Array.isArray(body.shopItems) ? body.shopItems : [];
+  const closedEvent =
+    kind === "mahjong" ||
+    kind === "gala" ||
+    (kind === "event-sponsor" &&
+      items.some((item) => /^(gala-2026|mahjong-night-2026)$/i.test(String(item?.eventId || ""))));
+  if (closedEvent) {
+    return jsonResponse(
+      410,
+      { error: "This event has ended and is no longer on sale." },
+      event,
+      { methods: "POST, OPTIONS" },
+    );
+  }
   if (!items.length) {
     return jsonResponse(400, { error: "Select at least one item" }, event, { methods: "POST, OPTIONS" });
   }

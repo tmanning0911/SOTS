@@ -17,6 +17,7 @@ export function getTicketCheckoutPath(performanceId) {
 }
 
 export function getTicketPaymentLink(performance, ticketTypeId) {
+  if (!isPurchasablePerformance(performance)) return null;
   const url = performance?.paymentLinks?.[String(ticketTypeId)]?.trim();
   return url || null;
 }
@@ -146,6 +147,7 @@ export async function loadTicketData({ fresh = false } = {}) {
       const normalized = normalizeTicketCatalog(data);
       if (normalized?.performances?.length && linksByPerformance) {
         for (const performance of normalized.performances) {
+          if (!isPurchasablePerformance(performance)) continue;
           const links = linksByPerformance[performance.id];
           if (links && typeof links === "object") {
             performance.paymentLinks = { ...(performance.paymentLinks || {}), ...links };

@@ -15,8 +15,8 @@ export function NotFoundPage() {
           <div className="orpheum-inner-page__content" data-reveal>
             <div className="orpheum-not-found-page__actions orpheum-inner-page__cta">
               <ArrowButton href="/">Back to Home</ArrowButton>
-              <ArrowButton href="/tickets/" variant="ghost">
-                Get Tickets
+              <ArrowButton href="/support/donate/" variant="ghost">
+                Give now
               </ArrowButton>
               <ArrowButton href="/about/contact/" variant="ghost">
                 Contact Us
