@@ -718,7 +718,7 @@
   height: 1.75rem;
   padding: 0 0.4rem;
   border-radius: 999px;
-  background: #f9c534;
+  background: var(--brand-gold, #c9a227);
   color: #0f2d4d;
   font-family: var(--orp-sans, "Source Sans 3", sans-serif);
   font-size: 0.95rem;

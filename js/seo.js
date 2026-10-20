@@ -20,7 +20,7 @@ export const HOME_TITLE =
   "Shakespeare on the Sound | Affordable Outdoor Shakespeare in Rowayton, CT";
 
 export const HOME_DESCRIPTION =
-  "Shakespeare on the Sound presents affordable outdoor Shakespeare in Pinkney Park, Rowayton, CT. Much Ado About Nothing, June 10–28, 2026. Where Shakespeare Lives Now!";
+  "The 2026 season has ended. Give now to support affordable outdoor Shakespeare in Pinkney Park, Rowayton, CT.";
 
 /** @typedef {{
  *   path: string,
@@ -120,13 +120,13 @@ function buildCatalog() {
     route(
       "/tickets/",
       "Tickets & Dates",
-      "Buy tickets for Shakespeare on the Sound at Pinkney Park — VIP reserved seating, general admission, and upcoming events in Rowayton, CT.",
+      "The 2026 season has ended. Nothing is on sale. Give now to support Shakespeare on the Sound in Rowayton, CT.",
       { priority: "0.95", changefreq: "weekly" },
     ),
     route(
       "/events/",
       "Events",
-      "Upcoming Shakespeare on the Sound events — galas, fundraisers, education programs, and community nights in Fairfield County.",
+      "Past Shakespeare on the Sound events. The 2026 gala, mahjong afternoon, and Pinkney Park season have ended.",
       { priority: "0.9", changefreq: "weekly" },
     ),
     route(MAHJONG_NIGHT_PATH, MAHJONG_NIGHT.title, MAHJONG_NIGHT.intro, {

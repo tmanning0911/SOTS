@@ -229,11 +229,11 @@ export function MobileNav() {
       </div>
 
       <footer className="mobile-nav__foot">
-        <ArrowButton href="/tickets/" className="mobile-nav__foot-btn" onClick={handleClose}>
-          Tickets
-        </ArrowButton>
         <ArrowButton href="/support/donate/" className="mobile-nav__foot-btn" onClick={handleClose}>
-          Donate
+          Give now
+        </ArrowButton>
+        <ArrowButton href="/events/" className="mobile-nav__foot-btn" onClick={handleClose}>
+          Past events
         </ArrowButton>
       </footer>
     </div>

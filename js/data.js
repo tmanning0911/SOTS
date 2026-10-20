@@ -129,19 +129,19 @@ export const NAV_ITEMS = [
         title: "Ticket Information",
         links: [
           { label: "Contact", href: "/about/contact/" },
-          { label: "Tickets", href: SITE.ticketsUrl },
-          { label: "VIP & Ticket Types", href: `${SITE.ticketsUrl}#ticket-pricing` },
+          { label: "Give now", href: SITE.donateUrl },
+          { label: "Season calendar", href: SITE.ticketsUrl },
           { label: "FAQ", href: "/about/faq/" },
           { label: "Cancellation Policy", href: "/about/cancellation-policy/" },
         ],
       },
     ],
     featured: {
-      title: "Much Ado About Something",
-      meta: "Annual Gala · Norwalk, CT",
-      dates: "October 16, 2026",
-      href: "/events/much-ado-about-something/",
-      image: MEDIA.galaImage,
+      title: "Thank You for 2026",
+      meta: "Season ended · Rowayton & Norwalk",
+      dates: "Nothing is on sale",
+      href: "/support/donate/",
+      image: MEDIA.heroHome,
     },
   },
   {
@@ -190,14 +190,14 @@ export const NAV_ITEMS = [
         links: [
           { label: "Adult Enrichment", href: "/education/adult-enrichment/" },
           { label: "Events", href: "/education/events/" },
-          { label: "Donate", href: "/support/donate/" },
+          { label: "Give now", href: "/support/donate/" },
         ],
       },
     ],
     featured: {
       title: "Summer Camps",
       meta: "Education · Shakespeare in Pinkney Park",
-      dates: "Summer 2026",
+      dates: "Summer 2026 has ended",
       href: "/education/summer-camps/",
       image: MEDIA.kidsImage,
     },
@@ -209,7 +209,7 @@ export const NAV_ITEMS = [
       {
         title: "Ways to Give",
         links: [
-          { label: "Donate", href: "/support/donate/" },
+          { label: "Give now", href: "/support/donate/" },
           { label: "Individual Giving", href: "/support/individual-giving/" },
           { label: "Program Ads & Sponsorships", href: "/support/program-ads-sponsorships/" },
           { label: "Gift Shop", href: SITE.shopUrl },
@@ -292,7 +292,7 @@ export const FOOTER_MAIN = {
     {
       title: "Visit",
       links: [
-        { label: "Tickets", href: SITE.ticketsUrl },
+        { label: "Season calendar", href: SITE.ticketsUrl },
         { label: "Events", href: "/events/" },
         { label: "Plan a Visit", href: "/about/visit/" },
         { label: "Parking & Directions", href: "/about/getting-here/" },
@@ -303,7 +303,7 @@ export const FOOTER_MAIN = {
     {
       title: "Experience",
       links: [
-        { label: "This Season", href: "/events/" },
+        { label: "2026 season", href: "/productions/much-ado-about-nothing/" },
         { label: "Kids Show", href: "/productions/kids-show/" },
         { label: "Summer Camps", href: "/education/summer-camps/" },
         { label: "Education in Schools", href: "/education/in-schools/" },
@@ -315,7 +315,7 @@ export const FOOTER_MAIN = {
       links: [
         { label: "Our Mission", href: "/about/mission-history/" },
         { label: "Staff", href: "/about/staff/" },
-        { label: "Donate", href: "/support/donate/" },
+        { label: "Give now", href: "/support/donate/" },
         { label: "Individual Giving", href: "/support/individual-giving/" },
         { label: "Contact", href: "/about/contact/" },
       ],
@@ -384,9 +384,9 @@ export const MAIN_NAV = NAV_ITEMS.map((item) => ({
 
 /** Homepage mobile quick bar — keep exactly 4 for the 2×2 layout. */
 export const QUICK_BAR_LINKS = [
+  { label: "Give now", href: "/support/donate/" },
+  { label: "Past events", href: "/events/" },
   { label: "Parking", href: "/about/getting-here/" },
-  { label: "Seating", href: "/about/visit/" },
-  { label: "Events", href: "/events/" },
   { label: "My Tickets", href: "/my-tickets/" },
 ];
 
@@ -503,7 +503,7 @@ export const HOMEPAGE_STATS = [
   { value: "1996", label: "Serving Fairfield County since" },
   { value: "Accessible", label: "Outdoor Shakespeare under the stars" },
   { value: "Shakespeare in Pinkney Park", label: "Rowayton, Connecticut" },
-  { value: "Oct 16", label: "2026 gala — what's next" },
+  { value: "Give now", label: "2026 season and gala have ended" },
 ];
 
 export const SUPPORT_MISSION = {
@@ -511,7 +511,7 @@ export const SUPPORT_MISSION = {
   title: "Your Gift Powers the Season",
   body:
     "Ticket sales alone do not cover the full cost of our productions. Each year we raise more than $115,000 from donors, sponsors, and volunteers — sustaining outdoor performances in Pinkney Park, education in schools, and community programs that reach more than 10,000 people across Fairfield County.",
-  donateLabel: "Donate Now",
+  donateLabel: "Give now",
   donateHref: "/support/donate/",
   secondaryLabel: "Stocks, DAFs & more",
   secondaryHref: "/support/donate/#other-ways",
@@ -519,13 +519,13 @@ export const SUPPORT_MISSION = {
   stats: [
     { value: "10,000+", label: "people reached each year" },
     { value: "$115K+", label: "annual fundraising goal" },
-    { value: "From $5", label: "general admission for children" },
+    { value: "Ended", label: "2026 tickets are no longer on sale" },
   ],
   pathways: [
     { label: "Individual Giving", href: "/support/individual-giving/" },
     { label: "Stocks & DAFs", href: "/support/donate/" },
     { label: "Sponsorships", href: "/support/program-ads-sponsorships/" },
-    { label: "Gala & Events", href: "/events/" },
+    { label: "Past events", href: "/events/" },
   ],
 };
 
@@ -552,7 +552,7 @@ export const HOMEPAGE_PATHWAYS = [
     href: "/support/donate/",
     image: MEDIA.donateImage,
     accent: "gold",
-    links: ["Donate", "Sponsorships", "Gala Events"],
+    links: ["Give now", "Sponsorships", "Past events"],
   },
   {
     title: "Plan Your Visit",
@@ -566,8 +566,8 @@ export const HOMEPAGE_PATHWAYS = [
 
 export const HOMEPAGE_FAQ = [
   {
-    q: "How much are tickets?",
-    a: "General admission is $25 for adults and $5 for children 12 and under. VIP reserved seating is $75. Students and seniors (65+) may buy $15 rush tickets in person at the park box office day-of only. Pay-What-You-Will nights are Tuesdays — suggested donation $25 adults, $5 children.",
+    q: "Are tickets on sale?",
+    a: "No. The 2026 season has ended. Much Ado About Nothing (June 10–28), the Mahjong Midsummer Classic (September 19), and the Much Ado About Something gala (October 16) are no longer on sale. Give now to support the next season.",
   },
   {
     q: "What should I bring to Shakespeare in Pinkney Park?",
@@ -578,8 +578,8 @@ export const HOMEPAGE_FAQ = [
     a: "Performances may be delayed or rescheduled due to weather. Check our website and social channels for same-day updates, or review our cancellation policy for full details.",
   },
   {
-    q: "How do I get reserved seating?",
-    a: "VIP tickets include a reserved high-back or low-back chair and can be purchased online. General admission is open lawn seating — bring your own blanket or low-back chair.",
+    q: "How did seating work in 2026?",
+    a: "VIP tickets included a reserved chair. General admission was open lawn seating. Those performances have ended. Bring a blanket or low chair when the park season returns.",
   },
 ];
 

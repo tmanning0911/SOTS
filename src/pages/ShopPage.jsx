@@ -67,8 +67,8 @@ export function ShopPage() {
           <a href="#gift-certificates" className="orpheum-page-quick__link">
             Gift certificates
           </a>
-          <Link to="/tickets/" className="orpheum-page-quick__link">
-            Get tickets
+          <Link to="/support/donate/" className="orpheum-page-quick__link">
+            Give now
           </Link>
         </nav>
 

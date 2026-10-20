@@ -84,32 +84,32 @@ export const FAQ_SECTIONS = [
     category: "Tickets",
     items: [
       {
-        q: "How much are tickets?",
-        a: "General Admission (open lawn) is $25 for adults and $5 for children 12 & under. VIP reserved seating is $75. Students and seniors (65+) may buy $15 rush tickets in person at the park box office on the day of the show only. Pay-What-You-Will nights are Tuesdays (June 16 and 23 in 2026) — suggested donation $25 adults, $5 children.",
+        q: "Are tickets on sale?",
+        a: "No. The 2026 season has ended. Much Ado About Nothing ran June 10–28 at Pinkney Park. The Mahjong Midsummer Classic was September 19, and the Much Ado About Something gala was October 16. None of those events are on sale. Give now at shakespeareonthesound.org/support/donate.",
       },
       {
-        q: "How do I purchase tickets?",
-        a: "Buy online at shakespeareonthesound.org/tickets, or call (203) 957-1006. During the summer run, the park box office also sells tickets in person from 5pm on show days.",
+        q: "How much were 2026 tickets?",
+        a: "General admission was $25 for adults and $5 for children 12 and under. VIP reserved seating was $75. Student and senior rush was $15 at the park box office on the day of the show. Pay-What-You-Will nights were June 16 and 23. Those prices are a record of the season that has ended.",
       },
       {
-        q: "Do I need to purchase tickets ahead of time?",
-        a: "It is encouraged, but not necessary!",
+        q: "How do I find an order I already placed?",
+        a: "Open My Tickets or the ticket lookup page and use the email and confirmation code from your receipt. New seats for 2026 are no longer on sale.",
       },
       {
         q: "What are the box office hours?",
-        a: "During the summer run, the in-person park box office is open from 5–7:30pm, Tuesday–Sunday. Off-season, reach us by email or at (203) 957-1006.",
+        a: "The 2026 park box office has closed. Reach us by email at contactus@shakespeareonthesound.org or call (203) 957-1006.",
       },
       {
-        q: "Is there a student/senior rate?",
-        a: "Yes — $15 rush for seniors 65+ and current students, sold in person only at the park box office on the day of the show.",
+        q: "Was there a student or senior rate?",
+        a: "In 2026, seniors 65+ and current students could buy $15 rush seats in person at the park box office on the day of the show. That season has ended.",
       },
       {
         q: "Do kids need a ticket for the Kids' Show?",
-        a: "No ticket is required for the Kids' Show. It is accessible and begins at 6:30pm near the house in Pinkney Park every Main Stage evening.",
+        a: "No ticket was required for the 2026 Kids' Show. It was accessible and began at 6:30pm near the house in Pinkney Park before each Main Stage evening. That run has ended.",
       },
       {
         q: "Can I transfer my tickets to another performance?",
-        a: "Yes. Email contactus@shakespeareonthesound.org or call (203) 957-1006 and we will help move your tickets to another available performance when possible.",
+        a: "The 2026 performances have ended, so there is no later date to move a seat to. For a question about an order you already placed, email contactus@shakespeareonthesound.org or call (203) 957-1006.",
       },
       {
         q: "What is your refund/exchange policy?",
@@ -163,27 +163,27 @@ export const PRODUCTION_DETAILS = {
       },
       {
         type: "details",
-        heading: "Tickets & Pricing",
+        heading: "2026 prices (season ended)",
         rows: [
           {
             label: "VIP Reserved Seating",
-            value: "$75 any day of the week. Pre-sale April 7–14; general admission on sale beginning April 15.",
+            value: "This season has ended. VIP reserved seating was $75. Pre-sale ran April 7–14; general admission opened April 15.",
           },
           {
             label: "Pay What You Will",
-            value: "June 16 and 23 at 7:30pm (Tuesdays). Suggested donation: $25 adults, $5 children 12 and under.",
+            value: "Season ended. June 16 and 23 at 7:30pm. Suggested donation was $25 adults, $5 children 12 and under.",
           },
           {
             label: "General Admission",
-            value: "June 10–28 at 7:30pm, Wednesdays through Sundays. $25 adults, $5 children 12 and under.",
+            value: "Season ended. June 10–28 at 7:30pm, Wednesdays through Sundays. $25 adults, $5 children 12 and under.",
           },
           {
             label: "Student & Senior Rush",
-            value: "$15 for seniors 65+ and current students. Sold in person only at the park box office day-of.",
+            value: "Season ended. $15 for seniors 65+ and current students, sold in person at the park box office day-of.",
           },
           {
             label: "Apprentice Matinee",
-            value: "June 20 at 1pm — Pay What You Will understudy run. Walk-up admission only.",
+            value: "Season ended. June 20 at 1pm was a Pay What You Will understudy run. Walk-up admission only.",
           },
         ],
       },
@@ -195,16 +195,16 @@ export const PRODUCTION_DETAILS = {
             title: "Opening Night Pre-show Reception",
             meta: ["Saturday, June 13", "6–7:30pm", "$50 with Main Stage ticket"],
             paragraphs: [
-              "Come celebrate Opening Night! Open to all. Light bites, beer, wine, and soda included.",
-              "Raise a glass to 30 years! Anyone who has worked with SOS as a volunteer, board member, cast, crew, or die-hard supporter is invited to attend.",
+              "Opening Night has ended. The reception included light bites, beer, wine, and soda.",
+              "Alumni and longtime supporters raised a glass to 30 years. That invitation has closed.",
             ],
           },
           {
             title: "SOS Book Club",
             meta: ["Thursday, June 18", "5–6pm", "$25 with Main Stage ticket", "Rain date: June 25"],
             paragraphs: [
-              "Join Director of Education and Outreach Stephanie Eiss and educator and former Board President John Love for a guided discussion about the play.",
-              "Interested in learning more before watching it live? Looking for a place to explore and share ideas about the play? Join us for the first ever SoS Book Club!",
+              "Director of Education Stephanie Eiss and educator John Love led a guided discussion about the play.",
+              "The first SoS Book Club met during the June run. It is no longer on sale.",
             ],
           },
         ],
@@ -215,7 +215,7 @@ export const PRODUCTION_DETAILS = {
         links: [
           { label: "About the Show", href: "/productions/much-ado-about-nothing/" },
           { label: "Plan Your Visit", href: "/about/visit/" },
-          { label: "Upcoming Events", href: "/events/" },
+          { label: "Past events", href: "/events/" },
           { label: "Kids' Show in the Park", href: "/productions/kids-show/" },
         ],
       },
@@ -232,7 +232,7 @@ export const PRODUCTION_DETAILS = {
       "Much Ado About Nothing for Kids — a 30-minute version for ages 1–100! A kid-friendly adaptation by our Apprentice Company that also serves as a refresher for those who need a plot reminder.",
     eyebrow: "Family Programming",
     intro:
-      "6:30 pm in the park, every night before the MainStage show. Kids' Shows are accessible to all — show up, find a spot, and enjoy!",
+      "Thank you for the 6:30pm Kids' Show before each Main Stage evening. That June run has ended.",
     sections: [
       {
         type: "prose",
@@ -240,8 +240,8 @@ export const PRODUCTION_DETAILS = {
         paragraphs: [
           "Much Ado About Nothing for Kids is a 30-minute version of our season's show for ages 1–100!",
           "A kid-friendly adaptation by our Apprentice Company that also serves as a refresher for those who need a plot reminder.",
-          "Performances take place at 6:30 pm in Pinkney Park every evening before the MainStage show, June 10–28 (except Mondays).",
-          "Kids' Shows are accessible — no ticket required. Show up to the park, find a spot, and enjoy.",
+          "Performances took place at 6:30 pm in Pinkney Park every evening before the MainStage show, June 10–28 (except Mondays).",
+          "Kids' Shows were accessible — no ticket required. That run has ended.",
         ],
       },
       {
@@ -339,7 +339,7 @@ export const PRODUCTION_DETAILS = {
         links: [
           { label: "Much Ado About Nothing 2026", href: "/productions/much-ado-about-nothing/" },
           { label: "Kids' Show", href: "/productions/kids-show/" },
-          { label: "Upcoming Events", href: "/events/" },
+          { label: "Past events", href: "/events/" },
         ],
       },
     ],
@@ -766,7 +766,7 @@ export const INNER_PAGES = [
       },
     ],
     cta: { label: "Getting Here", href: "/about/getting-here/" },
-    secondaryCta: { label: "Upcoming Events", href: "/events/" },
+    secondaryCta: { label: "Past events", href: "/events/" },
   },
   {
     href: "/about/getting-here/",
@@ -1535,7 +1535,7 @@ export const INNER_PAGES = [
     heading: "Events.",
     eyebrow: "Join & Give",
     showSupport: false,
-    intro: "Main stage tickets, fundraisers, and special events.",
+    intro: "The 2026 gala, mahjong afternoon, and main-stage season have ended. Give now to support what comes next.",
     sections: [],
   },
   {

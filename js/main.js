@@ -104,9 +104,9 @@ function initMobileDock() {
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 19h16M6 16l3-9 3 5 3-7 3 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       What's On
     </a>
-    <a class="mobile-dock__item mobile-dock__item--primary" href="${SITE.ticketsUrl}">
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 4v3M17 4v3M5 8h14v12H5V8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      Tickets
+    <a class="mobile-dock__item mobile-dock__item--primary" href="${SITE.donateUrl}">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 11c0 5.5-7 10-7 10z" stroke="currentColor" stroke-width="1.5"/></svg>
+      Give now
     </a>
     <a class="mobile-dock__item" href="/support/donate/">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 11c0 5.5-7 10-7 10z" stroke="currentColor" stroke-width="1.5"/></svg>
