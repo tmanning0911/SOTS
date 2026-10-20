@@ -1,5 +1,5 @@
 /**
- * Much Ado About Something — annual gala tickets + Square checkout.
+ * Much Ado About Something — October 16, 2026 gala. The evening is over.
  */
 
 export const GALA_PATH = "/events/much-ado-about-something/";
@@ -8,7 +8,7 @@ export const GALA_EVENT = {
   title: "Much Ado About Something",
   eyebrow: "Annual Gala",
   intro:
-    "Join us for cocktails, delicious bites, dancing, and live and silent auctions in support of Shakespeare on the Sound — a beautiful evening for the season ahead.",
+    "Thank you for an evening of cocktails, bites, dancing, and auctions in support of Shakespeare on the Sound.",
   dateLabel: "Friday, October 16, 2026",
   timeLabel: "6:00–10:00 PM",
   venueName: "The House Up on the Hill",

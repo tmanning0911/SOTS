@@ -73,7 +73,7 @@ export function buildFeaturedEventJsonLd() {
       url: "https://www.shakespeareonthesound.org/productions/much-ado-about-nothing/",
       price: "0",
       priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
+      availability: "https://schema.org/SoldOut",
     },
     image: SITE_META.ogImage,
   };

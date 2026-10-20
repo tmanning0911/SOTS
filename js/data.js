@@ -38,16 +38,16 @@ export const HERO_HOME = {
   titleLines: ["Experience", "the Magic of", "Shakespeare"],
   titleLastLine: "Under the",
   titleHighlight: "Stars",
-  ctaLabel: "What's Next",
-  ctaHref: "/events/",
+  ctaLabel: "Give now",
+  ctaHref: "/support/donate/",
   ctaExternal: false,
 };
 
 export const SEASON_PROMO = {
-  eyebrow: "After a Landmark Summer",
-  heading: "Join Us for What’s Next",
-  ctaLabel: "Gala tickets",
-  ctaHref: "/events/much-ado-about-something/#tickets",
+  eyebrow: "After a Landmark Year",
+  heading: "Thank You for 2026",
+  ctaLabel: "Give now",
+  ctaHref: "/support/donate/",
   ctaExternal: false,
   showId: "gala",
 };
@@ -425,7 +425,7 @@ export const SEASON_SHOWS = [
     dateShort: "Oct 16, 2026",
     venue: "The House Up on the Hill, Norwalk, CT",
     description:
-      "Cocktails, dancing, and auctions to support next summer's season. Save the date for our annual gala celebration.",
+      "Thank you for cocktails, dancing, and auctions on October 16, 2026. Tickets are no longer on sale.",
     image: MEDIA.galaImage,
     heroImage: MEDIA.galaImage,
     href: "/events/much-ado-about-something/",
@@ -489,14 +489,14 @@ export const VISIT_ESSENTIALS = [
 
 export const FEATURED_SHOW = {
   title: "Much Ado About Something",
-  tagline: "Our annual gala — cocktails, dancing, and auctions for the season ahead",
+  tagline: "Thank you for our annual gala — tickets are no longer on sale",
   dates: "Friday, October 16, 2026",
   venue: "The House Up on the Hill, Norwalk, CT",
   director: "",
   image: MEDIA.galaImage,
   heroImage: MEDIA.galaImage,
   href: "/events/much-ado-about-something/",
-  tickets: "/events/much-ado-about-something/#tickets",
+  tickets: "/support/donate/",
 };
 
 export const HOMEPAGE_STATS = [
@@ -586,6 +586,6 @@ export const HOMEPAGE_FAQ = [
 export const SEASON_SCHEDULE = [
   { show: "Much Ado About Nothing", dates: "June 10–28, 2026", venue: "Shakespeare in Pinkney Park", status: "Ended", href: "/productions/much-ado-about-nothing/" },
   { show: "Kids' Show", dates: "Summer 2026", venue: "Shakespeare in Pinkney Park", status: "Ended", href: "/productions/kids-show/" },
-  { show: "Mahjong Midsummer Classic", dates: "Sept 19, 2026", venue: "Rowayton, CT", status: "On Sale", href: "/events/mahjong-night/" },
-  { show: "Much Ado About Something Gala", dates: "Oct 16, 2026", venue: "Norwalk, CT", status: "Tickets", href: "/events/much-ado-about-something/#tickets" },
+  { show: "Mahjong Midsummer Classic", dates: "Sept 19, 2026", venue: "Rowayton, CT", status: "Ended", href: "/events/mahjong-night/" },
+  { show: "Much Ado About Something Gala", dates: "Oct 16, 2026", venue: "Norwalk, CT", status: "Ended", href: "/events/much-ado-about-something/" },
 ];

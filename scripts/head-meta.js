@@ -49,5 +49,3 @@ export function renderHead({
   <link rel="preconnect" href="https://static.wixstatic.com" crossorigin />
   <link rel="dns-prefetch" href="https://static.wixstatic.com" />`;
 }
-
-export const FEEDBUCKET_SCRIPT = `  <script defer src="https://cdn.feedbucket.app/assets/feedbucket.js" data-feedbucket="b3rMrhoJpumgkXUyZrg7"></script>`;

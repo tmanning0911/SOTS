@@ -150,21 +150,33 @@ export function UpcomingEvents() {
           <h2 id="events-heading">Upcoming Events</h2>
         </div>
         <div className="orpheum-events-grid__head-actions">
-          <ScrollControls scrollRef={scrollRef} />
+          {events.length ? <ScrollControls scrollRef={scrollRef} /> : null}
           <ArrowButton href="/events/">View All Events</ArrowButton>
         </div>
       </div>
 
-      <div
-        className="orpheum-events-grid__rail"
-        ref={scrollRef}
-        data-reveal
-        aria-label="Upcoming events"
-      >
-        {events.map((event) => (
-          <EventCard key={event.id} event={event} />
-        ))}
-      </div>
+      {events.length ? (
+        <div
+          className="orpheum-events-grid__rail"
+          ref={scrollRef}
+          data-reveal
+          aria-label="Upcoming events"
+        >
+          {events.map((event) => (
+            <EventCard key={event.id} event={event} />
+          ))}
+        </div>
+      ) : (
+        <div className="orpheum-events-grid__empty" data-reveal>
+          <p className="orpheum-events-grid__empty-kicker">Calendar</p>
+          <h3>Nothing is on sale right now</h3>
+          <p>
+            The 2026 Main Stage, Mahjong Midsummer Classic, and Much Ado About Something gala have
+            ended. New dates will appear here when they open.
+          </p>
+          <ArrowButton href="/support/donate/">Give now</ArrowButton>
+        </div>
+      )}
     </section>
   );
 }

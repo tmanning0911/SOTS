@@ -81,13 +81,13 @@ function TicketsSpotlight({ data, loading, priceLabel }) {
                 <span>Thank you for a landmark summer in Pinkney Park</span>
               </p>
               <p className="tix-page__spotlight-lead">
-                Main Stage tickets are no longer on sale. Join us next for the Mahjong Midsummer
-                Classic and our annual gala.
+                Main Stage tickets, the Mahjong Midsummer Classic, and the October gala are no
+                longer on sale. Thank you for a remarkable year.
               </p>
               <div className="tix-page__spotlight-about" style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-                <ArrowButton href="/events/mahjong-night/">Mahjong tickets</ArrowButton>
-                <ArrowButton href="/events/much-ado-about-something/#tickets" variant="ghost">
-                  Gala tickets
+                <ArrowButton href="/support/donate/">Give now</ArrowButton>
+                <ArrowButton href="/events/" variant="ghost">
+                  Past events
                 </ArrowButton>
               </div>
             </>
@@ -211,16 +211,17 @@ export function TicketsPage() {
         <section className="tix-page__book" id="dates" aria-labelledby="tix-dates-heading">
           <div className="tix-page__book-head" data-reveal>
             <div>
-              <p className="orpheum-eyebrow">{seasonEnded ? "Coming up" : "Reserve your seats"}</p>
+              <p className="orpheum-eyebrow">{seasonEnded ? "This season" : "Reserve your seats"}</p>
               <h2 id="tix-dates-heading" className="orpheum-underline-heading">
-                {seasonEnded ? "Upcoming events" : "Choose a performance"}
+                {seasonEnded ? "Nothing on sale" : "Choose a performance"}
               </h2>
             </div>
             <p className="tix-page__book-note">
               {seasonEnded ? (
                 <>
-                  Main Stage nights have ended. Get tickets for Mahjong or the gala, or{" "}
-                  <Link to="/events/">browse all events</Link>. Questions?{" "}
+                  June through October dates have ended.{" "}
+                  <Link to="/support/donate/">Give now</Link> or{" "}
+                  <Link to="/events/">browse past events</Link>. Questions?{" "}
                   <a href="tel:+12039571006">(203) 957-1006</a>
                 </>
               ) : (
@@ -236,11 +237,11 @@ export function TicketsPage() {
             <div className="tix-page__book-grid" data-reveal>
               <div className="tix-page__dates-panel">
                 <p>
-                  <ArrowButton href="/events/mahjong-night/">Mahjong Midsummer Classic — Sept 19</ArrowButton>
+                  <ArrowButton href="/support/donate/">Give now</ArrowButton>
                 </p>
                 <p style={{ marginTop: "0.75rem" }}>
-                  <ArrowButton href="/events/much-ado-about-something/#tickets" variant="ghost">
-                    Much Ado About Something Gala — Oct 16
+                  <ArrowButton href="/events/much-ado-about-something/" variant="ghost">
+                    Gala thank-you
                   </ArrowButton>
                 </p>
                 <p className="tix-page__book-note" style={{ marginTop: "1.25rem" }}>

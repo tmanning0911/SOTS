@@ -6,7 +6,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { renderHead, FEEDBUCKET_SCRIPT } from "./head-meta.js";
+import { renderHead } from "./head-meta.js";
 import { INNER_PAGES, PRODUCTION_DETAILS } from "../js/pages-data.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -22,7 +22,6 @@ function appShell({ title, description, path: href, image }) {
 <html lang="en-US">
 <head>
 ${renderHead({ title, description, path: href, image })}
-${FEEDBUCKET_SCRIPT}
 </head>
 <body>
   <div id="root"></div>

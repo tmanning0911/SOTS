@@ -1,5 +1,5 @@
 import { HERO_HOME, MEDIA } from "../../../js/data.js";
-import { TicketArrowButton } from "../ticketing/TicketArrowButton.jsx";
+import { ArrowButton } from "../ArrowButton.jsx";
 import { HeroStarrySky } from "./HeroStarrySky.jsx";
 
 export function Hero() {
@@ -39,10 +39,9 @@ export function Hero() {
               <mark className="orpheum-hero__highlight">{HERO_HOME.titleHighlight}</mark>
             </span>
           </h1>
-          <TicketArrowButton
-            label={HERO_HOME.ctaLabel}
-            className="orpheum-arrow-btn--hero"
-          />
+          <ArrowButton href={HERO_HOME.ctaHref} className="orpheum-arrow-btn--hero">
+            {HERO_HOME.ctaLabel}
+          </ArrowButton>
         </div>
       </div>
     </section>
