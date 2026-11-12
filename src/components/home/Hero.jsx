@@ -12,7 +12,6 @@ export function Hero() {
         />
       </div>
       <div className="cdc-hero__veil" aria-hidden="true" />
-      <div className="cdc-hero__mark" aria-hidden="true" />
 
       <div className="cdc-hero__content" data-hero-animate>
         <h1 id="cdc-hero-heading" className="cdc-hero__brand">

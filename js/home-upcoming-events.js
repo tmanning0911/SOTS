@@ -13,7 +13,7 @@ const SEED_PLAYS = [
     id: "much-ado-2026",
     title: "Much Ado About Nothing",
     dates: "June 10–28, 2026 · 7:30pm (Wed–Sun evenings; no Mondays)",
-    image: "/images/hero-much-ado.jpg",
+    image: "/images/park-performance.jpg",
     featured: true,
     status: "Ended",
     ticketUrl: TICKETS_PAGE_PATH,

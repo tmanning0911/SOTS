@@ -701,8 +701,8 @@ export const INNER_PAGES = [
       },
       {
         type: "spotlight",
-        image: "/images/backgrounds/much-ado-cast.jpg",
-        alt: "Cast preparing for an outdoor performance",
+        image: "/images/backgrounds/history-heritage.jpg",
+        alt: "Actors in period costume performing outdoors at Pinkney Park",
         eyebrow: "Park traditions",
         title: "Picnic under the trees",
         paragraphs: [
@@ -1067,8 +1067,8 @@ export const INNER_PAGES = [
       },
       {
         type: "figure",
-        image: "/images/learning/summer-camps.jpg",
-        alt: "Summer camp students rehearsing outdoors",
+        image: "/images/news/kids-kings.jpg",
+        alt: "Kids in handmade crowns at a Shakespeare on the Sound park workshop",
         caption: "Days filled with games, rehearsal, and ensemble play.",
         ratio: "landscape",
       },
