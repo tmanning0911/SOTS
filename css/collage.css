@@ -1,3 +1,13 @@
+/* Hide Feedbucket trial modal during local design QA */
+#feedbucket,
+[data-feedbucket],
+.feedbucket,
+iframe[src*="feedbucket"] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 /* Collage Dance–inspired chrome + homepage for Shakespeare on the Sound */
 
 :root {
