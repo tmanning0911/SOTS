@@ -1,53 +1,101 @@
-import { MEDIA, SEASON_PROMO, SEASON_SHOWS } from "../../../js/data.js";
-import { useTickets } from "../../context/TicketProvider.jsx";
-import { ArrowButton } from "../ArrowButton.jsx";
-import { TicketCheckoutButton } from "../ticketing/TicketCheckoutButton.jsx";
-import { TicketStatusBadge } from "../ticketing/TicketStatusBadge.jsx";
+import { SEASON_PROMO, HOME_SHOW_CARDS } from "../../../js/data.js";
+import { TicketCheckoutLink } from "../ticketing/TicketCheckoutLink.jsx";
+
+function PinIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"
+        stroke="currentColor"
+        strokeWidth="1.75"
+      />
+      <circle cx="12" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.75" />
+    </svg>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="8.25" stroke="currentColor" strokeWidth="1.75" />
+      <path d="M12 8v5l3 2" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function ShowCard({ card }) {
+  return (
+    <article className="cdc-show-card">
+      <div className="cdc-show-card__date" aria-hidden="true">
+        <span className="cdc-show-card__month">{card.month}</span>
+        <span className="cdc-show-card__day">{card.day}</span>
+      </div>
+      <div className="cdc-show-card__body">
+        <h3 className="cdc-show-card__title">
+          <a href={card.href}>{card.title}</a>
+        </h3>
+        <img className="cdc-show-card__thumb" src={card.image} alt="" loading="lazy" width={180} height={101} />
+        <div className="cdc-show-card__meta">
+          <span>
+            <PinIcon />
+            {card.venue}
+          </span>
+          <span>
+            <ClockIcon />
+            {card.time}
+          </span>
+        </div>
+        <TicketCheckoutLink href={card.ticketsHref || card.href} className="cdc-btn">
+          {card.ctaLabel || "Get Tickets"}
+        </TicketCheckoutLink>
+      </div>
+    </article>
+  );
+}
 
 export function SeasonPromo() {
-  const { ticketingState, loading } = useTickets();
-  const featuredShow =
-    SEASON_SHOWS.find((show) => show.id === SEASON_PROMO.showId) ?? SEASON_SHOWS[0];
-  const ticketsOnSale = Boolean(ticketingState?.canPurchase) && SEASON_PROMO.showId === "much-ado";
+  const body = SEASON_PROMO.body || "";
+  const emphasis = SEASON_PROMO.emphasis;
+  let rendered = body;
+  if (emphasis && body.includes(emphasis)) {
+    const parts = body.split(emphasis);
+    rendered = (
+      <>
+        {parts[0]}
+        <em>{emphasis}</em>
+        {parts[1]}
+      </>
+    );
+  }
 
   return (
-    <section className="orpheum-season-promo" aria-labelledby="season-promo-heading">
-      <div className="orpheum-season-promo__ticket" data-reveal>
-        <div className="orpheum-season-promo__visual">
-          <div
-            className={
-              featuredShow.id === "gala"
-                ? "orpheum-season-promo__visual-bg orpheum-season-promo__visual-bg--gala"
-                : "orpheum-season-promo__visual-bg"
-            }
-            style={{ backgroundImage: `url(${featuredShow.image || MEDIA.galaImage || MEDIA.heroHome})` }}
-          />
-          <div className="orpheum-season-promo__visual-veil" aria-hidden="true" />
+    <section className="cdc-season" aria-labelledby="cdc-season-heading">
+      <div className="cdc-season__feature">
+        <div className="cdc-season__feature-media" aria-hidden="true">
+          <img src={SEASON_PROMO.image} alt="" loading="lazy" />
         </div>
-
-        <div className="orpheum-season-promo__copy">
-          <p className="orpheum-season-promo__eyebrow">{SEASON_PROMO.eyebrow}</p>
-          <h2 id="season-promo-heading">{SEASON_PROMO.heading}</h2>
-          <p className="orpheum-season-promo__show-meta">
-            <strong>{featuredShow.title}</strong>
-            <span>{featuredShow.dates}</span>
-          </p>
-          {!loading && ticketsOnSale && ticketingState.statusLabel ? (
-            <TicketStatusBadge
-              status={ticketingState.statusLabel}
-              className="orpheum-season-promo__badge"
-              marketingOnly
-            />
-          ) : null}
-          {ticketsOnSale ? (
-            <TicketCheckoutButton className="orpheum-season-promo__cta-btn" />
-          ) : (
-            <ArrowButton href={SEASON_PROMO.ctaHref} className="orpheum-season-promo__cta-btn">
-              {SEASON_PROMO.ctaLabel}
-            </ArrowButton>
-          )}
+        <div className="cdc-season__feature-veil" aria-hidden="true" />
+        <div className="cdc-season__feature-copy">
+          <h2 id="cdc-season-heading" className="cdc-season__title">
+            {SEASON_PROMO.title || SEASON_PROMO.heading}
+          </h2>
+          <p className="cdc-season__label">{SEASON_PROMO.seasonLabel || SEASON_PROMO.eyebrow}</p>
+          <p className="cdc-season__body">{rendered}</p>
+          <a className="cdc-btn" href={SEASON_PROMO.ctaHref}>
+            {SEASON_PROMO.ctaLabel}
+          </a>
         </div>
       </div>
+
+      <aside className="cdc-season__sidebar" aria-label="Upcoming performances">
+        <h2 className="cdc-season__sidebar-title">Experience Shakespeare on the Sound</h2>
+        {HOME_SHOW_CARDS.map((card) => (
+          <ShowCard key={card.id} card={card} />
+        ))}
+        <a className="cdc-btn cdc-season__all" href="/events/">
+          See All Show Dates
+        </a>
+      </aside>
     </section>
   );
 }

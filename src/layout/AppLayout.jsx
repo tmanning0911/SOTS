@@ -75,7 +75,8 @@ export function AppLayout() {
       </main>
 
       {!isCheckout ? <SiteFooter /> : null}
-      {isHome ? <HomeQuickBar /> : isCheckout ? null : <MobileDock />}
+      {/* Collage-style mobile uses hamburger MENU only — no Orpheum quickbar dock on home */}
+      {isHome ? null : isCheckout ? null : <MobileDock />}
       <AccessTicketsModal open={accessTicketsOpen} onClose={closeAccessTickets} />
       <ContactFormModal open={contactFormOpen} target={contactFormTarget} onClose={closeContactForm} />
       <BoardApplicationModal open={boardApplicationOpen} onClose={closeBoardApplication} />

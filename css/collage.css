@@ -1,0 +1,1192 @@
+/* Collage Dance–inspired chrome + homepage for Shakespeare on the Sound */
+
+:root {
+  --cdc-red: #d00000;
+  --cdc-red-deep: #a80000;
+  --cdc-navy: #181030;
+  --cdc-navy-soft: #282050;
+  --cdc-sidebar: #382858;
+  --cdc-ink: #080018;
+  --cdc-season-gold: #c5a07d;
+  --cdc-footer: #783830;
+  --cdc-card: #f8f8f0;
+  --cdc-white: #ffffff;
+  --cdc-black: #000010;
+  --cdc-gutter: clamp(1rem, 4vw, 3.5rem);
+  --cdc-max: 1440px;
+
+  /* Remap Orpheum tokens sitewide so leftover CSS picks up Collage colors/fonts */
+  --orp-gold: #d00000;
+  --orp-dark: #181030;
+  --orp-navy: #181030;
+  --orp-white: #ffffff;
+  --orp-serif: "Oswald", "Montserrat", system-ui, sans-serif;
+  --orp-sans: "Montserrat", system-ui, sans-serif;
+  --color-gold: #d00000;
+  --color-gold-accent: #d00000;
+  --color-imperial: #181030;
+  --color-purple: #181030;
+  --global-palette-gold: #d00000;
+}
+
+/* ——— Collage hover flyout nav ——— */
+.cdc-nav {
+  display: none;
+}
+
+@media (min-width: 1100px) {
+  .cdc-nav {
+    display: block;
+    flex: 1 1 auto;
+  }
+
+  .cdc-nav__list {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.15rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cdc-nav__item {
+    position: relative;
+  }
+
+  .cdc-nav__trigger {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.55rem 0.7rem;
+    color: inherit;
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .cdc-nav__trigger:hover,
+  .cdc-nav__item.is-open .cdc-nav__trigger {
+    color: var(--cdc-red);
+  }
+
+  .cdc-nav__flyout {
+    position: absolute;
+    top: calc(100% - 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 240px;
+    background: var(--cdc-navy);
+    border-top: 3px solid var(--cdc-red);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 140ms ease, visibility 140ms ease;
+    z-index: 60;
+  }
+
+  .cdc-nav__flyout.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .cdc-nav__flyout-list {
+    list-style: none;
+    margin: 0;
+    padding: 0.65rem 0;
+  }
+
+  .cdc-nav__flyout-link {
+    display: block;
+    padding: 0.55rem 1.1rem;
+    color: #fff !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none !important;
+  }
+
+  .cdc-nav__flyout-link:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--cdc-red) !important;
+  }
+
+  .orpheum-nav {
+    display: none !important;
+  }
+}
+
+.cdc-header__inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding-inline: var(--cdc-gutter);
+}
+
+.cdc-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-left: auto;
+}
+
+.cdc-header__donate {
+  min-height: 2.4rem;
+  padding: 0.55rem 1.1rem;
+}
+
+.cdc-utility__inner {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.35rem var(--cdc-gutter);
+}
+
+.cdc-utility__right {
+  display: flex;
+  gap: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cdc-utility__link {
+  color: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* ——— Chrome: utility + transparent header ——— */
+body.page-home .orpheum-site-chrome {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 40;
+  width: 100%;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.page-home .orpheum-site-chrome.is-scrolled {
+  position: fixed;
+  background: rgba(24, 16, 48, 0.94);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+}
+
+body.page-home .orpheum-utility {
+  background: transparent;
+  border: 0;
+  color: var(--cdc-white);
+}
+
+body.page-home .orpheum-utility a,
+body.page-home .orpheum-utility button {
+  color: var(--cdc-white);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+body.page-home .orpheum-header {
+  background: transparent;
+  border: 0;
+  color: var(--cdc-white);
+}
+
+body.page-home .orpheum-header__logo img {
+  filter: brightness(0) invert(1);
+  max-height: 52px;
+  width: auto;
+}
+
+body.page-home .orpheum-nav__trigger,
+body.page-home .orpheum-header__search,
+body.page-home .orpheum-header__menu {
+  color: var(--cdc-white);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  font-size: 0.78rem;
+}
+
+body.page-home .orpheum-nav__trigger {
+  border: 0;
+  background: transparent;
+  padding: 0.65rem 0.55rem;
+}
+
+body.page-home .orpheum-arrow-btn--header {
+  background: var(--cdc-red) !important;
+  color: var(--cdc-white) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  box-shadow: none !important;
+}
+
+body.page-home .orpheum-arrow-btn--header:hover {
+  background: var(--cdc-red-deep) !important;
+}
+
+body.page-inner .orpheum-site-chrome,
+body.page-checkout .orpheum-site-chrome {
+  background: var(--cdc-navy);
+}
+
+body.page-inner .orpheum-utility,
+body.page-checkout .orpheum-utility {
+  background: #070916;
+  color: var(--cdc-white);
+  border: 0;
+}
+
+body.page-inner .orpheum-header,
+body.page-checkout .orpheum-header {
+  background: var(--cdc-navy);
+  border: 0;
+  color: var(--cdc-white);
+}
+
+body.page-inner .orpheum-header__logo img,
+body.page-checkout .orpheum-header__logo img {
+  filter: brightness(0) invert(1);
+}
+
+body.page-inner .orpheum-nav__trigger,
+body.page-inner .orpheum-header__search,
+body.page-inner .orpheum-header__menu,
+body.page-checkout .orpheum-nav__trigger,
+body.page-checkout .orpheum-header__search,
+body.page-checkout .orpheum-header__menu {
+  color: var(--cdc-white);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+body.page-inner .orpheum-arrow-btn--header,
+body.page-checkout .orpheum-arrow-btn--header {
+  background: var(--cdc-red) !important;
+  color: #fff !important;
+  border-radius: 0 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Nav dropdown panels */
+.orpheum-nav__panel {
+  background: var(--cdc-navy) !important;
+  color: var(--cdc-white);
+  border-top: 3px solid var(--cdc-red);
+}
+
+.orpheum-nav__panel-heading-text,
+.orpheum-nav__panel-title,
+.orpheum-nav__col a,
+.orpheum-nav__venues a {
+  color: var(--cdc-white) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.orpheum-nav__col a:hover {
+  color: var(--cdc-red) !important;
+}
+
+/* ——— Homepage shell ——— */
+.home--collage {
+  background: var(--cdc-black);
+  color: var(--cdc-white);
+  font-family: var(--font-ui);
+}
+
+.home--collage h1,
+.home--collage h2,
+.home--collage .cdc-hero__brand,
+.home--collage .cdc-season__title,
+.home--collage .cdc-everyone__headline,
+.home--collage .cdc-program__title,
+.home--collage .cdc-story__title,
+.home--collage .cdc-newsletter__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.home--collage a {
+  text-decoration: none;
+}
+
+.cdc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.75rem 1.35rem;
+  background: var(--cdc-red);
+  color: var(--cdc-white);
+  border: 0;
+  border-radius: 0;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.cdc-btn:hover {
+  background: var(--cdc-red-deep);
+}
+
+.cdc-btn--navy {
+  background: var(--cdc-navy);
+}
+
+.cdc-btn--navy:hover {
+  background: #050714;
+}
+
+.cdc-btn--ghost {
+  background: transparent;
+  border: 2px solid var(--cdc-white);
+}
+
+.cdc-btn--ghost:hover {
+  background: var(--cdc-white);
+  color: var(--cdc-navy);
+}
+
+/* Hero */
+.cdc-hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: end stretch;
+  overflow: hidden;
+  background: #000;
+}
+
+.cdc-hero__media {
+  position: absolute;
+  inset: 0;
+}
+
+.cdc-hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 28%;
+}
+
+.cdc-hero__veil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 28% 48%, rgba(90, 40, 140, 0.45), transparent 42%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.62) 0%, rgba(0, 0, 0, 0.28) 48%, rgba(0, 0, 0, 0.45) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, transparent 28%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+.cdc-hero__mark {
+  position: absolute;
+  left: 8%;
+  top: 42%;
+  width: min(42vw, 420px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 40% 35%, rgba(180, 90, 255, 0.35), transparent 55%),
+    radial-gradient(circle at 60% 70%, rgba(40, 80, 180, 0.4), transparent 50%),
+    rgba(20, 10, 40, 0.35);
+  filter: blur(0.5px);
+  pointer-events: none;
+}
+
+.cdc-hero__content {
+  position: relative;
+  z-index: 2;
+  padding: clamp(6rem, 16vh, 9rem) var(--cdc-gutter) clamp(4rem, 10vh, 6.5rem);
+  max-width: 54rem;
+}
+
+.cdc-hero__brand {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 8vw, 6.5rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--cdc-white);
+  text-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+}
+
+.cdc-hero__tagline {
+  margin: 0.85rem 0 0;
+  font-family: var(--font-ui);
+  font-size: clamp(0.85rem, 1.6vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* Season + show cards split */
+.cdc-season {
+  display: grid;
+  grid-template-columns: 1.35fr 0.9fr;
+  min-height: 70vh;
+  background: var(--cdc-ink);
+}
+
+.cdc-season__feature {
+  position: relative;
+  min-height: 560px;
+  overflow: hidden;
+  display: grid;
+  align-content: end;
+  padding: clamp(2rem, 5vw, 4rem);
+}
+
+.cdc-season__feature-media {
+  position: absolute;
+  inset: 0;
+}
+
+.cdc-season__feature-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cdc-season__feature-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(8, 4, 18, 0.2) 0%, rgba(8, 4, 18, 0.55) 42%, rgba(8, 4, 18, 0.88) 100%),
+    linear-gradient(90deg, rgba(8, 4, 18, 0.55), transparent 55%);
+}
+
+.cdc-season__feature-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 36rem;
+  text-align: center;
+  margin-inline: auto;
+}
+
+.cdc-season__title {
+  margin: 0;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 0.95;
+}
+
+.cdc-season__label {
+  margin: 0.4rem 0 1rem;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cdc-season-gold);
+}
+
+.cdc-season__body {
+  margin: 0 0 1.5rem;
+  font-size: 1rem;
+  line-height: 1.65;
+  font-weight: 500;
+}
+
+.cdc-season__body em {
+  font-style: italic;
+  font-weight: 700;
+}
+
+.cdc-season__sidebar {
+  background: var(--cdc-sidebar);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  max-height: min(92vh, 920px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.cdc-season__sidebar-title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.25;
+}
+
+.cdc-show-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.85rem;
+  background: var(--cdc-card);
+  color: #000;
+  padding: 0.9rem;
+}
+
+.cdc-show-card__date {
+  display: grid;
+  align-content: start;
+  min-width: 4.25rem;
+  font-family: var(--font-date);
+  line-height: 1;
+}
+
+.cdc-show-card__month {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cdc-show-card__day {
+  font-size: 2.35rem;
+  font-weight: 700;
+}
+
+.cdc-show-card__body {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.cdc-show-card__title {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.25;
+}
+
+.cdc-show-card__thumb {
+  width: 100%;
+  max-width: 180px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.cdc-show-card__meta {
+  display: grid;
+  gap: 0.2rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.cdc-show-card__meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.cdc-show-card .cdc-btn {
+  justify-self: start;
+  min-height: 2.15rem;
+  padding: 0.55rem 0.9rem;
+  font-size: 0.68rem;
+}
+
+.cdc-season__all {
+  margin-top: auto;
+  width: 100%;
+}
+
+/* Education = everyone banner + programs as one red continuum */
+.cdc-education {
+  background: var(--cdc-red);
+  color: var(--cdc-white);
+}
+
+.cdc-everyone {
+  background: transparent;
+  color: var(--cdc-white);
+  text-align: center;
+  padding: clamp(2.5rem, 6vw, 4rem) var(--cdc-gutter) clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.cdc-everyone__headline {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 3.6rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.05;
+  color: var(--cdc-white);
+}
+
+.cdc-everyone__headline span {
+  color: var(--cdc-navy);
+}
+
+.cdc-everyone__sub {
+  margin: 0.85rem 0 0;
+  font-family: var(--font-ui);
+  font-size: clamp(0.85rem, 1.5vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Programs grid — Collage uses 4 equal columns, zero gutters */
+.cdc-programs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  background: var(--cdc-red);
+  gap: 0;
+}
+
+.cdc-program--image {
+  position: relative;
+  min-height: 420px;
+  overflow: hidden;
+  color: var(--cdc-white);
+}
+
+.cdc-program--image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cdc-program--image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 35%, rgba(0, 0, 0, 0.72) 100%);
+}
+
+.cdc-program--image .cdc-program__title {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1.25rem;
+  z-index: 1;
+  margin: 0;
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+
+.cdc-program--copy {
+  display: grid;
+  align-content: center;
+  gap: 1.25rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  background: var(--cdc-red);
+  color: var(--cdc-white);
+  min-height: 420px;
+}
+
+.cdc-program--copy p {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  font-weight: 500;
+}
+
+.cdc-program--copy .cdc-btn {
+  justify-self: start;
+  background: var(--cdc-navy);
+}
+
+/* Story CTAs — seamless 50/50 photo tiles like Collage */
+.cdc-story {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.cdc-story__card {
+  position: relative;
+  min-height: min(70vh, 640px);
+  overflow: hidden;
+  display: grid;
+  align-content: end;
+  justify-items: center;
+  text-align: center;
+  padding: clamp(2rem, 4vw, 3.25rem);
+}
+
+.cdc-story__card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cdc-story__card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.72));
+}
+
+.cdc-story__card--lead {
+  align-content: space-between;
+}
+
+.cdc-story__copy {
+  position: relative;
+  z-index: 1;
+  max-width: 28rem;
+}
+
+.cdc-story__copy--bottom {
+  justify-self: center;
+}
+
+.cdc-story__title {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 0.85rem;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  line-height: 1.05;
+  color: #fff;
+}
+
+.cdc-story__title--top {
+  color: #111;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+  margin: 0;
+  max-width: 90%;
+}
+
+.cdc-story__body {
+  margin: 0 0 1.25rem;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  font-weight: 500;
+  color: #fff;
+}
+
+/* Newsletter */
+.cdc-newsletter {
+  background: var(--cdc-red);
+  color: var(--cdc-white);
+  padding: clamp(2.5rem, 5vw, 4rem) var(--cdc-gutter);
+}
+
+.cdc-newsletter__inner {
+  max-width: var(--cdc-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.cdc-newsletter__title {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.cdc-newsletter__aside {
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+}
+
+.cdc-newsletter__body {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.cdc-newsletter__aside .cdc-btn {
+  min-width: min(100%, 280px);
+}
+
+.cdc-newsletter__form .sots-mailing-list {
+  background: transparent;
+  color: #fff;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+.cdc-newsletter__form .sots-mailing-list__heading,
+.cdc-newsletter__form .sots-mailing-list__lead {
+  color: #fff;
+}
+
+.cdc-newsletter__form .sots-mailing-list__heading {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.cdc-newsletter__form input {
+  border-radius: 0 !important;
+  border: 0 !important;
+  min-height: 2.75rem;
+}
+
+.cdc-newsletter__form .orpheum-arrow-btn,
+.cdc-newsletter__form button[type="submit"],
+.cdc-newsletter__form .sots-mailing-list__submit {
+  background: var(--cdc-navy) !important;
+  color: #fff !important;
+  border-radius: 0 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+}
+
+/* Mobile nav Collage accordion */
+.orpheum-mobile-nav,
+.cdc-mobile-nav {
+  background: var(--cdc-navy) !important;
+  color: #fff !important;
+}
+
+.cdc-mobile-nav__label {
+  margin: 0.5rem 0 1rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.cdc-mobile-nav__section {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.cdc-mobile-nav__section-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  background: transparent;
+  border: 0;
+  color: #fff !important;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.cdc-mobile-nav__links {
+  list-style: none;
+  margin: 0 0 0.85rem;
+  padding: 0 0 0.5rem;
+}
+
+.cdc-mobile-nav__link {
+  display: block;
+  padding: 0.55rem 0;
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none !important;
+}
+
+.cdc-mobile-nav__utility {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.cdc-mobile-nav__utility a {
+  color: #fff !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none !important;
+}
+
+.cdc-mobile-nav__foot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.cdc-mobile-nav .mobile-nav__brand img {
+  filter: brightness(0) invert(1);
+}
+
+/* Inner page heroes: sharper Collage edges */
+.orpheum-inner-page__hero,
+.orpheum-inner-hero {
+  border-radius: 0 !important;
+}
+
+.orpheum-arrow-btn {
+  border-radius: 0 !important;
+}
+
+.orpheum-arrow-btn--gold,
+.orpheum-arrow-btn--primary {
+  background: var(--cdc-red) !important;
+  color: #fff !important;
+  border-color: var(--cdc-red) !important;
+}
+
+/* Sponsors strip */
+.cdc-sponsors {
+  background: #fff;
+  color: var(--cdc-navy);
+  padding: clamp(2rem, 4vw, 3rem) var(--cdc-gutter);
+  text-align: center;
+}
+
+.cdc-sponsors__title {
+  margin: 0 0 1.5rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.cdc-sponsors__grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem 2.5rem;
+  align-items: center;
+}
+
+.cdc-sponsors__grid img {
+  max-height: 52px;
+  width: auto;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.85;
+}
+
+/* Footer Collage treatment */
+.orpheum-footer,
+.cdc-footer {
+  background: var(--cdc-footer) !important;
+  color: #fff !important;
+  border: 0 !important;
+}
+
+.orpheum-footer::before {
+  display: none !important;
+}
+
+.cdc-footer__shell {
+  padding: clamp(2.5rem, 5vw, 4rem) var(--cdc-gutter) 1.5rem;
+}
+
+.cdc-footer__top {
+  display: grid;
+  grid-template-columns: minmax(200px, 0.75fr) 1.6fr;
+  gap: 2rem 2.5rem;
+  align-items: start;
+}
+
+.cdc-footer__logo img {
+  filter: brightness(0) invert(1);
+  max-height: 64px;
+  width: auto;
+}
+
+.cdc-footer__contact {
+  display: grid;
+  gap: 0.35rem;
+  margin: 1rem 0;
+  font-style: normal;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.cdc-footer__social {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.cdc-footer__nav {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem 1.25rem;
+}
+
+@media (min-width: 1100px) {
+  .cdc-footer__nav {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.cdc-footer__heading {
+  margin: 0 0 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.cdc-footer__col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.cdc-footer a {
+  color: rgba(255, 255, 255, 0.82) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-decoration: none !important;
+}
+
+.cdc-footer a:hover {
+  color: #fff !important;
+}
+
+.cdc-footer__mailing {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.cdc-footer__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.72rem;
+}
+
+.cdc-footer__meta nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+@media (max-width: 900px) {
+  .cdc-footer__top {
+    grid-template-columns: 1fr;
+  }
+
+  .cdc-footer__nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Mobile / tablet */
+@media (max-width: 1099px) {
+  .cdc-season {
+    grid-template-columns: 1fr;
+  }
+
+  .cdc-season__sidebar {
+    max-height: none;
+  }
+
+  .cdc-programs {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cdc-story {
+    grid-template-columns: 1fr;
+  }
+
+  .cdc-newsletter__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .cdc-nav {
+    display: none !important;
+  }
+
+  body.page-home .orpheum-nav {
+    display: none;
+  }
+
+  .cdc-header__donate {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .cdc-programs {
+    grid-template-columns: 1fr;
+  }
+
+  .cdc-program--image,
+  .cdc-program--copy {
+    min-height: 320px;
+  }
+
+  .cdc-hero__brand {
+    font-size: clamp(2.4rem, 12vw, 3.4rem);
+  }
+
+  .cdc-show-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Soften old Orpheum home remnants if any leak through */
+.home--collage .orpheum-hero,
+.home--collage .orpheum-season,
+.home--collage .orpheum-events-grid,
+.home--collage .orpheum-visit-bar,
+.home--collage .orpheum-story,
+.home--collage .orpheum-impact,
+.home--collage .orpheum-support,
+.home--collage .orpheum-news,
+.home--collage .orpheum-newsletter,
+.home--collage .orpheum-sponsors {
+  display: none !important;
+}

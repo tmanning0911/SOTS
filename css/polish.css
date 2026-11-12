@@ -1,20 +1,24 @@
 /* Premium polish layer — Lenis + GSAP + custom theatre aesthetic */
 
-@import url("https://fonts.googleapis.com/css2?family=Marcellus&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap");
+/* Collage-like stack: Oswald (condensed display) + Montserrat (UI/body) + Playfair (card dates) */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&family=Oswald:wght@500;600;700&family=Playfair+Display:wght@600;700&display=swap");
 
 :root {
-  --font-heading: "Marcellus", Georgia, "Times New Roman", serif;
-  --font-body: "Source Sans 3", system-ui, sans-serif;
-  --font-button: "Source Sans 3", system-ui, sans-serif;
+  --font-heading: "Oswald", "Montserrat", system-ui, sans-serif;
+  --font-body: "Montserrat", system-ui, sans-serif;
+  --font-button: "Montserrat", system-ui, sans-serif;
+  --font-display: "Oswald", "Montserrat", system-ui, sans-serif;
+  --font-ui: "Montserrat", system-ui, sans-serif;
+  --font-date: "Playfair Display", Georgia, serif;
   --color-forest: var(--brand-blue);
   --color-forest-deep: var(--brand-blue-deep);
   --color-sage: var(--brand-blue-dark);
-  --color-cream: #faf8f3;
-  --color-gold-accent: var(--brand-gold);
-  --shadow-soft: 0 20px 60px rgba(var(--brand-navy-rgb), 0.12);
-  --shadow-card: 0 8px 32px rgba(var(--brand-navy-rgb), 0.1);
-  --radius-lg: 20px;
-  --radius-md: 12px;
+  --color-cream: #ffffff;
+  --color-gold-accent: var(--brand-red);
+  --shadow-soft: 0 20px 60px rgba(var(--brand-navy-rgb), 0.18);
+  --shadow-card: 0 8px 32px rgba(var(--brand-navy-rgb), 0.12);
+  --radius-lg: 0;
+  --radius-md: 0;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
