@@ -22,16 +22,23 @@ function wixFit(file, w, h) {
 
 export const MEDIA = {
   logo: "/images/sots-logo-lockup.png",
-  heroHome: "/images/hero-much-ado.jpg",
+  heroHome: "/images/collage/hero.jpg",
   heroBanner: wix("2fda61_ed5498c346784fa7a58d686004f62ad1~mv2.jpg", 1970, 667),
   muchAdoPoster: wix("2fda61_52a2b5db62ea4c22b8da935de226b8de~mv2.jpg", 450, 712),
   galaImage: "/images/much-ado-about-something-gala-poster.jpg",
-  donateImage: wix("2fda61_82dcc57bf05740e9a011b352af16d186~mv2.png", 600, 400),
+  donateImage: "/images/collage/donate.jpg",
   kidsImage: wix("2fda61_58e853fcce884727a4deba3453b4c1ed~mv2.jpeg", 600, 400),
-  educationImage: wix("2fda61_7c217d43df9449748f30515a8625d28f~mv2.jpg", 800, 500),
+  educationImage: "/images/collage/learn.jpg",
   educationBanner: wix("2fda61_40d7e102e7e34217993b1143d8e3eb6b~mv2.jpg", 1970, 667),
   staLogo: wix("2fda61_f444735fb7654e17aa6d16f529efd25f~mv2.jpg", 200, 80),
   heroVideo: "https://videos.pexels.com/video-files/3045163/3045163-hd_1920_1080_30fps.mp4",
+  collageSeason: "/images/collage/season.jpg",
+  collageLearn: "/images/collage/learn.jpg",
+  collageCamps: "/images/collage/camps.jpg",
+  collageAdult: "/images/collage/adult.jpg",
+  collagePark: "/images/collage/park.jpg",
+  collageSupport: "/images/collage/support.jpg",
+  collageDonate: "/images/collage/donate.jpg",
 };
 
 export const HERO_HOME = {
@@ -57,7 +64,7 @@ export const SEASON_PROMO = {
   ctaHref: "/events/",
   ctaExternal: false,
   showId: "gala",
-  image: "/images/backgrounds/much-ado-cast.jpg",
+  image: "/images/collage/season.jpg",
 };
 
 /** Collage-style performance date cards for the homepage sidebar */
@@ -111,7 +118,7 @@ export const HOME_PROGRAMS = [
     id: "schools",
     kind: "image",
     title: "Where learning begins.",
-    image: "/images/learning/in-schools.jpg",
+    image: "/images/collage/learn.jpg",
     href: "/education/in-schools/",
   },
   {
@@ -126,7 +133,7 @@ export const HOME_PROGRAMS = [
     id: "camps",
     kind: "image",
     title: "Summer Camps",
-    image: "/images/learning/summer-camps.jpg",
+    image: "/images/collage/camps.jpg",
     href: "/education/summer-camps/",
     badge: "Camps",
   },
@@ -142,7 +149,7 @@ export const HOME_PROGRAMS = [
     id: "adult",
     kind: "image",
     title: "Adult Enrichment",
-    image: "/images/learning/teachers-workshop.jpg",
+    image: "/images/collage/adult.jpg",
     href: "/education/adult-enrichment/",
   },
   {
@@ -157,7 +164,7 @@ export const HOME_PROGRAMS = [
     id: "park",
     kind: "image",
     title: "In the Park",
-    image: "/images/learning/in-the-park.jpg",
+    image: "/images/collage/park.jpg",
     href: "/education/in-the-park/",
   },
   {
@@ -179,7 +186,7 @@ export const HOME_STORY_CTAS = [
       "Join the patrons who make affordable outdoor Shakespeare possible — and stay closer to the artists, students, and community we serve.",
     ctaLabel: "Explore Ways to Give",
     ctaHref: "/support/individual-giving/",
-    image: "/images/backgrounds/outdoor-audience.jpg",
+    image: "/images/collage/support.jpg",
   },
   {
     id: "donate",
@@ -189,7 +196,7 @@ export const HOME_STORY_CTAS = [
       "Support our mission to keep Shakespeare alive on the Sound with a gift of any size.",
     ctaLabel: "Donate Today",
     ctaHref: "/support/donate/",
-    image: "/images/backgrounds/park-audience-nyt.jpg",
+    image: "/images/collage/donate.jpg",
   },
 ];
 
