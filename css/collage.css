@@ -166,32 +166,39 @@
   text-decoration: none;
 }
 
-/* ——— Chrome: utility + transparent header ——— */
-body.page-home .orpheum-site-chrome {
-  position: absolute;
-  inset: 0 0 auto;
-  z-index: 40;
-  width: 100%;
-  background: transparent;
-  box-shadow: none;
+/* ——— Chrome: utility + transparent header (Collage home overlay) ——— */
+body.page-home #site-chrome.orpheum-site-chrome,
+body.page-home .orpheum-site-chrome,
+body.page-home [data-site-chrome] {
+  position: absolute !important;
+  inset: 0 0 auto !important;
+  z-index: 40 !important;
+  width: 100% !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
 }
 
-body.page-home .orpheum-site-chrome.is-scrolled {
-  position: fixed;
-  background: rgba(24, 16, 48, 0.94);
+body.page-home #site-chrome.orpheum-site-chrome.is-scrolled,
+body.page-home .orpheum-site-chrome.is-scrolled,
+body.page-home [data-site-chrome].is-scrolled {
+  position: fixed !important;
+  background: rgba(24, 16, 48, 0.94) !important;
   backdrop-filter: blur(10px);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28) !important;
 }
 
-body.page-home .orpheum-utility {
-  background: transparent;
-  border: 0;
-  color: var(--cdc-white);
+body.page-home .orpheum-utility,
+body.page-home .cdc-utility {
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--cdc-white) !important;
 }
 
 body.page-home .orpheum-utility a,
-body.page-home .orpheum-utility button {
-  color: var(--cdc-white);
+body.page-home .orpheum-utility button,
+body.page-home .cdc-utility__link {
+  color: var(--cdc-white) !important;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 0.68rem;
@@ -199,16 +206,39 @@ body.page-home .orpheum-utility button {
   text-decoration: none;
 }
 
-body.page-home .orpheum-header {
-  background: transparent;
-  border: 0;
-  color: var(--cdc-white);
+body.page-home .site-header.orpheum-header,
+body.page-home .orpheum-header,
+body.page-home .orpheum-header--overlay {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: var(--cdc-white) !important;
 }
 
-body.page-home .orpheum-header__logo img {
-  filter: brightness(0) invert(1);
+body.page-home .orpheum-header__logo img,
+body.page-home .cdc-header__logo img,
+body.page-home .orpheum-header--overlay:not(.is-scrolled) .orpheum-header__logo img,
+body.page-home .site-header .orpheum-header__logo img {
+  filter: brightness(0) invert(1) !important;
   max-height: 52px;
   width: auto;
+}
+
+body.page-home .cdc-nav__trigger,
+body.page-home .cdc-header__search,
+body.page-home .orpheum-header__search,
+body.page-home .cdc-header__menu,
+body.page-home .orpheum-header__menu,
+body.page-home .orpheum-nav__trigger {
+  color: var(--cdc-white) !important;
+}
+
+/* Kill Orpheum white chrome on home before scroll */
+body.page-home .orpheum-header:not(.is-scrolled),
+body.page-home .site-header.orpheum-header:not(.is-scrolled) {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
 }
 
 body.page-home .orpheum-nav__trigger,
@@ -446,6 +476,8 @@ body.page-checkout .orpheum-arrow-btn--header {
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
+  color: var(--cdc-white);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
 }
 
 /* Season + show cards split */
