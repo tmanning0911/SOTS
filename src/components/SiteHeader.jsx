@@ -1,5 +1,6 @@
-import { SITE, MEDIA } from "../../js/data.js";
+import { SITE } from "../../js/data.js";
 import { useNav } from "../context/NavContext.jsx";
+import { BrandMark } from "./BrandMark.jsx";
 import { CollageNav } from "./CollageNav.jsx";
 import { SearchTrigger } from "./SiteSearch.jsx";
 
@@ -19,20 +20,13 @@ export function SiteHeader() {
   return (
     <div className="orpheum-header__inner cdc-header__inner">
       <a href="/" className="orpheum-header__logo cdc-header__logo" aria-label={`${SITE.name} Home`}>
-        <img
-          src={MEDIA.logo}
-          alt={SITE.name}
-          width={188}
-          height={58}
-          fetchPriority="high"
-          decoding="async"
-        />
+        <BrandMark />
       </a>
 
       <CollageNav />
 
       <div className="orpheum-header__actions cdc-header__actions">
-        <SearchTrigger className="orpheum-header__search cdc-header__search" label="Search" />
+        <SearchTrigger className="orpheum-header__search cdc-header__search" label="Search site" />
         <a href="/support/donate/" className="cdc-btn cdc-header__donate">
           Donate
         </a>
@@ -43,6 +37,7 @@ export function SiteHeader() {
           onClick={openMenu}
         >
           <IconMenu />
+          <span className="cdc-header__menu-label">Menu</span>
         </button>
       </div>
     </div>

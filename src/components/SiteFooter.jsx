@@ -1,6 +1,5 @@
 import {
   SITE,
-  MEDIA,
   FOOTER_MAIN,
   FOOTER_UTILITY,
   SOCIAL_LINKS,
@@ -41,7 +40,10 @@ export function SiteFooter() {
         <div className="cdc-footer__top">
           <div className="cdc-footer__brand">
             <a href="/" className="cdc-footer__logo" aria-label={`${SITE.name} Home`}>
-              <img src={MEDIA.logo} alt="" width={188} height={78} />
+              <span className="cdc-brand cdc-brand--footer" aria-hidden="true">
+                <span className="cdc-brand__primary">Shakespeare</span>
+                <span className="cdc-brand__secondary">on the Sound</span>
+              </span>
             </a>
             <address className="cdc-footer__contact">
               <span>{SITE.address}</span>

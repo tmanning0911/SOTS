@@ -4410,8 +4410,8 @@ a.orpheum-events-grid__card {
 }
 
 .sots-mailing-list--footer .sots-mailing-list__consent {
-  /* WCAG AA: keep ≥4.5:1 on footer brown (#783830) */
-  color: #f3e6e2;
+  /* WCAG AA on Collage navy footer */
+  color: #f0eef6;
 }
 
 @media (min-width: 900px) {

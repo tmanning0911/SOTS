@@ -8,7 +8,7 @@
   --cdc-sidebar: #382858;
   --cdc-ink: #080018;
   --cdc-season-gold: #c5a07d;
-  --cdc-footer: #783830;
+  --cdc-footer: #181030;
   --cdc-card: #f8f8f0;
   --cdc-white: #ffffff;
   --cdc-black: #000010;
@@ -92,9 +92,23 @@
     white-space: nowrap;
   }
 
+  .cdc-nav__trigger {
+    position: relative;
+  }
+
   .cdc-nav__trigger:hover,
   .cdc-nav__item.is-open .cdc-nav__trigger {
     color: var(--cdc-red);
+  }
+
+  .cdc-nav__item.is-open .cdc-nav__trigger::after {
+    content: "";
+    position: absolute;
+    left: 0.7rem;
+    right: 0.7rem;
+    bottom: 0.2rem;
+    height: 3px;
+    background: var(--cdc-red);
   }
 
   /* Collage desktop menus: white panel, dark text, red accent edge */
@@ -146,6 +160,19 @@
     list-style: none;
     margin: 0;
     padding: 0.65rem 0;
+  }
+
+  .cdc-nav__flyout-list--split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-width: 28rem;
+    column-gap: 0.25rem;
+  }
+
+  .cdc-nav__item--rich .cdc-nav__flyout,
+  .cdc-nav__flyout--rich {
+    left: auto;
+    right: 0;
   }
 
   .cdc-nav__flyout-link {
@@ -254,7 +281,53 @@
   align-items: center;
   gap: 1rem;
   width: 100%;
+  min-height: 82px;
   padding-inline: var(--cdc-gutter);
+}
+
+.cdc-brand {
+  display: grid;
+  gap: 0.05rem;
+  color: var(--cdc-white);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.cdc-brand__primary {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.4vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.cdc-brand__secondary {
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+}
+
+.cdc-brand--compact .cdc-brand__primary {
+  font-size: 1rem;
+}
+
+.cdc-brand--compact .cdc-brand__secondary {
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+}
+
+.cdc-brand--footer .cdc-brand__primary {
+  font-size: 1.55rem;
+}
+
+.cdc-brand--footer .cdc-brand__secondary {
+  font-size: 0.72rem;
+}
+
+.cdc-header__logo {
+  flex: 0 0 auto;
+  text-decoration: none !important;
+  color: inherit;
 }
 
 .cdc-header__actions {
@@ -262,11 +335,28 @@
   align-items: center;
   gap: 0.65rem;
   margin-left: auto;
+  flex: 0 0 auto;
+}
+
+.cdc-header__search {
+  display: inline-grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
 }
 
 .cdc-header__donate {
   min-height: 2.4rem;
   padding: 0.55rem 1.1rem;
+}
+
+.cdc-header__menu-label {
+  display: none;
 }
 
 .cdc-utility__inner {
@@ -341,13 +431,11 @@ body.page-home .orpheum-header--overlay {
   color: var(--cdc-white) !important;
 }
 
-body.page-home .orpheum-header__logo img,
-body.page-home .cdc-header__logo img,
-body.page-home .orpheum-header--overlay:not(.is-scrolled) .orpheum-header__logo img,
-body.page-home .site-header .orpheum-header__logo img {
-  filter: brightness(0) invert(1) !important;
-  max-height: 52px;
-  width: auto;
+body.page-home .cdc-header__logo,
+body.page-home .cdc-brand,
+body.page-inner .cdc-header__logo,
+body.page-inner .cdc-brand {
+  color: var(--cdc-white) !important;
 }
 
 body.page-home .cdc-nav__trigger,
@@ -598,6 +686,12 @@ body.page-checkout .orpheum-arrow-btn--header {
   max-width: 54rem;
 }
 
+/* Collage home: brand sits large in the lower-left, not centered */
+.cdc-hero__brand,
+.cdc-hero__tagline {
+  text-align: left;
+}
+
 .cdc-hero__brand {
   margin: 0;
   font-family: var(--font-display);
@@ -669,8 +763,9 @@ body.page-checkout .orpheum-arrow-btn--header {
 
 .cdc-season__title {
   margin: 0;
+  font-family: var(--font-display);
   font-size: clamp(2.8rem, 6vw, 5rem);
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   line-height: 0.95;
@@ -678,10 +773,10 @@ body.page-checkout .orpheum-arrow-btn--header {
 
 .cdc-season__label {
   margin: 0.4rem 0 1rem;
-  font-family: var(--font-ui);
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2vw, 1.55rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--cdc-season-gold);
 }
@@ -712,9 +807,10 @@ body.page-checkout .orpheum-arrow-btn--header {
 
 .cdc-season__sidebar-title {
   margin: 0 0 0.5rem;
+  font-family: var(--font-display);
   font-size: clamp(1rem, 1.6vw, 1.25rem);
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   line-height: 1.25;
   color: var(--cdc-white);
@@ -734,6 +830,7 @@ body.page-checkout .orpheum-arrow-btn--header {
   display: grid;
   align-content: start;
   min-width: 4.25rem;
+  font-family: var(--font-display);
   font-family: "Oswald", var(--font-display);
   line-height: 1;
   color: var(--cdc-navy);
@@ -883,7 +980,7 @@ body.page-checkout .orpheum-arrow-btn--header {
   align-content: center;
   gap: 1.25rem;
   padding: clamp(1.5rem, 3vw, 2.5rem);
-  background: var(--cdc-red);
+  background: color-mix(in srgb, var(--cdc-red) 88%, #ffffff);
   color: var(--cdc-white);
   min-height: 420px;
 }
@@ -935,6 +1032,15 @@ body.page-checkout .orpheum-arrow-btn--header {
 
 .cdc-story__card--lead {
   align-content: space-between;
+}
+
+.cdc-story__card--lead::after {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(0, 0, 0, 0.15) 38%,
+    rgba(0, 0, 0, 0.78) 100%
+  );
 }
 
 .cdc-story__copy {

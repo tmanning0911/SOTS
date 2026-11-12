@@ -181,7 +181,8 @@ export const HOME_STORY_CTAS = [
       "Join the patrons who make affordable outdoor Shakespeare possible — and stay closer to the artists, students, and community we serve.",
     ctaLabel: "Explore Ways to Give",
     ctaHref: "/support/individual-giving/",
-    image: "/images/park-performance.jpg",
+    // Brighter park audience still so the dark Collage-style top title stays readable
+    image: "/images/backgrounds/kids-performance.jpg",
   },
   {
     id: "donate",
@@ -191,7 +192,7 @@ export const HOME_STORY_CTAS = [
       "Support our mission to keep Shakespeare alive on the Sound with a gift of any size.",
     ctaLabel: "Donate Today",
     ctaHref: "/support/donate/",
-    image: "/images/backgrounds/kids-performance.jpg",
+    image: "/images/park-performance.jpg",
   },
 ];
 
@@ -282,7 +283,7 @@ export const NAV_ITEMS = [
       meta: "Annual Gala · Norwalk, CT",
       dates: "October 16, 2026",
       href: "/events/much-ado-about-something/",
-      image: MEDIA.galaImage,
+      image: "/images/park-performance.jpg",
     },
   },
   {
@@ -306,7 +307,7 @@ export const NAV_ITEMS = [
       meta: "Education · Shakespeare in Pinkney Park",
       dates: "Summer 2026",
       href: "/education/summer-camps/",
-      image: MEDIA.kidsImage,
+      image: "/images/news/kids-kings.jpg",
     },
   },
   {

@@ -122,7 +122,7 @@ export function CollageNav() {
                   hidden={!isOpen}
                 >
                   <div className="cdc-nav__flyout-grid">
-                    <ul className="cdc-nav__flyout-list">
+                    <ul className={`cdc-nav__flyout-list${links.length >= 6 ? " cdc-nav__flyout-list--split" : ""}`}>
                       {links.map((link) => (
                         <li key={link.href + link.label}>
                           <TicketCheckoutLink

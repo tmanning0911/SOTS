@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { MEDIA, NAV_ITEMS, SITE } from "../../js/data.js";
+import { NAV_ITEMS, SITE } from "../../js/data.js";
 import { trapFocus } from "../../js/a11y.js";
 import { useNav } from "../context/NavContext.jsx";
 import { useUI } from "../context/UIContext.jsx";
+import { BrandMark } from "./BrandMark.jsx";
 import { TicketCheckoutLink } from "./ticketing/TicketCheckoutLink.jsx";
 
 function IconClose() {
@@ -81,7 +82,7 @@ export function MobileNav() {
     >
       <header className="mobile-nav__top cdc-mobile-nav__top">
         <p className="mobile-nav__brand">
-          <img src={MEDIA.logo} alt={SITE.name} width={120} height={34} decoding="async" />
+          <BrandMark compact />
         </p>
         <div className="mobile-nav__top-actions">
           <button
