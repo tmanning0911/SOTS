@@ -15,20 +15,20 @@ export function EducationBlock() {
         <p className="cdc-everyone__sub">{HOME_FOR_EVERYONE.subhead}</p>
       </div>
 
-      <div className="cdc-programs" aria-label="Education and community programs">
+      <div className="cdc-programs" role="list">
         {HOME_PROGRAMS.map((item) =>
           item.kind === "image" ? (
             <a
               key={item.id}
               className="cdc-program cdc-program--image"
               href={item.href}
-              aria-label={item.title}
+              role="listitem"
             >
               <img src={item.image} alt="" loading="lazy" />
               <h3 className="cdc-program__title">{item.title}</h3>
             </a>
           ) : (
-            <div key={item.id} className="cdc-program cdc-program--copy">
+            <div key={item.id} className="cdc-program cdc-program--copy" role="listitem">
               <p>{item.body}</p>
               <a className="cdc-btn cdc-btn--navy" href={item.ctaHref}>
                 {item.ctaLabel}

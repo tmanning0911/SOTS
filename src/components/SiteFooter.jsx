@@ -48,13 +48,19 @@ export function SiteFooter() {
               <MailLink email={SITE.email}>{SITE.email}</MailLink>
               <a href={phoneHref}>Call us: {SITE.boxOffice}</a>
             </address>
-            <div className="cdc-footer__social" aria-label="Social">
+            <nav className="cdc-footer__social" aria-label="Social media">
               {FOOTER_SOCIAL.map((social) => (
-                <a key={social.href} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
+                <a
+                  key={social.href}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${social.label} (opens in a new window)`}
+                >
                   <SocialIcon platform={social.platform} />
                 </a>
               ))}
-            </div>
+            </nav>
           </div>
 
           <nav className="cdc-footer__nav" aria-label="Footer">

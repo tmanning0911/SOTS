@@ -108,33 +108,38 @@ export function MobileNav() {
           {NAV_ITEMS.map((item) => {
             const links = item.columns?.flatMap((col) => col.links || []) || [];
             const isOpen = openSection === item.label;
+            const panelId = `mobile-nav-${item.label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
             return (
               <div key={item.label} className={`cdc-mobile-nav__section${isOpen ? " is-open" : ""}`}>
                 <button
                   type="button"
                   className="cdc-mobile-nav__section-trigger"
                   aria-expanded={isOpen}
+                  aria-controls={panelId}
                   onClick={() => setOpenSection(isOpen ? null : item.label)}
                 >
                   <span>{item.label}</span>
                   <IconPlus open={isOpen} />
                 </button>
-                {isOpen ? (
-                  <ul className="cdc-mobile-nav__links">
-                    {links.map((link) => (
-                      <li key={link.href + link.label}>
-                        <TicketCheckoutLink
-                          href={link.href}
-                          className="cdc-mobile-nav__link"
-                          external={link.external}
-                          onClick={handleClose}
-                        >
-                          {link.label}
-                        </TicketCheckoutLink>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
+                <ul
+                  id={panelId}
+                  className="cdc-mobile-nav__links"
+                  hidden={!isOpen}
+                >
+                  {links.map((link) => (
+                    <li key={link.href + link.label}>
+                      <TicketCheckoutLink
+                        href={link.href}
+                        className="cdc-mobile-nav__link"
+                        external={link.external}
+                        onClick={handleClose}
+                        tabIndex={isOpen ? undefined : -1}
+                      >
+                        {link.label}
+                      </TicketCheckoutLink>
+                    </li>
+                  ))}
+                </ul>
               </div>
             );
           })}

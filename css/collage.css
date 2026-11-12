@@ -29,6 +29,29 @@
   --global-palette-gold: #d00000;
 }
 
+/* Shop/ticket buttons: white label on Collage red (navy-on-red fails WCAG AA) */
+.sots-shop-btn {
+  color: #ffffff;
+}
+
+.sots-shop-btn:focus-visible {
+  outline-color: #ffffff;
+  box-shadow: 0 0 0 6px rgba(208, 0, 0, 0.4);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sots-shop-btn:hover {
+    background: var(--cdc-red-deep, #a80000);
+    border-color: var(--cdc-red-deep, #a80000);
+    color: #ffffff;
+  }
+
+  .sots-shop-btn:disabled:hover {
+    background: var(--orp-gold, #d00000);
+    color: #ffffff;
+  }
+}
+
 /* ——— Collage hover flyout nav ——— */
 .cdc-nav {
   display: none;
@@ -91,10 +114,32 @@
     z-index: 60;
   }
 
+  .cdc-nav__flyout[hidden] {
+    display: none !important;
+  }
+
   .cdc-nav__flyout.is-open {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+  }
+
+  .cdc-nav__flyout--rich {
+    left: 0;
+    right: auto;
+    transform: none;
+    min-width: min(34rem, calc(100vw - 2rem));
+    max-width: 40rem;
+  }
+
+  .cdc-nav__flyout-grid {
+    display: grid;
+    grid-template-columns: minmax(12rem, 1fr);
+    gap: 0;
+  }
+
+  .cdc-nav__flyout--rich .cdc-nav__flyout-grid {
+    grid-template-columns: minmax(12rem, 1fr) minmax(12rem, 14rem);
   }
 
   .cdc-nav__flyout-list {
@@ -115,9 +160,88 @@
     text-decoration: none !important;
   }
 
-  .cdc-nav__flyout-link:hover {
+  .cdc-nav__flyout-link:hover,
+  .cdc-nav__flyout-link:focus-visible {
     background: rgba(208, 0, 0, 0.06);
     color: var(--cdc-red) !important;
+  }
+
+  .cdc-nav__venues {
+    padding: 0.85rem 1.15rem 1rem;
+    border-top: 1px solid rgba(24, 16, 48, 0.08);
+  }
+
+  .cdc-nav__venues-label {
+    margin: 0 0 0.45rem;
+    font-family: var(--font-ui);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cdc-red);
+  }
+
+  .cdc-nav__venue {
+    display: grid;
+    gap: 0.15rem;
+    color: var(--cdc-navy);
+    text-decoration: none;
+  }
+
+  .cdc-nav__venue strong {
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .cdc-nav__venue span {
+    font-size: 0.72rem;
+    color: #4a4460;
+  }
+
+  .cdc-nav__feature {
+    display: grid;
+    gap: 0.65rem;
+    padding: 0.85rem;
+    border-left: 1px solid rgba(24, 16, 48, 0.08);
+    color: var(--cdc-navy);
+    text-decoration: none;
+    background: #f7f5f8;
+  }
+
+  .cdc-nav__feature img {
+    width: 100%;
+    height: 8.5rem;
+    object-fit: cover;
+  }
+
+  .cdc-nav__feature-body {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .cdc-nav__feature-meta,
+  .cdc-nav__feature-dates,
+  .cdc-nav__feature-cta {
+    font-family: var(--font-ui);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .cdc-nav__feature-meta {
+    color: var(--cdc-red);
+  }
+
+  .cdc-nav__feature-title {
+    font-size: 0.85rem;
+    line-height: 1.25;
+    text-transform: uppercase;
+  }
+
+  .cdc-nav__feature-cta {
+    color: var(--cdc-red);
   }
 
   .orpheum-nav {
@@ -388,6 +512,36 @@ body.page-checkout .orpheum-arrow-btn--header {
   background: var(--cdc-red-deep);
 }
 
+.cdc-btn:focus-visible,
+.cdc-nav__trigger:focus-visible,
+.cdc-header__search:focus-visible,
+.cdc-header__menu:focus-visible,
+.cdc-utility__link:focus-visible,
+.cdc-program--image:focus-visible,
+.cdc-story .cdc-btn:focus-visible,
+.cdc-footer a:focus-visible,
+.cdc-mobile-nav__section-trigger:focus-visible,
+.cdc-mobile-nav__link:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.cdc-btn:focus-visible {
+  outline-color: #ffffff;
+  box-shadow: 0 0 0 6px rgba(208, 0, 0, 0.45);
+}
+
+.cdc-btn--navy:focus-visible {
+  box-shadow: 0 0 0 6px rgba(24, 16, 48, 0.35);
+}
+
+.cdc-nav__flyout-link:focus-visible,
+.cdc-nav__feature:focus-visible,
+.cdc-nav__venue:focus-visible {
+  outline: 3px solid var(--cdc-red);
+  outline-offset: -3px;
+}
+
 .cdc-btn--navy {
   background: var(--cdc-navy);
 }
@@ -473,6 +627,7 @@ body.page-checkout .orpheum-arrow-btn--header {
   grid-template-columns: 1.35fr 0.9fr;
   min-height: 70vh;
   background: var(--cdc-ink);
+  color: var(--cdc-white);
 }
 
 .cdc-season__feature {
@@ -482,6 +637,7 @@ body.page-checkout .orpheum-arrow-btn--header {
   display: grid;
   align-content: end;
   padding: clamp(2rem, 5vw, 4rem);
+  color: var(--cdc-white);
 }
 
 .cdc-season__feature-media {
@@ -561,6 +717,7 @@ body.page-checkout .orpheum-arrow-btn--header {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   line-height: 1.25;
+  color: var(--cdc-white);
 }
 
 .cdc-show-card {
@@ -937,6 +1094,10 @@ body.page-checkout .orpheum-arrow-btn--header {
   list-style: none;
   margin: 0 0 0.85rem;
   padding: 0 0 0.5rem;
+}
+
+.cdc-mobile-nav__links[hidden] {
+  display: none !important;
 }
 
 .cdc-mobile-nav__link {

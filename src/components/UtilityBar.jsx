@@ -4,7 +4,7 @@ import { TicketCheckoutLink } from "./ticketing/TicketCheckoutLink.jsx";
 /** Collage-style thin utility strip: secondary portals top-right */
 export function UtilityBar() {
   return (
-    <div className="orpheum-utility cdc-utility" aria-label="Account links">
+    <nav className="orpheum-utility cdc-utility" aria-label="Account links">
       <div className="orpheum-utility__inner cdc-utility__inner">
         <ul className="cdc-utility__right">
           <li>
@@ -19,6 +19,6 @@ export function UtilityBar() {
           </li>
         </ul>
       </div>
-    </div>
+    </nav>
   );
 }

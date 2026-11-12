@@ -11,9 +11,10 @@ export function Newsletter() {
       document.querySelector(".orpheum-footer__mailing") ||
       document.querySelector(".sots-mailing-list");
     if (!target) return;
-    target.scrollIntoView({ behavior: "smooth", block: "center" });
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
     const input = target.querySelector('input[type="email"]');
-    window.setTimeout(() => input?.focus?.(), 350);
+    window.setTimeout(() => input?.focus?.(), reduceMotion ? 0 : 350);
   }
 
   return (

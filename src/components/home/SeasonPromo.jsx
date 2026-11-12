@@ -24,15 +24,24 @@ function ClockIcon() {
 }
 
 function ShowCard({ card }) {
+  const dateLabel = `${card.month} ${card.day}`;
   return (
     <article className="cdc-show-card">
-      <div className="cdc-show-card__date" aria-hidden="true">
-        <span className="cdc-show-card__month">{card.month}</span>
-        <span className="cdc-show-card__day">{card.day}</span>
+      <div className="cdc-show-card__date">
+        <span className="visually-hidden">{dateLabel}</span>
+        <span className="cdc-show-card__month" aria-hidden="true">
+          {card.month}
+        </span>
+        <span className="cdc-show-card__day" aria-hidden="true">
+          {card.day}
+        </span>
       </div>
       <div className="cdc-show-card__body">
         <h3 className="cdc-show-card__title">
-          <a href={card.href}>{card.title}</a>
+          <a href={card.href}>
+            {card.title}
+            <span className="visually-hidden"> — {dateLabel}</span>
+          </a>
         </h3>
         <img className="cdc-show-card__thumb" src={card.image} alt="" loading="lazy" width={180} height={101} />
         <div className="cdc-show-card__meta">
