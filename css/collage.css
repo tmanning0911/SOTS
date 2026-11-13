@@ -96,12 +96,7 @@
     position: relative;
   }
 
-  .cdc-nav__trigger:hover,
-  .cdc-nav__item.is-open .cdc-nav__trigger {
-    color: var(--cdc-red);
-  }
-
-  .cdc-nav__item.is-open .cdc-nav__trigger::after {
+  .cdc-nav__trigger::after {
     content: "";
     position: absolute;
     left: 0.7rem;
@@ -109,6 +104,19 @@
     bottom: 0.2rem;
     height: 3px;
     background: var(--cdc-red);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 220ms ease;
+  }
+
+  .cdc-nav__trigger:hover,
+  .cdc-nav__item.is-open .cdc-nav__trigger {
+    color: var(--cdc-red);
+  }
+
+  .cdc-nav__trigger:hover::after,
+  .cdc-nav__item.is-open .cdc-nav__trigger::after {
+    transform: scaleX(1);
   }
 
   /* Collage desktop menus: white panel, dark text, red accent edge */
@@ -116,7 +124,7 @@
     position: absolute;
     top: calc(100% - 2px);
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(8px);
     min-width: 260px;
     background: #ffffff;
     border-top: 3px solid var(--cdc-red);
@@ -124,26 +132,30 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 160ms ease, visibility 160ms ease;
+    transition:
+      opacity 200ms ease,
+      transform 220ms ease,
+      visibility 200ms ease;
     z-index: 60;
-  }
-
-  .cdc-nav__flyout[hidden] {
-    display: none !important;
   }
 
   .cdc-nav__flyout.is-open {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
   }
 
   .cdc-nav__flyout--rich {
     left: 0;
     right: auto;
-    transform: none;
     min-width: min(34rem, calc(100vw - 2rem));
     max-width: 40rem;
+    transform: translateY(8px);
+  }
+
+  .cdc-nav__flyout--rich.is-open {
+    transform: translateY(0);
   }
 
   .cdc-nav__flyout-grid {
@@ -426,6 +438,12 @@ body.page-home [data-site-chrome] {
   border: 0 !important;
 }
 
+body.page-home #site-chrome.orpheum-site-chrome,
+body.page-home .orpheum-site-chrome,
+body.page-home [data-site-chrome] {
+  transition: background 280ms ease, box-shadow 280ms ease, backdrop-filter 280ms ease;
+}
+
 body.page-home #site-chrome.orpheum-site-chrome.is-scrolled,
 body.page-home .orpheum-site-chrome.is-scrolled,
 body.page-home [data-site-chrome].is-scrolled {
@@ -627,8 +645,15 @@ body.page-checkout .orpheum-arrow-btn--header {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background 300ms ease;
+  transition: background 280ms ease, transform 220ms ease, box-shadow 280ms ease;
   text-decoration: none !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cdc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
+  }
 }
 
 .cdc-btn:hover {
@@ -696,6 +721,7 @@ body.page-checkout .orpheum-arrow-btn--header {
 .cdc-hero__media {
   position: absolute;
   inset: 0;
+  overflow: hidden;
 }
 
 .cdc-hero__media img {
@@ -704,6 +730,8 @@ body.page-checkout .orpheum-arrow-btn--header {
   object-fit: cover;
   /* Frame the live Pinkney Park stage action, not empty sky */
   object-position: center 42%;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .cdc-hero__veil {
@@ -735,6 +763,7 @@ body.page-checkout .orpheum-arrow-btn--header {
   z-index: 2;
   padding: clamp(6rem, 16vh, 9rem) var(--cdc-gutter) clamp(4rem, 10vh, 6.5rem);
   max-width: 54rem;
+  will-change: transform, opacity;
 }
 
 /* Collage home: brand sits large in the lower-left, not centered */
@@ -901,6 +930,14 @@ body.page-checkout .orpheum-arrow-btn--header {
   color: var(--cdc-navy);
   padding: 1.15rem 1.2rem 1.25rem;
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+  transition: transform 280ms ease, box-shadow 280ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cdc-show-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.28);
+  }
 }
 
 .cdc-show-card__date {
@@ -995,10 +1032,12 @@ body.page-checkout .orpheum-arrow-btn--header {
   text-decoration: none !important;
   border: 0;
   border-radius: 0;
+  transition: background 250ms ease, letter-spacing 250ms ease;
 }
 
 .cdc-season__all:hover {
   background: var(--cdc-red-deep);
+  letter-spacing: 0.16em;
 }
 
 /* Education = everyone banner + programs as one red continuum */
@@ -1136,6 +1175,13 @@ body.page-checkout .orpheum-arrow-btn--header {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 700ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cdc-story__card:hover img {
+    transform: scale(1.05);
+  }
 }
 
 .cdc-story__card::after {
@@ -1254,12 +1300,29 @@ body.page-checkout .orpheum-arrow-btn--header {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cdc-program--image:hover img {
+  .cdc-program--image:hover img,
+  .cdc-story__card:hover img,
+  .cdc-show-card:hover,
+  .cdc-btn:hover {
     transform: none;
+  }
+
+  .cdc-nav__trigger::after,
+  .cdc-nav__flyout,
+  .cdc-btn,
+  .cdc-show-card,
+  .cdc-story__card img,
+  .cdc-season__all,
+  .cdc-program--image img {
+    transition: none !important;
   }
 
   .cdc-hero__watermark {
     display: none;
+  }
+
+  .cdc-hero__media img {
+    will-change: auto;
   }
 }
 

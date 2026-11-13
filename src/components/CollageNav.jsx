@@ -119,7 +119,8 @@ export function CollageNav() {
                   className={`cdc-nav__flyout${isOpen ? " is-open" : ""}${item.featured || item.venues?.length ? " cdc-nav__flyout--rich" : ""}`}
                   role="region"
                   aria-label={`${item.label} submenu`}
-                  hidden={!isOpen}
+                  aria-hidden={!isOpen}
+                  inert={!isOpen ? true : undefined}
                 >
                   <div className="cdc-nav__flyout-grid">
                     <ul className={`cdc-nav__flyout-list${links.length >= 6 ? " cdc-nav__flyout-list--split" : ""}`}>
