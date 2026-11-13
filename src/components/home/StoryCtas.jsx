@@ -14,8 +14,10 @@ export function StoryCtas() {
           <img src={card.image} alt="" loading="lazy" />
           {index === 0 ? (
             <>
-              <p className="cdc-story__eyebrow">{card.eyebrow}</p>
-              <h2 className="cdc-story__title cdc-story__title--top">{card.title}</h2>
+              <div className="cdc-story__top">
+                <p className="cdc-story__eyebrow">{card.eyebrow}</p>
+                <h2 className="cdc-story__title cdc-story__title--top">{card.title}</h2>
+              </div>
               <div className="cdc-story__copy cdc-story__copy--bottom">
                 <p className="cdc-story__body">{card.body}</p>
                 <a className="cdc-btn" href={card.ctaHref}>

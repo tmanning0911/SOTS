@@ -419,10 +419,25 @@
   color: inherit;
 }
 
-.cdc-utility__donate {
-  min-height: 2.1rem;
-  padding: 0.45rem 1rem;
-  font-size: 0.68rem;
+.cdc-utility__donate.cdc-btn,
+a.cdc-utility__donate.cdc-btn {
+  min-height: 2.1rem !important;
+  padding: 0.45rem 1rem !important;
+  font-size: 0.68rem !important;
+  letter-spacing: 0.1em !important;
+  font-weight: 800 !important;
+  background: var(--cdc-red) !important;
+  color: var(--cdc-white) !important;
+  border: 0 !important;
+  border-radius: 2px !important;
+  opacity: 1 !important;
+  line-height: 1.2 !important;
+}
+
+.cdc-utility__donate.cdc-btn:hover,
+a.cdc-utility__donate.cdc-btn:hover {
+  background: var(--cdc-red-deep) !important;
+  color: var(--cdc-white) !important;
 }
 
 /* ——— Chrome: utility + transparent header (Collage home overlay) ——— */
@@ -460,8 +475,8 @@ body.page-home .cdc-utility {
   color: var(--cdc-white) !important;
 }
 
-body.page-home .orpheum-utility a,
-body.page-home .orpheum-utility button,
+body.page-home .orpheum-utility a:not(.cdc-btn),
+body.page-home .orpheum-utility button:not(.cdc-btn),
 body.page-home .cdc-utility__link {
   color: var(--cdc-white) !important;
   text-transform: uppercase;
@@ -469,6 +484,8 @@ body.page-home .cdc-utility__link {
   font-size: 0.68rem;
   font-weight: 600;
   text-decoration: none;
+  background: transparent !important;
+  padding: 0 !important;
 }
 
 body.page-home .site-header.orpheum-header,
@@ -494,6 +511,19 @@ body.page-home .cdc-header__menu,
 body.page-home .orpheum-header__menu,
 body.page-home .orpheum-nav__trigger {
   color: var(--cdc-white) !important;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+}
+
+body.page-home .cdc-utility__link,
+body.page-home .orpheum-utility a:not(.cdc-btn) {
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+
+body.page-home [data-site-chrome].is-scrolled .cdc-nav__trigger,
+body.page-home [data-site-chrome].is-scrolled .cdc-utility__link,
+body.page-home [data-site-chrome].is-scrolled .orpheum-utility a:not(.cdc-btn),
+body.page-home [data-site-chrome].is-scrolled .cdc-header__search {
+  text-shadow: none;
 }
 
 /* Kill Orpheum white chrome on home before scroll */
@@ -607,6 +637,30 @@ body.page-checkout .orpheum-arrow-btn--header {
 .home--collage {
   background: var(--cdc-black);
   color: var(--cdc-white);
+  font-family: var(--font-ui);
+  overflow-x: clip;
+}
+
+body.page-home {
+  overflow-x: clip;
+}
+
+/* Sticky Collage chrome overlays content — keep section titles clear of it */
+body.page-home {
+  scroll-padding-top: calc(var(--chrome-top, 7.5rem) + 0.75rem);
+}
+
+.home--collage > section,
+.home--collage .cdc-season,
+.home--collage .cdc-education,
+.home--collage .cdc-story,
+.home--collage .cdc-newsletter,
+.home--collage .cdc-sponsors {
+  scroll-margin-top: calc(var(--chrome-top, 7.5rem) + 0.75rem);
+}
+
+body.page-home,
+body.page-home .home--collage {
   font-family: var(--font-ui);
 }
 
@@ -732,6 +786,8 @@ body.page-checkout .orpheum-arrow-btn--header {
   object-position: center 42%;
   will-change: transform;
   transform: translateZ(0);
+  /* Keep Ken Burns scale from expanding page width */
+  max-width: none;
 }
 
 .cdc-hero__veil {
@@ -1051,6 +1107,8 @@ body.page-checkout .orpheum-arrow-btn--header {
   color: var(--cdc-white);
   text-align: center;
   padding: clamp(2.5rem, 6vw, 4rem) var(--cdc-gutter) clamp(1.5rem, 3vw, 2.25rem);
+  /* Keep headline clear when sticky chrome is fixed over this band */
+  scroll-margin-top: calc(var(--chrome-top, 7.5rem) + 0.75rem);
 }
 
 .cdc-everyone__headline {
@@ -1199,16 +1257,36 @@ body.page-checkout .orpheum-arrow-btn--header {
 .cdc-story__card--lead::after {
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.28) 0%,
-    rgba(0, 0, 0, 0.12) 42%,
-    rgba(0, 0, 0, 0.8) 100%
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(255, 255, 255, 0.78) 18%,
+    rgba(255, 255, 255, 0.28) 38%,
+    rgba(0, 0, 0, 0.22) 55%,
+    rgba(0, 0, 0, 0.84) 100%
   );
+}
+
+.cdc-story__title--top {
+  color: var(--cdc-navy) !important;
+  text-shadow: none;
+  background: rgba(255, 255, 255, 0.72);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0.15em 0.35em;
+}
+
+.cdc-story__top {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  width: min(100%, 34rem);
 }
 
 .cdc-story__eyebrow {
   position: relative;
   z-index: 1;
-  margin: 0 0 0.35rem;
+  margin: 0;
   font-family: var(--font-ui);
   font-size: 0.72rem;
   font-weight: 800;
