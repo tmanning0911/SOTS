@@ -15,7 +15,8 @@
   border: 2px solid transparent;
   border-radius: var(--btn-radius, 4px);
   background: var(--orp-gold, #f9c534);
-  color: var(--orp-dark, #0f2d4d);
+  /* White label keeps WCAG AA when --orp-gold is remapped to Collage red */
+  color: #ffffff;
   font-family: var(--orp-sans, "Source Sans 3", sans-serif);
   font-size: 0.75rem;
   font-weight: 700;
@@ -59,7 +60,7 @@
   .sots-shop-btn:disabled:hover {
     background: var(--orp-gold, #f9c534);
     border-color: transparent;
-    color: var(--orp-dark, #0f2d4d);
+    color: #ffffff;
   }
 
   .sots-shop-btn--checkout:hover,

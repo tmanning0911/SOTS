@@ -1,15 +1,39 @@
-/* Shakespeare on the Sound — palette sampled from logo */
-:root {
-  --brand-gold: #f9c534;
-  --brand-gold-dark: #dfaf28;
-  --brand-gold-deep: #c9971f;
-  --brand-blue: #2165b4;
-  --brand-blue-dark: #1a5090;
-  --brand-blue-deep: #123d66;
-  --brand-navy: #0f2d4d;
-  --brand-white: #ffffff;
+/* Shakespeare on the Sound — exact Collage Dance Collective tokens
+   Sampled from live collagedance.org UI (2026): banners, CTAs, sidebar, footer. */
 
-  --brand-gold-rgb: 249, 197, 52;
-  --brand-blue-rgb: 33, 101, 180;
-  --brand-navy-rgb: 15, 45, 77;
+:root {
+  /* Primary Collage red (solid banners + GET TICKETS / DONATE) */
+  --brand-red: #d00000;
+  --brand-red-deep: #a80000;
+  --brand-red-hot: #f83828;
+
+  /* Collage navy / near-black (ONE emphasis, SIGN UP / LEARN MORE buttons) */
+  --brand-navy: #181030;
+  --brand-navy-soft: #282050;
+  --brand-ink: #080018;
+  --brand-sidebar: #382858;
+
+  /* Season feature gold/tan (SEASON 17 label) */
+  --brand-season-gold: #c5a07d;
+
+  /* Surfaces */
+  --brand-white: #ffffff;
+  --brand-card: #f8f8f0;
+  --brand-footer: #783830;
+  --brand-footer-deep: #5c2e28;
+  --brand-muted: #6b7280;
+  --brand-line: #e5e7eb;
+
+  /* Legacy aliases — map old Orpheum gold/blue to Collage system */
+  --brand-gold: #d00000;
+  --brand-gold-dark: #a80000;
+  --brand-gold-deep: #880000;
+  --brand-blue: #282050;
+  --brand-blue-dark: #181030;
+  --brand-blue-deep: #080018;
+
+  --brand-red-rgb: 208, 0, 0;
+  --brand-navy-rgb: 24, 16, 48;
+  --brand-gold-rgb: 208, 0, 0;
+  --brand-blue-rgb: 40, 32, 80;
 }

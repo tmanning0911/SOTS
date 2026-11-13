@@ -22,34 +22,174 @@ function wixFit(file, w, h) {
 
 export const MEDIA = {
   logo: "/images/sots-logo-lockup.png",
-  heroHome: "/images/hero-much-ado.jpg",
+  // Real Pinkney Park production photo — not the painterly Much Ado promo art
+  heroHome: "/images/park-performance.jpg",
   heroBanner: wix("2fda61_ed5498c346784fa7a58d686004f62ad1~mv2.jpg", 1970, 667),
   muchAdoPoster: wix("2fda61_52a2b5db62ea4c22b8da935de226b8de~mv2.jpg", 450, 712),
   galaImage: "/images/much-ado-about-something-gala-poster.jpg",
-  donateImage: wix("2fda61_82dcc57bf05740e9a011b352af16d186~mv2.png", 600, 400),
-  kidsImage: wix("2fda61_58e853fcce884727a4deba3453b4c1ed~mv2.jpeg", 600, 400),
-  educationImage: wix("2fda61_7c217d43df9449748f30515a8625d28f~mv2.jpg", 800, 500),
+  donateImage: "/images/backgrounds/kids-performance.jpg",
+  kidsImage: "/images/news/kids-kings.jpg",
+  educationImage: "/images/learning/kids-classroom.jpeg",
   educationBanner: wix("2fda61_40d7e102e7e34217993b1143d8e3eb6b~mv2.jpg", 1970, 667),
   staLogo: wix("2fda61_f444735fb7654e17aa6d16f529efd25f~mv2.jpg", 200, 80),
   heroVideo: "https://videos.pexels.com/video-files/3045163/3045163-hd_1920_1080_30fps.mp4",
 };
 
 export const HERO_HOME = {
-  titleLines: ["Experience", "the Magic of", "Shakespeare"],
-  titleLastLine: "Under the",
-  titleHighlight: "Stars",
+  brand: "Shakespeare on the Sound",
+  tagline: "Where Shakespeare Lives Now",
+  titleLines: ["Shakespeare", "on the Sound"],
+  titleLastLine: "Where Shakespeare",
+  titleHighlight: "Lives Now",
   ctaLabel: "What's Next",
   ctaHref: "/events/",
   ctaExternal: false,
 };
 
 export const SEASON_PROMO = {
-  eyebrow: "After a Landmark Summer",
-  heading: "Join Us for What’s Next",
-  ctaLabel: "Gala tickets",
-  ctaHref: "/events/much-ado-about-something/#tickets",
+  eyebrow: "Season 2026",
+  heading: "What's Next",
+  title: "What's Next",
+  seasonLabel: "Season 2026",
+  body:
+    "After a landmark summer of Much Ado About Nothing under the stars in Pinkney Park, Shakespeare on the Sound continues with community events, education, and our annual gala — sustaining affordable outdoor Shakespeare for Fairfield County.",
+  emphasis: "affordable outdoor Shakespeare for Fairfield County",
+  ctaLabel: "Experience the Season",
+  ctaHref: "/events/",
   ctaExternal: false,
   showId: "gala",
+  // Live outdoor Shakespeare — period costumes on the Pinkney stage
+  image: "/images/backgrounds/history-heritage.jpg",
+};
+
+/** Collage-style performance date cards for the homepage sidebar (2 keeps SEE ALL bar in view) */
+export const HOME_SHOW_CARDS = [
+  {
+    id: "gala-2026",
+    month: "Oct",
+    day: "16",
+    title: "Much Ado About Something — Annual Gala",
+    venue: "Norwalk, CT",
+    time: "6:00 PM",
+    image: "/images/park-performance.jpg",
+    href: "/events/much-ado-about-something/",
+    ticketsHref: "/events/much-ado-about-something/#tickets",
+    ctaLabel: "Get Tickets",
+  },
+  {
+    id: "mahjong-2026",
+    month: "Sep",
+    day: "19",
+    title: "Mahjong Midsummer Classic",
+    venue: "Rowayton, CT",
+    time: "11:00 AM",
+    image: "/images/mahjong-midsummer-classic-poster.jpg",
+    href: "/events/mahjong-night/",
+    ticketsHref: "/events/mahjong-night/",
+    ctaLabel: "Get Tickets",
+  },
+];
+
+export const HOME_FOR_EVERYONE = {
+  headline: "Shakespeare is for every",
+  highlight: "one",
+  subhead: "From first graders to lifelong learners, we've got you covered.",
+};
+
+export const HOME_PROGRAMS = [
+  {
+    id: "schools",
+    kind: "image",
+    title: "Where learning begins.",
+    image: "/images/learning/kids-classroom.jpeg",
+    href: "/education/in-schools/",
+  },
+  {
+    id: "schools-copy",
+    kind: "copy",
+    body:
+      "Our in-school workshops and residencies bring professional teaching artists into Fairfield County classrooms — building confidence, literacy, and a love of live theatre.",
+    ctaLabel: "Learn More",
+    ctaHref: "/education/in-schools/",
+  },
+  {
+    id: "camps",
+    kind: "image",
+    title: "Summer Camps",
+    image: "/images/news/kids-kings.jpg",
+    href: "/education/summer-camps/",
+    badge: "Camps",
+  },
+  {
+    id: "camps-copy",
+    kind: "copy",
+    body:
+      "Hands-on summer camps immerse young artists in Shakespeare’s language, stagecraft, and ensemble play in a welcoming, creative environment.",
+    ctaLabel: "Learn More",
+    ctaHref: "/education/summer-camps/",
+  },
+  {
+    id: "adult",
+    kind: "image",
+    title: "Adult Enrichment",
+    image: "/images/backgrounds/outdoor-audience.jpg",
+    href: "/education/adult-enrichment/",
+  },
+  {
+    id: "adult-copy",
+    kind: "copy",
+    body:
+      "Classes and community programs for adults who want to explore text, performance, and the joy of Shakespeare — no prior experience required.",
+    ctaLabel: "Sign Up",
+    ctaHref: "/education/adult-enrichment/",
+  },
+  {
+    id: "park",
+    kind: "image",
+    title: "In the Park",
+    image: "/images/backgrounds/kids-performance.jpg",
+    href: "/education/in-the-park/",
+  },
+  {
+    id: "park-copy",
+    kind: "copy",
+    body:
+      "Family-friendly park programs and Shakespeare for kids turn Pinkney Park into a classroom under the sky — picnic blankets welcome.",
+    ctaLabel: "Learn More",
+    ctaHref: "/education/in-the-park/",
+  },
+];
+
+export const HOME_STORY_CTAS = [
+  {
+    id: "membership",
+    eyebrow: "Support",
+    title: "Be a part of the story",
+    body:
+      "Join the patrons who make affordable outdoor Shakespeare possible — and stay closer to the artists, students, and community we serve.",
+    ctaLabel: "Explore Ways to Give",
+    ctaHref: "/support/individual-giving/",
+    // Brighter park audience still so the dark Collage-style top title stays readable
+    image: "/images/backgrounds/kids-performance.jpg",
+  },
+  {
+    id: "donate",
+    eyebrow: "Donate",
+    title: "Move our work forward",
+    body:
+      "Support our mission to keep Shakespeare alive on the Sound with a gift of any size.",
+    ctaLabel: "Donate Today",
+    ctaHref: "/support/donate/",
+    image: "/images/park-performance.jpg",
+  },
+];
+
+export const HOME_NEWSLETTER = {
+  title: "Want to join the Shakespeare on the Sound community?",
+  body:
+    "Sign up for announcements on productions, education programs, special events, and ways to support the season.",
+  ctaLabel: "Sign Up Here",
+  ctaHref: "#newsletter",
 };
 
 export const PILL_NAV = [
@@ -61,23 +201,11 @@ export const PILL_NAV = [
 ];
 
 export const UTILITY_LEFT = [
-  { label: "Shakespeare in Pinkney Park", href: "/about/visit/" },
-  { label: "Education Programs", href: "/education/in-schools/" },
+  { label: "Contact", href: "/about/contact/" },
+  { label: "News", href: "/news/" },
 ];
 
 export const UTILITY_LINKS = [
-  {
-    label: "About",
-    children: [
-      { label: "About Us", href: "/about/mission-history/" },
-      { label: "Contact Us", href: "/about/contact/" },
-      { label: "Board of Directors", href: "/about/board-of-directors/" },
-      { label: "Team", href: "/about/staff/" },
-      { label: "History", href: "/about/history/" },
-      { label: "Employment", href: "/about/employment/" },
-    ],
-  },
-  { label: "News", href: "/news/" },
   { label: "Shop", href: SITE.shopUrl },
   { label: "My Tickets", href: SITE.accountUrl },
 ];
@@ -99,40 +227,42 @@ export const FEATURED_SPOTLIGHT = [
   },
 ];
 
+/** Collage Dance–style mega nav mapped to SOTS content */
 export const NAV_ITEMS = [
   {
-    label: "Events and Tickets",
+    label: "About",
+    href: "/about/mission-history/",
     columns: [
       {
-        title: "Events By Location",
+        title: "About",
         links: [
-          { label: "All Events", href: "/events/" },
-          { label: "Shakespeare in Pinkney Park", href: "/about/visit/" },
-          { label: "Education Events", href: "/education/events/" },
-        ],
-      },
-      {
-        title: "Events By Genre",
-        twoColumn: true,
-        links: [
-          { label: "Main Stage", href: "/productions/much-ado-about-nothing/" },
-          { label: "Family", href: "/productions/kids-show/" },
-          { label: "Gala", href: "/events/much-ado-about-something/" },
-          { label: "Education", href: "/education/in-schools/" },
-          { label: "Comedy", href: "/productions/much-ado-about-nothing/" },
-          { label: "Past Productions", href: "/productions/past-productions/" },
-          { label: "Special Event", href: "/events/mahjong-night/" },
-          { label: "Youth Programs", href: "/education/summer-camps/" },
-        ],
-      },
-      {
-        title: "Ticket Information",
-        links: [
+          { label: "About Us", href: "/about/mission-history/" },
+          { label: "History", href: "/about/history/" },
+          { label: "Staff", href: "/about/staff/" },
+          { label: "Board of Directors", href: "/about/board-of-directors/" },
+          { label: "Diversity", href: "/about/diversity-statement/" },
+          { label: "Employment", href: "/about/employment/" },
           { label: "Contact", href: "/about/contact/" },
-          { label: "Tickets", href: SITE.ticketsUrl },
-          { label: "VIP & Ticket Types", href: `${SITE.ticketsUrl}#ticket-pricing` },
           { label: "FAQ", href: "/about/faq/" },
-          { label: "Cancellation Policy", href: "/about/cancellation-policy/" },
+        ],
+      },
+    ],
+  },
+  {
+    label: "Performances & Tickets",
+    href: "/tickets/",
+    columns: [
+      {
+        title: "Performances & Tickets",
+        links: [
+          { label: "Tickets", href: SITE.ticketsUrl },
+          { label: "Much Ado About Nothing", href: "/productions/much-ado-about-nothing/" },
+          { label: "Kids' Show", href: "/productions/kids-show/" },
+          { label: "All Events", href: "/events/" },
+          { label: "Mahjong Night", href: "/events/mahjong-night/" },
+          { label: "Annual Gala", href: "/events/much-ado-about-something/" },
+          { label: "Past Productions", href: "/productions/past-productions/" },
+          { label: "VIP & Ticket Types", href: `${SITE.ticketsUrl}#ticket-pricing` },
         ],
       },
     ],
@@ -141,20 +271,59 @@ export const NAV_ITEMS = [
       meta: "Annual Gala · Norwalk, CT",
       dates: "October 16, 2026",
       href: "/events/much-ado-about-something/",
-      image: MEDIA.galaImage,
+      image: "/images/park-performance.jpg",
     },
   },
   {
-    label: "Plan A Visit",
+    label: "Education",
+    href: "/education/in-schools/",
     columns: [
       {
-        title: "Parking And Directions",
+        title: "Education",
         links: [
-          { label: "Accessibility", href: "/about/visit/" },
-          { label: "Getting Here", href: "/about/getting-here/" },
+          { label: "In Schools", href: "/education/in-schools/" },
+          { label: "Summer Camps", href: "/education/summer-camps/" },
+          { label: "Tours", href: "/education/tours/" },
+          { label: "In the Park", href: "/education/in-the-park/" },
+          { label: "Apprentice Application", href: "/education/apprentice-application/" },
+          { label: "Education Events", href: "/education/events/" },
+        ],
+      },
+    ],
+    featured: {
+      title: "Summer Camps",
+      meta: "Education · Shakespeare in Pinkney Park",
+      dates: "Summer 2026",
+      href: "/education/summer-camps/",
+      image: "/images/news/kids-kings.jpg",
+    },
+  },
+  {
+    label: "Adult Programs",
+    href: "/education/adult-enrichment/",
+    columns: [
+      {
+        title: "Adult Programs",
+        links: [
+          { label: "Adult Enrichment", href: "/education/adult-enrichment/" },
+          { label: "Education Events", href: "/education/events/" },
+          { label: "Volunteer & Support", href: "/support/donate/" },
+        ],
+      },
+    ],
+  },
+  {
+    label: "Visit",
+    href: "/about/visit/",
+    columns: [
+      {
+        title: "Visit",
+        links: [
           { label: "Plan Your Visit", href: "/about/visit/" },
-          { label: "FAQ", href: "/about/faq/" },
+          { label: "Getting Here", href: "/about/getting-here/" },
           { label: "Cancellation Policy", href: "/about/cancellation-policy/" },
+          { label: "Accessibility", href: "/about/visit/" },
+          { label: "FAQ", href: "/about/faq/" },
         ],
       },
     ],
@@ -167,54 +336,30 @@ export const NAV_ITEMS = [
     ],
   },
   {
-    label: "Education & Community",
-    columns: [
-      {
-        title: "School Programs",
-        links: [
-          { label: "In Schools", href: "/education/in-schools/" },
-          { label: "Tours", href: "/education/tours/" },
-          { label: "In the Park", href: "/education/in-the-park/" },
-        ],
-      },
-      {
-        title: "Youth and Family Programs",
-        links: [
-          { label: "Summer Camps", href: "/education/summer-camps/" },
-          { label: "Kids' Show", href: "/productions/kids-show/" },
-          { label: "Apprentice Application", href: "/education/apprentice-application/" },
-        ],
-      },
-      {
-        title: "Community Programs",
-        links: [
-          { label: "Adult Enrichment", href: "/education/adult-enrichment/" },
-          { label: "Events", href: "/education/events/" },
-          { label: "Donate", href: "/support/donate/" },
-        ],
-      },
-    ],
-    featured: {
-      title: "Summer Camps",
-      meta: "Education · Shakespeare in Pinkney Park",
-      dates: "Summer 2026",
-      href: "/education/summer-camps/",
-      image: MEDIA.kidsImage,
-    },
-  },
-  {
-    label: "Support Our Mission",
+    label: "Support",
     href: "/support/donate/",
     columns: [
       {
-        title: "Ways to Give",
+        title: "Support",
         links: [
-          { label: "Donate", href: "/support/donate/" },
+          { label: "Ways to Give", href: "/support/donate/" },
           { label: "Individual Giving", href: "/support/individual-giving/" },
-          { label: "Program Ads & Sponsorships", href: "/support/program-ads-sponsorships/" },
+          { label: "Sponsorships", href: "/support/program-ads-sponsorships/" },
+          { label: "Gala", href: "/events/much-ado-about-something/" },
+          { label: "Donors", href: "/support/donors/" },
+        ],
+      },
+    ],
+  },
+  {
+    label: "Shop",
+    href: SITE.shopUrl,
+    columns: [
+      {
+        title: "Shop",
+        links: [
           { label: "Gift Shop", href: SITE.shopUrl },
-          { label: "Events", href: "/events/" },
-          { label: "Thank You", href: "/support/donors/" },
+          { label: "Program Ads", href: "/support/program-ads-sponsorships/" },
         ],
       },
     ],
@@ -290,34 +435,61 @@ export const FOOTER_VENUES = [
 export const FOOTER_MAIN = {
   columns: [
     {
-      title: "Visit",
+      title: "About",
+      links: [
+        { label: "About Us", href: "/about/mission-history/" },
+        { label: "History", href: "/about/history/" },
+        { label: "Staff", href: "/about/staff/" },
+        { label: "Board", href: "/about/board-of-directors/" },
+        { label: "Employment", href: "/about/employment/" },
+        { label: "Contact", href: "/about/contact/" },
+      ],
+    },
+    {
+      title: "Performances & Tickets",
       links: [
         { label: "Tickets", href: SITE.ticketsUrl },
         { label: "Events", href: "/events/" },
-        { label: "Plan a Visit", href: "/about/visit/" },
-        { label: "Parking & Directions", href: "/about/getting-here/" },
-        { label: "Gift Shop", href: SITE.shopUrl },
-        { label: "My Tickets", href: SITE.accountUrl },
+        { label: "Much Ado About Nothing", href: "/productions/much-ado-about-nothing/" },
+        { label: "Kids' Show", href: "/productions/kids-show/" },
+        { label: "Annual Gala", href: "/events/much-ado-about-something/" },
+        { label: "Past Productions", href: "/productions/past-productions/" },
       ],
     },
     {
-      title: "Experience",
+      title: "Education",
       links: [
-        { label: "This Season", href: "/events/" },
-        { label: "Kids Show", href: "/productions/kids-show/" },
+        { label: "In Schools", href: "/education/in-schools/" },
         { label: "Summer Camps", href: "/education/summer-camps/" },
-        { label: "Education in Schools", href: "/education/in-schools/" },
         { label: "Tours", href: "/education/tours/" },
+        { label: "In the Park", href: "/education/in-the-park/" },
+        { label: "Apprentice", href: "/education/apprentice-application/" },
       ],
     },
     {
-      title: "About & Support",
+      title: "Adult Programs",
       links: [
-        { label: "Our Mission", href: "/about/mission-history/" },
-        { label: "Staff", href: "/about/staff/" },
+        { label: "Adult Enrichment", href: "/education/adult-enrichment/" },
+        { label: "Education Events", href: "/education/events/" },
+      ],
+    },
+    {
+      title: "Visit",
+      links: [
+        { label: "Plan a Visit", href: "/about/visit/" },
+        { label: "Getting Here", href: "/about/getting-here/" },
+        { label: "FAQ", href: "/about/faq/" },
+        { label: "Cancellation Policy", href: "/about/cancellation-policy/" },
+      ],
+    },
+    {
+      title: "Support",
+      links: [
         { label: "Donate", href: "/support/donate/" },
         { label: "Individual Giving", href: "/support/individual-giving/" },
-        { label: "Contact", href: "/about/contact/" },
+        { label: "Sponsorships", href: "/support/program-ads-sponsorships/" },
+        { label: "Donors", href: "/support/donors/" },
+        { label: "Shop", href: SITE.shopUrl },
       ],
     },
   ],
@@ -515,7 +687,7 @@ export const SUPPORT_MISSION = {
   donateHref: "/support/donate/",
   secondaryLabel: "Stocks, DAFs & more",
   secondaryHref: "/support/donate/#other-ways",
-  image: "/images/backgrounds/park-audience-nyt.jpg",
+  image: "/images/park-performance.jpg",
   stats: [
     { value: "10,000+", label: "people reached each year" },
     { value: "$115K+", label: "annual fundraising goal" },

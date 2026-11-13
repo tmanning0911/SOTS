@@ -1,14 +1,12 @@
 import {
   SITE,
   MEDIA,
-  FOOTER_VENUES,
   FOOTER_MAIN,
   FOOTER_UTILITY,
   SOCIAL_LINKS,
 } from "../../js/data.js";
 import { isTicketCheckoutUrl } from "../../js/ticketing.js";
 import { SocialIcon } from "./SocialIcon.jsx";
-import { ArrowButton } from "./ArrowButton.jsx";
 import { MailLink } from "./MailLink.jsx";
 import { MailingListSignup } from "./MailingListSignup.jsx";
 import { TicketCheckoutLink } from "./ticketing/TicketCheckoutLink.jsx";
@@ -32,48 +30,43 @@ function FooterLink({ link }) {
   );
 }
 
+/** Collage-style multi-column footer: brand/contact + IA columns + mailing */
 export function SiteFooter() {
   const phoneHref = `tel:${SITE.boxOffice.replace(/[^\d+]/g, "")}`;
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="orpheum-footer orpheum-wave-edge-top">
-      <div className="orpheum-footer__shell">
-        <div className="orpheum-footer__primary">
-          <div className="orpheum-footer__brand">
-            <a href="/" className="orpheum-footer__logo" aria-label={`${SITE.name} Home`}>
-              <img src={MEDIA.logo} alt="" width={188} height={78} />
+    <footer className="orpheum-footer cdc-footer">
+      <div className="orpheum-footer__shell cdc-footer__shell">
+        <div className="cdc-footer__top">
+          <div className="cdc-footer__brand">
+            <a href="/" className="cdc-footer__logo" aria-label={`${SITE.name} Home`}>
+              <img src={MEDIA.logo} alt="" width={188} height={72} decoding="async" />
             </a>
-
-            <p className="orpheum-footer__tagline">{SITE.tagline}</p>
-
-            <address className="orpheum-footer__contact">
-              <a href={phoneHref}>{SITE.boxOffice}</a>
-              <MailLink email={SITE.email}>{SITE.email}</MailLink>
+            <address className="cdc-footer__contact">
               <span>{SITE.address}</span>
+              <MailLink email={SITE.email}>{SITE.email}</MailLink>
+              <a href={phoneHref}>Call us: {SITE.boxOffice}</a>
             </address>
-
-            <div className="orpheum-footer__venues" aria-label="Our venues">
-              {FOOTER_VENUES.map((venue) => (
-                <a key={venue.href} href={venue.href}>
-                  {venue.label}
+            <nav className="cdc-footer__social" aria-label="Social media">
+              {FOOTER_SOCIAL.map((social) => (
+                <a
+                  key={social.href}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${social.label} (opens in a new window)`}
+                >
+                  <SocialIcon platform={social.platform} />
                 </a>
               ))}
-            </div>
-
-            <div className="orpheum-footer__ctas">
-              <ArrowButton href={SITE.ticketsUrl} className="orpheum-footer__cta">
-                Tickets
-              </ArrowButton>
-              <ArrowButton href="/support/donate/" variant="light" className="orpheum-footer__cta">
-                Donate
-              </ArrowButton>
-            </div>
+            </nav>
           </div>
 
-          <nav className="orpheum-footer__nav" aria-label="Footer">
+          <nav className="cdc-footer__nav" aria-label="Footer">
             {FOOTER_MAIN.columns.map((column) => (
-              <div key={column.title} className="orpheum-footer__col">
-                <h2 className="orpheum-footer__heading">{column.title}</h2>
+              <div key={column.title} className="cdc-footer__col">
+                <h2 className="cdc-footer__heading">{column.title}</h2>
                 <ul>
                   {column.links.map((link) => (
                     <li key={link.label}>
@@ -86,56 +79,23 @@ export function SiteFooter() {
           </nav>
         </div>
 
-        <div className="orpheum-footer__mailing" data-reveal>
+        <div className="orpheum-footer__mailing cdc-footer__mailing" data-reveal>
           <MailingListSignup
             variant="footer"
-            heading="Mailing List"
+            heading="Contact Us"
             lead="Season announcements and education news, delivered to your inbox."
           />
         </div>
 
-        <div className="orpheum-footer__divider" aria-hidden="true" />
-
-        <div className="orpheum-footer__meta">
-          <div className="orpheum-footer__meta-start">
-            <div className="orpheum-footer__social" aria-label="Social media">
-              {FOOTER_SOCIAL.map((social) => (
-                <a
-                  key={social.href}
-                  href={social.href}
-                  aria-label={social.label}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <SocialIcon platform={social.platform} size={18} />
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <nav className="orpheum-footer__utility" aria-label="Footer utility links">
-            <ul>
-              {FOOTER_UTILITY.map((link) => (
-                <li key={link.label}>
-                  <FooterLink link={link} />
-                </li>
-              ))}
-            </ul>
+        <div className="cdc-footer__meta">
+          <p>© 1996 – {year} {SITE.name} | All Rights Reserved</p>
+          <nav aria-label="Legal">
+            {FOOTER_UTILITY.map((link) => (
+              <a key={link.href} href={link.href}>
+                {link.label}
+              </a>
+            ))}
           </nav>
-        </div>
-
-        <div className="orpheum-footer__legal">
-          <div className="orpheum-footer__legal-start">
-            <p className="orpheum-footer__copyright">&copy; 2026 {SITE.name}</p>
-            <p className="orpheum-footer__credit">
-              Made with love by the{" "}
-              <a href="/about/board-of-directors/">Board of Directors</a>
-            </p>
-          </div>
-          <p className="orpheum-footer__education-note">
-            Education questions?{" "}
-            <MailLink email={SITE.educationContact}>{SITE.educationDirectorName}</MailLink>
-          </p>
         </div>
       </div>
     </footer>

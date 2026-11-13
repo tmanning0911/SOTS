@@ -1,30 +1,33 @@
-import { MEDIA } from "../../../js/data.js";
-import { MailingListSignup } from "../MailingListSignup.jsx";
+import { HOME_NEWSLETTER } from "../../../js/data.js";
 
-/** Homepage mailing list band — sits under News & History. */
+/**
+ * Collage newsletter band: headline + copy + “SIGN UP HERE” button.
+ * Scrolls to the footer mailing list — same functional outcome as Collage’s signup CTA.
+ */
 export function Newsletter() {
-  return (
-    <section className="orpheum-newsletter-banner" aria-labelledby="newsletter-heading">
-      <div className="orpheum-newsletter-banner__stage">
-        <img
-          className="orpheum-newsletter-banner__bg"
-          src={MEDIA.heroBanner}
-          alt=""
-          loading="lazy"
-          width={1200}
-          height={675}
-        />
-        <span className="orpheum-newsletter-banner__wash" aria-hidden="true" />
+  function handleSignUp(e) {
+    e.preventDefault();
+    const target =
+      document.querySelector(".orpheum-footer__mailing") ||
+      document.querySelector(".sots-mailing-list");
+    if (!target) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+    const input = target.querySelector('input[type="email"]');
+    window.setTimeout(() => input?.focus?.(), reduceMotion ? 0 : 350);
+  }
 
-        <div className="orpheum-newsletter-banner__shell">
-          <div className="orpheum-newsletter-banner__content" data-reveal>
-            <MailingListSignup
-              variant="banner"
-              headingId="newsletter-heading"
-              heading="Mailing List"
-              lead="Never miss a beat — season news, gala updates, and education programs in your inbox."
-            />
-          </div>
+  return (
+    <section className="cdc-newsletter" id="newsletter" aria-labelledby="cdc-newsletter-heading">
+      <div className="cdc-newsletter__inner">
+        <h2 id="cdc-newsletter-heading" className="cdc-newsletter__title">
+          {HOME_NEWSLETTER.title}
+        </h2>
+        <div className="cdc-newsletter__aside">
+          <p className="cdc-newsletter__body">{HOME_NEWSLETTER.body}</p>
+          <button type="button" className="cdc-btn cdc-btn--navy" onClick={handleSignUp}>
+            {HOME_NEWSLETTER.ctaLabel}
+          </button>
         </div>
       </div>
     </section>

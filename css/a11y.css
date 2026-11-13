@@ -5,7 +5,20 @@
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-gold-accent);
+  outline: 3px solid var(--color-gold-accent, #d00000);
+  outline-offset: 3px;
+}
+
+/* High-contrast focus on dark Collage chrome */
+body.page-home .cdc-nav__trigger:focus-visible,
+body.page-home .cdc-utility__link:focus-visible,
+body.page-home .cdc-header__search:focus-visible,
+body.page-home .cdc-header__menu:focus-visible,
+body.page-inner .cdc-nav__trigger:focus-visible,
+.cdc-education a:focus-visible,
+.cdc-story a:focus-visible,
+.cdc-newsletter button:focus-visible {
+  outline: 3px solid #ffffff;
   outline-offset: 3px;
 }
 
