@@ -1,7 +1,6 @@
 import { MEDIA, SITE } from "../../js/data.js";
 import { useNav } from "../context/NavContext.jsx";
 import { CollageNav } from "./CollageNav.jsx";
-import { SearchTrigger } from "./SiteSearch.jsx";
 
 function IconMenu() {
   return (
@@ -33,8 +32,7 @@ export function SiteHeader() {
       <CollageNav />
 
       <div className="orpheum-header__actions cdc-header__actions">
-        <SearchTrigger className="orpheum-header__search cdc-header__search" label="Search site" />
-        <a href="/support/donate/" className="cdc-btn cdc-header__donate">
+        <a href="/support/donate/" className="cdc-btn cdc-header__donate cdc-header__donate--compact">
           Donate
         </a>
         <button

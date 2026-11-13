@@ -1,7 +1,8 @@
 import { SITE } from "../../js/data.js";
 import { TicketCheckoutLink } from "./ticketing/TicketCheckoutLink.jsx";
+import { SearchTrigger } from "./SiteSearch.jsx";
 
-/** Collage-style thin utility strip: secondary portals top-right */
+/** Collage-style utility strip: portals + search + Donate top-right */
 export function UtilityBar() {
   return (
     <nav className="orpheum-utility cdc-utility" aria-label="Account links">
@@ -15,6 +16,14 @@ export function UtilityBar() {
           <li>
             <a className="cdc-utility__link" href="/about/contact/">
               Contact
+            </a>
+          </li>
+          <li>
+            <SearchTrigger className="orpheum-header__search cdc-header__search cdc-utility__search" label="Search site" />
+          </li>
+          <li>
+            <a href="/support/donate/" className="cdc-btn cdc-utility__donate">
+              Donate
             </a>
           </li>
         </ul>
