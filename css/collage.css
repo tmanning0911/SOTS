@@ -1302,11 +1302,25 @@ body.page-checkout .orpheum-arrow-btn--header {
   font-weight: 800;
 }
 
-/* Mobile nav Collage accordion */
+/* Mobile nav Collage accordion — full navy panel (never light stone + white type) */
 .orpheum-mobile-nav,
 .cdc-mobile-nav {
   background: var(--cdc-navy) !important;
   color: #fff !important;
+}
+
+.orpheum-mobile-nav .mobile-nav__scroll,
+.cdc-mobile-nav .mobile-nav__scroll,
+.cdc-mobile-nav__scroll {
+  background: var(--cdc-navy) !important;
+  color: #fff !important;
+}
+
+.orpheum-mobile-nav .mobile-nav__top,
+.cdc-mobile-nav .mobile-nav__top,
+.cdc-mobile-nav__top {
+  background: var(--cdc-navy) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .cdc-mobile-nav__label {
