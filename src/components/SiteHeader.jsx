@@ -1,6 +1,5 @@
-import { SITE } from "../../js/data.js";
+import { MEDIA, SITE } from "../../js/data.js";
 import { useNav } from "../context/NavContext.jsx";
-import { BrandMark } from "./BrandMark.jsx";
 import { CollageNav } from "./CollageNav.jsx";
 import { SearchTrigger } from "./SiteSearch.jsx";
 
@@ -20,7 +19,15 @@ export function SiteHeader() {
   return (
     <div className="orpheum-header__inner cdc-header__inner">
       <a href="/" className="orpheum-header__logo cdc-header__logo" aria-label={`${SITE.name} Home`}>
-        <BrandMark />
+        <img
+          className="cdc-header__logo-img"
+          src={MEDIA.logo}
+          alt=""
+          width={188}
+          height={72}
+          fetchPriority="high"
+          decoding="async"
+        />
       </a>
 
       <CollageNav />

@@ -12,10 +12,6 @@ export function Hero() {
         />
       </div>
       <div className="cdc-hero__veil" aria-hidden="true" />
-      {/* Soft brand watermark — Collage’s translucent mark, without purple AI glow */}
-      <div className="cdc-hero__watermark" aria-hidden="true">
-        <span>S</span>
-      </div>
 
       <div className="cdc-hero__content" data-hero-animate>
         <h1 id="cdc-hero-heading" className="cdc-hero__brand">

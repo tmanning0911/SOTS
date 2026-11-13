@@ -62,6 +62,9 @@ function ShowCard({ card }) {
   );
 }
 
+/**
+ * Collage ESSENCE layout: photo feature | red accent rail | experience sidebar.
+ */
 export function SeasonPromo() {
   const body = SEASON_PROMO.body || "";
   const emphasis = SEASON_PROMO.emphasis;
@@ -90,10 +93,13 @@ export function SeasonPromo() {
           </h2>
           <p className="cdc-season__label">{SEASON_PROMO.seasonLabel || SEASON_PROMO.eyebrow}</p>
           <p className="cdc-season__body">{rendered}</p>
-          <a className="cdc-btn" href={SEASON_PROMO.ctaHref}>
-            {SEASON_PROMO.ctaLabel}
-          </a>
         </div>
+      </div>
+
+      <div className="cdc-season__accent">
+        <a className="cdc-btn cdc-season__accent-cta" href={SEASON_PROMO.ctaHref}>
+          {SEASON_PROMO.ctaLabel}
+        </a>
       </div>
 
       <aside className="cdc-season__sidebar" aria-label="Upcoming performances">

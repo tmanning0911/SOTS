@@ -328,6 +328,19 @@
   flex: 0 0 auto;
   text-decoration: none !important;
   color: inherit;
+  line-height: 0;
+}
+
+.cdc-header__logo-img,
+.cdc-header__logo img {
+  display: block;
+  height: auto;
+  max-height: 56px;
+  width: auto;
+  max-width: min(188px, 42vw);
+  object-fit: contain;
+  object-position: left center;
+  filter: none !important;
 }
 
 .cdc-header__actions {
@@ -506,8 +519,10 @@ body.page-checkout .orpheum-header {
 }
 
 body.page-inner .orpheum-header__logo img,
-body.page-checkout .orpheum-header__logo img {
-  filter: brightness(0) invert(1);
+body.page-checkout .orpheum-header__logo img,
+body.page-home .orpheum-header__logo img,
+body.page-home .cdc-header__logo img {
+  filter: none !important;
 }
 
 body.page-inner .orpheum-nav__trigger,
@@ -739,10 +754,10 @@ body.page-checkout .orpheum-arrow-btn--header {
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
 }
 
-/* Season + show cards split — Collage ESSENCE / EXPERIENCE */
+/* Season — Collage ESSENCE: photo | red rail | experience sidebar */
 .cdc-season {
   display: grid;
-  grid-template-columns: 1.4fr 0.85fr;
+  grid-template-columns: minmax(0, 1.35fr) 5.5rem minmax(17rem, 0.82fr);
   min-height: 92vh;
   background: var(--cdc-ink);
   color: var(--cdc-white);
@@ -753,8 +768,8 @@ body.page-checkout .orpheum-arrow-btn--header {
   min-height: 640px;
   overflow: hidden;
   display: grid;
-  align-content: center;
-  justify-items: center;
+  align-content: end;
+  justify-items: start;
   padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 4vw, 3.5rem);
   color: var(--cdc-white);
 }
@@ -782,8 +797,8 @@ body.page-checkout .orpheum-arrow-btn--header {
 .cdc-season__feature-copy {
   position: relative;
   z-index: 1;
-  max-width: 34rem;
-  text-align: center;
+  max-width: 36rem;
+  text-align: left;
 }
 
 .cdc-season__title {
@@ -807,11 +822,12 @@ body.page-checkout .orpheum-arrow-btn--header {
 }
 
 .cdc-season__body {
-  margin: 0 0 1.75rem;
+  margin: 0;
   font-family: var(--font-ui);
   font-size: 1.02rem;
   line-height: 1.7;
   font-weight: 500;
+  max-width: 32rem;
 }
 
 .cdc-season__body em {
@@ -819,11 +835,37 @@ body.page-checkout .orpheum-arrow-btn--header {
   font-weight: 700;
 }
 
+.cdc-season__accent {
+  display: grid;
+  place-items: center;
+  background: var(--cdc-red);
+  min-height: 100%;
+  padding: 1.25rem 0.65rem;
+}
+
+.cdc-season__accent-cta {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  min-height: auto;
+  padding: 1.1rem 0.85rem;
+  background: transparent !important;
+  border: 2px solid var(--cdc-white) !important;
+  color: var(--cdc-white) !important;
+  box-shadow: none !important;
+}
+
+.cdc-season__accent-cta:hover,
+.cdc-season__accent-cta:focus-visible {
+  background: var(--cdc-white) !important;
+  color: var(--cdc-red) !important;
+}
+
 .cdc-season__sidebar {
   background: var(--cdc-sidebar);
   display: flex;
   flex-direction: column;
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 0;
   min-height: 100%;
 }
 
@@ -1343,8 +1385,12 @@ body.page-checkout .orpheum-arrow-btn--header {
   padding: 1rem;
 }
 
-.cdc-mobile-nav .mobile-nav__brand img {
-  filter: brightness(0) invert(1);
+.cdc-mobile-nav .mobile-nav__brand img,
+.mobile-nav__brand img {
+  display: block;
+  max-height: 48px;
+  width: auto;
+  filter: none !important;
 }
 
 /* Inner page heroes: sharper Collage edges */
@@ -1419,10 +1465,16 @@ body.page-checkout .orpheum-arrow-btn--header {
   align-items: start;
 }
 
+.cdc-footer__logo {
+  display: inline-block;
+  line-height: 0;
+}
+
 .cdc-footer__logo img {
-  filter: brightness(0) invert(1);
-  max-height: 64px;
+  display: block;
+  max-height: 72px;
   width: auto;
+  filter: none !important;
 }
 
 .cdc-footer__contact {
@@ -1518,6 +1570,16 @@ body.page-checkout .orpheum-arrow-btn--header {
 @media (max-width: 1099px) {
   .cdc-season {
     grid-template-columns: 1fr;
+  }
+
+  .cdc-season__accent {
+    min-height: 4.5rem;
+    padding: 1rem var(--cdc-gutter);
+  }
+
+  .cdc-season__accent-cta {
+    writing-mode: horizontal-tb;
+    transform: none;
   }
 
   .cdc-season__sidebar {
