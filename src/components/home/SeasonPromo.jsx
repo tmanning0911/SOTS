@@ -97,11 +97,15 @@ export function SeasonPromo() {
       </div>
 
       <aside className="cdc-season__sidebar" aria-label="Upcoming performances">
-        <h2 className="cdc-season__sidebar-title">Experience Shakespeare on the Sound</h2>
-        {HOME_SHOW_CARDS.map((card) => (
-          <ShowCard key={card.id} card={card} />
-        ))}
-        <a className="cdc-btn cdc-season__all" href="/events/">
+        <div className="cdc-season__sidebar-inner">
+          <h2 className="cdc-season__sidebar-title">Experience Shakespeare on the Sound</h2>
+          <div className="cdc-season__cards">
+            {HOME_SHOW_CARDS.map((card) => (
+              <ShowCard key={card.id} card={card} />
+            ))}
+          </div>
+        </div>
+        <a className="cdc-season__all" href="/events/">
           See All Show Dates
         </a>
       </aside>

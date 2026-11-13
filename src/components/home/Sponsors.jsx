@@ -4,7 +4,7 @@ export function Sponsors() {
   return (
     <section className="cdc-sponsors" aria-labelledby="cdc-sponsors-heading">
       <h2 id="cdc-sponsors-heading" className="cdc-sponsors__title">
-        Season support generously provided by
+        Generously provided by
       </h2>
       <div className="cdc-sponsors__grid">
         {SPONSORS.map((sponsor) => (

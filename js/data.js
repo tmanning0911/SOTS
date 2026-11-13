@@ -62,8 +62,20 @@ export const SEASON_PROMO = {
   image: "/images/backgrounds/history-heritage.jpg",
 };
 
-/** Collage-style performance date cards for the homepage sidebar */
+/** Collage-style performance date cards for the homepage sidebar (2 keeps SEE ALL bar in view) */
 export const HOME_SHOW_CARDS = [
+  {
+    id: "gala-2026",
+    month: "Oct",
+    day: "16",
+    title: "Much Ado About Something — Annual Gala",
+    venue: "Norwalk, CT",
+    time: "6:00 PM",
+    image: "/images/park-performance.jpg",
+    href: "/events/much-ado-about-something/",
+    ticketsHref: "/events/much-ado-about-something/#tickets",
+    ctaLabel: "Get Tickets",
+  },
   {
     id: "mahjong-2026",
     month: "Sep",
@@ -75,30 +87,6 @@ export const HOME_SHOW_CARDS = [
     href: "/events/mahjong-night/",
     ticketsHref: "/events/mahjong-night/",
     ctaLabel: "Get Tickets",
-  },
-  {
-    id: "gala-2026",
-    month: "Oct",
-    day: "16",
-    title: "Much Ado About Something — Annual Gala",
-    venue: "Norwalk, CT",
-    time: "6:00 PM",
-    image: MEDIA.galaImage,
-    href: "/events/much-ado-about-something/",
-    ticketsHref: "/events/much-ado-about-something/#tickets",
-    ctaLabel: "Get Tickets",
-  },
-  {
-    id: "much-ado-archive",
-    month: "Jun",
-    day: "10",
-    title: "Much Ado About Nothing — Summer Season",
-    venue: "Pinkney Park, Rowayton",
-    time: "7:30 PM",
-    image: "/images/park-performance.jpg",
-    href: "/productions/much-ado-about-nothing/",
-    ticketsHref: "/productions/much-ado-about-nothing/",
-    ctaLabel: "Learn More",
   },
 ];
 
